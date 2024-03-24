@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://smiler488.github.io/blog</id>
+    <title>LiangchaoDeng Website Blog</title>
+    <updated>2024-03-24T15:59:24.649Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://smiler488.github.io/blog"/>
+    <subtitle>LiangchaoDeng Website Blog</subtitle>
+    <icon>https://smiler488.github.io/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[personal information]]></title>
+        <id>https://smiler488.github.io/blog/personal information</id>
+        <link href="https://smiler488.github.io/blog/personal information"/>
+        <updated>2024-03-24T15:59:24.649Z</updated>
+        <summary type="html"><![CDATA[Crop Cultivation and Farming System PhD, mainly researching plant models and phenotypic equipment to]]></summary>
+        <content type="html"><![CDATA[<p>Crop Cultivation and Farming System PhD, mainly researching plant models and phenotypic equipment to
+study the phenotypic traits and photosynthetic physiology of crops such as cotton, committed to
+providing reasonable and reliable design solutions for improving high light efficiency crops.</p>
+<h1>Emails</h1>
+<p><a href="mailto:liangchaodeng@stu.shzu.edu.cn" target="_blank" rel="noopener noreferrer">liangchaodeng@stu.shzu.edu.cn</a></p>
+<h1>Papers</h1>
+<p>None</p>
+<h1>Codes</h1>
+<p>None</p>
+<h1>Awards</h1>
+<p>None</p>]]></content>
+        <author>
+            <name>Liangchao Deng</name>
+            <uri>https://github.com/smiler488</uri>
+        </author>
+        <category label="Personal profile" term="Personal profile"/>
+        <category label="email" term="email"/>
+        <category label="paper" term="paper"/>
+        <category label="code" term="code"/>
+        <category label="award" term="award"/>
+    </entry>
+</feed>
