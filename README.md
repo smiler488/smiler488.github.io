@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td><img src="https://github.com/smiler488.png" style="width: 50%; height: auto; margin-right: 20px;"/></td>
+    <td><img src="https://github.com/smiler488.png" style="width: 100%; height: auto; margin-right: 20px;"/></td>
     <td>
       <strong>LiangchaoDeng 邓良超</strong><br>
         Key Laboratory of Oasis Eco-Agriculture, Xinjiang Production and Construction Corps/College of Agronomy, Shihezi University, Shihezi 832003, China
