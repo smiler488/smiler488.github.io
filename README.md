@@ -1,5 +1,5 @@
 # Liangchaodeng's website（邓良超）
-![comicper](https://github.com/smiler488/smiler488.github.io/blob/main/img/comicper.png)
+![comicper](https://github.com/smiler488/smiler488.github.io/blob/main/comicper.png)
 Adress: Key Laboratory of Oasis Eco-Agriculture, Xinjiang Production and Construction Corps/College of Agronomy, Shihezi University, Shihezi 832003, China
 
 E-mail:liangchaodeng@stu.shzu.edu.cn
