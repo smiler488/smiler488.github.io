@@ -11,8 +11,9 @@
 Crop Cultivation and Farming System PhD, mainly researching plant models and phenotypic equipment to 
 study the phenotypic traits and photosynthetic physiology of crops such as cotton, committed to 
 providing reasonable and reliable design solutions for improving high light efficiency crops.
-<p>ORCID:https://orcid.org/0000-0002-5194-0655</p>
-<p>Researchgate:https://orcid.org/0000-0002-5194-0655](https://www.researchgate.net/profile/Liangchao-Deng</p>
-<p>WeChat offical account:https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA</p>
-<p>Bilibili:https://space.bilibili.com/16062789</p>
+
+### ORCID:https://orcid.org/0000-0002-5194-0655
+### Researchgate:https://orcid.org/0000-0002-5194-0655](https://www.researchgate.net/profile/Liangchao-Deng
+### WeChat offical account:https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA
+### Bilibili:https://space.bilibili.com/16062789
 
