@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[6168],{3736:e=>{e.exports=JSON.parse('{"label":"welcome","permalink":"/zh-Hans/blog/tags/welcome","allTagsPath":"/zh-Hans/blog/tags","count":1,"unlisted":false}')}}]);

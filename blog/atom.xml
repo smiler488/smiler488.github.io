@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://smiler488.github.io/blog</id>
-    <title>LiangchaoDeng Website Blog</title>
+    <title>LiangchaoDeng Blog</title>
     <updated>2024-03-24T15:59:24.649Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://smiler488.github.io/blog"/>
-    <subtitle>LiangchaoDeng Website Blog</subtitle>
+    <subtitle>LiangchaoDeng Blog</subtitle>
     <icon>https://smiler488.github.io/img/favicon.ico</icon>
     <entry>
         <title type="html"><![CDATA[personal information]]></title>
@@ -67,8 +67,17 @@ providing reasonable and reliable design solutions for improving high light effi
         <id>https://smiler488.github.io/blog/first-blog-post</id>
         <link href="https://smiler488.github.io/blog/first-blog-post"/>
         <updated>2000-04-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet]]></summary>
-        <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
+        <summary type="html"><![CDATA[Tutorialdocs directory.]]></summary>
+        <content type="html"><![CDATA[<p>Tutorial<code>docs</code> directory.</p>
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li><code>2000-04-01--welcome.md</code></li>
+<li><code>2000-04-01--welcome/index.md</code></li>
+</ul>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>The blog supports tags as well!</p>]]></content>
         <author>
             <name>Liangchao Deng</name>
             <uri>https://github.com/smiler488</uri>
@@ -97,25 +106,15 @@ providing reasonable and reliable design solutions for improving high light effi
         <id>https://smiler488.github.io/blog/welcome</id>
         <link href="https://smiler488.github.io/blog/welcome"/>
         <updated>2000-04-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[The website is powered byDocusaurus blogging features and Github page.]]></summary>
-        <content type="html"><![CDATA[<p>The website is powered by<a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer">Docusaurus blogging features</a> and <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">Github page</a>.</p>
-<p>Tutorial<code>docs</code> directory.</p>
-<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
-<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
-<p>The blog post date can be extracted from filenames, such as:</p>
-<ul>
-<li><code>2000-04-01--welcome.md</code></li>
-<li><code>2000-04-01--welcome/index.md</code></li>
-</ul>
-<p>A blog post folder can be convenient to co-locate blog post images:</p>
+        <summary type="html"><![CDATA[Welcome to Deng Liangchao's personal website 👏， I will share my daily updates, learning materials, and academic achievements here, hoping that my work can be helpful to you. If you have any questions to consult, please feel free to leave a comment in my comment section for discussion.]]></summary>
+        <content type="html"><![CDATA[<p>Welcome to Deng Liangchao's personal website 👏， I will share my daily updates, learning materials, and academic achievements here, hoping that my work can be helpful to you. If you have any questions to consult, please feel free to leave a comment in my comment section for discussion.</p>
+<div class="theme-admonition theme-admonition-note admonition_xJq3 alert alert--secondary"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>note</div><div class="admonitionContent_BuS1"><p>The website is powered by<a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer">Docusaurus blogging features</a> and <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">Github page</a>.</p></div></div>
 <p><img decoding="async" loading="lazy" alt="comicmc image" src="https://smiler488.github.io/assets/images/comicmc-57f6d4eac17d158d27047cbdb00ef734.png" width="1792" height="1024" class="img_ev3q"></p>
-<p>The blog supports tags as well!</p>
 <p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
         <author>
             <name>Liangchao Deng</name>
             <uri>https://github.com/smiler488/smiler488.github.io</uri>
         </author>
-        <category label="hello" term="hello"/>
-        <category label="docusaurus" term="docusaurus"/>
+        <category label="welcome" term="welcome"/>
     </entry>
 </feed>
