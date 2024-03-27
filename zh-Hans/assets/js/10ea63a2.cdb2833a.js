@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[8186],{3742:e=>{e.exports=JSON.parse('{"label":"long truncate","permalink":"/zh-Hans/blog/tags/long-truncate","allTagsPath":"/zh-Hans/blog/tags","count":1,"unlisted":false}')}}]);
