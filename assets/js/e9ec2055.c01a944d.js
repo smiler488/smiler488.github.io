@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[5249],{6815:e=>{e.exports=JSON.parse('{"label":"long truncate","permalink":"/blog/tags/long-truncate","allTagsPath":"/blog/tags","count":1,"unlisted":false}')}}]);
