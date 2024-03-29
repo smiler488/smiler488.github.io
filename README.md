@@ -14,13 +14,32 @@ study the phenotypic traits and photosynthetic physiology of crops such as `cott
 providing reasonable and reliable design solutions for improving high light efficiency crops.
 
 # Community
-* ORCID:https://orcid.org/0000-0002-5194-0655
-* Researchgate:https://www.researchgate.net/profile/Liangchao-Deng
-* WeChat offical account:https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA
-* Bilibili:https://space.bilibili.com/16062789
+> [ORCID](https://orcid.org/0000-0002-5194-0655)
+> 
+> [Researchgate](https://orcid.org/0000-0002-5194-0655)
+> 
+> [GoogleScholar](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works&gmla=AKKJWFffSbl6d7OxPwFZjebuwcMuJy2NhxQB4ai8uSNXoMNm9uUdL6EhXkBbRS_pBwuSD-m-iEUirPmhwP1V35RutEPdlKjJIbzlmFUjO_JNLfsbCnZvgHbUN0Sic_Bw4o36-DT-W0cGk_M)
+> 
+> You can view my research works on these websites.
 
-# See more infos:
->My blog:https://smiler488.github.io/
+
+> [WeChat offical account](https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA)
+> 
+> You can check my updates through the official account.
+
+> [Bilibili](https://space.bilibili.com/16062789)
+>  
+> [TikTok](https://www.tiktok.com/@smiler488tt)
+>  
+>  You can view my daily life on these websites.
+
+> [Steam](https://steamcommunity.com/profiles/76561198422396909/)
+> 
+> GG ❤️
+# See more details:
+> https://smiler488.github.io/
+> 
+> Personal website, welcome to discuss on web. 
 
 # MIT License
 Copyright (c) 2024 smiler488
