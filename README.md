@@ -4,11 +4,11 @@
     <td><img src="https://github.com/smiler488.png" style="width: 100%; height: auto; margin-right: 20px;"/></td>
     <td>
       <strong>LiangchaoDeng 邓良超</strong><br>
-        Key Laboratory of Oasis Eco-Agriculture, Xinjiang Production and Construction Corps/College of Agronomy, Shihezi University, Shihezi 832003, China
-            <p>liangchaodeng@stu.shzu.edu.cn</p>
-    </td>
+        Address：Key Laboratory of Oasis Eco-Agriculture, Xinjiang Production and Construction Corps/College of Agronomy, Shihezi University, Shihezi 832003, China
+            <p>E-mail：liangchaodeng@stu.shzu.edu.cn</p>
+    </td>      
   </tr>
-</table>
+</table>  
 Crop Cultivation and Farming System PhD, mainly researching plant models and phenotypic equipment to 
 study the phenotypic traits and photosynthetic physiology of crops such as `cotton`, committed to 
 providing reasonable and reliable design solutions for improving high light efficiency crops.
