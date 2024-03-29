@@ -20,22 +20,8 @@ providing reasonable and reliable design solutions for improving high light effi
 > 
 > [GoogleScholar](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works&gmla=AKKJWFffSbl6d7OxPwFZjebuwcMuJy2NhxQB4ai8uSNXoMNm9uUdL6EhXkBbRS_pBwuSD-m-iEUirPmhwP1V35RutEPdlKjJIbzlmFUjO_JNLfsbCnZvgHbUN0Sic_Bw4o36-DT-W0cGk_M)
 > 
-> You can view my research works on these websites.
+> You can view my research works 📖 on these websites.
 
-
-> [WeChat offical account](https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA)
-> 
-> You can check my updates through the official account.
-
-> [Bilibili](https://space.bilibili.com/16062789)
->  
-> [TikTok](https://www.tiktok.com/@smiler488tt)
->  
->  You can view my daily life on these websites.
-
-> [Steam](https://steamcommunity.com/profiles/76561198422396909/)
-> 
-> GG ❤️
 # See more details:
 > https://smiler488.github.io/
 > 
