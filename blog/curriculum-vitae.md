@@ -4,10 +4,6 @@ title: Curriculum Vitae
 authors: liangchao
 tags: [curriculum vitae]
 ---
----
-title: Curriculum Vitae
----
-
 
 ## **Personal Information**
 
