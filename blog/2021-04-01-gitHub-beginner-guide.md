@@ -1,7 +1,7 @@
 ---
 slug: gitHub-beginner-guide
 title: GitHub Beginner Guide
-authors: liangchao
+authors: [liangchao]
 tags: [tutorial]
 ---
 

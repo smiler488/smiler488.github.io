@@ -1,7 +1,7 @@
 ---
 slug: curriculum-vitae
 title: Curriculum Vitae
-authors: liangchao
+authors: [liangchao]
 tags: [curriculum vitae]
 ---
 
