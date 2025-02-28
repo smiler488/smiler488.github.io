@@ -11,7 +11,7 @@ import BlogPostPaginator from '@theme/BlogPostPaginator';
 import BlogPostPageMetadata from '@theme/BlogPostPage/Metadata';
 import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
-import Comment from '@site/src/components/comment'; // 导入刚刚封装的组件
+import Comment from '@site/src/components/comment'; 
 import ContentVisibility from '@theme/ContentVisibility';
 function BlogPostPageContent({sidebar, children}) {
   const {metadata, toc} = useBlogPost();
@@ -40,7 +40,7 @@ function BlogPostPageContent({sidebar, children}) {
       {(nextItem || prevItem) && (
         <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
       )}
-      <Comment /> // 添加评论组件
+      <Comment />
     </BlogLayout>
   );
 }

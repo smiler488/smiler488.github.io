@@ -12,7 +12,8 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
 import styles from './styles.module.css';
-import Comment from '@site/src/components/comment'; // 导入刚刚封装的组件
+import Comment from '@site/src/components/comment';
+
 /**
  * Decide if the toc should be rendered, on mobile or desktop viewports
  */
@@ -50,7 +51,7 @@ export default function DocItemLayout({children}) {
           </article>
           <DocItemPaginator />
         </div>
-        import Comment from '@site/src/components/comment'; // 导入刚刚封装的组件
+        <Comment /> 
       </div>
       {docTOC.desktop && <div className="col col--3">{docTOC.desktop}</div>}
     </div>
