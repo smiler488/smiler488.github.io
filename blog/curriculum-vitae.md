@@ -14,6 +14,8 @@ tags: [curriculum vitae]
 - **Website:** [**smiler488.github.io**](https://smiler488.github.io/)
 - ⭐️[**ORCiD**](https://orcid.org/0000-0002-5194-0655) ⭐️[**Google Scholar**](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works&gmla=AKKJWFffSbl6d7OxPwFZjebuwcMuJy2NhxQB4ai8uSNXoMNm9uUdL6EhXkBbRS_pBwuSD-m-iEUirPmhwP1V35RutEPdlKjJIbzlmFUjO_JNLfsbCnZvgHbUN0Sic_Bw4o36-DT-W0cGk_M) ⭐️[**ResearchGate**](https://www.researchgate.net/profile/Liangchao-Deng?ev=hdr_xprf&_sg=0_OgV4yGq2zHLxAOjAOmRPeYnHG9Ff6treSDs1uU6GtxqFohfZhKzXRPriJ8yRi-sMx2qeO1W6_mFot8W4pas_Vj)
 
+<!-- truncate -->
+
 ## **Education**
 
 ### **Ph.D. in Crop Science (2021 – Present)**

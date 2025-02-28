@@ -1,6 +1,6 @@
 ---
-slug: gitHub-beginner's-guide
-title: GitHub Beginner's Guide
+slug: gitHub-beginner-guide
+title: GitHub Beginner Guide
 authors: liangchao
 tags: [tutorial]
 ---
@@ -8,6 +8,8 @@ tags: [tutorial]
 
 ## Introduction
 GitHub is a web-based platform for version control and collaboration. It allows multiple people to work on projects together, track changes, and manage code repositories using Git.
+
+<!-- truncate -->
 
 ## 1. Setting Up Git and GitHub
 
