@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Physiological and Ecological Field',
-    Svg: require('@site/static/img/comicpho.svg').default,
+    Svg: require('@site/static/img/comicpho1.svg').default,
     description: (
       <>
         Integrating environmental factors with canopy photosynthesis models to explore the regulatory mechanisms of plant architecture, cultivation practices, and environmental conditions on cotton canopy photosynthesis efficiency.
@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'Phenotyping Research Field',
-    Svg: require('@site/static/img/comicuav.svg').default,
+    Svg: require('@site/static/img/comicuav1.svg').default,
     description: (
       <>
         Utilizing 3D point cloud reconstruction technology to quantify plant organs and canopy structures, constructing novel high-throughput structural phenotypic metrics.
@@ -23,7 +23,7 @@ const FeatureList = [
   },
   {
     title: 'Crop Design Field',
-    Svg: require('@site/static/img/comicexp.svg').default,
+    Svg: require('@site/static/img/comicexp1.svg').default,
     description: (
       <>
         Integrating genetic diversity with phenotypic data to optimize plant architecture and cultivation practices, cultivating high-photosynthetic-efficiency cotton to adapt to climate change.
