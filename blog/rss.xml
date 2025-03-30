@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Liangchao Deng Blog</title>
+        <link>https://smiler488.github.io/blog</link>
+        <description>Liangchao Deng Blog</description>
+        <lastBuildDate>Fri, 28 Feb 2025 11:30:22 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[Curriculum Vitae]]></title>
+            <link>https://smiler488.github.io/blog/curriculum-vitae</link>
+            <guid>https://smiler488.github.io/blog/curriculum-vitae</guid>
+            <pubDate>Fri, 28 Feb 2025 11:30:22 GMT</pubDate>
+            <description><![CDATA[Personal Information]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="personal-information"><strong>Personal Information</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#personal-information" class="hash-link" aria-label="Direct link to personal-information" title="Direct link to personal-information">​</a></h2>
+<ul>
+<li><strong>Name:</strong> Liangchao Deng（邓良超）</li>
+<li><strong>EDU Email:</strong> <a href="mailto:liangchaodeng@stu.shzu.edu.cn" target="_blank" rel="noopener noreferrer">liangchaodeng@stu.shzu.edu.cn</a></li>
+<li><strong>Personal Email:</strong> <a href="mailto:googalphdlc@gmail.com" target="_blank" rel="noopener noreferrer">googalphdlc@gmail.com</a></li>
+<li><strong>Affiliation:</strong> Shihezi University, China</li>
+<li><strong>Website:</strong> <a href="https://smiler488.github.io/" target="_blank" rel="noopener noreferrer">smiler488.github.io</a></li>
+<li>⭐️<a href="https://orcid.org/0000-0002-5194-0655" target="_blank" rel="noopener noreferrer"><strong>ORCiD</strong></a> ⭐️<a href="https://scholar.google.com/citations?hl=en&amp;user=u3GFRMQAAAAJ&amp;view_op=list_works&amp;gmla=AKKJWFffSbl6d7OxPwFZjebuwcMuJy2NhxQB4ai8uSNXoMNm9uUdL6EhXkBbRS_pBwuSD-m-iEUirPmhwP1V35RutEPdlKjJIbzlmFUjO_JNLfsbCnZvgHbUN0Sic_Bw4o36-DT-W0cGk_M" target="_blank" rel="noopener noreferrer"><strong>Google Scholar</strong></a> ⭐️<a href="https://www.researchgate.net/profile/Liangchao-Deng?ev=hdr_xprf&amp;_sg=0_OgV4yGq2zHLxAOjAOmRPeYnHG9Ff6treSDs1uU6GtxqFohfZhKzXRPriJ8yRi-sMx2qeO1W6_mFot8W4pas_Vj" target="_blank" rel="noopener noreferrer"><strong>ResearchGate</strong></a></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="education"><strong>Education</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#education" class="hash-link" aria-label="Direct link to education" title="Direct link to education">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="phd-in-crop-science-2021--present"><strong>Ph.D. in Crop Science (2021 – Present)</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#phd-in-crop-science-2021--present" class="hash-link" aria-label="Direct link to phd-in-crop-science-2021--present" title="Direct link to phd-in-crop-science-2021--present">​</a></h3>
+<p><strong>Shihezi University, China</strong><br>
+<strong>Supervisors:</strong> <a href="https://nxy.shzu.edu.cn/2023/0909/c11914a191795/page.htm" target="_blank" rel="noopener noreferrer"><strong>Prof. Yali Zhang</strong></a> &amp; <a href="https://scholar.google.com/citations?hl=en&amp;user=Eqo1GKIAAAAJ" target="_blank" rel="noopener noreferrer"><strong>Dr. Qingfeng Song</strong></a><br>
+<strong>Research Focus:</strong> Crop phenotype, UAV remote sensing, Crop canopy photosynthesis modeling and AI-assisted phenotyping.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bsc-in-information-and-computational-science-2016--2021"><strong>B.Sc. in Information and Computational Science (2016 – 2021)</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#bsc-in-information-and-computational-science-2016--2021" class="hash-link" aria-label="Direct link to bsc-in-information-and-computational-science-2016--2021" title="Direct link to bsc-in-information-and-computational-science-2016--2021">​</a></h3>
+<p><strong>Shihezi University, China</strong><br>
+<strong>Research Focus:</strong> Numerical analysis, computer modeling.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="research-interests"><strong>Research Interests</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#research-interests" class="hash-link" aria-label="Direct link to research-interests" title="Direct link to research-interests">​</a></h2>
+<ul>
+<li><strong>AI-assisted crop canopy modeling</strong> (3D plant reconstruction, canopy light modeling)</li>
+<li><strong>Light interception and photosynthesis simulation</strong> (BRDF modeling, ray tracing)</li>
+<li><strong>UAV-based remote sensing and high-throughput phenotyping</strong></li>
+<li><strong>Crop responses to environmental stress</strong> (density, light-use efficiency)</li>
+<li><strong>Machine/Deep learning in plant phenotyping and predictive modeling</strong></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="research-experience"><strong>Research Experience</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#research-experience" class="hash-link" aria-label="Direct link to research-experience" title="Direct link to research-experience">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="crop-canopy-light-use-efficiency--photosynthesis-simulation-2023--present"><strong>Crop Canopy Light Use Efficiency &amp; Photosynthesis Simulation (2023 – Present)</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#crop-canopy-light-use-efficiency--photosynthesis-simulation-2023--present" class="hash-link" aria-label="Direct link to crop-canopy-light-use-efficiency--photosynthesis-simulation-2023--present" title="Direct link to crop-canopy-light-use-efficiency--photosynthesis-simulation-2023--present">​</a></h3>
+<ul>
+<li><strong>Developed</strong> a 3D crop canopy light distribution model using multi-view stereo.</li>
+<li><strong>Simulated</strong> photosynthetic efficiency under different environmental conditions.</li>
+<li><strong>Integrated</strong> UAV remote sensing data with process-based models for precision agriculture.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="high-throughput-analysis-method-for-crop-three-dimensional-morphology-and-hyperspectral-reflectivity-phenotype-2021--2023"><strong>High-throughput Analysis Method for Crop Three-dimensional Morphology and Hyperspectral Reflectivity Phenotype (2021 – 2023)</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#high-throughput-analysis-method-for-crop-three-dimensional-morphology-and-hyperspectral-reflectivity-phenotype-2021--2023" class="hash-link" aria-label="Direct link to high-throughput-analysis-method-for-crop-three-dimensional-morphology-and-hyperspectral-reflectivity-phenotype-2021--2023" title="Direct link to high-throughput-analysis-method-for-crop-three-dimensional-morphology-and-hyperspectral-reflectivity-phenotype-2021--2023">​</a></h3>
+<ul>
+<li><strong>Designed</strong> a UAV-based method for high-throughput plant phenotyping.</li>
+<li><strong>Assisted</strong> Dr. Song in identifying the optimal plant type and cultivation configuration for weed suppression through the wheat model.</li>
+<li><strong>Established</strong> a BRDF-based optical characteristic model of leaf phenotype inversion.</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="technical-skills"><strong>Technical Skills</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#technical-skills" class="hash-link" aria-label="Direct link to technical-skills" title="Direct link to technical-skills">​</a></h2>
+<ul>
+<li><strong>Programming:</strong> MATLAB, Python, R</li>
+<li><strong>Remote Sensing &amp; Image Processing:</strong> UAV Orthophoto/Cross-Circular data collection, Multispectral/Hyperspectral Imaging, LiDAR, Solar-Induced Fluorescence (SIF)</li>
+<li><strong>Modeling &amp; Data Analysis:</strong> Crop canopy light and photosynthesis modeling, Leaf BRDF simulations</li>
+<li><strong>AI &amp; Data Science:</strong> Machine learning applications in phenotyping, statistical modeling, Deployment &amp; fine-tuning of LLMs (Llama)</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="publications--manuscripts"><strong>Publications &amp; Manuscripts</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#publications--manuscripts" class="hash-link" aria-label="Direct link to publications--manuscripts" title="Direct link to publications--manuscripts">​</a></h2>
+<ul>
+<li><strong>Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X-G. (2025).</strong> Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools. <em>(Manuscript in preparation)</em></li>
+<li><strong>Deng, L., Zhang, Y., Song, Q., Zhu, X-G, et al. (2025).</strong> Point Cloud-Based 3D Cotton Canopy Model and Phenotypic Extraction. <em>(Preliminary results available, manuscript in preparation)</em></li>
+<li><strong>Deng, L., Zhang, Y., Song, Q., Zhu, X-G, et al. (2025).</strong> Monitoring Cotton Growth Using UAV-Based Multi-Source Remote Sensing Data. <em>(Data analysis in progress)</em></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="language-skills"><strong>Language Skills</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#language-skills" class="hash-link" aria-label="Direct link to language-skills" title="Direct link to language-skills">​</a></h2>
+<ul>
+<li><strong>Chinese:</strong> Native</li>
+<li><strong>English:</strong> Proficient (Academic writing, scientific communication)</li>
+</ul>]]></content:encoded>
+            <category>Curriculum Vitae</category>
+        </item>
+        <item>
+            <title><![CDATA[MACOS Shortcuts]]></title>
+            <link>https://smiler488.github.io/blog/macOS-shortcuts</link>
+            <guid>https://smiler488.github.io/blog/macOS-shortcuts</guid>
+            <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Personal Information]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="personal-information"><strong>Personal Information</strong><a href="https://smiler488.github.io/blog/macOS-shortcuts#personal-information" class="hash-link" aria-label="Direct link to personal-information" title="Direct link to personal-information">​</a></h2>
+<p>Below is a categorized list of commonly used macOS shortcuts, combining high-frequency usage scenarios and efficiency improvement techniques:</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1system-level-operations">1.&nbsp;<strong>System-Level Operations</strong><a href="https://smiler488.github.io/blog/macOS-shortcuts#1system-level-operations" class="hash-link" aria-label="Direct link to 1system-level-operations" title="Direct link to 1system-level-operations">​</a></h3>
+<ol>
+<li>
+<p><strong>Quick Search</strong><br>
+<code>⌘ + Space</code>&nbsp;– Open Spotlight search for finding files, applications, calculations, etc.<br>
+<code>⌃ + ⌘ + Space</code>&nbsp;– Open the system emoji panel.</p>
+</li>
+<li>
+<p><strong>Window Management</strong></p>
+<ul>
+<li><code>⌘ + Tab</code>&nbsp;– Switch between open applications.</li>
+<li><code>⌘ + H</code>&nbsp;– Hide the current window;&nbsp;<code>⌥ + ⌘ + H</code>&nbsp;– Hide all other windows.</li>
+</ul>
+</li>
+<li>
+<p><strong>Screenshot &amp; Screen Recording</strong></p>
+<ul>
+<li><code>⌘ + Shift + 3</code>&nbsp;– Capture the entire screen.</li>
+<li><code>⌘ + Shift + 4</code>&nbsp;– Capture a selected area (press Space to capture a window).</li>
+<li><code>⌘ + Shift + 5</code>&nbsp;– Open the advanced screenshot/recording menu.</li>
+</ul>
+</li>
+<li>
+<p><strong>Force Operations</strong></p>
+<ul>
+<li><code>⌘ + ⌥ + Esc</code>&nbsp;– Force quit unresponsive applications.</li>
+<li><code>⌃ + ⌘ + Power button</code>&nbsp;– Force shutdown.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2files--finder">2.&nbsp;<strong>Files &amp; Finder</strong><a href="https://smiler488.github.io/blog/macOS-shortcuts#2files--finder" class="hash-link" aria-label="Direct link to 2files--finder" title="Direct link to 2files--finder">​</a></h3>
+<ol>
+<li>
+<p><strong>Basic Operations</strong></p>
+<ul>
+<li><code>⌘ + Delete</code>&nbsp;– Move file to the Trash.</li>
+<li><code>⌘ + Shift + Delete</code>&nbsp;– Empty the Trash.</li>
+<li><code>⌘ + I</code>&nbsp;– Get file info.</li>
+<li><code>⌘ + D</code>&nbsp;– Duplicate selected file.</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigation</strong></p>
+<ul>
+<li><code>⌘ + ↑</code>&nbsp;– Go up one folder level.</li>
+<li><code>⌘ + ↓</code>&nbsp;– Open selected file or folder.</li>
+<li><code>⌘ + ⇧ + G</code>&nbsp;– Go to a specific folder path.</li>
+</ul>
+</li>
+<li>
+<p><strong>View &amp; Sorting</strong></p>
+<ul>
+<li><code>⌘ + 1</code>&nbsp;– Icon view.</li>
+<li><code>⌘ + 2</code>&nbsp;– List view.</li>
+<li><code>⌘ + 3</code>&nbsp;– Column view.</li>
+<li><code>⌘ + 4</code>&nbsp;– Gallery view.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="3text-editing--navigation">3.&nbsp;<strong>Text Editing &amp; Navigation</strong><a href="https://smiler488.github.io/blog/macOS-shortcuts#3text-editing--navigation" class="hash-link" aria-label="Direct link to 3text-editing--navigation" title="Direct link to 3text-editing--navigation">​</a></h3>
+<ol>
+<li>
+<p><strong>Selection &amp; Movement</strong></p>
+<ul>
+<li><code>⌘ + A</code>&nbsp;– Select all.</li>
+<li><code>⌘ + C</code>&nbsp;– Copy.</li>
+<li><code>⌘ + X</code>&nbsp;– Cut.</li>
+<li><code>⌘ + V</code>&nbsp;– Paste.</li>
+<li><code>⌘ + Z</code>&nbsp;– Undo.</li>
+<li><code>⌘ + ⇧ + Z</code>&nbsp;– Redo.</li>
+</ul>
+</li>
+<li>
+<p><strong>Text Navigation</strong></p>
+<ul>
+<li><code>⌥ + →</code>&nbsp;– Move cursor one word forward.</li>
+<li><code>⌥ + ←</code>&nbsp;– Move cursor one word backward.</li>
+<li><code>⌘ + →</code>&nbsp;– Move cursor to the end of the line.</li>
+<li><code>⌘ + ←</code>&nbsp;– Move cursor to the beginning of the line.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="4browser-shortcuts-safarichrome">4.&nbsp;<strong>Browser Shortcuts (Safari/Chrome)</strong><a href="https://smiler488.github.io/blog/macOS-shortcuts#4browser-shortcuts-safarichrome" class="hash-link" aria-label="Direct link to 4browser-shortcuts-safarichrome" title="Direct link to 4browser-shortcuts-safarichrome">​</a></h3>
+<ol>
+<li>
+<p><strong>Tabs &amp; Windows</strong></p>
+<ul>
+<li><code>⌘ + T</code>&nbsp;– Open a new tab.</li>
+<li><code>⌘ + W</code>&nbsp;– Close the current tab.</li>
+<li><code>⌘ + ⇧ + T</code>&nbsp;– Reopen the last closed tab.</li>
+<li><code>⌘ + N</code>&nbsp;– Open a new window.</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigation</strong></p>
+<ul>
+<li><code>⌘ + L</code>&nbsp;– Focus the address bar.</li>
+<li><code>⌘ + R</code>&nbsp;– Refresh the page.</li>
+<li><code>⌘ + [</code>&nbsp;– Go back.</li>
+<li><code>⌘ + ]</code>&nbsp;– Go forward.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>These shortcuts will help improve efficiency when using macOS in various scenarios.</p>]]></content:encoded>
+            <category>Tip</category>
+        </item>
+        <item>
+            <title><![CDATA[GitHub Beginner Guide]]></title>
+            <link>https://smiler488.github.io/blog/gitHub-beginner-guide</link>
+            <guid>https://smiler488.github.io/blog/gitHub-beginner-guide</guid>
+            <pubDate>Thu, 01 Apr 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Introduction]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="introduction">Introduction<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction">​</a></h2>
+<p>GitHub is a web-based platform for version control and collaboration. It allows multiple people to work on projects together, track changes, and manage code repositories using Git.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1-setting-up-git-and-github">1. Setting Up Git and GitHub<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#1-setting-up-git-and-github" class="hash-link" aria-label="Direct link to 1. Setting Up Git and GitHub" title="Direct link to 1. Setting Up Git and GitHub">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="11-create-a-github-account"><strong>1.1 Create a GitHub Account</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#11-create-a-github-account" class="hash-link" aria-label="Direct link to 11-create-a-github-account" title="Direct link to 11-create-a-github-account">​</a></h3>
+<ol>
+<li>Go to <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>.</li>
+<li>Click <strong>Sign up</strong> and fill in your details.</li>
+<li>Verify your email and set up your profile.</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="12-install-git"><strong>1.2 Install Git</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#12-install-git" class="hash-link" aria-label="Direct link to 12-install-git" title="Direct link to 12-install-git">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="windows"><strong>Windows:</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#windows" class="hash-link" aria-label="Direct link to windows" title="Direct link to windows">​</a></h4>
+<p>Download and install Git from <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">Git for Windows</a>.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="mac"><strong>Mac:</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#mac" class="hash-link" aria-label="Direct link to mac" title="Direct link to mac">​</a></h4>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">brew install git</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="linux"><strong>Linux:</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#linux" class="hash-link" aria-label="Direct link to linux" title="Direct link to linux">​</a></h4>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">sudo apt update</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">sudo apt install git</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="13-configure-git"><strong>1.3 Configure Git</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#13-configure-git" class="hash-link" aria-label="Direct link to 13-configure-git" title="Direct link to 13-configure-git">​</a></h3>
+<p>Set up your Git username and email:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git config --global user.name "Your GitHub Username"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">git config --global user.email "Your GitHub Email"</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Check the configuration:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git config --list</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="2-creating-a-repository-on-github">2. Creating a Repository on GitHub<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#2-creating-a-repository-on-github" class="hash-link" aria-label="Direct link to 2. Creating a Repository on GitHub" title="Direct link to 2. Creating a Repository on GitHub">​</a></h2>
+<ol>
+<li>Log in to <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>.</li>
+<li>Click <strong>New repository</strong>.</li>
+<li>Enter a <strong>repository name</strong>, select visibility (Public or Private), and click <strong>Create repository</strong>.</li>
+</ol>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="3-cloning-a-repository">3. Cloning a Repository<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#3-cloning-a-repository" class="hash-link" aria-label="Direct link to 3. Cloning a Repository" title="Direct link to 3. Cloning a Repository">​</a></h2>
+<p>To copy a GitHub repository to your local machine:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git clone https://github.com/your-username/repository-name.git</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Move into the directory:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cd repository-name</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="4-adding-and-committing-changes">4. Adding and Committing Changes<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#4-adding-and-committing-changes" class="hash-link" aria-label="Direct link to 4. Adding and Committing Changes" title="Direct link to 4. Adding and Committing Changes">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="41-create-a-new-file"><strong>4.1 Create a new file</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#41-create-a-new-file" class="hash-link" aria-label="Direct link to 41-create-a-new-file" title="Direct link to 41-create-a-new-file">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">echo "# My Project" &gt; README.md</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="42-add-files-to-staging"><strong>4.2 Add files to staging</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#42-add-files-to-staging" class="hash-link" aria-label="Direct link to 42-add-files-to-staging" title="Direct link to 42-add-files-to-staging">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git add README.md</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="43-commit-changes"><strong>4.3 Commit changes</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#43-commit-changes" class="hash-link" aria-label="Direct link to 43-commit-changes" title="Direct link to 43-commit-changes">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git commit -m "Initial commit"</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="5-pushing-code-to-github">5. Pushing Code to GitHub<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#5-pushing-code-to-github" class="hash-link" aria-label="Direct link to 5. Pushing Code to GitHub" title="Direct link to 5. Pushing Code to GitHub">​</a></h2>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git push origin main</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If your branch is different from <code>main</code>, use:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git push origin your-branch-name</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="6-pulling-updates-from-github">6. Pulling Updates from GitHub<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#6-pulling-updates-from-github" class="hash-link" aria-label="Direct link to 6. Pulling Updates from GitHub" title="Direct link to 6. Pulling Updates from GitHub">​</a></h2>
+<p>To get the latest changes from GitHub:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git pull origin main</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="7-branching-and-merging">7. Branching and Merging<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#7-branching-and-merging" class="hash-link" aria-label="Direct link to 7. Branching and Merging" title="Direct link to 7. Branching and Merging">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="71-create-a-new-branch"><strong>7.1 Create a New Branch</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#71-create-a-new-branch" class="hash-link" aria-label="Direct link to 71-create-a-new-branch" title="Direct link to 71-create-a-new-branch">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git branch feature-branch</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="72-switch-to-the-new-branch"><strong>7.2 Switch to the New Branch</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#72-switch-to-the-new-branch" class="hash-link" aria-label="Direct link to 72-switch-to-the-new-branch" title="Direct link to 72-switch-to-the-new-branch">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git checkout feature-branch</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="73-merge-a-branch"><strong>7.3 Merge a Branch</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#73-merge-a-branch" class="hash-link" aria-label="Direct link to 73-merge-a-branch" title="Direct link to 73-merge-a-branch">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git checkout main</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">git merge feature-branch</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="74-delete-a-branch"><strong>7.4 Delete a Branch</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#74-delete-a-branch" class="hash-link" aria-label="Direct link to 74-delete-a-branch" title="Direct link to 74-delete-a-branch">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git branch -d feature-branch</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="8-forking-a-repository-and-creating-pull-requests">8. Forking a Repository and Creating Pull Requests<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#8-forking-a-repository-and-creating-pull-requests" class="hash-link" aria-label="Direct link to 8. Forking a Repository and Creating Pull Requests" title="Direct link to 8. Forking a Repository and Creating Pull Requests">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="81-fork-a-repository"><strong>8.1 Fork a Repository</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#81-fork-a-repository" class="hash-link" aria-label="Direct link to 81-fork-a-repository" title="Direct link to 81-fork-a-repository">​</a></h3>
+<ol>
+<li>Go to the repository on GitHub.</li>
+<li>Click <strong>Fork</strong> (top-right corner).</li>
+<li>Clone your forked repository:</li>
+</ol>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git clone https://github.com/your-username/forked-repository.git</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="82-make-changes-and-push"><strong>8.2 Make Changes and Push</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#82-make-changes-and-push" class="hash-link" aria-label="Direct link to 82-make-changes-and-push" title="Direct link to 82-make-changes-and-push">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git add .</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">git commit -m "Modified file"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">git push origin your-branch</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="83-create-a-pull-request-pr"><strong>8.3 Create a Pull Request (PR)</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#83-create-a-pull-request-pr" class="hash-link" aria-label="Direct link to 83-create-a-pull-request-pr" title="Direct link to 83-create-a-pull-request-pr">​</a></h3>
+<ol>
+<li>Go to your forked repository on GitHub.</li>
+<li>Click <strong>New pull request</strong>.</li>
+<li>Compare changes and click <strong>Create pull request</strong>.</li>
+</ol>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="9-git-ignore-and-undo-changes">9. Git Ignore and Undo Changes<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#9-git-ignore-and-undo-changes" class="hash-link" aria-label="Direct link to 9. Git Ignore and Undo Changes" title="Direct link to 9. Git Ignore and Undo Changes">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="91-ignoring-files"><strong>9.1 Ignoring Files</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#91-ignoring-files" class="hash-link" aria-label="Direct link to 91-ignoring-files" title="Direct link to 91-ignoring-files">​</a></h3>
+<p>Create a <code>.gitignore</code> file and add files or folders you want to ignore:</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">node_modules/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">*.log</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">.env</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="92-undo-changes"><strong>9.2 Undo Changes</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#92-undo-changes" class="hash-link" aria-label="Direct link to 92-undo-changes" title="Direct link to 92-undo-changes">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="undo-uncommitted-changes"><strong>Undo uncommitted changes:</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#undo-uncommitted-changes" class="hash-link" aria-label="Direct link to undo-uncommitted-changes" title="Direct link to undo-uncommitted-changes">​</a></h4>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git checkout -- filename</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="undo-last-commit-keep-changes-unstaged"><strong>Undo last commit (keep changes unstaged):</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#undo-last-commit-keep-changes-unstaged" class="hash-link" aria-label="Direct link to undo-last-commit-keep-changes-unstaged" title="Direct link to undo-last-commit-keep-changes-unstaged">​</a></h4>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git reset --soft HEAD~1</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="undo-last-commit-discard-changes"><strong>Undo last commit (discard changes):</strong><a href="https://smiler488.github.io/blog/gitHub-beginner-guide#undo-last-commit-discard-changes" class="hash-link" aria-label="Direct link to undo-last-commit-discard-changes" title="Direct link to undo-last-commit-discard-changes">​</a></h4>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">git reset --hard HEAD~1</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="10-useful-git-commands-summary">10. Useful Git Commands Summary<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#10-useful-git-commands-summary" class="hash-link" aria-label="Direct link to 10. Useful Git Commands Summary" title="Direct link to 10. Useful Git Commands Summary">​</a></h2>
+<table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><code>git init</code></td><td>Initialize a Git repository</td></tr><tr><td><code>git clone URL</code></td><td>Clone a repository</td></tr><tr><td><code>git status</code></td><td>Show current changes</td></tr><tr><td><code>git add .</code></td><td>Add all files to staging</td></tr><tr><td><code>git commit -m "message"</code></td><td>Commit changes</td></tr><tr><td><code>git push origin branch</code></td><td>Push changes to GitHub</td></tr><tr><td><code>git pull origin branch</code></td><td>Pull changes from GitHub</td></tr><tr><td><code>git branch branch-name</code></td><td>Create a new branch</td></tr><tr><td><code>git checkout branch-name</code></td><td>Switch branches</td></tr><tr><td><code>git merge branch-name</code></td><td>Merge branches</td></tr><tr><td><code>git reset --hard HEAD~1</code></td><td>Undo last commit</td></tr><tr><td><code>git log</code></td><td>View commit history</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="conclusion">Conclusion<a href="https://smiler488.github.io/blog/gitHub-beginner-guide#conclusion" class="hash-link" aria-label="Direct link to Conclusion" title="Direct link to Conclusion">​</a></h2>
+<p>This guide covers the basics of Git and GitHub. As you become more familiar, you can explore advanced topics such as GitHub Actions, contributing to open-source projects, and automated deployments.</p>]]></content:encoded>
+            <category>Tutorial</category>
+        </item>
+        <item>
+            <title><![CDATA[Welcome]]></title>
+            <link>https://smiler488.github.io/blog/welcome</link>
+            <guid>https://smiler488.github.io/blog/welcome</guid>
+            <pubDate>Wed, 26 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer">blog plugin</a>.</p>
+<p>Here are a few tips you might find useful.</p>
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li><code>2019-05-30-welcome.md</code></li>
+<li><code>2019-05-30-welcome/index.md</code></li>
+</ul>
+<p>A blog post folder can be convenient to co-locate blog post images:</p>
+<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://smiler488.github.io/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
+<p>The blog supports tags as well!</p>
+<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content:encoded>
+            <category>Facebook</category>
+            <category>Hello</category>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[MDX Blog Post]]></title>
+            <link>https://smiler488.github.io/blog/mdx-blog-post</link>
+            <guid>https://smiler488.github.io/blog/mdx-blog-post</guid>
+            <pubDate>Sat, 01 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></description>
+            <content:encoded><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer">MDX</a>.</p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
+<!-- -->
+<p>For example, use JSX to create an interactive button:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<button>Click me!</button>]]></content:encoded>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[Long Blog Post]]></title>
+            <link>https://smiler488.github.io/blog/long-blog-post</link>
+            <guid>https://smiler488.github.io/blog/long-blog-post</guid>
+            <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[This is the summary of a very long blog post,]]></description>
+            <content:encoded><![CDATA[<p>This is the summary of a very long blog post,</p>
+<p>Use a <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code> comment to limit blog post size in the list view.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
+            <category>Hello</category>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[First Blog Post]]></title>
+            <link>https://smiler488.github.io/blog/first-blog-post</link>
+            <guid>https://smiler488.github.io/blog/first-blog-post</guid>
+            <pubDate>Tue, 28 May 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[Lorem ipsum dolor sit amet...]]></description>
+            <content:encoded><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
+<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
+            <category>Hola</category>
+            <category>Docusaurus</category>
+        </item>
+    </channel>
+</rss>
