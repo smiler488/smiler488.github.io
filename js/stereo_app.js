@@ -14,6 +14,7 @@
   }
 
   let video, rawCanvas, rawCtx, leftRect, rightRect, depthCanvas, statusEl;
+  let devicesCached = [];
   // Baseline (meters) and focal length (pixels) for depth Z = fx * B / disparity
   const BASELINE_M = Math.abs(T_arr[0]) / 1000.0; // T in mm -> meters (use X magnitude)
   const FX = leftK[0]; // fx from left camera intrinsics
@@ -180,21 +181,60 @@
   function listVideoDevices() {
     const sel = document.getElementById("deviceSelect");
     sel.innerHTML = "";
+    const lastId = localStorage.getItem("stereo_last_deviceId") || "";
+
     navigator.mediaDevices.enumerateDevices().then(devs => {
       const vids = devs.filter(d => d.kind === "videoinput");
-      vids.forEach(d => {
+      devicesCached = vids;
+      vids.forEach((d, idx) => {
         const opt = document.createElement("option");
         opt.value = d.deviceId;
-        opt.textContent = d.label || `Camera ${sel.length + 1}`;
+        // show friendly label if available
+        opt.textContent = d.label || `Camera ${idx + 1}`;
+        // preselect last used device if present
+        if (lastId && d.deviceId === lastId) opt.selected = true;
         sel.appendChild(opt);
       });
+
+      // If nothing selected yet, try to auto-pick an external/USB device
+      if (sel.options.length > 0 && sel.selectedIndex === -1) {
+        const preferRegex = /(USB|UVC|Stereo|Depth|External|Left|Right)/i;
+        const avoidRegex = /(Integrated|FaceTime|Webcam|HD\s*WebCam)/i;
+        let pick = -1;
+        for (let i = 0; i < sel.options.length; i++) {
+          const label = sel.options[i].textContent || "";
+          if (preferRegex.test(label) && !avoidRegex.test(label)) { pick = i; break; }
+        }
+        if (pick === -1) {
+          // If we didn't find a preferred one, pick the last option (often external)
+          pick = sel.options.length - 1;
+        }
+        sel.selectedIndex = pick;
+      }
+
       if (sel.length === 0) {
         const opt = document.createElement("option");
         opt.value = "";
         opt.textContent = "No cameras found";
         sel.appendChild(opt);
       }
+    }).catch(err => {
+      console.error(err);
+      setStatus("Unable to list cameras (permission/HTTPS required).");
     });
+  }
+
+  async function warmUpPermissionAndRefreshDevices() {
+    try {
+      const tmp = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      // stop tracks immediately; we just needed the permission for labels
+      tmp.getTracks().forEach(t => t.stop());
+    } catch (e) {
+      // ignore; user may deny, labels might stay generic
+      console.warn("Permission not granted yet; device labels may be generic.");
+    } finally {
+      listVideoDevices();
+    }
   }
 
   async function startStream() {
@@ -202,35 +242,55 @@
     const width = parseInt(document.getElementById("widthInput").value, 10) || 1280;
     const height = parseInt(document.getElementById("heightInput").value, 10) || 480;
 
+    // stop previous stream if any (when switching devices)
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+    }
+
+    // remember selected device
+    if (devSel && devSel.value) {
+      localStorage.setItem("stereo_last_deviceId", devSel.value);
+    }
+
     const constraints = {
       video: {
-        width: { ideal: width },
-        height: { ideal: height },
-        deviceId: devSel.value ? { exact: devSel.value } : undefined,
-        facingMode: "environment"
+        width: { ideal: width, max: width },
+        height: { ideal: height, max: height },
+        deviceId: devSel.value ? { exact: devSel.value } : undefined
       },
       audio: false
     };
 
     try {
       stream = await navigator.mediaDevices.getUserMedia(constraints);
-      video.srcObject = stream;
-      await video.play();
-      setStatus(`Streaming ${video.videoWidth}×${video.videoHeight}.`);
-
-      document.getElementById("startBtn").disabled = true;
-      document.getElementById("stopBtn").disabled = false;
-      document.getElementById("captureBtn").disabled = false;
-      const cdb = document.getElementById("computeDepthBtn");
-      if (cdb) cdb.disabled = false;
-      document.getElementById("downloadZipBtn").disabled = !zip || captureIndex <= 1;
-
-      // kick draw loop
-      drawLoop();
-    } catch (err) {
-      console.error(err);
-      setStatus("Failed to start camera. Check permissions and HTTPS.");
+    } catch (errExact) {
+      console.warn("Exact device request failed, retrying without deviceId…", errExact);
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: width }, height: { ideal: height } },
+          audio: false
+        });
+      } catch (errAny) {
+        console.error(errAny);
+        setStatus("Failed to start camera. Check permissions, HTTPS, and camera in use.");
+        return;
+      }
     }
+
+    video.srcObject = stream;
+    await video.play();
+    setStatus(`Streaming ${video.videoWidth}×${video.videoHeight}.`);
+
+    document.getElementById("startBtn").disabled = true;
+    document.getElementById("stopBtn").disabled = false;
+    document.getElementById("captureBtn").disabled = false;
+    const cdb = document.getElementById("computeDepthBtn");
+    if (cdb) cdb.disabled = false;
+    document.getElementById("downloadZipBtn").disabled = !zip || captureIndex <= 1;
+
+    // kick draw loop
+    drawLoop();
   }
 
   function stopStream() {
@@ -424,7 +484,13 @@
     if (capd2) capd2.disabled = true;
 
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-      listVideoDevices();
+      warmUpPermissionAndRefreshDevices();
+    }
+    const devSel = document.getElementById("deviceSelect");
+    if (devSel) {
+      devSel.addEventListener("change", () => {
+        if (devSel.value) localStorage.setItem("stereo_last_deviceId", devSel.value);
+      });
     }
 
     if (cv && !cvReady) {
