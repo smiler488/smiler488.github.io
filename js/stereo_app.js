@@ -16,12 +16,170 @@
   let video, rawCanvas, rawCtx, leftRect, rightRect, depthCanvas, statusEl;
   let devicesCached = [];
   let stream = null, animHandle = null;
+  let streamRight = null;          // optional second stream if dual-device mode
+  let videoRightEl = null;         // hidden <video> for right-eye in dual mode
+  let camControlsEl = null;        // container for dynamic camera controls
+  let activeTrack = null;          // currently controlled MediaStreamTrack
+  // ------- Camera control panel helpers -------
+  function clearCamControls() {
+    const body = document.getElementById('camControlsBody');
+    if (body) body.innerHTML = '';
+  }
+
+  function addRangeControl(label, key, min, max, step, value, oninput) {
+    const body = document.getElementById('camControlsBody');
+    if (!body) return;
+    const wrap = document.createElement('div');
+    wrap.style.display = 'flex';
+    wrap.style.alignItems = 'center';
+    wrap.style.gap = '8px';
+    wrap.style.margin = '4px 0';
+    const l = document.createElement('label');
+    l.textContent = label;
+    l.style.width = '150px';
+    const input = document.createElement('input');
+    input.type = 'range';
+    input.min = String(min);
+    input.max = String(max);
+    input.step = String(step || 1);
+    input.value = String(value);
+    const valSpan = document.createElement('span');
+    valSpan.textContent = String(value);
+    input.addEventListener('input', async () => {
+      valSpan.textContent = input.value;
+      try { await oninput(Number(input.value)); } catch (e) { console.warn(e); }
+    });
+    wrap.appendChild(l); wrap.appendChild(input); wrap.appendChild(valSpan);
+    body.appendChild(wrap);
+  }
+
+  async function buildCameraControlsForTrack(track) {
+    activeTrack = track;
+    clearCamControls();
+    if (!track) return;
+    const caps = track.getCapabilities ? track.getCapabilities() : {};
+    const settings = track.getSettings ? track.getSettings() : {};
+
+    // Helper to apply a single numeric constraint via advanced block (widely supported pattern)
+    async function applyNumeric(key, val) {
+      try {
+        await track.applyConstraints({ advanced: [{ [key]: val }] });
+        setStatus(`Set ${key}=${val}`);
+      } catch (e) {
+        console.warn('applyConstraints failed for', key, e);
+      }
+    }
+
+    // Exposure / Brightness / Contrast / Saturation / Sharpness / Color Temperature
+    if (caps.exposureTime && typeof caps.exposureTime.min === 'number') {
+      const step = caps.exposureTime.step || 1;
+      addRangeControl('Exposure Time', 'exposureTime', caps.exposureTime.min, caps.exposureTime.max, step, settings.exposureTime ?? caps.exposureTime.min, (v) => applyNumeric('exposureTime', v));
+    }
+    if (caps.exposureCompensation) {
+      const step = caps.exposureCompensation.step || 0.1;
+      addRangeControl('Exposure Comp', 'exposureCompensation', caps.exposureCompensation.min, caps.exposureCompensation.max, step, settings.exposureCompensation ?? 0, (v) => applyNumeric('exposureCompensation', v));
+    }
+    if (caps.brightness) {
+      const step = caps.brightness.step || 1;
+      addRangeControl('Brightness', 'brightness', caps.brightness.min, caps.brightness.max, step, settings.brightness ?? caps.brightness.min, (v) => applyNumeric('brightness', v));
+    }
+    if (caps.contrast) {
+      const step = caps.contrast.step || 1;
+      addRangeControl('Contrast', 'contrast', caps.contrast.min, caps.contrast.max, step, settings.contrast ?? caps.contrast.min, (v) => applyNumeric('contrast', v));
+    }
+    if (caps.saturation) {
+      const step = caps.saturation.step || 1;
+      addRangeControl('Saturation', 'saturation', caps.saturation.min, caps.saturation.max, step, settings.saturation ?? caps.saturation.min, (v) => applyNumeric('saturation', v));
+    }
+    if (caps.sharpness) {
+      const step = caps.sharpness.step || 1;
+      addRangeControl('Sharpness', 'sharpness', caps.sharpness.min, caps.sharpness.max, step, settings.sharpness ?? caps.sharpness.min, (v) => applyNumeric('sharpness', v));
+    }
+    if (caps.colorTemperature) {
+      const step = caps.colorTemperature.step || 50;
+      addRangeControl('Color Temp (K)', 'colorTemperature', caps.colorTemperature.min, caps.colorTemperature.max, step, settings.colorTemperature ?? caps.colorTemperature.min, (v) => applyNumeric('colorTemperature', v));
+    }
+
+    // White balance auto toggle if supported
+    if (caps.whiteBalanceMode && Array.isArray(caps.whiteBalanceMode)) {
+      const body = document.getElementById('camControlsBody');
+      const btn = document.createElement('button');
+      btn.textContent = 'Toggle Auto WhiteBalance';
+      btn.style.margin = '6px 0';
+      btn.addEventListener('click', async () => {
+        const target = (settings.whiteBalanceMode === 'continuous') ? 'manual' : 'continuous';
+        try {
+          await track.applyConstraints({ advanced: [{ whiteBalanceMode: target }] });
+          setStatus(`whiteBalanceMode=${target}`);
+        } catch (e) { console.warn(e); }
+      });
+      body.appendChild(btn);
+    }
+
+    // Exposure auto toggle if supported
+    if (caps.exposureMode && Array.isArray(caps.exposureMode)) {
+      const body = document.getElementById('camControlsBody');
+      const btn = document.createElement('button');
+      btn.textContent = 'Toggle Auto Exposure';
+      btn.style.marginLeft = '8px';
+      btn.addEventListener('click', async () => {
+        const target = (settings.exposureMode === 'continuous') ? 'manual' : 'continuous';
+        try {
+          await track.applyConstraints({ advanced: [{ exposureMode: target }] });
+          setStatus(`exposureMode=${target}`);
+        } catch (e) { console.warn(e); }
+      });
+      body.appendChild(btn);
+    }
+    // If no controls were added, show a note
+    const body = document.getElementById('camControlsBody');
+    if (body && body.children.length === 0) {
+      const note = document.createElement('div');
+      note.style.color = '#777';
+      note.style.fontSize = '12px';
+      note.textContent = 'No adjustable camera constraints exposed by this device/driver.';
+      body.appendChild(note);
+    }
+  }
+
+  // (Optional stub) Detect potential dual-device and prepare a right-eye select (no UI change if none).
+  function findDualDeviceCandidates(vids) {
+    // Heuristics: look for labels containing Left/Right or pairs from same vendor
+    const leftLike = vids.filter(v => /left|l\b/i.test(v.label));
+    const rightLike = vids.filter(v => /right|r\b/i.test(v.label));
+    if (leftLike.length && rightLike.length) {
+      return { leftId: leftLike[0].deviceId, rightId: rightLike[0].deviceId };
+    }
+    // Fallback: if there are two external USB cams and one is selected, use another as right
+    if (vids.length >= 2) {
+      const sel = document.getElementById('deviceSelect');
+      const chosen = sel && sel.value;
+      const other = vids.find(v => v.deviceId !== chosen);
+      if (chosen && other) return { leftId: chosen, rightId: other.deviceId };
+    }
+    return null;
+  }
 
   // OpenCV state
   let cvReady = false;
+  let cvReadyResolve = null;
+  const cvReadyPromise = new Promise((res) => { cvReadyResolve = res; });
   let mapsReady = false;
   let map1x, map1y, map2x, map2y;         // rectification maps
   let size = null;                          // will be created after OpenCV loads
+  async function waitForCVReady(timeoutMs = 8000) {
+    if (cvReady && window.cv && size) return true;
+    let toId;
+    try {
+      await Promise.race([
+        cvReadyPromise,
+        new Promise((_, rej) => { toId = setTimeout(() => rej(new Error('cv init timeout')), timeoutMs); })
+      ]);
+      return true;
+    } finally {
+      if (toId) clearTimeout(toId);
+    }
+  }
 
   // Capture/ZIP state
   let zip = null;
@@ -175,6 +333,13 @@
       stream.getTracks().forEach(t => t.stop());
       stream = null;
     }
+    if (streamRight) {
+      streamRight.getTracks().forEach(t => t.stop());
+      streamRight = null;
+    }
+    if (videoRightEl) {
+      try { videoRightEl.srcObject = null; } catch (e) {}
+    }
 
     if (devSel && devSel.value) {
       localStorage.setItem("stereo_last_deviceId", devSel.value);
@@ -209,12 +374,51 @@
     await video.play();
     setStatus(`Streaming ${video.videoWidth}×${video.videoHeight}.`);
 
+    // Build controls for the active track
+    const tracks = stream.getVideoTracks();
+    if (tracks && tracks[0]) {
+      buildCameraControlsForTrack(tracks[0]);
+    }
+
     document.getElementById("startBtn").disabled = true;
     document.getElementById("stopBtn").disabled = false;
     document.getElementById("captureBtn").disabled = false;
     const cdb = document.getElementById("computeDepthBtn");
     if (cdb) cdb.disabled = false;
     document.getElementById("downloadZipBtn").disabled = !zip || captureIndex <= 1;
+
+    // (Optional) Start a right-eye stream if dual-device candidates found
+    try {
+      const devs = devicesCached && devicesCached.length ? devicesCached : (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+      const cand = findDualDeviceCandidates(devs);
+      if (cand && cand.rightId && (!streamRight)) {
+        const rightStream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cand.rightId } }, audio: false });
+        // Create a hidden <video> to read frames from later if needed
+        videoRightEl = document.getElementById('videoRight');
+        if (!videoRightEl) {
+          videoRightEl = document.createElement('video');
+          videoRightEl.id = 'videoRight';
+          videoRightEl.playsInline = true;
+          videoRightEl.muted = true;
+          videoRightEl.style.display = 'none';
+          document.body.appendChild(videoRightEl);
+        }
+        videoRightEl.srcObject = rightStream;
+        await videoRightEl.play();
+        streamRight = rightStream;
+        // Also allow tuning right-eye track if desired
+        const rTracks = rightStream.getVideoTracks();
+        if (rTracks && rTracks[0]) {
+          // Add a small divider title for right-eye in controls
+          const body = document.getElementById('camControlsBody');
+          if (body) {
+            const hr = document.createElement('hr'); hr.style.margin = '8px 0'; body.appendChild(hr);
+            const h = document.createElement('div'); h.textContent = 'Right Eye Controls'; h.style.fontWeight = '600'; h.style.margin = '4px 0'; body.appendChild(h);
+          }
+          buildCameraControlsForTrack(rTracks[0]);
+        }
+      }
+    } catch (e) { /* ignore if not dual-device */ }
 
     drawLoop();
   }
@@ -227,6 +431,13 @@
     if (stream) {
       stream.getTracks().forEach(t => t.stop());
       stream = null;
+    }
+    if (streamRight) {
+      streamRight.getTracks().forEach(t => t.stop());
+      streamRight = null;
+    }
+    if (videoRightEl) {
+      try { videoRightEl.srcObject = null; } catch (e) {}
     }
     setStatus("Stopped.");
     document.getElementById("startBtn").disabled = false;
@@ -298,13 +509,9 @@
   }
 
   // ------- Capture rectified pair -------
-  function capturePair() {
-    ensureJSZip().catch(() => { setStatus("Failed to load ZIP library. Check network."); });
-
-    if (!zip) {
-      if (!window.JSZip) { setStatus("ZIP library not ready yet."); return; }
-      zip = new JSZip();
-    }
+  async function capturePair() {
+    try { await ensureJSZip(); } catch (e) { setStatus('Failed to load ZIP library. Check network.'); return; }
+    if (!zip) { zip = new JSZip(); }
 
     const idRaw = (leafIdEl && leafIdEl.value ? leafIdEl.value.trim() : "");
     const safeId = idRaw.replace(/[^a-zA-Z0-9_\-\.]/g, "_") || "leaf";
@@ -347,13 +554,22 @@
   }
 
   // ------- Depth computation & capture -------
-  function computeDepthFrame() {
-    if (!cvReady) { setStatus("OpenCV not ready."); return; }
+  async function computeDepthFrame() {
+    try {
+      await waitForCVReady();
+    } catch (e) {
+      setStatus('OpenCV not ready yet. Please wait a moment…');
+      return;
+    }
 
-    const l = document.getElementById("leftRect");
-    const r = document.getElementById("rightRect");
+    if (!mapsReady) {
+      try { computeRectifyMaps(); } catch (e) { console.error(e); setStatus('Failed to build rectify maps.'); return; }
+    }
+
+    const l = document.getElementById('leftRect');
+    const r = document.getElementById('rightRect');
     if (!l || !r || l.width === 0 || r.width === 0) {
-      setStatus("No rectified images yet. Start the camera first.");
+      setStatus('No rectified images yet. Start the camera first.');
       return;
     }
 
@@ -390,24 +606,21 @@
     cv.convertScaleAbs(depth32, depth8, 255.0/(maxZ - minZ), -minZ * 255.0/(maxZ - minZ));
     let depthColor = new cv.Mat();
     cv.applyColorMap(depth8, depthColor, cv.COLORMAP_JET);
-    cv.imshow("depthCanvas", depthColor);
+    cv.imshow('depthCanvas', depthColor);
 
     lMat.delete(); rMat.delete();
     lGray.delete(); rGray.delete();
     disp16.delete(); disp32.delete();
     depth32.delete(); depth8.delete(); depthColor.delete();
 
-    const capd = document.getElementById("captureDepthBtn");
+    const capd = document.getElementById('captureDepthBtn');
     if (capd) capd.disabled = false;
-    setStatus("Depth computed (StereoBM, meters visualized).");
+    setStatus('Depth computed (StereoBM, meters visualized).');
   }
 
-  function captureDepth() {
-    ensureJSZip().catch(() => { setStatus("Failed to load ZIP library. Check network."); });
-    if (!zip) {
-      if (!window.JSZip) { setStatus("ZIP library not ready yet."); return; }
-      zip = new JSZip();
-    }
+  async function captureDepth() {
+    try { await ensureJSZip(); } catch (e) { setStatus('Failed to load ZIP library. Check network.'); return; }
+    if (!zip) { zip = new JSZip(); }
     const idRaw = (leafIdEl && leafIdEl.value ? leafIdEl.value.trim() : "");
     const safeId = idRaw.replace(/[^a-zA-Z0-9_\\-\\.]/g, "_") || "leaf";
     const base = `${safeId}_rect_${String(captureIndex-1).padStart(3, "0")}`;
@@ -561,6 +774,25 @@
     if (cdb) cdb.addEventListener("click", computeDepthFrame);
     if (capd) capd.addEventListener("click", captureDepth);
 
+    // Create dynamic camera controls panel
+    if (!document.getElementById('camControls')) {
+      camControlsEl = document.createElement('div');
+      camControlsEl.id = 'camControls';
+      camControlsEl.style.border = '1px solid #ddd';
+      camControlsEl.style.borderRadius = '8px';
+      camControlsEl.style.padding = '8px 12px';
+      camControlsEl.style.margin = '8px 0 12px 0';
+      camControlsEl.innerHTML = '<b>Camera Controls</b> <span style="font-size:12px;color:#666">(auto-detected)</span><div id="camControlsBody" style="margin-top:6px"></div>';
+      const anchor = document.getElementById('status');
+      if (anchor && anchor.parentNode) {
+        anchor.parentNode.insertBefore(camControlsEl, anchor);
+      } else {
+        document.body.insertBefore(camControlsEl, document.body.firstChild);
+      }
+    } else {
+      camControlsEl = document.getElementById('camControls');
+    }
+
     // Initialize disabled states
     if (cdb) cdb.disabled = true;
     if (capd) capd.disabled = true;
@@ -603,6 +835,7 @@
         if (typeof window.cv.Mat === 'function') {
           cvReady = true;
           size = new cv.Size(640, 480);
+          if (cvReadyResolve) cvReadyResolve();
           try {
             computeRectifyMaps();
             setStatus('OpenCV ready (late). Rectify maps computed.');
@@ -616,6 +849,7 @@
         window.cv['onRuntimeInitialized'] = () => {
           cvReady = true;
           size = new cv.Size(640, 480);
+          if (cvReadyResolve) cvReadyResolve();
           try {
             computeRectifyMaps();
             setStatus('OpenCV ready. Rectify maps computed.');
@@ -671,3 +905,5 @@
     if (window.STEREO_INIT) window.STEREO_INIT();
   }
 })();
+    // Preload ZIP library in background to avoid first-click delay
+    ensureJSZip().then(() => { try { if (!zip) zip = new JSZip(); } catch (e) {} });
