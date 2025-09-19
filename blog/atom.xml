@@ -158,7 +158,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <p><strong>Ph.D. in Crop Science</strong> | <em>2021 – Present</em><br>
 <!-- -->Shihezi University, Xinjiang, China</p>
 <ul>
-<li><strong>Supervisors:</strong> <a href="https://nxy.shzu.edu.cn/2019/0301/c6887a107680/page.htm" target="_blank" rel="noopener noreferrer">Prof. Yali Zhang</a> &amp; <a href="https://people.ucas.ac.cn/~qfsong" target="_blank" rel="noopener noreferrer">Dr. Qingfeng Song</a></li>
+<li><strong>Supervisors:</strong> Prof. Yali Zhang &amp; Dr. Qingfeng Song</li>
 <li><strong>Dissertation Topic:</strong> AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Precision Agriculture</li>
 <li><strong>Expected Graduation:</strong> 2026</li>
 </ul>
@@ -171,16 +171,16 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="research-interests">Research Interests<a href="https://smiler488.github.io/blog/curriculum-vitae/#research-interests" class="hash-link" aria-label="Direct link to Research Interests" title="Direct link to Research Interests">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="cutting-edge-technology-focus">Cutting-Edge Technology Focus<a href="https://smiler488.github.io/blog/curriculum-vitae/#cutting-edge-technology-focus" class="hash-link" aria-label="Direct link to Cutting-Edge Technology Focus" title="Direct link to Cutting-Edge Technology Focus">​</a></h3>
 <ul>
-<li><strong>Generative AI for Agriculture:</strong> Text-to-3D plant modeling, foundation models for crop phenotyping, multimodal AI systems for agricultural applications</li>
+<li><strong>Generative AI for Agriculture:</strong> Image-to-3D plant modeling, foundation models for crop phenotyping, multimodal systems for agricultural applications</li>
 <li><strong>Advanced Computer Vision:</strong> Neural radiance fields (NeRF), 3D Gaussian splatting, differentiable rendering for plant reconstruction</li>
-<li><strong>AI-Assisted Scientific Computing:</strong> Large language model integration in research workflows, automated code generation for phenotyping pipelines</li>
+<li><strong>AI-Assisted Scientific Computing:</strong> Large language model integration in research workflows, ai code generation for phenotyping pipelines</li>
 <li><strong>Digital Agriculture Innovation:</strong> IoT sensor networks, edge computing for real-time crop monitoring, blockchain for agricultural traceability</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="core-research-domains">Core Research Domains<a href="https://smiler488.github.io/blog/curriculum-vitae/#core-research-domains" class="hash-link" aria-label="Direct link to Core Research Domains" title="Direct link to Core Research Domains">​</a></h3>
 <ul>
 <li><strong>Precision Phenomics:</strong> High-throughput plant phenotyping using UAV swarms, hyperspectral imaging, and LiDAR point clouds</li>
 <li><strong>Computational Plant Biology:</strong> Ray-tracing photosynthesis models, BRDF-based optical simulations, digital twin ecosystems</li>
-<li><strong>Climate-Smart Agriculture:</strong> AI-driven crop adaptation strategies, predictive modeling for climate resilience</li>
+<li><strong>Environment -Smart Agriculture:</strong> AI-driven crop adaptation strategies, predictive modeling for environment resilience</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="innovation-and-impact">Innovation and Impact<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation-and-impact" class="hash-link" aria-label="Direct link to Innovation and Impact" title="Direct link to Innovation and Impact">​</a></h3>
 <ul>
@@ -193,38 +193,18 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="generative-ai-for-agricultural-applications--2024--present"><strong>Generative AI for Agricultural Applications</strong> | <em>2024 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#generative-ai-for-agricultural-applications--2024--present" class="hash-link" aria-label="Direct link to generative-ai-for-agricultural-applications--2024--present" title="Direct link to generative-ai-for-agricultural-applications--2024--present">​</a></h3>
 <p><em>Advanced Ph.D. Research, Shihezi University</em></p>
 <ul>
-<li><strong>Innovation:</strong> Pioneered text-to-3D generative models for rapid plant architecture synthesis using diffusion models and neural radiance fields</li>
+<li><strong>Innovation:</strong> Pioneered Image-to-3D generative models for rapid plant architecture synthesis using diffusion models and neural radiance fields</li>
 <li><strong>AI Integration:</strong> Fine-tuned large language models for domain-specific agricultural data analysis and automated research workflows</li>
 <li><strong>Technical Achievement:</strong> Developed novel AI-assisted coding framework that accelerated phenotyping algorithm development</li>
 <li><strong>Impact:</strong> Reduced 3D plant model generation from days to minutes, enabling real-time digital twin applications</li>
-<li><strong>Publications:</strong> 2 manuscripts in preparation for top-tier AI/agriculture journals</li>
 </ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="next-generation-phenotyping-with-advanced-computer-vision--2023--present"><strong>Next-Generation Phenotyping with Advanced Computer Vision</strong> | <em>2023 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#next-generation-phenotyping-with-advanced-computer-vision--2023--present" class="hash-link" aria-label="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2023--present" title="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2023--present">​</a></h3>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="next-generation-phenotyping-with-advanced-computer-vision--2021--present"><strong>Next-Generation Phenotyping with Advanced Computer Vision</strong> | <em>2021 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#next-generation-phenotyping-with-advanced-computer-vision--2021--present" class="hash-link" aria-label="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2021--present" title="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2021--present">​</a></h3>
 <p><em>Collaborative Research with International Partners</em></p>
 <ul>
 <li><strong>Cutting-Edge Methods:</strong> Implemented 3D Gaussian splatting and differentiable rendering for photorealistic plant reconstruction</li>
-<li><strong>Scale Innovation:</strong> Developed distributed computing pipeline processing &gt;1TB of UAV imagery using cloud-native architectures</li>
-<li><strong>Precision Achievement:</strong> Achieved sub-millimeter accuracy in 3D plant phenotyping using custom deep learning models</li>
-<li><strong>Real-World Impact:</strong> Technology adopted by 3 agricultural research institutions for breeding programs</li>
+<li><strong>Scale Innovation:</strong> Developed distributed computing pipeline processing UAV imagery using cloud-native architectures</li>
+<li><strong>Real-World Impact:</strong> Technology adopted by agricultural research institutions for breeding programs</li>
 <li><strong>Funding:</strong> Contributed to $500K research grant proposal (pending)</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="ai-driven-crop-physiology-modeling--2022--present"><strong>AI-Driven Crop Physiology Modeling</strong> | <em>2022 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#ai-driven-crop-physiology-modeling--2022--present" class="hash-link" aria-label="Direct link to ai-driven-crop-physiology-modeling--2022--present" title="Direct link to ai-driven-crop-physiology-modeling--2022--present">​</a></h3>
-<p><em>International Collaboration with CAS Center for Excellence</em></p>
-<ul>
-<li><strong>Breakthrough Research:</strong> Developed first-of-its-kind ray-tracing photosynthesis simulator with GPU acceleration</li>
-<li><strong>Data Integration:</strong> Created multimodal fusion framework combining hyperspectral, thermal, and LiDAR data streams</li>
-<li><strong>Validation Success:</strong> Achieved 94% accuracy in predicting crop yield 60 days before harvest across 4 crop species</li>
-<li><strong>Technology Transfer:</strong> Algorithm licensed to precision agriculture startup for commercial deployment</li>
-<li><strong>Recognition:</strong> Featured in 2 international conference presentations</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="autonomous-agricultural-robotics-platform--2021--2023"><strong>Autonomous Agricultural Robotics Platform</strong> | <em>2021 – 2023</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#autonomous-agricultural-robotics-platform--2021--2023" class="hash-link" aria-label="Direct link to autonomous-agricultural-robotics-platform--2021--2023" title="Direct link to autonomous-agricultural-robotics-platform--2021--2023">​</a></h3>
-<p><em>Interdisciplinary Engineering Project</em></p>
-<ul>
-<li><strong>Hardware Innovation:</strong> Co-designed autonomous UAV swarm system with edge AI processing capabilities</li>
-<li><strong>Software Development:</strong> Built real-time computer vision pipeline using NVIDIA Jetson and custom CUDA kernels</li>
-<li><strong>Field Deployment:</strong> Successfully tested across 500+ hectares with 99.2% uptime and autonomous operation</li>
-<li><strong>Economic Impact:</strong> Demonstrated 40% cost reduction compared to traditional phenotyping methods</li>
-<li><strong>Industry Partnership:</strong> Collaboration with John Deere and DJI for technology validation</li>
 </ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="technical-expertise">Technical Expertise<a href="https://smiler488.github.io/blog/curriculum-vitae/#technical-expertise" class="hash-link" aria-label="Direct link to Technical Expertise" title="Direct link to Technical Expertise">​</a></h2>
@@ -244,10 +224,8 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="high-performance-computing--cloud"><strong>High-Performance Computing &amp; Cloud</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#high-performance-computing--cloud" class="hash-link" aria-label="Direct link to high-performance-computing--cloud" title="Direct link to high-performance-computing--cloud">​</a></h3>
 <ul>
-<li><strong>Programming:</strong> Python, C++, CUDA, JavaScript/TypeScript, Rust (learning)</li>
-<li><strong>Cloud Platforms:</strong> AWS (EC2, S3, SageMaker), Google Cloud (Compute Engine, AI Platform), Azure</li>
-<li><strong>Big Data:</strong> Apache Spark, Dask, distributed computing, data pipeline optimization</li>
-<li><strong>DevOps:</strong> Git, CI/CD, containerization, infrastructure as code (Terraform)</li>
+<li><strong>Programming:</strong> Python, Matlab, AI vibe coding</li>
+<li><strong>DevOps:</strong> Git,, containerization, infrastructure as code (Terraform)</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="agricultural-technology--iot"><strong>Agricultural Technology &amp; IoT</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#agricultural-technology--iot" class="hash-link" aria-label="Direct link to agricultural-technology--iot" title="Direct link to agricultural-technology--iot">​</a></h3>
 <ul>
@@ -258,7 +236,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="research--development-tools"><strong>Research &amp; Development Tools</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#research--development-tools" class="hash-link" aria-label="Direct link to research--development-tools" title="Direct link to research--development-tools">​</a></h3>
 <ul>
-<li><strong>Scientific Computing:</strong> MATLAB, R, Julia, Jupyter notebooks, scientific visualization</li>
+<li><strong>Scientific Computing:</strong> MATLAB, R, Jupyter notebooks, scientific visualization</li>
 <li><strong>Collaboration:</strong> GitHub, Slack, Notion, academic writing tools (LaTeX, Overleaf)</li>
 <li><strong>Project Management:</strong> Agile methodologies, Scrum, research project coordination</li>
 </ul>
@@ -279,44 +257,6 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <p><strong>Deng, L.</strong>, et al. (2025). "Real-Time Digital Twins for Climate-Smart Agriculture: A Multimodal AI Approach." <em>Target: Nature Food</em> (Conceptual framework completed)</p>
 </li>
 </ol>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="open-source-contributions"><strong>Open Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions">​</a></h3>
-<ul>
-<li><strong>AgriAI Toolkit:</strong> Python package for agricultural AI applications (500+ GitHub stars)</li>
-<li><strong>PlantNeRF:</strong> Neural radiance fields for plant reconstruction (Featured in Papers with Code)</li>
-<li><strong>CropVision:</strong> Computer vision library for agricultural applications (Industry adoption)</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="conference-presentations--workshops"><strong>Conference Presentations &amp; Workshops</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#conference-presentations--workshops" class="hash-link" aria-label="Direct link to conference-presentations--workshops" title="Direct link to conference-presentations--workshops">​</a></h3>
-<ul>
-<li><strong>Invited Speaker:</strong> "AI Revolution in Agriculture" - Stanford AI for Agriculture Workshop (2024)</li>
-<li><strong>Oral Presentation:</strong> "Generative Models for Plant Phenotyping" - ICCV Workshop on Computer Vision for Agriculture (2024)</li>
-<li><strong>Poster:</strong> "3D Plant Reconstruction using Neural Fields" - NeurIPS Workshop on AI for Science (2024)</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="conference-presentations"><strong>Conference Presentations</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#conference-presentations" class="hash-link" aria-label="Direct link to conference-presentations" title="Direct link to conference-presentations">​</a></h3>
-<ul>
-<li><strong>Deng, L.</strong>, Zhang, Y., Song, Q. "Light Intensity Distribution Relate with Physiological Indexes &amp; Simulate Canopy Photosynthesis to Search for Ideal Plant Type." <em>Poster Presentation</em> at [Conference Name] ([Year])<!-- -->
-<ul>
-<li><strong>Research Focus:</strong> Integration of light distribution modeling with physiological parameters for optimal plant architecture design</li>
-<li><strong>Technical Contribution:</strong> Novel approach combining ray-tracing simulations with photosynthesis modeling for crop improvement</li>
-<li><strong>Impact:</strong> Demonstrated methodology for identifying ideal plant types through computational modeling</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="professional-activities">Professional Activities<a href="https://smiler488.github.io/blog/curriculum-vitae/#professional-activities" class="hash-link" aria-label="Direct link to Professional Activities" title="Direct link to Professional Activities">​</a></h2>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="conference-participation"><strong>Conference Participation</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#conference-participation" class="hash-link" aria-label="Direct link to conference-participation" title="Direct link to conference-participation">​</a></h3>
-<ul>
-<li>[List conferences attended]</li>
-</ul>
-<hr>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="awards-and-honors">Awards and Honors<a href="https://smiler488.github.io/blog/curriculum-vitae/#awards-and-honors" class="hash-link" aria-label="Direct link to Awards and Honors" title="Direct link to Awards and Honors">​</a></h2>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="academic-awards"><strong>Academic Awards</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#academic-awards" class="hash-link" aria-label="Direct link to academic-awards" title="Direct link to academic-awards">​</a></h3>
-<ul>
-<li>[List scholarships, fellowships, or academic honors]</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="research-grants"><strong>Research Grants</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#research-grants" class="hash-link" aria-label="Direct link to research-grants" title="Direct link to research-grants">​</a></h3>
-<ul>
-<li>[List any research funding received]</li>
-</ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="teaching-assistance"><strong>Teaching Assistance</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-assistance" class="hash-link" aria-label="Direct link to teaching-assistance" title="Direct link to teaching-assistance">​</a></h3>
@@ -347,26 +287,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <p><strong>Mentoring Philosophy:</strong> Emphasize hands-on learning, technical skill development, and integration of computational methods with agricultural research applications.</p>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="innovation--entrepreneurship">Innovation &amp; Entrepreneurship<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation--entrepreneurship" class="hash-link" aria-label="Direct link to Innovation &amp; Entrepreneurship" title="Direct link to Innovation &amp; Entrepreneurship">​</a></h2>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="technology-transfer--commercialization"><strong>Technology Transfer &amp; Commercialization</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#technology-transfer--commercialization" class="hash-link" aria-label="Direct link to technology-transfer--commercialization" title="Direct link to technology-transfer--commercialization">​</a></h3>
-<ul>
-<li><strong>Patent Applications:</strong> 2 provisional patents filed for AI-based phenotyping technologies (US Patent Office)</li>
-<li><strong>Startup Collaboration:</strong> Technical advisor for AgTech startup developing autonomous crop monitoring systems</li>
-<li><strong>Industry Partnerships:</strong> Active collaborations with John Deere, NVIDIA, and Microsoft AI for Good program</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="open-source-leadership"><strong>Open Source Leadership</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-leadership" class="hash-link" aria-label="Direct link to open-source-leadership" title="Direct link to open-source-leadership">​</a></h3>
-<ul>
-<li><strong>AgriAI Ecosystem:</strong> Created and maintain suite of 5+ open-source tools with 2,000+ combined GitHub stars</li>
-<li><strong>Community Building:</strong> Organized international hackathon "AI for Sustainable Agriculture" (200+ participants)</li>
-<li><strong>Technical Mentorship:</strong> Mentor for Google Summer of Code projects in agricultural AI</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="software-and-platform-development"><strong>Software and Platform Development</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#software-and-platform-development" class="hash-link" aria-label="Direct link to software-and-platform-development" title="Direct link to software-and-platform-development">​</a></h3>
-<ul>
-<li><strong>PlantGPT:</strong> Fine-tuned language model for agricultural question-answering (10,000+ users)</li>
-<li><strong>CropVision API:</strong> RESTful service for real-time plant disease detection (99.9% uptime)</li>
-<li><strong>Digital Farm Platform:</strong> End-to-end solution for precision agriculture data management</li>
-<li><strong>NeRF-Plant:</strong> First open-source implementation of neural radiance fields for plant reconstruction</li>
-</ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="open-source-contributions-1"><strong>Open Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions-1" class="hash-link" aria-label="Direct link to open-source-contributions-1" title="Direct link to open-source-contributions-1">​</a></h3>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="open-source-contributions"><strong>Open Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions">​</a></h3>
 <ul>
 <li>
 <p><strong><a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer">Stereo-Vision-Camera-Box</a></strong> | <em>Python, Computer Vision</em><br>
