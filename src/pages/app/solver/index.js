@@ -363,30 +363,10 @@ export default function SolverAppPage() {
                   </button>
                   <button 
                     type="button"
-                    onClick={() => setProxyUrl('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://smiler488githubio.vercel.app/api/solve'))}
+                    onClick={() => setProxyUrl('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://smiler488-github-io.vercel.app/api/solve'))}
                     style={{ padding: '4px 8px', fontSize: 11, background: '#fff2e8', border: '1px solid #ffcc99', borderRadius: 4, cursor: 'pointer' }}
                   >
                     CORS Proxy (AllOrigins)
-                  </button>
-+++++++ REPLACE</div>
-
-<replace_in_file id="h789012345678901234ef29">
-<path>src/pages/app/solver/index.js</path>
-<diff>------- SEARCH
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://cors-anywhere.herokuapp.com/https://smiler488-github-io.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#f0f8e8', border: '1px solid #b3d9b3', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    CORS Proxy (Heroku)
-                  </button>
-=======
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://cors-anywhere.herokuapp.com/https://smiler488githubio.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#f0f8e8', border: '1px solid #b3d9b3', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    CORS Proxy (Heroku)
                   </button>
                   <button 
                     type="button"
