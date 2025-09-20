@@ -377,10 +377,17 @@ export default function SolverAppPage() {
                   </button>
                   <button 
                     type="button"
+                    onClick={() => setProxyUrl('https://smiler488github-3gbqhe0dg-smiler488s-projects.vercel.app/api/solve')}
+                    style={{ padding: '4px 8px', fontSize: 11, background: '#e8f5e8', border: '1px solid #4caf50', borderRadius: 4, cursor: 'pointer' }}
+                  >
+                    New Vercel
+                  </button>
+                  <button 
+                    type="button"
                     onClick={() => setProxyUrl('https://smiler488githubio.vercel.app/api/solve')}
                     style={{ padding: '4px 8px', fontSize: 11, background: '#f8f0ff', border: '1px solid #d9b3ff', borderRadius: 4, cursor: 'pointer' }}
                   >
-                    Direct Vercel
+                    Old Vercel
                   </button>
                 </div>
               </div>
