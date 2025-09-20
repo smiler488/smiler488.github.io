@@ -3,7 +3,7 @@
  * and scoped locally.
  */
 
-.heroBanner {
+ .heroBanner {
   padding: 4rem 0;
   text-align: center;
   position: relative;
@@ -20,4 +20,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* 新增：云朵动画样式 */
+.cloudContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* 不影响页面点击 */
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  top: 20%;  /* 调整云朵的垂直位置 */
+  width: 200px;  /* 云朵宽度，可根据需要调整 */
+  opacity: 0.8;
+  animation: moveClouds 30s linear infinite;
+}
+
+/* 云朵动画：从左向右平滑移动 */
+@keyframes moveClouds {
+  0% {
+    transform: translateX(-250px);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+/* 确保主要内容层级在云朵之上 */
+.container {
+  position: relative;
+  z-index: 1;
 }

@@ -11,7 +11,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Liangchao Deng',
-  tagline: 'PhD in Crop Science',
+  tagline: 'PhD in Crop Science (Interdisciplinary: Mathematics × Computer Science × Plant Phenotyping)',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -19,6 +19,8 @@ const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+  // Explicitly set trailingSlash to avoid GitHub Pages redirect issues
+  trailingSlash: true,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -89,6 +91,12 @@ const config = {
             label: 'Tutorial',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
+         // ✅ 在这里添加 App 跳转
+           {
+            to: "/app",
+            label: "App",
+            position: "left",
+           },
           {
             href: 'https://github.com/smiler488',
             label: 'GitHub',
@@ -100,28 +108,44 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'CN Community',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Bilibili',
+                href: 'https://space.bilibili.com/16062789',
+              },
+              {
+                label: 'Douyin',
+                href: 'https://v.douyin.com/-1moIAdEYpg/ 4@5.com :2pm',
+              },
+              {
+                label: 'Weibo',
+                href: 'https://m.weibo.cn/profile/5283742028',
+              },
+              {
+                label: 'WeChat Offical',
+                href: 'https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'EN Community',
             items: [
               {
-                label: 'Reddit',
-                href: 'https://www.reddit.com/user/smiler488/',
+                label: 'YouTube',
+                href: 'https://www.youtube.com/channel/UCmz7DQ3nEPRxj4rvEQUCvAg',
               },
               {
-                label: 'Linkedin',
-                href: 'https://www.linkedin.com/in/liangchao-deng-7b420b269/',
+                label: 'TikTok',
+                href: 'https://www.tiktok.com/@smiler488tt',
               },
               {
                 label: 'X',
                 href: 'https://x.com/smiler488',
+              },
+              {
+                label: 'Reddit',
+                href: 'https://www.reddit.com/user/smiler488/',
               },
             ],
           },
@@ -129,12 +153,16 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/liangchao-deng-7b420b269/',
               },
               {
-                label: 'TikTok',
-                href: 'https://www.tiktok.com/@smiler488tt',
+                label: 'HuggingFace',
+                href: 'https://huggingface.co/smiler488',
+              },
+              {
+                label: 'Bluesky',
+                href: 'https://bsky.app/profile/smiler488.bsky.social',
               },
             ],
           },

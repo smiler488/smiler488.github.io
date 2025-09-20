@@ -6,7 +6,6 @@ export const Comment = () => {
     <div style={{ paddingTop: 50 }}>
       <Giscus
         id="comments"
-        // 以下部分参考 Giscus 生成的代码填写
         repo="smiler488/smiler488.github.io" 
         repoId="R_kgDOOA7x0w" 
         category="General"

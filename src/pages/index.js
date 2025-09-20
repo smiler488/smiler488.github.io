@@ -1,16 +1,28 @@
-import clsx from 'clsx';
+import React, { useEffect } from "react";
+import Layout from "@theme/Layout";
+import Head from "@docusaurus/Head";
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-
 import Heading from '@theme/Heading';
+import clsx from 'clsx';
 import styles from './index.module.css';
+
+// CloudAnimation 组件：在页面上显示移动云朵
+function CloudAnimation() {
+  return (
+    <div className={styles.cloudContainer}>
+      <img className={styles.cloud} src="/img/cloud.png" alt="Cloud" />
+    </div>
+  );
+}
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      {/* 在头部添加云朵动画 */}
+      <CloudAnimation />
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -20,7 +32,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/blog/curriculum-vitae">
-            Curriculum Vitae - Latest 🧑‍💻
+            Curriculum Vitae - Latest 
           </Link>
         </div>
       </div>

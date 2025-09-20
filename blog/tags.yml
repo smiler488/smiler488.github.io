@@ -32,3 +32,233 @@ curriculum vitae:
   label: Curriculum Vitae
   permalink: /curriculum vitae
   description: Curriculum Vitae tag description
+
+tip:
+  label: Tip
+  permalink: /tip
+  description: Tip tag description
+
+Hunyuan3D:
+  label: Hunyuan3D
+  permalink: /hunyuan3d
+  description: Tencent's 3D generation model
+
+hunyuan3d:
+  label: Hunyuan3D
+  permalink: /hunyuan3d-alt
+  description: Tencent's 3D generation model
+
+3D reconstruction:
+  label: 3D Reconstruction
+  permalink: /3d-reconstruction
+  description: 3D model reconstruction technology
+
+3d reconstruction:
+  label: 3D Reconstruction
+  permalink: /3d-reconstruction-alt
+  description: 3D model reconstruction technology
+
+plant phenotyping:
+  label: Plant Phenotyping
+  permalink: /plant-phenotyping
+  description: Automated plant trait analysis
+
+computer vision:
+  label: Computer Vision
+  permalink: /computer-vision
+  description: Computer vision and image processing
+
+agriculture:
+  label: Agriculture
+  permalink: /agriculture
+  description: Agricultural technology and applications
+
+research:
+  label: Research
+  permalink: /research
+  description: Academic research and publications
+
+LLM:
+  label: LLM
+  permalink: /llm
+  description: Large Language Models
+
+llm:
+  label: LLM
+  permalink: /llm-alt
+  description: Large Language Models
+
+AI:
+  label: AI
+  permalink: /ai
+  description: Artificial Intelligence
+
+ai:
+  label: AI
+  permalink: /ai-alt
+  description: Artificial Intelligence
+
+training:
+  label: Training
+  permalink: /training
+  description: Model training and optimization
+
+fine-tuning:
+  label: Fine-tuning
+  permalink: /fine-tuning
+  description: Model fine-tuning techniques
+
+local deployment:
+  label: Local Deployment
+  permalink: /local-deployment
+  description: Local model deployment
+
+machine learning:
+  label: Machine Learning
+  permalink: /machine-learning
+  description: Machine learning techniques and applications
+
+academic cv:
+  label: Academic CV
+  permalink: /academic-cv
+  description: Academic curriculum vitae
+
+pytorch:
+  label: PyTorch
+  permalink: /pytorch
+  description: PyTorch deep learning framework
+
+PyTorch:
+  label: PyTorch
+  permalink: /pytorch-alt
+  description: PyTorch deep learning framework
+
+deep learning:
+  label: Deep Learning
+  permalink: /deep-learning
+  description: Deep learning techniques and neural networks
+
+neural networks:
+  label: Neural Networks
+  permalink: /neural-networks
+  description: Neural network architectures and implementations
+
+CNN:
+  label: CNN
+  permalink: /cnn
+  description: Convolutional Neural Networks
+
+RNN:
+  label: RNN
+  permalink: /rnn
+  description: Recurrent Neural Networks
+
+transformer:
+  label: Transformer
+  permalink: /transformer
+  description: Transformer architecture and attention mechanisms
+
+NLP:
+  label: NLP
+  permalink: /nlp
+  description: Natural Language Processing
+
+model deployment:
+  label: Model Deployment
+  permalink: /model-deployment
+  description: Machine learning model deployment and optimization
+
+ONNX:
+  label: ONNX
+  permalink: /onnx
+  description: Open Neural Network Exchange format
+
+TensorRT:
+  label: TensorRT
+  permalink: /tensorrt
+  description: NVIDIA TensorRT optimization
+
+quantization:
+  label: Quantization
+  permalink: /quantization
+  description: Model quantization and compression
+
+transfer learning:
+  label: Transfer Learning
+  permalink: /transfer-learning
+  description: Transfer learning techniques
+
+data preprocessing:
+  label: Data Preprocessing
+  permalink: /data-preprocessing
+  description: Data preprocessing and augmentation
+
+optimization:
+  label: Optimization
+  permalink: /optimization
+  description: Model optimization and performance tuning
+
+photosynthesis:
+  label: Photosynthesis
+  permalink: /photosynthesis
+  description: Photosynthesis modeling and simulation
+
+canopy modeling:
+  label: Canopy Modeling
+  permalink: /canopy-modeling
+  description: Plant canopy modeling and analysis
+
+ray tracing:
+  label: Ray Tracing
+  permalink: /ray-tracing
+  description: Ray tracing algorithms and light simulation
+
+SfM:
+  label: SfM
+  permalink: /sfm
+  description: Structure from Motion reconstruction
+
+3D Gaussian Splatting:
+  label: 3D Gaussian Splatting
+  permalink: /3d-gaussian-splatting
+  description: 3D Gaussian Splatting technique
+
+mesh processing:
+  label: Mesh Processing
+  permalink: /mesh-processing
+  description: 3D mesh processing and manipulation
+
+agent deployment:
+  label: Agent Deployment
+  permalink: /agent-deployment
+  description: AI agent deployment and management
+
+Ollama:
+  label: Ollama
+  permalink: /ollama
+  description: Ollama local LLM deployment
+
+Docker:
+  label: Docker
+  permalink: /docker
+  description: Docker containerization
+
+LangChain:
+  label: LangChain
+  permalink: /langchain
+  description: LangChain framework for LLM applications
+
+RAG:
+  label: RAG
+  permalink: /rag
+  description: Retrieval-Augmented Generation
+
+deployment:
+  label: Deployment
+  permalink: /deployment
+  description: Software deployment and infrastructure
+
+local development:
+  label: Local Development
+  permalink: /local-development
+  description: Local development environments and tools
