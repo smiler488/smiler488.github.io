@@ -21,7 +21,6 @@
     "cannon-es": "^0.20.0",
     "chart.js": "^4.4.8",
     "clsx": "^2.0.0",
-
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -29,7 +28,9 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.8.1",
-    "@docusaurus/types": "^3.8.1"
+    "@docusaurus/types": "^3.8.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   },
   "browserslist": {
     "production": [
