@@ -259,45 +259,85 @@ export default function SolverAppPage() {
     setIsSelecting(false);
   }
 
-  // 处理选择框拖拽
+  // 处理选择框拖拽 - 完全重写以提高稳定性
   function handleSelectionDrag(e, type) {
     if (!screenshotData || !selectionBox) return;
     
-    const rect = e.currentTarget.getBoundingClientRect();
-    const scaleX = screenshotData.width / rect.width;
-    const scaleY = screenshotData.height / rect.height;
+    // 阻止默认行为和冒泡，防止干扰
+    e.preventDefault();
+    e.stopPropagation();
     
-    const startX = (e.clientX - rect.left) * scaleX;
-    const startY = (e.clientY - rect.top) * scaleY;
+    // 获取图像容器的位置和尺寸信息
+    const containerRect = e.currentTarget.getBoundingClientRect();
+    
+    // 计算图像的实际尺寸与显示尺寸的比例
+    const scaleX = screenshotData.width / containerRect.width;
+    const scaleY = screenshotData.height / containerRect.height;
+    
+    // 保存初始状态，避免在拖动过程中使用可能变化的状态
+    const initialBox = JSON.parse(JSON.stringify(selectionBox));
+    const startX = e.clientX;
+    const startY = e.clientY;
+    
+    // 创建一个引用，用于存储最新的选择框状态
+    // 这有助于避免React状态更新延迟导致的跳动
+    const currentBoxRef = { ...initialBox };
     
     const handleMouseMove = (moveEvent) => {
-      const currentX = (moveEvent.clientX - rect.left) * scaleX;
-      const currentY = (moveEvent.clientY - rect.top) * scaleY;
+      // 阻止默认行为，防止选择文本等
+      moveEvent.preventDefault();
       
-      const deltaX = currentX - startX;
-      const deltaY = currentY - startY;
+      // 计算鼠标移动的像素距离
+      const deltaPixelX = moveEvent.clientX - startX;
+      const deltaPixelY = moveEvent.clientY - startY;
       
-      setSelectionBox(prev => {
-        if (type === 'move') {
-          const newX = Math.max(0, Math.min(screenshotData.width - prev.width, prev.x + deltaX));
-          const newY = Math.max(0, Math.min(screenshotData.height - prev.height, prev.y + deltaY));
-          return { ...prev, x: newX, y: newY };
-        } else if (type === 'resize') {
-          const newWidth = Math.max(50, Math.min(screenshotData.width - prev.x, prev.width + deltaX));
-          const newHeight = Math.max(50, Math.min(screenshotData.height - prev.y, prev.height + deltaY));
-          return { ...prev, width: newWidth, height: newHeight };
-        }
-        return prev;
-      });
+      // 将像素距离转换为图像坐标系中的距离
+      const deltaX = deltaPixelX * scaleX;
+      const deltaY = deltaPixelY * scaleY;
+      
+      // 根据操作类型计算新的选择框
+      let newBox;
+      
+      if (type === 'move') {
+        // 移动操作 - 更新位置但保持大小不变
+        const newX = Math.max(0, Math.min(screenshotData.width - initialBox.width, initialBox.x + deltaX));
+        const newY = Math.max(0, Math.min(screenshotData.height - initialBox.height, initialBox.y + deltaY));
+        newBox = { 
+          ...initialBox, 
+          x: newX, 
+          y: newY 
+        };
+      } else if (type === 'resize') {
+        // 调整大小操作 - 更新宽度和高度
+        // 确保最小尺寸并且不超出图像边界
+        const newWidth = Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX));
+        const newHeight = Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY));
+        newBox = { 
+          ...initialBox, 
+          width: newWidth, 
+          height: newHeight 
+        };
+      }
+      
+      // 更新引用中的当前状态
+      Object.assign(currentBoxRef, newBox);
+      
+      // 使用函数式更新确保我们总是基于最新状态进行更新
+      setSelectionBox(newBox);
     };
     
     const handleMouseUp = () => {
+      // 清理事件监听器
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mouseleave', handleMouseUp);
     };
     
-    document.addEventListener('mousemove', handleMouseMove);
+    // 添加事件监听器到document而不是组件
+    // 这样即使鼠标移出组件区域也能继续跟踪
+    document.addEventListener('mousemove', handleMouseMove, { passive: false });
     document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mouseleave', handleMouseUp);
   }
 
   // 拍照功能
@@ -444,7 +484,7 @@ export default function SolverAppPage() {
                     )}
                   </div>
                   <div style={{ marginTop: 8, color: '#666', fontSize: 12 }}>
-                    🔴 Red box shows selected area. Drag to move, drag corner to resize.
+                     Red box shows selected area. Drag to move, drag corner to resize.
                   </div>
                   <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
                     <button 
@@ -452,14 +492,14 @@ export default function SolverAppPage() {
                       disabled={busy} 
                       style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
                     >
-                      {busy ? 'Processing…' : '✅ Analyze Selected Area'}
+                      {busy ? 'Processing…' : 'Analyze Selected Area'}
                     </button>
                     <button 
                       onClick={handleCancelSelection} 
                       disabled={busy}
                       style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
                     >
-                      ❌ Cancel
+                       Cancel
                     </button>
                   </div>
                 </>
