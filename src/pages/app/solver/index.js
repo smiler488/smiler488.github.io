@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+
+ import React, { useEffect, useRef, useState } from 'react';
 
 function useCamera() {
   const videoRef = useRef(null);
@@ -56,14 +57,14 @@ async function postJson(url, json) {
 export default function SolverAppPage() {
   const { videoRef, ready, error } = useCamera();
 
-  // 状态管理
-  const [mode, setMode] = useState('proxy'); // 'proxy' 或 'direct'
+  // State management
+  const [mode, setMode] = useState('proxy'); // 'proxy' or 'direct'
   const [proxyUrl, setProxyUrl] = useState(() => {
     // 自动检测环境并设置默认API地址
     if (typeof window !== 'undefined') {
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       if (isLocalhost) {
-        return 'http://localhost:3002/api/solve'; // 本地开发
+        return 'http://localhost:3000/api/solve'; // 本地开发
       } else {
         // 生产环境默认为空，需要用户手动配置
         return '';
@@ -73,16 +74,81 @@ export default function SolverAppPage() {
   });
   const [secretId, setSecretId] = useState('');
   const [secretKey, setSecretKey] = useState('');
-  const [question, setQuestion] = useState('Please analyze the problem in the image and provide a step-by-step solution.');
+  // Preset prompt list
+  const promptPresets = [
+    { 
+      id: 'default', 
+      name: 'Default Analysis', 
+      prompt: 'Please analyze the problem in the image and provide a step-by-step solution.',
+      description: 'General analysis for most problems'
+    },
+    { 
+      id: 'math', 
+      name: 'Math Problem Solver', 
+      prompt: 'Please analyze the mathematical problem in the image and provide detailed solution steps and the final answer. If there are multiple approaches, show the most elegant method.',
+      description: 'For math equations, geometry problems, etc.'
+    },
+    { 
+      id: 'plant', 
+      name: 'Plant Identification', 
+      prompt: 'Please identify the plant in the image. Provide its scientific name, common names, growth habits, native regions, and any special uses (medicinal, ornamental, etc.). For common plants, include care tips.',
+      description: 'Identify plant species and related information'
+    },
+    { 
+      id: 'code', 
+      name: 'Code Analysis', 
+      prompt: 'Please analyze the code in the image. Explain its functionality, identify potential issues or bugs, and suggest optimizations. If there are obvious errors, provide corrected code.',
+      description: 'Analyze code issues and provide fixes'
+    },
+    { 
+      id: 'translation', 
+      name: 'Academic Translation', 
+      prompt: 'Please translate the academic text in the image to English, maintaining accuracy of technical terms. The translation should be fluent and natural while preserving the academic style.',
+      description: 'Professional translation of academic literature'
+    },
+    { 
+      id: 'physics', 
+      name: 'Physics Problem Solver', 
+      prompt: 'Please analyze the physics problem in the image. Explain the relevant physics concepts and principles, then provide detailed solution steps and the final answer. For formula derivations, clearly show each step.',
+      description: 'Detailed analysis of physics problems'
+    },
+    { 
+      id: 'chemistry', 
+      name: 'Chemistry Problem Solver', 
+      prompt: 'Please analyze the chemistry problem in the image. Explain the relevant chemical concepts and principles, provide chemical equations, balanced equations or reaction mechanisms, then give detailed solution steps and the final answer.',
+      description: 'Detailed analysis of chemistry problems'
+    },
+    { 
+      id: 'english', 
+      name: 'English Learning', 
+      prompt: 'Please analyze the English text in the image. Explain its grammatical structure, key vocabulary, and expressions. If it\'s an exercise, provide the correct answers with detailed explanations. For difficult vocabulary, provide definitions and example sentences.',
+      description: 'English learning and exercise analysis'
+    },
+    { 
+      id: 'ocr', 
+      name: 'Text Extraction', 
+      prompt: 'Please extract all text content from the image, maintaining the original paragraph structure and format. If there are tables, try to preserve the table structure. The extracted text should be accurate.',
+      description: 'Extract text content from images'
+    },
+    { 
+      id: 'custom', 
+      name: 'Custom', 
+      prompt: '',
+      description: 'Custom prompt'
+    }
+  ];
+
+  const [selectedPreset, setSelectedPreset] = useState('default');
+  const [question, setQuestion] = useState(promptPresets[0].prompt);
   const [model, setModel] = useState('hunyuan-vision');
   const [respText, setRespText] = useState('');
   const [busy, setBusy] = useState(false);
   const [lastSizeKB, setLastSizeKB] = useState(null);
   const [captureMode, setCaptureMode] = useState('camera'); // 'camera', 'screenshot', 'text'
-  const [textInput, setTextInput] = useState(''); // 文本输入
-  const [screenshotData, setScreenshotData] = useState(null); // 截图数据
-  const [selectionBox, setSelectionBox] = useState(null); // 选择框
-  const [isSelecting, setIsSelecting] = useState(false); // 是否正在选择
+  const [textInput, setTextInput] = useState(''); // Text input
+  const [screenshotData, setScreenshotData] = useState(null); // Screenshot data
+  const [selectionBox, setSelectionBox] = useState(null); // Selection box
+  const [isSelecting, setIsSelecting] = useState(false); // Whether selecting
 
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
@@ -104,7 +170,22 @@ export default function SolverAppPage() {
         throw new Error(`Request failed ${response.status}: ${t}`);
       }
       const data = await response.json().catch(async () => ({ raw: await response.text() }));
-      setRespText(JSON.stringify(data, null, 2));
+      
+      // Format the response for better readability
+      if (data.Response && data.Response.Choices && data.Response.Choices.length > 0) {
+        const aiMessage = data.Response.Choices[0].Message?.Content || '';
+        const usage = data.Response.Usage || {};
+        
+        // Create a formatted display with the most important information
+        const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.TotalTokens || 'N/A'} (Prompt: ${usage.PromptTokens || 'N/A'}, Completion: ${usage.CompletionTokens || 'N/A'})`;
+        setRespText(formattedResponse);
+        
+        // Also store the full response data in case it's needed
+        window.lastFullResponse = data;
+      } else {
+        // Fallback to showing the full JSON if we can't extract the message
+        setRespText(JSON.stringify(data, null, 2));
+      }
     } catch (e) {
       if (e.name === 'TypeError' && e.message.includes('fetch')) {
         throw new Error(`Network error: Cannot connect to ${proxyUrl}. Please check the proxy URL or your network connection.`);
@@ -119,8 +200,24 @@ export default function SolverAppPage() {
     await sendToAI(payload);
   }
 
-  // 发送文本到AI
+  // Send text to AI
   async function sendTextToAI(text) {
+    // Check if it's a special command
+    if (text.startsWith('/preset ')) {
+      const presetName = text.substring(8).trim().toLowerCase();
+      const preset = promptPresets.find(p => p.id.toLowerCase() === presetName || p.name.toLowerCase() === presetName);
+      
+      if (preset) {
+        setSelectedPreset(preset.id);
+        setQuestion(preset.prompt);
+        setRespText(`Switched to preset: ${preset.name}\n\nPreset prompt: ${preset.prompt}`);
+        return;
+      } else {
+        setRespText(`Preset "${presetName}" not found. Available presets: ${promptPresets.map(p => p.name).join(', ')}`);
+        return;
+      }
+    }
+    
     const payload = { question: text, model: 'hunyuan-lite' };
     await sendToAI(payload);
   }
@@ -368,6 +465,7 @@ export default function SolverAppPage() {
     <div style={{ maxWidth: 920, margin: '0 auto', padding: '24px' }}>
       <h1>AI Solver (Hunyuan)</h1>
       <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
+      <p style={{ fontSize: 14, color: '#666' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 
       <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
@@ -403,7 +501,7 @@ export default function SolverAppPage() {
             </label>
           </fieldset>
 
-          {/* 摄像头预览 */}
+          {/* Camera Preview */}
           {captureMode === 'camera' && (
             <div>
               <video ref={videoRef} autoPlay playsInline style={{ width: 320, background: '#000', borderRadius: 8 }} />
@@ -416,7 +514,7 @@ export default function SolverAppPage() {
             </div>
           )}
 
-          {/* 截图模式 */}
+          {/* Screenshot Mode */}
           {captureMode === 'screenshot' && (
             <div>
               {!isSelecting ? (
@@ -507,7 +605,7 @@ export default function SolverAppPage() {
             </div>
           )}
 
-          {/* 文本提问模式 */}
+          {/* Text Question Mode */}
           {captureMode === 'text' && (
             <div>
               <div style={{ width: 320, minHeight: 240, background: '#f9f9f9', borderRadius: 8, padding: 16, border: '1px solid #ddd' }}>
@@ -515,7 +613,7 @@ export default function SolverAppPage() {
                 <textarea 
                   value={textInput}
                   onChange={e => setTextInput(e.target.value)}
-                  placeholder="Please enter your question, for example:&#10;• Explain the basic principles of quantum mechanics&#10;• Write a Python sorting algorithm&#10;• What is 1+1?"
+                  placeholder="Please enter your question, for example:&#10;• Explain the basic principles of quantum mechanics&#10;• Write a Python sorting algorithm&#10;• Type /preset to see available presets"
                   style={{ 
                     width: '100%', 
                     height: 160, 
@@ -572,41 +670,6 @@ export default function SolverAppPage() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   <button 
                     type="button"
-                    onClick={() => setProxyUrl('http://localhost:3001/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#e8f4fd', border: '1px solid #b3d9ff', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    Local Dev
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://smiler488-github-io.vercel.app/api/solve'))}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#fff2e8', border: '1px solid #ffcc99', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    CORS Proxy (AllOrigins)
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://cors-anywhere.herokuapp.com/https://smiler488-github-io.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#f0f8e8', border: '1px solid #b3d9b3', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    CORS Proxy (Heroku)
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('http://localhost:3000/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#e8f4fd', border: '1px solid #b3d9ff', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    Local Server
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://smiler488github-3q35x1gqq-smiler488s-projects.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#e8f5e8', border: '1px solid #4caf50', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    Latest Vercel
-                  </button>
-                  <button 
-                    type="button"
                     onClick={() => setProxyUrl('https://smiler488githubio.vercel.app/api/solve')}
                     style={{ padding: '4px 8px', fontSize: 11, background: '#f8f0ff', border: '1px solid #d9b3ff', borderRadius: 4, cursor: 'pointer' }}
                   >
@@ -643,8 +706,43 @@ export default function SolverAppPage() {
             <label>Model<br />
               <input value={model} onChange={e => setModel(e.target.value)} style={{ width: '100%' }} />
             </label>
+            
+            {/* Prompt预设选择 */}
+            <div style={{ marginTop: 8 }}>
+              <label>Prompt预设<br />
+                <select 
+                  value={selectedPreset} 
+                  onChange={(e) => {
+                    setSelectedPreset(e.target.value);
+                    const preset = promptPresets.find(p => p.id === e.target.value);
+                    if (preset && preset.id !== 'custom') {
+                      setQuestion(preset.prompt);
+                    }
+                  }}
+                  style={{ width: '100%', padding: '4px 8px', borderRadius: 4, border: '1px solid #ccc' }}
+                >
+                  {promptPresets.map(preset => (
+                    <option key={preset.id} value={preset.id}>{preset.name}</option>
+                  ))}
+                </select>
+              </label>
+              <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
+                {promptPresets.find(p => p.id === selectedPreset)?.description || ''}
+              </div>
+            </div>
+            
             <label style={{ display: 'block', marginTop: 8 }}>Question (for image mode)<br />
-              <textarea value={question} onChange={e => setQuestion(e.target.value)} rows={3} style={{ width: '100%' }} />
+              <textarea 
+                value={question} 
+                onChange={e => {
+                  setQuestion(e.target.value);
+                  if (selectedPreset !== 'custom') {
+                    setSelectedPreset('custom');
+                  }
+                }} 
+                rows={3} 
+                style={{ width: '100%' }} 
+              />
             </label>
           </fieldset>
         </div>
@@ -652,7 +750,41 @@ export default function SolverAppPage() {
 
       <div style={{ marginTop: 16 }}>
         <h3>Response</h3>
-        <pre style={{ whiteSpace: 'pre-wrap', background: '#111', color: '#0f0', padding: 12, borderRadius: 8, maxHeight: 360, overflow: 'auto' }}>{respText}</pre>
+        <div style={{ 
+          whiteSpace: 'pre-wrap', 
+          background: '#f8f9fa', 
+          color: '#212529', 
+          padding: 16, 
+          borderRadius: 8, 
+          maxHeight: 400, 
+          overflow: 'auto',
+          border: '1px solid #dee2e6',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          fontSize: '16px',
+          lineHeight: 1.5
+        }}>
+          {respText}
+        </div>
+        <div style={{ marginTop: 8, textAlign: 'right' }}>
+          <button 
+            onClick={() => {
+              if (window.lastFullResponse) {
+                setRespText(JSON.stringify(window.lastFullResponse, null, 2));
+              }
+            }}
+            style={{ 
+              padding: '4px 8px', 
+              fontSize: 12, 
+              background: 'transparent', 
+              border: '1px solid #ccc', 
+              borderRadius: 4, 
+              cursor: 'pointer',
+              color: '#666'
+            }}
+          >
+            Show Raw JSON
+          </button>
+        </div>
       </div>
     </div>
   );
