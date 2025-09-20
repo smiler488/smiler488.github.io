@@ -3,7 +3,7 @@ const cors = require('cors');
 const crypto = require('crypto');
 
 const app = express();
-const port = 3002;
+const port = 3001;
 
 // 启用 CORS
 app.use(cors({

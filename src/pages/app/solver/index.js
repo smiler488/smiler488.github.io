@@ -356,7 +356,7 @@ export default function SolverAppPage() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   <button 
                     type="button"
-                    onClick={() => setProxyUrl('http://localhost:3002/api/solve')}
+                    onClick={() => setProxyUrl('http://localhost:3001/api/solve')}
                     style={{ padding: '4px 8px', fontSize: 11, background: '#e8f4fd', border: '1px solid #b3d9ff', borderRadius: 4, cursor: 'pointer' }}
                   >
                     Local Dev
@@ -377,7 +377,7 @@ export default function SolverAppPage() {
                   </button>
                   <button 
                     type="button"
-                    onClick={() => setProxyUrl('http://localhost:3002/api/solve')}
+                    onClick={() => setProxyUrl('http://localhost:3000/api/solve')}
                     style={{ padding: '4px 8px', fontSize: 11, background: '#e8f4fd', border: '1px solid #b3d9ff', borderRadius: 4, cursor: 'pointer' }}
                   >
                     Local Server
