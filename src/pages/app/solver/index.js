@@ -89,6 +89,12 @@ export default function SolverAppPage() {
       description: 'For math equations, geometry problems, etc.'
     },
     { 
+      id: 'lab_safety', 
+      name: 'Laboratory Safety Officer', 
+      prompt: 'As a laboratory safety officer, please analyze the safety concerns in this image. Identify potential hazards, safety violations, or improper procedures. Provide specific recommendations for correcting these issues according to standard laboratory safety protocols. If PPE (Personal Protective Equipment) is visible, evaluate if it\'s appropriate and properly worn. For chemical or biological hazards, include proper handling and disposal procedures.',
+      description: 'Safety assessment for laboratory environments'
+    },
+    { 
       id: 'plant', 
       name: 'Plant Identification', 
       prompt: 'Please identify the plant in the image. Provide its scientific name, common names, growth habits, native regions, and any special uses (medicinal, ornamental, etc.). For common plants, include care tips.',
@@ -709,7 +715,7 @@ export default function SolverAppPage() {
             
             {/* Prompt预设选择 */}
             <div style={{ marginTop: 8 }}>
-              <label>Prompt预设<br />
+              <label>PromptPreset<br />
                 <select 
                   value={selectedPreset} 
                   onChange={(e) => {
