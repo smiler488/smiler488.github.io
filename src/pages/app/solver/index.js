@@ -80,6 +80,9 @@ export default function SolverAppPage() {
   const [lastSizeKB, setLastSizeKB] = useState(null);
   const [captureMode, setCaptureMode] = useState('camera'); // 'camera', 'screenshot', 'text'
   const [textInput, setTextInput] = useState(''); // 文本输入
+  const [screenshotData, setScreenshotData] = useState(null); // 截图数据
+  const [selectionBox, setSelectionBox] = useState(null); // 选择框
+  const [isSelecting, setIsSelecting] = useState(false); // 是否正在选择
 
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
@@ -140,7 +143,7 @@ export default function SolverAppPage() {
     }
   }
 
-  // 截图功能
+  // 截图功能 - 第一步：捕获整个屏幕
   async function handleScreenshot() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
       setRespText('Error: The browser does not support screen capture');
@@ -171,8 +174,59 @@ export default function SolverAppPage() {
 
       stream.getTracks().forEach(track => track.stop());
 
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      
+      // 保存截图数据，进入选择模式
+      setScreenshotData({
+        dataUrl,
+        width: canvas.width,
+        height: canvas.height,
+        canvas
+      });
+      
+      // 初始化选择框（默认选择中间区域）
+      const defaultSize = Math.min(canvas.width, canvas.height) * 0.5;
+      setSelectionBox({
+        x: (canvas.width - defaultSize) / 2,
+        y: (canvas.height - defaultSize) / 2,
+        width: defaultSize,
+        height: defaultSize
+      });
+      
+      setIsSelecting(true);
+
+    } catch (e) {
+      if (e.name === 'NotAllowedError') {
+        setRespText('Error: The user canceled screen sharing permission');
+      } else {
+        setRespText('Error: ' + (e?.message || String(e)));
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // 确认选择区域并发送给AI
+  async function handleConfirmSelection() {
+    if (!screenshotData || !selectionBox) return;
+    
+    setBusy(true);
+    try {
+      // 创建新的canvas来裁剪选中区域
+      const cropCanvas = document.createElement('canvas');
+      cropCanvas.width = selectionBox.width;
+      cropCanvas.height = selectionBox.height;
+      const cropCtx = cropCanvas.getContext('2d');
+      
+      // 从原始canvas裁剪选中区域
+      cropCtx.drawImage(
+        screenshotData.canvas,
+        selectionBox.x, selectionBox.y, selectionBox.width, selectionBox.height,
+        0, 0, selectionBox.width, selectionBox.height
+      );
+      
       const blob = await new Promise((resolve) => 
-        canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.85)
+        cropCanvas.toBlob((b) => resolve(b), 'image/jpeg', 0.85)
       );
       
       setLastSizeKB(Math.round(blob.size / 1024));
@@ -185,16 +239,65 @@ export default function SolverAppPage() {
       const base64 = String(dataUrl).split(',')[1];
 
       await sendImageToAI(base64);
+      
+      // 清理状态
+      setScreenshotData(null);
+      setSelectionBox(null);
+      setIsSelecting(false);
 
     } catch (e) {
-      if (e.name === 'NotAllowedError') {
-        setRespText('Error: The user canceled screen sharing permission');
-      } else {
-        setRespText('Error: ' + (e?.message || String(e)));
-      }
+      setRespText('Error: ' + (e?.message || String(e)));
     } finally {
       setBusy(false);
     }
+  }
+
+  // 取消选择
+  function handleCancelSelection() {
+    setScreenshotData(null);
+    setSelectionBox(null);
+    setIsSelecting(false);
+  }
+
+  // 处理选择框拖拽
+  function handleSelectionDrag(e, type) {
+    if (!screenshotData || !selectionBox) return;
+    
+    const rect = e.currentTarget.getBoundingClientRect();
+    const scaleX = screenshotData.width / rect.width;
+    const scaleY = screenshotData.height / rect.height;
+    
+    const startX = (e.clientX - rect.left) * scaleX;
+    const startY = (e.clientY - rect.top) * scaleY;
+    
+    const handleMouseMove = (moveEvent) => {
+      const currentX = (moveEvent.clientX - rect.left) * scaleX;
+      const currentY = (moveEvent.clientY - rect.top) * scaleY;
+      
+      const deltaX = currentX - startX;
+      const deltaY = currentY - startY;
+      
+      setSelectionBox(prev => {
+        if (type === 'move') {
+          const newX = Math.max(0, Math.min(screenshotData.width - prev.width, prev.x + deltaX));
+          const newY = Math.max(0, Math.min(screenshotData.height - prev.height, prev.y + deltaY));
+          return { ...prev, x: newX, y: newY };
+        } else if (type === 'resize') {
+          const newWidth = Math.max(50, Math.min(screenshotData.width - prev.x, prev.width + deltaX));
+          const newHeight = Math.max(50, Math.min(screenshotData.height - prev.y, prev.height + deltaY));
+          return { ...prev, width: newWidth, height: newHeight };
+        }
+        return prev;
+      });
+    };
+    
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+    
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   }
 
   // 拍照功能
@@ -276,18 +379,91 @@ export default function SolverAppPage() {
           {/* 截图模式 */}
           {captureMode === 'screenshot' && (
             <div>
-              <div style={{ width: 320, height: 240, background: '#f5f5f5', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #ccc' }}>
-                <div style={{ textAlign: 'center', color: '#666' }}>
-                  <div style={{ fontSize: 48, marginBottom: 8 }}> </div>
-                  <div>Click the button below to start screenshot</div>
-                </div>
-              </div>
-              <div style={{ marginTop: 8, color: '#666' }}>
-                Screenshot mode: the entire screen will be captured
-              </div>
-              <button onClick={handleScreenshot} disabled={busy} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
-                {busy ? 'Processing…' : ' Capture Screen and Solve'}
-              </button>
+              {!isSelecting ? (
+                // 初始状态 - 显示截图按钮
+                <>
+                  <div style={{ width: 320, height: 240, background: '#f5f5f5', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #ccc' }}>
+                    <div style={{ textAlign: 'center', color: '#666' }}>
+                      <div style={{ fontSize: 48, marginBottom: 8 }}> </div>
+                      <div>Click the button below to start screenshot</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: 8, color: '#666' }}>
+                    Screenshot mode: You can select a specific area after capturing
+                  </div>
+                  <button onClick={handleScreenshot} disabled={busy} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
+                    {busy ? 'Processing…' : ' Capture Screen'}
+                  </button>
+                </>
+              ) : (
+                // 选择状态 - 显示截图和选择框
+                <>
+                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid #007bff', borderRadius: 8, overflow: 'hidden' }}>
+                    <img 
+                      src={screenshotData?.dataUrl} 
+                      alt="Screenshot" 
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      onMouseDown={(e) => handleSelectionDrag(e, 'move')}
+                    />
+                    {selectionBox && screenshotData && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: `${(selectionBox.x / screenshotData.width) * 100}%`,
+                          top: `${(selectionBox.y / screenshotData.height) * 100}%`,
+                          width: `${(selectionBox.width / screenshotData.width) * 100}%`,
+                          height: `${(selectionBox.height / screenshotData.height) * 100}%`,
+                          border: '2px solid #ff4444',
+                          backgroundColor: 'rgba(255, 68, 68, 0.1)',
+                          cursor: 'move',
+                          boxSizing: 'border-box'
+                        }}
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                          handleSelectionDrag(e, 'move');
+                        }}
+                      >
+                        {/* 右下角调整大小的手柄 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            right: -4,
+                            bottom: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#ff4444',
+                            cursor: 'se-resize',
+                            borderRadius: '50%'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize');
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ marginTop: 8, color: '#666', fontSize: 12 }}>
+                    🔴 Red box shows selected area. Drag to move, drag corner to resize.
+                  </div>
+                  <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+                    <button 
+                      onClick={handleConfirmSelection} 
+                      disabled={busy} 
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                    >
+                      {busy ? 'Processing…' : '✅ Analyze Selected Area'}
+                    </button>
+                    <button 
+                      onClick={handleCancelSelection} 
+                      disabled={busy}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                    >
+                      ❌ Cancel
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
