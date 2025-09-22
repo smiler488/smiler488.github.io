@@ -134,10 +134,10 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
             <pubDate>Fri, 28 Feb 2025 11:30:22 GMT</pubDate>
             <description><![CDATA[Personal Information]]></description>
             <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="personal-information">Personal Information<a href="https://smiler488.github.io/blog/curriculum-vitae/#personal-information" class="hash-link" aria-label="Direct link to Personal Information" title="Direct link to Personal Information">​</a></h2>
-<p><strong>Liangchao Deng</strong> (邓良超) <button class="speechButton_B_OT" title="Click to hear pronunciation" aria-label="Pronounce 邓良超">🔊</button><br>
-<!-- -->Ph.D. Candidate in Crop Science<br>
-<!-- -->College of Agriculture, Shihezi University<br>
-<!-- -->Shihezi, Xinjiang 832003, China</p>
+<p><strong>Liangchao Deng</strong> (邓良超) <code>&lt;SpeechButton text="邓良超" fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)" /&gt;</code>
+Ph.D. Candidate in Crop Science
+College of Agriculture, Shihezi University
+Shihezi, Xinjiang 832003, China</p>
 <p><strong>Contact Information:</strong></p>
 <ul>
 <li><strong>Institutional Email:</strong> <a href="mailto:liangchaodeng@stu.shzu.edu.cn" target="_blank" rel="noopener noreferrer">liangchaodeng@stu.shzu.edu.cn</a></li>
@@ -152,15 +152,13 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 </ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="education">Education<a href="https://smiler488.github.io/blog/curriculum-vitae/#education" class="hash-link" aria-label="Direct link to Education" title="Direct link to Education">​</a></h2>
-<p><strong>Ph.D. in Crop Science</strong> | <em>2021 – Present</em><br>
-<!-- -->Shihezi University, Xinjiang, China</p>
+<p><strong>Ph.D. in Crop Science</strong> | <em>2021 – Present</em>Shihezi University, Xinjiang, China</p>
 <ul>
 <li><strong>Supervisors:</strong> Prof. Yali Zhang &amp; Dr. Qingfeng Song</li>
 <li><strong>Dissertation Topic:</strong> AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Precision Agriculture</li>
 <li><strong>Expected Graduation:</strong> 2026</li>
 </ul>
-<p><strong>B.Sc. in Information and Computational Science</strong> | <em>2016 – 2021</em><br>
-<!-- -->Shihezi University, Xinjiang, China</p>
+<p><strong>B.Sc. in Information and Computational Science</strong> | <em>2016 – 2021</em>Shihezi University, Xinjiang, China</p>
 <ul>
 <li><strong>Thesis:</strong> Numerical Methods for Agricultural Data Analysis</li>
 </ul>
@@ -241,18 +239,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="publications--research-output">Publications &amp; Research Output<a href="https://smiler488.github.io/blog/curriculum-vitae/#publications--research-output" class="hash-link" aria-label="Direct link to Publications &amp; Research Output" title="Direct link to Publications &amp; Research Output">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="high-impact-manuscripts-in-preparation"><strong>High-Impact Manuscripts in Preparation</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#high-impact-manuscripts-in-preparation" class="hash-link" aria-label="Direct link to high-impact-manuscripts-in-preparation" title="Direct link to high-impact-manuscripts-in-preparation">​</a></h3>
 <ol>
-<li>
-<p><strong>Deng, L.</strong>, Yu, L.X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X-G. (2025). "Generative AI for Agricultural Phenotyping: A Novel Text-to-3D Framework for Rapid Plant Architecture Synthesis." <em>Target: Nature Machine Intelligence</em> (Under review)</p>
-</li>
-<li>
-<p><strong>Deng, L.</strong>, Zhang, Y., Song, Q., Zhu, X-G., et al. (2025). "Neural Radiance Fields for High-Fidelity Plant Reconstruction: Bridging Computer Graphics and Agricultural Science." <em>Target: Computer Vision and Pattern Recognition (CVPR 2025)</em> (Manuscript in preparation)</p>
-</li>
-<li>
-<p><strong>Deng, L.</strong>, Zhang, Y., Song, Q., Zhu, X-G., et al. (2025). "Foundation Models for Precision Agriculture: Large Language Model Integration in Crop Phenotyping Workflows." <em>Target: Science Robotics</em> (Data analysis in progress)</p>
-</li>
-<li>
-<p><strong>Deng, L.</strong>, et al. (2025). "Real-Time Digital Twins for Climate-Smart Agriculture: A Multimodal AI Approach." <em>Target: Nature Food</em> (Conceptual framework completed)</p>
-</li>
+<li>•Deng,L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu,X-G. (2025). Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools. (Plant phenomics, Under major revision)</li>
 </ol>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience">​</a></h2>
@@ -262,46 +249,23 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="student-mentoring"><strong>Student Mentoring</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#student-mentoring" class="hash-link" aria-label="Direct link to student-mentoring" title="Direct link to student-mentoring">​</a></h3>
 <ul>
-<li>
-<p><strong>Yu Jingxuan</strong> | <em>Undergraduate Research Assistant</em> | <em>2023-2024</em><br>
-<strong>Project:</strong> "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"<br>
-<strong>Supervision:</strong> Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping<br>
-<strong>Outcome:</strong> Student gained proficiency in 3D modeling and agricultural data analysis</p>
-</li>
-<li>
-<p><strong>Zhang Rongze</strong> | <em>Undergraduate Research Assistant</em> | <em>2023-2024</em><br>
-<strong>Project:</strong> "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"<br>
-<strong>Supervision:</strong> Mentored in computer vision techniques and plant architecture analysis<br>
-<strong>Outcome:</strong> Contributed to automated phenotyping workflow development</p>
-</li>
-<li>
-<p><strong>Xie Hejiang</strong> | <em>Undergraduate Research Assistant</em> | <em>2022-2023</em><br>
-<strong>Project:</strong> "Cotton Yield Response Analysis Under Different Nitrogen Treatment Regimes"<br>
-<strong>Supervision:</strong> Trained in experimental design, statistical analysis, and agricultural data interpretation<br>
-<strong>Outcome:</strong> Results contributed to nitrogen optimization research for sustainable cotton production</p>
-</li>
+<li><strong>Yu Jingxuan</strong> | <em>Undergraduate Research Assistant</em> | <em>2023-2024</em><strong>Project:</strong> "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"<strong>Supervision:</strong> Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping<strong>Outcome:</strong> Student gained proficiency in 3D modeling and agricultural data analysis</li>
+<li><strong>Zhang Rongze</strong> | <em>Undergraduate Research Assistant</em> | <em>2023-2024</em><strong>Project:</strong> "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"<strong>Supervision:</strong> Mentored in computer vision techniques and plant architecture analysis<strong>Outcome:</strong> Contributed to automated phenotyping workflow development</li>
+<li><strong>Xie Hejiang</strong> | <em>Undergraduate Research Assistant</em> | <em>2022-2023</em>
+<strong>Project:</strong> "Cotton Yield Response Analysis Under Different Nitrogen Treatment Regimes"
+<strong>Supervision:</strong> Trained in experimental design, statistical analysis, and agricultural data interpretation
+<strong>Outcome:</strong> Results contributed to nitrogen optimization research for sustainable cotton production</li>
 </ul>
 <p><strong>Mentoring Philosophy:</strong> Emphasize hands-on learning, technical skill development, and integration of computational methods with agricultural research applications.</p>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="innovation--entrepreneurship">Innovation &amp; Entrepreneurship<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation--entrepreneurship" class="hash-link" aria-label="Direct link to Innovation &amp; Entrepreneurship" title="Direct link to Innovation &amp; Entrepreneurship">​</a></h2>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="open-source-contributions"><strong>Open Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions">​</a></h3>
 <ul>
-<li>
-<p><strong><a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer">Stereo-Vision-Camera-Box</a></strong> | <em>Python, Computer Vision</em><br>
-<!-- -->Advanced stereo vision system with custom hardware integration and GUI interface for high-precision depth measurement and 3D point cloud generation. Features real-time processing capabilities for agricultural phenotyping applications.</p>
-</li>
-<li>
-<p><strong><a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer">CCO-Flight-Planner</a></strong> | <em>Python, UAV Technology</em><br>
-<!-- -->Automated flight planning tool for DJI drones with KML polygon input and KMZ waypoint generation. Streamlines UAV-based agricultural surveys and remote sensing data collection workflows.</p>
-</li>
-<li>
-<p><strong><a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer">RootQuantify</a></strong> | <em>Python, Image Analysis</em><br>
-<!-- -->Specialized batch processing toolkit for quantitative analysis of plant root system images. Implements advanced image processing algorithms for root architecture phenotyping and morphological measurements.</p>
-</li>
-<li>
-<p><strong><a href="https://github.com/smiler488/custom-harvard-with-journal-abbr" target="_blank" rel="noopener noreferrer">Custom-Harvard-Citation-Tool</a></strong> | <em>Academic Productivity</em><br>
-<!-- -->Zotero integration tool for automated citation insertion in presentations with journal abbreviation support. Enhances academic workflow efficiency for research presentations and publications.</p>
-</li>
+<li><strong><a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer">Stereo-Vision-Camera-Box</a></strong> | <em>Python, Computer Vision</em>Advanced stereo vision system with custom hardware integration and GUI interface for high-precision depth measurement and 3D point cloud generation. Features real-time processing capabilities for agricultural phenotyping applications.</li>
+<li><strong><a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer">CCO-Flight-Planner</a></strong> | <em>Python, UAV Technology</em>Automated flight planning tool for DJI drones with KML polygon input and KMZ waypoint generation. Streamlines UAV-based agricultural surveys and remote sensing data collection workflows.</li>
+<li><strong><a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer">RootQuantify</a></strong> | <em>Python, Image Analysis</em>Specialized batch processing toolkit for quantitative analysis of plant root system images. Implements advanced image processing algorithms for root architecture phenotyping and morphological measurements.</li>
+<li><strong><a href="https://github.com/smiler488/custom-harvard-with-journal-abbr" target="_blank" rel="noopener noreferrer">Custom-Harvard-Citation-Tool</a></strong> | <em>Academic Productivity</em>
+Zotero integration tool for automated citation insertion in presentations with journal abbreviation support. Enhances academic workflow efficiency for research presentations and publications.</li>
 </ul>
 <p><strong>Technical Impact:</strong> Combined 50+ stars across repositories, demonstrating community adoption and practical utility in agricultural research workflows.</p>
 <hr>
@@ -318,14 +282,14 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 </ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a href="https://smiler488.github.io/blog/curriculum-vitae/#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References">​</a></h2>
-<p><strong>Prof. Yali Zhang</strong><br>
-<!-- -->Professor and Ph.D. Supervisor<br>
-<!-- -->College of Agriculture, Shihezi University<br>
-<!-- -->Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer">zhangyali_cn@foxmail.com</a></p>
-<p><strong>Dr. Qingfeng Song</strong><br>
-<!-- -->Research Scientist and Co-supervisor<br>
-<!-- -->CAS Center for Excellence in Molecular Plant Sciences<br>
-<!-- -->Email: <a href="mailto:songqf@cemps.ac.cn" target="_blank" rel="noopener noreferrer">songqf@cemps.ac.cn</a></p>
+<p><strong>Prof. Yali Zhang</strong>
+Professor and Ph.D. Supervisor
+College of Agriculture, Shihezi University
+Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer">zhangyali_cn@foxmail.com</a></p>
+<p><strong>Dr. Qingfeng Song</strong>
+Research Scientist and Co-supervisor
+CAS Center for Excellence in Molecular Plant Sciences
+Email: <a href="mailto:songqf@cemps.ac.cn" target="_blank" rel="noopener noreferrer">songqf@cemps.ac.cn</a></p>
 <p><strong>Additional references available upon request</strong></p>
 <hr>
 <p><em>Last updated: September 2025</em></p>]]></content:encoded>
