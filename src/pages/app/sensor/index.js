@@ -242,7 +242,32 @@ export default function SensorPage() {
   return (
     <Layout title="Sensor App">
       <div className="container" style={{ padding: 20, maxWidth: 1100, margin: '0 auto' }}>
-        <h1 style={{ marginBottom: 8 }}>Device Sensor Recorder</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1 style={{ marginBottom: 8 }}>Device Sensor Recorder</h1>
+          <a 
+            href="/docs/sensor-app-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p style={{ color: '#555', marginTop: 0 }}>
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
           time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.

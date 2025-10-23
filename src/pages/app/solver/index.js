@@ -469,7 +469,32 @@ export default function SolverAppPage() {
 
   return (
     <div style={{ maxWidth: 920, margin: '0 auto', padding: '24px' }}>
-      <h1>AI Solver (Hunyuan)</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h1>AI Solver (Hunyuan)</h1>
+        <a 
+          href="/docs/ai-solver-tutorial" 
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#007bff",
+            color: "white",
+            textDecoration: "none",
+            borderRadius: "6px",
+            fontSize: "14px",
+            fontWeight: "500",
+            transition: "all 0.2s ease"
+          }}
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = "#0056b3";
+            e.target.style.transform = "scale(1.05)";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = "#007bff";
+            e.target.style.transform = "scale(1)";
+          }}
+        >
+           Tutorial
+        </a>
+      </div>
       <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
       <p style={{ fontSize: 14, color: '#666' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 

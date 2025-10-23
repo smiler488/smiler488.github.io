@@ -27,7 +27,32 @@ export default function BiologicalSampleAnalysisApp() {
   return (
     <Layout title="Biological Sample Quantification Tool">
       <div className="container">
-        <h1 className="title"> Biological Sample Quantification Tool</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1 className="title"> Biological Sample Quantification Tool</h1>
+          <a 
+            href="/docs/image-quantifier-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p className="description">
           Professional tool for quantifying biological samples including leaves, seeds, grains, and other specimens. 
           Supports flexible layouts and batch processing with precise morphological and color analysis.

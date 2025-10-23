@@ -1,21 +1,78 @@
 ---
 slug: hunyuan3d-plant-reconstruction-guide
-title: Complete Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research
+title: Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research
 authors: [liangchao]
 tags: [Hunyuan3D, 3D reconstruction, plant phenotyping, computer vision, agriculture, research]
 ---
-
 <!-- truncate -->
 
-# Complete Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research
+# Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research
 
 This comprehensive guide covers the deployment, optimization, and academic research applications of Hunyuan3D for plant 3D reconstruction, with a focus on cotton plant point cloud generation and phenotyping analysis.
+
+## Technical Workflow Overview
+
+```mermaid
+graph TD
+    A[Environment Setup] --> B[System Requirements Analysis]
+    B --> C[Software Installation]
+    C --> D[Hunyuan3D Model Setup]
+    D --> E[Plant Dataset Preparation]
+    E --> F[Single Image Processing]
+    E --> G[Batch Processing]
+    F --> H[3D Model Generation]
+    G --> H
+    H --> I[Point Cloud Generation]
+    H --> J[Mesh Generation]
+    I --> K[Plant Structure Analysis]
+    J --> K
+    K --> L[Phenotype Parameter Extraction]
+    L --> M[Academic Research Applications]
+    M --> N[Plant Phenotyping]
+    M --> O[Breeding Programs]
+    M --> P[Growth Monitoring]
+    
+    B --> B1[Hardware Configuration]
+    B --> B2[GPU/CPU Requirements]
+    
+    C --> C1[Python Environment]
+    C --> C2[3D Processing Libraries]
+    C --> C3[Computer Vision Tools]
+    
+    D --> D1[Model Download]
+    D --> D2[Installation Verification]
+    D --> D3[Model Loading]
+    
+    E --> E1[Plant Image Collection]
+    E --> E2[Data Preprocessing]
+    E --> E3[Quality Control]
+    
+    F --> F1[Image Preprocessing]
+    F --> F2[Feature Extraction]
+    
+    H --> H1[Structure Generation]
+    H --> H2[Texture Mapping]
+    
+    I --> I1[Point Cloud Optimization]
+    I --> I2[Noise Reduction]
+    
+    K --> K1[Stem Detection]
+    K --> K2[Leaf Segmentation]
+    K --> K3[Branch Analysis]
+    
+    L --> L1[Morphological Traits]
+    L --> L2[Growth Parameters]
+    L --> L3[Health Indicators]
+```
+
+This workflow demonstrates the complete pipeline for plant 3D reconstruction using Hunyuan3D, from initial setup to advanced research applications in agricultural science.
 
 ## Introduction to Hunyuan3D
 
 Hunyuan3D is Tencent's state-of-the-art 3D generation model that excels in creating high-quality 3D models from single images or text descriptions. For agricultural applications, it shows remarkable capability in reconstructing plant structures with detailed geometry and realistic textures.
 
 ### Key Features for Plant Research
+
 - **Single Image to 3D**: Generate complete 3D plant models from a single photograph
 - **High-Quality Point Clouds**: Detailed geometric representation suitable for phenotyping
 - **Multi-View Consistency**: Coherent 3D structure from different viewing angles
@@ -26,6 +83,7 @@ Hunyuan3D is Tencent's state-of-the-art 3D generation model that excels in creat
 ### System Requirements
 
 **Minimum Configuration:**
+
 - GPU: RTX 3090 (24GB VRAM) or better
 - CPU: Intel i7-10700K or AMD Ryzen 7 3700X
 - RAM: 32GB DDR4
@@ -33,6 +91,7 @@ Hunyuan3D is Tencent's state-of-the-art 3D generation model that excels in creat
 - CUDA: 11.8 or higher
 
 **Recommended Configuration:**
+
 - GPU: RTX 4090 (24GB VRAM) or A100 (40GB)
 - CPU: Intel i9-12900K or AMD Ryzen 9 5900X
 - RAM: 64GB DDR4/DDR5
@@ -97,20 +156,20 @@ class Hunyuan3DSetup:
     def __init__(self, model_dir="./models/hunyuan3d"):
         self.model_dir = model_dir
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        
+    
     def download_model(self):
         """Download Hunyuan3D model from HuggingFace"""
         print("Downloading Hunyuan3D model...")
-        
+    
         # Download the model
         snapshot_download(
             repo_id="tencent/Hunyuan3D-1",
             local_dir=self.model_dir,
             local_dir_use_symlinks=False
         )
-        
+    
         print(f"Model downloaded to {self.model_dir}")
-        
+    
     def verify_installation(self):
         """Verify model installation"""
         required_files = [
@@ -118,21 +177,21 @@ class Hunyuan3DSetup:
             "pytorch_model.bin",
             "tokenizer.json"
         ]
-        
+    
         for file in required_files:
             file_path = os.path.join(self.model_dir, file)
             if not os.path.exists(file_path):
                 raise FileNotFoundError(f"Required file not found: {file_path}")
-        
+    
         print("Model installation verified successfully!")
-        
+    
     def load_model(self):
         """Load Hunyuan3D model"""
         from transformers import AutoModel, AutoTokenizer
-        
+    
         # Load tokenizer
         tokenizer = AutoTokenizer.from_pretrained(self.model_dir)
-        
+    
         # Load model
         model = AutoModel.from_pretrained(
             self.model_dir,
@@ -140,7 +199,7 @@ class Hunyuan3DSetup:
             device_map="auto",
             trust_remote_code=True
         )
-        
+    
         return model, tokenizer
 
 # Setup the model
@@ -163,19 +222,19 @@ class Hunyuan3DInference:
         self.model = model
         self.tokenizer = tokenizer
         self.device = device
-        
+    
     def image_to_3d(self, image_path, output_format="point_cloud"):
         """Convert single image to 3D representation"""
-        
+    
         # Load and preprocess image
         image = Image.open(image_path).convert("RGB")
         image = self.preprocess_image(image)
-        
+    
         # Generate 3D representation
         with torch.no_grad():
             # Encode image
             image_features = self.model.encode_image(image.unsqueeze(0).to(self.device))
-            
+        
             # Generate 3D structure
             if output_format == "point_cloud":
                 points, colors = self.model.generate_point_cloud(image_features)
@@ -183,13 +242,13 @@ class Hunyuan3DInference:
                 vertices, faces, colors = self.model.generate_mesh(image_features)
             else:
                 raise ValueError(f"Unsupported output format: {output_format}")
-        
-        return self.postprocess_output(points, colors, output_format)
     
+        return self.postprocess_output(points, colors, output_format)
+  
     def preprocess_image(self, image, size=(512, 512)):
         """Preprocess input image"""
         import torchvision.transforms as transforms
-        
+    
         transform = transforms.Compose([
             transforms.Resize(size),
             transforms.CenterCrop(size),
@@ -197,48 +256,48 @@ class Hunyuan3DInference:
             transforms.Normalize(mean=[0.485, 0.456, 0.406], 
                                std=[0.229, 0.224, 0.225])
         ])
-        
-        return transform(image)
     
+        return transform(image)
+  
     def postprocess_output(self, points, colors, output_format):
         """Postprocess model output"""
         if output_format == "point_cloud":
             # Convert to numpy arrays
             points = points.cpu().numpy()
             colors = colors.cpu().numpy()
-            
+        
             # Create Open3D point cloud
             pcd = o3d.geometry.PointCloud()
             pcd.points = o3d.utility.Vector3dVector(points)
             pcd.colors = o3d.utility.Vector3dVector(colors)
-            
-            return pcd
         
-        return points, colors
+            return pcd
     
+        return points, colors
+  
     def batch_inference(self, image_paths, output_dir="./outputs"):
         """Process multiple images in batch"""
         os.makedirs(output_dir, exist_ok=True)
         results = []
-        
+    
         for i, image_path in enumerate(image_paths):
             print(f"Processing image {i+1}/{len(image_paths)}: {image_path}")
-            
+        
             try:
                 # Generate 3D model
                 point_cloud = self.image_to_3d(image_path)
-                
+            
                 # Save result
                 output_path = os.path.join(output_dir, f"result_{i:04d}.ply")
                 o3d.io.write_point_cloud(output_path, point_cloud)
-                
+            
                 results.append({
                     "input_image": image_path,
                     "output_path": output_path,
                     "num_points": len(point_cloud.points),
                     "status": "success"
                 })
-                
+            
             except Exception as e:
                 print(f"Error processing {image_path}: {str(e)}")
                 results.append({
@@ -248,7 +307,7 @@ class Hunyuan3DInference:
                     "status": "failed",
                     "error": str(e)
                 })
-        
+    
         return results
 
 # Usage example
@@ -302,12 +361,14 @@ For detailed dataset preparation code and plant-aware model architecture, please
 ### Publication Opportunities
 
 **Target Venues:**
+
 - Computer Vision: CVPR, ICCV, ECCV
 - Agricultural Technology: Computers and Electronics in Agriculture
 - Plant Science: Plant Phenomics, Frontiers in Plant Science
 - Machine Learning: Pattern Recognition, IEEE TPAMI
 
 **Paper Structure Recommendations:**
+
 1. **Abstract**: Emphasize agricultural impact and technical novelty
 2. **Introduction**: Plant phenotyping challenges and current limitations
 3. **Method**: Detailed architecture and botanical constraints
@@ -320,17 +381,20 @@ For detailed dataset preparation code and plant-aware model architecture, please
 Based on our comprehensive evaluation:
 
 ### Geometric Accuracy
+
 - **Chamfer Distance**: 0.0234 ± 0.0089 (vs 0.0456 baseline)
 - **F1 Score**: 0.847 ± 0.123 (vs 0.623 baseline)
 - **Hausdorff Distance**: 0.089 ± 0.034 (vs 0.156 baseline)
 
 ### Phenotype Prediction
+
 - **Plant Height**: R² = 0.89, MAPE = 8.3%
 - **Canopy Width**: R² = 0.84, MAPE = 11.2%
 - **Leaf Count**: R² = 0.76, MAPE = 15.8%
 - **Branch Count**: R² = 0.71, MAPE = 18.4%
 
 ### Cross-Variety Performance
+
 - **Upland Cotton**: Best performance (Chamfer: 0.0198)
 - **Pima Cotton**: Good generalization (Chamfer: 0.0267)
 - **Tree Cotton**: Moderate performance (Chamfer: 0.0341)
@@ -387,6 +451,7 @@ For complete implementation details, training scripts, and evaluation code, plea
 *Last updated: January 2025*
 
 **Contact Information:**
+
 - Email: research@example.com
 - GitHub: https://github.com/username/hunyuan3d-plant-reconstruction
 - Dataset: https://doi.org/10.5281/zenodo.xxxxxxx

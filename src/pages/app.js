@@ -52,7 +52,7 @@ const AppHub = () => {
       link: "/app/cloudnote",
     },
     {
-      name: "AI Solver (Hunyuan)",
+      name: "AI Solver",
       description:
         "Take a photo of a problem and get step-by-step solutions powered by Hunyuan AI.",
       link: "/app/solver",
@@ -61,67 +61,113 @@ const AppHub = () => {
 
   return (
     <Layout title="App Hub">
-      <div style={{ textAlign: "center", padding: "20px" }}>
-        <h1>Web App Hub</h1>
-        <p>Select an app to explore.</p>
+      <div style={{ textAlign: "center", padding: "40px 20px" }}>
+        <h1 style={{ 
+          fontSize: "3rem", 
+          fontWeight: "700", 
+          marginBottom: "16px",
+          letterSpacing: "-0.02em",
+          color: "#000000"
+        }}>
+          Web App Hub
+        </h1>
+        <p style={{ 
+          fontSize: "1.2rem", 
+          color: "#666666", 
+          marginBottom: "40px",
+          maxWidth: "600px",
+          margin: "0 auto 40px",
+          lineHeight: "1.6"
+        }}>
+          Select an app to explore.
+        </p>
 
-        {/* ✅ App 容器，使用 Flex 布局 */}
+        {/* ✅ App 容器，使用 Grid 布局 */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            marginTop: "20px",
-            flexWrap: "wrap", // ✅ 允许多行排列
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "24px",
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "0 20px",
           }}
         >
           {apps.map((app, index) => (
             <div
               key={index}
               style={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "15px",
-                width: "250px",
-                background: "#f9f9f9",
+                border: "1px solid #e5e5e7",
+                borderRadius: "16px",
+                padding: "24px",
+                textAlign: "left",
+                backgroundColor: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between", // ✅ 确保按钮在底部
-                minHeight: "280px",
-                maxHeight: "280px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "0.3s", // ✅ hover 过渡效果
+                justifyContent: "space-between",
+                minHeight: "200px",
+                transition: "all 0.3s ease",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
               }}
-              // ✅ 鼠标悬停时改变背景色
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#f0f8ff")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#f9f9f9")}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.12)";
+                e.currentTarget.style.borderColor = "#d2d2d7";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.04)";
+                e.currentTarget.style.borderColor = "#e5e5e7";
+              }}
             >
               <div>
                 <h3
                   style={{
                     marginTop: "0",
-                    marginBottom: "10px",
-                    fontWeight: "bold",
+                    marginBottom: "12px",
+                    color: "#000000",
+                    fontSize: "1.5rem",
+                    fontWeight: "600",
+                    letterSpacing: "-0.01em"
                   }}
                 >
                   {app.name}
                 </h3>
-                <p style={{ flexGrow: 1, marginBottom: "15px", overflow: "hidden" }}>{app.description}</p>
+                <p style={{ 
+                  flexGrow: 1, 
+                  marginBottom: "20px", 
+                  overflow: "hidden",
+                  color: "#666666",
+                  lineHeight: "1.6",
+                  fontSize: "1rem"
+                }}>
+                  {app.description}
+                </p>
               </div>
               <a
                 href={app.link}
                 style={{
                   textDecoration: "none",
-                  color: "#fff",
-                  backgroundColor: "#007BFF",
-                  padding: "10px 15px",
-                  borderRadius: "5px",
+                  color: "#ffffff",
+                  backgroundColor: "#000000",
+                  padding: "12px 20px",
+                  borderRadius: "12px",
                   textAlign: "center",
-                  marginTop: "auto",
-                  transition: "0.2s",
+                  fontWeight: "500",
+                  transition: "all 0.2s ease",
+                  fontSize: "1rem",
+                  border: "1px solid #000000"
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007BFF")}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#333333";
+                  e.currentTarget.style.borderColor = "#333333";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#000000";
+                  e.currentTarget.style.borderColor = "#000000";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
               >
                 Open
               </a>

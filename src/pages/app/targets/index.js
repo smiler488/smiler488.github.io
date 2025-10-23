@@ -400,7 +400,32 @@ export default function TargetsPage() {
       </Head>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px" }}>
-        <h1>Professional Calibration Targets Generator</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1>Professional Calibration Targets Generator</h1>
+          <a 
+            href="/docs/calibration-targets-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p style={{ marginTop: 4, marginBottom: 24, color: "#6c757d" }}>
           Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
           Print at <strong>100% / Actual size</strong> to preserve accurate measurements. 

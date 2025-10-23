@@ -1,29 +1,95 @@
 ---
 slug: local-ai-agent-deployment
-title: Complete Guide to Local AI Agent Deployment
+title: Guide to Local AI Agent Deployment
 authors: [liangchao]
 tags: [ai, machine learning, deployment, tutorial, local development]
 ---
-
 <!-- truncate -->
 
-# Complete Guide to Local AI Agent Deployment
+# Guide to Local AI Agent Deployment
 
 ## Introduction
 
 Deploying AI agents locally offers numerous advantages including data privacy, reduced latency, cost control, and independence from cloud services. This comprehensive guide covers multiple approaches to setting up AI agents on your local infrastructure, from simple chatbots to complex multi-modal systems.
+
+## Technical Workflow Overview
+
+```mermaid
+graph TD
+    A[Prerequisites Analysis] --> B[Hardware Requirements]
+    A --> C[Software Prerequisites]
+    B --> D[Method Selection]
+    C --> D
+    D --> E[Ollama Simple Deployment]
+    D --> F[Docker-based Deployment]
+    D --> G[LangChain Integration]
+    D --> H[Multi-Modal Systems]
+    D --> I[RAG Systems]
+    E --> J[API Integration]
+    F --> K[Container Orchestration]
+    G --> L[Memory Management]
+    H --> M[Vision-Language Models]
+    I --> N[Vector Database Setup]
+    J --> O[Performance Testing]
+    K --> O
+    L --> O
+    M --> O
+    N --> O
+    O --> P[Production Deployment]
+    P --> Q[Monitoring & Maintenance]
+    
+    B --> B1[CPU/RAM Requirements]
+    B --> B2[GPU Acceleration]
+    B --> B3[Storage Considerations]
+    
+    C --> C1[OS Compatibility]
+    C --> C2[Docker Setup]
+    C --> C3[Python Environment]
+    
+    E --> E1[Model Selection]
+    E --> E2[Service Configuration]
+    
+    F --> F1[Container Definition]
+    F --> F2[Service Orchestration]
+    
+    G --> G1[Chain Configuration]
+    G --> G2[Prompt Engineering]
+    
+    H --> H1[Image Processing]
+    H --> H2[Multi-modal Fusion]
+    
+    I --> I1[Document Processing]
+    I --> I2[Vector Embeddings]
+    I --> I3[Retrieval Optimization]
+    
+    O --> O1[Load Testing]
+    O --> O2[Security Assessment]
+    O --> O3[Scalability Analysis]
+    
+    P --> P1[API Gateway]
+    P --> P2[Load Balancing]
+    P --> P3[Failover Mechanisms]
+    
+    Q --> Q1[Performance Metrics]
+    Q --> Q2[Resource Monitoring]
+    Q --> Q3[Update Management]
+```
+
+This workflow outlines the comprehensive process for deploying AI agents locally, highlighting multiple deployment strategies and their integration points for building robust, scalable AI systems.
 
 ## Prerequisites
 
 ### Hardware Requirements
 
 **Minimum Configuration:**
+
 - CPU: 8-core processor (Intel i7/AMD Ryzen 7 or equivalent)
 - RAM: 16GB DDR4
 - Storage: 100GB available SSD space
 - GPU: Optional but recommended (NVIDIA GTX 1060 or better)
 
 **Recommended Configuration:**
+
 - CPU: 12+ core processor (Intel i9/AMD Ryzen 9 or equivalent)
 - RAM: 32GB+ DDR4/DDR5
 - Storage: 500GB+ NVMe SSD
@@ -42,6 +108,7 @@ Deploying AI agents locally offers numerous advantages including data privacy, r
 ### Installation
 
 **Linux/macOS:**
+
 ```bash
 curl -fsSL https://ollama.ai/install.sh | sh
 ```
@@ -75,7 +142,7 @@ def chat_with_ollama(message, model="llama2"):
         "prompt": message,
         "stream": False
     }
-    
+  
     response = requests.post(url, json=payload)
     return response.json()["response"]
 
@@ -97,6 +164,7 @@ print(response)
 ### Create Docker Environment
 
 **Dockerfile:**
+
 ```dockerfile
 FROM python:3.9-slim
 
@@ -122,6 +190,7 @@ CMD ["python", "app.py"]
 ```
 
 **requirements.txt:**
+
 ```
 fastapi==0.104.1
 uvicorn==0.24.0
@@ -134,6 +203,7 @@ sentence-transformers==2.2.2
 ```
 
 **docker-compose.yml:**
+
 ```yaml
 version: '3.8'
 
@@ -166,6 +236,7 @@ services:
 ### FastAPI Application
 
 **app.py:**
+
 ```python
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -186,13 +257,13 @@ class AIAgent:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
         self.model.to(self.device)
-        
+    
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
 
     def generate_response(self, message, max_length=512, temperature=0.7):
         inputs = self.tokenizer.encode(message, return_tensors="pt").to(self.device)
-        
+    
         with torch.no_grad():
             outputs = self.model.generate(
                 inputs,
@@ -201,7 +272,7 @@ class AIAgent:
                 do_sample=True,
                 pad_token_id=self.tokenizer.eos_token_id
             )
-        
+    
         response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return response[len(message):].strip()
 
@@ -243,7 +314,7 @@ from langchain.prompts import PromptTemplate
 class LocalAIAgent:
     def __init__(self, model_path):
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-        
+    
         self.llm = LlamaCpp(
             model_path=model_path,
             temperature=0.7,
@@ -254,29 +325,29 @@ class LocalAIAgent:
             n_ctx=2048,
             n_gpu_layers=35  # Adjust based on your GPU
         )
-        
+    
         self.memory = ConversationBufferMemory()
-        
+    
         template = """
         You are a helpful AI assistant. Have a conversation with the human.
-        
+    
         Current conversation:
         {history}
         Human: {input}
         AI Assistant:"""
-        
+    
         prompt = PromptTemplate(
             input_variables=["history", "input"],
             template=template
         )
-        
+    
         self.conversation = ConversationChain(
             llm=self.llm,
             memory=self.memory,
             prompt=prompt,
             verbose=True
         )
-    
+  
     def chat(self, message):
         return self.conversation.predict(input=message)
 
@@ -299,12 +370,12 @@ from io import BytesIO
 class MultiModalAgent:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        
+    
         # Load vision-language model
         self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
         self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
         self.model.to(self.device)
-    
+  
     def analyze_image(self, image_path_or_url, question=None):
         # Load image
         if image_path_or_url.startswith('http'):
@@ -312,7 +383,7 @@ class MultiModalAgent:
             image = Image.open(BytesIO(response.content))
         else:
             image = Image.open(image_path_or_url)
-        
+    
         if question:
             # Visual question answering
             inputs = self.processor(image, question, return_tensors="pt").to(self.device)
@@ -349,47 +420,47 @@ class RAGAgent:
         self.embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
-        
+    
         # Load and process documents
         loader = DirectoryLoader(documents_path, glob="*.txt", loader_cls=TextLoader)
         documents = loader.load()
-        
+    
         # Split documents
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200
         )
         texts = text_splitter.split_documents(documents)
-        
+    
         # Create vector store
         self.vectorstore = Chroma.from_documents(
             documents=texts,
             embedding=self.embeddings,
             persist_directory=persist_directory
         )
-        
+    
         # Initialize LLM (using Ollama)
         from langchain.llms import Ollama
         self.llm = Ollama(model="llama2")
-    
+  
     def query(self, question, k=3):
         # Retrieve relevant documents
         docs = self.vectorstore.similarity_search(question, k=k)
-        
+    
         # Create context from retrieved documents
         context = "\n\n".join([doc.page_content for doc in docs])
-        
+    
         # Generate response
         prompt = f"""
         Based on the following context, answer the question:
-        
+    
         Context:
         {context}
-        
+    
         Question: {question}
-        
+    
         Answer:"""
-        
+    
         response = self.llm(prompt)
         return response, docs
 
@@ -464,15 +535,15 @@ class SystemMonitor:
             ]
         )
         self.logger = logging.getLogger(__name__)
-    
+  
     def log_system_stats(self):
         # CPU usage
         cpu_percent = psutil.cpu_percent(interval=1)
-        
+    
         # Memory usage
         memory = psutil.virtual_memory()
         memory_percent = memory.percent
-        
+    
         # GPU usage
         gpus = GPUtil.getGPUs()
         gpu_stats = []
@@ -485,7 +556,7 @@ class SystemMonitor:
                 'memory_total': gpu.memoryTotal,
                 'temperature': gpu.temperature
             })
-        
+    
         self.logger.info(f"CPU: {cpu_percent}%, Memory: {memory_percent}%")
         for gpu_stat in gpu_stats:
             self.logger.info(f"GPU {gpu_stat['id']}: {gpu_stat['load']:.1f}% load, "
@@ -536,13 +607,13 @@ from typing import str
 def sanitize_input(text: str) -> str:
     # Remove potentially harmful characters
     text = re.sub(r'[<>"\']', '', text)
-    
+  
     # Limit length
     text = text[:1000]
-    
+  
     # Remove excessive whitespace
     text = ' '.join(text.split())
-    
+  
     return text
 
 def validate_input(text: str) -> bool:
@@ -555,11 +626,11 @@ def validate_input(text: str) -> bool:
         r'import\s+os',
         r'__import__'
     ]
-    
+  
     for pattern in dangerous_patterns:
         if re.search(pattern, text, re.IGNORECASE):
             return False
-    
+  
     return True
 ```
 
@@ -638,6 +709,7 @@ WantedBy=multi-user.target
 ### Common Issues
 
 **Out of Memory Errors:**
+
 ```python
 # Reduce batch size
 batch_size = 1
@@ -650,6 +722,7 @@ torch.cuda.empty_cache()
 ```
 
 **Slow Inference:**
+
 ```python
 # Use torch.no_grad() for inference
 with torch.no_grad():
@@ -661,6 +734,7 @@ torch.backends.cudnn.benchmark = True
 ```
 
 **Model Loading Issues:**
+
 ```python
 # Check available disk space
 import shutil

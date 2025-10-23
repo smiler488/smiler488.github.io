@@ -22,6 +22,13 @@ const config = {
   // Explicitly set trailingSlash to avoid GitHub Pages redirect issues
   trailingSlash: true,
 
+  // Enable Mermaid diagrams in Markdown
+  markdown: {
+    mermaid: true,
+  },
+  // Activate Mermaid theme plugin
+  themes: ['@docusaurus/theme-mermaid'],
+
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'smiler488', // Usually your GitHub org/user name.
@@ -105,7 +112,7 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
+        style: 'light',
         links: [
           {
             title: 'CN Community',
@@ -167,7 +174,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Liangchao Deng. All rights reserved.`,
       },
       prism: {
         theme: prismThemes.github,

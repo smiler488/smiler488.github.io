@@ -26,7 +26,32 @@ const CCOPage = () => {
       </Head>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: 16 }}>
-        <h1 style={{ margin: 0 }}>CCO Waylines Builder</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1 style={{ margin: 0 }}>CCO Waylines Builder</h1>
+          <a 
+            href="/docs/cco-mission-planner-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p style={{ color: "#555", marginTop: 6 }}>
           Upload a target-area KML (single Polygon), set parameters, and preview the “cross-oblique orbit” route. Supports snake stitching, grid rotation, Clip/Prune, auto step, multi-part downloads, and DJI drone/payload enums.
         </p>

@@ -19,18 +19,61 @@ export default function StereoPage() {
   return (
     <Layout title="Stereo Vision System">
       <Head>
-        <script src="https://docs.opencv.org/4.11.0/opencv.js" defer crossOrigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" defer></script>
         <script src={useBaseUrl("js/stereo_app.js")} defer></script>
+        <script src={useBaseUrl("js/opencv_loader.js")} defer></script>
       </Head>
 
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: 20 }}>
-        <h1 style={{ textAlign: "center", color: "#2c3e50", marginBottom: 10 }}>
-          Stereo Vision System
-        </h1>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1 style={{ color: "#2c3e50", marginBottom: 10 }}>
+            Stereo Vision System
+          </h1>
+          <a 
+            href="/docs/stereo-camera-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p style={{ textAlign: "center", color: "#7f8c8d", marginBottom: 30, fontSize: 16 }}>
-          Advanced stereo camera system with calibration, depth mapping, and distance measurement
+          High-precision stereo camera system for depth measurement
         </p>
+
+        {/* System Status */}
+        <div style={{
+          backgroundColor: "#e7f3ff",
+          padding: 15,
+          borderRadius: 8,
+          marginBottom: 20,
+          border: "1px solid #b3d9ff"
+        }}>
+          <div id="status" style={{
+            fontSize: 14,
+            color: "#0066cc",
+            textAlign: "center",
+            fontWeight: 500
+          }}>
+            Initializing stereo vision system...
+          </div>
+        </div>
 
         {/* Camera Controls */}
         <div style={{
@@ -117,7 +160,7 @@ export default function StereoPage() {
 
           <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr 2fr 1fr",
+            gridTemplateColumns: "1fr 2fr",
             gap: 15,
             alignItems: "center"
           }}>
@@ -135,24 +178,7 @@ export default function StereoPage() {
             </div>
             
             <div style={{ fontSize: 13, color: "#6c757d", padding: "0 10px" }}>
-              Supports side-by-side stereo cameras (1280×480) or dual camera setup.
-              Automatic rectification and depth computation with mouse distance measurement.
-            </div>
-            
-            <div>
-              <button id="calibrateBtn" type="button" disabled style={{
-                width: "100%",
-                padding: "10px 16px",
-                backgroundColor: "#17a2b8",
-                color: "white",
-                border: "none",
-                borderRadius: 6,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 500
-              }}>
-                Auto Calibrate
-              </button>
+              Supports side-by-side stereo cameras (1280×480) with automatic rectification and depth computation.
             </div>
           </div>
         </div>
@@ -207,8 +233,7 @@ export default function StereoPage() {
                   width: "100%",
                   border: "1px solid #dee2e6",
                   borderRadius: 4,
-                  backgroundColor: "#000",
-                  cursor: "crosshair"
+                  backgroundColor: "#000"
                 }}></canvas>
               </div>
               <div>
@@ -227,14 +252,13 @@ export default function StereoPage() {
                 width: "100%",
                 border: "1px solid #dee2e6",
                 borderRadius: 4,
-                backgroundColor: "#000",
-                cursor: "crosshair"
+                backgroundColor: "#000"
               }}></canvas>
             </div>
           </div>
         </div>
 
-        {/* Status and Controls */}
+        {/* Action Controls */}
         <div style={{
           backgroundColor: "#fff",
           padding: 20,
@@ -242,162 +266,63 @@ export default function StereoPage() {
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           marginBottom: 20
         }}>
+          <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>Actions</h4>
           <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: 20,
-            alignItems: "start"
-          }}>
-            {/* Status Panel */}
-            <div>
-              <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>System Status</h4>
-              <div id="status" style={{
-                padding: 10,
-                backgroundColor: "#f8f9fa",
-                border: "1px solid #e9ecef",
-                borderRadius: 6,
-                fontSize: 14,
-                color: "#495057",
-                marginBottom: 15
-              }}>
-                System ready - waiting for camera initialization
-              </div>
-              
-              <div id="measurementInfo" style={{
-                padding: 10,
-                backgroundColor: "#e7f3ff",
-                border: "1px solid #b3d9ff",
-                borderRadius: 6,
-                fontSize: 13,
-                color: "#0066cc",
-                display: "none"
-              }}>
-                Click on left image or depth map to measure distance
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div>
-              <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>Actions</h4>
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                gap: 10,
-                marginBottom: 15
-              }}>
-                <button id="captureBtn" type="button" disabled style={{
-                  padding: "10px 12px",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  border: "none",
-                  borderRadius: 6,
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: 500
-                }}>
-                  Capture Pair
-                </button>
-                
-                <button id="computeDepthBtn" type="button" disabled style={{
-                  padding: "10px 12px",
-                  backgroundColor: "#6f42c1",
-                  color: "white",
-                  border: "none",
-                  borderRadius: 6,
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: 500
-                }}>
-                  Compute Depth
-                </button>
-                
-                <button id="captureDepthBtn" type="button" disabled style={{
-                  padding: "10px 12px",
-                  backgroundColor: "#fd7e14",
-                  color: "white",
-                  border: "none",
-                  borderRadius: 6,
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: 500
-                }}>
-                  Capture Depth
-                </button>
-                
-                <button id="downloadZipBtn" type="button" disabled style={{
-                  padding: "10px 12px",
-                  backgroundColor: "#28a745",
-                  color: "white",
-                  border: "none",
-                  borderRadius: 6,
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: 500
-                }}>
-                  Download ZIP
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Depth Parameters */}
-        <div style={{
-          backgroundColor: "#fff",
-          padding: 20,
-          borderRadius: 12,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          marginBottom: 20
-        }}>
-          <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>Depth Computation Parameters</h4>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
             gap: 15
           }}>
-            <div>
-              <label style={{ display: "block", fontSize: 13, fontWeight: "bold", marginBottom: 5, color: "#495057" }}>
-                Number of Disparities:
-              </label>
-              <input id="numDisparitiesInput" type="range" min="16" max="256" step="16" defaultValue="128" style={{
-                width: "100%",
-                marginBottom: 5
-              }} />
-              <span id="numDisparitiesValue" style={{ fontSize: 12, color: "#6c757d" }}>128</span>
-            </div>
+            <button id="captureBtn" type="button" disabled style={{
+              padding: "12px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: 500
+            }}>
+              Capture Stereo
+            </button>
             
-            <div>
-              <label style={{ display: "block", fontSize: 13, fontWeight: "bold", marginBottom: 5, color: "#495057" }}>
-                Block Size:
-              </label>
-              <input id="blockSizeInput" type="range" min="5" max="25" step="2" defaultValue="15" style={{
-                width: "100%",
-                marginBottom: 5
-              }} />
-              <span id="blockSizeValue" style={{ fontSize: 12, color: "#6c757d" }}>15</span>
-            </div>
+            <button id="computeDepthBtn" type="button" disabled style={{
+              padding: "12px 16px",
+              backgroundColor: "#6f42c1",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: 500
+            }}>
+              Compute Depth
+            </button>
             
-            <div>
-              <label style={{ display: "block", fontSize: 13, fontWeight: "bold", marginBottom: 5, color: "#495057" }}>
-                Min Depth (m):
-              </label>
-              <input id="minDepthInput" type="range" min="0.1" max="2.0" step="0.1" defaultValue="0.3" style={{
-                width: "100%",
-                marginBottom: 5
-              }} />
-              <span id="minDepthValue" style={{ fontSize: 12, color: "#6c757d" }}>0.3</span>
-            </div>
+            <button id="captureDepthBtn" type="button" disabled style={{
+              padding: "12px 16px",
+              backgroundColor: "#fd7e14",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: 500
+            }}>
+              Save Depth Map
+            </button>
             
-            <div>
-              <label style={{ display: "block", fontSize: 13, fontWeight: "bold", marginBottom: 5, color: "#495057" }}>
-                Max Depth (m):
-              </label>
-              <input id="maxDepthInput" type="range" min="2.0" max="10.0" step="0.5" defaultValue="5.0" style={{
-                width: "100%",
-                marginBottom: 5
-              }} />
-              <span id="maxDepthValue" style={{ fontSize: 12, color: "#6c757d" }}>5.0</span>
-            </div>
+            <button id="downloadZipBtn" type="button" disabled style={{
+              padding: "12px 16px",
+              backgroundColor: "#28a745",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: 500
+            }}>
+              Download ZIP
+            </button>
           </div>
         </div>
 
@@ -418,7 +343,7 @@ export default function StereoPage() {
             fontSize: 14,
             color: "#6c757d"
           }}>
-            No captures yet. Start camera and capture stereo pairs or depth maps.
+            No captured data yet. Start camera to capture stereo images or depth maps.
           </div>
         </div>
       </div>

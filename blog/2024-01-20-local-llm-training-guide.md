@@ -1,27 +1,72 @@
 ---
 slug: local-llm-training-guide-en
-title: Complete Guide to Local LLM Deployment, Training and Fine-tuning
+title: Guide to Local LLM Deployment, Training and Fine-tuning
 authors: [liangchao]
 tags: [LLM, AI, training, fine-tuning, local deployment, machine learning]
 ---
-
 <!-- truncate -->
 
-# Complete Guide to Local LLM Deployment, Training and Fine-tuning
+# Guide to Local LLM Deployment, Training and Fine-tuning
 
 This comprehensive guide covers the complete process of deploying, training, and fine-tuning large language models in local environments, from environment setup to production deployment.
+
+## Technical Workflow Overview
+
+```mermaid
+graph TD
+    A[Environment Setup] --> B[Hardware & Software Configuration]
+    B --> C[Model Deployment]
+    C --> D[Data Preparation]
+    D --> E[Fine-tuning Strategy]
+    E --> F[LoRA Fine-tuning]
+    E --> G[Full Parameter Training]
+    F --> H[Model Evaluation]
+    G --> H
+    H --> I[Production Deployment]
+    I --> J[Performance Monitoring]
+    
+    B --> B1[GPU/CPU Requirements]
+    B --> B2[Software Dependencies]
+    
+    C --> C1[Ollama Deployment]
+    C --> C2[vLLM High-Performance]
+    C --> C3[Text Generation WebUI]
+    
+    D --> D1[Dataset Formatting]
+    D --> D2[Data Preprocessing]
+    D --> D3[Quality Validation]
+    
+    E --> E1[Parameter Selection]
+    E --> E2[Hyperparameter Tuning]
+    
+    F --> F1[Unsloth Framework]
+    F --> F2[Axolotl Configuration]
+    
+    G --> G1[DeepSpeed Optimization]
+    G --> G2[Memory Management]
+    
+    H --> H1[Accuracy Metrics]
+    H --> H2[Performance Benchmarks]
+    
+    I --> I1[API Integration]
+    I --> I2[Scalability Testing]
+```
+
+This workflow illustrates the end-to-end process for local LLM training and deployment, highlighting key decision points and alternative approaches at each stage.
 
 ## Environment Setup
 
 ### Hardware Requirements
 
 **Minimum Configuration (7B models):**
+
 - GPU: RTX 3090/4090 (24GB VRAM) or A100 (40GB)
 - CPU: 16+ cores
 - Memory: 64GB DDR4/DDR5
 - Storage: 1TB NVMe SSD
 
 **Recommended Configuration (13B-70B models):**
+
 - GPU: Multi-card A100/H100 (80GB VRAM)
 - CPU: 32+ cores
 - Memory: 128GB+
@@ -138,6 +183,7 @@ python server.py --model-dir ./models --listen --api
 ### Dataset Formats
 
 **Instruction Fine-tuning Format (Alpaca):**
+
 ```json
 {
   "instruction": "Please explain what artificial intelligence is",
@@ -147,6 +193,7 @@ python server.py --model-dir ./models --listen --api
 ```
 
 **Conversation Format (ChatML):**
+
 ```json
 {
   "messages": [
@@ -167,24 +214,24 @@ from transformers import AutoTokenizer
 
 def prepare_alpaca_dataset(data_path, tokenizer, max_length=2048):
     """Prepare Alpaca format dataset"""
-    
+  
     # Load data
     with open(data_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
-    
+  
     def format_prompt(example):
         if example['input']:
             prompt = f"### Instruction:\n{example['instruction']}\n\n### Input:\n{example['input']}\n\n### Response:\n"
         else:
             prompt = f"### Instruction:\n{example['instruction']}\n\n### Response:\n"
-        
+    
         full_text = prompt + example['output']
         return {"text": full_text}
-    
+  
     # Format data
     formatted_data = [format_prompt(item) for item in data]
     dataset = Dataset.from_list(formatted_data)
-    
+  
     # Tokenize
     def tokenize_function(examples):
         return tokenizer(
@@ -194,13 +241,13 @@ def prepare_alpaca_dataset(data_path, tokenizer, max_length=2048):
             max_length=max_length,
             return_overflowing_tokens=False,
         )
-    
+  
     tokenized_dataset = dataset.map(
         tokenize_function,
         batched=True,
         remove_columns=dataset.column_names
     )
-    
+  
     return tokenized_dataset
 
 # Usage example
@@ -287,6 +334,7 @@ tokenizer.save_pretrained("lora_model")
 ### Professional Fine-tuning with Axolotl
 
 **Configuration file (config.yml):**
+
 ```yaml
 base_model: Qwen/Qwen2-7B-Instruct
 model_type: LlamaForCausalLM
@@ -358,6 +406,7 @@ special_tokens:
 ```
 
 **Start training:**
+
 ```bash
 # Prepare data
 python -m axolotl.cli.preprocess config.yml
@@ -374,6 +423,7 @@ python -m axolotl.cli.inference config.yml --lora_model_dir="./outputs"
 ### Large Model Training with DeepSpeed
 
 **DeepSpeed configuration (ds_config.json):**
+
 ```json
 {
   "fp16": {
@@ -434,6 +484,7 @@ python -m axolotl.cli.inference config.yml --lora_model_dir="./outputs"
 ```
 
 **Training script:**
+
 ```python
 import torch
 from transformers import (
@@ -450,19 +501,19 @@ def main():
     model_name = "Qwen/Qwen2-7B"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token
-    
+  
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         torch_dtype=torch.bfloat16,
         trust_remote_code=True
     )
-    
+  
     # Data collator
     data_collator = DataCollatorForLanguageModeling(
         tokenizer=tokenizer,
         mlm=False,
     )
-    
+  
     # Training arguments
     training_args = TrainingArguments(
         output_dir="./full_finetune_output",
@@ -485,7 +536,7 @@ def main():
         report_to="wandb",
         run_name="qwen2-7b-full-finetune"
     )
-    
+  
     # Trainer
     trainer = Trainer(
         model=model,
@@ -495,10 +546,10 @@ def main():
         data_collator=data_collator,
         tokenizer=tokenizer,
     )
-    
+  
     # Start training
     trainer.train()
-    
+  
     # Save model
     trainer.save_model()
     tokenizer.save_pretrained(training_args.output_dir)
@@ -508,6 +559,7 @@ if __name__ == "__main__":
 ```
 
 **Start multi-GPU training:**
+
 ```bash
 deepspeed --num_gpus=4 train_full.py
 ```
@@ -517,6 +569,7 @@ deepspeed --num_gpus=4 train_full.py
 ### Pre-training from Scratch
 
 **Data preparation:**
+
 ```python
 from datasets import load_dataset
 from transformers import AutoTokenizer
@@ -525,9 +578,9 @@ import multiprocessing
 def prepare_pretraining_data():
     # Load large-scale text data
     dataset = load_dataset("wikitext", "wikitext-103-raw-v1")
-    
+  
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2-7B")
-    
+  
     def tokenize_function(examples):
         return tokenizer(
             examples["text"],
@@ -537,7 +590,7 @@ def prepare_pretraining_data():
             return_overflowing_tokens=True,
             return_length=True,
         )
-    
+  
     # Parallel processing
     tokenized_dataset = dataset.map(
         tokenize_function,
@@ -545,17 +598,17 @@ def prepare_pretraining_data():
         num_proc=multiprocessing.cpu_count(),
         remove_columns=dataset["train"].column_names,
     )
-    
+  
     return tokenized_dataset
 
 # Group texts
 def group_texts(examples, block_size=2048):
     concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
     total_length = len(concatenated_examples[list(examples.keys())[0]])
-    
+  
     if total_length >= block_size:
         total_length = (total_length // block_size) * block_size
-    
+  
     result = {
         k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
         for k, t in concatenated_examples.items()
@@ -565,6 +618,7 @@ def group_texts(examples, block_size=2048):
 ```
 
 **Pre-training configuration:**
+
 ```python
 from transformers import (
     AutoConfig,
@@ -629,13 +683,13 @@ def evaluate_model(model_path, test_dataset):
         torch_dtype=torch.float16,
         device_map="auto"
     )
-    
+  
     # BLEU score
     bleu_metric = load_metric("bleu")
-    
+  
     predictions = []
     references = []
-    
+  
     for example in test_dataset:
         # Generate response
         prompt = example["instruction"]
@@ -647,21 +701,21 @@ def evaluate_model(model_path, test_dataset):
             do_sample=True,
             pad_token_id=generator.tokenizer.eos_token_id
         )[0]["generated_text"]
-        
+    
         # Extract generated part
         generated_text = generated[len(prompt):].strip()
-        
+    
         predictions.append(generated_text)
         references.append([example["output"]])
-    
+  
     # Calculate BLEU score
     bleu_score = bleu_metric.compute(
         predictions=predictions,
         references=references
     )
-    
+  
     print(f"BLEU Score: {bleu_score['bleu']:.4f}")
-    
+  
     return {
         "bleu": bleu_score["bleu"],
         "predictions": predictions,
@@ -673,18 +727,18 @@ def calculate_perplexity(model, tokenizer, test_texts):
     model.eval()
     total_loss = 0
     total_tokens = 0
-    
+  
     with torch.no_grad():
         for text in test_texts:
             inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
-            
+        
             outputs = model(**inputs, labels=inputs["input_ids"])
             loss = outputs.loss
-            
+        
             total_loss += loss.item() * inputs["input_ids"].size(1)
             total_tokens += inputs["input_ids"].size(1)
-    
+  
     perplexity = torch.exp(torch.tensor(total_loss / total_tokens))
     return perplexity.item()
 ```
@@ -700,7 +754,7 @@ class ModelEvaluator:
     def __init__(self, models_dict):
         self.models = models_dict
         self.results = []
-    
+  
     def create_evaluation_interface(self):
         def evaluate_response(prompt, model_name, response, relevance, accuracy, fluency, helpfulness, comments):
             result = {
@@ -717,26 +771,26 @@ class ModelEvaluator:
                 "comments": comments,
                 "overall_score": (relevance + accuracy + fluency + helpfulness) / 4
             }
-            
+        
             self.results.append(result)
-            
+        
             # Save results
             with open("evaluation_results.json", "w", encoding="utf-8") as f:
                 json.dump(self.results, f, ensure_ascii=False, indent=2)
-            
-            return f"Evaluation saved! Overall score: {result['overall_score']:.2f}"
         
+            return f"Evaluation saved! Overall score: {result['overall_score']:.2f}"
+    
         def generate_response(prompt, model_name):
             if model_name in self.models:
                 generator = self.models[model_name]
                 response = generator(prompt, max_length=512, temperature=0.7)[0]["generated_text"]
                 return response[len(prompt):].strip()
             return "Model not found"
-        
+    
         # Gradio interface
         with gr.Blocks(title="LLM Model Evaluation System") as demo:
             gr.Markdown("# LLM Model Evaluation System")
-            
+        
             with gr.Row():
                 with gr.Column():
                     prompt_input = gr.Textbox(label="Input Prompt", lines=3)
@@ -746,29 +800,29 @@ class ModelEvaluator:
                         value=list(self.models.keys())[0] if self.models else None
                     )
                     generate_btn = gr.Button("Generate Response")
-                
+            
                 with gr.Column():
                     response_output = gr.Textbox(label="Model Response", lines=5)
-            
+        
             gr.Markdown("## Evaluation Metrics (1-5 scale)")
-            
+        
             with gr.Row():
                 relevance_slider = gr.Slider(1, 5, value=3, label="Relevance")
                 accuracy_slider = gr.Slider(1, 5, value=3, label="Accuracy")
                 fluency_slider = gr.Slider(1, 5, value=3, label="Fluency")
                 helpfulness_slider = gr.Slider(1, 5, value=3, label="Helpfulness")
-            
+        
             comments_input = gr.Textbox(label="Comments", lines=2)
             evaluate_btn = gr.Button("Submit Evaluation")
             result_output = gr.Textbox(label="Evaluation Result")
-            
+        
             # Event binding
             generate_btn.click(
                 generate_response,
                 inputs=[prompt_input, model_dropdown],
                 outputs=response_output
             )
-            
+        
             evaluate_btn.click(
                 evaluate_response,
                 inputs=[
@@ -778,7 +832,7 @@ class ModelEvaluator:
                 ],
                 outputs=result_output
             )
-        
+    
         return demo
 
 # Usage example
@@ -872,6 +926,7 @@ print(f"Quantized model saved to: {quant_path}")
 ### Docker Containerization
 
 **Dockerfile:**
+
 ```dockerfile
 FROM nvidia/cuda:12.1-devel-ubuntu22.04
 
@@ -908,6 +963,7 @@ CMD ["python", "serve.py"]
 ```
 
 **Service script (serve.py):**
+
 ```python
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -936,7 +992,7 @@ class GenerateResponse(BaseModel):
 async def load_model():
     global generator
     print("Loading model...")
-    
+  
     generator = pipeline(
         "text-generation",
         model="./qwen2-7b-awq",  # Quantized model path
@@ -945,7 +1001,7 @@ async def load_model():
         device_map="auto",
         trust_remote_code=True
     )
-    
+  
     print("Model loaded successfully!")
 
 @app.get("/health")
@@ -956,7 +1012,7 @@ async def health_check():
 async def generate_text(request: GenerateRequest):
     if generator is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
-    
+  
     try:
         result = generator(
             request.prompt,
@@ -966,14 +1022,14 @@ async def generate_text(request: GenerateRequest):
             do_sample=request.do_sample,
             pad_token_id=generator.tokenizer.eos_token_id
         )
-        
+    
         generated_text = result[0]["generated_text"][len(request.prompt):].strip()
-        
+    
         return GenerateResponse(
             generated_text=generated_text,
             prompt=request.prompt
         )
-    
+  
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 
@@ -984,6 +1040,7 @@ if __name__ == "__main__":
 ### Kubernetes Deployment
 
 **deployment.yaml:**
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -1084,7 +1141,7 @@ def monitor_requests(func):
     async def wrapper(*args, **kwargs):
         start_time = time.time()
         ACTIVE_REQUESTS.inc()
-        
+    
         try:
             result = await func(*args, **kwargs)
             REQUEST_COUNT.labels(method='POST', endpoint='/generate', status='success').inc()
@@ -1095,7 +1152,7 @@ def monitor_requests(func):
         finally:
             ACTIVE_REQUESTS.dec()
             REQUEST_LATENCY.observe(time.time() - start_time)
-    
+  
     return wrapper
 
 # Use in FastAPI
@@ -1121,13 +1178,13 @@ class StructuredLogger:
     def __init__(self, name):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.INFO)
-        
+    
         # Create handler
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(self.JSONFormatter())
-        
-        self.logger.addHandler(handler)
     
+        self.logger.addHandler(handler)
+  
     class JSONFormatter(logging.Formatter):
         def format(self, record):
             log_entry = {
@@ -1139,7 +1196,7 @@ class StructuredLogger:
                 "function": record.funcName,
                 "line": record.lineno
             }
-            
+        
             # Add extra fields
             if hasattr(record, 'user_id'):
                 log_entry['user_id'] = record.user_id
@@ -1147,17 +1204,17 @@ class StructuredLogger:
                 log_entry['request_id'] = record.request_id
             if hasattr(record, 'model_name'):
                 log_entry['model_name'] = record.model_name
-            
+        
             return json.dumps(log_entry, ensure_ascii=False)
-    
+  
     def info(self, message, **kwargs):
         extra = {k: v for k, v in kwargs.items()}
         self.logger.info(message, extra=extra)
-    
+  
     def error(self, message, **kwargs):
         extra = {k: v for k, v in kwargs.items()}
         self.logger.error(message, extra=extra)
-    
+  
     def warning(self, message, **kwargs):
         extra = {k: v for k, v in kwargs.items()}
         self.logger.warning(message, extra=extra)
@@ -1168,7 +1225,7 @@ logger = StructuredLogger("llm_service")
 @app.post("/generate")
 async def generate_text(request: GenerateRequest):
     request_id = str(uuid.uuid4())
-    
+  
     logger.info(
         "Received generation request",
         request_id=request_id,
@@ -1176,21 +1233,21 @@ async def generate_text(request: GenerateRequest):
         max_length=request.max_length,
         temperature=request.temperature
     )
-    
+  
     try:
         start_time = time.time()
         result = generator(request.prompt, ...)
         generation_time = time.time() - start_time
-        
+    
         logger.info(
             "Generation completed",
             request_id=request_id,
             generation_time=generation_time,
             output_length=len(result[0]["generated_text"])
         )
-        
+    
         return result
-        
+    
     except Exception as e:
         logger.error(
             "Generation failed",
@@ -1206,16 +1263,17 @@ async def generate_text(request: GenerateRequest):
 ### Performance Optimization Tips
 
 1. **Memory Management**
+
    - Use gradient checkpointing to reduce memory usage
    - Enable CPU offloading for large models
    - Set appropriate batch size and sequence length
-
 2. **Training Acceleration**
+
    - Use FlashAttention-2
    - Enable mixed precision training (FP16/BF16)
    - Use DeepSpeed ZeRO optimization
-
 3. **Inference Optimization**
+
    - Model quantization (GPTQ/AWQ)
    - Use vLLM for efficient inference
    - Batch requests to improve throughput
@@ -1223,16 +1281,17 @@ async def generate_text(request: GenerateRequest):
 ### Security Considerations
 
 1. **Data Security**
+
    - Anonymize training data
    - Filter model output content
    - Validate and sanitize user inputs
-
 2. **Model Security**
+
    - Regular backup of model checkpoints
    - Version control and rollback mechanisms
    - Access control and permissions
-
 3. **Deployment Security**
+
    - API authentication and authorization
    - Request rate limiting
    - Network security configuration
@@ -1240,11 +1299,12 @@ async def generate_text(request: GenerateRequest):
 ### Cost Control
 
 1. **Compute Resources**
+
    - Use Spot instances to reduce costs
    - Auto-scaling based on load
    - Choose appropriate GPU models
-
 2. **Storage Optimization**
+
    - Model compression and quantization
    - Data deduplication and compression
    - Tiered storage for hot/cold data

@@ -10,9 +10,34 @@ const WeatherPage = () => {
       </Head>
 
       <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ textAlign: "center", color: "#2c3e50", marginBottom: "30px" }}>
-          NASA POWER Weather Data Downloader
-        </h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
+          <h1 style={{ color: "#2c3e50", marginBottom: 0 }}>
+            NASA POWER Weather Data Downloader
+          </h1>
+          <a 
+            href="/docs/weather-analyzer-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         
         <div style={{
           backgroundColor: "#f8f9fa",

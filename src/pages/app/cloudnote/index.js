@@ -416,7 +416,32 @@ export default function CloudNotePage() {
       </Head>
 
       <div style={{ maxWidth: 900, margin: "28px auto", padding: "12px" }}>
-        <h1>Cloud Sticky Note (static)</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h1>Cloud Sticky Note (static)</h1>
+          <a 
+            href="/docs/cloud-sticky-note-tutorial" 
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "scale(1)";
+            }}
+          >
+             Tutorial
+          </a>
+        </div>
         <p style={{ color: "#444" }}>
           Create a temporary/shareable note. This zero-backend version stores the note encrypted in the URL fragment.
           Sharing the link allows others to open it. Use a password for higher privacy (recipient must know the password).
