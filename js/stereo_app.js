@@ -1,25 +1,13 @@
-// Enhanced Stereo Vision System
-// Advanced stereo camera with calibration, depth mapping, and distance measurement
+// High-Precision Stereo Vision System
+// Optimized for depth measurement with calibrated cameras
 
 (function () {
   'use strict';
 
   // ============ GLOBAL STATE ============
-  let video, rawCanvas, rawCtx, leftRect, rightRect, depthCanvas, statusEl;
+  let video, rawCanvas, rawCtx, leftCanvas, rightCanvas, depthCanvas, statusEl;
   let devicesCached = [];
   let stream = null, animHandle = null;
-  let streamRight = null;
-  let videoRightEl = null;
-  let activeTrack = null;
-
-  // OpenCV state
-  let cvReady = false;
-  let cvReadyResolve = null;
-  const cvReadyPromise = new Promise((res) => { cvReadyResolve = res; });
-  let mapsReady = false;
-  let map1x, map1y, map2x, map2y;
-  let size = null;
-  let currentDepthMat = null; // Store current depth data for mouse interaction
 
   // Capture/ZIP state
   let zip = null;
@@ -27,43 +15,46 @@
   let leafIdEl = null;
   let downloadBtnEl = null;
 
-  // Mouse interaction state
-  let isMouseEnabled = false;
-  let mouseCoords = { x: 0, y: 0 };
-  let lastMeasurement = null;
+  // OpenCV state
+  let cvReady = false;
+  let rectificationMapsReady = false;
+  let map1x, map1y, map2x, map2y;
+  let Q_matrix;
 
-  // ============ CALIBRATION DATA ============
-  // Enhanced calibration parameters with better accuracy
-  const leftK = [
+  // ============ PRECISE CALIBRATION DATA ============
+  // Left camera intrinsic parameters
+  const leftK = new Float32Array([
     526.3629265744373, 0.0, 312.5070118516705,
     0.0, 527.6666766239459, 257.3477017707000,
     0.0, 0.0, 1.0
-  ];
-  const leftD = [-0.035606324752821, 0.184724066865362, 0, 0, 0];
+  ]);
+  const leftD = new Float32Array([-0.035606324752821, 0.184724066865362, 0, 0, 0]);
 
-  const rightK = [
+  // Right camera intrinsic parameters
+  const rightK = new Float32Array([
     528.8092346596067, 0.0, 319.8511629022391,
     0.0, 529.7287337793534, 259.7959018073447,
     0.0, 0.0, 1.0
-  ];
-  const rightD = [-0.027358228082379, 0.130802003784968, 0, 0, 0];
+  ]);
+  const rightD = new Float32Array([-0.027358228082379, 0.130802003784968, 0, 0, 0]);
 
-  const R_arr = [
+  // Stereo calibration parameters
+  const R = new Float32Array([
     0.999998845864005, -0.000414211371302,  0.001461745394256,
     0.000412302020647,  0.999999061829074,  0.001306272565701,
    -0.001462285095840, -0.001305668377506,  0.999998078474347
-  ];
-  const T_arr = [-59.936399567191145, 0.006329653339225, 0.957303253584517]; // mm
+  ]);
+  const T = new Float32Array([-59.936399567191145, 0.006329653339225, 0.957303253584517]);
 
-  // Computed parameters
-  const BASELINE_M = Math.abs(T_arr[0]) / 1000.0; // Convert mm to meters
-  const FX = leftK[0]; // Focal length from left camera
+  // Precision parameters
+  const BASELINE_MM = Math.abs(T[0]); // 59.936mm baseline
+  const FOCAL_LENGTH_PX = leftK[0]; // ~526 pixels
 
   // ============ UTILITY FUNCTIONS ============
   
-  // JSZip lazy loading
   async function ensureJSZip() {
     if (window.JSZip) return true;
+    
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
@@ -73,277 +64,403 @@
     });
   }
 
-  // Status updates
   function setStatus(msg, isError = false) {
+    console.log(`[Stereo] ${msg}`);
     if (statusEl) {
       statusEl.textContent = msg;
-      statusEl.style.backgroundColor = isError ? '#f8d7da' : '#f8f9fa';
-      statusEl.style.color = isError ? '#721c24' : '#495057';
-    }
-    console.log(msg);
-  }
-
-  // OpenCV matrix creation
-  function mat64(rows, cols, arr) {
-    return cv.matFromArray(rows, cols, cv.CV_64F, arr.slice());
-  }
-
-  // Wait for OpenCV to be ready
-  async function waitForCVReady(timeoutMs = 10000) {
-    if (cvReady && window.cv && size) return true;
-    let timeoutId;
-    try {
-      await Promise.race([
-        cvReadyPromise,
-        new Promise((_, reject) => {
-          timeoutId = setTimeout(() => reject(new Error('OpenCV initialization timeout')), timeoutMs);
-        })
-      ]);
-      return true;
-    } finally {
-      if (timeoutId) clearTimeout(timeoutId);
+      statusEl.style.backgroundColor = isError ? '#f8d7da' : '#e7f3ff';
+      statusEl.style.color = isError ? '#721c24' : '#0066cc';
     }
   }
 
-  // ============ DEPTH COMPUTATION PARAMETERS ============
+  // ============ OPENCV INITIALIZATION ============
   
-  function getDepthParameters() {
-    const numDisp = parseInt(document.getElementById('numDisparitiesInput')?.value || '128');
-    const blockSize = parseInt(document.getElementById('blockSizeInput')?.value || '15');
-    const minDepth = parseFloat(document.getElementById('minDepthInput')?.value || '0.3');
-    const maxDepth = parseFloat(document.getElementById('maxDepthInput')?.value || '5.0');
-    
-    return { numDisp, blockSize, minDepth, maxDepth };
-  }
-
-  function updateParameterDisplays() {
-    const params = ['numDisparities', 'blockSize', 'minDepth', 'maxDepth'];
-    params.forEach(param => {
-      const input = document.getElementById(`${param}Input`);
-      const display = document.getElementById(`${param}Value`);
-      if (input && display) {
-        display.textContent = input.value;
-        input.addEventListener('input', () => {
-          display.textContent = input.value;
-        });
-      }
-    });
-  }
-
-  // ============ CAMERA CONTROLS ============
-  
-  function clearCamControls() {
-    const body = document.getElementById('camControlsBody');
-    if (body) body.innerHTML = '';
-  }
-
-  function addRangeControl(label, key, min, max, step, value, oninput) {
-    const body = document.getElementById('camControlsBody');
-    if (!body) return;
-    
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'display: flex; align-items: center; gap: 8px; margin: 4px 0;';
-    
-    const labelEl = document.createElement('label');
-    labelEl.textContent = label;
-    labelEl.style.width = '150px';
-    
-    const input = document.createElement('input');
-    input.type = 'range';
-    input.min = String(min);
-    input.max = String(max);
-    input.step = String(step || 1);
-    input.value = String(value);
-    
-    const valueSpan = document.createElement('span');
-    valueSpan.textContent = String(value);
-    
-    input.addEventListener('input', async () => {
-      valueSpan.textContent = input.value;
-      try {
-        await oninput(Number(input.value));
-      } catch (e) {
-        console.warn('Camera control error:', e);
-      }
-    });
-    
-    wrapper.appendChild(labelEl);
-    wrapper.appendChild(input);
-    wrapper.appendChild(valueSpan);
-    body.appendChild(wrapper);
-  }
-
-  async function buildCameraControlsForTrack(track) {
-    activeTrack = track;
-    clearCamControls();
-    if (!track) return;
-
-    const caps = track.getCapabilities ? track.getCapabilities() : {};
-    const settings = track.getSettings ? track.getSettings() : {};
-
-    async function applyNumeric(key, val) {
-      try {
-        await track.applyConstraints({ advanced: [{ [key]: val }] });
-        setStatus(`Camera: ${key} = ${val}`);
-      } catch (e) {
-        console.warn('Failed to apply camera constraint:', key, e);
-      }
-    }
-
-    // Add camera controls based on capabilities
-    const controls = [
-      { cap: 'exposureTime', label: 'Exposure Time', step: 1 },
-      { cap: 'exposureCompensation', label: 'Exposure Comp', step: 0.1 },
-      { cap: 'brightness', label: 'Brightness', step: 1 },
-      { cap: 'contrast', label: 'Contrast', step: 1 },
-      { cap: 'saturation', label: 'Saturation', step: 1 },
-      { cap: 'sharpness', label: 'Sharpness', step: 1 },
-      { cap: 'colorTemperature', label: 'Color Temp (K)', step: 50 }
-    ];
-
-    controls.forEach(({ cap, label, step }) => {
-      if (caps[cap] && typeof caps[cap].min === 'number') {
-        const currentValue = settings[cap] ?? caps[cap].min;
-        addRangeControl(label, cap, caps[cap].min, caps[cap].max, step, currentValue, 
-          (v) => applyNumeric(cap, v));
-      }
-    });
-
-    // Add toggle buttons for auto modes
-    const toggles = [
-      { cap: 'whiteBalanceMode', label: 'Toggle Auto WhiteBalance' },
-      { cap: 'exposureMode', label: 'Toggle Auto Exposure' }
-    ];
-
-    toggles.forEach(({ cap, label }) => {
-      if (caps[cap] && Array.isArray(caps[cap])) {
-        const body = document.getElementById('camControlsBody');
-        const button = document.createElement('button');
-        button.textContent = label;
-        button.style.cssText = 'margin: 6px 4px; padding: 6px 12px; border: none; border-radius: 4px; background: #007bff; color: white; cursor: pointer;';
-        button.addEventListener('click', async () => {
-          const current = settings[cap];
-          const target = (current === 'continuous') ? 'manual' : 'continuous';
-          try {
-            await track.applyConstraints({ advanced: [{ [cap]: target }] });
-            setStatus(`Camera: ${cap} = ${target}`);
-          } catch (e) {
-            console.warn('Failed to toggle camera mode:', cap, e);
-          }
-        });
-        body.appendChild(button);
-      }
-    });
-
-    if (!document.getElementById('camControlsBody')?.children.length) {
-      const body = document.getElementById('camControlsBody');
-      if (body) {
-        const note = document.createElement('div');
-        note.style.cssText = 'color: #777; font-size: 12px; padding: 8px;';
-        note.textContent = 'No adjustable camera parameters available for this device.';
-        body.appendChild(note);
-      }
-    }
-  }
-
-  // ============ RECTIFICATION MAPS ============
-  
-  function computeRectifyMaps() {
-    if (!cvReady || !window.cv || !size) {
-      setStatus('OpenCV not ready for rectification map computation', true);
-      return;
+  function initializeOpenCV() {
+    if (!window.cv || !window.cv.Mat) {
+      setStatus('OpenCV not loaded, using basic mode', true);
+      return false;
     }
 
     try {
-      // Create OpenCV matrices from calibration data
-      const K1 = mat64(3, 3, leftK);
-      const D1 = mat64(1, 5, leftD);
-      const K2 = mat64(3, 3, rightK);
-      const D2 = mat64(1, 5, rightD);
-      const R = mat64(3, 3, R_arr);
-      const T = mat64(3, 1, T_arr);
+      setStatus('Initializing OpenCV rectification maps...');
+      
+      const imageSize = new cv.Size(640, 480); // Single camera resolution
+      
+      // Convert calibration data to OpenCV matrices
+      const K1 = cv.matFromArray(3, 3, cv.CV_32FC1, leftK);
+      const D1 = cv.matFromArray(5, 1, cv.CV_32FC1, leftD);
+      const K2 = cv.matFromArray(3, 3, cv.CV_32FC1, rightK);
+      const D2 = cv.matFromArray(5, 1, cv.CV_32FC1, rightD);
+      const R_mat = cv.matFromArray(3, 3, cv.CV_32FC1, R);
+      const T_mat = cv.matFromArray(3, 1, cv.CV_32FC1, T);
 
-      // Compute rectification
-      const R1 = new cv.Mat(), R2 = new cv.Mat();
-      const P1 = new cv.Mat(), P2 = new cv.Mat();
-      const Q = new cv.Mat();
+      // Compute rectification transforms
+      const R1 = new cv.Mat();
+      const R2 = new cv.Mat();
+      const P1 = new cv.Mat();
+      const P2 = new cv.Mat();
+      Q_matrix = new cv.Mat();
 
       cv.stereoRectify(
-        K1, D1, K2, D2,
-        size, R, T,
-        R1, R2, P1, P2, Q,
-        cv.CALIB_ZERO_DISPARITY, 0, size
+        K1, D1, K2, D2, imageSize, R_mat, T_mat,
+        R1, R2, P1, P2, Q_matrix,
+        cv.CALIB_ZERO_DISPARITY, 0, imageSize
       );
 
-      // Generate rectification maps
-      map1x = new cv.Mat(); map1y = new cv.Mat();
-      map2x = new cv.Mat(); map2y = new cv.Mat();
-      
-      cv.initUndistortRectifyMap(K1, D1, R1, P1, size, cv.CV_32FC1, map1x, map1y);
-      cv.initUndistortRectifyMap(K2, D2, R2, P2, size, cv.CV_32FC1, map2x, map2y);
+      // Initialize rectification maps
+      map1x = new cv.Mat();
+      map1y = new cv.Mat();
+      map2x = new cv.Mat();
+      map2y = new cv.Mat();
+
+      cv.initUndistortRectifyMap(K1, D1, R1, P1, imageSize, cv.CV_16SC2, map1x, map1y);
+      cv.initUndistortRectifyMap(K2, D2, R2, P2, imageSize, cv.CV_16SC2, map2x, map2y);
 
       // Cleanup temporary matrices
-      [K1, D1, K2, D2, R, T, R1, R2, P1, P2, Q].forEach(mat => mat.delete());
+      K1.delete(); D1.delete(); K2.delete(); D2.delete();
+      R_mat.delete(); T_mat.delete(); R1.delete(); R2.delete();
+      P1.delete(); P2.delete();
 
-      mapsReady = true;
-      setStatus("Rectification maps computed successfully");
+      rectificationMapsReady = true;
+      cvReady = true;
+      setStatus('OpenCV rectification maps initialized - High precision mode');
+      return true;
+
     } catch (error) {
-      console.error('Rectification map computation failed:', error);
-      setStatus('Failed to compute rectification maps', true);
+      console.error('OpenCV initialization failed:', error);
+      setStatus('OpenCV initialization failed, using basic mode', true);
+      return false;
     }
+  }
+
+  // ============ IMAGE PROCESSING ============
+  
+  function splitAndRectifyStereoImage(canvas, ctx) {
+    const width = canvas.width;
+    const height = canvas.height;
+    const halfWidth = Math.floor(width / 2);
+    
+    if (!cvReady || !rectificationMapsReady) {
+      // Fallback to simple split
+      const leftImageData = ctx.getImageData(0, 0, halfWidth, height);
+      const rightImageData = ctx.getImageData(halfWidth, 0, halfWidth, height);
+      return { leftImageData, rightImageData, rectified: false };
+    }
+
+    try {
+      // Get raw stereo image
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const src = cv.matFromImageData(imageData);
+      
+      // Split into left and right
+      const leftROI = new cv.Rect(0, 0, halfWidth, height);
+      const rightROI = new cv.Rect(halfWidth, 0, halfWidth, height);
+      
+      const leftRaw = src.roi(leftROI);
+      const rightRaw = src.roi(rightROI);
+      
+      // Apply rectification
+      const leftRect = new cv.Mat();
+      const rightRect = new cv.Mat();
+      
+      cv.remap(leftRaw, leftRect, map1x, map1y, cv.INTER_LINEAR);
+      cv.remap(rightRaw, rightRect, map2x, map2y, cv.INTER_LINEAR);
+      
+      // Convert back to ImageData
+      const leftCanvas = document.createElement('canvas');
+      const rightCanvas = document.createElement('canvas');
+      leftCanvas.width = rightCanvas.width = halfWidth;
+      leftCanvas.height = rightCanvas.height = height;
+      
+      cv.imshow(leftCanvas, leftRect);
+      cv.imshow(rightCanvas, rightRect);
+      
+      const leftImageData = leftCanvas.getContext('2d').getImageData(0, 0, halfWidth, height);
+      const rightImageData = rightCanvas.getContext('2d').getImageData(0, 0, halfWidth, height);
+      
+      // Cleanup
+      src.delete(); leftRaw.delete(); rightRaw.delete();
+      leftRect.delete(); rightRect.delete();
+      
+      return { leftImageData, rightImageData, rectified: true };
+      
+    } catch (error) {
+      console.error('Image rectification failed:', error);
+      setStatus('Image rectification failed, using raw images', true);
+      
+      // Fallback to simple split
+      const leftImageData = ctx.getImageData(0, 0, halfWidth, height);
+      const rightImageData = ctx.getImageData(halfWidth, 0, halfWidth, height);
+      return { leftImageData, rightImageData, rectified: false };
+    }
+  }
+
+  function computePrecisionDepthMap(leftImageData, rightImageData) {
+    if (!cvReady || !Q_matrix) {
+      return createBasicDepthMap(leftImageData, rightImageData);
+    }
+
+    try {
+      setStatus('Computing high-precision depth map...');
+      
+      const width = leftImageData.width;
+      const height = leftImageData.height;
+      
+      // Convert to OpenCV matrices
+      const leftMat = cv.matFromImageData(leftImageData);
+      const rightMat = cv.matFromImageData(rightImageData);
+      
+      // Convert to grayscale
+      const leftGray = new cv.Mat();
+      const rightGray = new cv.Mat();
+      cv.cvtColor(leftMat, leftGray, cv.COLOR_RGBA2GRAY);
+      cv.cvtColor(rightMat, rightGray, cv.COLOR_RGBA2GRAY);
+      
+      // Compute disparity using StereoBM
+      const disparity = new cv.Mat();
+      const stereoBM = new cv.StereoBM(64, 15);
+      
+      // Set parameters for precision measurement
+      stereoBM.setMinDisparity(1);
+      stereoBM.setNumDisparities(64);
+      stereoBM.setBlockSize(15);
+      stereoBM.setDisp12MaxDiff(1);
+      stereoBM.setUniquenessRatio(10);
+      stereoBM.setSpeckleWindowSize(50);
+      stereoBM.setSpeckleRange(2);
+      
+      stereoBM.compute(leftGray, rightGray, disparity);
+      
+      // Create depth visualization
+      const depthVis = createPrecisionDepthVisualization(disparity, width, height);
+      
+      // Cleanup
+      leftMat.delete(); rightMat.delete();
+      leftGray.delete(); rightGray.delete();
+      disparity.delete();
+      stereoBM.delete();
+      
+      setStatus('High-precision depth map computed');
+      return depthVis;
+      
+    } catch (error) {
+      console.error('High-precision depth computation failed:', error);
+      setStatus('High-precision computation failed, using basic algorithm', true);
+      return createBasicDepthMap(leftImageData, rightImageData);
+    }
+  }
+
+  function createPrecisionDepthVisualization(disparityMat, width, height) {
+    const depthData = new ImageData(width, height);
+    const depthPixels = depthData.data;
+    
+    // Get disparity data
+    const disparityData = disparityMat.data16S; // 16-bit signed data
+    
+    console.log(`[Depth] Creating depth visualization: ${width}x${height}`);
+    
+    // Find min and max valid depth values for normalization
+    let minValidDepth = Infinity;
+    let maxValidDepth = -Infinity;
+    const depthValues = new Float32Array(width * height);
+    
+    // First pass: calculate all depth values and find range
+    for (let i = 0; i < width * height; i++) {
+      const disparity = disparityData[i] / 16.0; // StereoBM returns 16x scaled values
+      
+      if (disparity > 0) {
+        // Convert disparity to depth in mm
+        const depth_mm = (FOCAL_LENGTH_PX * BASELINE_MM) / disparity;
+        depthValues[i] = depth_mm;
+        
+        // Track valid depth range
+        if (depth_mm > 0 && depth_mm < 1000) {
+          minValidDepth = Math.min(minValidDepth, depth_mm);
+          maxValidDepth = Math.max(maxValidDepth, depth_mm);
+        }
+      } else {
+        depthValues[i] = -1; // Invalid depth marker
+      }
+    }
+    
+    console.log(`[Depth] Valid depth range: ${minValidDepth.toFixed(1)}mm - ${maxValidDepth.toFixed(1)}mm`);
+    
+    // Second pass: normalize and render based on actual depth range
+    for (let i = 0; i < width * height; i++) {
+      const pixelIdx = i * 4;
+      const depth_mm = depthValues[i];
+      
+      if (depth_mm > 0 && minValidDepth < maxValidDepth) {
+        // Normalize depth to 0-255 range based on actual data range
+        const normalizedDepth = (depth_mm - minValidDepth) / (maxValidDepth - minValidDepth);
+        const grayValue = Math.floor(normalizedDepth * 255);
+        
+        // Set grayscale value (R=G=B for grayscale)
+        depthPixels[pixelIdx] = grayValue;     // Red
+        depthPixels[pixelIdx + 1] = grayValue; // Green
+        depthPixels[pixelIdx + 2] = grayValue; // Blue
+        depthPixels[pixelIdx + 3] = 255;       // Alpha
+      } else {
+        // No valid depth - black (0)
+        depthPixels[pixelIdx] = 0;
+        depthPixels[pixelIdx + 1] = 0;
+        depthPixels[pixelIdx + 2] = 0;
+        depthPixels[pixelIdx + 3] = 255;
+      }
+    }
+    
+    console.log('[Depth] Depth visualization created successfully');
+    return depthData;
+  }
+
+  function createBasicDepthMap(leftImageData, rightImageData) {
+    // Fallback basic depth computation
+    const width = leftImageData.width;
+    const height = leftImageData.height;
+    const depthData = new ImageData(width, height);
+    
+    const leftData = leftImageData.data;
+    const rightData = rightImageData.data;
+    const depthPixels = depthData.data;
+    
+    console.log(`[Depth] Creating basic depth map: ${width}x${height}`);
+    
+    // Simple block matching for basic depth
+    const blockSize = 7;
+    const halfBlock = Math.floor(blockSize / 2);
+    
+    // First pass: calculate all depth values and find range
+    const depthValues = new Float32Array(width * height);
+    let minValidDepth = Infinity;
+    let maxValidDepth = -Infinity;
+    
+    for (let y = halfBlock; y < height - halfBlock; y++) {
+      for (let x = halfBlock; x < width - halfBlock; x++) {
+        const i = y * width + x;
+        
+        let bestDisparity = 0;
+        let minSSD = Infinity;
+        
+        // Search for best match
+        for (let d = 1; d < Math.min(64, width - x - halfBlock); d++) {
+          let ssd = 0;
+          
+          for (let by = -halfBlock; by <= halfBlock; by++) {
+            for (let bx = -halfBlock; bx <= halfBlock; bx++) {
+              const leftIdx = ((y + by) * width + (x + bx)) * 4;
+              const rightIdx = ((y + by) * width + (x + bx + d)) * 4;
+              
+              if (rightIdx < rightData.length - 3) {
+                const leftGray = (leftData[leftIdx] + leftData[leftIdx + 1] + leftData[leftIdx + 2]) / 3;
+                const rightGray = (rightData[rightIdx] + rightData[rightIdx + 1] + rightData[rightIdx + 2]) / 3;
+                const diff = leftGray - rightGray;
+                ssd += diff * diff;
+              }
+            }
+          }
+          
+          if (ssd < minSSD) {
+            minSSD = ssd;
+            bestDisparity = d;
+          }
+        }
+        
+        // Calculate depth
+        if (bestDisparity > 0) {
+          const depth_mm = (FOCAL_LENGTH_PX * BASELINE_MM) / bestDisparity;
+          depthValues[i] = depth_mm;
+          
+          if (depth_mm > 0 && depth_mm < 1000) {
+            minValidDepth = Math.min(minValidDepth, depth_mm);
+            maxValidDepth = Math.max(maxValidDepth, depth_mm);
+          }
+        } else {
+          depthValues[i] = -1; // Invalid
+        }
+      }
+    }
+    
+    console.log(`[Depth] Basic depth range: ${minValidDepth.toFixed(1)}mm - ${maxValidDepth.toFixed(1)}mm`);
+    
+    // Second pass: render based on actual depth range
+    for (let i = 0; i < width * height; i++) {
+      const idx = i * 4;
+      const depth_mm = depthValues[i];
+      
+      if (depth_mm > 0 && minValidDepth < maxValidDepth) {
+        // Normalize depth to 0-255 range based on actual data
+        const normalizedDepth = (depth_mm - minValidDepth) / (maxValidDepth - minValidDepth);
+        const grayValue = Math.floor(normalizedDepth * 255);
+        
+        depthPixels[idx] = grayValue;
+        depthPixels[idx + 1] = grayValue;
+        depthPixels[idx + 2] = grayValue;
+      } else {
+        // No valid depth - black
+        depthPixels[idx] = 0;
+        depthPixels[idx + 1] = 0;
+        depthPixels[idx + 2] = 0;
+      }
+      depthPixels[idx + 3] = 255; // Alpha
+    }
+    
+    console.log('[Depth] Basic depth map created successfully');
+    return depthData;
+  }
+
+  function drawImageDataToCanvas(canvas, imageData) {
+    const ctx = canvas.getContext('2d');
+    
+    if (canvas.width !== imageData.width || canvas.height !== imageData.height) {
+      canvas.width = imageData.width;
+      canvas.height = imageData.height;
+    }
+    
+    ctx.putImageData(imageData, 0, 0);
   }
 
   // ============ DEVICE MANAGEMENT ============
   
-  function listVideoDevices() {
+  async function listVideoDevices() {
     const select = document.getElementById("deviceSelect");
     if (!select) return;
     
-    select.innerHTML = "";
-    const lastDeviceId = localStorage.getItem("stereo_last_deviceId") || "";
+    try {
+      select.innerHTML = "";
+      const lastDeviceId = localStorage.getItem("stereo_last_deviceId") || "";
 
-    navigator.mediaDevices.enumerateDevices()
-      .then(devices => {
-        const videoDevices = devices.filter(d => d.kind === "videoinput");
-        devicesCached = videoDevices;
-        
-        videoDevices.forEach((device, index) => {
-          const option = document.createElement("option");
-          option.value = device.deviceId;
-          option.textContent = device.label || `Camera ${index + 1}`;
-          if (lastDeviceId && device.deviceId === lastDeviceId) {
-            option.selected = true;
-          }
-          select.appendChild(option);
-        });
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(d => d.kind === "videoinput");
+      devicesCached = videoDevices;
+      
+      if (videoDevices.length === 0) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No cameras detected";
+        select.appendChild(option);
+        setStatus("No video devices found", true);
+        return;
+      }
 
-        // Auto-select preferred device if none selected
-        if (select.options.length > 0 && select.selectedIndex === -1) {
-          const preferredPattern = /(USB|UVC|Stereo|Depth|External|Left|Right)/i;
-          const avoidPattern = /(Integrated|FaceTime|Webcam|HD\s*WebCam)/i;
-          
-          let preferredIndex = -1;
-          for (let i = 0; i < select.options.length; i++) {
-            const label = select.options[i].textContent || "";
-            if (preferredPattern.test(label) && !avoidPattern.test(label)) {
-              preferredIndex = i;
-              break;
-            }
-          }
-          select.selectedIndex = preferredIndex !== -1 ? preferredIndex : select.options.length - 1;
+      videoDevices.forEach((device, index) => {
+        const option = document.createElement("option");
+        option.value = device.deviceId;
+        option.textContent = device.label || `Camera ${index + 1}`;
+        if (lastDeviceId && device.deviceId === lastDeviceId) {
+          option.selected = true;
         }
-
-        if (select.options.length === 0) {
-          const option = document.createElement("option");
-          option.value = "";
-          option.textContent = "No cameras detected";
-          select.appendChild(option);
-        }
-      })
-      .catch(error => {
-        console.error('Device enumeration failed:', error);
-        setStatus("Failed to enumerate cameras - check permissions", true);
+        select.appendChild(option);
       });
+
+      if (select.selectedIndex === -1) {
+        select.selectedIndex = select.options.length - 1;
+      }
+
+      setStatus(`Found ${videoDevices.length} video device(s)`);
+    } catch (error) {
+      console.error('Device enumeration failed:', error);
+      setStatus("Device enumeration failed - check permissions", true);
+    }
   }
 
   async function requestCameraPermission() {
@@ -356,13 +473,9 @@
       return true;
     } catch (error) {
       console.warn("Camera permission not granted:", error);
+      setStatus("Camera permission denied", true);
       return false;
     }
-  }
-
-  async function warmUpPermissionAndRefreshDevices() {
-    await requestCameraPermission();
-    listVideoDevices();
   }
 
   // ============ STREAMING ============
@@ -377,17 +490,11 @@
       return;
     }
 
-    // Stop existing streams
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
       stream = null;
     }
-    if (streamRight) {
-      streamRight.getTracks().forEach(track => track.stop());
-      streamRight = null;
-    }
 
-    // Save device selection
     if (deviceSelect?.value) {
       localStorage.setItem("stereo_last_deviceId", deviceSelect.value);
     }
@@ -402,7 +509,7 @@
     };
 
     try {
-      setStatus('Starting camera stream...');
+      setStatus('Starting camera...');
       stream = await navigator.mediaDevices.getUserMedia(constraints);
     } catch (exactError) {
       console.warn("Exact device request failed, trying fallback:", exactError);
@@ -418,31 +525,28 @@
       }
     }
 
-    video.srcObject = stream;
-    await video.play();
-    
-    const actualWidth = video.videoWidth || width;
-    const actualHeight = video.videoHeight || height;
-    setStatus(`Camera streaming: ${actualWidth}×${actualHeight}`);
+    try {
+      video.srcObject = stream;
+      await video.play();
+      
+      const actualWidth = video.videoWidth || width;
+      const actualHeight = video.videoHeight || height;
+      setStatus(`Camera stream started: ${actualWidth}×${actualHeight}`);
 
-    // Setup camera controls
-    const videoTracks = stream.getVideoTracks();
-    if (videoTracks.length > 0) {
-      buildCameraControlsForTrack(videoTracks[0]);
+      document.getElementById("startBtn").disabled = true;
+      document.getElementById("stopBtn").disabled = false;
+      document.getElementById("captureBtn").disabled = false;
+      document.getElementById("computeDepthBtn").disabled = false;
+      
+      drawLoop();
+    } catch (error) {
+      console.error('Video playback failed:', error);
+      setStatus('Video playback failed', true);
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
     }
-
-    // Update UI state
-    document.getElementById("startBtn").disabled = true;
-    document.getElementById("stopBtn").disabled = false;
-    document.getElementById("captureBtn").disabled = false;
-    document.getElementById("computeDepthBtn").disabled = false;
-    document.getElementById("calibrateBtn").disabled = false;
-    
-    // Enable mouse interaction
-    enableMouseInteraction();
-    
-    // Start rendering loop
-    drawLoop();
   }
 
   function stopStream() {
@@ -451,217 +555,68 @@
       animHandle = null;
     }
     
-    [stream, streamRight].forEach(s => {
-      if (s) s.getTracks().forEach(track => track.stop());
-    });
-    stream = null;
-    streamRight = null;
-
-    if (videoRightEl) {
-      videoRightEl.srcObject = null;
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
     }
-
-    // Disable mouse interaction
-    disableMouseInteraction();
 
     setStatus("Camera stopped");
     
-    // Update UI state
     document.getElementById("startBtn").disabled = false;
     document.getElementById("stopBtn").disabled = true;
     document.getElementById("captureBtn").disabled = true;
     document.getElementById("computeDepthBtn").disabled = true;
     document.getElementById("captureDepthBtn").disabled = true;
-    document.getElementById("calibrateBtn").disabled = true;
-  }
-
-  // ============ MOUSE INTERACTION ============
-  
-  function enableMouseInteraction() {
-    isMouseEnabled = true;
-    
-    // Add mouse event listeners to left canvas and depth canvas
-    [leftRect, depthCanvas].forEach(canvas => {
-      if (canvas) {
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('click', handleMouseClick);
-        canvas.style.cursor = 'crosshair';
-      }
-    });
-    
-    // Show measurement info
-    const measurementInfo = document.getElementById('measurementInfo');
-    if (measurementInfo) {
-      measurementInfo.style.display = 'block';
-    }
-  }
-
-  function disableMouseInteraction() {
-    isMouseEnabled = false;
-    
-    [leftRect, depthCanvas].forEach(canvas => {
-      if (canvas) {
-        canvas.removeEventListener('mousemove', handleMouseMove);
-        canvas.removeEventListener('click', handleMouseClick);
-        canvas.style.cursor = 'default';
-      }
-    });
-    
-    const measurementInfo = document.getElementById('measurementInfo');
-    if (measurementInfo) {
-      measurementInfo.style.display = 'none';
-    }
-  }
-
-  function handleMouseMove(event) {
-    if (!isMouseEnabled) return;
-    
-    const rect = event.target.getBoundingClientRect();
-    const scaleX = event.target.width / rect.width;
-    const scaleY = event.target.height / rect.height;
-    
-    mouseCoords.x = Math.floor((event.clientX - rect.left) * scaleX);
-    mouseCoords.y = Math.floor((event.clientY - rect.top) * scaleY);
-  }
-
-  function handleMouseClick(event) {
-    if (!isMouseEnabled || !currentDepthMat) return;
-    
-    const rect = event.target.getBoundingClientRect();
-    const scaleX = event.target.width / rect.width;
-    const scaleY = event.target.height / rect.height;
-    
-    const x = Math.floor((event.clientX - rect.left) * scaleX);
-    const y = Math.floor((event.clientY - rect.top) * scaleY);
-    
-    // Get depth value at clicked position
-    try {
-      const depth = getDepthAtPoint(x, y);
-      if (depth > 0) {
-        lastMeasurement = { x, y, depth };
-        setStatus(`Distance measurement: ${depth.toFixed(3)}m at (${x}, ${y})`);
-        
-        // Draw measurement marker
-        drawMeasurementMarker(event.target, x, y, depth);
-      } else {
-        setStatus('No valid depth data at clicked position', true);
-      }
-    } catch (error) {
-      console.error('Depth measurement error:', error);
-      setStatus('Failed to measure depth at clicked position', true);
-    }
-  }
-
-  function getDepthAtPoint(x, y) {
-    if (!currentDepthMat || x < 0 || y < 0 || x >= currentDepthMat.cols || y >= currentDepthMat.rows) {
-      return 0;
-    }
-    
-    try {
-      // Get depth value from the stored depth matrix
-      const depthValue = currentDepthMat.floatAt(y, x);
-      return isFinite(depthValue) && depthValue > 0 ? depthValue : 0;
-    } catch (error) {
-      console.error('Error reading depth value:', error);
-      return 0;
-    }
-  }
-
-  function drawMeasurementMarker(canvas, x, y, depth) {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    // Save current state
-    ctx.save();
-    
-    // Draw crosshair
-    ctx.strokeStyle = '#00ff00';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x - 10, y);
-    ctx.lineTo(x + 10, y);
-    ctx.moveTo(x, y - 10);
-    ctx.lineTo(x, y + 10);
-    ctx.stroke();
-    
-    // Draw distance text
-    ctx.fillStyle = '#00ff00';
-    ctx.font = '14px Arial';
-    ctx.fillText(`${depth.toFixed(3)}m`, x + 15, y - 5);
-    
-    // Restore state
-    ctx.restore();
   }
 
   // ============ MAIN RENDERING LOOP ============
   
+  let depthComputed = false;
+  
   function drawLoop() {
-    if (!cvReady || !window.cv || !size) {
-      animHandle = requestAnimationFrame(drawLoop);
-      return;
-    }
-
     if (!video?.srcObject || !video.videoWidth || !video.videoHeight) {
       animHandle = requestAnimationFrame(drawLoop);
       return;
     }
 
     try {
-      // Update canvas size to match video
       rawCanvas.width = video.videoWidth;
       rawCanvas.height = video.videoHeight;
       rawCtx.drawImage(video, 0, 0, rawCanvas.width, rawCanvas.height);
 
-      // Split stereo image into left and right halves
-      const halfWidth = Math.floor(rawCanvas.width / 2);
-      const height = Math.min(rawCanvas.height, 480);
+      // Split and rectify stereo image
+      const { leftImageData, rightImageData, rectified } = splitAndRectifyStereoImage(rawCanvas, rawCtx);
 
-      const leftImageData = rawCtx.getImageData(0, 0, halfWidth, height);
-      const rightImageData = rawCtx.getImageData(halfWidth, 0, halfWidth, height);
+      // Draw rectified images
+      drawImageDataToCanvas(leftCanvas, leftImageData);
+      drawImageDataToCanvas(rightCanvas, rightImageData);
 
-      // Convert to OpenCV matrices
-      let leftMat = cv.matFromImageData(leftImageData);
-      let rightMat = cv.matFromImageData(rightImageData);
-
-      // Resize to standard size if needed
-      if (leftMat.cols !== 640 || leftMat.rows !== 480) {
-        const resizedLeft = new cv.Mat();
-        cv.resize(leftMat, resizedLeft, size, 0, 0, cv.INTER_LINEAR);
-        leftMat.delete();
-        leftMat = resizedLeft;
-      }
-      
-      if (rightMat.cols !== 640 || rightMat.rows !== 480) {
-        const resizedRight = new cv.Mat();
-        cv.resize(rightMat, resizedRight, size, 0, 0, cv.INTER_LINEAR);
-        rightMat.delete();
-        rightMat = resizedRight;
-      }
-
-      // Apply rectification if maps are ready
-      if (mapsReady) {
-        const leftRectified = new cv.Mat();
-        const rightRectified = new cv.Mat();
-        
-        cv.remap(leftMat, leftRectified, map1x, map1y, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-        cv.remap(rightMat, rightRectified, map2x, map2y, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-        
-        cv.imshow("leftRect", leftRectified);
-        cv.imshow("rightRect", rightRectified);
-        
-        leftRectified.delete();
-        rightRectified.delete();
-      } else {
-        // Show unrectified images
-        cv.imshow("leftRect", leftMat);
-        cv.imshow("rightRect", rightMat);
+      // Update status to show rectification status
+      if (rectified && !depthComputed) {
+        const depthCtx = depthCanvas.getContext('2d');
+        depthCtx.fillStyle = '#000';
+        depthCtx.fillRect(0, 0, depthCanvas.width, depthCanvas.height);
+        depthCtx.fillStyle = '#fff';
+        depthCtx.font = '14px Arial';
+        depthCtx.textAlign = 'center';
+        depthCtx.fillText('Images rectified - Click "Compute Depth" for measurement', depthCanvas.width/2, depthCanvas.height/2);
+        depthCtx.font = '12px Arial';
+        depthCtx.fillText('Depth map: Grayscale based on actual depth values', depthCanvas.width/2, depthCanvas.height/2 + 20);
+      } else if (!rectified && !depthComputed) {
+        const depthCtx = depthCanvas.getContext('2d');
+        depthCtx.fillStyle = '#000';
+        depthCtx.fillRect(0, 0, depthCanvas.width, depthCanvas.height);
+        depthCtx.fillStyle = '#fff';
+        depthCtx.font = '14px Arial';
+        depthCtx.textAlign = 'center';
+        depthCtx.fillText('Basic mode - Click "Compute Depth"', depthCanvas.width/2, depthCanvas.height/2);
+        depthCtx.font = '12px Arial';
+        depthCtx.fillText('(OpenCV not loaded, limited precision)', depthCanvas.width/2, depthCanvas.height/2 + 20);
       }
 
-      leftMat.delete();
-      rightMat.delete();
     } catch (error) {
       console.error('Rendering error:', error);
-      setStatus('Rendering error occurred', true);
+      setStatus(`Rendering error: ${error.message}`, true);
     }
 
     animHandle = requestAnimationFrame(drawLoop);
@@ -670,107 +625,21 @@
   // ============ DEPTH COMPUTATION ============
   
   async function computeDepthFrame() {
-    try {
-      await waitForCVReady();
-    } catch (error) {
-      setStatus('OpenCV not ready for depth computation', true);
-      return;
-    }
-
-    if (!mapsReady) {
-      try {
-        computeRectifyMaps();
-      } catch (error) {
-        console.error('Rectification failed:', error);
-        setStatus('Failed to compute rectification maps', true);
-        return;
-      }
-    }
-
-    const leftCanvas = document.getElementById('leftRect');
-    const rightCanvas = document.getElementById('rightRect');
-    
-    if (!leftCanvas || !rightCanvas || leftCanvas.width === 0 || rightCanvas.width === 0) {
-      setStatus('No rectified images available for depth computation', true);
+    if (!rawCanvas || rawCanvas.width === 0) {
+      setStatus('No image data available', true);
       return;
     }
 
     try {
-      setStatus('Computing depth map...');
+      setStatus('Computing precision depth map...');
       
-      // Read rectified images
-      let leftMat = cv.imread(leftCanvas);
-      let rightMat = cv.imread(rightCanvas);
+      const { leftImageData, rightImageData } = splitAndRectifyStereoImage(rawCanvas, rawCtx);
+      const depthImageData = computePrecisionDepthMap(leftImageData, rightImageData);
       
-      // Convert to grayscale
-      let leftGray = new cv.Mat();
-      let rightGray = new cv.Mat();
-      cv.cvtColor(leftMat, leftGray, cv.COLOR_RGBA2GRAY);
-      cv.cvtColor(rightMat, rightGray, cv.COLOR_RGBA2GRAY);
-
-      // Get depth computation parameters
-      const { numDisp, blockSize, minDepth, maxDepth } = getDepthParameters();
-
-      // Create stereo matcher
-      const stereoMatcher = new cv.StereoBM();
-      stereoMatcher.setNumDisparities(numDisp);
-      stereoMatcher.setBlockSize(blockSize);
-      stereoMatcher.setPreFilterCap(31);
-      stereoMatcher.setPreFilterSize(9);
-      stereoMatcher.setPreFilterType(cv.StereoBM_PREFILTER_XSOBEL);
-      stereoMatcher.setTextureThreshold(10);
-      stereoMatcher.setUniquenessRatio(15);
-      stereoMatcher.setSpeckleWindowSize(100);
-      stereoMatcher.setSpeckleRange(32);
-      stereoMatcher.setDisp12MaxDiff(1);
-
-      // Compute disparity
-      let disparity16 = new cv.Mat();
-      stereoMatcher.compute(leftGray, rightGray, disparity16);
-
-      // Convert to 32-bit float
-      let disparity32 = new cv.Mat();
-      disparity16.convertTo(disparity32, cv.CV_32F, 1.0 / 16.0);
-
-      // Convert disparity to depth: Z = (fx * baseline) / disparity
-      let depthMat = new cv.Mat(leftGray.rows, leftGray.cols, cv.CV_32F);
-      const focalBaseline = FX * BASELINE_M;
+      drawImageDataToCanvas(depthCanvas, depthImageData);
+      depthComputed = true;
       
-      for (let y = 0; y < depthMat.rows; y++) {
-        for (let x = 0; x < depthMat.cols; x++) {
-          const disp = disparity32.floatAt(y, x);
-          if (disp > 0) {
-            const depth = focalBaseline / disp;
-            if (depth >= minDepth && depth <= maxDepth) {
-              depthMat.floatPtr(y, x)[0] = depth;
-            } else {
-              depthMat.floatPtr(y, x)[0] = 0;
-            }
-          } else {
-            depthMat.floatPtr(y, x)[0] = 0;
-          }
-        }
-      }
-
-      // Store depth matrix for mouse interaction
-      if (currentDepthMat) currentDepthMat.delete();
-      currentDepthMat = depthMat.clone();
-
-      // Create visualization
-      let depth8bit = new cv.Mat();
-      cv.convertScaleAbs(depthMat, depth8bit, 255.0 / (maxDepth - minDepth), -minDepth * 255.0 / (maxDepth - minDepth));
-      
-      let depthColor = new cv.Mat();
-      cv.applyColorMap(depth8bit, depthColor, cv.COLORMAP_JET);
-      cv.imshow('depthCanvas', depthColor);
-
-      // Cleanup
-      [leftMat, rightMat, leftGray, rightGray, disparity16, disparity32, depthMat, depth8bit, depthColor].forEach(mat => mat.delete());
-      stereoMatcher.delete();
-
-      // Enable depth capture
       document.getElementById('captureDepthBtn').disabled = false;
-      setStatus(`Depth computed successfully (${numDisp} disparities, ${blockSize}×${blockSize} blocks)`);
       
     } catch (error) {
       console.error('Depth computation failed:', error);
@@ -784,7 +653,7 @@
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('Failed to load ZIP library', true);
+      setStatus('ZIP library loading failed', true);
       return;
     }
     
@@ -793,77 +662,50 @@
     const sampleId = (leafIdEl?.value?.trim() || "sample").replace(/[^a-zA-Z0-9_\-\.]/g, "_");
     const baseName = `${sampleId}_stereo_${String(captureIndex).padStart(3, "0")}`;
 
-    const leftCanvas = document.getElementById("leftRect");
-    const rightCanvas = document.getElementById("rightRect");
-    
     if (!leftCanvas || !rightCanvas) {
-      setStatus('No rectified images to capture', true);
+      setStatus('No images to capture', true);
       return;
     }
 
-    const leftDataURL = leftCanvas.toDataURL("image/png");
-    const rightDataURL = rightCanvas.toDataURL("image/png");
+    try {
+      const leftDataURL = leftCanvas.toDataURL("image/png");
+      const rightDataURL = rightCanvas.toDataURL("image/png");
 
-    zip.file(`${baseName}_left.png`, leftDataURL.split(",")[1], { base64: true });
-    zip.file(`${baseName}_right.png`, rightDataURL.split(",")[1], { base64: true });
+      zip.file(`${baseName}_left_rectified.png`, leftDataURL.split(",")[1], { base64: true });
+      zip.file(`${baseName}_right_rectified.png`, rightDataURL.split(",")[1], { base64: true });
 
-    // Update captures list
-    const capturesList = document.getElementById("capturesList");
-    if (capturesList) {
-      if (capturesList.textContent.includes('No captures yet')) {
-        capturesList.innerHTML = '';
+      const capturesList = document.getElementById("capturesList");
+      if (capturesList) {
+        if (capturesList.textContent.includes('No captured data yet')) {
+          capturesList.innerHTML = '';
+        }
+        
+        const captureDiv = document.createElement("div");
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #f8f9fa;';
+        captureDiv.innerHTML = `
+          <div style="margin-bottom: 8px;">
+            <a href="${leftDataURL}" download="${baseName}_left_rectified.png" style="margin-right: 10px;">${baseName}_left_rectified.png</a>
+            <a href="${rightDataURL}" download="${baseName}_right_rectified.png">${baseName}_right_rectified.png</a>
+          </div>
+          <small style="color: #6c757d;">Rectified stereo image pair</small>
+        `;
+        capturesList.appendChild(captureDiv);
       }
-      
-      const captureDiv = document.createElement("div");
-      captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #f8f9fa;';
-      
-      const links = document.createElement("div");
-      links.style.marginBottom = '8px';
-      
-      const leftLink = document.createElement("a");
-      leftLink.href = leftDataURL;
-      leftLink.download = `${baseName}_left.png`;
-      leftLink.textContent = `${baseName}_left.png`;
-      leftLink.style.marginRight = '10px';
-      
-      const rightLink = document.createElement("a");
-      rightLink.href = rightDataURL;
-      rightLink.download = `${baseName}_right.png`;
-      rightLink.textContent = `${baseName}_right.png`;
-      
-      links.appendChild(leftLink);
-      links.appendChild(document.createTextNode(" • "));
-      links.appendChild(rightLink);
-      
-      const thumbnails = document.createElement("div");
-      thumbnails.style.cssText = 'display: flex; gap: 8px;';
-      
-      const leftThumb = document.createElement("img");
-      leftThumb.src = leftDataURL;
-      leftThumb.style.cssText = 'max-width: 120px; max-height: 90px; border: 1px solid #dee2e6; border-radius: 4px;';
-      
-      const rightThumb = document.createElement("img");
-      rightThumb.src = rightDataURL;
-      rightThumb.style.cssText = 'max-width: 120px; max-height: 90px; border: 1px solid #dee2e6; border-radius: 4px;';
-      
-      thumbnails.appendChild(leftThumb);
-      thumbnails.appendChild(rightThumb);
-      
-      captureDiv.appendChild(links);
-      captureDiv.appendChild(thumbnails);
-      capturesList.appendChild(captureDiv);
-    }
 
-    captureIndex++;
-    if (downloadBtnEl) downloadBtnEl.disabled = false;
-    setStatus(`Captured stereo pair: ${baseName}`);
+      captureIndex++;
+      if (downloadBtnEl) downloadBtnEl.disabled = false;
+      setStatus(`Captured rectified stereo images: ${baseName}`);
+    } catch (error) {
+      console.error('Capture failed:', error);
+      setStatus('Capture failed', true);
+    }
   }
 
   async function captureDepth() {
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('Failed to load ZIP library', true);
+      setStatus('ZIP library loading failed', true);
       return;
     }
     
@@ -872,80 +714,44 @@
     const sampleId = (leafIdEl?.value?.trim() || "sample").replace(/[^a-zA-Z0-9_\-\.]/g, "_");
     const baseName = `${sampleId}_depth_${String(captureIndex - 1).padStart(3, "0")}`;
 
-    const depthCanvas = document.getElementById("depthCanvas");
     if (!depthCanvas || depthCanvas.width === 0) {
       setStatus('No depth map to capture', true);
       return;
     }
 
-    const depthDataURL = depthCanvas.toDataURL("image/png");
-    zip.file(`${baseName}_depth.png`, depthDataURL.split(",")[1], { base64: true });
+    try {
+      const depthDataURL = depthCanvas.toDataURL("image/png");
+      zip.file(`${baseName}_depth_precision.png`, depthDataURL.split(",")[1], { base64: true });
 
-    // Also save raw depth data if available
-    if (currentDepthMat) {
-      try {
-        // Convert depth matrix to JSON for raw data storage
-        const depthData = [];
-        for (let y = 0; y < currentDepthMat.rows; y++) {
-          const row = [];
-          for (let x = 0; x < currentDepthMat.cols; x++) {
-            row.push(currentDepthMat.floatAt(y, x));
-          }
-          depthData.push(row);
-        }
-        
-        const depthJSON = JSON.stringify({
-          width: currentDepthMat.cols,
-          height: currentDepthMat.rows,
-          data: depthData,
-          parameters: getDepthParameters(),
-          calibration: {
-            baseline: BASELINE_M,
-            focal_length: FX
-          }
-        });
-        
-        zip.file(`${baseName}_depth_raw.json`, depthJSON);
-      } catch (error) {
-        console.warn('Failed to save raw depth data:', error);
+      const capturesList = document.getElementById("capturesList");
+      if (capturesList) {
+        const captureDiv = document.createElement("div");
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #fff3cd;';
+        captureDiv.innerHTML = `
+          <a href="${depthDataURL}" download="${baseName}_depth_precision.png">${baseName}_depth_precision.png</a>
+          <br><small style="color: #856404;">Precision depth map (grayscale)</small>
+        `;
+        capturesList.appendChild(captureDiv);
       }
-    }
 
-    // Update captures list
-    const capturesList = document.getElementById("capturesList");
-    if (capturesList) {
-      const captureDiv = document.createElement("div");
-      captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #fff3cd;';
-      
-      const link = document.createElement("a");
-      link.href = depthDataURL;
-      link.download = `${baseName}_depth.png`;
-      link.textContent = `${baseName}_depth.png`;
-      
-      const thumbnail = document.createElement("img");
-      thumbnail.src = depthDataURL;
-      thumbnail.style.cssText = 'max-width: 120px; max-height: 90px; border: 1px solid #dee2e6; border-radius: 4px; margin-top: 8px;';
-      
-      captureDiv.appendChild(link);
-      captureDiv.appendChild(document.createElement("br"));
-      captureDiv.appendChild(thumbnail);
-      capturesList.appendChild(captureDiv);
+      if (downloadBtnEl) downloadBtnEl.disabled = false;
+      setStatus(`Captured precision depth map: ${baseName}`);
+    } catch (error) {
+      console.error('Depth map capture failed:', error);
+      setStatus('Depth map capture failed', true);
     }
-
-    if (downloadBtnEl) downloadBtnEl.disabled = false;
-    setStatus(`Captured depth map: ${baseName}`);
   }
 
   async function downloadZip() {
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('Failed to load ZIP library', true);
+      setStatus('ZIP library loading failed', true);
       return;
     }
     
     if (!zip) {
-      setStatus('No captures to download', true);
+      setStatus('No captured data to download', true);
       return;
     }
 
@@ -964,130 +770,85 @@
       setStatus("ZIP file downloaded successfully");
     } catch (error) {
       console.error('ZIP generation failed:', error);
-      setStatus('Failed to generate ZIP file', true);
+      setStatus('ZIP generation failed', true);
     }
-  }
-
-  // ============ AUTO CALIBRATION ============
-  
-  async function autoCalibrate() {
-    setStatus('Auto-calibration feature coming soon...', false);
-    // TODO: Implement automatic calibration using chessboard detection
-    // This would involve:
-    // 1. Capturing multiple stereo pairs with chessboard
-    // 2. Detecting chessboard corners in both images
-    // 3. Running stereo calibration algorithm
-    // 4. Updating calibration parameters
   }
 
   // ============ INITIALIZATION ============
   
   window.STEREO_INIT = function () {
-    // Get DOM elements
-    video = document.getElementById("video");
-    rawCanvas = document.getElementById("rawCanvas");
-    rawCtx = rawCanvas?.getContext("2d");
-    leftRect = document.getElementById("leftRect");
-    rightRect = document.getElementById("rightRect");
-    depthCanvas = document.getElementById("depthCanvas");
-    statusEl = document.getElementById("status");
-    downloadBtnEl = document.getElementById("downloadZipBtn");
-    leafIdEl = document.getElementById("leafIdInput");
+    try {
+      video = document.getElementById("video");
+      rawCanvas = document.getElementById("rawCanvas");
+      rawCtx = rawCanvas?.getContext("2d");
+      leftCanvas = document.getElementById("leftRect");
+      rightCanvas = document.getElementById("rightRect");
+      depthCanvas = document.getElementById("depthCanvas");
+      statusEl = document.getElementById("status");
+      downloadBtnEl = document.getElementById("downloadZipBtn");
+      leafIdEl = document.getElementById("leafIdInput");
 
-    if (!video || !rawCanvas || !rawCtx || !leftRect || !rightRect || !depthCanvas) {
-      console.error('Required DOM elements not found');
-      return;
-    }
-
-    // Add event listeners
-    document.getElementById("startBtn")?.addEventListener("click", startStream);
-    document.getElementById("stopBtn")?.addEventListener("click", stopStream);
-    document.getElementById("captureBtn")?.addEventListener("click", capturePair);
-    document.getElementById("computeDepthBtn")?.addEventListener("click", computeDepthFrame);
-    document.getElementById("captureDepthBtn")?.addEventListener("click", captureDepth);
-    document.getElementById("downloadZipBtn")?.addEventListener("click", downloadZip);
-    document.getElementById("calibrateBtn")?.addEventListener("click", autoCalibrate);
-
-    // Initialize parameter displays
-    updateParameterDisplays();
-
-    // Initialize device list
-    if (navigator.mediaDevices?.enumerateDevices) {
-      warmUpPermissionAndRefreshDevices();
-      
-      // Listen for device changes
-      if (navigator.mediaDevices.addEventListener) {
-        navigator.mediaDevices.addEventListener('devicechange', warmUpPermissionAndRefreshDevices);
-      }
-    }
-
-    // Auto-restart stream when device selection changes
-    const deviceSelect = document.getElementById("deviceSelect");
-    deviceSelect?.addEventListener("change", async () => {
-      if (deviceSelect.value) {
-        localStorage.setItem("stereo_last_deviceId", deviceSelect.value);
-      }
-      if (stream) {
-        stopStream();
-        await new Promise(resolve => setTimeout(resolve, 500)); // Brief delay
-        startStream();
-      }
-    });
-
-    // OpenCV initialization
-    function initializeOpenCV(retries = 50) {
-      if (cvReady) return;
-      
-      if (window.cv && typeof window.cv.Mat === 'function') {
-        // OpenCV already loaded
-        cvReady = true;
-        size = new cv.Size(640, 480);
-        if (cvReadyResolve) cvReadyResolve();
-        computeRectifyMaps();
-        setStatus('OpenCV initialized successfully');
+      if (!video || !rawCanvas || !rawCtx || !leftCanvas || !rightCanvas || !depthCanvas) {
+        console.error('Required DOM elements not found');
+        setStatus('Required DOM elements not found', true);
         return;
       }
-      
-      if (window.cv) {
-        // OpenCV loading, set callback
-        window.cv.onRuntimeInitialized = () => {
-          cvReady = true;
-          size = new cv.Size(640, 480);
-          if (cvReadyResolve) cvReadyResolve();
-          computeRectifyMaps();
-          setStatus('OpenCV runtime initialized');
-        };
-        return;
+
+      document.getElementById("startBtn")?.addEventListener("click", startStream);
+      document.getElementById("stopBtn")?.addEventListener("click", stopStream);
+      document.getElementById("captureBtn")?.addEventListener("click", capturePair);
+      document.getElementById("computeDepthBtn")?.addEventListener("click", computeDepthFrame);
+      document.getElementById("captureDepthBtn")?.addEventListener("click", captureDepth);
+      document.getElementById("downloadZipBtn")?.addEventListener("click", downloadZip);
+
+      if (navigator.mediaDevices?.enumerateDevices) {
+        requestCameraPermission().then(() => {
+          listVideoDevices();
+        });
+        
+        if (navigator.mediaDevices.addEventListener) {
+          navigator.mediaDevices.addEventListener('devicechange', listVideoDevices);
+        }
+      } else {
+        setStatus('MediaDevices API not supported', true);
       }
+
+      const deviceSelect = document.getElementById("deviceSelect");
+      deviceSelect?.addEventListener("change", async () => {
+        if (deviceSelect.value) {
+          localStorage.setItem("stereo_last_deviceId", deviceSelect.value);
+        }
+        if (stream) {
+          stopStream();
+          await new Promise(resolve => setTimeout(resolve, 500));
+          startStream();
+        }
+      });
+
+      ensureJSZip().then(() => {
+        if (!zip) zip = new JSZip();
+      }).catch(() => {
+        console.warn('JSZip preload failed');
+      });
+
+      setStatus('Stereo vision system initialized (waiting for OpenCV...)');
       
-      if (retries <= 0) {
-        setStatus('OpenCV failed to load - check network connection', true);
-        return;
-      }
+      // Initialize OpenCV when available
+      setTimeout(() => {
+        if (initializeOpenCV()) {
+          setStatus('Stereo vision system ready (high precision mode)');
+        } else {
+          setStatus('Stereo vision system ready (basic mode)');
+        }
+      }, 2000);
       
-      setTimeout(() => initializeOpenCV(retries - 1), 200);
+    } catch (error) {
+      console.error('Initialization failed:', error);
+      setStatus('Initialization failed', true);
     }
-
-    initializeOpenCV();
-
-    // Handle page visibility changes
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden && stream) {
-        stopStream();
-      }
-    });
-
-    // Initialize ZIP library in background
-    ensureJSZip().then(() => {
-      if (!zip) zip = new JSZip();
-    }).catch(() => {
-      console.warn('JSZip preload failed');
-    });
-
-    setStatus('Stereo vision system initialized');
   };
 
-  // Auto-initialize when ready
+  // Auto-initialize
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       if (window.STEREO_INIT) window.STEREO_INIT();
@@ -1096,7 +857,6 @@
     if (window.STEREO_INIT) window.STEREO_INIT();
   }
 
-  // Dispatch ready event
   window.dispatchEvent(new CustomEvent("stereo_ready"));
 
 })();
