@@ -63,7 +63,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid #ccc;
-  border-top: 2px solid #007bff;
+  border-top: 2px solid #999999;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-right: 10px;
@@ -178,14 +178,14 @@
 }
 
 .btn-primary {
-  border-color: #007bff;
-  background: #007bff;
-  color: #fff;
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #0069d9;
-  border-color: #0062cc;
+  background: #333333;
+  border-color: #333333;
 }
 
 .btn-ghost {
@@ -199,14 +199,14 @@
 }
 
 .btn-blue {
-  border-color: #17a2b8;
-  background: #17a2b8;
-  color: #fff;
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
 }
 
 .btn-blue:hover:not(:disabled) {
-  background: #138496;
-  border-color: #117a8b;
+  background: #333333;
+  border-color: #333333;
 }
 
 /* 画布区域 */
@@ -250,7 +250,7 @@
 }
 
 .canvas-box:hover {
-  border-color: #007bff;
+  border-color: #999999;
 }
 
 #originalCanvas {
@@ -392,7 +392,7 @@
 
 .results-table td:first-child {
   font-weight: 600;
-  color: #007bff;
+  color: #000000;
 }
 
 #processedContainer {
@@ -408,7 +408,7 @@
   display: inline-block;
   min-width: 30px;
   font-weight: 600;
-  color: #007bff;
+  color: #000000;
 }
 
 /* Enhanced button styles */

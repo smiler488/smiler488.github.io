@@ -191,12 +191,12 @@
     clearSvg(svg);
     
     // Background
-    const bg = elRect(0, 0, page.w, page.h, { fill: "#fff", stroke: "#dc3545", "stroke-width": "2" });
+    const bg = elRect(0, 0, page.w, page.h, { fill: "#fff", stroke: "#333333", "stroke-width": "2" });
     if (bg) svg.appendChild(bg);
     
     // Error icon
     const icon = elCircle(page.w / 2, page.h / 2 - 30, 20, { 
-      fill: "#dc3545", stroke: "#fff", "stroke-width": "2" 
+      fill: "#333333", stroke: "#fff", "stroke-width": "2" 
     });
     if (icon) svg.appendChild(icon);
     
@@ -207,7 +207,7 @@
     
     // Main error message
     const mainMsg = elText(page.w / 2, page.h / 2 + 10, msg, {
-      "text-anchor": "middle", "font-size": "8", "font-weight": "bold", fill: "#dc3545"
+      "text-anchor": "middle", "font-size": "8", "font-weight": "bold", fill: "#333333"
     });
     if (mainMsg) svg.appendChild(mainMsg);
     
@@ -225,17 +225,17 @@
     
     // Warning banner at top
     const banner = elRect(10, 10, 190, 20, { 
-      fill: "#fff3cd", stroke: "#ffc107", "stroke-width": "1", rx: "4" 
+      fill: "#f5f5f7", stroke: "#e5e5ea", "stroke-width": "1", rx: "4" 
     });
     if (banner) svg.appendChild(banner);
     
     const warningIcon = elText(20, 24, "⚠", {
-      "font-size": "12", fill: "#856404"
+      "font-size": "12", fill: "#333333"
     });
     if (warningIcon) svg.appendChild(warningIcon);
     
     const warningText = elText(35, 24, warnings[0], {
-      "font-size": "5", fill: "#856404", "font-weight": "bold"
+      "font-size": "5", fill: "#333333", "font-weight": "bold"
     });
     if (warningText) svg.appendChild(warningText);
   }
@@ -314,7 +314,7 @@
       [ox, oy + totalH], [ox + totalW, oy + totalH]
     ];
     corners.forEach(([x, y]) => {
-      const marker = elCircle(x, y, markerSize, { fill: "#007bff" });
+      const marker = elCircle(x, y, markerSize, { fill: "#000000" });
       if (marker) svg.appendChild(marker);
     });
 
@@ -418,10 +418,10 @@
     // Alignment crosshairs
     const crossSize = rOuter * 0.1;
     const hLine = elPath(`M ${cx - crossSize} ${cy} L ${cx + crossSize} ${cy}`, {
-      stroke: "#007bff", "stroke-width": "0.5", opacity: "0.7"
+      stroke: "#000000", "stroke-width": "0.5", opacity: "0.7"
     });
     const vLine = elPath(`M ${cx} ${cy - crossSize} L ${cx} ${cy + crossSize}`, {
-      stroke: "#007bff", "stroke-width": "0.5", opacity: "0.7"
+      stroke: "#000000", "stroke-width": "0.5", opacity: "0.7"
     });
     if (hLine) svg.appendChild(hLine);
     if (vLine) svg.appendChild(vLine);
@@ -523,10 +523,10 @@
     const gap2Pos = polar(cx, cy, indicatorRadius, 180);
     
     const gap1Indicator = elText(gap1Pos.x, gap1Pos.y, `${gap1}°`, {
-      "text-anchor": "middle", "font-size": "3", fill: "#007bff", "font-weight": "bold"
+      "text-anchor": "middle", "font-size": "3", fill: "#333333", "font-weight": "bold"
     });
     const gap2Indicator = elText(gap2Pos.x, gap2Pos.y, `${gap2}°`, {
-      "text-anchor": "middle", "font-size": "3", fill: "#007bff", "font-weight": "bold"
+      "text-anchor": "middle", "font-size": "3", fill: "#333333", "font-weight": "bold"
     });
     if (gap1Indicator) svg.appendChild(gap1Indicator);
     if (gap2Indicator) svg.appendChild(gap2Indicator);

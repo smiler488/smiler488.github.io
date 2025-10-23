@@ -248,21 +248,24 @@ export default function SensorPage() {
             href="/docs/sensor-app-tutorial" 
             style={{
               padding: "8px 16px",
-              backgroundColor: "#007bff",
-              color: "white",
+              backgroundColor: "#000000",
+              color: "#ffffff",
               textDecoration: "none",
-              borderRadius: "6px",
+              borderRadius: "10px",
               fontSize: "14px",
               fontWeight: "500",
+              border: "1px solid #000000",
               transition: "all 0.2s ease"
             }}
             onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#0056b3";
-              e.target.style.transform = "scale(1.05)";
+              e.target.style.backgroundColor = "#333333";
+              e.target.style.borderColor = "#333333";
+              e.target.style.transform = "translateY(-1px)";
             }}
             onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#007bff";
-              e.target.style.transform = "scale(1)";
+              e.target.style.backgroundColor = "#000000";
+              e.target.style.borderColor = "#000000";
+              e.target.style.transform = "translateY(0)";
             }}
           >
              Tutorial
@@ -303,10 +306,11 @@ export default function SensorPage() {
             disabled={busy}
             style={{
               padding: '10px 16px',
-              backgroundColor: busy ? '#6c757d' : '#20c997',
-              color: 'white',
-              border: 'none',
-              borderRadius: 8,
+              backgroundColor: busy ? '#6c6c70' : '#000000',
+              color: '#ffffff',
+              border: '1px solid',
+              borderColor: busy ? '#6c6c70' : '#000000',
+              borderRadius: 10,
               cursor: busy ? 'not-allowed' : 'pointer',
               fontWeight: 600
             }}
@@ -318,7 +322,7 @@ export default function SensorPage() {
             disabled={!rows.length}
             style={{
               padding: '10px 16px',
-              backgroundColor: !rows.length ? '#6c757d' : '#007bff',
+              backgroundColor: !rows.length ? '#6c757d' : '#000000',
               color: 'white',
               border: 'none',
               borderRadius: 8,
@@ -337,7 +341,7 @@ export default function SensorPage() {
           marginBottom: 20
         }}>
           <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#0d6efd' }}>Current Orientation</h3>
+            <h3 style={{ marginTop: 0, color: '#000000' }}>Current Orientation</h3>
             <div style={{ display: 'grid', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Alpha (Z, yaw):</span><strong>{toFixedMaybe(orientation.alpha, 2)}°</strong>
@@ -355,7 +359,7 @@ export default function SensorPage() {
                 }}
                 style={{
                   marginTop: 8, padding: '8px 12px', borderRadius: 8,
-                  background: permission === 'granted' ? '#198754' : '#6c757d',
+                  background: permission === 'granted' ? '#000000' : '#6c6c70',
                   color: '#fff', border: 'none', cursor: 'pointer'
                 }}
               >
@@ -365,7 +369,7 @@ export default function SensorPage() {
           </div>
 
           <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#20c997' }}>Latest Geo</h3>
+            <h3 style={{ marginTop: 0, color: '#000000' }}>Latest Geo</h3>
             <div style={{ display: 'grid', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Latitude:</span><strong>{toFixedMaybe(geo.latitude, 6) || 'N/A'}</strong>
@@ -378,7 +382,7 @@ export default function SensorPage() {
               </div>
               <button
                 onClick={async () => setGeo(await getCurrentGeo())}
-                style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: '#0d6efd', color: '#fff', border: 'none', cursor: 'pointer' }}
+                style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: '#000000', color: '#ffffff', border: '1px solid #000000', cursor: 'pointer' }}
               >
                 Refresh Location
               </button>
@@ -386,7 +390,7 @@ export default function SensorPage() {
           </div>
 
           <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#6f42c1' }}>Status</h3>
+            <h3 style={{ marginTop: 0, color: '#000000' }}>Status</h3>
             <div>Recorded rows: <strong>{rows.length}</strong></div>
             <div>Local time: <strong>{new Date().toLocaleString()}</strong></div>
           </div>

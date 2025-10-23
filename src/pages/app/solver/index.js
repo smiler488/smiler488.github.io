@@ -475,21 +475,24 @@ export default function SolverAppPage() {
           href="/docs/ai-solver-tutorial" 
           style={{
             padding: "8px 16px",
-            backgroundColor: "#007bff",
-            color: "white",
+            backgroundColor: "#000000",
+            color: "#ffffff",
             textDecoration: "none",
-            borderRadius: "6px",
+            borderRadius: "10px",
             fontSize: "14px",
             fontWeight: "500",
+            border: "1px solid #000000",
             transition: "all 0.2s ease"
           }}
           onMouseOver={(e) => {
-            e.target.style.backgroundColor = "#0056b3";
-            e.target.style.transform = "scale(1.05)";
+            e.target.style.backgroundColor = "#333333";
+            e.target.style.borderColor = "#333333";
+            e.target.style.transform = "translateY(-1px)";
           }}
           onMouseOut={(e) => {
-            e.target.style.backgroundColor = "#007bff";
-            e.target.style.transform = "scale(1)";
+            e.target.style.backgroundColor = "#000000";
+            e.target.style.borderColor = "#000000";
+            e.target.style.transform = "translateY(0)";
           }}
         >
            Tutorial
@@ -567,7 +570,7 @@ export default function SolverAppPage() {
               ) : (
                 // 选择状态 - 显示截图和选择框
                 <>
-                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid #007bff', borderRadius: 8, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid #000000', borderRadius: 8, overflow: 'hidden' }}>
                     <img 
                       src={screenshotData?.dataUrl} 
                       alt="Screenshot" 
@@ -582,8 +585,8 @@ export default function SolverAppPage() {
                           top: `${(selectionBox.y / screenshotData.height) * 100}%`,
                           width: `${(selectionBox.width / screenshotData.width) * 100}%`,
                           height: `${(selectionBox.height / screenshotData.height) * 100}%`,
-                          border: '2px solid #ff4444',
-                          backgroundColor: 'rgba(255, 68, 68, 0.1)',
+                          border: '2px solid #333333',
+                          backgroundColor: 'rgba(0, 0, 0, 0.06)',
                           cursor: 'move',
                           boxSizing: 'border-box'
                         }}
@@ -600,7 +603,7 @@ export default function SolverAppPage() {
                             bottom: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#ff4444',
+                            backgroundColor: '#333333',
                             cursor: 'se-resize',
                             borderRadius: '50%'
                           }}
@@ -613,13 +616,13 @@ export default function SolverAppPage() {
                     )}
                   </div>
                   <div style={{ marginTop: 8, color: '#666', fontSize: 12 }}>
-                     Red box shows selected area. Drag to move, drag corner to resize.
+                     Selection box shows selected area. Drag to move, drag corner to resize.
                   </div>
                   <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
                     <button 
                       onClick={handleConfirmSelection} 
                       disabled={busy} 
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#000000', color: 'white', border: '1px solid #000000', borderRadius: 4, cursor: 'pointer' }}
                     >
                       {busy ? 'Processing…' : 'Analyze Selected Area'}
                     </button>

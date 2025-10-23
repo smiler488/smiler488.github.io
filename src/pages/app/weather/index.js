@@ -18,21 +18,24 @@ const WeatherPage = () => {
             href="/docs/weather-analyzer-tutorial" 
             style={{
               padding: "8px 16px",
-              backgroundColor: "#007bff",
-              color: "white",
+              backgroundColor: "#000000",
+              color: "#ffffff",
               textDecoration: "none",
-              borderRadius: "6px",
+              borderRadius: "10px",
               fontSize: "14px",
               fontWeight: "500",
+              border: "1px solid #000000",
               transition: "all 0.2s ease"
             }}
             onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#0056b3";
-              e.target.style.transform = "scale(1.05)";
+              e.target.style.backgroundColor = "#333333";
+              e.target.style.borderColor = "#333333";
+              e.target.style.transform = "translateY(-1px)";
             }}
             onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#007bff";
-              e.target.style.transform = "scale(1)";
+              e.target.style.backgroundColor = "#000000";
+              e.target.style.borderColor = "#000000";
+              e.target.style.transform = "translateY(0)";
             }}
           >
              Tutorial
@@ -132,10 +135,10 @@ const WeatherPage = () => {
               id="getLocationBtn" 
               style={{
                 padding: "12px 24px",
-                backgroundColor: "#ffc107",
-                color: "#212529",
-                border: "none",
-                borderRadius: "6px",
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                border: "1px solid #000000",
+                borderRadius: "10px",
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: "500",
@@ -149,10 +152,10 @@ const WeatherPage = () => {
               id="getDataBtn" 
               style={{
                 padding: "12px 24px",
-                backgroundColor: "#28a745",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                border: "1px solid #000000",
+                borderRadius: "10px",
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: "500",
@@ -194,7 +197,7 @@ const WeatherPage = () => {
               <div id="progressBar" style={{
                 width: "0%",
                 height: "100%",
-                backgroundColor: "#007bff",
+                backgroundColor: "#000000",
                 transition: "width 0.3s ease"
               }}></div>
             </div>
@@ -227,7 +230,7 @@ const WeatherPage = () => {
               style={{
                 display: "none",
                 padding: "12px 24px",
-                backgroundColor: "#17a2b8",
+                backgroundColor: "#000000",
                 color: "white",
                 textDecoration: "none",
                 borderRadius: "6px",
@@ -244,7 +247,7 @@ const WeatherPage = () => {
               style={{
                 display: "none",
                 padding: "12px 24px",
-                backgroundColor: "#28a745",
+                backgroundColor: "#000000",
                 color: "white",
                 textDecoration: "none",
                 borderRadius: "6px",
@@ -287,7 +290,7 @@ const WeatherPage = () => {
                 borderRadius: "8px",
                 border: "1px solid #e9ecef"
               }}>
-                <h4 style={{ color: "#007bff", margin: "0 0 8px 0", fontSize: "16px" }}>
+                <h4 style={{ color: "#000000", margin: "0 0 8px 0", fontSize: "16px" }}>
                   {param.name}
                 </h4>
                 <p style={{ margin: "0 0 5px 0", fontSize: "14px", color: "#495057" }}>

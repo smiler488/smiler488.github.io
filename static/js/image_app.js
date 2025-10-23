@@ -287,8 +287,8 @@ class BiologicalSampleAnalysisApp {
             const x = ref.x * this.displayScale;
             const y = ref.y * this.displayScale;
             
-            ctx.fillStyle = 'rgba(255, 193, 7, 0.7)';
-            ctx.strokeStyle = '#ffc107';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
             
             if (ref.type === 'coin') {
@@ -313,7 +313,7 @@ class BiologicalSampleAnalysisApp {
             const y = sample.centerY * this.displayScale;
             
             // Draw sample boundary
-            const color = this.sampleType === 'leaves' ? '#28a745' : '#007bff';
+            const color = '#000000';
             ctx.strokeStyle = color;
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -1090,8 +1090,8 @@ class BiologicalSampleAnalysisApp {
             const x = ref.x * scale;
             const y = ref.y * scale;
             
-            ctx.fillStyle = 'rgba(255, 193, 7, 0.8)';
-            ctx.strokeStyle = '#ffc107';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
             
             if (ref.type === 'coin') {
@@ -1110,7 +1110,7 @@ class BiologicalSampleAnalysisApp {
         });
         
         // Draw detected samples with detailed annotations
-        const color = this.sampleType === 'leaves' ? '#28a745' : '#007bff';
+        const color = '#000000';
         
         this.detectedSamples.forEach((sample, index) => {
             const x = sample.centerX * scale;
@@ -1162,7 +1162,7 @@ class BiologicalSampleAnalysisApp {
         });
         
         // Draw title
-        ctx.fillStyle = '#2c3e50';
+        ctx.fillStyle = '#000000';
         ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'left';
         const sampleTypeDisplay = this.sampleType === 'leaves' ? 'leaves' : 'seeds/grains';

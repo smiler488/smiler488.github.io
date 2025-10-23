@@ -16,7 +16,7 @@
 }
 
 .speechButton:hover {
-  background-color: rgba(25, 118, 210, 0.1);
+  background-color: rgba(0, 0, 0, 0.08);
   transform: scale(1.1);
 }
 

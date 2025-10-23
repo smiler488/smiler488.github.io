@@ -422,21 +422,24 @@ export default function CloudNotePage() {
             href="/docs/cloud-sticky-note-tutorial" 
             style={{
               padding: "8px 16px",
-              backgroundColor: "#007bff",
-              color: "white",
+              backgroundColor: "#000000",
+              color: "#ffffff",
               textDecoration: "none",
-              borderRadius: "6px",
+              borderRadius: "10px",
               fontSize: "14px",
               fontWeight: "500",
+              border: "1px solid #000000",
               transition: "all 0.2s ease"
             }}
             onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#0056b3";
-              e.target.style.transform = "scale(1.05)";
+              e.target.style.backgroundColor = "#333333";
+              e.target.style.borderColor = "#333333";
+              e.target.style.transform = "translateY(-1px)";
             }}
             onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#007bff";
-              e.target.style.transform = "scale(1)";
+              e.target.style.backgroundColor = "#000000";
+              e.target.style.borderColor = "#000000";
+              e.target.style.transform = "translateY(0)";
             }}
           >
              Tutorial
@@ -487,7 +490,7 @@ export default function CloudNotePage() {
           </div>
 
           {generatedLink && (
-            <div style={{ background: "#f6f9ff", padding: 8, borderRadius: 6 }}>
+            <div style={{ background: "#f5f5f7", padding: 8, borderRadius: 6 }}>
               <div style={{ fontSize: 13 }}>Share link (fragment)</div>
               <textarea readOnly rows={2} style={styles.shareArea} value={generatedLink} />
             </div>
@@ -525,7 +528,7 @@ export default function CloudNotePage() {
 
           {parsedFrag ? (
             <div>
-              <div style={{ padding: 8, background: "#fff8e1", borderRadius: 6 }}>
+              <div style={{ padding: 8, background: "#f5f5f7", borderRadius: 6 }}>
                 Parsed shared link found in URL fragment. Mode: <b>{parsedFrag.payload.mode}</b>.
               </div>
               {parsedFrag.payload.mode === "pw" && (
@@ -553,7 +556,7 @@ export default function CloudNotePage() {
           )}
 
           {openedNote && (
-            <div style={{ marginTop: 12, padding: 12, borderRadius: 8, background: "#f3fff6" }}>
+            <div style={{ marginTop: 12, padding: 12, borderRadius: 8, background: "#f5f5f7" }}>
               <h3>{openedNote.name}</h3>
               <div style={{ color: "#666", fontSize: 13 }}>
                 Created: {openedNote.createdAtISO}
@@ -585,7 +588,7 @@ const styles = {
   input: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc" },
   textarea: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc", fontFamily: "inherit" },
   shareArea: { width: "100%", borderRadius: 6, border: "1px solid #ddd", padding: 6 },
-  btnPrimary: { background: "#0ea5e9", color: "#fff", padding: "8px 12px", borderRadius: 6, border: "none", cursor: "pointer" },
-  btnSecondary: { background: "#2563eb", color: "#fff", padding: "8px 12px", borderRadius: 6, border: "none", cursor: "pointer" },
+  btnPrimary: { background: "#000000", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #000000", cursor: "pointer" },
+  btnSecondary: { background: "#333333", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #333333", cursor: "pointer" },
   btnGhost: { background: "#fff", color: "#111", padding: "8px 12px", borderRadius: 6, border: "1px solid #ddd", cursor: "pointer" },
 };

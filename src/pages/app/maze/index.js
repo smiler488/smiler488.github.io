@@ -66,9 +66,9 @@ export default function MazePage() {
           if (maze[i][j] === 1) {
             ctx.fillStyle = "#333";
           } else if (maze[i][j] === 2) {
-            ctx.fillStyle = "green";
+            ctx.fillStyle = "#999999";
           } else if (maze[i][j] === 3) {
-            ctx.fillStyle = "#FFC0CB"; // 涂鸦粉色
+            ctx.fillStyle = "#e5e5ea"; // neutral light gray
           } else {
             ctx.fillStyle = "#fff";
           }
@@ -82,7 +82,7 @@ export default function MazePage() {
     // --- 绘制小球 ---
     function drawBall() {
       ctx.beginPath();
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "#000000";
       ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
       ctx.fill();
     }
