@@ -10,7 +10,7 @@ export default function TargetsPage() {
     const setStatus = (msg, isError = false) => {
       if (statusEl()) {
         statusEl().textContent = msg;
-        statusEl().style.color = isError ? '#dc3545' : '#28a745';
+        statusEl().style.color = '#333333';
         statusEl().style.fontWeight = isError ? 'bold' : 'normal';
       }
     };
@@ -38,10 +38,10 @@ export default function TargetsPage() {
       
       if (errors.length > 0) {
         box.textContent = "Invalid parameters";
-        box.style.color = '#dc3545';
+        box.style.color = '#333333';
         if (validationBox) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#dc3545';
+          validationBox.style.color = '#333333';
           validationBox.style.display = 'block';
         }
         return;
@@ -54,7 +54,7 @@ export default function TargetsPage() {
       const boardHeight = sr * size;
       
       box.textContent = `Printed squares = ${sr} × ${sc} = ${totalSquares}`;
-      box.style.color = '#28a745';
+      box.style.color = '#333333';
       
       if (validationBox) {
         validationBox.textContent = `Board size: ${boardWidth}×${boardHeight}mm`;
@@ -75,7 +75,7 @@ export default function TargetsPage() {
         const newSize = size * scaleNeeded;
         if (validationBox) {
           validationBox.textContent += ` | Will auto-scale to ${newSize.toFixed(1)}mm squares`;
-          validationBox.style.color = '#ffc107';
+          validationBox.style.color = '#666666';
         }
       }
     };
@@ -99,7 +99,7 @@ export default function TargetsPage() {
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#dc3545';
+          validationBox.style.color = '#333333';
         } else {
           validationBox.textContent = `Target size: ${outer}mm diameter`;
           validationBox.style.color = '#28a745';
@@ -128,7 +128,7 @@ export default function TargetsPage() {
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#dc3545';
+          validationBox.style.color = '#333333';
         } else {
           const inner = outer - 2 * width;
           validationBox.textContent = `Ring: ${outer}mm outer, ${inner.toFixed(1)}mm inner`;

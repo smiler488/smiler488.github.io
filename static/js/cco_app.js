@@ -392,7 +392,7 @@ function drawPreview(canvas, polygon, centers, points) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   });
   ctx.closePath();
-  ctx.fillStyle = "rgba(0,128,255,0.12)";
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
   ctx.fill();
   ctx.lineWidth = 2;
   ctx.strokeStyle = "#0066cc";

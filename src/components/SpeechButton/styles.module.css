@@ -4,7 +4,7 @@
   cursor: pointer;
   font-size: 16px;
   margin-left: 5px;
-  color: #1976d2;
+  color: #6c6c70;
   padding: 2px 4px;
   border-radius: 3px;
   transition: all 0.2s ease;
@@ -16,8 +16,8 @@
 }
 
 .speechButton:hover {
-  background-color: rgba(0, 0, 0, 0.08);
-  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.06);
+  transform: scale(1.05);
 }
 
 .speechButton:active {
