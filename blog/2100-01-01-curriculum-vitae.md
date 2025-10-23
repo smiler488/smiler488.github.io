@@ -13,10 +13,20 @@ import SpeechButton from '@site/src/components/SpeechButton';
 
 ## Personal Information
 
-**Liangchao Deng** (邓良超) `<SpeechButton text="邓良超" fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)" />`
-Ph.D. Candidate in Crop Science
-College of Agriculture, Shihezi University
-Shihezi, Xinjiang 832003, China
+<div className="cvPronunciation">
+  <span className="cvNameText">
+    <strong>Liangchao Deng</strong> (邓良超)
+  </span>
+  <SpeechButton
+    text="邓良超"
+    fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)"
+    title="Play pronunciation"
+  />
+</div>
+
+<p className="cvTagline">Ph.D. Candidate in Crop Science</p>
+<p className="cvAffiliation">College of Agriculture, Shihezi University</p>
+<p className="cvAffiliation">Shihezi, Xinjiang 832003, China</p>
 
 **Contact Information:**
 

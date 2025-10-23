@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 
-const SpeechButton = ({ 
-  text, 
-  fallbackText, 
-  lang = 'zh-CN', 
-  rate = 0.8, 
+const SpeechButton = ({
+  text,
+  fallbackText,
+  lang = 'zh-CN',
+  rate = 0.8,
   pitch = 1.0,
   className = '',
-  title = 'Click to hear pronunciation'
+  title = 'Click to hear pronunciation',
 }) => {
   const [isSupported, setIsSupported] = useState(false);
   const [isReady, setIsReady] = useState(false);
