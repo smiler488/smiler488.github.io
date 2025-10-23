@@ -178,14 +178,14 @@
 }
 
 .btn-primary {
-  border-color: #000000;
-  background: #000000;
+  border-color: #6c6c70;
+  background: #6c6c70;
   color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #333333;
-  border-color: #333333;
+  background: #555555;
+  border-color: #555555;
 }
 
 .btn-ghost {
@@ -199,14 +199,14 @@
 }
 
 .btn-blue {
-  border-color: #000000;
-  background: #000000;
+  border-color: #6c6c70;
+  background: #6c6c70;
   color: #ffffff;
 }
 
 .btn-blue:hover:not(:disabled) {
-  background: #333333;
-  border-color: #333333;
+  background: #555555;
+  border-color: #555555;
 }
 
 /* 画布区域 */

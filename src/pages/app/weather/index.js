@@ -135,9 +135,9 @@ const WeatherPage = () => {
               id="getLocationBtn" 
               style={{
                 padding: "12px 24px",
-                backgroundColor: "#000000",
+                backgroundColor: "#6c6c70",
                 color: "#ffffff",
-                border: "1px solid #000000",
+                border: "1px solid #6c6c70",
                 borderRadius: "10px",
                 cursor: "pointer",
                 fontSize: "14px",
@@ -152,9 +152,9 @@ const WeatherPage = () => {
               id="getDataBtn" 
               style={{
                 padding: "12px 24px",
-                backgroundColor: "#000000",
+                backgroundColor: "#6c6c70",
                 color: "#ffffff",
-                border: "1px solid #000000",
+                border: "1px solid #6c6c70",
                 borderRadius: "10px",
                 cursor: "pointer",
                 fontSize: "14px",

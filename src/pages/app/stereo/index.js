@@ -136,9 +136,9 @@ export default function StereoPage() {
             
             <button id="startBtn" type="button" style={{
               padding: "10px 16px",
-              backgroundColor: "#000000",
+              backgroundColor: "#6c6c70",
               color: "#ffffff",
-              border: "1px solid #000000",
+              border: "1px solid #6c6c70",
               borderRadius: 10,
               cursor: "pointer",
               fontSize: 14,
@@ -277,11 +277,11 @@ export default function StereoPage() {
           }}>
             <button id="captureBtn" type="button" disabled style={{
               padding: "12px 16px",
-              backgroundColor: "#000000",
+              backgroundColor: "#6c6c70",
               color: "#ffffff",
-              border: "1px solid #000000",
+              border: "1px solid #6c6c70",
               borderRadius: 10,
-              cursor: "pointer",
+              cursor: "not-allowed",
               fontSize: 14,
               fontWeight: 500
             }}>
@@ -303,11 +303,11 @@ export default function StereoPage() {
             
             <button id="captureDepthBtn" type="button" disabled style={{
               padding: "12px 16px",
-              backgroundColor: "#000000",
+              backgroundColor: "#6c6c70",
               color: "#ffffff",
-              border: "1px solid #000000",
+              border: "1px solid #6c6c70",
               borderRadius: 10,
-              cursor: "pointer",
+              cursor: "not-allowed",
               fontSize: 14,
               fontWeight: 500
             }}>

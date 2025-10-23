@@ -155,26 +155,26 @@
 }
 
 .button--primary {
-  background: var(--ifm-color-primary);
-  color: var(--ifm-background-color);
-  border-color: var(--ifm-color-primary);
+  background: #6c6c70;
+  color: #ffffff;
+  border-color: #6c6c70;
 }
 
 .button--primary:hover {
-  background: var(--ifm-color-primary-dark);
-  border-color: var(--ifm-color-primary-dark);
+  background: #555555;
+  border-color: #555555;
   transform: translateY(-1px);
 }
 
 .button--secondary {
-  background: transparent;
-  color: var(--ifm-color-primary);
-  border-color: var(--ifm-border-color);
+  background: #6c6c70;
+  color: #ffffff;
+  border-color: #6c6c70;
 }
 
 .button--secondary:hover {
-  background: var(--ifm-color-emphasis-100);
-  border-color: var(--ifm-color-emphasis-300);
+  background: #555555;
+  border-color: #555555;
 }
 
 /* Card improvements */

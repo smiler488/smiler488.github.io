@@ -622,14 +622,14 @@ export default function SolverAppPage() {
                     <button 
                       onClick={handleConfirmSelection} 
                       disabled={busy} 
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#000000', color: 'white', border: '1px solid #000000', borderRadius: 4, cursor: 'pointer' }}
-                    >
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c6c70', color: 'white', border: '1px solid #6c6c70', borderRadius: 4, cursor: 'pointer' }}
+>
                       {busy ? 'Processing…' : 'Analyze Selected Area'}
                     </button>
                     <button 
                       onClick={handleCancelSelection} 
                       disabled={busy}
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c6c70', color: 'white', border: '1px solid #6c6c70', borderRadius: 4, cursor: 'not-allowed' }}
                     >
                        Cancel
                     </button>
