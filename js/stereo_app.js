@@ -68,8 +68,8 @@
     console.log(`[Stereo] ${msg}`);
     if (statusEl) {
       statusEl.textContent = msg;
-      statusEl.style.backgroundColor = isError ? '#f8d7da' : '#e7f3ff';
-      statusEl.style.color = isError ? '#721c24' : '#0066cc';
+      statusEl.style.backgroundColor = '#f5f5f7';
+      statusEl.style.color = '#333333';
     }
   }
 
@@ -726,10 +726,10 @@
       const capturesList = document.getElementById("capturesList");
       if (capturesList) {
         const captureDiv = document.createElement("div");
-        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #fff3cd;';
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #f5f5f7;';
         captureDiv.innerHTML = `
           <a href="${depthDataURL}" download="${baseName}_depth_precision.png">${baseName}_depth_precision.png</a>
-          <br><small style="color: #856404;">Precision depth map (grayscale)</small>
+          <br><small style="color: #333333;">Precision depth map (grayscale)</small>
         `;
         capturesList.appendChild(captureDiv);
       }

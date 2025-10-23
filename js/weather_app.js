@@ -372,8 +372,8 @@ function updateStatus(message, isError = false) {
     const statusElement = document.getElementById('statusMessage');
     if (statusElement) {
         statusElement.textContent = message;
-        statusElement.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
-        statusElement.style.color = isError ? '#721c24' : '#155724';
+        statusElement.style.backgroundColor = '#f5f5f7';
+        statusElement.style.color = '#333333';
     }
 }
 
