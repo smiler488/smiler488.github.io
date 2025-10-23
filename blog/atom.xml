@@ -14,10 +14,10 @@
         <updated>2100-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Personal Information]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="personal-information">Personal Information<a href="https://smiler488.github.io/blog/curriculum-vitae/#personal-information" class="hash-link" aria-label="Direct link to Personal Information" title="Direct link to Personal Information" translate="no">​</a></h2>
-<p><strong>Liangchao Deng</strong> (邓良超) <code>&lt;SpeechButton text="邓良超" fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)" /&gt;</code>
-Ph.D. Candidate in Crop Science
-College of Agriculture, Shihezi University
-Shihezi, Xinjiang 832003, China</p>
+<div class="cvPronunciation"><span class="cvNameText"><p><strong>Liangchao Deng</strong> (邓良超)</p></span><button class="speechButton_B_OT" title="Play pronunciation" aria-label="Pronounce 邓良超">🔊</button></div>
+<p class="cvTagline">Ph.D. Candidate in Crop Science</p>
+<p class="cvAffiliation">College of Agriculture, Shihezi University</p>
+<p class="cvAffiliation">Shihezi, Xinjiang 832003, China</p>
 <p><strong>Contact Information:</strong></p>
 <ul>
 <li class=""><strong>Institutional Email:</strong> <a href="mailto:liangchaodeng@stu.shzu.edu.cn" target="_blank" rel="noopener noreferrer" class="">liangchaodeng@stu.shzu.edu.cn</a></li>
