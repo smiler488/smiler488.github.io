@@ -4,6 +4,7 @@ title: Curriculum Vitae
 authors: [liangchao]
 tags: [curriculum vitae, academic cv]
 ---
+
 import SpeechButton from '@site/src/components/SpeechButton';
 
 <!-- truncate -->
@@ -70,18 +71,18 @@ Shihezi, Xinjiang 832003, China
 
 ## Research Experience
 
-### **Generative AI for Agricultural Applications** | *2024 – Present*
+### **Generative AI for Agricultural Applications** | _2024 – Present_
 
-*Advanced Ph.D. Research, Shihezi University*
+_Advanced Ph.D. Research, Shihezi University_
 
 - **Innovation:** Pioneered Image-to-3D generative models for rapid plant architecture synthesis using diffusion models and neural radiance fields
 - **AI Integration:** Fine-tuned large language models for domain-specific agricultural data analysis and automated research workflows
 - **Technical Achievement:** Developed novel AI-assisted coding framework that accelerated phenotyping algorithm development
 - **Impact:** Reduced 3D plant model generation from days to minutes, enabling real-time digital twin applications
 
-### **Next-Generation Phenotyping with Advanced Computer Vision** | *2021 – Present*
+### **Next-Generation Phenotyping with Advanced Computer Vision** | _2021 – Present_
 
-*Collaborative Research with International Partners*
+_Collaborative Research with International Partners_
 
 - **Cutting-Edge Methods:** Implemented 3D Gaussian splatting and differentiable rendering for photorealistic plant reconstruction
 - **Scale Innovation:** Developed distributed computing pipeline processing UAV imagery using cloud-native architectures
@@ -142,9 +143,9 @@ Shihezi, Xinjiang 832003, China
 
 ### **Student Mentoring**
 
-- **Yu Jingxuan** | *Undergraduate Research Assistant* | *2023-2024***Project:** "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"**Supervision:** Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping**Outcome:** Student gained proficiency in 3D modeling and agricultural data analysis
-- **Zhang Rongze** | *Undergraduate Research Assistant* | *2023-2024***Project:** "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"**Supervision:** Mentored in computer vision techniques and plant architecture analysis**Outcome:** Contributed to automated phenotyping workflow development
-- **Xie Hejiang** | *Undergraduate Research Assistant* | *2022-2023*
+- **Yu Jingxuan** | _Undergraduate Research Assistant_ | \*2023-2024**\*Project:** "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"**Supervision:** Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping**Outcome:** Student gained proficiency in 3D modeling and agricultural data analysis
+- **Zhang Rongze** | _Undergraduate Research Assistant_ | \*2023-2024**\*Project:** "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"**Supervision:** Mentored in computer vision techniques and plant architecture analysis**Outcome:** Contributed to automated phenotyping workflow development
+- **Xie Hejiang** | _Undergraduate Research Assistant_ | _2022-2023_
   **Project:** "Cotton Yield Response Analysis Under Different Nitrogen Treatment Regimes"
   **Supervision:** Trained in experimental design, statistical analysis, and agricultural data interpretation
   **Outcome:** Results contributed to nitrogen optimization research for sustainable cotton production
@@ -160,7 +161,7 @@ Shihezi, Xinjiang 832003, China
 - **[Stereo-Vision-Camera-Box](https://github.com/smiler488/Stereo-Vision-Camera-Box)** | *Python, Computer Vision*Advanced stereo vision system with custom hardware integration and GUI interface for high-precision depth measurement and 3D point cloud generation. Features real-time processing capabilities for agricultural phenotyping applications.
 - **[CCO-Flight-Planner](https://github.com/smiler488/cco-flight-planner)** | *Python, UAV Technology*Automated flight planning tool for DJI drones with KML polygon input and KMZ waypoint generation. Streamlines UAV-based agricultural surveys and remote sensing data collection workflows.
 - **[RootQuantify](https://github.com/smiler488/RootQuantify)** | *Python, Image Analysis*Specialized batch processing toolkit for quantitative analysis of plant root system images. Implements advanced image processing algorithms for root architecture phenotyping and morphological measurements.
-- **[Custom-Harvard-Citation-Tool](https://github.com/smiler488/custom-harvard-with-journal-abbr)** | *Academic Productivity*
+- **[Custom-Harvard-Citation-Tool](https://github.com/smiler488/custom-harvard-with-journal-abbr)** | _Academic Productivity_
   Zotero integration tool for automated citation insertion in presentations with journal abbreviation support. Enhances academic workflow efficiency for research presentations and publications.
 
 **Technical Impact:** Combined 50+ stars across repositories, demonstrating community adoption and practical utility in agricultural research workflows.
@@ -193,4 +194,4 @@ Email: [songqf@cemps.ac.cn](mailto:songqf@cemps.ac.cn)
 
 ---
 
-*Last updated: September 2025*
+_Last updated: September 2025_

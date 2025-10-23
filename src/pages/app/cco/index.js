@@ -32,23 +32,23 @@ const CCOPage = () => {
             href="/docs/cco-mission-planner-tutorial" 
             style={{
               padding: "8px 16px",
-              backgroundColor: "#000000",
+              backgroundColor: "#6c6c70",
               color: "#ffffff",
               textDecoration: "none",
               borderRadius: "10px",
               fontSize: "14px",
               fontWeight: "500",
-              border: "1px solid #000000",
+              border: "1px solid #6c6c70",
               transition: "all 0.2s ease"
             }}
             onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
+              e.target.style.backgroundColor = "#555555";
+              e.target.style.borderColor = "#555555";
               e.target.style.transform = "translateY(-1px)";
             }}
             onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
+              e.target.style.backgroundColor = "#6c6c70";
+              e.target.style.borderColor = "#6c6c70";
               e.target.style.transform = "translateY(0)";
             }}
           >

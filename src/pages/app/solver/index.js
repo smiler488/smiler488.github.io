@@ -693,7 +693,7 @@ export default function SolverAppPage() {
           </fieldset>
 
           {mode === 'proxy' ? (
-            <fieldset style={{ border: '1px solid #d7e3ff', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f7faff' }}>
+            <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
               <legend>Proxy Settings</legend>
               <label>Proxy URL<br />
                 <input value={proxyUrl} onChange={e => setProxyUrl(e.target.value)} placeholder="Enter your API endpoint or select from options below" style={{ width: '100%' }} />
@@ -705,7 +705,7 @@ export default function SolverAppPage() {
                   <button 
                     type="button"
                     onClick={() => setProxyUrl('https://smiler488githubio.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#f8f0ff', border: '1px solid #d9b3ff', borderRadius: 4, cursor: 'pointer' }}
+                    style={{ padding: '4px 8px', fontSize: 11, background: '#f5f5f7', border: '1px solid #e5e5ea', borderRadius: 4, cursor: 'pointer' }}
                   >
                     Old Vercel
                   </button>
@@ -721,7 +721,7 @@ export default function SolverAppPage() {
               </div>
             </fieldset>
           ) : (
-            <fieldset style={{ border: '1px solid #ffe7d7', borderRadius: 8, padding: 12, marginBottom: 16, background: '#fff7f0' }}>
+            <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
               <legend>Direct Settings (Testing only)</legend>
               <label>Secret ID<br />
                 <input value={secretId} onChange={e => setSecretId(e.target.value)} placeholder="AKIDxxxxx" style={{ width: '100%' }} />

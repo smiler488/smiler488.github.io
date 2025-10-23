@@ -8,7 +8,9 @@ const FeatureList = [
     Svg: require('@site/static/img/comicpho1.svg').default,
     description: (
       <>
-        Leveraging multi-view 3D point cloud reconstruction to quantify crop canopy and organ structures, enabling high-throughput phenotypic trait extraction for multi-scale monitoring and analysis.
+        Leveraging multi-view 3D point cloud reconstruction to quantify crop canopy and organ
+        structures, enabling high-throughput phenotypic trait extraction for multi-scale monitoring
+        and analysis.
       </>
     ),
   },
@@ -17,7 +19,9 @@ const FeatureList = [
     Svg: require('@site/static/img/comicuav1.svg').default,
     description: (
       <>
-        Applying computer vision, large language models, and artificial intelligence to automate phenotypic data analysis, enhance feature recognition, and build intelligent frameworks for crop research.
+        Applying computer vision, large language models, and artificial intelligence to automate
+        phenotypic data analysis, enhance feature recognition, and build intelligent frameworks for
+        crop research.
       </>
     ),
   },
@@ -26,13 +30,14 @@ const FeatureList = [
     Svg: require('@site/static/img/comicexp1.svg').default,
     description: (
       <>
-        Integrating canopy photosynthesis models with breeding strategies and field management, guiding the strategy of high-photosynthetic-efficiency under changing environments.
+        Integrating canopy photosynthesis models with breeding strategies and field management,
+        guiding the strategy of high-photosynthetic-efficiency under changing environments.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">

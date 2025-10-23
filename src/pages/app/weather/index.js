@@ -11,7 +11,7 @@ const WeatherPage = () => {
 
       <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-          <h1 style={{ color: "#2c3e50", marginBottom: 0 }}>
+          <h1 style={{ color: "#000000", marginBottom: 0 }}>
             NASA POWER Weather Data Downloader
           </h1>
           <a 
@@ -49,7 +49,7 @@ const WeatherPage = () => {
           boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
           marginBottom: "30px"
         }}>
-          <h3 style={{ color: "#495057", marginBottom: "20px" }}>Location & Date Range</h3>
+          <h3 style={{ color: "#333333", marginBottom: "20px" }}>Location & Date Range</h3>
           
           <div style={{
             display: "grid",

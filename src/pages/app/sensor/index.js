@@ -277,7 +277,7 @@ export default function SensorPage() {
         </p>
 
         {error && (
-          <div style={{ padding: 12, border: '1px solid #f5c2c7', background: '#f8d7da', color: '#842029', borderRadius: 8, marginBottom: 16 }}>
+          <div style={{ padding: 12, border: '1px solid #e5e5ea', background: '#f2f2f2', color: '#333333', borderRadius: 8, marginBottom: 16 }}>
             {error}
           </div>
         )}
@@ -443,8 +443,8 @@ export default function SensorPage() {
           marginTop: 24
         }}>
           <div style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: 'white',
+            background: '#f5f5f7',
+            color: '#000000',
             padding: 16
           }}>
             <h2 style={{ margin: 0, fontSize: 20 }}>Solar Angle Formulas</h2>

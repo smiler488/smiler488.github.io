@@ -588,7 +588,7 @@ const styles = {
   input: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc" },
   textarea: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc", fontFamily: "inherit" },
   shareArea: { width: "100%", borderRadius: 6, border: "1px solid #ddd", padding: 6 },
-  btnPrimary: { background: "#000000", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #000000", cursor: "pointer" },
-  btnSecondary: { background: "#333333", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #333333", cursor: "pointer" },
+  btnPrimary: { background: "#6c6c70", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #6c6c70", cursor: "pointer" },
+  btnSecondary: { background: "#6c6c70", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #6c6c70", cursor: "pointer" },
   btnGhost: { background: "#fff", color: "#111", padding: "8px 12px", borderRadius: 6, border: "1px solid #ddd", cursor: "pointer" },
 };
