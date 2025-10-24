@@ -4,7 +4,6 @@ title: Curriculum Vitae
 authors: [liangchao]
 tags: [curriculum vitae, academic cv]
 ---
-
 import SpeechButton from '@site/src/components/SpeechButton';
 
 <!-- truncate -->
@@ -24,9 +23,7 @@ import SpeechButton from '@site/src/components/SpeechButton';
   />
 </div>
 
-<p className="cvTagline">Ph.D. Candidate in Crop Science</p>
-<p className="cvAffiliation">College of Agriculture, Shihezi University</p>
-<p className="cvAffiliation">Shihezi, Xinjiang 832003, China</p>
+Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shihezi, Xinjiang 832003, China
 
 **Contact Information:**
 
