@@ -4,34 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Crop Phenotyping',
-    Svg: require('@site/static/img/comicpho1.svg').default,
+    title: 'Digital Crop Phenotyping',
+    Svg: require('@site/static/img/comic1.svg').default,
     description: (
       <>
-        Leveraging multi-view 3D point cloud reconstruction to quantify crop canopy and organ
-        structures, enabling high-throughput phenotypic trait extraction for multi-scale monitoring
-        and analysis.
+        Quantifying crop canopy and organ structures via multi-view 3D reconstruction and UAV imaging, enabling efficient, multi-scale phenotypic monitoring for structural and functional analysis.
       </>
     ),
   },
   {
-    title: 'AI-driven Researching',
-    Svg: require('@site/static/img/comicuav1.svg').default,
+    title: 'AI-powered Phenomic Analysis',
+    Svg: require('@site/static/img/comic2.svg').default,
     description: (
       <>
-        Applying computer vision, large language models, and artificial intelligence to automate
-        phenotypic data analysis, enhance feature recognition, and build intelligent frameworks for
-        crop research.
+        Integrating computer vision and large language models to automate phenotypic data processing, enhance feature recognition, and construct intelligent analytical frameworks for crop science.
       </>
     ),
   },
   {
-    title: 'Canopy Photosynthesis Modeling for Breeding & Production',
-    Svg: require('@site/static/img/comicexp1.svg').default,
+    title: 'Canopy Photosynthesis & Breeding',
+    Svg: require('@site/static/img/comic3.svg').default,
     description: (
       <>
-        Integrating canopy photosynthesis models with breeding strategies and field management,
-        guiding the strategy of high-photosynthetic-efficiency under changing environments.
+        Linking photosynthesis models with phenotypic and environmental data to guide high-efficiency canopy design, intelligent breeding, and sustainable crop production strategies.
       </>
     ),
   },
