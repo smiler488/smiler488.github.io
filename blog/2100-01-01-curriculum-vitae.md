@@ -103,7 +103,7 @@ Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shi
 ### **Advanced Computer Vision & Graphics**
 
 - **3D Reconstruction:** SfM/MVS, 3DGS, photogrammetry, point-cloud processing
-- **Rendering:** Ray/path tracing
+- **Rendering:** Ray tracing
 - **Real-time Processing:** OpenCV, CUDA/TensorRT; edge deployment (NVIDIA Jetson)
 - **Libraries/Tools:** Open3D, PCL, Blender Python API, Three.js (web viz)
 
