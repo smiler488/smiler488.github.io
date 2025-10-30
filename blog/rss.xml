@@ -15,7 +15,7 @@
             <pubDate>Fri, 01 Jan 2100 00:00:00 GMT</pubDate>
             <description><![CDATA[Personal Information]]></description>
             <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="personal-information">Personal Information<a href="https://smiler488.github.io/blog/curriculum-vitae/#personal-information" class="hash-link" aria-label="Direct link to Personal Information" title="Direct link to Personal Information" translate="no">​</a></h2>
-<div class="cvPronunciation"><span class="cvNameText"><p><strong>Liangchao Deng</strong> (邓良超)</p></span><button class="speechButton_B_OT" title="Play pronunciation" aria-label="Pronounce 邓良超">🔊</button></div>
+<p class="cvPronunciation"><span class="cvNameText"></span></p><p><strong>Liangchao Deng</strong> (邓良超)</p><button class="speechButton_B_OT" title="Play pronunciation" aria-label="Pronounce 邓良超">🔊</button><p></p>
 <p>Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shihezi, Xinjiang 832003, China</p>
 <p><strong>Contact Information:</strong></p>
 <ul>
@@ -31,147 +31,141 @@
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="education">Education<a href="https://smiler488.github.io/blog/curriculum-vitae/#education" class="hash-link" aria-label="Direct link to Education" title="Direct link to Education" translate="no">​</a></h2>
-<p><strong>Ph.D. in Crop Science</strong> | <em>2021 – Present</em>Shihezi University, Xinjiang, China</p>
+<p><strong>Ph.D. in Crop Science</strong> | <em>2023 – 2026 (expected)</em> · Shihezi University, Xinjiang, China</p>
 <ul>
-<li class=""><strong>Supervisors:</strong> Prof. Yali Zhang &amp; Dr. Qingfeng Song</li>
-<li class=""><strong>Dissertation Topic:</strong> AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Precision Agriculture</li>
-<li class=""><strong>Expected Graduation:</strong> 2026</li>
-</ul>
-<p><strong>B.Sc. in Information and Computational Science</strong> | <em>2016 – 2021</em>Shihezi University, Xinjiang, China</p>
-<ul>
-<li class=""><strong>Thesis:</strong> Numerical Methods for Agricultural Data Analysis</li>
+<li class=""><strong>Supervisors:</strong> Prof. Yali Zhang (SHZU) &amp; Dr. Qingfeng Song (CAS-CEMPS)</li>
+<li class=""><strong>Dissertation Topic:</strong> AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Smart Agriculture</li>
+<li class=""><strong>B.Sc. in Information and Computational Science</strong> | <em>2016 – 2021</em> · Shihezi University, Xinjiang, China</li>
+<li class=""><strong>Thesis:</strong> Research on the optimization of cotton canopy structure and photosynthetic efficiency improvement based on multi-scale three-dimensional reconstruction and ray tracing</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="research-interests">Research Interests<a href="https://smiler488.github.io/blog/curriculum-vitae/#research-interests" class="hash-link" aria-label="Direct link to Research Interests" title="Direct link to Research Interests" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cutting-edge-technology-focus">Cutting-Edge Technology Focus<a href="https://smiler488.github.io/blog/curriculum-vitae/#cutting-edge-technology-focus" class="hash-link" aria-label="Direct link to Cutting-Edge Technology Focus" title="Direct link to Cutting-Edge Technology Focus" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Generative AI for Agriculture:</strong> Image-to-3D plant modeling, foundation models for crop phenotyping, multimodal systems for agricultural applications</li>
-<li class=""><strong>Advanced Computer Vision:</strong> Neural radiance fields (NeRF), 3D Gaussian splatting, differentiable rendering for plant reconstruction</li>
-<li class=""><strong>AI-Assisted Scientific Computing:</strong> Large language model integration in research workflows, ai code generation for phenotyping pipelines</li>
-<li class=""><strong>Digital Agriculture Innovation:</strong> IoT sensor networks, edge computing for real-time crop monitoring, blockchain for agricultural traceability</li>
+<li class=""><strong>Generative AI for Agriculture:</strong> Image-to-3D plant modeling; foundation models for crop phenotyping; multimodal systems</li>
+<li class=""><strong>Advanced Computer Vision:</strong> SFM, NeRF, 3D Gaussian Splatting, differentiable rendering for plant/canopy reconstruction based on cameras/UAV</li>
+<li class=""><strong>AI-Assisted Scientific Computing:</strong> LLM integration in research workflows; AI-assisted code generation for phenotyping pipelines</li>
+<li class=""><strong>Digital Agriculture Innovation:</strong> IoT sensor; real-time monitoring</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="core-research-domains">Core Research Domains<a href="https://smiler488.github.io/blog/curriculum-vitae/#core-research-domains" class="hash-link" aria-label="Direct link to Core Research Domains" title="Direct link to Core Research Domains" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Precision Phenomics:</strong> High-throughput plant phenotyping using UAV swarms, hyperspectral imaging, and LiDAR point clouds</li>
-<li class=""><strong>Computational Plant Biology:</strong> Ray-tracing photosynthesis models, BRDF-based optical simulations, digital twin ecosystems</li>
-<li class=""><strong>Environment -Smart Agriculture:</strong> AI-driven crop adaptation strategies, predictive modeling for environment resilience</li>
+<li class=""><strong>Precision Phenomics:</strong> High-throughput phenotyping using UAVs, hyperspectral/multispectral imaging, and LiDAR point clouds</li>
+<li class=""><strong>Computational Plant Biology:</strong> Ray-tracing photosynthesis models; BRDF-based optical simulations</li>
+<li class=""><strong>Environment-Smart Agriculture:</strong> AI-driven crop adaptation strategies; predictive modeling for environmental resilience</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="innovation-and-impact">Innovation and Impact<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation-and-impact" class="hash-link" aria-label="Direct link to Innovation and Impact" title="Direct link to Innovation and Impact" translate="no">​</a></h3>
 <ul>
-<li class="">Bridging the gap between cutting-edge AI research and practical agricultural solutions</li>
-<li class="">Developing scalable technologies for global food security challenges</li>
-<li class="">Creating open-source tools for the international agricultural research community</li>
+<li class="">Bridging newest technology with practical agricultural solutions</li>
+<li class="">Developing scalable technologies for global food security</li>
+<li class="">Creating open-source tools for the international ag-research community</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="research-experience">Research Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#research-experience" class="hash-link" aria-label="Direct link to Research Experience" title="Direct link to Research Experience" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="generative-ai-for-agricultural-applications--2024--present"><strong>Generative AI for Agricultural Applications</strong> | <em>2024 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#generative-ai-for-agricultural-applications--2024--present" class="hash-link" aria-label="Direct link to generative-ai-for-agricultural-applications--2024--present" title="Direct link to generative-ai-for-agricultural-applications--2024--present" translate="no">​</a></h3>
-<p><em>Advanced Ph.D. Research, Shihezi University</em></p>
 <ul>
-<li class=""><strong>Innovation:</strong> Pioneered Image-to-3D generative models for rapid plant architecture synthesis using diffusion models and neural radiance fields</li>
-<li class=""><strong>AI Integration:</strong> Fine-tuned large language models for domain-specific agricultural data analysis and automated research workflows</li>
-<li class=""><strong>Technical Achievement:</strong> Developed novel AI-assisted coding framework that accelerated phenotyping algorithm development</li>
-<li class=""><strong>Impact:</strong> Reduced 3D plant model generation from days to minutes, enabling real-time digital twin applications</li>
+<li class=""><strong>Innovation:</strong> Built image-to-3D generative workflows (diffusion, NeRF) for rapid plant architecture synthesis, Establish a general crop crown photosynthetic prediction model based on multi-modal phenotype data</li>
+<li class=""><strong>AI Integration:</strong> Fine-tuned LLMs for domain-specific analysis and automated research pipelines</li>
+<li class=""><strong>Technical Achievement:</strong> AI-assisted coding framework accelerating phenotyping algorithm development</li>
+<li class=""><strong>Impact:</strong> Reduced 3D plant model generation from days to minutes, enabling near-real-time digital twins</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="next-generation-phenotyping-with-advanced-computer-vision--2021--present"><strong>Next-Generation Phenotyping with Advanced Computer Vision</strong> | <em>2021 – Present</em><a href="https://smiler488.github.io/blog/curriculum-vitae/#next-generation-phenotyping-with-advanced-computer-vision--2021--present" class="hash-link" aria-label="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2021--present" title="Direct link to next-generation-phenotyping-with-advanced-computer-vision--2021--present" translate="no">​</a></h3>
-<p><em>Collaborative Research with International Partners</em></p>
 <ul>
-<li class=""><strong>Cutting-Edge Methods:</strong> Implemented 3D Gaussian splatting and differentiable rendering for photorealistic plant reconstruction</li>
-<li class=""><strong>Scale Innovation:</strong> Developed distributed computing pipeline processing UAV imagery using cloud-native architectures</li>
-<li class=""><strong>Real-World Impact:</strong> Technology adopted by agricultural research institutions for breeding programs</li>
-<li class=""><strong>Funding:</strong> Contributed to $500K research grant proposal (pending)</li>
+<li class="">Implemented 3D Gaussian Splatting and differentiable rendering for photorealistic plant/canopy reconstruction</li>
+<li class="">Deployed multi-view stereo (SfM/MVS) and LiDAR for high-fidelity structure capture and trait extraction</li>
+<li class="">Based on the three-dimensional point cloud model and ray tracing algorithm of plants, build a cotton canopy photosythetic model and simulate the space-time distribution of canopy light and photosynthesis.</li>
+<li class="">Explored the optimal combination of plant architecture and agronomic practices with maximum photosynthetic rate as the objective</li>
+<li class="">According to the working principle of real lidar, use ray tracing algorithms to build virtual lidar, simulate radar scanning plant canopy, and obtain a large number of synthetic data training models</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-expertise">Technical Expertise<a href="https://smiler488.github.io/blog/curriculum-vitae/#technical-expertise" class="hash-link" aria-label="Direct link to Technical Expertise" title="Direct link to Technical Expertise" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="artificial-intelligence--machine-learning"><strong>Artificial Intelligence &amp; Machine Learning</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#artificial-intelligence--machine-learning" class="hash-link" aria-label="Direct link to artificial-intelligence--machine-learning" title="Direct link to artificial-intelligence--machine-learning" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Deep Learning:</strong> PyTorch, TensorFlow, JAX, Hugging Face Transformers, CUDA programming</li>
-<li class=""><strong>Generative AI:</strong> Diffusion models, GANs, NeRF, 3D Gaussian splatting, text-to-3D synthesis</li>
-<li class=""><strong>Foundation Models:</strong> LLM fine-tuning (LoRA, QLoRA), multimodal models (CLIP, DALL-E), prompt engineering</li>
-<li class=""><strong>MLOps:</strong> Docker, Kubernetes, MLflow, Weights &amp; Biases, distributed training on multi-GPU clusters</li>
+<li class=""><strong>Deep Learning:</strong> PyTorch, TensorFlow, Transformers, CUDA</li>
+<li class=""><strong>Generative AI:</strong> Diffusion models, NeRF, 3DGS, text-/image-to-3D</li>
+<li class=""><strong>Foundation Models:</strong> LLM fine-tuning, CLIP, prompt engineering</li>
+<li class=""><strong>MLOps:</strong> Docker, distributed training on multi-GPU</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="advanced-computer-vision--graphics"><strong>Advanced Computer Vision &amp; Graphics</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#advanced-computer-vision--graphics" class="hash-link" aria-label="Direct link to advanced-computer-vision--graphics" title="Direct link to advanced-computer-vision--graphics" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>3D Reconstruction:</strong> Structure-from-Motion, multi-view stereo, photogrammetry, point cloud processing</li>
-<li class=""><strong>Rendering:</strong> Ray tracing, path tracing, differentiable rendering, physically-based rendering (PBR)</li>
-<li class=""><strong>Real-time Processing:</strong> OpenCV, CUDA, TensorRT, edge deployment on NVIDIA Jetson</li>
-<li class=""><strong>Specialized Libraries:</strong> Open3D, PCL, Blender Python API, Three.js for web visualization</li>
+<li class=""><strong>3D Reconstruction:</strong> SfM/MVS, 3DGS, photogrammetry, point-cloud processing</li>
+<li class=""><strong>Rendering:</strong> Ray/path tracing</li>
+<li class=""><strong>Real-time Processing:</strong> OpenCV, CUDA/TensorRT; edge deployment (NVIDIA Jetson)</li>
+<li class=""><strong>Libraries/Tools:</strong> Open3D, PCL, Blender Python API, Three.js (web viz)</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="high-performance-computing--cloud"><strong>High-Performance Computing &amp; Cloud</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#high-performance-computing--cloud" class="hash-link" aria-label="Direct link to high-performance-computing--cloud" title="Direct link to high-performance-computing--cloud" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Programming:</strong> Python, Matlab, AI vibe coding</li>
-<li class=""><strong>DevOps:</strong> Git,, containerization, infrastructure as code (Terraform)</li>
+<li class=""><strong>Programming:</strong> Python, MATLAB, R</li>
+<li class=""><strong>DevOps:</strong> Git, containerization; parallel data processing on HPC</li>
 </ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="agricultural-technology--iot"><strong>Agricultural Technology &amp; IoT</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#agricultural-technology--iot" class="hash-link" aria-label="Direct link to agricultural-technology--iot" title="Direct link to agricultural-technology--iot" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="agricultural-technology"><strong>Agricultural Technology</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#agricultural-technology" class="hash-link" aria-label="Direct link to agricultural-technology" title="Direct link to agricultural-technology" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Remote Sensing:</strong> Hyperspectral/multispectral imaging, LiDAR, thermal imaging, UAV systems</li>
-<li class=""><strong>Sensor Networks:</strong> IoT device programming, edge computing, real-time data streaming</li>
-<li class=""><strong>Precision Agriculture:</strong> Variable rate technology, GPS/GNSS, agricultural robotics</li>
-<li class=""><strong>Data Standards:</strong> GeoTIFF, NetCDF, agricultural data exchange formats</li>
+<li class=""><strong>Remote Sensing:</strong> RGB / multispectral / hyperspectral / thermal; LiDAR; UAV systems</li>
+<li class=""><strong>Sensor Networks:</strong> IoT devices for microclimate &amp; photosynthesis monitoring</li>
+<li class=""><strong>Data Standards:</strong> GeoTIFF and common ag-data exchange formats</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="research--development-tools"><strong>Research &amp; Development Tools</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#research--development-tools" class="hash-link" aria-label="Direct link to research--development-tools" title="Direct link to research--development-tools" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Scientific Computing:</strong> MATLAB, R, Jupyter notebooks, scientific visualization</li>
-<li class=""><strong>Collaboration:</strong> GitHub, Slack, Notion, academic writing tools (LaTeX, Overleaf)</li>
-<li class=""><strong>Project Management:</strong> Agile methodologies, Scrum, research project coordination</li>
+<li class=""><strong>Scientific Computing:</strong> Python, MATLAB, R; numerical modeling</li>
+<li class=""><strong>Collaboration:</strong> GitHub, Slack, Notion; academic writing (Markdown, Overleaf)</li>
+<li class=""><strong>Project Management:</strong> Agile/Scrum; reproducible research workflows</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="publications--research-output">Publications &amp; Research Output<a href="https://smiler488.github.io/blog/curriculum-vitae/#publications--research-output" class="hash-link" aria-label="Direct link to Publications &amp; Research Output" title="Direct link to Publications &amp; Research Output" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="high-impact-manuscripts-in-preparation"><strong>High-Impact Manuscripts in Preparation</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#high-impact-manuscripts-in-preparation" class="hash-link" aria-label="Direct link to high-impact-manuscripts-in-preparation" title="Direct link to high-impact-manuscripts-in-preparation" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="accepted--in-press"><strong>Accepted / In Press</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#accepted--in-press" class="hash-link" aria-label="Direct link to accepted--in-press" title="Direct link to accepted--in-press" translate="no">​</a></h3>
 <ol>
-<li class="">•Deng,L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu,X-G. (2025). Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools. (Plant phenomics, Under major revision)</li>
+<li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).<br>
+<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> (accepted).</li>
 </ol>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="teaching-assistance"><strong>Teaching Assistance</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-assistance" class="hash-link" aria-label="Direct link to teaching-assistance" title="Direct link to teaching-assistance" translate="no">​</a></h3>
-<ul>
-<li class="">[List courses assisted with]</li>
-</ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="student-mentoring"><strong>Student Mentoring</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#student-mentoring" class="hash-link" aria-label="Direct link to student-mentoring" title="Direct link to student-mentoring" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Yu Jingxuan</strong> | <em>Undergraduate Research Assistant</em> | *2023-2024***Project:** "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"<strong>Supervision:</strong> Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping<strong>Outcome:</strong> Student gained proficiency in 3D modeling and agricultural data analysis</li>
-<li class=""><strong>Zhang Rongze</strong> | <em>Undergraduate Research Assistant</em> | *2023-2024***Project:** "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"<strong>Supervision:</strong> Mentored in computer vision techniques and plant architecture analysis<strong>Outcome:</strong> Contributed to automated phenotyping workflow development</li>
-<li class=""><strong>Xie Hejiang</strong> | <em>Undergraduate Research Assistant</em> | <em>2022-2023</em>
-<strong>Project:</strong> "Cotton Yield Response Analysis Under Different Nitrogen Treatment Regimes"
-<strong>Supervision:</strong> Trained in experimental design, statistical analysis, and agricultural data interpretation
-<strong>Outcome:</strong> Results contributed to nitrogen optimization research for sustainable cotton production</li>
+<li class=""><strong>Yu Jingxuan</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Field-scale 3D reconstruction &amp; quantitative analysis of cotton varieties (UAV)<br>
+<strong>Role/Outcome:</strong> Guided MVS pipeline; student gained 3D modeling &amp; data-analysis proficiency</li>
+<li class=""><strong>Zhang Rongze</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Single-plant 3D reconstruction &amp; morphological quantification<br>
+<strong>Role/Outcome:</strong> Contributed to automated phenotyping workflow</li>
+<li class=""><strong>Xie Hejiang</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Cotton yield response under nitrogen treatment regimes<br>
+<strong>Role/Outcome:</strong> Trained in experimental design &amp; statistics; results supported N optimization</li>
 </ul>
-<p><strong>Mentoring Philosophy:</strong> Emphasize hands-on learning, technical skill development, and integration of computational methods with agricultural research applications.</p>
+<p><strong>Mentoring Philosophy:</strong> Hands-on learning; rigorous experimental design; integration of computation with agronomy; reproducible, open science.</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="innovation--entrepreneurship">Innovation &amp; Entrepreneurship<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation--entrepreneurship" class="hash-link" aria-label="Direct link to Innovation &amp; Entrepreneurship" title="Direct link to Innovation &amp; Entrepreneurship" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-source-contributions"><strong>Open Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-source-contributions"><strong>Open-Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions" translate="no">​</a></h3>
 <ul>
-<li class=""><strong><a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer" class="">Stereo-Vision-Camera-Box</a></strong> | <em>Python, Computer Vision</em>Advanced stereo vision system with custom hardware integration and GUI interface for high-precision depth measurement and 3D point cloud generation. Features real-time processing capabilities for agricultural phenotyping applications.</li>
-<li class=""><strong><a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer" class="">CCO-Flight-Planner</a></strong> | <em>Python, UAV Technology</em>Automated flight planning tool for DJI drones with KML polygon input and KMZ waypoint generation. Streamlines UAV-based agricultural surveys and remote sensing data collection workflows.</li>
-<li class=""><strong><a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer" class="">RootQuantify</a></strong> | <em>Python, Image Analysis</em>Specialized batch processing toolkit for quantitative analysis of plant root system images. Implements advanced image processing algorithms for root architecture phenotyping and morphological measurements.</li>
-<li class=""><strong><a href="https://github.com/smiler488/custom-harvard-with-journal-abbr" target="_blank" rel="noopener noreferrer" class="">Custom-Harvard-Citation-Tool</a></strong> | <em>Academic Productivity</em>
-Zotero integration tool for automated citation insertion in presentations with journal abbreviation support. Enhances academic workflow efficiency for research presentations and publications.</li>
+<li class=""><strong>Stereo-Vision-Camera-Box</strong> · <em>Python, Computer Vision</em><br>
+<!-- -->Advanced stereo-vision system with custom hardware &amp; GUI for depth and 3D point clouds in phenotyping.<br>
+<a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/Stereo-Vision-Camera-Box</a></li>
+<li class=""><strong>CCO-Flight-Planner</strong> · <em>Python, UAV Technology</em><br>
+<!-- -->Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.<br>
+<a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/cco-flight-planner</a></li>
+<li class=""><strong>RootQuantify</strong> · <em>Python, Image Analysis</em><br>
+<!-- -->Batch root-image quantification with robust preprocessing and morphology metrics.<br>
+<a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/RootQuantify</a></li>
+<li class=""><strong>Custom-Harvard-Citation-Tool</strong> · <em>Academic Productivity</em><br>
+<!-- -->Zotero-friendly citation insertion with journal-abbreviation support (slides/papers).<br>
+<a href="https://github.com/smiler488/custom-harvard-with-journal-abbr" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/custom-harvard-with-journal-abbr</a></li>
 </ul>
-<p><strong>Technical Impact:</strong> Combined 50+ stars across repositories, demonstrating community adoption and practical utility in agricultural research workflows.</p>
+<p><strong>Technical Impact:</strong> 50+ combined stars; adopted in practical ag-research workflows.</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="languages">Languages<a href="https://smiler488.github.io/blog/curriculum-vitae/#languages" class="hash-link" aria-label="Direct link to Languages" title="Direct link to Languages" translate="no">​</a></h2>
 <ul>
-<li class=""><strong>Chinese (Mandarin):</strong> Native speaker</li>
-<li class=""><strong>English:</strong> Proficient (TOEFL/IELTS score if available)<!-- -->
-<ul>
-<li class="">Academic writing and presentation</li>
-<li class="">Scientific communication</li>
-<li class="">International collaboration</li>
-</ul>
-</li>
+<li class=""><strong>Chinese (Mandarin):</strong> Native</li>
+<li class=""><strong>English:</strong> Proficient (academic writing, presentations, collaboration)</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="references">References<a href="https://smiler488.github.io/blog/curriculum-vitae/#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References" translate="no">​</a></h2>
-<p><strong>Prof. Yali Zhang</strong>
-Professor and Ph.D. Supervisor
-College of Agriculture, Shihezi University
-Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">zhangyali_cn@foxmail.com</a></p>
-<p><strong>Dr. Qingfeng Song</strong>
-Research Scientist and Co-supervisor
-CAS Center for Excellence in Molecular Plant Sciences
-Email: <a href="mailto:songqf@cemps.ac.cn" target="_blank" rel="noopener noreferrer" class="">songqf@cemps.ac.cn</a></p>
+<p><strong>Prof. Yali Zhang</strong><br>
+<!-- -->Professor &amp; Ph.D. Supervisor, College of Agriculture, Shihezi University<br>
+<!-- -->Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">zhangyali_cn@foxmail.com</a></p>
+<p><strong>Dr. Qingfeng Song</strong><br>
+<!-- -->Research Associate &amp; Co-supervisor, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)<br>
+<!-- -->Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">songqf@cemps.ac.cn</a></p>
 <p><strong>Additional references available upon request</strong></p>
 <hr>
-<p><em>Last updated: September 2025</em></p>]]></content:encoded>
+<p><em>Last updated: October 2025</em></p>]]></content:encoded>
             <category>Curriculum Vitae</category>
             <category>Academic CV</category>
         </item>
