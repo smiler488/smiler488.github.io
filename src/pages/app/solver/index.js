@@ -97,19 +97,7 @@ export default function SolverAppPage() {
   const { videoRef, ready, error } = useCamera();
 
   // State management
-  const [mode, setMode] = useState('proxy'); // 'proxy' or 'direct'
-  const [proxyUrl, setProxyUrl] = useState(() => {
-    // 默认使用 mock API，确保页面可用；用户可随时改为真实地址
-    if (typeof window !== 'undefined') {
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      if (isLocalhost) {
-        return 'http://localhost:3000/api/solve'; // 本地开发（如有本地 server）
-      }
-    }
-    return 'mock://ai-solver'; // 生产环境默认：虚拟API
-  });
-  const [secretId, setSecretId] = useState('');
-  const [secretKey, setSecretKey] = useState('');
+  const [apiUrl, setApiUrl] = useState('0000000000');
   // Preset prompt list
   const promptPresets = [
     { 
@@ -194,18 +182,11 @@ export default function SolverAppPage() {
 
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
-    if (mode === 'direct') {
-      if (!secretId || !secretKey) throw new Error('Please enter SecretId and SecretKey');
-      setRespText('Direct mode is not implemented yet, please use proxy mode');
-      return;
-    }
-
-    if (!proxyUrl || !proxyUrl.trim()) {
-      throw new Error('Please provide a valid proxy URL in the settings below');
-    }
+    // If API URL looks invalid (e.g., default zeros or missing http), use local mock to keep UI functional
+    const useMock = !apiUrl || !apiUrl.trim() || !/^https?:\/\//.test(apiUrl);
 
     try {
-      const response = await postJson(proxyUrl, payload);
+      const response = await postJson(useMock ? 'mock://ai-solver' : apiUrl, payload);
 
       if (!response.ok) {
         const t = await response.text().catch(() => '');
@@ -715,61 +696,15 @@ export default function SolverAppPage() {
         </div>
 
         <div style={{ flex: 1, minWidth: 280 }}>
-          <fieldset style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12, marginBottom: 16 }}>
-            <legend>Connection Mode</legend>
-            <label>
-              <input type="radio" value="proxy" checked={mode === 'proxy'} onChange={e => setMode(e.target.value)} />
-              Proxy Mode (Recommended)
+          <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
+            <legend>API Settings</legend>
+            <label>API URL<br />
+              <input value={apiUrl} onChange={e => setApiUrl(e.target.value)} placeholder="https://your-api.example.com/api/solve" style={{ width: '100%' }} />
             </label>
-            <label style={{ marginLeft: 16 }}>
-              <input type="radio" value="direct" checked={mode === 'direct'} onChange={e => setMode(e.target.value)} />
-              Direct Mode (Testing)
-            </label>
-
+            <div style={{ color: '#345', fontSize: 12, marginTop: 8 }}>
+              Default shows zeros. Enter your API endpoint to enable real calls.
+            </div>
           </fieldset>
-
-          {mode === 'proxy' ? (
-            <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
-              <legend>Proxy Settings</legend>
-              <label>Proxy URL<br />
-                <input value={proxyUrl} onChange={e => setProxyUrl(e.target.value)} placeholder="Enter your API endpoint or select from options below" style={{ width: '100%' }} />
-              </label>
-              
-              <div style={{ marginTop: 12 }}>
-                <div style={{ fontSize: 12, color: '#666', marginBottom: 8 }}>Quick Options:</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  <button 
-                    type="button"
-                    onClick={() => setProxyUrl('https://smiler488githubio.vercel.app/api/solve')}
-                    style={{ padding: '4px 8px', fontSize: 11, background: '#f5f5f7', border: '1px solid #e5e5ea', borderRadius: 4, cursor: 'pointer' }}
-                  >
-                    Old Vercel
-                  </button>
-                </div>
-              </div>
-              
-              <div style={{ color: '#345', fontSize: 12, marginTop: 12 }}>
-                <strong>Tips:</strong><br />
-                • Local Dev: For development with local server<br />
-                • CORS Proxy: Bypass CORS restrictions for GitHub Pages<br />
-                • Direct Vercel: Try direct access (may have CORS issues)<br />
-                • Configure in .env.local: HUNYUAN_SECRET_ID, HUNYUAN_SECRET_KEY, HUNYUAN_VERSION
-              </div>
-            </fieldset>
-          ) : (
-            <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
-              <legend>Direct Settings (Testing only)</legend>
-              <label>Secret ID<br />
-                <input value={secretId} onChange={e => setSecretId(e.target.value)} placeholder="AKIDxxxxx" style={{ width: '100%' }} />
-              </label>
-              <label style={{ display: 'block', marginTop: 8 }}>Secret Key<br />
-                <input type="password" value={secretKey} onChange={e => setSecretKey(e.target.value)} placeholder="Secret Key" style={{ width: '100%' }} />
-              </label>
-              <div style={{ color: '#d63031', fontSize: 12, marginTop: 8 }}>
-                 Direct mode exposes the key, for local testing only!
-              </div>
-            </fieldset>
-          )}
 
           <fieldset style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12 }}>
             <legend>Request Parameters</legend>
