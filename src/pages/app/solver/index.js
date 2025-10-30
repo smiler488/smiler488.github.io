@@ -47,6 +47,45 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
 }
 
 async function postJson(url, json) {
+  // Mock mode: allow using a fake upstream when url starts with "mock://"
+  if (typeof url === 'string' && url.startsWith('mock://')) {
+    const now = new Date().toISOString();
+    const mockText = (() => {
+      const q = json?.question || 'No question provided';
+      const model = json?.model || 'hunyuan-lite';
+      const hasImage = !!json?.imageBase64 || !!json?.imageUrl;
+      const header = hasImage ? 'Mock Vision Analysis' : 'Mock Text Analysis';
+      return `${header} (model: ${model})\n\nUser question:\n${q}\n\nThis is a mocked response for demo purposes. Replace proxy URL with your real API when ready.`;
+    })();
+
+    const body = {
+      Response: {
+        RequestId: 'mock-' + Math.random().toString(36).slice(2),
+        Choices: [
+          {
+            Message: {
+              Content: mockText,
+            },
+          },
+        ],
+        Usage: {
+          PromptTokens: 128,
+          CompletionTokens: 256,
+          TotalTokens: 384,
+        },
+        Timestamp: now,
+      },
+    };
+
+    return {
+      ok: true,
+      status: 200,
+      json: async () => body,
+      text: async () => JSON.stringify(body),
+      headers: new Map([['content-type', 'application/json']]),
+    };
+  }
+
   return fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -60,17 +99,14 @@ export default function SolverAppPage() {
   // State management
   const [mode, setMode] = useState('proxy'); // 'proxy' or 'direct'
   const [proxyUrl, setProxyUrl] = useState(() => {
-    // 自动检测环境并设置默认API地址
+    // 默认使用 mock API，确保页面可用；用户可随时改为真实地址
     if (typeof window !== 'undefined') {
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       if (isLocalhost) {
-        return 'http://localhost:3000/api/solve'; // 本地开发
-      } else {
-        // 生产环境默认为空，需要用户手动配置
-        return '';
+        return 'http://localhost:3000/api/solve'; // 本地开发（如有本地 server）
       }
     }
-    return ''; // 服务端渲染时的默认值
+    return 'mock://ai-solver'; // 生产环境默认：虚拟API
   });
   const [secretId, setSecretId] = useState('');
   const [secretKey, setSecretKey] = useState('');
