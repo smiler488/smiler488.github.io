@@ -10,6 +10,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
+  "ignoreCommand": "test \"$(git rev-parse --abbrev-ref HEAD)\" = \"gh-pages\"",
   "rewrites": [
     {
       "source": "/api/(.*)",
