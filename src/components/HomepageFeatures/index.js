@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Digital Crop Phenotyping',
-    Svg: require('@site/static/img/comic1.svg').default,
+    Svg: require('@site/static/img/compress_comic1.svg').default,
     description: (
       <>
         Quantifying crop canopy and organ structures via multi-view 3D reconstruction and UAV imaging, enabling efficient, multi-scale phenotypic monitoring for structural and functional analysis.
@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'AI-powered Phenomic Analysis',
-    Svg: require('@site/static/img/comic2.svg').default,
+    Svg: require('@site/static/img/compress_comic2.svg').default,
     description: (
       <>
         Integrating computer vision and large language models to automate phenotypic data processing, enhance feature recognition, and construct intelligent analytical frameworks for crop science.
@@ -23,7 +23,7 @@ const FeatureList = [
   },
   {
     title: 'Canopy Photosynthesis & Breeding',
-    Svg: require('@site/static/img/comic3.svg').default,
+    Svg: require('@site/static/img/compress_comic3.svg').default,
     description: (
       <>
         Linking photosynthesis models with phenotypic and environmental data to guide high-efficiency canopy design, intelligent breeding, and sustainable crop production strategies.
