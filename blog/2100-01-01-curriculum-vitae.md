@@ -21,9 +21,7 @@ import SpeechButton from '@site/src/components/SpeechButton';
     title="Play pronunciation"
   />
 </p>
-<p className="cvRole">Ph.D. Candidate in Crop Science</p>
-<p className="cvAffiliation">College of Agriculture, Shihezi University</p>
-<p className="cvAffiliation">Shihezi, Xinjiang 832003, China</p>
+Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shihezi, Xinjiang 832003, China
 
 **Contact Information:**
 
@@ -41,164 +39,144 @@ import SpeechButton from '@site/src/components/SpeechButton';
 
 ## Education
 
-**Ph.D. in Crop Science** | *2021 – Present*Shihezi University, Xinjiang, China
-
-- **Supervisors:** Prof. Yali Zhang & Dr. Qingfeng Song
-- **Dissertation Topic:** AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Precision Agriculture
-- **Expected Graduation:** 2026
-
-**B.Sc. in Information and Computational Science** | *2016 – 2021*Shihezi University, Xinjiang, China
-
-- **Thesis:** Numerical Methods for Agricultural Data Analysis
+**Ph.D. in Crop Science** | *2023 – 2026 (expected)* · Shihezi University, Xinjiang, China  
+- **Supervisors:** Prof. Yali Zhang (SHZU) & Dr. Qingfeng Song (CAS-CEMPS)  
+- **Dissertation Topic:** AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Smart Agriculture
+- **B.Sc. in Information and Computational Science** | *2016 – 2021* · Shihezi University, Xinjiang, China  
+- **Thesis:** Research on the optimization of cotton canopy structure and photosynthetic efficiency improvement based on multi-scale three-dimensional reconstruction and ray tracing
 
 ---
 
 ## Research Interests
 
 ### Cutting-Edge Technology Focus
-
-- **Generative AI for Agriculture:** Image-to-3D plant modeling, foundation models for crop phenotyping, multimodal systems for agricultural applications
-- **Advanced Computer Vision:** Neural radiance fields (NeRF), 3D Gaussian splatting, differentiable rendering for plant reconstruction
-- **AI-Assisted Scientific Computing:** Large language model integration in research workflows, ai code generation for phenotyping pipelines
-- **Digital Agriculture Innovation:** IoT sensor networks, edge computing for real-time crop monitoring, blockchain for agricultural traceability
+- **Generative AI for Agriculture:** Image-to-3D plant modeling; foundation models for crop phenotyping; multimodal systems
+- **Advanced Computer Vision:** SFM, NeRF, 3D Gaussian Splatting, differentiable rendering for plant/canopy reconstruction based on cameras/UAV
+- **AI-Assisted Scientific Computing:** LLM integration in research workflows; AI-assisted code generation for phenotyping pipelines
+- **Digital Agriculture Innovation:** IoT sensor; real-time monitoring
 
 ### Core Research Domains
-
-- **Precision Phenomics:** High-throughput plant phenotyping using UAV swarms, hyperspectral imaging, and LiDAR point clouds
-- **Computational Plant Biology:** Ray-tracing photosynthesis models, BRDF-based optical simulations, digital twin ecosystems
-- **Environment -Smart Agriculture:** AI-driven crop adaptation strategies, predictive modeling for environment resilience
+- **Precision Phenomics:** High-throughput phenotyping using UAVs, hyperspectral/multispectral imaging, and LiDAR point clouds
+- **Computational Plant Biology:** Ray-tracing photosynthesis models; BRDF-based optical simulations
+- **Environment-Smart Agriculture:** AI-driven crop adaptation strategies; predictive modeling for environmental resilience
 
 ### Innovation and Impact
-
-- Bridging the gap between cutting-edge AI research and practical agricultural solutions
-- Developing scalable technologies for global food security challenges
-- Creating open-source tools for the international agricultural research community
+- Bridging newest technology with practical agricultural solutions  
+- Developing scalable technologies for global food security  
+- Creating open-source tools for the international ag-research community
 
 ---
 
 ## Research Experience
 
-### **Generative AI for Agricultural Applications** | _2024 – Present_
+### **Generative AI for Agricultural Applications** | *2024 – Present*  
+- **Innovation:** Built image-to-3D generative workflows (diffusion, NeRF) for rapid plant architecture synthesis, Establish a general crop crown photosynthetic prediction model based on multi-modal phenotype data
+- **AI Integration:** Fine-tuned LLMs for domain-specific analysis and automated research pipelines  
+- **Technical Achievement:** AI-assisted coding framework accelerating phenotyping algorithm development  
+- **Impact:** Reduced 3D plant model generation from days to minutes, enabling near-real-time digital twins
 
-_Advanced Ph.D. Research, Shihezi University_
-
-- **Innovation:** Pioneered Image-to-3D generative models for rapid plant architecture synthesis using diffusion models and neural radiance fields
-- **AI Integration:** Fine-tuned large language models for domain-specific agricultural data analysis and automated research workflows
-- **Technical Achievement:** Developed novel AI-assisted coding framework that accelerated phenotyping algorithm development
-- **Impact:** Reduced 3D plant model generation from days to minutes, enabling real-time digital twin applications
-
-### **Next-Generation Phenotyping with Advanced Computer Vision** | _2021 – Present_
-
-_Collaborative Research with International Partners_
-
-- **Cutting-Edge Methods:** Implemented 3D Gaussian splatting and differentiable rendering for photorealistic plant reconstruction
-- **Scale Innovation:** Developed distributed computing pipeline processing UAV imagery using cloud-native architectures
-- **Real-World Impact:** Technology adopted by agricultural research institutions for breeding programs
-- **Funding:** Contributed to $500K research grant proposal (pending)
+### **Next-Generation Phenotyping with Advanced Computer Vision** | *2021 – Present*   
+- Implemented 3D Gaussian Splatting and differentiable rendering for photorealistic plant/canopy reconstruction  
+- Deployed multi-view stereo (SfM/MVS) and LiDAR for high-fidelity structure capture and trait extraction
+- Based on the three-dimensional point cloud model and ray tracing algorithm of plants, build a cotton canopy photosythetic model and simulate the space-time distribution of canopy light and photosynthesis.
+- Explored the optimal combination of plant architecture and agronomic practices with maximum photosynthetic rate as the objective
+- According to the working principle of real lidar, use ray tracing algorithms to build virtual lidar, simulate radar scanning plant canopy, and obtain a large number of synthetic data training models
 
 ---
 
 ## Technical Expertise
 
 ### **Artificial Intelligence & Machine Learning**
-
-- **Deep Learning:** PyTorch, TensorFlow, JAX, Hugging Face Transformers, CUDA programming
-- **Generative AI:** Diffusion models, GANs, NeRF, 3D Gaussian splatting, text-to-3D synthesis
-- **Foundation Models:** LLM fine-tuning (LoRA, QLoRA), multimodal models (CLIP, DALL-E), prompt engineering
-- **MLOps:** Docker, Kubernetes, MLflow, Weights & Biases, distributed training on multi-GPU clusters
+- **Deep Learning:** PyTorch, TensorFlow, Transformers, CUDA  
+- **Generative AI:** Diffusion models, NeRF, 3DGS, text-/image-to-3D  
+- **Foundation Models:** LLM fine-tuning, CLIP, prompt engineering  
+- **MLOps:** Docker, distributed training on multi-GPU
 
 ### **Advanced Computer Vision & Graphics**
-
-- **3D Reconstruction:** Structure-from-Motion, multi-view stereo, photogrammetry, point cloud processing
-- **Rendering:** Ray tracing, path tracing, differentiable rendering, physically-based rendering (PBR)
-- **Real-time Processing:** OpenCV, CUDA, TensorRT, edge deployment on NVIDIA Jetson
-- **Specialized Libraries:** Open3D, PCL, Blender Python API, Three.js for web visualization
+- **3D Reconstruction:** SfM/MVS, 3DGS, photogrammetry, point-cloud processing  
+- **Rendering:** Ray/path tracing 
+- **Real-time Processing:** OpenCV, CUDA/TensorRT; edge deployment (NVIDIA Jetson)  
+- **Libraries/Tools:** Open3D, PCL, Blender Python API, Three.js (web viz)
 
 ### **High-Performance Computing & Cloud**
+- **Programming:** Python, MATLAB, R  
+- **DevOps:** Git, containerization; parallel data processing on HPC
 
-- **Programming:** Python, Matlab, AI vibe coding
-- **DevOps:** Git,, containerization, infrastructure as code (Terraform)
-
-### **Agricultural Technology & IoT**
-
-- **Remote Sensing:** Hyperspectral/multispectral imaging, LiDAR, thermal imaging, UAV systems
-- **Sensor Networks:** IoT device programming, edge computing, real-time data streaming
-- **Precision Agriculture:** Variable rate technology, GPS/GNSS, agricultural robotics
-- **Data Standards:** GeoTIFF, NetCDF, agricultural data exchange formats
+### **Agricultural Technology**
+- **Remote Sensing:** RGB / multispectral / hyperspectral / thermal; LiDAR; UAV systems  
+- **Sensor Networks:** IoT devices for microclimate & photosynthesis monitoring  
+- **Data Standards:** GeoTIFF and common ag-data exchange formats
 
 ### **Research & Development Tools**
-
-- **Scientific Computing:** MATLAB, R, Jupyter notebooks, scientific visualization
-- **Collaboration:** GitHub, Slack, Notion, academic writing tools (LaTeX, Overleaf)
-- **Project Management:** Agile methodologies, Scrum, research project coordination
+- **Scientific Computing:** Python, MATLAB, R; numerical modeling  
+- **Collaboration:** GitHub, Slack, Notion; academic writing (Markdown, Overleaf)  
+- **Project Management:** Agile/Scrum; reproducible research workflows
 
 ---
 
 ## Publications & Research Output
 
-### **High-Impact Manuscripts in Preparation**
-
-1. •Deng,L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu,X-G. (2025). Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools. (Plant phenomics, Under major revision)
+### **Accepted / In Press**
+1. **Deng, L.**, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).  
+   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** (accepted).
 
 ---
 
 ## Teaching and Mentoring Experience
 
-### **Teaching Assistance**
-
-- [List courses assisted with]
-
 ### **Student Mentoring**
+- **Yu Jingxuan** | *Undergraduate Research* | *2023 – 2025*  
+  **Project:** Field-scale 3D reconstruction & quantitative analysis of cotton varieties (UAV)  
+  **Role/Outcome:** Guided MVS pipeline; student gained 3D modeling & data-analysis proficiency
+- **Zhang Rongze** | *Undergraduate Research* | *2023 – 2025*  
+  **Project:** Single-plant 3D reconstruction & morphological quantification  
+  **Role/Outcome:** Contributed to automated phenotyping workflow
+- **Xie Hejiang** | *Undergraduate Research* | *2023 – 2025*  
+  **Project:** Cotton yield response under nitrogen treatment regimes  
+  **Role/Outcome:** Trained in experimental design & statistics; results supported N optimization
 
-- **Yu Jingxuan** | _Undergraduate Research Assistant_ | \*2023-2024**\*Project:** "Field-Scale 3D Reconstruction and Quantitative Analysis of Cotton Varieties"**Supervision:** Guided development of multi-view stereo reconstruction pipeline for cotton phenotyping**Outcome:** Student gained proficiency in 3D modeling and agricultural data analysis
-- **Zhang Rongze** | _Undergraduate Research Assistant_ | \*2023-2024**\*Project:** "Individual Cotton Plant 3D Reconstruction and Morphological Quantification"**Supervision:** Mentored in computer vision techniques and plant architecture analysis**Outcome:** Contributed to automated phenotyping workflow development
-- **Xie Hejiang** | _Undergraduate Research Assistant_ | _2022-2023_
-  **Project:** "Cotton Yield Response Analysis Under Different Nitrogen Treatment Regimes"
-  **Supervision:** Trained in experimental design, statistical analysis, and agricultural data interpretation
-  **Outcome:** Results contributed to nitrogen optimization research for sustainable cotton production
-
-**Mentoring Philosophy:** Emphasize hands-on learning, technical skill development, and integration of computational methods with agricultural research applications.
+**Mentoring Philosophy:** Hands-on learning; rigorous experimental design; integration of computation with agronomy; reproducible, open science.
 
 ---
 
 ## Innovation & Entrepreneurship
 
-### **Open Source Contributions**
+### **Open-Source Contributions**
+- **Stereo-Vision-Camera-Box** · *Python, Computer Vision*  
+  Advanced stereo-vision system with custom hardware & GUI for depth and 3D point clouds in phenotyping.  
+  https://github.com/smiler488/Stereo-Vision-Camera-Box
+- **CCO-Flight-Planner** · *Python, UAV Technology*  
+  Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.  
+  https://github.com/smiler488/cco-flight-planner
+- **RootQuantify** · *Python, Image Analysis*  
+  Batch root-image quantification with robust preprocessing and morphology metrics.  
+  https://github.com/smiler488/RootQuantify
+- **Custom-Harvard-Citation-Tool** · *Academic Productivity*  
+  Zotero-friendly citation insertion with journal-abbreviation support (slides/papers).  
+  https://github.com/smiler488/custom-harvard-with-journal-abbr
 
-- **[Stereo-Vision-Camera-Box](https://github.com/smiler488/Stereo-Vision-Camera-Box)** | *Python, Computer Vision*Advanced stereo vision system with custom hardware integration and GUI interface for high-precision depth measurement and 3D point cloud generation. Features real-time processing capabilities for agricultural phenotyping applications.
-- **[CCO-Flight-Planner](https://github.com/smiler488/cco-flight-planner)** | *Python, UAV Technology*Automated flight planning tool for DJI drones with KML polygon input and KMZ waypoint generation. Streamlines UAV-based agricultural surveys and remote sensing data collection workflows.
-- **[RootQuantify](https://github.com/smiler488/RootQuantify)** | *Python, Image Analysis*Specialized batch processing toolkit for quantitative analysis of plant root system images. Implements advanced image processing algorithms for root architecture phenotyping and morphological measurements.
-- **[Custom-Harvard-Citation-Tool](https://github.com/smiler488/custom-harvard-with-journal-abbr)** | _Academic Productivity_
-  Zotero integration tool for automated citation insertion in presentations with journal abbreviation support. Enhances academic workflow efficiency for research presentations and publications.
-
-**Technical Impact:** Combined 50+ stars across repositories, demonstrating community adoption and practical utility in agricultural research workflows.
+**Technical Impact:** 50+ combined stars; adopted in practical ag-research workflows.
 
 ---
 
 ## Languages
-
-- **Chinese (Mandarin):** Native speaker
-- **English:** Proficient (TOEFL/IELTS score if available)
-  - Academic writing and presentation
-  - Scientific communication
-  - International collaboration
+- **Chinese (Mandarin):** Native  
+- **English:** Proficient (academic writing, presentations, collaboration)
 
 ---
 
 ## References
 
-**Prof. Yali Zhang**
-Professor and Ph.D. Supervisor
-College of Agriculture, Shihezi University
+**Prof. Yali Zhang**  
+Professor & Ph.D. Supervisor, College of Agriculture, Shihezi University  
 Email: [zhangyali_cn@foxmail.com](mailto:zhangyali_cn@foxmail.com)
 
-**Dr. Qingfeng Song**
-Research Scientist and Co-supervisor
-CAS Center for Excellence in Molecular Plant Sciences
-Email: [songqf@cemps.ac.cn](mailto:songqf@cemps.ac.cn)
+**Dr. Qingfeng Song**  
+Research Associate & Co-supervisor, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)  
+Email: [songqf@cemps.ac.cn](mailto:zhangyali_cn@foxmail.com)
 
 **Additional references available upon request**
 
 ---
 
-_Last updated: September 2025_
+*Last updated: October 2025*
