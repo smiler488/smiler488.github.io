@@ -73,7 +73,7 @@
 <li class="">Deployed multi-view stereo (SfM/MVS) and LiDAR for high-fidelity structure capture and trait extraction</li>
 <li class="">Based on the three-dimensional point cloud model and ray tracing algorithm of plants, build a cotton canopy photosythetic model and simulate the space-time distribution of canopy light and photosynthesis.</li>
 <li class="">Explored the optimal combination of plant architecture and agronomic practices with maximum photosynthetic rate as the objective</li>
-<li class="">According to the working principle of real lidar, use ray tracing algorithms to build virtual lidar, simulate radar scanning plant canopy, and obtain a large number of synthetic data training models, accelerate the development of the phenotype platform</li>
+<li class="">According to the working principle of real lidar, use ray tracing algorithms to build virtual lidar, simulate radar scanning plant canopy, and obtain a large number of synthetic data training models</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-expertise">Technical Expertise<a href="https://smiler488.github.io/blog/curriculum-vitae/#technical-expertise" class="hash-link" aria-label="Direct link to Technical Expertise" title="Direct link to Technical Expertise" translate="no">​</a></h2>
@@ -112,17 +112,21 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="publications--research-output">Publications &amp; Research Output<a href="https://smiler488.github.io/blog/curriculum-vitae/#publications--research-output" class="hash-link" aria-label="Direct link to Publications &amp; Research Output" title="Direct link to Publications &amp; Research Output" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="accepted--in-press"><strong>Accepted / In Press</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#accepted--in-press" class="hash-link" aria-label="Direct link to accepted--in-press" title="Direct link to accepted--in-press" translate="no">​</a></h3>
 <ol>
-<li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
+<li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).<br>
 <em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> (accepted).</li>
 </ol>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="student-mentoring"><strong>Student Mentoring</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#student-mentoring" class="hash-link" aria-label="Direct link to student-mentoring" title="Direct link to student-mentoring" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Yu Jingxuan</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><strong>Project:</strong> Field-scale 3D reconstruction &amp; quantitative analysis of cotton varieties (UAV)<strong>Role/Outcome:</strong> Guided MVS pipeline; student gained 3D modeling &amp; data-analysis proficiency</li>
-<li class=""><strong>Zhang Rongze</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><strong>Project:</strong> Single-plant 3D reconstruction &amp; morphological quantification<strong>Role/Outcome:</strong> Contributed to automated phenotyping workflow</li>
-<li class=""><strong>Xie Hejiang</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em>
-<strong>Project:</strong> Cotton yield response under nitrogen treatment regimes
+<li class=""><strong>Yu Jingxuan</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Field-scale 3D reconstruction &amp; quantitative analysis of cotton varieties (UAV)<br>
+<strong>Role/Outcome:</strong> Guided MVS pipeline; student gained 3D modeling &amp; data-analysis proficiency</li>
+<li class=""><strong>Zhang Rongze</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Single-plant 3D reconstruction &amp; morphological quantification<br>
+<strong>Role/Outcome:</strong> Contributed to automated phenotyping workflow</li>
+<li class=""><strong>Xie Hejiang</strong> | <em>Undergraduate Research</em> | <em>2023 – 2025</em><br>
+<strong>Project:</strong> Cotton yield response under nitrogen treatment regimes<br>
 <strong>Role/Outcome:</strong> Trained in experimental design &amp; statistics; results supported N optimization</li>
 </ul>
 <p><strong>Mentoring Philosophy:</strong> Hands-on learning; rigorous experimental design; integration of computation with agronomy; reproducible, open science.</p>
@@ -130,11 +134,17 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="innovation--entrepreneurship">Innovation &amp; Entrepreneurship<a href="https://smiler488.github.io/blog/curriculum-vitae/#innovation--entrepreneurship" class="hash-link" aria-label="Direct link to Innovation &amp; Entrepreneurship" title="Direct link to Innovation &amp; Entrepreneurship" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-source-contributions"><strong>Open-Source Contributions</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#open-source-contributions" class="hash-link" aria-label="Direct link to open-source-contributions" title="Direct link to open-source-contributions" translate="no">​</a></h3>
 <ul>
-<li class=""><strong>Stereo-Vision-Camera-Box</strong> · <em>Python, Computer Vision</em>Advanced stereo-vision system with custom hardware &amp; GUI for depth and 3D point clouds in phenotyping.<a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/Stereo-Vision-Camera-Box</a></li>
-<li class=""><strong>CCO-Flight-Planner</strong> · <em>Python, UAV Technology</em>Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.<a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/cco-flight-planner</a></li>
-<li class=""><strong>RootQuantify</strong> · <em>Python, Image Analysis</em>Batch root-image quantification with robust preprocessing and morphology metrics.<a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/RootQuantify</a></li>
-<li class=""><strong>Custom-Harvard-Citation-Tool</strong> · <em>Academic Productivity</em>
-Zotero-friendly citation insertion with journal-abbreviation support (slides/papers).
+<li class=""><strong>Stereo-Vision-Camera-Box</strong> · <em>Python, Computer Vision</em><br>
+<!-- -->Advanced stereo-vision system with custom hardware &amp; GUI for depth and 3D point clouds in phenotyping.<br>
+<a href="https://github.com/smiler488/Stereo-Vision-Camera-Box" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/Stereo-Vision-Camera-Box</a></li>
+<li class=""><strong>CCO-Flight-Planner</strong> · <em>Python, UAV Technology</em><br>
+<!-- -->Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.<br>
+<a href="https://github.com/smiler488/cco-flight-planner" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/cco-flight-planner</a></li>
+<li class=""><strong>RootQuantify</strong> · <em>Python, Image Analysis</em><br>
+<!-- -->Batch root-image quantification with robust preprocessing and morphology metrics.<br>
+<a href="https://github.com/smiler488/RootQuantify" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/RootQuantify</a></li>
+<li class=""><strong>Custom-Harvard-Citation-Tool</strong> · <em>Academic Productivity</em><br>
+<!-- -->Zotero-friendly citation insertion with journal-abbreviation support (slides/papers).<br>
 <a href="https://github.com/smiler488/custom-harvard-with-journal-abbr" target="_blank" rel="noopener noreferrer" class="">https://github.com/smiler488/custom-harvard-with-journal-abbr</a></li>
 </ul>
 <p><strong>Technical Impact:</strong> 50+ combined stars; adopted in practical ag-research workflows.</p>
@@ -146,12 +156,12 @@ Zotero-friendly citation insertion with journal-abbreviation support (slides/pap
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="references">References<a href="https://smiler488.github.io/blog/curriculum-vitae/#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References" translate="no">​</a></h2>
-<p><strong>Prof. Yali Zhang</strong>
-Professor &amp; Ph.D. Supervisor, College of Agriculture, Shihezi University
-Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">zhangyali_cn@foxmail.com</a></p>
-<p><strong>Dr. Qingfeng Song</strong>
-Research Associate &amp; Co-supervisor, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)
-Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">songqf@cemps.ac.cn</a></p>
+<p><strong>Prof. Yali Zhang</strong><br>
+<!-- -->Professor &amp; Ph.D. Supervisor, College of Agriculture, Shihezi University<br>
+<!-- -->Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">zhangyali_cn@foxmail.com</a></p>
+<p><strong>Dr. Qingfeng Song</strong><br>
+<!-- -->Research Associate &amp; Co-supervisor, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)<br>
+<!-- -->Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener noreferrer" class="">songqf@cemps.ac.cn</a></p>
 <p><strong>Additional references available upon request</strong></p>
 <hr>
 <p><em>Last updated: October 2025</em></p>]]></content>
