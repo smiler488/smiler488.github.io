@@ -204,6 +204,40 @@ code {
   border: 1px solid var(--ifm-border-color);
 }
 
+.cvPronunciation {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.cvPronunciation .cvNameText {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.cvPronunciation :global(button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}
+
+.cvRole {
+  font-size: 1.1em;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.cvAffiliation {
+  font-size: 0.95em;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.25rem;
+}
+
 /* Footer improvements */
 .footer {
   border-top: 1px solid var(--ifm-border-color);

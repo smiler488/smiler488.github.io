@@ -25,6 +25,9 @@ const config = {
   // Enable Mermaid diagrams in Markdown
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
   // Activate Mermaid theme plugin
   themes: ['@docusaurus/theme-mermaid'],
@@ -35,7 +38,6 @@ const config = {
   projectName: 'smiler488.github.io', // Usually your repo name.
   deploymentBranch: 'gh-pages',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you

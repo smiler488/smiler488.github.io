@@ -11,8 +11,7 @@ import SpeechButton from '@site/src/components/SpeechButton';
 # Curriculum Vitae
 
 ## Personal Information
-
-<div className="cvPronunciation">
+<p className="cvPronunciation">
   <span className="cvNameText">
     <strong>Liangchao Deng</strong> (邓良超)
   </span>
@@ -21,9 +20,10 @@ import SpeechButton from '@site/src/components/SpeechButton';
     fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)"
     title="Play pronunciation"
   />
-</div>
-
-Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shihezi, Xinjiang 832003, China
+</p>
+<p className="cvRole">Ph.D. Candidate in Crop Science</p>
+<p className="cvAffiliation">College of Agriculture, Shihezi University</p>
+<p className="cvAffiliation">Shihezi, Xinjiang 832003, China</p>
 
 **Contact Information:**
 
