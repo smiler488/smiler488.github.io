@@ -915,7 +915,7 @@ OUTPUT:
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <h1>AI Solver (Hunyuan)</h1>
         <a 
-          href="/docs/ai-solver-tutorial" 
+          href="/docs/tutorial-apps/ai-solver-tutorial" 
           style={{
             padding: "8px 16px",
             backgroundColor: "#000000",
