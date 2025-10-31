@@ -383,7 +383,10 @@ function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbo
 function drawPreview(canvas, polygon, centers, points) {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const proj = mapLonLatToCanvas(polygon, canvas, 24);
+  const boundsCoords = [...polygon];
+  if (centers && centers.length) boundsCoords.push(...centers);
+  if (points && points.length) boundsCoords.push(...points);
+  const proj = mapLonLatToCanvas(boundsCoords, canvas, 24);
 
   // polygon
   ctx.beginPath();

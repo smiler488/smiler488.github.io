@@ -17,7 +17,7 @@ The CCO (Cross-Circular Orbit) Mission Planner is a specialized tool for generat
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/cco`
+Visit in your browser: `/app/cco`
 
 ### 2. Hardware Requirements
 

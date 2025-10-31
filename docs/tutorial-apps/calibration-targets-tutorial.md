@@ -17,7 +17,7 @@ The Calibration Targets Generator is a specialized tool for creating printable c
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/targets`
+Visit in your browser: `/app/targets`
 
 ### 2. System Requirements
 

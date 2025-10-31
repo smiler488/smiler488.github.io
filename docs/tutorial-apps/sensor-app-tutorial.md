@@ -17,7 +17,7 @@ The Sensor App is a specialized tool for measuring three-dimensional leaf angles
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/sensor`
+Visit in your browser: `/app/sensor`
 
 ### 2. System Requirements
 

@@ -18,7 +18,7 @@ The Cloud Sticky Note system is a secure, zero-backend solution for creating and
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/cloudnote`
+Visit in your browser: `/app/cloudnote`
 
 ### 2. System Requirements
 

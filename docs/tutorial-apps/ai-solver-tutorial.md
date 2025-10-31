@@ -19,7 +19,7 @@ The AI Solver is an advanced multimodal problem-solving tool powered by Hunyuan 
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/solver`
+Visit in your browser: `/app/solver`
 
 ### 2. System Requirements
 

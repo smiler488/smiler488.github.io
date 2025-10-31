@@ -17,7 +17,7 @@ The Image Quantifier is a specialized tool for precise quantification of biologi
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/image`
+Visit in your browser: `/app/image`
 
 ### 2. System Requirements
 

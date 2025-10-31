@@ -16,7 +16,7 @@ This is a high-precision stereo vision system specifically designed for leaf mor
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/stereo`
+Visit in your browser: `/app/stereo`
 
 ### 2. Hardware Requirements
 

@@ -17,7 +17,7 @@ The Weather Analyzer is a comprehensive tool for accessing, analyzing, and visua
 
 ### 1. Access the Application
 
-Visit in your browser: `http://your-domain/app/weather`
+Visit in your browser: `/app/weather`
 
 ### 2. System Requirements
 
