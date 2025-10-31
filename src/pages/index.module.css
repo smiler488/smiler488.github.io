@@ -3,7 +3,7 @@
  * and scoped locally.
  */
 
- .heroBanner {
+.heroBanner {
   padding: 5rem 0;
   text-align: center;
   position: relative;
@@ -60,4 +60,36 @@
 .container {
   position: relative;
   z-index: 1;
+}
+
+.heroBanner :global(.hero__subtitle) {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  background: rgba(240, 240, 242, 0.9);
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='dark'] .heroBanner :global(.hero__subtitle) {
+  background: rgba(60, 60, 65, 0.85);
+  color: var(--ifm-color-emphasis-100);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.heroBanner :global(.hero__title) {
+  display: inline-block;
+  padding: 0.75rem 2.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ifm-color-emphasis-900);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme='dark'] .heroBanner :global(.hero__title) {
+  background: rgba(40, 40, 45, 0.9);
+  color: var(--ifm-color-emphasis-100);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
