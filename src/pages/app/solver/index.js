@@ -1,5 +1,24 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+function computeDefaultApiEndpoint() {
+  if (typeof window === 'undefined') {
+    return '/api/solve';
+  }
+
+  const { hostname, origin } = window.location;
+
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:3000/api/solve';
+  }
+
+  if (hostname.endsWith('.github.io')) {
+    // GitHub Pages cannot host API routes; fall back to mock API by default.
+    return null;
+  }
+
+  return `${origin.replace(/\/$/, '')}/api/solve`;
+}
 
 function useCamera() {
   const videoRef = useRef(null);
@@ -94,6 +113,7 @@ async function postJson(url, json) {
 }
 
 export default function SolverAppPage() {
+  const defaultApiEndpoint = useMemo(computeDefaultApiEndpoint, []);
   const { videoRef, ready, error } = useCamera();
 
   // State management
@@ -445,7 +465,10 @@ OUTPUT:
     // Determine which API to use: default API, custom API, or mock
     let targetUrl;
     if (useDefaultApi) {
-      targetUrl = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
+      if (!defaultApiEndpoint) {
+        throw new Error('Default API is not available on this deployment. Please enter a custom API URL or run the local proxy (node local-server.js).');
+      }
+      targetUrl = defaultApiEndpoint;
     } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
       targetUrl = apiUrl;
     } else {
@@ -456,31 +479,44 @@ OUTPUT:
       const response = await postJson(targetUrl, payload);
 
       if (!response.ok) {
-        const t = await response.text().catch(() => '');
-        throw new Error(`Request failed ${response.status}: ${t}`);
+        const rawText = await response.text().catch(() => '');
+        if (response.status === 404) {
+          const guidance = useDefaultApi
+            ? 'The built-in solver endpoint (/api/solve) is not reachable. Deploy the serverless function or point the app to your own API in the settings.'
+            : 'The URL you entered cannot be found. Double-check the API path or start your local proxy (node local-server.js).';
+          throw new Error(`Request failed 404: ${guidance}`);
+        }
+
+        const snippet = rawText
+          ? rawText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180)
+          : '';
+        const detail = snippet ? ` Response: ${snippet}` : '';
+        throw new Error(`Request failed ${response.status}.${detail}`);
       }
       const data = await response.json().catch(async () => ({ raw: await response.text() }));
       
       // Format the response for better readability
-      if (data.Response && data.Response.Choices && data.Response.Choices.length > 0) {
-        const aiMessage = data.Response.Choices[0].Message?.Content || '';
-        const usage = data.Response.Usage || {};
-        
-        // Create a formatted display with the most important information
-        const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.TotalTokens || 'N/A'} (Prompt: ${usage.PromptTokens || 'N/A'}, Completion: ${usage.CompletionTokens || 'N/A'})`;
+      if (Array.isArray(data?.choices) && data.choices.length > 0) {
+        const aiMessage = data.choices[0].message?.content || '';
+        const usage = data.usage || {};
+        const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.total_tokens || 'N/A'} (Prompt: ${usage.prompt_tokens || 'N/A'}, Completion: ${usage.completion_tokens || 'N/A'})`;
         setRespText(formattedResponse);
-        
-        // Also store the full response data in case it's needed
+        window.lastFullResponse = data;
+      } else if (data.Response && data.Response.Choices && data.Response.Choices.length > 0) {
+        const legacyMessage = data.Response.Choices[0].Message?.Content || '';
+        const legacyUsage = data.Response.Usage || {};
+        const formattedLegacy = `${legacyMessage}\n\n---\nTokens: ${legacyUsage.TotalTokens || 'N/A'} (Prompt: ${legacyUsage.PromptTokens || 'N/A'}, Completion: ${legacyUsage.CompletionTokens || 'N/A'})`;
+        setRespText(formattedLegacy);
         window.lastFullResponse = data;
       } else {
-        // Fallback to showing the full JSON if we can't extract the message
         setRespText(JSON.stringify(data, null, 2));
+        window.lastFullResponse = data;
       }
     } catch (e) {
       if (e.name === 'TypeError' && e.message.includes('fetch')) {
-        throw new Error(`Network error: Cannot connect to ${proxyUrl}. Please check the proxy URL or your network connection.`);
+        throw new Error(`Network error: Cannot connect to ${targetUrl}. Please verify the API server or the URL in the settings.`);
       }
-      throw e;
+      throw e instanceof Error ? e : new Error(String(e));
     }
   }
 
@@ -499,8 +535,12 @@ OUTPUT:
       
       if (preset) {
         setSelectedPreset(preset.id);
-        setQuestion(preset.prompt);
-        setRespText(`Switched to preset: ${preset.name}\n\nPreset prompt: ${preset.prompt}`);
+        if (preset.id === 'custom') {
+          setQuestion('');
+        } else {
+          setQuestion(preset.prompt);
+        }
+        setRespText(`Switched to preset: ${preset.name}\n\nDescription: ${preset.description}`);
         return;
       } else {
         setRespText(`Preset "${presetName}" not found. Available presets: ${promptPresets.map(p => p.name).join(', ')}`);
@@ -1151,20 +1191,33 @@ OUTPUT:
               <button 
                 type="button"
                 onClick={() => setUseDefaultApi(!useDefaultApi)}
+                disabled={!defaultApiEndpoint}
                 style={{
                   padding: '6px 12px',
                   fontSize: 12,
-                  backgroundColor: useDefaultApi ? '#4CAF50' : '#f0f0f0',
-                  color: useDefaultApi ? 'white' : '#333',
+                  backgroundColor: !defaultApiEndpoint
+                    ? '#ddd'
+                    : useDefaultApi
+                      ? '#4CAF50'
+                      : '#f0f0f0',
+                  color: !defaultApiEndpoint
+                    ? '#777'
+                    : useDefaultApi
+                      ? 'white'
+                      : '#333',
                   border: '1px solid #ccc',
                   borderRadius: 4,
-                  cursor: 'pointer'
+                  cursor: !defaultApiEndpoint ? 'not-allowed' : 'pointer'
                 }}
               >
                 {useDefaultApi ? '✓ Using Default API' : 'Use Default API'}
               </button>
               <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
-                {useDefaultApi ? 'Default API is enabled' : 'Click to enable default API'}
+                {!defaultApiEndpoint
+                  ? 'Default API requires a deployed /api/solve endpoint. Use a custom URL or run node local-server.js.'
+                  : useDefaultApi
+                    ? 'Default API is enabled'
+                    : 'Click to enable default API'}
               </div>
             </div>
             
@@ -1198,8 +1251,12 @@ OUTPUT:
                   onChange={(e) => {
                     setSelectedPreset(e.target.value);
                     const preset = promptPresets.find(p => p.id === e.target.value);
-                    if (preset && preset.id !== 'custom') {
-                      setQuestion(preset.prompt);
+                    if (preset) {
+                      if (preset.id === 'custom') {
+                        setQuestion('');
+                      } else {
+                        setQuestion(preset.prompt);
+                      }
                     }
                   }}
                   style={{ width: '100%', padding: '4px 8px', borderRadius: 4, border: '1px solid #ccc' }}
@@ -1214,19 +1271,22 @@ OUTPUT:
               </div>
             </div>
             
-            <label style={{ display: 'block', marginTop: 8 }}>Question (for image mode)<br />
-              <textarea 
-                value={question} 
-                onChange={e => {
-                  setQuestion(e.target.value);
-                  if (selectedPreset !== 'custom') {
-                    setSelectedPreset('custom');
-                  }
-                }} 
-                rows={3} 
-                style={{ width: '100%' }} 
-              />
-            </label>
+            {selectedPreset === 'custom' ? (
+              <label style={{ display: 'block', marginTop: 8 }}>Question (for image mode)<br />
+                <textarea 
+                  value={question} 
+                  onChange={e => {
+                    setQuestion(e.target.value);
+                  }} 
+                  rows={3} 
+                  style={{ width: '100%' }} 
+                />
+              </label>
+            ) : (
+              <div style={{ marginTop: 12, fontSize: 12, color: '#666' }}>
+                Preset instructions are applied automatically based on the selected mode.
+              </div>
+            )}
           </fieldset>
         </div>
       </div>

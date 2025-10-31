@@ -27,8 +27,8 @@ const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-  // Explicitly set trailingSlash to avoid GitHub Pages redirect issues
-  trailingSlash: true,
+  // Disable trailing slash so asset URLs don't gain an extra `/`
+  trailingSlash: false,
 
   // Enable Mermaid diagrams in Markdown
   markdown: {

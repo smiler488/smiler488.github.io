@@ -14,30 +14,42 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 
 // 模拟 AI 响应的函数
-function generateMockResponse(input) {
-  if (input.imageBase64) {
-    return {
-      success: true,
-      response: "I can see an image has been uploaded. This is a mock response since we don't have real AI API credentials configured. The image appears to contain mathematical or technical content that would normally be analyzed by the Hunyuan AI model.",
-      model: input.model || 'hunyuan-vision',
-      timestamp: new Date().toISOString(),
-      mock: true
-    };
-  } else if (input.question) {
-    return {
-      success: true,
-      response: `This is a mock response to your question: "${input.question}". In a real deployment, this would be processed by the Hunyuan AI model and provide a detailed answer. Please configure the HUNYUAN_SECRET_ID and HUNYUAN_SECRET_KEY environment variables for actual AI functionality.`,
-      model: input.model || 'hunyuan-lite',
-      timestamp: new Date().toISOString(),
-      mock: true
-    };
-  } else {
-    return {
-      success: false,
-      error: "No valid input provided",
-      mock: true
-    };
+function formatMockContent(input) {
+  if (input.imageBase64 || input.imageUrl) {
+    return `Mock Vision Analysis\n\nModel: ${input.model || 'hunyuan-vision'}\nSummary: Received an image payload (base64 length ${input.imageBase64?.length || 0}).\n\nIn a real deployment this would be analyzed by the Hunyuan vision model.`;
   }
+
+  if (input.question) {
+    return `Mock Text Analysis\n\nModel: ${input.model || 'hunyuan-lite'}\nQuestion: ${input.question}\n\nThis is a placeholder response from the local mock server. Deploy the real /api/solve proxy to get actual answers.`;
+  }
+
+  return 'No valid input provided.';
+}
+
+function generateMockResponse(input) {
+  const content = formatMockContent(input);
+  return {
+    id: `mock-${crypto.randomBytes(6).toString('hex')}`,
+    object: 'chat.completion',
+    created: Math.floor(Date.now() / 1000),
+    model: input.model || 'hunyuan-vision',
+    choices: [
+      {
+        index: 0,
+        message: {
+          role: 'assistant',
+          content,
+        },
+        finish_reason: 'stop',
+      },
+    ],
+    usage: {
+      prompt_tokens: 64,
+      completion_tokens: 128,
+      total_tokens: 192,
+    },
+    mock: true,
+  };
 }
 
 // API 端点

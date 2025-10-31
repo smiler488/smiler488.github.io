@@ -4,7 +4,6 @@ title: Curriculum Vitae
 authors: [liangchao]
 tags: [curriculum vitae, academic cv]
 ---
-import brdfPdfUrl from '@site/static/file/Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species_ Development of a Novel Measuring and Analyzing Framework.pdf';
 import SpeechButton from '@site/src/components/SpeechButton';
 
 <!-- truncate -->
@@ -132,7 +131,7 @@ Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shi
 ### **Accepted / In Press**
 
 1. **Deng, L.**, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
-   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) <a href={brdfPdfUrl} target="_blank" rel="noopener noreferrer"><strong>PDF</strong></a>
+   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/files/brdf.pdf)
 
 ---
 
