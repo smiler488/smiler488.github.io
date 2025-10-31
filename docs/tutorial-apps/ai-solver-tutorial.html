@@ -5,7 +5,7 @@
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">AI Solver Tutorial | Liangchao Deng</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://smiler488.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://smiler488.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://smiler488.github.io/docs/tutorial-apps/ai-solver-tutorial"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="AI Solver Tutorial | Liangchao Deng"><meta data-rh="true" name="description" content="Overview"><meta data-rh="true" property="og:description" content="Overview"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://smiler488.github.io/docs/tutorial-apps/ai-solver-tutorial"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/ai-solver-tutorial" hreflang="en"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/ai-solver-tutorial" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tutorial - apps","item":"https://smiler488.github.io/docs/category/tutorial---apps"},{"@type":"ListItem","position":2,"name":"AI Solver Tutorial","item":"https://smiler488.github.io/docs/tutorial-apps/ai-solver-tutorial"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Liangchao Deng RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Liangchao Deng Atom Feed"><link rel="stylesheet" href="/assets/css/styles.466fcf2e.css">
-<script src="/assets/js/runtime~main.a8ca8127.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.0f4f3c27.js" defer="defer"></script>
 <script src="/assets/js/main.4be46f60.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -231,6 +231,7 @@
 <li class="">Flexible handling of special or mixed requests</li>
 <li class="">General reasoning rules for unique problem types</li>
 <li class="">Alternative solution path consideration</li>
+<li class="">Enables manual editing of the question/prompt field (other presets apply their instructions automatically)</li>
 </ul>
 </li>
 </ol>
@@ -239,18 +240,19 @@
 <li class="">
 <p><strong>API Settings</strong></p>
 <ul>
-<li class=""><strong>Default API</strong>: Click &quot;Use Default API&quot; button for immediate access</li>
-<li class=""><strong>Custom API</strong>: Enter your custom endpoint URL for specialized deployments</li>
-<li class=""><strong>Security</strong>: No API keys stored - enhanced privacy protection</li>
-<li class=""><strong>Model Selection</strong>: Choose appropriate Hunyuan AI model for your use case</li>
+<li class=""><strong>Default API</strong>: Toggle &quot;Use Default API&quot; to call the same-origin <code>/api/solve</code> endpoint (on localhost this targets <code>http://localhost:3001/api/solve</code>)</li>
+<li class=""><strong>Automatic Fallback</strong>: If the default endpoint responds with 403/404/405, the app shows a notice and returns a mock answer so you can keep testing</li>
+<li class=""><strong>Custom API</strong>: Enter a full URL (including protocol) when you deploy your own proxy or serverless function</li>
+<li class=""><strong>Security</strong>: No API keys are stored in the browser; credentials must live on the backend</li>
+<li class=""><strong>Model Selection</strong>: Choose the appropriate Hunyuan AI model for your use case</li>
 </ul>
 </li>
 <li class="">
 <p><strong>Preset Management</strong></p>
 <ul>
 <li class=""><strong>Quick Selection</strong>: Dropdown menu with 18 professional presets</li>
-<li class=""><strong>Description Display</strong>: Each preset shows brief functional description</li>
-<li class=""><strong>Custom Mode</strong>: Modify question field to create custom prompts</li>
+<li class=""><strong>Description Display</strong>: Each preset shows a brief functional description; default prompts are applied automatically</li>
+<li class=""><strong>Custom Mode</strong>: Choose this mode if you need to edit the question/prompt text manually</li>
 <li class=""><strong>Text Command</strong>: Type <code>/preset name</code> in text mode for quick switching</li>
 </ul>
 </li>
@@ -505,6 +507,7 @@
 <li class=""><strong>Custom API Connection Failed</strong>: Verify URL format includes protocol (https://)</li>
 <li class=""><strong>API Switching Issues</strong>: Disable custom API first before enabling default API</li>
 <li class=""><strong>Response Format Errors</strong>: Ensure custom API returns compatible JSON format</li>
+<li class=""><strong>Mock Response Displayed</strong>: If you see a message explaining that a mock answer is used, deploy <code>/api/solve</code> or point the app to your custom endpoint</li>
 </ul>
 <p><strong>7. Preset Selection Issues</strong></p>
 <ul>
