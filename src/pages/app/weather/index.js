@@ -15,7 +15,7 @@ const WeatherPage = () => {
             NASA POWER Weather Data Downloader
           </h1>
           <a 
-            href="/docs/weather-analyzer-tutorial" 
+            href="/docs/tutorial-apps/weather-analyzer-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

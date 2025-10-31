@@ -245,7 +245,7 @@ export default function SensorPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h1 style={{ marginBottom: 8 }}>Device Sensor Recorder</h1>
           <a 
-            href="/docs/sensor-app-tutorial" 
+            href="/docs/tutorial-apps/sensor-app-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

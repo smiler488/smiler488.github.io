@@ -1,11 +1,22 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 3rem 0;
   width: 100%;
+  gap: 2rem;
 }
 
-.featureSvg {
+.featureImage {
   height: 200px;
   width: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--ifm-border-color);
+}
+
+.featureImage:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }

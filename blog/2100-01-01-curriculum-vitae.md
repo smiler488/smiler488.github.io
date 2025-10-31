@@ -131,7 +131,7 @@ Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shi
 ### **Accepted / In Press**
 
 1. **Deng, L.**, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
-   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** (accepted).
+   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/file/Leaf%20Bidirectional%20Reflectance%20Distribution%20Function%20%28BRDF%29%20Prediction%20with%20Phenotypic%20Traits%20in%20Four%20Species_%20Development%20of%20a%20Novel%20Measuring%20and%20Analyzing%20Framework.pdf)
 
 ---
 

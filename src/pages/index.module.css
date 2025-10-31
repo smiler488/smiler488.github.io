@@ -4,15 +4,18 @@
  */
 
  .heroBanner {
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #f0f0f2 0%, #d9d9dd 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--ifm-color-emphasis-900);
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3rem 1rem;
   }
 }
 
@@ -20,6 +23,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 /* 新增：云朵动画样式 */

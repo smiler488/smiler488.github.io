@@ -403,7 +403,7 @@ export default function TargetsPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h1>Professional Calibration Targets Generator</h1>
           <a 
-            href="/docs/calibration-targets-tutorial" 
+            href="/docs/tutorial-apps/calibration-targets-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

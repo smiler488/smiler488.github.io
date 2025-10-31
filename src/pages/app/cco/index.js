@@ -29,7 +29,7 @@ const CCOPage = () => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h1 style={{ margin: 0 }}>CCO Waylines Builder</h1>
           <a 
-            href="/docs/cco-mission-planner-tutorial" 
+            href="/docs/tutorial-apps/cco-mission-planner-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#6c6c70",

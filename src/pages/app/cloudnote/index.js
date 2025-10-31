@@ -419,7 +419,7 @@ export default function CloudNotePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h1>Cloud Sticky Note (static)</h1>
           <a 
-            href="/docs/cloud-sticky-note-tutorial" 
+            href="/docs/tutorial-apps/cloud-sticky-note-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

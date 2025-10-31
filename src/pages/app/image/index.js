@@ -30,7 +30,7 @@ export default function BiologicalSampleAnalysisApp() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <h1 className="title"> Biological Sample Quantification Tool</h1>
           <a 
-            href="/docs/image-quantifier-tutorial" 
+            href="/docs/tutorial-apps/image-quantifier-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

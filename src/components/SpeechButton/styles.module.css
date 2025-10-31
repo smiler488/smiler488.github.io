@@ -4,19 +4,23 @@
   cursor: pointer;
   font-size: 16px;
   margin-left: 5px;
-  color: #6c6c70;
-  padding: 2px 4px;
-  border-radius: 3px;
+  color: var(--ifm-color-primary);
+  padding: 4px 8px;
+  border-radius: 6px;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
-  height: 24px;
+  min-width: 28px;
+  height: 28px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
 }
 
 .speechButton:hover {
-  background-color: rgb(0 0 0 / 6%);
+  background-color: rgba(108, 108, 112, 0.15);
   transform: scale(1.05);
 }
 
@@ -46,8 +50,8 @@
 
 .tooltip {
   position: fixed;
-  background: rgb(0 0 0 / 80%);
-  color: white;
+  background: var(--ifm-color-emphasis-800);
+  color: var(--ifm-color-white);
   padding: 8px 12px;
   border-radius: 4px;
   font-size: 14px;

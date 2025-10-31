@@ -10,66 +10,14 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  configureWebpack: () => ({
-    module: {
-      rules: [
-        {
-          test: /compress_comic1\.svg$/,
-          issuer: /\.[jt]sx?$/,
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    { name: 'preset-default', params: { overrides: { removeViewBox: false } } },
-                    { name: 'prefixIds', params: { prefix: 'compress_comic1-' } },
-                  ],
-                },
-              },
-            },
-          ],
-        },
-        {
-          test: /compress_comic2\.svg$/,
-          issuer: /\.[jt]sx?$/,
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    { name: 'preset-default', params: { overrides: { removeViewBox: false } } },
-                    { name: 'prefixIds', params: { prefix: 'compress_comic2-' } },
-                  ],
-                },
-              },
-            },
-          ],
-        },
-        {
-          test: /compress_comic3\.svg$/,
-          issuer: /\.[jt]sx?$/,
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    { name: 'preset-default', params: { overrides: { removeViewBox: false } } },
-                    { name: 'prefixIds', params: { prefix: 'compress_comic3-' } },
-                  ],
-                },
-              },
-            },
-          ],
-        },
-      ],
-    },
-  }),
+  staticDirectories: ['static'],
+  customFields: {
+    svgConfig: {
+      comic1: 'compress_comic1',
+      comic2: 'compress_comic2',
+      comic3: 'compress_comic3',
+    }
+  },
   title: 'Liangchao Deng',
   tagline: 'PhD in Crop Science (Interdisciplinary: Mathematics × Computer Science × Plant Phenotyping)',
   favicon: 'img/favicon.ico',

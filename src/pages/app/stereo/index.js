@@ -30,7 +30,7 @@ export default function StereoPage() {
             Stereo Vision System
           </h1>
           <a 
-            href="/docs/stereo-camera-tutorial" 
+            href="/docs/tutorial-apps/stereo-camera-tutorial" 
             style={{
               padding: "8px 16px",
               backgroundColor: "#000000",

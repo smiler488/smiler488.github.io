@@ -1,5 +1,5 @@
 
- import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function useCamera() {
   const videoRef = useRef(null);
@@ -97,76 +97,336 @@ export default function SolverAppPage() {
   const { videoRef, ready, error } = useCamera();
 
   // State management
-  const [apiUrl, setApiUrl] = useState('0000000000');
+  const [apiUrl, setApiUrl] = useState('');
+  const [useDefaultApi, setUseDefaultApi] = useState(false);
   // Preset prompt list
-  const promptPresets = [
-    { 
-      id: 'default', 
-      name: 'Default Analysis', 
-      prompt: 'Please analyze the problem in the image and provide a step-by-step solution.',
-      description: 'General analysis for most problems'
-    },
-    { 
-      id: 'math', 
-      name: 'Math Problem Solver', 
-      prompt: 'Please analyze the mathematical problem in the image and provide detailed solution steps and the final answer. If there are multiple approaches, show the most elegant method.',
-      description: 'For math equations, geometry problems, etc.'
-    },
-    { 
-      id: 'lab_safety', 
-      name: 'Laboratory Safety Officer', 
-      prompt: 'As a laboratory safety officer, please analyze the safety concerns in this image. Identify potential hazards, safety violations, or improper procedures. Provide specific recommendations for correcting these issues according to standard laboratory safety protocols. If PPE (Personal Protective Equipment) is visible, evaluate if it\'s appropriate and properly worn. For chemical or biological hazards, include proper handling and disposal procedures.',
-      description: 'Safety assessment for laboratory environments'
-    },
-    { 
-      id: 'plant', 
-      name: 'Plant Identification', 
-      prompt: 'Please identify the plant in the image. Provide its scientific name, common names, growth habits, native regions, and any special uses (medicinal, ornamental, etc.). For common plants, include care tips.',
-      description: 'Identify plant species and related information'
-    },
-    { 
-      id: 'code', 
-      name: 'Code Analysis', 
-      prompt: 'Please analyze the code in the image. Explain its functionality, identify potential issues or bugs, and suggest optimizations. If there are obvious errors, provide corrected code.',
-      description: 'Analyze code issues and provide fixes'
-    },
-    { 
-      id: 'translation', 
-      name: 'Academic Translation', 
-      prompt: 'Please translate the academic text in the image to English, maintaining accuracy of technical terms. The translation should be fluent and natural while preserving the academic style.',
-      description: 'Professional translation of academic literature'
-    },
-    { 
-      id: 'physics', 
-      name: 'Physics Problem Solver', 
-      prompt: 'Please analyze the physics problem in the image. Explain the relevant physics concepts and principles, then provide detailed solution steps and the final answer. For formula derivations, clearly show each step.',
-      description: 'Detailed analysis of physics problems'
-    },
-    { 
-      id: 'chemistry', 
-      name: 'Chemistry Problem Solver', 
-      prompt: 'Please analyze the chemistry problem in the image. Explain the relevant chemical concepts and principles, provide chemical equations, balanced equations or reaction mechanisms, then give detailed solution steps and the final answer.',
-      description: 'Detailed analysis of chemistry problems'
-    },
-    { 
-      id: 'english', 
-      name: 'English Learning', 
-      prompt: 'Please analyze the English text in the image. Explain its grammatical structure, key vocabulary, and expressions. If it\'s an exercise, provide the correct answers with detailed explanations. For difficult vocabulary, provide definitions and example sentences.',
-      description: 'English learning and exercise analysis'
-    },
-    { 
-      id: 'ocr', 
-      name: 'Text Extraction', 
-      prompt: 'Please extract all text content from the image, maintaining the original paragraph structure and format. If there are tables, try to preserve the table structure. The extracted text should be accurate.',
-      description: 'Extract text content from images'
-    },
-    { 
-      id: 'custom', 
-      name: 'Custom', 
-      prompt: '',
-      description: 'Custom prompt'
-    }
-  ];
+// Preset prompt list — full English version (ready to use with HunYuan API)
+const promptPresets = [
+  { 
+    id: 'default', 
+    name: 'Intelligent Analysis Assistant', 
+    prompt: `ROLE: Professional multimodal analyst
+TASK: Analyze the problem shown in the image, photo, or text, and provide a practical, step-by-step solution.
+METHOD:
+- If an image is provided: briefly describe the visible content and extract key information (titles, labels, warnings, numbers).
+- Identify the core problem and its constraints, then decompose it into sub-questions.
+- Provide the optimal solution path; if multiple approaches exist, show the top 2 with pros and cons.
+OUTPUT:
+- Understanding (key issue and input summary)
+- Steps/Analysis (reasoning and procedure)
+- Answer (final actionable solution and parameters)
+- Checks/Uncertainties (assumptions and unclear areas)
+- Next actions (1–3 follow-up suggestions)`,
+    description: 'General intelligent analysis and solution generation'
+  },
+
+  { 
+    id: 'math', 
+    name: 'Math Problem Solver', 
+    prompt: `ROLE: Mathematician and educator
+TASK: Solve the given math problem with rigorous reasoning and precise results.
+METHOD:
+- List knowns, unknowns, conditions, and goals; unify notations and units.
+- Choose the most elegant, rigorous method; optionally include one alternative.
+- Keep derivations auditable; show analytical expressions before numeric results.
+OUTPUT:
+- Understanding (knowns, goal, notation)
+- Steps/Analysis (key formulas and derivation)
+- Answer (final result: exact form → numeric)
+- Checks/Uncertainties (domain restrictions, special cases)
+- Next actions (numerical verification or plotting tip)`,
+    description: 'Equation solving, geometry, algebra, and other math problems'
+  },
+
+  { 
+    id: 'lab_safety', 
+    name: 'Laboratory Safety Assessment', 
+    prompt: `ROLE: Laboratory safety inspector
+TASK: Identify potential hazards and compliance issues in the lab image/text and recommend corrections.
+METHOD:
+- Classify risks: chemical, biological, physical, electrical, ergonomic, fire, etc.
+- Identify issues based on general safety standards (PPE, labeling, segregation, ventilation, waste disposal).
+- Provide corrective measures with priorities (high/medium/low).
+OUTPUT:
+- Understanding (scene and visible risks)
+- Findings by category (issues + priority)
+- Recommendations (specific corrective steps and PPE list)
+- Checks/Uncertainties (unverifiable elements)
+- Next actions (training, documentation, inspection cycle)`,
+    description: 'Laboratory safety risk assessment and improvement suggestions'
+  },
+
+  { 
+    id: 'plant', 
+    name: 'Plant Identification Analysis', 
+    prompt: `ROLE: Botanist
+TASK: Identify the plant in the image and provide care and usage information.
+METHOD:
+- Describe diagnostic traits (leaf, flower, fruit, bark, growth habit, habitat).
+- Provide scientific and common names, plus 2–3 lookalikes with distinguishing features.
+- Include native range, growth conditions, and care tips; note toxicity if relevant.
+- If uncertain, list top-3 candidates with confidence percentages.
+OUTPUT:
+- Understanding (visible traits)
+- Candidate identification(s) with confidence
+- Care and uses (cultivation and application)
+- Checks/Uncertainties (missing angles/phenological stage)
+- Next actions (additional photos or observation tips)`,
+    description: 'Plant species identification and growth information'
+  },
+
+  { 
+    id: 'code', 
+    name: 'Code Review and Optimization', 
+    prompt: `ROLE: Senior software engineer
+TASK: Explain the purpose of the code, find potential bugs or inefficiencies, and provide improved code.
+METHOD:
+- Detect language/environment, summarize purpose and data flow.
+- Identify logic/syntax errors, boundary cases, and performance bottlenecks.
+- Provide corrected, runnable code and a minimal reproducible example with basic test inputs.
+OUTPUT:
+- Understanding (purpose, I/O, environment)
+- Issues (bugs, inefficiencies, and reasoning)
+- Improved code (ready-to-run version)
+- Complexity (Big-O time and space)
+- Checks/Uncertainties (dependencies, assumptions)
+- Next actions (testing, linting, profiling)`,
+    description: 'Code explanation, debugging, and performance optimization'
+  },
+
+  { 
+    id: 'translation', 
+    name: 'Academic Literature Translation', 
+    prompt: `ROLE: Academic translator/editor
+TASK: Translate the academic text into the target language with accurate terminology and fluent scholarly style.
+METHOD:
+- Preserve structure (headings, lists, tables, citations).
+- Create a short glossary for key technical terms; add minimal notes only if necessary.
+OUTPUT:
+- Understanding (domain and tone)
+- Translation (publication-quality output)
+- Glossary (5–15 essential terms)
+- Notes (only if needed)`,
+    description: 'Professional academic translation and terminology explanation'
+  },
+
+  { 
+    id: 'physics', 
+    name: 'Physics Problem Solver', 
+    prompt: `ROLE: Physicist
+TASK: Solve the physics problem step-by-step using fundamental laws and correct units.
+METHOD:
+- List knowns/unknowns, define the system boundaries, and state the governing principles (Newton, conservation, Maxwell, thermodynamics, etc.).
+- Show clear derivations, ensure dimensional consistency, and estimate experimental uncertainties.
+OUTPUT:
+- Understanding (variables and setup)
+- Steps/Analysis (laws and reasoning)
+- Answer (result with units and significant figures)
+- Checks/Uncertainties (error sources, limiting cases)
+- Next actions (experimental verification idea)`,
+    description: 'Mechanics, electromagnetism, thermodynamics, and other physics problems'
+  },
+
+  { 
+    id: 'chemistry', 
+    name: 'Chemistry Problem Solver', 
+    prompt: `ROLE: Chemist
+TASK: Analyze chemical reactions, stoichiometry, structures, or lab procedures.
+METHOD:
+- Identify species and conditions; write and balance reactions; outline mechanisms when relevant.
+- For lab operations: discuss safety, feasibility, yields, and waste disposal (general guidance).
+OUTPUT:
+- Understanding (species, conditions, target)
+- Steps/Analysis (equations, mechanisms, calculations)
+- Answer (balanced results, quantities, or expected phenomena)
+- Checks/Uncertainties (side reactions, sensitivity)
+- Next actions (controls, optimization suggestions)`,
+    description: 'Chemical equations, structures, mechanisms, and experiment analysis'
+  },
+
+  { 
+    id: 'english', 
+    name: 'English Learning Assistant', 
+    prompt: `ROLE: English tutor
+TASK: Analyze English text, explain grammar and vocabulary, and provide detailed exercise solutions.
+METHOD:
+- Break down syntax (clauses, parts of speech, collocations).
+- Give clear explanations and 1–2 natural example sentences for difficult expressions.
+OUTPUT:
+- Understanding (topic and level)
+- Analysis (grammar and vocabulary)
+- Answers with explanations (if exercises)
+- Next actions (3–5 mini practice items)`,
+    description: 'Grammar explanation, vocabulary learning, and exercise guidance'
+  },
+
+  { 
+    id: 'ocr', 
+    name: 'Text Extraction', 
+    prompt: `ROLE: OCR transcriber and formatter
+TASK: Extract all text from the image accurately while preserving layout and structure.
+METHOD:
+- Maintain original paragraphing and headings; reconstruct tables using Markdown tables; preserve math/code blocks.
+- Use [?] markers for uncertain words and list them separately.
+OUTPUT:
+- Understanding (source type and readability)
+- Extracted text (structured)
+- Uncertain fragments (list with notes)
+- Next actions (reshoot tips: angle, resolution, key region)`,
+    description: 'Accurate image text recognition and format preservation'
+  },
+
+  { 
+    id: 'biology', 
+    name: 'Biology Analysis', 
+    prompt: `ROLE: Biology instructor
+TASK: Identify and explain biological structures or processes in the image.
+METHOD:
+- For anatomy: label parts and functions; for cellular/molecular: describe pathways; for ecology: outline species relationships.
+- Present explanations precisely in descriptive text form.
+OUTPUT:
+- Understanding (context and scale)
+- Analysis (structures/processes and relationships)
+- Findings (main biological insights)
+- Checks/Uncertainties
+- Next actions (observation or experiment suggestion)`,
+    description: 'Biological structures, cell biology, and ecology analysis'
+  },
+
+  { 
+    id: 'history', 
+    name: 'Historical Document Interpretation', 
+    prompt: `ROLE: Historian
+TASK: Interpret the document or artifact’s background, era, and cultural significance.
+METHOD:
+- Describe visible features; infer materials and craftsmanship; relate to known historical periods (no fabricated citations).
+OUTPUT:
+- Understanding (object or text summary)
+- Analysis (era, craftsmanship, context)
+- Findings (historical significance)
+- Checks/Uncertainties
+- Next actions (evidence needed for dating/provenance)`,
+    description: 'Historical document or artifact interpretation'
+  },
+
+  { 
+    id: 'medical', 
+    name: 'Medical Image Analysis', 
+    prompt: `ROLE: Medical information assistant (not a clinician)
+TASK: Identify anatomical structures and observable findings in medical images and explain their general significance.
+DISCLAIMER: This analysis is for informational purposes only and does NOT replace professional medical advice.
+METHOD:
+- Describe the modality and view; list findings in structured form; provide possible interpretations without diagnosis.
+OUTPUT:
+- Understanding (modality, region)
+- Findings (structured observations)
+- Significance (general clinical meaning)
+- Checks/Uncertainties
+- Next actions (what to discuss with a doctor)`,
+    description: 'Medical image structure and general interpretation (non-diagnostic)'
+  },
+
+  { 
+    id: 'engineering', 
+    name: 'Engineering Drawing Interpretation', 
+    prompt: `ROLE: Engineering analyst
+TASK: Interpret the engineering drawing or chart and explain its design intent and parameters.
+METHOD:
+- Identify drawing type (mechanical, civil, circuit, P&ID, etc.); decode symbols and summarize key dimensions or tolerances.
+- For circuits: signal flow and core components; for mechanical: parts, fits, materials, and notes.
+OUTPUT:
+- Understanding (type and scope)
+- Analysis (components, parameters, relationships)
+- Findings (key tolerances, critical paths)
+- Checks/Uncertainties
+- Next actions (manufacture, assembly, validation)`,
+    description: 'Engineering drawings, technical charts, and design interpretation'
+  },
+
+  { 
+    id: 'finance', 
+    name: 'Financial Statement Analysis', 
+    prompt: `ROLE: Financial analyst (informational only)
+TASK: Analyze financial statements or data for performance, trends, and risks.
+METHOD:
+- Compute key metrics (growth, margins, ROE/ROA, leverage, liquidity) based on provided data only.
+- Interpret results concisely and note 2–3 main risks.
+OUTPUT:
+- Understanding (scope and period)
+- Metrics (summary table or bullets)
+- Analysis (drivers of performance)
+- Findings (strengths and risks)
+- Checks/Uncertainties
+- Next actions (questions for management, monitoring points)`,
+    description: 'Financial statement interpretation and business performance analysis'
+  },
+
+  { 
+    id: 'art', 
+    name: 'Artwork Appreciation', 
+    prompt: `ROLE: Art critic
+TASK: Analyze the artwork’s style, technique, composition, and aesthetic value.
+METHOD:
+- Discuss composition, perspective, color, texture, medium, and artistic influences; do not invent provenance.
+OUTPUT:
+- Understanding (subject and medium)
+- Analysis (style, technique, composition)
+- Findings (aesthetic and contextual meaning)
+- Checks/Uncertainties
+- Next actions (comparative references or similar works)`,
+    description: 'Art style, technique, and aesthetic value analysis'
+  },
+
+  { 
+    id: 'legal', 
+    name: 'Legal Document Interpretation', 
+    prompt: `ROLE: Legal information assistant (not a lawyer)
+TASK: Explain rights, obligations, and risk points in the legal document.
+DISCLAIMER: This content is for general informational purposes and not legal advice.
+METHOD:
+- Summarize parties, term, key clauses (payment, IP, termination, liability, confidentiality, dispute resolution), and red flags.
+OUTPUT:
+- Understanding (document scope)
+- Clause highlights
+- Risks and ambiguities
+- Checks/Uncertainties
+- Next actions (questions or negotiable clauses)`,
+    description: 'Legal document and contract clause interpretation (non-advisory)'
+  },
+
+  { 
+    id: 'education', 
+    name: 'Educational Material Analysis', 
+    prompt: `ROLE: Instructional designer
+TASK: Analyze teaching materials for educational value, target audience, and pedagogy.
+METHOD:
+- Identify learning objectives, prerequisites, key concepts, and assessment focus.
+- Suggest teaching activities, sequencing, and improvement points.
+OUTPUT:
+- Understanding (topic and learners)
+- Analysis (objectives and knowledge map)
+- Findings (strengths and gaps)
+- Next actions (activities, assessments, improvements)`,
+    description: 'Educational material evaluation and teaching method design'
+  },
+
+  { 
+    id: 'custom', 
+    name: 'Custom Mode', 
+    prompt: `ROLE: Flexible expert
+TASK: Handle special or mixed requests not covered by other presets, following general reasoning rules.
+METHOD:
+- Clarify objective and assumptions; provide an immediately usable solution with alternative paths if needed.
+OUTPUT:
+- Understanding
+- Steps/Analysis
+- Answer / Deliverable
+- Checks/Uncertainties
+- Next actions`,
+    description: 'Flexible mode for custom or mixed scenarios'
+  }
+];
+
 
   const [selectedPreset, setSelectedPreset] = useState('default');
   const [question, setQuestion] = useState(promptPresets[0].prompt);
@@ -182,11 +442,18 @@ export default function SolverAppPage() {
 
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
-    // If API URL looks invalid (e.g., default zeros or missing http), use local mock to keep UI functional
-    const useMock = !apiUrl || !apiUrl.trim() || !/^https?:\/\//.test(apiUrl);
+    // Determine which API to use: default API, custom API, or mock
+    let targetUrl;
+    if (useDefaultApi) {
+      targetUrl = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
+    } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
+      targetUrl = apiUrl;
+    } else {
+      targetUrl = 'mock://ai-solver';
+    }
 
     try {
-      const response = await postJson(useMock ? 'mock://ai-solver' : apiUrl, payload);
+      const response = await postJson(targetUrl, payload);
 
       if (!response.ok) {
         const t = await response.text().catch(() => '');
@@ -379,8 +646,8 @@ export default function SolverAppPage() {
     setIsSelecting(false);
   }
 
-  // 处理选择框拖拽 - 完全重写以提高稳定性
-  function handleSelectionDrag(e, type) {
+  // 处理选择框拖拽 - 优化为自由框选
+  function handleSelectionDrag(e, type, corner = null) {
     if (!screenshotData || !selectionBox) return;
     
     // 阻止默认行为和冒泡，防止干扰
@@ -400,7 +667,6 @@ export default function SolverAppPage() {
     const startY = e.clientY;
     
     // 创建一个引用，用于存储最新的选择框状态
-    // 这有助于避免React状态更新延迟导致的跳动
     const currentBoxRef = { ...initialBox };
     
     const handleMouseMove = (moveEvent) => {
@@ -427,16 +693,74 @@ export default function SolverAppPage() {
           x: newX, 
           y: newY 
         };
-      } else if (type === 'resize') {
-        // 调整大小操作 - 更新宽度和高度
-        // 确保最小尺寸并且不超出图像边界
-        const newWidth = Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX));
-        const newHeight = Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY));
-        newBox = { 
-          ...initialBox, 
-          width: newWidth, 
-          height: newHeight 
-        };
+      } else if (type === 'resize' && corner) {
+        // 自由调整大小操作 - 根据拖拽的角落调整
+        switch (corner) {
+          case 'top-left':
+            newBox = {
+              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
+              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
+            };
+            break;
+          case 'top-right':
+            newBox = {
+              x: initialBox.x,
+              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
+            };
+            break;
+          case 'bottom-left':
+            newBox = {
+              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
+              y: initialBox.y,
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
+            };
+            break;
+          case 'bottom-right':
+            newBox = {
+              x: initialBox.x,
+              y: initialBox.y,
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
+            };
+            break;
+          case 'top':
+            newBox = {
+              x: initialBox.x,
+              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
+              width: initialBox.width,
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
+            };
+            break;
+          case 'bottom':
+            newBox = {
+              x: initialBox.x,
+              y: initialBox.y,
+              width: initialBox.width,
+              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
+            };
+            break;
+          case 'left':
+            newBox = {
+              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
+              y: initialBox.y,
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
+              height: initialBox.height
+            };
+            break;
+          case 'right':
+            newBox = {
+              x: initialBox.x,
+              y: initialBox.y,
+              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
+              height: initialBox.height
+            };
+            break;
+        }
       }
       
       // 更新引用中的当前状态
@@ -454,7 +778,6 @@ export default function SolverAppPage() {
     };
     
     // 添加事件监听器到document而不是组件
-    // 这样即使鼠标移出组件区域也能继续跟踪
     document.addEventListener('mousemove', handleMouseMove, { passive: false });
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mouseleave', handleMouseUp);
@@ -612,7 +935,78 @@ export default function SolverAppPage() {
                           handleSelectionDrag(e, 'move');
                         }}
                       >
-                        {/* 右下角调整大小的手柄 */}
+                        {/* 八个方向的调整大小手柄 */}
+                        {/* 左上角 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: -4,
+                            top: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'nw-resize',
+                            borderRadius: '50%'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'top-left');
+                          }}
+                        />
+                        {/* 上边 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'n-resize',
+                            borderRadius: '50%',
+                            transform: 'translateX(-50%)'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'top');
+                          }}
+                        />
+                        {/* 右上角 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            right: -4,
+                            top: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'ne-resize',
+                            borderRadius: '50%'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'top-right');
+                          }}
+                        />
+                        {/* 右边 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            right: -4,
+                            top: '50%',
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'e-resize',
+                            borderRadius: '50%',
+                            transform: 'translateY(-50%)'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'right');
+                          }}
+                        />
+                        {/* 右下角 */}
                         <div
                           style={{
                             position: 'absolute',
@@ -626,7 +1020,60 @@ export default function SolverAppPage() {
                           }}
                           onMouseDown={(e) => {
                             e.stopPropagation();
-                            handleSelectionDrag(e, 'resize');
+                            handleSelectionDrag(e, 'resize', 'bottom-right');
+                          }}
+                        />
+                        {/* 下边 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: '50%',
+                            bottom: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 's-resize',
+                            borderRadius: '50%',
+                            transform: 'translateX(-50%)'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'bottom');
+                          }}
+                        />
+                        {/* 左下角 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: -4,
+                            bottom: -4,
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'sw-resize',
+                            borderRadius: '50%'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'bottom-left');
+                          }}
+                        />
+                        {/* 左边 */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: -4,
+                            top: '50%',
+                            width: 8,
+                            height: 8,
+                            backgroundColor: '#333333',
+                            cursor: 'w-resize',
+                            borderRadius: '50%',
+                            transform: 'translateY(-50%)'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, 'resize', 'left');
                           }}
                         />
                       </div>
@@ -698,11 +1145,42 @@ export default function SolverAppPage() {
         <div style={{ flex: 1, minWidth: 280 }}>
           <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
             <legend>API Settings</legend>
-            <label>API URL<br />
-              <input value={apiUrl} onChange={e => setApiUrl(e.target.value)} placeholder="https://your-api.example.com/api/solve" style={{ width: '100%' }} />
+            
+            {/* Use Default API Button */}
+            <div style={{ marginBottom: 12 }}>
+              <button 
+                type="button"
+                onClick={() => setUseDefaultApi(!useDefaultApi)}
+                style={{
+                  padding: '6px 12px',
+                  fontSize: 12,
+                  backgroundColor: useDefaultApi ? '#4CAF50' : '#f0f0f0',
+                  color: useDefaultApi ? 'white' : '#333',
+                  border: '1px solid #ccc',
+                  borderRadius: 4,
+                  cursor: 'pointer'
+                }}
+              >
+                {useDefaultApi ? '✓ Using Default API' : 'Use Default API'}
+              </button>
+              <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
+                {useDefaultApi ? 'Default API is enabled' : 'Click to enable default API'}
+              </div>
+            </div>
+            
+            <label>Custom API URL (optional)<br />
+              <input 
+                value={apiUrl} 
+                onChange={e => setApiUrl(e.target.value)} 
+                placeholder="https://your-api.example.com/api/solve" 
+                style={{ width: '100%' }} 
+                disabled={useDefaultApi}
+              />
             </label>
             <div style={{ color: '#345', fontSize: 12, marginTop: 8 }}>
-              Default shows zeros. Enter your API endpoint to enable real calls.
+              {useDefaultApi 
+                ? 'Using default API. Disable to enter custom API.' 
+                : 'Enter your API endpoint or enable default API above.'}
             </div>
           </fieldset>
 
