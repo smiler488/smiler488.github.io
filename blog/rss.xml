@@ -114,7 +114,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="accepted--in-press"><strong>Accepted / In Press</strong><a href="https://smiler488.github.io/blog/curriculum-vitae/#accepted--in-press" class="hash-link" aria-label="Direct link to accepted--in-press" title="Direct link to accepted--in-press" translate="no">​</a></h3>
 <ol>
 <li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
-<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> (accepted).</li>
+<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">DOI:10.1016/j.plaphe.2025.100135</a> <a href="https://smiler488.github.io/assets/files/Leaf%20Bidirectional%20Reflectance%20Distribution%20Function%20(BRDF)%20Prediction%20with%20Phenotypic%20Traits%20in%20Four%20Species_%20Development%20of%20a%20Novel%20Measuring%20and%20Analyzing%20Framework-c383ce9db0903263a9a368551045ce37.pdf/" target="_blank" class=""><strong>PDF</strong></a></li>
 </ol>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae/#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience" translate="no">​</a></h2>
@@ -158,6 +158,153 @@ Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener n
 <p><em>Last updated: October 2025</em></p>]]></content:encoded>
             <category>Curriculum Vitae</category>
             <category>Academic CV</category>
+        </item>
+        <item>
+            <title><![CDATA[A complete guide for graduate students and early-career researchers on how to prepare, submit, and publish scientific papers]]></title>
+            <link>https://smiler488.github.io/blog/academic-paper-publication-guide/</link>
+            <guid>https://smiler488.github.io/blog/academic-paper-publication-guide/</guid>
+            <pubDate>Thu, 30 Oct 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[This guide explains the entire process of publishing a scientific paper, from manuscript preparation to final publication, suitable for graduate students and researchers.]]></description>
+            <content:encoded><![CDATA[<p>This guide explains the entire process of publishing a scientific paper, from manuscript preparation to final publication, suitable for graduate students and researchers.</p>
+<p><img decoding="async" loading="lazy" alt="Academic paper workflow illustration" src="https://smiler488.github.io/assets/images/write_paper-6e0950346b3aed4c44b6eb23053f6d74.png" width="1024" height="1024" class="img_ev3q"></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-overview-of-the-publication-process">1. Overview of the Publication Process<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#1-overview-of-the-publication-process" class="hash-link" aria-label="Direct link to 1. Overview of the Publication Process" title="Direct link to 1. Overview of the Publication Process" translate="no">​</a></h2>
+<p>Scientific publishing generally includes seven stages:</p>
+<ol>
+<li class="">Research preparation and identifying innovation</li>
+<li class="">Manuscript writing and formatting</li>
+<li class="">Journal selection and submission</li>
+<li class="">Peer review and revision</li>
+<li class="">Acceptance</li>
+<li class="">Proof and In Press (online-first publication)</li>
+<li class="">Final publication and post-release maintenance</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-editorial-workflow-stages">2. Editorial Workflow Stages<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#2-editorial-workflow-stages" class="hash-link" aria-label="Direct link to 2. Editorial Workflow Stages" title="Direct link to 2. Editorial Workflow Stages" translate="no">​</a></h2>
+<table><thead><tr><th><strong>Status</strong></th><th><strong>Editorial Stage (CN)</strong></th><th><strong>Available Online</strong></th><th><strong>DOI Assigned</strong></th><th><strong>Volume/Issue Assigned</strong></th><th><strong>Citable</strong></th></tr></thead><tbody><tr><td><strong>Submitted</strong></td><td>投稿</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Under Review</strong></td><td>审稿中</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td><strong>Accepted</strong></td><td>录用</td><td>No</td><td>No</td><td>No</td><td>Yes (mark as “accepted”)</td></tr><tr><td><strong>In Press</strong></td><td>排版中</td><td>No</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td><strong>Online / Early Access</strong></td><td>在线发表</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td><strong>Published</strong></td><td>出版</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes (final version)</td></tr></tbody></table>
+<p>Explanation:</p>
+<ul>
+<li class="">"Accepted" means approved after peer review.</li>
+<li class="">"In Press" means accepted and assigned a DOI but not yet in a journal issue.</li>
+<li class="">"Online/Early Access" means available on the journal website ahead of print.</li>
+<li class="">"Published" indicates final pagination and indexing.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-research-preparation">3. Research Preparation<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#3-research-preparation" class="hash-link" aria-label="Direct link to 3. Research Preparation" title="Direct link to 3. Research Preparation" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="31-define-the-core-contribution">3.1 Define the Core Contribution<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#31-define-the-core-contribution" class="hash-link" aria-label="Direct link to 3.1 Define the Core Contribution" title="Direct link to 3.1 Define the Core Contribution" translate="no">​</a></h3>
+<ul>
+<li class="">Identify one clear innovation: a method, instrument, or biological insight.</li>
+<li class="">Choose paper type:<!-- -->
+<ul>
+<li class="">Research Article: new findings</li>
+<li class="">Method Paper: new algorithms or tools</li>
+<li class="">Review: literature summary</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="32-select-a-suitable-journal">3.2 Select a Suitable Journal<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#32-select-a-suitable-journal" class="hash-link" aria-label="Direct link to 3.2 Select a Suitable Journal" title="Direct link to 3.2 Select a Suitable Journal" translate="no">​</a></h3>
+<table><thead><tr><th>Field</th><th>Example Journals</th></tr></thead><tbody><tr><td>Crop phenotyping and photosynthesis</td><td>Plant Phenomics, Plant Methods</td></tr><tr><td>Remote sensing and modeling</td><td>Remote Sensing of Environment, Agricultural and Forest Meteorology</td></tr><tr><td>Agronomy and breeding</td><td>Field Crops Research, European Journal of Agronomy</td></tr></tbody></table>
+<p>Selection criteria:</p>
+<ul>
+<li class="">Impact Factor</li>
+<li class="">Review time and acceptance rate</li>
+<li class="">Open Access policy</li>
+<li class="">Scope and audience fit</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-manuscript-writing">4. Manuscript Writing<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#4-manuscript-writing" class="hash-link" aria-label="Direct link to 4. Manuscript Writing" title="Direct link to 4. Manuscript Writing" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="41-imrad-structure">4.1 IMRaD Structure<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#41-imrad-structure" class="hash-link" aria-label="Direct link to 4.1 IMRaD Structure" title="Direct link to 4.1 IMRaD Structure" translate="no">​</a></h3>
+<table><thead><tr><th>Section</th><th>Content</th></tr></thead><tbody><tr><td>Introduction</td><td>Background, question, innovation</td></tr><tr><td>Materials and Methods</td><td>Experiments, data, algorithms</td></tr><tr><td>Results</td><td>Findings and figures</td></tr><tr><td>Discussion</td><td>Interpretation and implications</td></tr><tr><td>Conclusion</td><td>Summary and perspectives</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="42-writing-tips">4.2 Writing Tips<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#42-writing-tips" class="hash-link" aria-label="Direct link to 4.2 Writing Tips" title="Direct link to 4.2 Writing Tips" translate="no">​</a></h3>
+<ul>
+<li class="">Follow journal guidelines precisely.</li>
+<li class="">Use English language tools such as Grammarly or Writefull.</li>
+<li class="">Manage references with Zotero or EndNote.</li>
+<li class="">Prefer vector graphics (SVG, EPS) or 300 dpi images.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-submission-process">5. Submission Process<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#5-submission-process" class="hash-link" aria-label="Direct link to 5. Submission Process" title="Direct link to 5. Submission Process" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="51-common-submission-systems">5.1 Common Submission Systems<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#51-common-submission-systems" class="hash-link" aria-label="Direct link to 5.1 Common Submission Systems" title="Direct link to 5.1 Common Submission Systems" translate="no">​</a></h3>
+<ul>
+<li class="">Elsevier: Editorial Manager or EVISE</li>
+<li class="">Springer/Nature: Manuscript Tracking System</li>
+<li class="">Wiley, MDPI, Frontiers: proprietary platforms</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="52-files-to-prepare">5.2 Files to Prepare<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#52-files-to-prepare" class="hash-link" aria-label="Direct link to 5.2 Files to Prepare" title="Direct link to 5.2 Files to Prepare" translate="no">​</a></h3>
+<table><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td>Main Manuscript</td><td>Full text with references</td></tr><tr><td>Figures/Tables</td><td>Uploaded separately if required</td></tr><tr><td>Cover Letter</td><td>Briefly describe novelty and importance</td></tr><tr><td>Supplementary Material</td><td>Additional data or methods</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="53-workflow">5.3 Workflow<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#53-workflow" class="hash-link" aria-label="Direct link to 5.3 Workflow" title="Direct link to 5.3 Workflow" translate="no">​</a></h3>
+<ol>
+<li class="">Log in to the submission portal</li>
+<li class="">Fill in author and affiliation details</li>
+<li class="">Upload all required files</li>
+<li class="">Select section or topic</li>
+<li class="">Submit and obtain a Manuscript ID</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-peer-review">6. Peer Review<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#6-peer-review" class="hash-link" aria-label="Direct link to 6. Peer Review" title="Direct link to 6. Peer Review" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="61-status-flow">6.1 Status Flow<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#61-status-flow" class="hash-link" aria-label="Direct link to 6.1 Status Flow" title="Direct link to 6.1 Status Flow" translate="no">​</a></h3>
+<table><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody><tr><td>Submitted</td><td>Awaiting editor decision</td></tr><tr><td>With Editor</td><td>Under editorial check</td></tr><tr><td>Under Review</td><td>Sent to reviewers</td></tr><tr><td>Reviews Completed</td><td>Reviews returned</td></tr><tr><td>Decision in Process</td><td>Editorial decision pending</td></tr><tr><td>Major/Minor Revision</td><td>Revisions requested</td></tr><tr><td>Accepted</td><td>Approved for publication</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="62-responding-to-reviewers">6.2 Responding to Reviewers<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#62-responding-to-reviewers" class="hash-link" aria-label="Direct link to 6.2 Responding to Reviewers" title="Direct link to 6.2 Responding to Reviewers" translate="no">​</a></h3>
+<ul>
+<li class="">Prepare a document titled "Response to Reviewers."</li>
+<li class="">Reply point-by-point to each comment.</li>
+<li class="">Highlight or track all changes.</li>
+<li class="">Example:
+We thank the reviewers for their constructive suggestions. All modifications are highlighted in red in the revised manuscript.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="7-acceptance-and-publication">7. Acceptance and Publication<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#7-acceptance-and-publication" class="hash-link" aria-label="Direct link to 7. Acceptance and Publication" title="Direct link to 7. Acceptance and Publication" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="71-acceptance">7.1 Acceptance<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#71-acceptance" class="hash-link" aria-label="Direct link to 7.1 Acceptance" title="Direct link to 7.1 Acceptance" translate="no">​</a></h3>
+<ul>
+<li class="">Once accepted, the paper can be cited as “Accepted” or “in press” in CVs and proposals.</li>
+<li class="">A formal acceptance letter is issued.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="72-proof-and-in-press">7.2 Proof and In Press<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#72-proof-and-in-press" class="hash-link" aria-label="Direct link to 7.2 Proof and In Press" title="Direct link to 7.2 Proof and In Press" translate="no">​</a></h3>
+<ul>
+<li class="">After acceptance, the paper is typeset and assigned a DOI.</li>
+<li class="">It is citable even before it appears in a journal issue.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="73-online--early-access">7.3 Online / Early Access<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#73-online--early-access" class="hash-link" aria-label="Direct link to 7.3 Online / Early Access" title="Direct link to 7.3 Online / Early Access" translate="no">​</a></h3>
+<ul>
+<li class="">The paper appears on the journal website before pagination.</li>
+<li class="">It has a DOI and is considered officially published.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="74-final-publication">7.4 Final Publication<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#74-final-publication" class="hash-link" aria-label="Direct link to 7.4 Final Publication" title="Direct link to 7.4 Final Publication" translate="no">​</a></h3>
+<ul>
+<li class="">The paper receives volume, issue, and page numbers.</li>
+<li class="">It is indexed in major databases (Web of Science, Scopus).</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="8-citation-examples-apa-7th-edition">8. Citation Examples (APA 7th Edition)<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#8-citation-examples-apa-7th-edition" class="hash-link" aria-label="Direct link to 8. Citation Examples (APA 7th Edition)" title="Direct link to 8. Citation Examples (APA 7th Edition)" translate="no">​</a></h2>
+<table><thead><tr><th>Stage</th><th>Example</th></tr></thead><tbody><tr><td>Accepted (no DOI)</td><td>Deng, L., … (in press).<em>Leaf Optical Properties Predicted…</em> <em>Plant Phenomics.</em></td></tr><tr><td>In Press (with DOI)</td><td>Deng, L., … (2025, in press).<em>Leaf Optical Properties Predicted…</em> <em>Plant Phenomics.</em> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></td></tr><tr><td>Published (final)</td><td>Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., &amp; Zhu, X.-G. (2025).<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <em>Plant Phenomics</em>, 7(3), 100135. <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-post-publication-maintenance">9. Post-Publication Maintenance<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#9-post-publication-maintenance" class="hash-link" aria-label="Direct link to 9. Post-Publication Maintenance" title="Direct link to 9. Post-Publication Maintenance" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="91-update-academic-profiles">9.1 Update Academic Profiles<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#91-update-academic-profiles" class="hash-link" aria-label="Direct link to 9.1 Update Academic Profiles" title="Direct link to 9.1 Update Academic Profiles" translate="no">​</a></h3>
+<ul>
+<li class="">Google Scholar: usually automatic</li>
+<li class="">ORCID, ResearchGate, Publons: update manually</li>
+<li class="">Personal website: update with latest APA citations</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="92-data-and-code-sharing">9.2 Data and Code Sharing<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#92-data-and-code-sharing" class="hash-link" aria-label="Direct link to 9.2 Data and Code Sharing" title="Direct link to 9.2 Data and Code Sharing" translate="no">​</a></h3>
+<ul>
+<li class="">Upload data to Zenodo, Figshare, or Dryad</li>
+<li class="">Assign a DOI for data citation</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="93-promote-your-work">9.3 Promote Your Work<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#93-promote-your-work" class="hash-link" aria-label="Direct link to 9.3 Promote Your Work" title="Direct link to 9.3 Promote Your Work" translate="no">​</a></h3>
+<ul>
+<li class="">Share via LinkedIn, ResearchGate, or institutional news</li>
+<li class="">Monitor citations and Altmetric statistics</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="10-summary">10. Summary<a href="https://smiler488.github.io/blog/academic-paper-publication-guide/#10-summary" class="hash-link" aria-label="Direct link to 10. Summary" title="Direct link to 10. Summary" translate="no">​</a></h2>
+<p>Publishing a scientific paper is a systematic and transparent process of communicating new research findings.
+Success depends on rigorous methodology, precise writing, and consistent improvement.</p>
+<p>Define innovation → Write carefully → Submit strategically → Revise seriously → Cite correctly.</p>
+<p>Here I'm sharing the journal analysis I've compiled, hoping it can be helpful to everyone. <a href="https://smiler488.github.io/assets/files/2025_Journal_analysis_Liangchao-Deng-3faa5ba2a94b54a6f22f9fafeba64562.xlsx/" target="_blank" class=""><strong>CSV</strong></a></p>
+<hr>
+<p><strong>Citation of this Guide</strong>
+Deng, L. (2025). <em>Academic Paper Publication Workflow.</em> Digital Crop Photosynthesis Phenotyping Platform Documentation.</p>
+<hr>]]></content:encoded>
+            <category>Research</category>
         </item>
         <item>
             <title><![CDATA[Guide to Local AI Agent Deployment]]></title>
@@ -979,81 +1126,6 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
 <hr>
 <p>These shortcuts will help improve efficiency when using macOS in various scenarios.</p>]]></content:encoded>
             <category>Tip</category>
-        </item>
-        <item>
-            <title><![CDATA[Welcome]]></title>
-            <link>https://smiler488.github.io/blog/welcome/</link>
-            <guid>https://smiler488.github.io/blog/welcome/</guid>
-            <pubDate>Wed, 26 Aug 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></description>
-            <content:encoded><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
-<p>Here are a few tips you might find useful.</p>
-<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
-<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
-<p>The blog post date can be extracted from filenames, such as:</p>
-<ul>
-<li class=""><code>2019-05-30-welcome.md</code></li>
-<li class=""><code>2019-05-30-welcome/index.md</code></li>
-</ul>
-<p>A blog post folder can be convenient to co-locate blog post images:</p>
-<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://smiler488.github.io/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
-<p>The blog supports tags as well!</p>
-<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content:encoded>
-            <category>Facebook</category>
-            <category>Hello</category>
-            <category>Docusaurus</category>
-        </item>
-        <item>
-            <title><![CDATA[MDX Blog Post]]></title>
-            <link>https://smiler488.github.io/blog/mdx-blog-post/</link>
-            <guid>https://smiler488.github.io/blog/mdx-blog-post/</guid>
-            <pubDate>Sat, 01 Aug 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></description>
-            <content:encoded><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer" class="">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer" class="">MDX</a>.</p>
-<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
-<!-- -->
-<p>For example, use JSX to create an interactive button:</p>
-<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
-<button>Click me!</button>]]></content:encoded>
-            <category>Docusaurus</category>
-        </item>
-        <item>
-            <title><![CDATA[Long Blog Post]]></title>
-            <link>https://smiler488.github.io/blog/long-blog-post/</link>
-            <guid>https://smiler488.github.io/blog/long-blog-post/</guid>
-            <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[This is the summary of a very long blog post,]]></description>
-            <content:encoded><![CDATA[<p>This is the summary of a very long blog post,</p>
-<p>Use a <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code> comment to limit blog post size in the list view.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
-            <category>Hello</category>
-            <category>Docusaurus</category>
-        </item>
-        <item>
-            <title><![CDATA[First Blog Post]]></title>
-            <link>https://smiler488.github.io/blog/first-blog-post/</link>
-            <guid>https://smiler488.github.io/blog/first-blog-post/</guid>
-            <pubDate>Tue, 28 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[Lorem ipsum dolor sit amet...]]></description>
-            <content:encoded><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
-<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
-            <category>Hola</category>
-            <category>Docusaurus</category>
         </item>
     </channel>
 </rss>
