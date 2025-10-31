@@ -9,12 +9,7 @@ function computeDefaultApiEndpoint() {
   const { hostname, origin } = window.location;
 
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:3000/api/solve';
-  }
-
-  if (hostname.endsWith('.github.io')) {
-    // GitHub Pages cannot host API routes; fall back to mock API by default.
-    return null;
+    return 'http://localhost:3001/api/solve';
   }
 
   return `${origin.replace(/\/$/, '')}/api/solve`;
@@ -465,9 +460,6 @@ OUTPUT:
     // Determine which API to use: default API, custom API, or mock
     let targetUrl;
     if (useDefaultApi) {
-      if (!defaultApiEndpoint) {
-        throw new Error('Default API is not available on this deployment. Please enter a custom API URL or run the local proxy (node local-server.js).');
-      }
       targetUrl = defaultApiEndpoint;
     } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
       targetUrl = apiUrl;
@@ -1191,33 +1183,22 @@ OUTPUT:
               <button 
                 type="button"
                 onClick={() => setUseDefaultApi(!useDefaultApi)}
-                disabled={!defaultApiEndpoint}
                 style={{
                   padding: '6px 12px',
                   fontSize: 12,
-                  backgroundColor: !defaultApiEndpoint
-                    ? '#ddd'
-                    : useDefaultApi
-                      ? '#4CAF50'
-                      : '#f0f0f0',
-                  color: !defaultApiEndpoint
-                    ? '#777'
-                    : useDefaultApi
-                      ? 'white'
-                      : '#333',
+                  backgroundColor: useDefaultApi ? '#4CAF50' : '#f0f0f0',
+                  color: useDefaultApi ? 'white' : '#333',
                   border: '1px solid #ccc',
                   borderRadius: 4,
-                  cursor: !defaultApiEndpoint ? 'not-allowed' : 'pointer'
+                  cursor: 'pointer'
                 }}
               >
                 {useDefaultApi ? '✓ Using Default API' : 'Use Default API'}
               </button>
               <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
-                {!defaultApiEndpoint
-                  ? 'Default API requires a deployed /api/solve endpoint. Use a custom URL or run node local-server.js.'
-                  : useDefaultApi
-                    ? 'Default API is enabled'
-                    : 'Click to enable default API'}
+                {useDefaultApi
+                  ? `Default API enabled → ${defaultApiEndpoint}`
+                  : `Click to send requests to ${defaultApiEndpoint}`}
               </div>
             </div>
             
