@@ -4,6 +4,7 @@ title: A complete guide for graduate students and early-career researchers on ho
 authors: [liangchao]
 tags: [research]
 ---
+import journalAnalysisCsvUrl from '@site/static/file/2025_Journal_analysis_Liangchao-Deng.xlsx';
 <!-- truncate -->
 
 # Academic Paper Publication Workflow
@@ -206,7 +207,7 @@ Success depends on rigorous methodology, precise writing, and consistent improve
 
 Define innovation → Write carefully → Submit strategically → Revise seriously → Cite correctly.
 
-Here I'm sharing the journal analysis I've compiled, hoping it can be helpful to everyone. [**CSV**](/file/2025_Journal_analysis_Liangchao-Deng.xlsx)
+Here I'm sharing the journal analysis I've compiled, hoping it can be helpful to everyone. <a href={journalAnalysisCsvUrl} target="_blank" rel="noopener noreferrer"><strong>CSV</strong></a>
 
 ---
 
