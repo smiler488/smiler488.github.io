@@ -1,18 +1,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+const HARDCODED_API_ENDPOINT = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
+const HARDCODED_API_KEY = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
+
 function computeDefaultApiEndpoint() {
-  if (typeof window === 'undefined') {
-    return '/api/solve';
-  }
-
-  const { hostname, origin } = window.location;
-
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:3001/api/solve';
-  }
-
-  return `${origin.replace(/\/$/, '')}/api/solve`;
+  return HARDCODED_API_ENDPOINT;
 }
 
 function useCamera() {
@@ -60,7 +53,7 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
   return await new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/jpeg', quality));
 }
 
-async function postJson(url, json) {
+async function postJson(url, json, extraHeaders = {}) {
   // Mock mode: allow using a fake upstream when url starts with "mock://"
   if (typeof url === 'string' && url.startsWith('mock://')) {
     const now = new Date().toISOString();
@@ -102,9 +95,81 @@ async function postJson(url, json) {
 
   return fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...extraHeaders },
     body: JSON.stringify(json),
   });
+}
+
+function formatAiResponse(data) {
+  if (Array.isArray(data?.choices) && data.choices.length > 0) {
+    const aiMessage = data.choices[0].message?.content || '';
+    const usage = data.usage || {};
+    const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.total_tokens || 'N/A'} (Prompt: ${usage.prompt_tokens || 'N/A'}, Completion: ${usage.completion_tokens || 'N/A'})`;
+    return { text: formattedResponse, raw: data };
+  }
+
+  if (data?.Response && Array.isArray(data.Response.Choices) && data.Response.Choices.length > 0) {
+    const legacyMessage = data.Response.Choices[0].Message?.Content || '';
+    const legacyUsage = data.Response.Usage || {};
+    const formattedLegacy = `${legacyMessage}\n\n---\nTokens: ${legacyUsage.TotalTokens || 'N/A'} (Prompt: ${legacyUsage.PromptTokens || 'N/A'}, Completion: ${legacyUsage.CompletionTokens || 'N/A'})`;
+    return { text: formattedLegacy, raw: data };
+  }
+
+  const fallback = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+  return { text: fallback, raw: data };
+}
+
+function normalizeBase64Image(imageBase64) {
+  if (!imageBase64) return null;
+  if (imageBase64.startsWith('data:')) {
+    return imageBase64;
+  }
+  return `data:image/jpeg;base64,${imageBase64}`;
+}
+
+function buildHunyuanPayload({ question, imageBase64, imageUrl, model }) {
+  const contents = [];
+  const trimmedQuestion = (question || '').trim();
+
+  if (trimmedQuestion) {
+    contents.push({
+      type: 'text',
+      text: trimmedQuestion,
+    });
+  }
+
+  const normalizedImageUrl = (imageUrl || '').trim();
+  const normalizedBase64 = normalizeBase64Image(imageBase64);
+
+  if (normalizedImageUrl) {
+    contents.push({
+      type: 'image_url',
+      image_url: { url: normalizedImageUrl },
+    });
+  } else if (normalizedBase64) {
+    contents.push({
+      type: 'image_url',
+      image_url: { url: normalizedBase64 },
+    });
+  }
+
+  if (contents.length === 0) {
+    contents.push({
+      type: 'text',
+      text: '你好',
+    });
+  }
+
+  return {
+    model: model || 'hunyuan-vision',
+    messages: [
+      {
+        role: 'user',
+        content: contents,
+      },
+    ],
+    stream: false,
+  };
 }
 
 export default function SolverAppPage() {
@@ -459,6 +524,7 @@ OUTPUT:
   async function sendToAI(payload) {
     // Determine which API to use: default API, custom API, or mock
     let targetUrl;
+    const attemptedDefault = !!useDefaultApi;
     if (useDefaultApi) {
       targetUrl = defaultApiEndpoint;
     } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
@@ -468,10 +534,30 @@ OUTPUT:
     }
 
     try {
-      const response = await postJson(targetUrl, payload);
+      let requestBody = payload;
+      let requestHeaders = {};
+      const usingHardcodedDefault = targetUrl === HARDCODED_API_ENDPOINT;
+
+      if (usingHardcodedDefault) {
+        requestBody = buildHunyuanPayload(payload);
+        requestHeaders = { Authorization: `Bearer ${HARDCODED_API_KEY}` };
+      }
+
+      const response = await postJson(targetUrl, requestBody, requestHeaders);
 
       if (!response.ok) {
         const rawText = await response.text().catch(() => '');
+        if (attemptedDefault && (response.status === 404 || response.status === 405 || response.status === 403)) {
+          const snippet = rawText ? rawText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120) : '';
+          const note = `Default API returned ${response.status}${snippet ? ` (${snippet})` : ''}. Using mock response instead.`;
+          const fallbackResp = await postJson('mock://ai-solver', payload);
+          const fallbackData = await fallbackResp.json();
+          const { text } = formatAiResponse(fallbackData);
+          setRespText(`${note}\n\n${text}`);
+          window.lastFullResponse = fallbackData;
+          return;
+        }
+
         if (response.status === 404) {
           const guidance = useDefaultApi
             ? 'The built-in solver endpoint (/api/solve) is not reachable. Deploy the serverless function or point the app to your own API in the settings.'
@@ -486,24 +572,9 @@ OUTPUT:
         throw new Error(`Request failed ${response.status}.${detail}`);
       }
       const data = await response.json().catch(async () => ({ raw: await response.text() }));
-      
-      // Format the response for better readability
-      if (Array.isArray(data?.choices) && data.choices.length > 0) {
-        const aiMessage = data.choices[0].message?.content || '';
-        const usage = data.usage || {};
-        const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.total_tokens || 'N/A'} (Prompt: ${usage.prompt_tokens || 'N/A'}, Completion: ${usage.completion_tokens || 'N/A'})`;
-        setRespText(formattedResponse);
-        window.lastFullResponse = data;
-      } else if (data.Response && data.Response.Choices && data.Response.Choices.length > 0) {
-        const legacyMessage = data.Response.Choices[0].Message?.Content || '';
-        const legacyUsage = data.Response.Usage || {};
-        const formattedLegacy = `${legacyMessage}\n\n---\nTokens: ${legacyUsage.TotalTokens || 'N/A'} (Prompt: ${legacyUsage.PromptTokens || 'N/A'}, Completion: ${legacyUsage.CompletionTokens || 'N/A'})`;
-        setRespText(formattedLegacy);
-        window.lastFullResponse = data;
-      } else {
-        setRespText(JSON.stringify(data, null, 2));
-        window.lastFullResponse = data;
-      }
+      const { text } = formatAiResponse(data);
+      setRespText(text);
+      window.lastFullResponse = data;
     } catch (e) {
       if (e.name === 'TypeError' && e.message.includes('fetch')) {
         throw new Error(`Network error: Cannot connect to ${targetUrl}. Please verify the API server or the URL in the settings.`);

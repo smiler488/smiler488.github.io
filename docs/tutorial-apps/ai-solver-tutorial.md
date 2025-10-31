@@ -155,19 +155,21 @@ Visit in your browser: `http://your-domain/app/solver`
     - Flexible handling of special or mixed requests
     - General reasoning rules for unique problem types
     - Alternative solution path consideration
+    - Enables manual editing of the question/prompt field (other presets apply their instructions automatically)
 
 ### Step 3: API Configuration and Analysis
 
 1. **API Settings**
-   - **Default API**: Click "Use Default API" button for immediate access
-   - **Custom API**: Enter your custom endpoint URL for specialized deployments
-   - **Security**: No API keys stored - enhanced privacy protection
-   - **Model Selection**: Choose appropriate Hunyuan AI model for your use case
+   - **Default API**: Toggle "Use Default API" to call the same-origin `/api/solve` endpoint (on localhost this targets `http://localhost:3001/api/solve`)
+   - **Automatic Fallback**: If the default endpoint responds with 403/404/405, the app shows a notice and returns a mock answer so you can keep testing
+   - **Custom API**: Enter a full URL (including protocol) when you deploy your own proxy or serverless function
+   - **Security**: No API keys are stored in the browser; credentials must live on the backend
+   - **Model Selection**: Choose the appropriate Hunyuan AI model for your use case
 
 2. **Preset Management**
    - **Quick Selection**: Dropdown menu with 18 professional presets
-   - **Description Display**: Each preset shows brief functional description
-   - **Custom Mode**: Modify question field to create custom prompts
+   - **Description Display**: Each preset shows a brief functional description; default prompts are applied automatically
+   - **Custom Mode**: Choose this mode if you need to edit the question/prompt text manually
    - **Text Command**: Type `/preset name` in text mode for quick switching
 
 3. **AI Processing**
@@ -369,6 +371,7 @@ Visit in your browser: `http://your-domain/app/solver`
 - **Custom API Connection Failed**: Verify URL format includes protocol (https://)
 - **API Switching Issues**: Disable custom API first before enabling default API
 - **Response Format Errors**: Ensure custom API returns compatible JSON format
+- **Mock Response Displayed**: If you see a message explaining that a mock answer is used, deploy `/api/solve` or point the app to your custom endpoint
 
 **7. Preset Selection Issues**
 - **Preset Not Available**: All 18 presets should be visible in dropdown menu
