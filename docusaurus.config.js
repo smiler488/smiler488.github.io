@@ -11,6 +11,12 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   staticDirectories: ['static'],
+  scripts: [
+    {
+      src: '/js/mobile-fallback-nav.js',
+      defer: true,
+    },
+  ],
   customFields: {
     svgConfig: {
       comic1: 'compress_comic1',
