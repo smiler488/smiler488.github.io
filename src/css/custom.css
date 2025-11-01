@@ -311,4 +311,37 @@ a:hover {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
+
+  .navbar-sidebar__items {
+    padding: 1rem;
+  }
+
+  .navbar-sidebar__item {
+    margin-bottom: 0.25rem;
+  }
+
+  .navbar-sidebar__item:last-child {
+    margin-bottom: 0;
+  }
+
+  .navbar-sidebar__item .navbar__link {
+    display: block;
+    padding: 0.65rem 0;
+    font-size: 1.05rem;
+    color: var(--ifm-navbar-link-color);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  [data-theme='dark'] .navbar-sidebar__item .navbar__link {
+    color: var(--ifm-navbar-link-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .navbar-sidebar__item .navbar__link:hover {
+    color: var(--ifm-color-primary);
+  }
+
+  .navbar-sidebar__item:last-child .navbar__link {
+    border-bottom: none;
+  }
 }
