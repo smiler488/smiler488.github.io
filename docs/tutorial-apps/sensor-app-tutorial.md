@@ -248,6 +248,6 @@ If you encounter technical issues:
 - **Edge 79+**: Complete functionality with modern standards
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Sensor App v1.0*
 *Optimized for plant physiology, agricultural research, and environmental monitoring applications*

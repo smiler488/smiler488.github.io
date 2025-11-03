@@ -317,6 +317,6 @@ If you encounter problems or need technical support, please:
 - **Environmental Response**: Leaf morphological responses to environmental conditions
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Leaf Measurement Stereo Camera System v2.0*
 *Optimized for 30cm shooting box environment and leaf research*

@@ -22,7 +22,7 @@ import SpeechButton from '@site/src/components/SpeechButton';
     title="Play pronunciation"
   />
 </p>
-Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shihezi, Xinjiang 832003, China
+Joint Ph.D. Candidate in Crop Science (SHZU × CAS-CEMPS) | 2023 – 2026 (expected)
 
 **Contact Information:**
 
@@ -40,12 +40,18 @@ Ph.D. Candidate in Crop Science, College of Agriculture, Shihezi University, Shi
 
 ## Education
 
-**Ph.D. in Crop Science** | *2023 – 2026 (expected)* · Shihezi University, Xinjiang, China
-
+**Ph.D. Candidate in Crop Science** | *2023 – 2026 (expected)*
+College of Agriculture, Shihezi University, Shihezi, Xinjiang, China
+(Joint Ph.D. Training with the Center for Excellence in Molecular Plant Sciences, Chinese Academy of Sciences, Shanghai, China)
 - **Supervisors:** Prof. Yali Zhang (SHZU) & Dr. Qingfeng Song (CAS-CEMPS)
-- **Dissertation Topic:** AI-Enhanced High-Throughput Phenotyping and 3D Canopy Modeling for Smart Agriculture
-- **B.Sc. in Information and Computational Science** | *2016 – 2021* · Shihezi University, Xinjiang, China
+- **Collaborating PI:** Prof. Xinguang Zhu (CAS-CEMPS)
 - **Thesis:** Research on the optimization of cotton canopy structure and photosynthetic efficiency improvement based on multi-scale three-dimensional reconstruction and ray tracing
+
+**B.Sc. in Information and Computational Science** | *2016 – 2021*  
+College of Science, Shihezi University, Xinjiang, China
+- **Core Courses:** Numerical Solution of Differential Equations, Optimization Methods, Data Structures, Probability and Statistics, Mathematical Modeling
+- **Undergraduate Thesis:** Numerical Solution of Phase Transition Equations
+- **Research Training:** Focused on computational mathematics and numerical simulation, with applications in solving nonlinear partial differential equations.
 
 ---
 

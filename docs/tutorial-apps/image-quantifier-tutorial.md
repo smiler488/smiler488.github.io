@@ -224,6 +224,6 @@ If you encounter technical issues:
 4. Contact support with specific error details and sample images
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Image Quantifier v1.0*
 *Optimized for plant biology and agricultural research applications*

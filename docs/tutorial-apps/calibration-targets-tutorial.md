@@ -227,6 +227,6 @@ If you encounter technical issues:
 4. Contact support with specific error details and pattern requirements
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Calibration Targets Generator v1.0*
 *Optimized for computer vision, photogrammetry, and camera calibration applications*

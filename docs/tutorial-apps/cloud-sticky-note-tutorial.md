@@ -224,6 +224,6 @@ If you encounter technical issues:
 - **Edge 79+**: Full compatibility with modern standards
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Cloud Sticky Note System v1.0*
 *Optimized for secure, decentralized note sharing and collaboration*

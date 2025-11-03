@@ -206,6 +206,6 @@ If you encounter technical issues:
 4. Contact support with specific error details and parameters
 
 ---
-
+*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Weather Analyzer v1.0*
 *Optimized for agricultural and environmental research applications*
