@@ -88,15 +88,15 @@ Visit in your browser: `/app/cco`
 - **KML**: Reference files for visualization in mapping software
 
 ### Mission Parameters
-- **Flight Altitude Range**: 50-500 meters (configurable)
+- **Flight Altitude Range**: 5-10 meters (configurable)
 - **Image Overlap**: 60-80% (recommended for stitching)
 - **Grid Rotation**: 0-360 degrees (full rotation capability)
 - **Waypoint Spacing**: Automatic optimization based on camera parameters
 
 ### Drone Compatibility
-- **DJI Matrice Series**: M300 RTK, M350 RTK
-- **DJI Phantom Series**: Phantom 4 RTK, Phantom 4 Pro
-- **DJI Mavic Series**: Mavic 3 Enterprise, Mavic 2 Enterprise
+- **DJI Matrice Series**: M300 RTK, M350 RTK...
+- **DJI Phantom Series**: Phantom 4 RTK, Phantom 4 Pro...
+- **DJI Mavic Series**: Mavic 3 Enterprise, Mavic 2 Enterprise...
 - **Custom Configurations**: Support for user-defined drone parameters
 
 ## Best Practices
@@ -145,7 +145,7 @@ Visit in your browser: `/app/cco`
 ### Performance Optimization
 
 **For Large Areas**
-- Use multi-part segmentation for areas > 100 hectares
+- Use multi-part segmentation for flignt points > 300
 - Increase system memory allocation if available
 - Consider processing during low system usage periods
 
