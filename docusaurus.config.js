@@ -16,6 +16,11 @@ const config = {
       src: '/js/mobile-fallback-nav.js',
       defer: true,
     },
+      {
+      src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601846275501188',
+      async: true,
+      crossorigin: 'anonymous',
+    },
   ],
   customFields: {
     svgConfig: {
