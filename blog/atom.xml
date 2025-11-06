@@ -171,7 +171,7 @@ Email: <a href="mailto:zhangyali_cn@foxmail.com" target="_blank" rel="noopener n
         <category label="Academic CV" term="Academic CV"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[A complete guide for graduate students and early-career researchers on how to prepare, submit, and publish scientific papers]]></title>
+        <title type="html"><![CDATA[A complete guide for scientific papers]]></title>
         <id>https://smiler488.github.io/blog/academic-paper-publication-guide</id>
         <link href="https://smiler488.github.io/blog/academic-paper-publication-guide"/>
         <updated>2025-10-30T00:00:00.000Z</updated>
@@ -448,7 +448,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
         <category label="Local Development" term="Local Development"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research]]></title>
+        <title type="html"><![CDATA[Guide to Plant 3D Reconstruction with Hunyuan3D]]></title>
         <id>https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide</id>
         <link href="https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide"/>
         <updated>2025-01-20T00:00:00.000Z</updated>
@@ -620,7 +620,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
         <category label="Research" term="Research"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Guide to Local LLM Deployment, Training and Fine-tuning]]></title>
+        <title type="html"><![CDATA[Guide to Local LLM]]></title>
         <id>https://smiler488.github.io/blog/local-llm-training-guide-en</id>
         <link href="https://smiler488.github.io/blog/local-llm-training-guide-en"/>
         <updated>2024-01-20T00:00:00.000Z</updated>
@@ -797,7 +797,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
         <category label="Machine Learning" term="Machine Learning"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Canopy Photosynthesis Modeling Tutorial Based on 3D Reconstruction]]></title>
+        <title type="html"><![CDATA[Canopy Photosynthesis Modeling Tutorial]]></title>
         <id>https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en</id>
         <link href="https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en"/>
         <updated>2023-09-20T00:00:00.000Z</updated>
@@ -851,7 +851,7 @@ Download and install from <a href="https://ollama.ai/download" target="_blank" r
         <category label="Ray Tracing" term="Ray Tracing"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Complete PyTorch Tutorial for Machine Learning and Deep Learning]]></title>
+        <title type="html"><![CDATA[PyTorch Tutorial]]></title>
         <id>https://smiler488.github.io/blog/pytorch-ml-dl-tutorial</id>
         <link href="https://smiler488.github.io/blog/pytorch-ml-dl-tutorial"/>
         <updated>2022-09-20T00:00:00.000Z</updated>
