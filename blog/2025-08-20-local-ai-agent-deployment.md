@@ -1,6 +1,6 @@
 ---
 slug: local-ai-agent-deployment
-title: Guide to Local AI Agent Deployment
+title: Guide to Local AI Agent
 authors: [liangchao]
 tags: [ai, machine learning, deployment, tutorial, local development]
 ---

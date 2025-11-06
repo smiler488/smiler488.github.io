@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import CitationNotice from "../../../components/CitationNotice";
 
 export default function StereoPage() {
   useEffect(() => {
@@ -349,6 +350,7 @@ export default function StereoPage() {
             No captured data yet. Start camera to capture stereo images or depth maps.
           </div>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

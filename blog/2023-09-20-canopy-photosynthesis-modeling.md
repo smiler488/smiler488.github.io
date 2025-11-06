@@ -1,6 +1,6 @@
 ---
 slug: canopy-photosynthesis-modeling-en
-title: Canopy Photosynthesis Modeling Tutorial
+title: Canopy Photosynthesis Modeling
 authors: [liangchao]
 tags: [plant phenotyping, 3d reconstruction, photosynthesis, computer vision, ray tracing]
 ---

@@ -75,6 +75,8 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          blogSidebarCount: 'ALL',      // 改成 'ALL' 或者具体数字
+          blogSidebarTitle: 'All posts',// 标题想叫别的也可以
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,

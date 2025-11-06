@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
+import CitationNotice from '../../../components/CitationNotice';
 
 /**
  * Sensor App
@@ -482,6 +483,7 @@ export default function SensorPage() {
             </p>
           </div>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

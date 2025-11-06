@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import CitationNotice from "../../../components/CitationNotice";
 const BACKEND_BASE = (typeof window !== 'undefined' && window.__CLOUDNOTE_BACKEND_URL__) ? window.__CLOUDNOTE_BACKEND_URL__ : "";
 /*
   Cloud Note (static) — zero-backend sharing via encrypted URL fragment
@@ -579,6 +580,7 @@ export default function CloudNotePage() {
             </div>
           )}
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

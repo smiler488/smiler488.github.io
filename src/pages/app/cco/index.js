@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import CitationNotice from "../../../components/CitationNotice";
 
 const CCOPage = () => {
   useEffect(() => {
@@ -198,6 +199,7 @@ const CCOPage = () => {
             </div>
           </div>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

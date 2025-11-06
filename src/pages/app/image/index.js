@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Layout from '@theme/Layout';
+import CitationNotice from '../../../components/CitationNotice';
 import './styles.css';
 
 export default function BiologicalSampleAnalysisApp() {
@@ -522,6 +523,7 @@ export default function BiologicalSampleAnalysisApp() {
             </p>
           </div>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

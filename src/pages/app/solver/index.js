@@ -1,5 +1,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import CitationNotice from '../../../components/CitationNotice';
 
 const HARDCODED_API_ENDPOINT = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
 const HARDCODED_API_KEY = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
@@ -1381,6 +1382,7 @@ OUTPUT:
           </button>
         </div>
       </div>
+      <CitationNotice />
     </div>
   );
 }

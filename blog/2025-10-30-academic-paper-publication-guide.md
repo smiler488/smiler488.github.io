@@ -1,6 +1,6 @@
 ---
 slug: academic-paper-publication-guide
-title: A complete guide for scientific papers 
+title: Guide for scientific papers 
 authors: [liangchao]
 tags: [research]
 ---

@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import CitationNotice from "../../../components/CitationNotice";
 
 const WeatherPage = () => {
   return (
@@ -303,6 +304,7 @@ const WeatherPage = () => {
             ))}
           </div>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

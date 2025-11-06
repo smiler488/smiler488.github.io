@@ -1,6 +1,6 @@
 ---
 slug: hunyuan3d-plant-reconstruction-guide
-title: Guide to Plant 3D Reconstruction with Hunyuan3D
+title: Guide to 3D Reconstruction with AI
 authors: [liangchao]
 tags: [Hunyuan3D, 3D reconstruction, plant phenotyping, computer vision, agriculture, research]
 ---

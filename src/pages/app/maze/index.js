@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import CitationNotice from "../../../components/CitationNotice";
 
 export default function MazePage() {
   // 使用 React 状态管理步数和排名显示（也可直接操作 DOM）
@@ -258,6 +259,7 @@ export default function MazePage() {
         </div>
         <div id="mazeMessage" style={{ marginTop: "10px", fontSize: "1.2rem" }}></div>
         <div id="ranking" style={{ marginTop: "20px" }}></div>
+        <CitationNotice />
       </div>
     </Layout>
   );

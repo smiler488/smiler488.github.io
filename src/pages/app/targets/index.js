@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import CitationNotice from "../../../components/CitationNotice";
 
 export default function TargetsPage() {
   useEffect(() => {
@@ -936,6 +937,7 @@ export default function TargetsPage() {
             <li>For best results, mount on rigid backing (foam board, etc.)</li>
           </ul>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );

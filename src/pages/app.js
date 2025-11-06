@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
+import CitationNotice from "../components/CitationNotice";
 
 const AppHub = () => {
   const apps = [
@@ -60,7 +61,7 @@ const AppHub = () => {
   ];
 
   return (
-    <Layout title="App Hub">
+    <Layout title="Digital Plant Phenotyping Platform v25.0">
       <div style={{ textAlign: "center", padding: "40px 20px" }}>
         <h1 style={{ 
           fontSize: "3rem", 
@@ -69,7 +70,7 @@ const AppHub = () => {
           letterSpacing: "-0.02em",
           color: "#000000"
         }}>
-          Web App Hub
+          Digital Plant Phenotyping Platform v25.0
         </h1>
         <p style={{ 
           fontSize: "1.2rem", 
@@ -174,6 +175,8 @@ const AppHub = () => {
             </div>
           ))}
         </div>
+
+        <CitationNotice />
       </div>
     </Layout>
   );
