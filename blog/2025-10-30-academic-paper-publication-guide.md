@@ -1,6 +1,6 @@
 ---
 slug: academic-paper-publication-guide
-title: A complete guide for graduate students and early-career researchers on how to prepare, submit, and publish scientific papers 
+title: A complete guide for scientific papers 
 authors: [liangchao]
 tags: [research]
 ---

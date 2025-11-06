@@ -1,6 +1,6 @@
 ---
 slug: local-llm-training-guide-en
-title: Guide to Local LLM Deployment, Training and Fine-tuning
+title: Guide to Local LLM
 authors: [liangchao]
 tags: [LLM, AI, training, fine-tuning, local deployment, machine learning]
 ---

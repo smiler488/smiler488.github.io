@@ -1,6 +1,6 @@
 ---
 slug: pytorch-ml-dl-tutorial
-title: Complete PyTorch Tutorial for Machine Learning and Deep Learning
+title: PyTorch Tutorial
 authors: [liangchao]
 tags: [pytorch, machine learning, deep learning, neural networks, tutorial]
 ---
