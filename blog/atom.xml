@@ -118,10 +118,11 @@ College of Agriculture, Shihezi University, Shihezi, Xinjiang, China
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="publications--research-output">Publications &amp; Research Output<a href="https://smiler488.github.io/blog/curriculum-vitae#publications--research-output" class="hash-link" aria-label="Direct link to Publications &amp; Research Output" title="Direct link to Publications &amp; Research Output" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="accepted--in-press"><strong>Accepted / In Press</strong><a href="https://smiler488.github.io/blog/curriculum-vitae#accepted--in-press" class="hash-link" aria-label="Direct link to accepted--in-press" title="Direct link to accepted--in-press" translate="no">​</a></h3>
 <ol>
 <li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
-<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">DOI:10.1016/j.plaphe.2025.100135</a> <a href="https://smiler488.github.io/assets/files/brdf-c383ce9db0903263a9a368551045ce37.pdf" target="_blank" class=""><strong>PDF</strong></a></li>
+<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">DOI:10.1016/j.plaphe.2025.100135</a> <a href="https://smiler488.github.io/assets/files/brdf-c383ce9db0903263a9a368551045ce37.pdf" target="_blank" class=""><strong>PDF</strong></a>
+<div class="altmetric-embed" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="true"></div>
+</li>
 </ol>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="teaching-and-mentoring-experience">Teaching and Mentoring Experience<a href="https://smiler488.github.io/blog/curriculum-vitae#teaching-and-mentoring-experience" class="hash-link" aria-label="Direct link to Teaching and Mentoring Experience" title="Direct link to Teaching and Mentoring Experience" translate="no">​</a></h2>
@@ -320,6 +321,120 @@ Deng, L. (2025). <em>Academic Paper Publication Workflow.</em> Digital Crop Phot
             <uri>https://github.com/smiler488</uri>
         </author>
         <category label="Research" term="Research"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Predicting Leaf Optical Properties with BRDF and Phenotypic Traits]]></title>
+        <id>https://smiler488.github.io/blog/brdf-paper</id>
+        <link href="https://smiler488.github.io/blog/brdf-paper"/>
+        <updated>2025-10-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Development of the DSDI instrument and ensemble learning model for predicting leaf optical properties based on phenotypic traits in maize, rice, cotton, and poplar.]]></summary>
+        <content type="html"><![CDATA[<div class="altmetric-embed brdfAltmetric" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="true"></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="https://smiler488.github.io/blog/brdf-paper#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
+<p><img decoding="async" loading="lazy" alt="Directional Spectrum Detection Instrument and modeling workflow" src="https://smiler488.github.io/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
+<p>Light distribution within crop canopies determines how efficiently plants convert sunlight into biomass. Our latest study presents a <strong>new framework that links leaf anatomy and physiology to optical properties</strong>, providing a pathway toward <strong>predictive modeling of canopy photosynthesis</strong>.</p>
+<p>We developed a novel <strong>Directional Spectrum Detection Instrument (DSDI)</strong> and an <strong>ensemble learning (EL)</strong> model that accurately predict <strong>Bidirectional Reflectance Distribution Function (BRDF)</strong> parameters from measurable <strong>phenotypic traits</strong>.</p>
+<p>This work integrates optical physics, phenotyping, and data-driven modeling to enable <em>computational quantification of leaf optical diversity</em>—a key step toward designing crop canopies with higher light-use efficiency.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-contributions">Key Contributions<a href="https://smiler488.github.io/blog/brdf-paper#key-contributions" class="hash-link" aria-label="Direct link to Key Contributions" title="Direct link to Key Contributions" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>DSDI hardware</strong> captures directional spectra (400–1000 nm) with high angular resolution (−π/36 to 35π/36) and R² &gt; 0.99 calibration accuracy.</li>
+<li class=""><strong>Cook–Torrance BRDF fitting pipeline</strong> retrieves σ(λ), k(λ), n(λ) from measured data using adaptive grid search + least squares.</li>
+<li class=""><strong>Ensemble learning stack</strong> (SVR + RFR + GBRT) predicts BRDF parameters directly from phenotypic traits with R² up to 0.99.</li>
+<li class=""><strong>Ray-tracing integration</strong> propagates predicted BRDF into canopy simulations, quantifying how optical diversity reshapes light fields.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-this-research-matters">Why This Research Matters<a href="https://smiler488.github.io/blog/brdf-paper#why-this-research-matters" class="hash-link" aria-label="Direct link to Why This Research Matters" title="Direct link to Why This Research Matters" translate="no">​</a></h2>
+<p>Traditional canopy photosynthesis models assume uniform leaf optical properties, which limits prediction accuracy. However, <strong>real leaves differ in structure, pigment composition, and surface roughness</strong>—factors that shape how light is reflected and transmitted.</p>
+<p>Our study shows that <strong>leaf optical parameters can be predicted from phenotypic traits</strong>, such as:</p>
+<ul>
+<li class="">Leaf thickness</li>
+<li class="">Specific leaf weight</li>
+<li class="">Chlorophyll and carotenoid content</li>
+<li class="">Surface roughness (quantified microscopically)</li>
+</ul>
+<p>This makes it possible to integrate real biological variability into radiative transfer models, improving predictions of <strong>canopy microclimate and photosynthetic efficiency</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-dsdi-system-measuring-leaf-reflectance-in-all-directions">The DSDI System: Measuring Leaf Reflectance in All Directions<a href="https://smiler488.github.io/blog/brdf-paper#the-dsdi-system-measuring-leaf-reflectance-in-all-directions" class="hash-link" aria-label="Direct link to The DSDI System: Measuring Leaf Reflectance in All Directions" title="Direct link to The DSDI System: Measuring Leaf Reflectance in All Directions" translate="no">​</a></h2>
+<p>We designed and built the <strong>DSDI (Directional Spectrum Detection Instrument)</strong> to capture how leaves reflect light at multiple angles and wavelengths (400–1000 nm).
+The system:</p>
+<ul>
+<li class="">Uses a high-power xenon light source and a fiber spectrometer;</li>
+<li class="">Rotates both the light source and the detector mechanically to achieve wide angular coverage (−π/36 to 35π/36);</li>
+<li class="">Calibrates reflectance with a Lambertian whiteboard standard.</li>
+</ul>
+<p>Validation showed that DSDI achieved <strong>R² &gt; 0.99</strong> when measuring standard surfaces, ensuring high accuracy in directional reflectance measurement.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="modeling-leaf-reflectance-with-brdf">Modeling Leaf Reflectance with BRDF<a href="https://smiler488.github.io/blog/brdf-paper#modeling-leaf-reflectance-with-brdf" class="hash-link" aria-label="Direct link to Modeling Leaf Reflectance with BRDF" title="Direct link to Modeling Leaf Reflectance with BRDF" translate="no">​</a></h2>
+<p>We used the <strong>Cook–Torrance BRDF model</strong>, a physically based framework describing both specular and diffuse reflections.<br>
+<!-- -->Three key parameters define leaf optical behavior:</p>
+<table><thead><tr><th>Parameter</th><th>Description</th><th>Biological Meaning</th></tr></thead><tbody><tr><td><strong>σ(λ)</strong></td><td>Surface roughness</td><td>Microscopic unevenness of epidermal surface</td></tr><tr><td><strong>k(λ)</strong></td><td>Diffuse reflection coefficient</td><td>Proportion of diffuse vs. specular reflection</td></tr><tr><td><strong>n(λ)</strong></td><td>Refractive index</td><td>Light attenuation within leaf tissues</td></tr></tbody></table>
+<p>These parameters were fitted to DSDI data using <strong>adaptive grid search</strong> and <strong>least-squares optimization</strong>, achieving <strong>R² &gt; 0.95</strong> between model and measured reflectance.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="linking-leaf-traits-and-optical-properties">Linking Leaf Traits and Optical Properties<a href="https://smiler488.github.io/blog/brdf-paper#linking-leaf-traits-and-optical-properties" class="hash-link" aria-label="Direct link to Linking Leaf Traits and Optical Properties" title="Direct link to Linking Leaf Traits and Optical Properties" translate="no">​</a></h2>
+<p>Across four species—<strong>maize, rice, cotton, and poplar</strong>—we quantified both leaf anatomy and BRDF parameters for upper and lower canopy layers.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-findings">Key Findings<a href="https://smiler488.github.io/blog/brdf-paper#key-findings" class="hash-link" aria-label="Direct link to Key Findings" title="Direct link to Key Findings" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Rice and cotton</strong> exhibited higher surface roughness (σ) and more diffuse reflectance;</li>
+<li class=""><strong>Maize and poplar</strong> had smoother surfaces and stronger specular peaks;</li>
+<li class=""><strong>Diffuse reflection coefficient (k)</strong> increased with wavelength, especially in the NIR region;</li>
+<li class=""><strong>Refractive index (n)</strong> negatively correlated with leaf thickness and density (SLW).</li>
+</ul>
+<p>These results reveal <strong>species-specific optical adaptations</strong>, providing new insights for canopy design in breeding programs.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ensemble-learning-model-for-optical-prediction">Ensemble Learning Model for Optical Prediction<a href="https://smiler488.github.io/blog/brdf-paper#ensemble-learning-model-for-optical-prediction" class="hash-link" aria-label="Direct link to Ensemble Learning Model for Optical Prediction" title="Direct link to Ensemble Learning Model for Optical Prediction" translate="no">​</a></h2>
+<p>To connect measurable phenotypic traits with BRDF parameters, we trained an <strong>ensemble learning model</strong> combining:</p>
+<ul>
+<li class="">Support Vector Regression (SVR)</li>
+<li class="">Random Forest (RFR)</li>
+<li class="">Gradient Boosting Regression Tree (GBRT)</li>
+</ul>
+<p>The stacked model achieved <strong>R² = 0.83–0.99</strong> across parameters, establishing the <strong>first predictive link between leaf phenotypes and optical properties</strong>.</p>
+<p>This approach transforms leaf optical measurement from a labor-intensive process into a <strong>data-driven prediction task</strong>—a scalable solution for high-throughput phenotyping.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="simulating-canopy-light-distribution">Simulating Canopy Light Distribution<a href="https://smiler488.github.io/blog/brdf-paper#simulating-canopy-light-distribution" class="hash-link" aria-label="Direct link to Simulating Canopy Light Distribution" title="Direct link to Simulating Canopy Light Distribution" translate="no">​</a></h2>
+<p>We incorporated the predicted BRDF parameters into a <strong>ray-tracing canopy model</strong> (based on <em>fastTracer</em>) to simulate light scattering in rice canopies.</p>
+<p>Results showed that changing <strong>k(λ), σ(λ), n(λ)</strong> significantly altered canopy-level light fields:</p>
+<ul>
+<li class="">Higher <em>k</em> increased diffuse scattering and light uniformity;</li>
+<li class="">Lower <em>σ</em> enhanced specular peaks;</li>
+<li class="">Variation in <em>n</em> influenced internal reflection intensity.</li>
+</ul>
+<p>These findings highlight how <strong>leaf optical diversity shapes whole-canopy light environments</strong> and photosynthetic potential.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="implications">Implications<a href="https://smiler488.github.io/blog/brdf-paper#implications" class="hash-link" aria-label="Direct link to Implications" title="Direct link to Implications" translate="no">​</a></h2>
+<p>This study establishes a <strong>phenomics-oriented framework</strong> that connects microscopic structure, biochemistry, and macroscopic optical behavior.
+It provides:</p>
+<ol>
+<li class="">A <strong>new instrument (DSDI)</strong> for angular light measurement,</li>
+<li class="">A <strong>computational method</strong> to predict optical traits from phenotypic data,</li>
+<li class="">A bridge between <strong>phenotyping and photosynthesis modeling</strong>.</li>
+</ol>
+<p>By enabling optical trait prediction across species and environments, this work advances the <strong>digital crop phenotyping paradigm</strong>—moving from measurement to <em>simulation and prediction</em>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="citation">Citation<a href="https://smiler488.github.io/blog/brdf-paper#citation" class="hash-link" aria-label="Direct link to Citation" title="Direct link to Citation" translate="no">​</a></h2>
+<p><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).<br>
+<em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em><br>
+<strong>Plant Phenomics.</strong> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="resources">Resources<a href="https://smiler488.github.io/blog/brdf-paper#resources" class="hash-link" aria-label="Direct link to Resources" title="Direct link to Resources" translate="no">​</a></h2>
+<ul>
+<li class=""><a href="https://github.com/PlantSystemsBiology/brdf" target="_blank" rel="noopener noreferrer" class="">GitHub – BRDF Model and RC Software</a></li>
+<li class=""><a href="https://github.com/PlantSystemsBiology/fastTracerPublic" target="_blank" rel="noopener noreferrer" class="">fastTracer (Ray-Tracing Framework)</a></li>
+<li class=""><a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="">Zenodo Dataset</a></li>
+</ul>
+<hr>
+<p><em>Author: Liangchao Deng, Shihezi University / CAS-CEMPS</em><br>
+<em>Part of the Digital Crop Photosynthetic Phenotyping Platform Project.</em></p>]]></content>
+        <author>
+            <name>Liangchao Deng</name>
+            <uri>https://github.com/smiler488</uri>
+        </author>
+        <category label="Plant Phenomics" term="Plant Phenomics"/>
+        <category label="BRDF" term="BRDF"/>
+        <category label="Phenomics" term="Phenomics"/>
+        <category label="Photosynthesis" term="Photosynthesis"/>
+        <category label="Remote Sensing" term="Remote Sensing"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Guide to Local AI Agent]]></title>
