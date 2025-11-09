@@ -5,6 +5,7 @@ authors: [liangchao]
 tags: [curriculum vitae, academic cv]
 ---
 import SpeechButton from '@site/src/components/SpeechButton';
+import AltmetricBadge from '@site/src/components/AltmetricBadge';
 
 <!-- truncate -->
 
@@ -134,10 +135,10 @@ College of Science, Shihezi University, Xinjiang, China
 
 ## Publications & Research Output
 
-### **Accepted / In Press**
 
 1. **Deng, L.**, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
    *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/files/brdf.pdf)
+   <AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" />
 
 ---
 

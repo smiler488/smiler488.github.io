@@ -198,6 +198,31 @@ optimization:
   permalink: /optimization
   description: Model optimization and performance tuning
 
+Plant Phenomics:
+  label: Plant Phenomics
+  permalink: /plant-phenomics
+  description: Optical trait discovery and phenomics research
+
+BRDF:
+  label: BRDF
+  permalink: /brdf
+  description: Bidirectional reflectance distribution function modeling
+
+Phenomics:
+  label: Phenomics
+  permalink: /phenomics
+  description: Quantitative analysis of plant traits across scales
+
+Photosynthesis:
+  label: Photosynthesis
+  permalink: /photosynthesis-alt
+  description: Light-use efficiency and crop photosynthesis research
+
+Remote Sensing:
+  label: Remote Sensing
+  permalink: /remote-sensing
+  description: Field phenotyping with multi-sensor remote sensing
+
 photosynthesis:
   label: Photosynthesis
   permalink: /photosynthesis
