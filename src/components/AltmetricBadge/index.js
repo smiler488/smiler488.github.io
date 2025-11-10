@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 const AltmetricBadge = ({
   doi,
   badgeType = 'donut',
-  hideNoMentions = true,
+  hideNoMentions = false,
   className = '',
 }) => {
   useEffect(() => {

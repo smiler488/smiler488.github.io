@@ -58,6 +58,12 @@ const AppHub = () => {
         "Take a photo of a problem and get step-by-step solutions powered by Hunyuan AI.",
       link: "/app/solver",
     },
+    {
+      name: "Journal Selector",
+      description:
+        "Paste your manuscript abstract and receive journal suggestions plus a downloadable CSV.",
+      link: "/app/journal-selector",
+    },
   ];
 
   return (
