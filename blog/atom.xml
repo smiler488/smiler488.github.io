@@ -121,7 +121,7 @@ College of Agriculture, Shihezi University, Shihezi, Xinjiang, China
 <ol>
 <li class=""><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
 <em>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.</em> <strong>Plant Phenomics</strong> <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">DOI:10.1016/j.plaphe.2025.100135</a> <a href="https://smiler488.github.io/assets/files/brdf-6d4d109aabaf86f0a3cc8b77a5b37339.pdf" target="_blank" class=""><strong>PDF</strong></a>
-<div class="altmetric-embed" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="true"></div>
+<div class="altmetric-embed" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="false"></div>
 </li>
 </ol>
 <hr>
@@ -328,7 +328,7 @@ Deng, L. (2025). <em>Academic Paper Publication Workflow.</em> Digital Crop Phot
         <link href="https://smiler488.github.io/blog/brdf-paper"/>
         <updated>2025-10-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Development of the DSDI instrument and ensemble learning model for predicting leaf optical properties based on phenotypic traits in maize, rice, cotton, and poplar.]]></summary>
-        <content type="html"><![CDATA[<div class="altmetric-embed brdfAltmetric" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="true"></div>
+        <content type="html"><![CDATA[<div class="altmetric-embed brdfAltmetric" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="false"></div>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="https://smiler488.github.io/blog/brdf-paper#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
 <p><img decoding="async" loading="lazy" alt="Directional Spectrum Detection Instrument and modeling workflow" src="https://smiler488.github.io/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
