@@ -7,9 +7,9 @@ The Journal Selector app converts any manuscript abstract into a structured list
 ## Key Features
 
 - **Single-Input Workflow** – Paste an abstract plus optional metadata, no formatting required.
-- **Indicator-Aware Prompting** – AI responses must include every metric defined in the indicator reference file.
+- **Indicator-Locked Output** – AI is forced to fill the 24 required metrics (Serial Number → Warning Status) taken from `journal-indicator-system.md`.
 - **Preference Controls** – OA requirement, journal type (Chinese core vs SCI), desired review cycle, and quantity (3–8).
-- **CSV Export** – All required indicators + rationale stored in one spreadsheet.
+- **CSV Export** – Exactly the same columns as the indicator schema, always in English.
 - **Raw AI Trace** – Inspect the exact JSON returned for debugging or audit.
 
 ## Quick Start
@@ -34,18 +34,18 @@ The Journal Selector app converts any manuscript abstract into a structured list
 - **Special notes**: free text for constraints (e.g., “must support preprint citations”, “need double-blind review”).
 
 ### Indicator Reference
-- The indicator file in `static/app/journal-selector/journal-indicator-system.md` defines headings such as “Impact Factor (IF)” and “Data Sharing Requirement”.
-- During generation the file content is injected into the AI prompt and parsed to extract column names. Every returned journal must populate every column; missing data is filled with `"-"` so you can easily spot gaps.
+- The indicator file at `static/app/journal-selector/journal-indicator-system.md` now lists the exact columns (Serial Number, Journal Name, ISSN, Publisher, Year Established, Publication Frequency, OA status, APC, Impact Factor 2024, Five-year IF, JCR Quartile, CAS Quartile, CiteScore, H-index, Self-citation Rate, Annual Publications, Acceptance Rate, Initial Review Cycle, Submission-to-Acceptance, Publication Timeline, Discipline Scope, Core Focus, Special Sections, Strengths, Submission Advice, Warning Status).
+- The app injects this table into the prompt (in Chinese for better model alignment) but demands English values in the JSON. Each column is required; missing values are normalized to `"-"` in both the UI and the CSV.
 
 ### Output & CSV
-- The preview table shows base fields (Journal, Publisher, Discipline, Match Score, Rationale) plus every indicator column discovered from the reference file.
-- The CSV uses the same column order; download via the **Download CSV** button for spreadsheet analysis or archiving.
+- The preview table renders exclusively the indicator columns listed above (no extra base fields). `serial_number` auto-increments, while any missing metric displays as `-`.
+- The CSV mirrors that exact column order; download via **Download CSV** for further analysis.
 - Click **View raw AI response** to review the unformatted JSON, helping you diagnose missing metrics or prompt adjustments.
 
 ## Troubleshooting & Tips
 
 - **Build failures**: keep the indicator system file outside `src/pages` (currently under `static/...`) so Docusaurus doesn’t try to compile it as MDX.
-- **Indicator updates**: edit `journal-indicator-system.md` whenever you need more columns; the app auto-detects them on load.
+- **Indicator updates**: edit `journal-indicator-system.md` whenever you need to rename/reorder/add columns; the app auto-detects them on load (remember to keep the `key | label | description` table format).
 - **Parsing errors**: if status shows “AI response could not be parsed”, reduce prompt length or regenerate—most often caused by models wrapping JSON with prose. The cleanup logic strips code-fences but not arbitrary commentary.
 - **API usage**: the UI hides custom API options and defaults to the built-in Hunyuan endpoint. If you fork the repo, replace the hardcoded key or proxy the requests per your deployment policy.
 
