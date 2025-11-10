@@ -45,6 +45,15 @@ const config = {
   },
   // Activate Mermaid theme plugin
   themes: ['@docusaurus/theme-mermaid'],
+  plugins: [
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'G-X1RTB3QBXE',
+        anonymizeIP: true,
+      },
+    ],
+  ],
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
