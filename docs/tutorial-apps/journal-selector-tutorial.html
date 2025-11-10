@@ -11,7 +11,7 @@
 
 
 <script src="/js/mobile-fallback-nav.js" defer="defer"></script><link rel="stylesheet" href="/assets/css/styles.ca1eaf92.css">
-<script src="/assets/js/runtime~main.9f474f4e.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.6bd50d41.js" defer="defer"></script>
 <script src="/assets/js/main.8f4555af.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -24,9 +24,9 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-features">Key Features<a href="#key-features" class="hash-link" aria-label="Direct link to Key Features" title="Direct link to Key Features" translate="no">​</a></h2>
 <ul>
 <li class=""><strong>Single-Input Workflow</strong> – Paste an abstract plus optional metadata, no formatting required.</li>
-<li class=""><strong>Indicator-Aware Prompting</strong> – AI responses must include every metric defined in the indicator reference file.</li>
+<li class=""><strong>Indicator-Locked Output</strong> – AI is forced to fill the 24 required metrics (Serial Number → Warning Status) taken from <code>journal-indicator-system.md</code>.</li>
 <li class=""><strong>Preference Controls</strong> – OA requirement, journal type (Chinese core vs SCI), desired review cycle, and quantity (3–8).</li>
-<li class=""><strong>CSV Export</strong> – All required indicators + rationale stored in one spreadsheet.</li>
+<li class=""><strong>CSV Export</strong> – Exactly the same columns as the indicator schema, always in English.</li>
 <li class=""><strong>Raw AI Trace</strong> – Inspect the exact JSON returned for debugging or audit.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="quick-start">Quick Start<a href="#quick-start" class="hash-link" aria-label="Direct link to Quick Start" title="Direct link to Quick Start" translate="no">​</a></h2>
@@ -53,19 +53,19 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="indicator-reference">Indicator Reference<a href="#indicator-reference" class="hash-link" aria-label="Direct link to Indicator Reference" title="Direct link to Indicator Reference" translate="no">​</a></h3>
 <ul>
-<li class="">The indicator file in <code>static/app/journal-selector/journal-indicator-system.md</code> defines headings such as “Impact Factor (IF)” and “Data Sharing Requirement”.</li>
-<li class="">During generation the file content is injected into the AI prompt and parsed to extract column names. Every returned journal must populate every column; missing data is filled with <code>&quot;-&quot;</code> so you can easily spot gaps.</li>
+<li class="">The indicator file at <code>static/app/journal-selector/journal-indicator-system.md</code> now lists the exact columns (Serial Number, Journal Name, ISSN, Publisher, Year Established, Publication Frequency, OA status, APC, Impact Factor 2024, Five-year IF, JCR Quartile, CAS Quartile, CiteScore, H-index, Self-citation Rate, Annual Publications, Acceptance Rate, Initial Review Cycle, Submission-to-Acceptance, Publication Timeline, Discipline Scope, Core Focus, Special Sections, Strengths, Submission Advice, Warning Status).</li>
+<li class="">The app injects this table into the prompt (in Chinese for better model alignment) but demands English values in the JSON. Each column is required; missing values are normalized to <code>&quot;-&quot;</code> in both the UI and the CSV.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="output--csv">Output &amp; CSV<a href="#output--csv" class="hash-link" aria-label="Direct link to Output &amp; CSV" title="Direct link to Output &amp; CSV" translate="no">​</a></h3>
 <ul>
-<li class="">The preview table shows base fields (Journal, Publisher, Discipline, Match Score, Rationale) plus every indicator column discovered from the reference file.</li>
-<li class="">The CSV uses the same column order; download via the <strong>Download CSV</strong> button for spreadsheet analysis or archiving.</li>
+<li class="">The preview table renders exclusively the indicator columns listed above (no extra base fields). <code>serial_number</code> auto-increments, while any missing metric displays as <code>-</code>.</li>
+<li class="">The CSV mirrors that exact column order; download via <strong>Download CSV</strong> for further analysis.</li>
 <li class="">Click <strong>View raw AI response</strong> to review the unformatted JSON, helping you diagnose missing metrics or prompt adjustments.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="troubleshooting--tips">Troubleshooting &amp; Tips<a href="#troubleshooting--tips" class="hash-link" aria-label="Direct link to Troubleshooting &amp; Tips" title="Direct link to Troubleshooting &amp; Tips" translate="no">​</a></h2>
 <ul>
 <li class=""><strong>Build failures</strong>: keep the indicator system file outside <code>src/pages</code> (currently under <code>static/...</code>) so Docusaurus doesn’t try to compile it as MDX.</li>
-<li class=""><strong>Indicator updates</strong>: edit <code>journal-indicator-system.md</code> whenever you need more columns; the app auto-detects them on load.</li>
+<li class=""><strong>Indicator updates</strong>: edit <code>journal-indicator-system.md</code> whenever you need to rename/reorder/add columns; the app auto-detects them on load (remember to keep the <code>key | label | description</code> table format).</li>
 <li class=""><strong>Parsing errors</strong>: if status shows “AI response could not be parsed”, reduce prompt length or regenerate—most often caused by models wrapping JSON with prose. The cleanup logic strips code-fences but not arbitrary commentary.</li>
 <li class=""><strong>API usage</strong>: the UI hides custom API options and defaults to the built-in Hunyuan endpoint. If you fork the repo, replace the hardcoded key or proxy the requests per your deployment policy.</li>
 </ul>
