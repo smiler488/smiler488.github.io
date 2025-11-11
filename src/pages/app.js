@@ -11,6 +11,12 @@ const AppHub = () => {
       link: "/app/sensor",
     },
     {
+      name: "Land Surveyor",
+      description:
+        "Plot GPS points manually or via phone location, close the polygon, and instantly estimate surface area.",
+      link: "/app/land-survey",
+    },
+    {
       name: "Weather Analyzer",
       description:
         "Monitor and analyze climate and agrometeorological data interactively, with clear chart insights.",

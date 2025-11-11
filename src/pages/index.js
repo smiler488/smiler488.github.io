@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Layout from "@theme/Layout";
-import Head from "@docusaurus/Head";
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
