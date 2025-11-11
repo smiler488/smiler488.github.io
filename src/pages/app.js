@@ -23,6 +23,12 @@ const AppHub = () => {
       link: "/app/image",
     },
     {
+      name: "Root Preprocessor",
+      description:
+        "Web-native workflow for root scans: polygon ROI selection, high-pass enhancement, and manual cleanup.",
+      link: "/app/root-processor",
+    },
+    {
       name: "Maze App",
       description:
         "Play through a 2D maze simulation with simple physics controls, enjoy an interactive and playful demo.",
