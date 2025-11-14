@@ -27,9 +27,6 @@ const config = {
       comic2: 'compress_comic2',
       comic3: 'compress_comic3',
     },
-    metadata: [
-      { name: 'algolia-site-verification', content: '28A5A8DFE7ED2916' },
-    ],
   },
   title: 'Liangchao Deng',
   tagline: 'Ph.D. in AI × Mathematics × Computer × Plant',
@@ -117,6 +114,9 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      metadata: [
+        { name: 'algolia-site-verification', content: '28A5A8DFE7ED2916' },
+      ],
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
