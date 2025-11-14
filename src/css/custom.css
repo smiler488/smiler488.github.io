@@ -375,10 +375,7 @@ a:hover {
   .navbar__items {
     background: var(--ifm-navbar-background-color);
   }
-  /* Force use of off-canvas sidebar on mobile */
-  .navbar__items--mobile {
-    display: none !important;
-  }
+  /* Use native Docusaurus mobile menu; do not hide navbar__items--mobile */
   .navbar-sidebar {
     position: fixed;
     top: 0;
