@@ -40,16 +40,15 @@
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@docusaurus/types": "^3.9.2",
     "cors": "^2.8.5",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "express": "^5.1.0",
     "gh-pages": "^6.3.0",
     "prettier": "^2.8.8",
-    "stylelint": "^14.16.1",
-    "stylelint-config-prettier": "^9.0.5",
-    "stylelint-config-standard": "^29.0.0"
+    "stylelint": "^16.25.0",
+    "stylelint-config-standard": "^39.0.1"
   },
   "browserslist": {
     "production": [

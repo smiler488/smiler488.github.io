@@ -24,6 +24,10 @@
   transform: scale(1.05);
 }
 
+html[data-theme='dark'] .speechButton:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
 .speechButton:active {
   transform: scale(0.95);
 }
