@@ -1,0 +1,244 @@
+.appContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.heroRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.heroDescription {
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 8px 0 0;
+}
+
+.mainGrid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  align-items: flex-start;
+}
+
+@media (max-width: 960px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.cardHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.stepBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-0);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.fileInputWrapper {
+  display: block;
+  margin-top: 8px;
+}
+
+.fileInput {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px dashed var(--ifm-border-color);
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 160px;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-border-color);
+  padding: 12px;
+  font-size: 0.95rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-900);
+  resize: vertical;
+}
+
+.monoArea {
+  min-height: 240px;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.textInput {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ifm-border-color);
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.95rem;
+}
+
+.fieldGroup {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fieldLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  display: block;
+  margin-top: 12px;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.metaText {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 8px;
+}
+
+.statusBadge {
+  margin-top: 12px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status--muted {
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-700);
+}
+
+.status--info {
+  background: var(--ifm-color-primary-contrast-background);
+  color: var(--ifm-color-primary-darkest);
+}
+
+.status--success {
+  background: var(--ifm-color-success-contrast-background);
+  color: var(--ifm-color-success-darkest);
+}
+
+.status--warning {
+  background: var(--ifm-color-warning-contrast-background);
+  color: var(--ifm-color-warning-darkest);
+}
+
+.status--danger {
+  background: var(--ifm-color-danger-contrast-background);
+  color: var(--ifm-color-danger-darkest);
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.previewTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.previewTable th,
+.previewTable td {
+  border: 1px solid var(--ifm-border-color);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.previewTable thead {
+  background: var(--ifm-background-surface-color);
+}
+
+.previewTable tbody tr:nth-child(even) {
+  background: var(--ifm-background-surface-color);
+}
+
+.insightList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.5;
+}
+
+.errorText {
+  color: var(--ifm-color-danger);
+  font-weight: 500;
+}
+
+.chartShell {
+  min-height: 360px;
+}
+
+.chartContainer {
+  width: 100%;
+  min-height: 420px;
+}
+
+.codeBlock {
+  max-height: 320px;
+  overflow: auto;
+  font-size: 0.85rem;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-border-color);
+  background: var(--ifm-background-surface-color);
+}
