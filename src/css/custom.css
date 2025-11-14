@@ -63,6 +63,9 @@
   /* 英雄部分 */
   --ifm-hero-background-color: #f5f5f5;
   --ifm-hero-text-color: #111111;
+  --home-grid-bg: #e6e7ea;
+  --home-grid-line: #c8c9cc;
+  --home-grid-letter: #000000;
 }
 
 /* 深色模式 - 科技风格深色主题 */
@@ -110,6 +113,9 @@
 
   --ifm-hero-background-color: #1a2234;
   --ifm-hero-text-color: #f8fafc;
+  --home-grid-bg: #2a2a2e;
+  --home-grid-line: #5b5c60;
+  --home-grid-letter: #ffffff;
 }
 
 /* Tech-style component enhancements */
@@ -199,6 +205,61 @@ pre {
   border-radius: 6px;
   border: 1px solid var(--ifm-border-color);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.app-title {
+  margin: 0;
+  color: #000000;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.app-card {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.app-card:hover {
+  box-shadow: var(--ifm-global-shadow-md);
+  transform: translateY(-2px);
+}
+
+[data-theme='dark'] .app-card {
+  box-shadow: var(--ifm-global-shadow-md);
+  border-color: var(--ifm-border-color);
+}
+
+.app-section-title {
+  margin: 0 0 16px 0;
+  color: #333333;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.app-muted {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.app-grid {
+  display: grid;
+  gap: 16px;
 }
 
 code {

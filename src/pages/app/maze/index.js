@@ -230,8 +230,11 @@ export default function MazePage() {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <div style={{ textAlign: "center", padding: "20px" }}>
-        <h1>2D Marble Maze</h1>
+      <div className="app-container">
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">2D Marble Maze</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/maze-game-tutorial">Tutorial</a>
+        </div>
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor="playerName">Player Name: </label>
           <input

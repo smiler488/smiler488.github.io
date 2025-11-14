@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Layout from '@theme/Layout';
+import CitationNotice from '../../../components/CitationNotice';
 import './styles.css';
 
 const MAX_CANVAS_SIZE = 1800;
@@ -436,6 +437,7 @@ export default function RootProcessorApp() {
         <div className="root-app root-app--placeholder">
           <p>Loading root preprocessing workspace...</p>
         </div>
+        <CitationNotice />
       </Layout>
     );
   }
@@ -451,13 +453,16 @@ export default function RootProcessorApp() {
               browser. Inspired by 0_tranbg.py + 1_process.py.
             </p>
           </div>
-          <button
-            type="button"
-            className="root-button secondary"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            Upload Images
-          </button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <a className="button button--secondary" href="/docs/tutorial-apps/root-preprocessor-tutorial">Tutorial</a>
+            <button
+              type="button"
+              className="root-button secondary"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              Upload Images
+            </button>
+          </div>
         </div>
 
         <div className={`root-status ${statusToneClass[status.tone] || ''}`}>
@@ -693,6 +698,7 @@ export default function RootProcessorApp() {
             </div>
           </section>
         </div>
+        <CitationNotice />
       </div>
     </Layout>
   );
@@ -1009,4 +1015,3 @@ function downloadImageData(imageData, filename) {
   anchor.download = filename;
   anchor.click();
 }
-

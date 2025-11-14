@@ -418,3 +418,4 @@ If you encounter technical issues:
 *This tutorial applies to AI Solver v2.0*
 *Enhanced with 18 professional presets, advanced selection tools, and flexible API configuration*
 *Powered by Hunyuan AI for comprehensive problem-solving applications*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/solver">App</a></div>

@@ -26,35 +26,10 @@ const CCOPage = () => {
         <script src="/js/cco_app.js" defer></script>
       </Head>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 16 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h1 style={{ margin: 0 }}>CCO Waylines Builder</h1>
-          <a 
-            href="/docs/tutorial-apps/cco-mission-planner-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #6c6c70",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#555555";
-              e.target.style.borderColor = "#555555";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#6c6c70";
-              e.target.style.borderColor = "#6c6c70";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+      <div className="app-container" style={{ padding: 16 }}>
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">CCO Waylines Builder</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/cco-mission-planner-tutorial">Tutorial</a>
         </div>
         <p style={{ color: "#555", marginTop: 6 }}>
           Upload a target-area KML (single Polygon), set parameters, and preview the “cross-oblique orbit” route. Supports snake stitching, grid rotation, Clip/Prune, auto step, multi-part downloads, and DJI drone/payload enums.

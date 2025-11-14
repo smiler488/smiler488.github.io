@@ -230,3 +230,4 @@ If you encounter technical issues:
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Calibration Targets Generator v1.0*
 *Optimized for computer vision, photogrammetry, and camera calibration applications*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/targets">App</a></div>

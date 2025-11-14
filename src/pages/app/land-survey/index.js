@@ -165,7 +165,7 @@ function LandSurveyApp() {
 
   const canUseGeolocation = typeof window !== 'undefined' && 'geolocation' in navigator;
 
-  const addPoint = useCallback((lat, lng, source = '手动输入') => {
+  const addPoint = useCallback((lat, lng, source = 'Manual entry') => {
     setPoints((prev) => [
       ...prev,
       {
@@ -178,7 +178,7 @@ function LandSurveyApp() {
     setLatInput('');
     setLngInput('');
     setError('');
-    setStatus(`已添加 ${source} 坐标点`);
+    setStatus(`Added ${source} point`);
     setIsClosed(false);
   }, []);
 
@@ -187,11 +187,11 @@ function LandSurveyApp() {
     const lat = parseFloat(latInput);
     const lng = parseFloat(lngInput);
     if (Number.isNaN(lat) || Number.isNaN(lng)) {
-      setError('请输入合法的经纬度（小数）');
+      setError('Please enter valid decimal latitude and longitude.');
       return;
     }
     if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
-      setError('纬度范围 -90~90，经度范围 -180~180');
+      setError('Latitude must be within -90 to 90 and longitude within -180 to 180.');
       return;
     }
     addPoint(lat, lng);
@@ -199,19 +199,19 @@ function LandSurveyApp() {
 
   const handleUseLocation = () => {
     if (!canUseGeolocation) {
-      setError('当前浏览器不支持定位功能');
+      setError('Geolocation is not supported in this browser.');
       return;
     }
     setLoadingLocation(true);
-    setStatus('正在获取定位…');
+    setStatus('Fetching location...');
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude, accuracy } = position.coords;
-        addPoint(latitude, longitude, accuracy ? `手机定位 ±${Math.round(accuracy)}m` : '手机定位');
+        addPoint(latitude, longitude, accuracy ? `Device GPS ±${Math.round(accuracy)}m` : 'Device GPS');
         setLoadingLocation(false);
       },
       (geoError) => {
-        setError(geoError?.message || '定位失败，请检查浏览器权限');
+        setError(geoError?.message || 'Failed to fetch location. Please check browser permissions.');
         setLoadingLocation(false);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
@@ -220,11 +220,11 @@ function LandSurveyApp() {
 
   const handleClosePolygon = () => {
     if (points.length < 3) {
-      setError('至少需要 3 个点才能闭合区域');
+      setError('You need at least 3 points to close the polygon.');
       return;
     }
     setIsClosed(true);
-    setStatus('已经闭合区域，可以查看面积');
+    setStatus('Polygon closed. Area is available below.');
   };
 
   const handleReset = () => {
@@ -282,40 +282,41 @@ function LandSurveyApp() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <header>
-          <h1 style={styles.sectionTitle}>土地测方 · GPS 面积工具</h1>
+        <header className="app-header">
+          <h1 className="app-title">Land Surveyor · GPS Area Tool</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/land-surveyor-tutorial">Tutorial</a>
           <p style={styles.sectionLead}>
-            依次记录地块的拐点，可手动输入经纬度，也可直接使用手机定位。系统会即时连线，闭合后自动计算面积，并给出平方米、亩以及公顷的估算结果。
+            Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
           </p>
         </header>
 
         <form style={styles.form} onSubmit={handleAddManualPoint}>
           <div style={styles.formGroup}>
-            <label htmlFor="latInput" style={styles.label}>纬度 (Lat)</label>
+            <label htmlFor="latInput" style={styles.label}>Latitude (Lat)</label>
             <input
               id="latInput"
               type="number"
               step="0.000001"
-              placeholder="例如 34.266889"
+              placeholder="e.g. 34.266889"
               value={latInput}
               onChange={(event) => setLatInput(event.target.value)}
               style={styles.input}
             />
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor="lngInput" style={styles.label}>经度 (Lng)</label>
+            <label htmlFor="lngInput" style={styles.label}>Longitude (Lng)</label>
             <input
               id="lngInput"
               type="number"
               step="0.000001"
-              placeholder="例如 108.942233"
+              placeholder="e.g. 108.942233"
               value={lngInput}
               onChange={(event) => setLngInput(event.target.value)}
               style={styles.input}
             />
           </div>
           <button type="submit" className="button button--primary">
-            添加坐标点
+            Add Point
           </button>
           <button
             type="button"
@@ -323,13 +324,13 @@ function LandSurveyApp() {
             onClick={handleUseLocation}
             disabled={!canUseGeolocation || loadingLocation}
           >
-            {loadingLocation ? '定位中…' : '使用手机定位'}
+            {loadingLocation ? 'Locating...' : 'Use Device Location'}
           </button>
           <button type="button" className="button button--secondary" onClick={handleClosePolygon}>
-            完成并闭合
+            Close Polygon
           </button>
           <button type="button" className="button button--outline" onClick={handleReset}>
-            重置
+            Reset
           </button>
         </form>
 
@@ -342,8 +343,12 @@ function LandSurveyApp() {
         <div style={styles.grid}>
           <div style={styles.panel}>
             <div style={styles.panelHeader}>
-              <strong>实时连线示意</strong>
-              <span>{points.length ? `已记录 ${points.length} 个点` : '等待输入坐标…'}</span>
+              <strong>Live Polyline Preview</strong>
+              <span>
+                {points.length
+                  ? `Captured ${points.length} point${points.length === 1 ? '' : 's'}`
+                  : 'Awaiting coordinates...'}
+              </span>
             </div>
             <div style={styles.previewCanvas}>
               {previewPoints.length ? (
@@ -358,7 +363,7 @@ function LandSurveyApp() {
                       stroke="#0f172a"
                       strokeWidth="0.3"
                     >
-                      <title>{`点${index + 1}: ${points[index].lat.toFixed(6)}, ${points[index].lng.toFixed(6)}`}</title>
+                      <title>{`Point ${index + 1}: ${points[index].lat.toFixed(6)}, ${points[index].lng.toFixed(6)}`}</title>
                     </circle>
                   ))}
                   {previewPoints.length >= 2 &&
@@ -379,46 +384,46 @@ function LandSurveyApp() {
                     ))}
                 </svg>
               ) : (
-                <p>添加至少 2 个点即可查看实时连线。</p>
+                <p>Add at least two points to preview the live polyline.</p>
               )}
             </div>
             {isClosed && (
               <div style={styles.areaCard}>
-                <p style={{ margin: 0 }}>面积估算：</p>
+                <p style={{ margin: 0 }}>Area estimate:</p>
                 <strong style={{ fontSize: '1.4rem' }}>{area.toFixed(2)} m²</strong>
-                <span>≈ {areaHectares.toFixed(4)} 公顷 · {areaMu.toFixed(2)} 亩</span>
+                <span>≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu</span>
               </div>
             )}
           </div>
 
           <div style={styles.panel}>
             <div style={styles.panelHeader}>
-              <strong>坐标列表</strong>
-              {points.length >= 3 && !isClosed && <span>点击“完成并闭合”计算面积</span>}
+              <strong>Coordinate List</strong>
+              {points.length >= 3 && !isClosed && <span>Click "Close Polygon" to compute area.</span>}
             </div>
             {points.length ? (
               <ol style={styles.list}>
                 {points.map((point, index) => (
                   <li key={point.id} style={styles.listItem}>
                     <div>
-                      <strong>点 {index + 1}</strong>
-                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>纬度：{point.lat.toFixed(6)}</p>
-                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>经度：{point.lng.toFixed(6)}</p>
-                      <p style={{ margin: '0.2rem 0', color: '#475569' }}>来源：{point.source}</p>
+                      <strong>Point {index + 1}</strong>
+                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>Latitude: {point.lat.toFixed(6)}</p>
+                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>Longitude: {point.lng.toFixed(6)}</p>
+                      <p style={{ margin: '0.2rem 0', color: '#475569' }}>Source: {point.source}</p>
                     </div>
                     <button
                       type="button"
                       className="button button--sm button--outline"
                       onClick={() => handleRemovePoint(point.id)}
                     >
-                      删除
+                      Delete
                     </button>
                   </li>
                 ))}
               </ol>
             ) : (
               <p style={{ padding: '1rem', textAlign: 'center', color: '#475569', background: 'rgba(148, 163, 184, 0.1)', borderRadius: '10px' }}>
-                暂无坐标，请先添加点。
+                No coordinates yet. Add a point to get started.
               </p>
             )}
           </div>

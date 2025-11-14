@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-
-const HARDCODED_API_ENDPOINT = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
-const HARDCODED_API_KEY = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
+import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson, buildHunyuanPayload, extractAssistantText } from '../../../lib/api';
 const INDICATOR_FILE_PATH = '/app/journal-selector/journal-indicator-system.md';
 
 const BASE_COLUMNS = [];
@@ -56,94 +54,13 @@ const DEFAULT_INDICATOR_FIELDS = [
   { key: 'warning_status', label: 'Warning Status', description: 'Any alerts or risk flags' },
 ];
 
-function computeDefaultApiEndpoint() {
-  return HARDCODED_API_ENDPOINT;
-}
+// computeDefaultApiEndpoint imported
 
-async function postJson(url, json, extraHeaders = {}) {
-  if (typeof url === 'string' && url.startsWith('mock://')) {
-    const mockBody = {
-      overview: {
-        abstract_summary: json?.question?.slice(0, 120) || 'N/A',
-        alignment_summary: 'Mocked response (replace API URL for real results).',
-      },
-      journals: [
-        {
-          journal_name: 'Mock Journal of AI',
-          publisher: 'Mock Press',
-          discipline: 'AI & Data Science',
-          impact_indicator: 'IF 8.5 / JCR Q1',
-          indexing: 'SCI, EI',
-          acceptance_rate: '18%',
-          review_cycle_weeks: 6,
-          oa_policy: 'Hybrid OA',
-          apc: 2400,
-          match_score: 0.86,
-          rationale: 'Mock rationale for demonstration.',
-        },
-      ],
-      notes: 'This is a mock response generated locally.',
-    };
+// postJson imported
 
-    const body = {
-      choices: [
-        {
-          message: {
-            content: JSON.stringify(mockBody, null, 2),
-          },
-        },
-      ],
-    };
+// buildHunyuanPayload imported
 
-    return {
-      ok: true,
-      status: 200,
-      json: async () => body,
-      text: async () => JSON.stringify(body),
-      headers: new Map([['content-type', 'application/json']]),
-    };
-  }
-
-  return fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...extraHeaders },
-    body: JSON.stringify(json),
-  });
-}
-
-function buildHunyuanPayload(question, model) {
-  const trimmed = (question || '').trim();
-  const content = trimmed
-    ? [{ type: 'text', text: trimmed }]
-    : [{ type: 'text', text: 'Please generate journal recommendations based on this abstract.' }];
-
-  return {
-    model: model || 'hunyuan-lite',
-    messages: [
-      {
-        role: 'user',
-        content,
-      },
-    ],
-    stream: false,
-  };
-}
-
-function extractAssistantText(data) {
-  if (Array.isArray(data?.choices) && data.choices.length > 0) {
-    return data.choices[0].message?.content || '';
-  }
-
-  if (data?.Response && Array.isArray(data.Response.Choices) && data.Response.Choices.length > 0) {
-    return data.Response.Choices[0].Message?.Content || '';
-  }
-
-  if (typeof data === 'string') {
-    return data;
-  }
-
-  return JSON.stringify(data, null, 2);
-}
+// extractAssistantText imported
 
 function cleanupJsonText(rawText) {
   if (!rawText) return '';
@@ -478,9 +395,10 @@ export default function JournalSelectorPage() {
 
   return (
     <Layout title="Journal Selector">
-      <div style={{ padding: '32px 16px', maxWidth: 1100, margin: '0 auto' }}>
-        <header style={{ marginBottom: 24 }}>
-          <h1 style={{ marginBottom: 8 }}>Journal Selector</h1>
+      <div className="app-container">
+        <header className="app-header" style={{ marginBottom: 24 }}>
+          <h1 className="app-title">Journal Selector</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/journal-selector-tutorial">Tutorial</a>
           <p style={{ margin: 0, color: '#4b5563' }}>
             Paste your manuscript abstract and the AI will apply the Journal Evaluation Indicator System to suggest target journals plus a downloadable CSV.
           </p>

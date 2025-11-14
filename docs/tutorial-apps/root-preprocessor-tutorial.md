@@ -85,3 +85,4 @@ Click **Preview Background Cleanup** anytime to see the effect of the background
 ---
 
 With this tutorial you can replicate the original Python preprocessing workflow entirely in the browser, keeping raw scans intact while producing consistent, high-contrast masks for downstream quantification.***
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/root-processor">App</a></div>

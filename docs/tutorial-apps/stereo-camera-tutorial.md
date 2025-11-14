@@ -320,3 +320,4 @@ If you encounter problems or need technical support, please:
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Leaf Measurement Stereo Camera System v2.0*
 *Optimized for 30cm shooting box environment and leaf research*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/stereo">App</a></div>

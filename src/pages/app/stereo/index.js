@@ -25,37 +25,10 @@ export default function StereoPage() {
         <script src={useBaseUrl("js/opencv_loader.js")} defer></script>
       </Head>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h1 style={{ color: "#2c3e50", marginBottom: 10 }}>
-            Stereo Vision System
-          </h1>
-          <a 
-            href="/docs/tutorial-apps/stereo-camera-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #000000",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+      <div className="app-container">
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">Stereo Vision System</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/stereo-camera-tutorial">Tutorial</a>
         </div>
         <p style={{ textAlign: "center", color: "#7f8c8d", marginBottom: 30, fontSize: 16 }}>
           High-precision stereo camera system for depth measurement

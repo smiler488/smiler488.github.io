@@ -517,8 +517,18 @@ function getCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
         (position) => {
             document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
-            document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
-            updateStatus('Location updated successfully');
+        document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+        if (weatherMap) {
+            const la = position.coords.latitude;
+            const lo = position.coords.longitude;
+            if (weatherMarker) {
+                weatherMarker.setLatLng([la, lo]);
+            } else if (window.L) {
+                weatherMarker = L.marker([la, lo]).addTo(weatherMap);
+            }
+            weatherMap.setView([la, lo], 10);
+        }
+        updateStatus('Location updated successfully');
         },
         (error) => {
             updateStatus(`Error getting location: ${error.message}`, true);
@@ -532,30 +542,117 @@ function getCurrentLocation() {
 }
 
 // Initialize event listeners when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Set default dates (last 3 months)
+function initWeatherApp() {
+    const startDateEl = document.getElementById('startDate');
+    const endDateEl = document.getElementById('endDate');
+    const latInput = document.getElementById('latitude');
+    const lonInput = document.getElementById('longitude');
+    const mapContainer = document.getElementById('weatherMap');
+    if (!startDateEl || !endDateEl || !latInput || !lonInput || !mapContainer) {
+        setTimeout(initWeatherApp, 150);
+        return;
+    }
     const endDate = new Date();
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 3);
-    
-    document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
-    document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
-    
-    // Set example coordinates (Xinjiang, China)
-    document.getElementById('latitude').value = '44.30';
-    document.getElementById('longitude').value = '86.05';
-    
-    // Add event listeners
+    startDateEl.value = startDate.toISOString().split('T')[0];
+    endDateEl.value = endDate.toISOString().split('T')[0];
+    latInput.value = '44.30';
+    lonInput.value = '86.05';
     const getLocationBtn = document.getElementById('getLocationBtn');
     const getDataBtn = document.getElementById('getDataBtn');
-    
+    const searchBtn = document.getElementById('searchBtn');
+    const placeSearch = document.getElementById('placeSearch');
     if (getLocationBtn) {
         getLocationBtn.addEventListener('click', getCurrentLocation);
     }
-    
     if (getDataBtn) {
         getDataBtn.addEventListener('click', processWeatherData);
     }
-    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', searchPlace);
+    }
+    if (placeSearch) {
+        placeSearch.addEventListener('keydown', function(e){
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchPlace();
+            }
+        });
+    }
+    initMap();
     console.log('NASA POWER Weather Data Downloader initialized successfully');
-});
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWeatherApp);
+} else {
+    initWeatherApp();
+}
+
+let weatherMap = null;
+let weatherMarker = null;
+
+function initMap() {
+    if (!window.L) { setTimeout(initMap, 300); return; }
+    const container = document.getElementById('weatherMap');
+    if (!container) return;
+    const latInput = document.getElementById('latitude');
+    const lonInput = document.getElementById('longitude');
+    const lat = parseFloat(latInput.value || '44.30') || 44.30;
+    const lon = parseFloat(lonInput.value || '86.05') || 86.05;
+    weatherMap = L.map('weatherMap').setView([lat, lon], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(weatherMap);
+    weatherMarker = L.marker([lat, lon]).addTo(weatherMap);
+    weatherMap.on('click', function(e) {
+        const la = Number(e.latlng.lat.toFixed(6));
+        const lo = Number(e.latlng.lng.toFixed(6));
+        latInput.value = la.toFixed(6);
+        lonInput.value = lo.toFixed(6);
+        if (weatherMarker) {
+            weatherMarker.setLatLng([la, lo]);
+        } else {
+            weatherMarker = L.marker([la, lo]).addTo(weatherMap);
+        }
+        updateStatus('Location selected on map');
+    });
+}
+
+async function searchPlace() {
+    try {
+        const qEl = document.getElementById('placeSearch');
+        const latInput = document.getElementById('latitude');
+        const lonInput = document.getElementById('longitude');
+        const q = (qEl && qEl.value || '').trim();
+        if (!q) {
+            updateStatus('Please enter a place or address', true);
+            return;
+        }
+        updateStatus('Searching location…');
+        const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + encodeURIComponent(q);
+        const resp = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (!resp.ok) {
+            throw new Error('Search failed (' + resp.status + ')');
+        }
+        const arr = await resp.json();
+        if (!Array.isArray(arr) || arr.length === 0) {
+            updateStatus('No results found', true);
+            return;
+        }
+        const item = arr[0];
+        const la = Number(parseFloat(item.lat).toFixed(6));
+        const lo = Number(parseFloat(item.lon).toFixed(6));
+        latInput.value = la.toFixed(6);
+        lonInput.value = lo.toFixed(6);
+        if (weatherMap) {
+            if (weatherMarker) {
+                weatherMarker.setLatLng([la, lo]);
+            } else if (window.L) {
+                weatherMarker = L.marker([la, lo]).addTo(weatherMap);
+            }
+            weatherMap.setView([la, lo], 10);
+        }
+        updateStatus('Location set from search');
+    } catch (err) {
+        updateStatus(err && err.message ? err.message : 'Search failed', true);
+    }
+}

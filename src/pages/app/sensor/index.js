@@ -242,35 +242,10 @@ export default function SensorPage() {
 
   return (
     <Layout title="Sensor App">
-      <div className="container" style={{ padding: 20, maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h1 style={{ marginBottom: 8 }}>Device Sensor Recorder</h1>
-          <a 
-            href="/docs/tutorial-apps/sensor-app-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #000000",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+      <div className="app-container">
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">Device Sensor Recorder</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/sensor-app-tutorial">Tutorial</a>
         </div>
         <p style={{ color: '#555', marginTop: 0 }}>
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),

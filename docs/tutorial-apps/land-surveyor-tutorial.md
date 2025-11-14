@@ -2,16 +2,16 @@
 
 ## Overview
 
-The Land Surveyor app is a lightweight web workflow for quickly measuring irregular plot areas. By entering GPS coordinates manually or capturing your phone’s current location, the tool draws lines between points, allows you to close the polygon, and reports surface area in square meters, hectares, and traditional 亩 units. It is ideal for field agronomy, land consolidation assessments, or any scenario where rapid area estimation is required without desktop GIS software.
+The Land Surveyor app is a lightweight web workflow for quickly measuring irregular plot areas. By entering GPS coordinates manually or capturing your phone’s current location, the tool draws lines between points, allows you to close the polygon, and reports surface area in square meters, hectares, and traditional mu units. It is ideal for field agronomy, land consolidation assessments, or any scenario where rapid area estimation is required without desktop GIS software.
 
 ## Key Features
 
-- **Dual Coordinate Input**: Enter decimal latitude/longitude pairs or tap “使用手机定位” to record the current GPS fix.
+- **Dual Coordinate Input**: Enter decimal latitude/longitude pairs or tap “Use phone GPS” to record the current GPS fix.
 - **Instant Sketch Preview**: Every point is rendered inside an SVG mini-map with the segments linked in the order you captured them.
 - **Polygon Closing Control**: Once you have at least three vertices, a single click seals the shape and activates area calculations.
 - **Area Conversions**: Automatic conversion among square meters, hectares, and 亩 for immediate agronomic interpretation.
 - **Editable Point List**: Each vertex displays precision up to six decimals plus the source (manual or GPS) and can be deleted individually.
-- **Session Reset**: “重置” clears the entire capture when you need to start a new plot.
+- **Session Reset**: “Reset” clears the entire capture when you need to start a new plot.
 
 ## Quick Start
 
@@ -23,11 +23,11 @@ The Land Surveyor app is a lightweight web workflow for quickly measuring irregu
    - Make sure the browser you use on mobile (Chrome, Safari, Firefox) has permission to read geolocation.
 
 3. **Choose Input Mode**  
-   - Manual: Type a decimal latitude and longitude and click “添加坐标点”.  
-   - GPS: Tap “使用手机定位” to append the current fix.
+   - Manual: Type a decimal latitude and longitude and click “Add point”.  
+   - GPS: Tap “Use phone GPS” to append the current fix.
 
 4. **Close & Compute**  
-   After logging three or more points, tap “完成并闭合” to see the filled polygon plus area readouts.
+   After logging three or more points, tap “Close and compute” to see the filled polygon plus area readouts.
 
 ## Detailed Workflow
 
@@ -52,17 +52,17 @@ The Land Surveyor app is a lightweight web workflow for quickly measuring irregu
 ### 3. Reviewing the Sketch
 
 - The left panel shows the simplified miniature plot; hover/tap to view per-point tooltips.
-- Unsatisfied with a vertex? Click “删除” next to it in the coordinate list; the preview updates instantly.
+- Unsatisfied with a vertex? Click “Delete” next to it in the coordinate list; the preview updates instantly.
 - Keep adding points until the outline matches the real boundary outline you intend to measure.
 
 ### 4. Closing and Computing
 
-- Once you have ≥3 points, click “完成并闭合”.  
+- Once you have ≥3 points, click “Close and compute”.  
 - The polyline becomes a filled polygon shaded in green, and the area card appears:
   - **Square meters** (base calculation)
   - **Hectares** (divide by 10,000)
-  - **亩** (divide by 666.6667)
-- To restart, hit “重置” to clear the list, preview, and status.
+  - **mu** (divide by 666.6667)
+- To restart, hit “Reset” to clear the list, preview, and status.
 
 ## Accuracy Tips
 
@@ -84,7 +84,7 @@ The Land Surveyor app is a lightweight web workflow for quickly measuring irregu
 | Issue | Resolution |
 | --- | --- |
 | GPS button disabled | Browser lacks geolocation support or permission. Enable location services under system settings and reload. |
-| “请输入合法的经纬度” | Ensure both latitude and longitude are decimal numbers within the valid geographic ranges. |
+| “Please enter valid latitude/longitude” | Ensure both latitude and longitude are decimal numbers within the valid geographic ranges. |
 | Area won’t compute | You must add at least three points and click “完成并闭合”. Check that no points were deleted after closing. |
 | Points appear stacked | If coordinates are nearly identical, zooming the preview is limited. Verify you captured distinct vertices. |
 | Need to export | Currently the tool focuses on quick estimates. Copy the coordinate list manually if you require external GIS processing. |
@@ -93,3 +93,4 @@ The Land Surveyor app is a lightweight web workflow for quickly measuring irregu
 
 - Explore other field-ready tools inside `/app` such as **Sensor App** (leaf angles) and **Weather Analyzer** (NASA POWER data).
 - For GIS-grade workflows, consider exporting coordinates to QGIS or ArcGIS for full projection support.
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/land-survey">App</a></div>

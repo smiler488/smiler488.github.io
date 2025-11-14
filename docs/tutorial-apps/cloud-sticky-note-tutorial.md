@@ -227,3 +227,4 @@ If you encounter technical issues:
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Cloud Sticky Note System v1.0*
 *Optimized for secure, decentralized note sharing and collaboration*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/cloudnote">App</a></div>

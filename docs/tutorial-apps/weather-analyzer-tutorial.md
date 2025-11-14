@@ -2,82 +2,52 @@
 
 ## Overview
 
-The Weather Analyzer is a comprehensive tool for accessing, analyzing, and visualizing climate and agrometeorological data from NASA's POWER (Prediction Of Worldwide Energy Resources) database. This system provides interactive access to historical weather data with clear chart visualizations for agricultural and environmental research applications.
+The Weather Analyzer downloads and prepares daily meteorological data from NASA's POWER (Prediction Of Worldwide Energy Resources) for agronomic workflows. You pick a location and date range, fetch daily records, preview cleaned data, and export CSV or PCSE‑format files for models such as WOFOST/PCSE. A built‑in map lets you click to select coordinates or search by place name.
 
 ## Key Features
 
-- **NASA POWER Data Access**: Direct integration with NASA's meteorological database
-- **Global Coverage**: Access to weather data for any geographic location worldwide
-- **Multiple Data Parameters**: Temperature, precipitation, solar radiation, humidity, and more
-- **Interactive Charts**: Dynamic visualization of weather patterns and trends
-- **Data Export**: CSV format export for further analysis
-- **Agricultural Focus**: Parameters specifically relevant to crop growth and development
+- **NASA POWER fetch**: Daily point data via POWER API for a selected coordinate
+- **Map & search**: Leaflet map with click‑to‑select and Nominatim place search
+- **Fixed parameter set**: TOA_SW_DWN, ALLSKY_SFC_SW_DWN, T2M, T2M_MIN, T2M_MAX, T2MDEW, WS2M, PRECTOTCORR
+- **PCSE conversion**: Transform to `IRRAD/TMIN/TMAX/VAP/WIND/RAIN` and fill gaps with moving averages
+- **Data preview**: Render first rows in an HTML table for quick QA
+- **Export**: Download cleaned CSV and PCSE‑style CSV (with header block)
 
 ## Quick Start
 
-### 1. Access the Application
+### 1. Open the App
 
-Visit in your browser: `/app/weather`
+Visit `/app/weather`.
 
-### 2. System Requirements
+### 2. Pick Location
 
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with JavaScript support
-- **Internet Connection**: Required for data retrieval from NASA POWER API
-- **Geographic Coordinates**: Latitude and longitude of target location
+- Click on the map to set latitude/longitude, or type them directly
+- Use the search box (top of the map) to find places and auto‑set coordinates
+- Optional: Click “Get Current Location” to use browser geolocation (HTTPS required)
 
-## Detailed Usage Steps
+### 3. Set Date Range
 
-### Step 1: Location Specification
+- Choose start and end dates (start must be before end)
+- POWER typically provides data from 1984 to present
 
-1. **Geographic Coordinates**
-   - Enter latitude in decimal degrees (-90 to 90)
-   - Enter longitude in decimal degrees (-180 to 180)
-   - Use positive values for North/East, negative for South/West
+### 4. Download & Preview
 
-2. **Location Validation**
-   - System validates coordinate ranges
-   - Checks for land/ocean location (NASA POWER covers land areas)
-   - Provides feedback on data availability
+- Click “Download NASA Weather Data” to fetch and process records
+- The app converts to PCSE fields and fills missing values using local windows
+- A preview table shows the first rows; status indicates counts and missing fills
+- Use the “Download CSV” and “Download Excel (PCSE Format)” buttons to save files
 
-### Step 2: Date Range Selection
+## Notes & Limits
 
-1. **Historical Data Range**
-   - Select start date for data retrieval
-   - Select end date for data retrieval
-   - Maximum range depends on NASA POWER availability
+- Parameters are fixed to a daily agronomy set; custom selection is not available in this version
+- Charts are not included; use exported data for plotting in your tools (Excel, Python, R)
+- Geolocation requires HTTPS pages or localhost; otherwise browsers may block it
 
-2. **Data Availability**
-   - NASA POWER typically provides data from 1984 to present
-   - Some parameters may have different availability periods
-   - System indicates available date ranges
+## Troubleshooting
 
-### Step 3: Parameter Selection
-
-1. **Meteorological Parameters**
-   - **Temperature**: Daily maximum, minimum, and average temperatures
-   - **Precipitation**: Daily rainfall and snowfall data
-   - **Solar Radiation**: Daily solar insolation and radiation parameters
-   - **Humidity**: Relative humidity and specific humidity
-   - **Wind Speed**: Average and maximum wind speeds
-   - **Pressure**: Atmospheric pressure measurements
-
-2. **Agricultural Parameters**
-   - **Growing Degree Days**: Temperature accumulation for crop development
-   - **Evapotranspiration**: Reference and potential evapotranspiration
-   - **Soil Moisture**: Soil water content estimates
-   - **Frost Dates**: First and last frost occurrence probabilities
-
-### Step 4: Data Retrieval and Visualization
-
-1. **Data Download**
-   - Click "Download NASA Weather Data" button
-   - System connects to NASA POWER API
-   - Retrieves requested parameters for specified location and date range
-
-2. **Chart Generation**
-   - Interactive line charts for temporal trends
-   - Bar charts for precipitation data
-   - Multi-parameter overlays for correlation analysis
+- “Invalid coordinates” or “End date must be after start date”: correct inputs and retry
+- “No data returned” or empty preview: date range or coordinate may be out of coverage; try nearby land points
+- Slow responses: POWER API latency varies; larger date ranges take longer
    - Zoom and pan capabilities for detailed examination
 
 3. **Statistical Summary**
@@ -209,3 +179,4 @@ If you encounter technical issues:
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Weather Analyzer v1.0*
 *Optimized for agricultural and environmental research applications*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/weather">App</a></div>

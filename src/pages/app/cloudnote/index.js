@@ -416,35 +416,10 @@ export default function CloudNotePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div style={{ maxWidth: 900, margin: "28px auto", padding: "12px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h1>Cloud Sticky Note (static)</h1>
-          <a 
-            href="/docs/tutorial-apps/cloud-sticky-note-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #000000",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+      <div className="app-container" style={{ maxWidth: 900, padding: "12px" }}>
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">Cloud Sticky Note (static)</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/cloud-sticky-note-tutorial">Tutorial</a>
         </div>
         <p style={{ color: "#444" }}>
           Create a temporary/shareable note. This zero-backend version stores the note encrypted in the URL fragment.

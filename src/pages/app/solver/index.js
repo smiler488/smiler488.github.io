@@ -1,13 +1,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-
-const HARDCODED_API_ENDPOINT = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
-const HARDCODED_API_KEY = 'sk-JdwAvFcfyW5ngP2i3cpeB43QrR92gjnRcNzKkMfpcEVu8hlE';
-
-function computeDefaultApiEndpoint() {
-  return HARDCODED_API_ENDPOINT;
-}
+import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson } from '../../../lib/api';
 
 function useCamera() {
   const videoRef = useRef(null);
@@ -54,52 +49,7 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
   return await new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/jpeg', quality));
 }
 
-async function postJson(url, json, extraHeaders = {}) {
-  // Mock mode: allow using a fake upstream when url starts with "mock://"
-  if (typeof url === 'string' && url.startsWith('mock://')) {
-    const now = new Date().toISOString();
-    const mockText = (() => {
-      const q = json?.question || 'No question provided';
-      const model = json?.model || 'hunyuan-lite';
-      const hasImage = !!json?.imageBase64 || !!json?.imageUrl;
-      const header = hasImage ? 'Mock Vision Analysis' : 'Mock Text Analysis';
-      return `${header} (model: ${model})\n\nUser question:\n${q}\n\nThis is a mocked response for demo purposes. Replace proxy URL with your real API when ready.`;
-    })();
-
-    const body = {
-      Response: {
-        RequestId: 'mock-' + Math.random().toString(36).slice(2),
-        Choices: [
-          {
-            Message: {
-              Content: mockText,
-            },
-          },
-        ],
-        Usage: {
-          PromptTokens: 128,
-          CompletionTokens: 256,
-          TotalTokens: 384,
-        },
-        Timestamp: now,
-      },
-    };
-
-    return {
-      ok: true,
-      status: 200,
-      json: async () => body,
-      text: async () => JSON.stringify(body),
-      headers: new Map([['content-type', 'application/json']]),
-    };
-  }
-
-  return fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...extraHeaders },
-    body: JSON.stringify(json),
-  });
-}
+// postJson imported
 
 function formatAiResponse(data) {
   if (Array.isArray(data?.choices) && data.choices.length > 0) {
@@ -912,35 +862,11 @@ OUTPUT:
   }
 
   return (
-    <div style={{ maxWidth: 920, margin: '0 auto', padding: '24px' }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h1>AI Solver (Hunyuan)</h1>
-        <a 
-          href="/docs/tutorial-apps/ai-solver-tutorial" 
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#000000",
-            color: "#ffffff",
-            textDecoration: "none",
-            borderRadius: "10px",
-            fontSize: "14px",
-            fontWeight: "500",
-            border: "1px solid #000000",
-            transition: "all 0.2s ease"
-          }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = "#333333";
-            e.target.style.borderColor = "#333333";
-            e.target.style.transform = "translateY(-1px)";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = "#000000";
-            e.target.style.borderColor = "#000000";
-            e.target.style.transform = "translateY(0)";
-          }}
-        >
-           Tutorial
-        </a>
+    <Layout title="AI Solver">
+    <div className="app-container" style={{ maxWidth: 920, padding: '24px' }}>
+      <div className="app-header" style={{ marginBottom: 16 }}>
+        <h1 className="app-title">AI Solver (Hunyuan)</h1>
+        <a className="button button--secondary" href="/docs/tutorial-apps/ai-solver-tutorial">Tutorial</a>
       </div>
       <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
       <p style={{ fontSize: 14, color: '#666' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
@@ -1384,5 +1310,6 @@ OUTPUT:
       </div>
       <CitationNotice />
     </div>
+    </Layout>
   );
 }

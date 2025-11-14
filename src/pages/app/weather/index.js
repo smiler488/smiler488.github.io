@@ -1,46 +1,25 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import CitationNotice from "../../../components/CitationNotice";
 
 const WeatherPage = () => {
+  const scriptUrl = useBaseUrl('/js/weather_app.js');
   return (
     <Layout title="Weather App">
       <Head>
-        <script src="/js/weather_app.js" async></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+        <script src={scriptUrl} defer></script>
       </Head>
 
-      <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-          <h1 style={{ color: "#000000", marginBottom: 0 }}>
+      <div className="app-container">
+        <div className="app-header" style={{ marginBottom: "30px" }}>
+          <h1 className="app-title">
             NASA POWER Weather Data Downloader
           </h1>
-          <a 
-            href="/docs/tutorial-apps/weather-analyzer-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #000000",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+          <a className="button button--secondary" href="/docs/tutorial-apps/weather-analyzer-tutorial">Tutorial</a>
         </div>
         
         <div style={{
@@ -129,6 +108,14 @@ const WeatherPage = () => {
                 }}
               />
             </div>
+          </div>
+
+          <div style={{ marginTop: "10px" }}>
+            <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+              <input id="placeSearch" type="text" placeholder="Search place or address" style={{ flex: 1, padding: "10px", border: "2px solid #e9ecef", borderRadius: "6px", fontSize: "14px" }} />
+              <button id="searchBtn" style={{ padding: "10px 16px", backgroundColor: "#000000", color: "#ffffff", border: "1px solid #000000", borderRadius: "6px", cursor: "pointer", fontSize: "14px", fontWeight: 500 }}>Search</button>
+            </div>
+            <div id="weatherMap" style={{ width: "100%", height: "420px", border: "1px solid #e9ecef", borderRadius: "8px" }}></div>
           </div>
 
           <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>

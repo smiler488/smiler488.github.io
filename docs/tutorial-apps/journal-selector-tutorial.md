@@ -50,3 +50,4 @@ The Journal Selector app converts any manuscript abstract into a structured list
 - **API usage**: the UI hides custom API options and defaults to the built-in Hunyuan endpoint. If you fork the repo, replace the hardcoded key or proxy the requests per your deployment policy.
 
 This tutorial, paired with the in-app guidance, should make it straightforward to maintain and extend the Journal Selector workflow. Update this doc whenever you add new indicator sections or modify the UI flow so users understand the latest capabilities.
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/journal-selector">App</a></div>

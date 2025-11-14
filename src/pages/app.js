@@ -17,6 +17,12 @@ const AppHub = () => {
       link: "/app/land-survey",
     },
     {
+      name: "Irrigation Layout Designer",
+      description:
+        "Design Xinjiang-style mainline/submain/drip layouts, visualize SVG hydraulics, and check pressure / flow limits.",
+      link: "/app/irrigation-designer",
+    },
+    {
       name: "Weather Analyzer",
       description:
         "Monitor and analyze climate and agrometeorological data interactively, with clear chart insights.",
@@ -76,6 +82,12 @@ const AppHub = () => {
         "Paste your manuscript abstract and receive journal suggestions plus a downloadable CSV.",
       link: "/app/journal-selector",
     },
+    {
+      name: "AI Data Visualizer",
+      description:
+        "Upload CSV/TSV tables and let HunYuan AI summarize trends plus generate interactive ECharts dashboards.",
+      link: "/app/ai-data-visualizer",
+    },
   ];
 
   return (
@@ -101,7 +113,7 @@ const AppHub = () => {
           Select an app to explore.
         </p>
 
-        {/* ✅ App 容器，使用 Grid 布局 */}
+        {/* App cards laid out in a responsive grid */}
         <div
           style={{
             display: "grid",

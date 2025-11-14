@@ -251,3 +251,4 @@ If you encounter technical issues:
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to Sensor App v1.0*
 *Optimized for plant physiology, agricultural research, and environmental monitoring applications*
+<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/sensor">App</a></div>

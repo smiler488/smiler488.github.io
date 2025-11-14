@@ -94,6 +94,11 @@ class BiologicalSampleAnalysisApp {
             downloadBtn.addEventListener('click', () => this.downloadResults());
         }
 
+        const previewBtn = document.getElementById('previewBtn');
+        if (previewBtn) {
+            previewBtn.addEventListener('click', () => this.previewDetection());
+        }
+
         // Canvas interactions
         const originalCanvas = document.getElementById('originalCanvas');
         if (originalCanvas) {
@@ -112,14 +117,14 @@ class BiologicalSampleAnalysisApp {
         if (this.sampleType === 'leaves') {
             this.params = {
                 ...this.params,
-                minSampleArea: 500,
+                minSampleArea: 200,
                 maxSampleArea: 50000,
                 colorTolerance: 40,
-                minAspectRatio: 1.2,
+                minAspectRatio: 1.0,
                 maxAspectRatio: 8.0,
-                minSolidity: 0.7,
-                minCircularity: 0.1,
-                maxCircularity: 0.8
+                minSolidity: 0.6,
+                minCircularity: 0.05,
+                maxCircularity: 0.95
             };
         } else if (this.sampleType === 'seeds') {
             this.params = {
@@ -200,7 +205,7 @@ class BiologicalSampleAnalysisApp {
             sampleId: document.getElementById('sampleId')?.value || 'UNKNOWN',
             sampleType: this.sampleType,
             expectedSamples: parseInt(document.getElementById('expectedSamples')?.value) || 5,
-            species: document.getElementById('species')?.value || '',
+            species: document.getElementById('sampleSpecies')?.value || '',
             analysisDate: document.getElementById('analysisDate')?.value || new Date().toISOString().split('T')[0],
             referenceType: document.getElementById('referenceType')?.value || 'coin',
             referenceSize: parseFloat(document.getElementById('referenceSize')?.value) || 25.0,
@@ -350,8 +355,12 @@ class BiologicalSampleAnalysisApp {
         }
 
         if (this.referenceObjects.length === 0) {
-            this.updateStatus('Please click on at least one reference object to set scale', 'warning');
-            return;
+            this.autoDetectReferenceTopLeft();
+            if (this.referenceObjects.length === 0) {
+                this.updateStatus('No reference detected; proceeding with default scale', 'warning');
+            } else {
+                this.updateStatus('Reference detected automatically (s0)', 'info');
+            }
         }
 
         this.isProcessing = true;
@@ -386,6 +395,75 @@ class BiologicalSampleAnalysisApp {
         }
     }
 
+    autoDetectReferenceTopLeft() {
+        if (!this.originalImage) return;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = this.originalImage.width;
+        canvas.height = this.originalImage.height;
+        ctx.drawImage(this.originalImage, 0, 0);
+
+        const searchW = Math.floor(canvas.width * 0.25);
+        const searchH = Math.floor(canvas.height * 0.25);
+        let best = { score: 0, x: 0, y: 0, size: 0, type: null };
+
+        // Circle search
+        for (let y = 15; y < searchH - 15; y += 8) {
+            for (let x = 15; x < searchW - 15; x += 8) {
+                for (let r = 10; r <= 60; r += 5) {
+                    const score = this.evaluateCircle(ctx.getImageData(0, 0, canvas.width, canvas.height), x, y, r);
+                    if (score > best.score) {
+                        best = { score, x, y, size: r * 2, type: 'coin' };
+                    }
+                }
+            }
+        }
+
+        // Square search (fallback)
+        let bestSquare = { score: 0, x: 0, y: 0, size: 0 };
+        for (let y = 20; y < searchH - 20; y += 12) {
+            for (let x = 20; x < searchW - 20; x += 12) {
+                for (let s = 12; s <= 60; s += 4) {
+                    const score = this.evaluateSquare(ctx.getImageData(0, 0, canvas.width, canvas.height), x, y, s);
+                    if (score > bestSquare.score) {
+                        bestSquare = { score, x, y, size: s };
+                    }
+                }
+            }
+        }
+
+        if (!best.type || best.score < 0.25) {
+            if (bestSquare.score > 0.25) {
+                this.referenceObjects = [{ x: bestSquare.x, y: bestSquare.y, size: bestSquare.size, type: 'square' }];
+            }
+        } else {
+            this.referenceObjects = [{ x: best.x, y: best.y, size: best.size, type: 'coin' }];
+        }
+    }
+
+    async previewDetection() {
+        if (!this.originalImage) {
+            this.updateStatus('Please upload an image first', 'error');
+            return;
+        }
+        if (this.referenceObjects.length === 0) {
+            this.updateStatus('Please click on at least one reference object to set scale', 'warning');
+            return;
+        }
+        this.updateStatus(`Previewing ${this.sampleType} detection…`, 'processing');
+        try {
+            this.collectSampleInfo();
+            this.calculatePixelsPerMM();
+            await this.detectSamples();
+            this.sortSamples();
+            this.displayProcessedImage();
+            this.updateStatus('Preview updated. Run full analysis to compute metrics and export.', 'info');
+        } catch (error) {
+            console.error('Preview error:', error);
+            this.updateStatus('Preview failed: ' + error.message, 'error');
+        }
+    }
+
     sortSamples() {
         if (this.sampleType === 'leaves') {
             // Sort leaves left to right
@@ -401,7 +479,10 @@ class BiologicalSampleAnalysisApp {
     }
 
     calculatePixelsPerMM() {
-        if (this.referenceObjects.length === 0) return;
+        if (this.referenceObjects.length === 0) {
+            this.pixelsPerMM = this.sampleType === 'seeds' ? 5.0 : 3.0;
+            return;
+        }
 
         let totalRatio = 0;
         let validReferences = 0;
@@ -567,49 +648,139 @@ class BiologicalSampleAnalysisApp {
         return new Promise((resolve, reject) => {
             try {
                 if (typeof cv !== 'undefined' && cv.Mat) {
-                    this.detectSamplesOpenCV();
+                    setTimeout(() => {
+                        try {
+                            this.detectSamplesOpenCV();
+                            resolve();
+                        } catch (e) {
+                            reject(e);
+                        }
+                    }, 0);
                 } else {
-                    this.detectSamplesBasic();
+                    this.detectSamplesBasicChunked().then(resolve).catch(reject);
                 }
-                resolve();
             } catch (error) {
                 reject(error);
             }
         });
     }
 
-    detectSamplesBasic() {
-        // Enhanced basic sample detection
+    detectSamplesBasicChunked() {
+        const maxSide = 1024;
+        const scale = Math.min(1, maxSide / Math.max(this.originalImage.width, this.originalImage.height));
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = this.originalImage.width;
-        canvas.height = this.originalImage.height;
-        
-        ctx.drawImage(this.originalImage, 0, 0);
+        canvas.width = Math.round(this.originalImage.width * scale);
+        canvas.height = Math.round(this.originalImage.height * scale);
+        ctx.drawImage(this.originalImage, 0, 0, canvas.width, canvas.height);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
-        this.detectedSamples = [];
-        const visited = new Set();
         const width = canvas.width;
         const height = canvas.height;
-        
-        // Flexible scanning - not limited to specific areas
-        const stepSize = this.sampleType === 'seeds' ? 4 : 8;
-        
-        for (let y = 10; y < height - 10; y += stepSize) {
-            for (let x = 10; x < width - 10; x += stepSize) {
-                const key = `${x},${y}`;
-                if (visited.has(key)) continue;
-                
-                const blob = this.floodFillSample(imageData, x, y, width, height, visited);
-                if (blob && this.isValidSample(blob)) {
-                    const sample = this.analyzeSampleBlob(blob, imageData);
-                    if (sample) {
-                        this.detectedSamples.push(sample);
-                    }
+        this.detectedSamples = [];
+        const expected = Math.max(1, parseInt(document.getElementById('expectedSamples')?.value) || 999);
+        const mask = new Uint8Array(width * height);
+        const visited = new Uint8Array(width * height);
+        const data = imageData.data;
+        for (let y = 0; y < height; y += 1) {
+            for (let x = 0; x < width; x += 1) {
+                const idx = (y * width + x) * 4;
+                if (this.isSampleColor(data[idx], data[idx + 1], data[idx + 2])) {
+                    mask[y * width + x] = 1;
                 }
             }
         }
+        const stepSize = this.sampleType === 'seeds' ? 4 : 6;
+        const positions = [];
+        for (let y = 1; y < height - 1; y += stepSize) {
+            for (let x = 1; x < width - 1; x += stepSize) {
+                positions.push(y * width + x);
+            }
+        }
+        let index = 0;
+        const total = positions.length;
+        return new Promise((resolve) => {
+            const runBatch = () => {
+                const start = performance.now();
+                while (index < total && performance.now() - start < 30) {
+                    const p = positions[index];
+                    if (mask[p] && !visited[p]) {
+                        const blob = this.extractComponent(imageData, p, width, height, mask, visited, scale);
+                        if (blob && this.isValidSample(blob)) {
+                            const sample = this.analyzeSampleBlob(blob, imageData);
+                            if (sample) {
+                                this.detectedSamples.push(sample);
+                                if (this.detectedSamples.length >= expected + 2) break;
+                            }
+                        }
+                    }
+                    index += 1;
+                }
+                const percent = Math.min(100, Math.round((index / total) * 100));
+                this.updateStatus(`Scanning… ${percent}%`, 'processing');
+                if (index < total && this.detectedSamples.length < expected + 2) {
+                    setTimeout(runBatch, 16);
+                } else {
+                    resolve();
+                }
+            };
+            runBatch();
+        });
+    }
+
+    extractComponent(imageData, startIndex, width, height, mask, visited, scale) {
+        const data = imageData.data;
+        const stack = [startIndex];
+        let area = 0;
+        let minX = width, maxX = 0, minY = height, maxY = 0;
+        let sumX = 0, sumY = 0;
+        let sumR = 0, sumG = 0, sumB = 0;
+        while (stack.length) {
+            const p = stack.pop();
+            if (visited[p]) continue;
+            visited[p] = 1;
+            if (!mask[p]) continue;
+            const y = Math.floor(p / width);
+            const x = p % width;
+            const idx = (y * width + x) * 4;
+            sumR += data[idx];
+            sumG += data[idx + 1];
+            sumB += data[idx + 2];
+            area += 1;
+            sumX += x;
+            sumY += y;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+            const neighbors = [p - 1, p + 1, p - width, p + width];
+            for (let i = 0; i < 4; i += 1) {
+                const np = neighbors[i];
+                if (np > 0 && np < width * height && !visited[np]) {
+                    stack.push(np);
+                }
+            }
+        }
+        if (area === 0) return null;
+        const centerX = sumX / area;
+        const centerY = sumY / area;
+        const blob = {
+            pixels: null,
+            area: area,
+            sumX: sumX,
+            sumY: sumY,
+            minX: minX,
+            maxX: maxX,
+            minY: minY,
+            maxY: maxY,
+            centerX: centerX / scale,
+            centerY: centerY / scale,
+            width: (maxX - minX) / scale,
+            height: (maxY - minY) / scale,
+            meanR: sumR / area,
+            meanG: sumG / area,
+            meanB: sumB / area
+        };
+        return blob;
     }
 
     floodFillSample(imageData, startX, startY, width, height, visited) {
@@ -677,14 +848,14 @@ class BiologicalSampleAnalysisApp {
 
     isSampleColor(r, g, b) {
         if (this.sampleType === 'leaves') {
-            // Check if color is leaf-like (greenish)
-            const greenIndex = (2 * g - r - b) / (r + g + b + 1);
-            return greenIndex > 0.1 && g > 50;
+            // HSV-based green detection
+            const { h, s, v } = this.rgbToHsv(r, g, b);
+            return h >= 35 && h <= 85 && s >= 20 && v >= 20;
         } else {
-            // For seeds/grains, look for brown, yellow, or other natural colors
+            // For seeds/grains, look for broad natural colors
             const brightness = (r + g + b) / 3;
             const colorfulness = Math.max(r, g, b) - Math.min(r, g, b);
-            return brightness > 30 && brightness < 220 && colorfulness > 10;
+            return brightness > 30 && brightness < 235 && colorfulness > 8;
         }
     }
 
@@ -870,6 +1041,23 @@ class BiologicalSampleAnalysisApp {
                     continue;
                 }
                 
+                // Rotated minimum area rectangle for length/width
+                const rrect = cv.minAreaRect(contour);
+                const rotWidth = Math.max(rrect.size.width, rrect.size.height) / this.pixelsPerMM;
+                const rotHeight = Math.min(rrect.size.width, rrect.size.height) / this.pixelsPerMM;
+                let rotAngle = rrect.angle;
+                if (rrect.size.width < rrect.size.height) rotAngle += 90;
+                rotAngle = ((rotAngle % 180) + 180) % 180;
+
+                // Approximate polygon for contour drawing
+                const approx = new cv.Mat();
+                cv.approxPolyDP(contour, approx, 2, true);
+                const poly = [];
+                for (let j = 0; j < approx.rows; j++) {
+                    const point = approx.intPtr(j);
+                    poly.push({ x: point[0], y: point[1] });
+                }
+
                 // Calculate color features
                 const maskSingle = cv.Mat.zeros(src.rows, src.cols, cv.CV_8UC1);
                 cv.drawContours(maskSingle, contours, i, new cv.Scalar(255), -1);
@@ -888,6 +1076,9 @@ class BiologicalSampleAnalysisApp {
                     areaReal: area / (this.pixelsPerMM * this.pixelsPerMM),
                     length: Math.max(rect.width, rect.height) / this.pixelsPerMM,
                     width: Math.min(rect.width, rect.height) / this.pixelsPerMM,
+                    rotWidth: rotWidth,
+                    rotHeight: rotHeight,
+                    rotAngle: rotAngle,
                     equivalentDiameter: equivalentDiameter,
                     perimeter: perimeter / this.pixelsPerMM,
                     aspectRatio: aspectRatio,
@@ -901,9 +1092,11 @@ class BiologicalSampleAnalysisApp {
                     greenIndex: greenIndex,
                     brownIndex: brownIndex,
                     boundingWidth: rect.width,
-                    boundingHeight: rect.height
+                    boundingHeight: rect.height,
+                    polygon: poly
                 });
                 
+                approx.delete();
                 maskSingle.delete();
                 contour.delete();
             }
@@ -1105,8 +1298,8 @@ class BiologicalSampleAnalysisApp {
             }
             
             ctx.fillStyle = '#000';
-            ctx.font = 'bold 10px Arial';
-            ctx.fillText(`R${index + 1}`, x + 18, y - 5);
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText(`s0`, x + 18, y - 5);
         });
         
         // Draw detected samples with detailed annotations
@@ -1115,20 +1308,22 @@ class BiologicalSampleAnalysisApp {
         this.detectedSamples.forEach((sample, index) => {
             const x = sample.centerX * scale;
             const y = sample.centerY * scale;
-            const sampleNumber = index + 1;
+            const sampleNumber = index + 1; // start from s1
             
             // Draw sample boundary
             ctx.strokeStyle = color;
             ctx.lineWidth = 2;
             ctx.beginPath();
             
-            if (this.sampleType === 'seeds') {
-                // Draw circle for seeds
-                const radius = Math.sqrt(sample.area / Math.PI) * scale;
-                ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            if (sample.polygon && sample.polygon.length > 0) {
+                ctx.moveTo(sample.polygon[0].x * scale, sample.polygon[0].y * scale);
+                for (let i = 1; i < sample.polygon.length; i++) {
+                    ctx.lineTo(sample.polygon[i].x * scale, sample.polygon[i].y * scale);
+                }
+                ctx.closePath();
             } else {
-                // Draw ellipse for leaves
-                ctx.ellipse(x, y, sample.boundingWidth/2 * scale, sample.boundingHeight/2 * scale, 0, 0, 2 * Math.PI);
+                // Fallback: axis-aligned bounding box
+                ctx.rect((sample.centerX - sample.boundingWidth/2) * scale, (sample.centerY - sample.boundingHeight/2) * scale, sample.boundingWidth * scale, sample.boundingHeight * scale);
             }
             ctx.stroke();
             
@@ -1149,15 +1344,15 @@ class BiologicalSampleAnalysisApp {
             ctx.font = '10px Arial';
             ctx.textAlign = 'left';
             
-            if (this.sampleType === 'seeds') {
-                ctx.fillText(`D:${sample.equivalentDiameter.toFixed(1)}mm`, x + 20, y - 10);
-                ctx.fillText(`A:${sample.areaReal.toFixed(1)}mm²`, x + 20, y + 2);
-            } else {
-                ctx.fillText(`L:${sample.length.toFixed(1)}mm`, x + 20, y - 10);
-                ctx.fillText(`W:${sample.width.toFixed(1)}mm`, x + 20, y + 2);
-                ctx.fillText(`A:${sample.areaReal.toFixed(1)}mm²`, x + 20, y + 14);
+            const L = (sample.rotWidth || sample.length || sample.boundingWidth / this.pixelsPerMM);
+            const W = (sample.rotHeight || sample.width || sample.boundingHeight / this.pixelsPerMM);
+            ctx.fillText(`L:${Number(L).toFixed(1)}mm`, x + 20, y - 12);
+            ctx.fillText(`W:${Number(W).toFixed(1)}mm`, x + 20, y + 0);
+            ctx.fillText(`A:${sample.areaReal.toFixed(1)}mm²`, x + 20, y + 12);
+            if (typeof sample.rotAngle === 'number') {
+                ctx.fillText(`θ:${Math.round(sample.rotAngle)}°`, x + 20, y + 24);
             }
-            
+
             ctx.textAlign = 'center';
         });
         
@@ -1353,10 +1548,17 @@ class BiologicalSampleAnalysisApp {
     }
 }
 
-// Initialize the application when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    window.sampleApp = new BiologicalSampleAnalysisApp();
-});
+// Initialize the application robustly in SPA/React environments
+(function initSampleApp() {
+    if (window.sampleApp) return;
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.sampleApp) window.sampleApp = new BiologicalSampleAnalysisApp();
+        });
+    } else {
+        window.sampleApp = new BiologicalSampleAnalysisApp();
+    }
+})();
 
 // Export for potential external use
 if (typeof module !== 'undefined' && module.exports) {

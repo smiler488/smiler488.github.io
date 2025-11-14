@@ -400,35 +400,10 @@ export default function TargetsPage() {
         <script id="targets-script" src="/js/targets_app.js" defer></script>
       </Head>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h1>Professional Calibration Targets Generator</h1>
-          <a 
-            href="/docs/tutorial-apps/calibration-targets-tutorial" 
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              textDecoration: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "500",
-              border: "1px solid #000000",
-              transition: "all 0.2s ease"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333333";
-              e.target.style.borderColor = "#333333";
-              e.target.style.transform = "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000000";
-              e.target.style.borderColor = "#000000";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-             Tutorial
-          </a>
+      <div className="app-container">
+        <div className="app-header" style={{ marginBottom: 16 }}>
+          <h1 className="app-title">Professional Calibration Targets Generator</h1>
+          <a className="button button--secondary" href="/docs/tutorial-apps/calibration-targets-tutorial">Tutorial</a>
         </div>
         <p style={{ marginTop: 4, marginBottom: 24, color: "#6c757d" }}>
           Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
