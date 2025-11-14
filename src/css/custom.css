@@ -375,6 +375,43 @@ a:hover {
   .navbar__items {
     background: var(--ifm-navbar-background-color);
   }
+  /* Force use of off-canvas sidebar on mobile */
+  .navbar__items--mobile {
+    display: none !important;
+  }
+  .navbar-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: min(85vw, 360px);
+    max-width: 420px;
+    background: var(--ifm-navbar-background-color);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    transform: translateX(-100%);
+    transition: transform 240ms ease;
+    z-index: 1100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  html.navbar-sidebar--show .navbar-sidebar {
+    transform: translateX(0);
+  }
+  .navbar-sidebar__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.45);
+    z-index: 1095;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  html.navbar-sidebar--show .navbar-sidebar__backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
   
   .navbar-sidebar {
     backdrop-filter: blur(12px);
