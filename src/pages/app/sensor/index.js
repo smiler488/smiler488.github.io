@@ -40,29 +40,46 @@ function useOrientation() {
 
 async function requestMotionPermissionIfNeeded() {
   try {
+    let tried = false;
+    let granted = false;
+
     if (
       typeof DeviceMotionEvent !== 'undefined' &&
       typeof DeviceMotionEvent.requestPermission === 'function'
     ) {
+      tried = true;
       const s = await DeviceMotionEvent.requestPermission();
-      return s === 'granted';
+      if (s === 'granted') {
+        granted = true;
+      }
     }
+
     if (
       typeof DeviceOrientationEvent !== 'undefined' &&
       typeof DeviceOrientationEvent.requestPermission === 'function'
     ) {
+      tried = true;
       const s = await DeviceOrientationEvent.requestPermission();
-      return s === 'granted';
+      if (s === 'granted') {
+        granted = true;
+      }
     }
-    return true;
-  } catch {
+
+    // If neither API requires explicit permission, assume OK (desktop browsers, etc.)
+    if (!tried) return true;
+
+    return granted;
+  } catch (e) {
+    // If an error occurs (e.g., security error), treat as not granted.
+    console.error('Motion permission request failed:', e);
     return false;
   }
 }
 
-function getCurrentGeo() {
+function getCurrentGeo(onError) {
   return new Promise((resolve) => {
     if (!('geolocation' in navigator)) {
+      if (onError) onError(new Error('Geolocation is not supported on this device or browser.'));
       resolve({ latitude: null, longitude: null, altitude: null });
       return;
     }
@@ -75,7 +92,10 @@ function getCurrentGeo() {
           altitude: typeof altitude === 'number' ? altitude : null,
         });
       },
-      () => resolve({ latitude: null, longitude: null, altitude: null }),
+      (err) => {
+        if (onError) onError(err);
+        resolve({ latitude: null, longitude: null, altitude: null });
+      },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
   });
@@ -141,14 +161,56 @@ export default function SensorPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
+  function handleGeoError(err) {
+    if (!err) {
+      setError('Unable to access location. Your browser or device may have blocked geolocation for this site.');
+      return;
+    }
+    let msg = 'Unable to access location. ';
+    if (typeof err.code === 'number') {
+      // 1: PERMISSION_DENIED, 2: POSITION_UNAVAILABLE, 3: TIMEOUT
+      if (err.code === 1) {
+        msg += 'Permission was denied. Please allow location access for this site in your browser settings and try again.';
+      } else if (err.code === 2) {
+        msg += 'Position is unavailable. Please check GPS or network connectivity.';
+      } else if (err.code === 3) {
+        msg += 'The location request timed out. Please try again.';
+      } else {
+        msg += 'Your browser or device may have blocked geolocation.';
+      }
+    } else {
+      msg += 'Your browser or device may have blocked geolocation.';
+    }
+    setError(msg);
+  }
+
   async function ensurePermissions() {
-    // motion
+    setError(null);
+
+    // Check basic motion sensor support in this environment
+    if (typeof window !== 'undefined') {
+      const hasMotion =
+        typeof window.DeviceMotionEvent !== 'undefined' ||
+        typeof window.DeviceOrientationEvent !== 'undefined';
+      if (!hasMotion) {
+        setPermission('denied');
+        setError(
+          'This device or browser does not provide motion sensors. Orientation data may not be available. Try using a mobile phone with gyroscope/accelerometer.'
+        );
+        return false;
+      }
+    }
+
+    // Request motion/orientation permission where required (iOS Safari, etc.)
     const motionOk = await requestMotionPermissionIfNeeded();
     if (!motionOk) {
       setPermission('denied');
-      setError('Motion permission denied. Please allow motion/orientation access.');
+      setError(
+        'Motion permission was denied or is not available. Please enable motion/orientation access for this site in your browser settings and try again.'
+      );
       return false;
     }
+
     setPermission('granted');
     return true;
   }
@@ -165,7 +227,7 @@ export default function SensorPage() {
         return;
       }
       // geolocation
-      const g = await getCurrentGeo();
+      const g = await getCurrentGeo(handleGeoError);
       setGeo(g);
       const now = new Date();
       const { elevation, azimuth } = computeSunPosition(g.latitude, g.longitude, now);
@@ -188,6 +250,14 @@ export default function SensorPage() {
     } finally {
       setBusy(false);
     }
+  }
+
+  async function enableSensors() {
+    setError(null);
+    const ok = await ensurePermissions();
+    if (!ok) return;
+    const g = await getCurrentGeo(handleGeoError);
+    setGeo(g);
   }
 
   function downloadCSV() {
@@ -253,6 +323,15 @@ export default function SensorPage() {
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
           time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.
         </p>
+
+        <div className="app-card" style={{ marginBottom: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <span className="app-muted">Before using sensors, allow motion/orientation and location access on your device.</span>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={enableSensors} className="button button--secondary">Enable Sensors</button>
+            </div>
+          </div>
+        </div>
 
         {error && (
           <div style={{ padding: 12, border: '1px solid #e5e5ea', background: '#f2f2f2', color: '#333333', borderRadius: 8, marginBottom: 16 }}>
@@ -360,7 +439,7 @@ export default function SensorPage() {
                 <span>Altitude:</span><strong>{geo.altitude == null ? 'N/A' : toFixedMaybe(geo.altitude, 2) + ' m'}</strong>
               </div>
               <button
-                onClick={async () => setGeo(await getCurrentGeo())}
+                onClick={async () => setGeo(await getCurrentGeo(handleGeoError))}
                 style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: '#000000', color: '#ffffff', border: '1px solid #000000', cursor: 'pointer' }}
                 disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >

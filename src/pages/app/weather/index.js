@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -7,6 +7,44 @@ import RequireAuthBanner from "../../../components/RequireAuthBanner";
 
 const WeatherPage = () => {
   const scriptUrl = useBaseUrl('/js/weather_app.js');
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+
+    const setStatus = (msg) => {
+      const el = document.getElementById('statusMessage');
+      if (el) el.textContent = msg;
+    };
+
+    // If geolocation API itself is missing
+    if (!('geolocation' in navigator)) {
+      setStatus(
+        'Geolocation is not supported in this browser, or it may be disabled. Please use a modern browser (preferably on mobile) and ensure location services are enabled.'
+      );
+      return;
+    }
+
+    // Try Permissions API, if available, to detect permanently denied state
+    if (!navigator.permissions || typeof navigator.permissions.query !== 'function') {
+      return;
+    }
+
+    try {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((result) => {
+          if (result.state === 'denied') {
+            setStatus(
+              'Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.'
+            );
+          }
+        })
+        .catch(() => {
+          // Ignore permission query errors; fall back to getCurrentPosition handling
+        });
+    } catch {
+      // Swallow any unexpected errors from Permissions API
+    }
+  }, [scriptUrl]);
   return (
     <Layout title="Weather App">
       <Head>
@@ -32,6 +70,62 @@ const WeatherPage = () => {
           </a>
         </div>
         <RequireAuthBanner />
+
+        <div className="app-card" style={{ marginBottom: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <span className="app-muted">Before using location features, please allow the browser to access your location (HTTPS recommended).</span>
+            <button
+              className="button button--secondary"
+              onClick={() => {
+                const setStatus = (msg) => {
+                  const el = document.getElementById('statusMessage');
+                  if (el) el.textContent = msg;
+                };
+
+                if (typeof navigator === 'undefined') {
+                  setStatus('Navigator API is not available in this environment.');
+                  return;
+                }
+
+                if (!('geolocation' in navigator)) {
+                  setStatus(
+                    'Geolocation is not supported in this browser, or it may be disabled. Please use a modern browser and ensure location services are enabled.'
+                  );
+                  return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                  () => setStatus('Location permission granted. You can now use "Get Current Location".'),
+                  (err) => {
+                    let msg = 'Unable to access location. ';
+                    if (err && typeof err.code === 'number') {
+                      // 1: PERMISSION_DENIED, 2: POSITION_UNAVAILABLE, 3: TIMEOUT
+                      if (err.code === 1) {
+                        msg +=
+                          'Permission was denied. Please allow location access for this site in your browser/system settings and try again.';
+                      } else if (err.code === 2) {
+                        msg += 'Position is unavailable. Please check GPS or network connectivity.';
+                      } else if (err.code === 3) {
+                        msg += 'The location request timed out. Please try again.';
+                      } else {
+                        msg += 'Your browser or device may have blocked geolocation.';
+                      }
+                    } else if (err && err.message) {
+                      msg += err.message;
+                    } else {
+                      msg += 'Your browser or device may have blocked geolocation.';
+                    }
+                    setStatus(msg);
+                  },
+                  { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                );
+              }}
+              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+            >
+              Enable Location Permission
+            </button>
+          </div>
+        </div>
 
         <div
           style={{

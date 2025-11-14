@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
 import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
@@ -166,6 +166,54 @@ function LandSurveyApp() {
 
   const canUseGeolocation = typeof window !== 'undefined' && 'geolocation' in navigator;
 
+  // Helper for user-friendly geolocation error messages
+  const handleGeoError = (err) => {
+    if (!err) {
+      setError('Unable to access location. Your browser or device may have blocked geolocation for this site.');
+      return;
+    }
+    let msg = 'Unable to access location. ';
+    if (typeof err.code === 'number') {
+      // 1: PERMISSION_DENIED, 2: POSITION_UNAVAILABLE, 3: TIMEOUT
+      if (err.code === 1) {
+        msg += 'Permission was denied. Please allow location access for this site in your browser settings and try again.';
+      } else if (err.code === 2) {
+        msg += 'Position is unavailable. Please check GPS or network connectivity.';
+      } else if (err.code === 3) {
+        msg += 'The location request timed out. Please try again.';
+      } else {
+        msg += 'Your browser or device may have blocked geolocation.';
+      }
+    } else if (err.message) {
+      msg += err.message;
+    } else {
+      msg += 'Your browser or device may have blocked geolocation.';
+    }
+    setError(msg);
+  };
+
+  useEffect(() => {
+    if (!canUseGeolocation) return;
+    if (typeof navigator === 'undefined' || typeof navigator.permissions === 'undefined') return;
+
+    try {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((result) => {
+          if (result.state === 'denied') {
+            setError(
+              'Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.'
+            );
+          }
+        })
+        .catch(() => {
+          // Ignore permission query errors and fall back to getCurrentPosition handling
+        });
+    } catch {
+      // Swallow any unexpected errors from permissions API
+    }
+  }, [canUseGeolocation]);
+
   const addPoint = useCallback((lat, lng, source = 'Manual entry') => {
     setPoints((prev) => [
       ...prev,
@@ -200,7 +248,7 @@ function LandSurveyApp() {
 
   const handleUseLocation = () => {
     if (!canUseGeolocation) {
-      setError('Geolocation is not supported in this browser.');
+      setError('Geolocation is not supported in this browser, or it may be disabled. Please use a modern mobile browser and ensure location is enabled.');
       return;
     }
     setLoadingLocation(true);
@@ -212,7 +260,7 @@ function LandSurveyApp() {
         setLoadingLocation(false);
       },
       (geoError) => {
-        setError(geoError?.message || 'Failed to fetch location. Please check browser permissions.');
+        handleGeoError(geoError);
         setLoadingLocation(false);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
@@ -291,6 +339,20 @@ function LandSurveyApp() {
         <p style={styles.sectionLead}>
           Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
         </p>
+
+        <div className="app-card" style={{ marginBottom: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <span className="app-muted">Before using, please allow device location access.</span>
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={handleUseLocation}
+              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+            >
+              Enable Location Permission
+            </button>
+          </div>
+        </div>
 
         <form style={styles.form} onSubmit={handleAddManualPoint}>
           <div style={styles.formGroup}>

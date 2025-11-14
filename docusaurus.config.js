@@ -13,10 +13,6 @@ const config = {
   staticDirectories: ['static'],
   scripts: [
     {
-      src: '/js/mobile-fallback-nav.js',
-      defer: true,
-    },
-    {
       src: '/js/auth-flag.js',
       defer: true,
     },
