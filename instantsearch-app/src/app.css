@@ -67,3 +67,13 @@
   max-height: 125px;
   padding-right: 16px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-image: linear-gradient(284deg, #6c6c70, #999999);
+    color: #ffffff;
+  }
+  .header a { color: #ffffff; }
+  body { background: #121212; color: #e5e7eb; }
+  .container { color: #e5e7eb; }
+}

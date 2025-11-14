@@ -229,11 +229,11 @@ function LayoutCanvas({ config, layout }, ref) {
     if (mainline.location === "edge") {
       const [x1, y1] = project(0, 0);
       const [x2, y2] = project(0, field.width_m);
-      return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#0ea5e9" strokeWidth={Math.max(3, mainline.diameter_mm / 40)} />;
+      return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--app-accent-blue)" strokeWidth={Math.max(3, mainline.diameter_mm / 40)} />;
     }
     const [x1, y1] = project(0, field.width_m / 2);
     const [x2, y2] = project(field.length_m, field.width_m / 2);
-    return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#0ea5e9" strokeWidth={Math.max(3, mainline.diameter_mm / 40)} />;
+    return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--app-accent-blue)" strokeWidth={Math.max(3, mainline.diameter_mm / 40)} />;
   })();
 
   const submainElements = Array.from({ length: nSubmains + 1 }).map((_, idx) => {
@@ -247,7 +247,7 @@ function LayoutCanvas({ config, layout }, ref) {
         y1={y1}
         x2={x2}
         y2={y2}
-        stroke="#22c55e"
+        stroke="var(--app-accent-green)"
         strokeWidth={Math.max(2, submains.diameter_mm / 60)}
         opacity={0.9}
       />
@@ -262,7 +262,7 @@ function LayoutCanvas({ config, layout }, ref) {
       const [x1, y1] = project(0, y);
       const [x2, y2] = project(field.length_m, y);
       lateralElements.push(
-        <line key={`lat-${s}-${t}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#94a3b8" strokeDasharray="6 6" strokeWidth={1.3} />
+        <line key={`lat-${s}-${t}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--app-accent-muted)" strokeDasharray="6 6" strokeWidth={1.3} />
       );
     }
   }
@@ -280,7 +280,7 @@ function LayoutCanvas({ config, layout }, ref) {
             y1={padding + (idx / 10) * field.width_m * scale}
             x2={padding + field.length_m * scale}
             y2={padding + (idx / 10) * field.width_m * scale}
-            stroke="#cbd5f5"
+            stroke="var(--ifm-border-color)"
           />
         ))}
         {Array.from({ length: 10 }).map((_, idx) => (
@@ -290,7 +290,7 @@ function LayoutCanvas({ config, layout }, ref) {
             y1={padding}
             x2={padding + (idx / 10) * field.length_m * scale}
             y2={padding + field.width_m * scale}
-            stroke="#cbd5f5"
+            stroke="var(--ifm-border-color)"
           />
         ))}
       </g>
@@ -298,8 +298,8 @@ function LayoutCanvas({ config, layout }, ref) {
       {submainElements}
       {lateralElements}
       <g transform={`translate(${hx},${hy})`}>
-        <rect x={-14} y={-14} width={28} height={28} rx={7} fill="#0ea5e9" />
-        <text x={16} y={5} fontSize={12} fill="#0ea5e9">
+        <rect x={-14} y={-14} width={28} height={28} rx={7} fill="var(--app-accent-blue)" />
+        <text x={16} y={5} fontSize={12} fill="var(--app-accent-blue)">
           Headworks
         </text>
       </g>
@@ -314,9 +314,9 @@ const ForwardLayoutCanvas = React.forwardRef(LayoutCanvas);
 
 function CanvasPanel({ config, layout, svgRef }) {
   const legend = [
-    { color: "#0ea5e9", label: "Mainline" },
-    { color: "#22c55e", label: "Submains" },
-    { color: "#94a3b8", label: "Drip laterals" },
+    { color: "var(--app-accent-blue)", label: "Mainline" },
+    { color: "var(--app-accent-green)", label: "Submains" },
+    { color: "var(--app-accent-muted)", label: "Drip laterals" },
   ];
 
   return (
@@ -332,7 +332,7 @@ function CanvasPanel({ config, layout, svgRef }) {
           {config.field.length_m} m × {config.field.width_m} m
         </div>
       </div>
-      <div style={{ border: "1px solid var(--ifm-color-emphasis-300)", borderRadius: 8, background: "#f6f8fb", overflow: "hidden", marginTop: 12 }}>
+      <div style={{ border: "1px solid var(--ifm-border-color)", borderRadius: 8, background: "var(--ifm-background-surface-color)", overflow: "hidden", marginTop: 12 }}>
         <ForwardLayoutCanvas config={config} layout={layout} ref={svgRef} />
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", fontSize: "0.8rem", color: "var(--ifm-color-emphasis-700)", marginTop: 8 }}>

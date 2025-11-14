@@ -402,7 +402,7 @@ export default function JournalSelectorPage() {
           <a className="button button--secondary" href="/docs/tutorial-apps/journal-selector-tutorial">Tutorial</a>
         </header>
         <RequireAuthBanner />
-        <p style={{ margin: '12px 0 24px', color: '#4b5563' }}>
+        <p style={{ margin: '12px 0 24px', color: 'var(--ifm-color-emphasis-700)' }}>
           Paste your manuscript abstract and the AI will apply the Journal Evaluation Indicator System to suggest target journals plus a downloadable CSV.
         </p>
 
@@ -432,7 +432,7 @@ export default function JournalSelectorPage() {
             />
           </div>
 
-          <div style={{ background: '#f9fafb', borderRadius: 12, padding: 16 }}>
+          <div style={{ background: 'var(--ifm-background-surface-color)', borderRadius: 12, padding: 16 }}>
             <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Keywords / Focus</label>
             <input
               value={keywordHints}
@@ -451,7 +451,7 @@ export default function JournalSelectorPage() {
             <select
               value={oaPreference}
               onChange={(e) => setOaPreference(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', marginBottom: 12 }}
+              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {OA_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -464,7 +464,7 @@ export default function JournalSelectorPage() {
             <select
               value={reviewSpeed}
               onChange={(e) => setReviewSpeed(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', marginBottom: 12 }}
+              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {SPEED_OPTIONS.map((opt) => (
                 <option key={opt} value={opt}>
@@ -477,7 +477,7 @@ export default function JournalSelectorPage() {
             <select
               value={journalPreference}
               onChange={(e) => setJournalPreference(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', marginBottom: 12 }}
+              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {JOURNAL_PREF_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -493,7 +493,7 @@ export default function JournalSelectorPage() {
               max={8}
               value={maxResults}
               onChange={(e) => setMaxResults(Math.min(8, Math.max(3, Number(e.target.value) || 5)))}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', marginBottom: 12 }}
+              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             />
 
             <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Special notes</label>
@@ -501,16 +501,16 @@ export default function JournalSelectorPage() {
               value={extraNotes}
               onChange={(e) => setExtraNotes(e.target.value)}
               placeholder="e.g., need open data compliance, avoiding page charges, prefer Q1."
-              style={{ width: '100%', borderRadius: 8, border: '1px solid #d1d5db', padding: 12, minHeight: 90 }}
+              style={{ width: '100%', borderRadius: 8, border: '1px solid var(--ifm-border-color)', padding: 12, minHeight: 90 }}
             />
           </div>
         </section>
 
         <section
           style={{
-            background: '#111827',
+            background: 'var(--ifm-background-surface-color)',
             borderRadius: 16,
-            color: '#f9fafb',
+            color: 'var(--ifm-color-emphasis-900)',
             padding: 16,
             marginBottom: 24,
           }}
@@ -518,17 +518,17 @@ export default function JournalSelectorPage() {
           <h3 style={{ marginTop: 0 }}>Indicator reference</h3>
           <p style={{ margin: 0, whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{indicatorPreview}</p>
           {indicatorText.length > indicatorPreview.length && (
-            <small style={{ display: 'block', marginTop: 8, color: '#d1d5db' }}>
+            <small style={{ display: 'block', marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
               Preview shows the first 300 characters; the full content is sent to the AI.
             </small>
           )}
-          <div style={{ marginTop: 12, fontSize: 14, color: '#d1d5db', lineHeight: 1.5 }}>
+          <div style={{ marginTop: 12, fontSize: 14, color: 'var(--ifm-color-emphasis-700)', lineHeight: 1.5 }}>
             Required indicators: {activeIndicatorFields.map((field) => field.label).join(', ')}
           </div>
         </section>
 
         <section style={{ marginBottom: 24 }}>
-          <div style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 16 }}>
+          <div style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16 }}>
             <h3 style={{ marginTop: 0 }}>Status</h3>
             <p style={{ minHeight: 48, lineHeight: 1.4 }}>{status}</p>
             <button
@@ -540,8 +540,8 @@ export default function JournalSelectorPage() {
                 padding: '12px 16px',
                 borderRadius: 10,
                 border: 'none',
-                background: busy ? '#9ca3af' : '#2563eb',
-                color: '#fff',
+                background: 'var(--ifm-color-primary)',
+                color: 'var(--ifm-color-white)',
                 fontSize: 16,
                 cursor: busy ? 'not-allowed' : 'pointer',
               }}
@@ -556,9 +556,9 @@ export default function JournalSelectorPage() {
                 width: '100%',
                 padding: '10px 16px',
                 borderRadius: 10,
-                border: '1px solid #2563eb',
-                background: '#fff',
-                color: canDownload ? '#2563eb' : '#9ca3af',
+                border: '1px solid var(--ifm-color-primary)',
+                background: 'var(--ifm-background-color)',
+                color: canDownload ? 'var(--ifm-color-primary)' : 'var(--ifm-color-emphasis-500)',
                 fontSize: 15,
                 cursor: canDownload ? 'pointer' : 'not-allowed',
                 marginTop: 12,
@@ -570,7 +570,7 @@ export default function JournalSelectorPage() {
         </section>
 
         {overview && (
-          <section style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 16, marginBottom: 24 }}>
+          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
             <h3 style={{ marginTop: 0 }}>AI Summary</h3>
             <p style={{ marginBottom: 8 }}>
               <strong>Abstract recap:</strong>
@@ -586,7 +586,7 @@ export default function JournalSelectorPage() {
         )}
 
         {journals.length > 0 && (
-          <section style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 16, marginBottom: 24, overflowX: 'auto' }}>
+          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24, overflowX: 'auto' }}>
             <h3 style={{ marginTop: 0 }}>Recommended journals</h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
@@ -594,7 +594,7 @@ export default function JournalSelectorPage() {
                   {allColumns.map((col) => (
                     <th
                       key={col.key}
-                      style={{ textAlign: 'left', padding: '8px 6px', borderBottom: '1px solid #d1d5db', background: '#f5f5f5' }}
+                        style={{ textAlign: 'left', padding: '8px 6px', borderBottom: '1px solid var(--ifm-border-color)', background: 'var(--ifm-background-surface-color)' }}
                     >
                       {col.label}
                     </th>
@@ -605,7 +605,7 @@ export default function JournalSelectorPage() {
                 {journals.map((row, idx) => (
                   <tr key={row.journal_name + idx}>
                     {allColumns.map((col) => (
-                      <td key={col.key} style={{ padding: '8px 6px', borderBottom: '1px solid #f3f4f6', verticalAlign: 'top' }}>
+                      <td key={col.key} style={{ padding: '8px 6px', borderBottom: '1px solid var(--ifm-border-color)', verticalAlign: 'top' }}>
                         {String(row[col.key] ?? '')}
                       </td>
                     ))}
@@ -617,10 +617,10 @@ export default function JournalSelectorPage() {
         )}
 
         {rawText && (
-          <section style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 16, marginBottom: 24 }}>
+          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
             <details>
               <summary style={{ cursor: 'pointer', fontWeight: 600 }}>View raw AI response</summary>
-              <pre style={{ whiteSpace: 'pre-wrap', fontSize: 13, background: '#f9fafb', padding: 12, borderRadius: 8 }}>
+              <pre style={{ whiteSpace: 'pre-wrap', fontSize: 13, background: 'var(--ifm-background-surface-color)', padding: 12, borderRadius: 8 }}>
                 {rawText}
               </pre>
             </details>

@@ -29,7 +29,7 @@ export default function BiologicalSampleAnalysisApp() {
             loading="lazy"
           />
           {typeof window !== 'undefined' && !window.__APP_AUTH_OK__ && (
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'var(--app-overlay-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <a href="/auth" className="button button--secondary">Login to use</a>
             </div>
           )}

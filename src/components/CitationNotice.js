@@ -11,38 +11,39 @@ const headingStyle = {
   fontSize: "2rem",
   fontWeight: "600",
   marginBottom: "16px",
-  color: "#000000",
+  color: "var(--ifm-color-emphasis-900)",
 };
 
 const paragraphStyle = {
   fontSize: "1.1rem",
-  color: "#333333",
+  color: "var(--ifm-color-emphasis-700)",
   lineHeight: 1.6,
   marginBottom: "16px",
 };
 
 const blockquoteStyle = {
-  borderLeft: "4px solid #cccccc",
+  borderLeft: "4px solid var(--ifm-border-color)",
   paddingLeft: "16px",
-  color: "#333333",
+  color: "var(--ifm-color-emphasis-700)",
   fontStyle: "italic",
   lineHeight: 1.6,
   marginBottom: "16px",
 };
 
 const codeBlockStyle = {
-  backgroundColor: "#f6f6f7",
+  backgroundColor: "var(--ifm-background-surface-color)",
   padding: "16px",
   borderRadius: "12px",
   overflowX: "auto",
-  border: "1px solid #e5e5e7",
+  border: "1px solid var(--ifm-border-color)",
+  color: "var(--ifm-color-emphasis-800)",
 };
 
 const subheadingStyle = {
   fontSize: "1.5rem",
   fontWeight: "600",
   marginBottom: "16px",
-  color: "#000000",
+  color: "var(--ifm-color-emphasis-900)",
 };
 
 export default function CitationNotice({ containerStyle }) {
@@ -140,26 +141,35 @@ export default function CitationNotice({ containerStyle }) {
           style={{
             padding: "8px 16px",
             borderRadius: "8px",
-            border: "1px solid #000000",
-            backgroundColor: "#000000",
-            color: "#ffffff",
+            border: "1px solid var(--ifm-color-emphasis-900)",
+            backgroundColor: "var(--ifm-color-emphasis-900)",
+            color: "var(--ifm-color-emphasis-0)",
             cursor: "pointer",
             fontSize: "0.95rem",
             fontWeight: 500,
             transition: "transform 0.15s ease, background-color 0.15s ease",
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#333333";
+            e.currentTarget.style.backgroundColor = "var(--ifm-color-primary)";
+            e.currentTarget.style.borderColor = "var(--ifm-color-primary)";
             e.currentTarget.style.transform = "translateY(-1px)";
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#000000";
+            e.currentTarget.style.backgroundColor = "var(--ifm-color-emphasis-900)";
+            e.currentTarget.style.borderColor = "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
           {copied ? "Copied!" : "Copy citation"}
         </button>
-        <span style={{ fontSize: "0.9rem", color: copied ? "#007f5f" : "#6c6c70" }}>
+        <span
+          style={{
+            fontSize: "0.9rem",
+            color: copied
+              ? "var(--ifm-color-success)"
+              : "var(--ifm-color-emphasis-600)",
+          }}
+        >
           {copied ? "Citation copied to clipboard." : "Click to copy APA citation."}
         </span>
       </div>
@@ -176,7 +186,7 @@ export default function CitationNotice({ containerStyle }) {
       <hr
         style={{
           border: "none",
-          borderTop: "1px solid #e5e5e7",
+          borderTop: "1px solid var(--ifm-border-color)",
           marginBottom: "24px",
         }}
       />
@@ -190,26 +200,35 @@ export default function CitationNotice({ containerStyle }) {
           style={{
             padding: "8px 16px",
             borderRadius: "8px",
-            border: "1px solid #000000",
-            backgroundColor: "#000000",
-            color: "#ffffff",
+            border: "1px solid var(--ifm-color-emphasis-900)",
+            backgroundColor: "var(--ifm-color-emphasis-900)",
+            color: "var(--ifm-color-emphasis-0)",
             cursor: "pointer",
             fontSize: "0.95rem",
             fontWeight: 500,
             transition: "transform 0.15s ease, background-color 0.15s ease",
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#333333";
+            e.currentTarget.style.backgroundColor = "var(--ifm-color-primary)";
+            e.currentTarget.style.borderColor = "var(--ifm-color-primary)";
             e.currentTarget.style.transform = "translateY(-1px)";
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#000000";
+            e.currentTarget.style.backgroundColor = "var(--ifm-color-emphasis-900)";
+            e.currentTarget.style.borderColor = "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
           {bibCopied ? "Copied!" : "Copy BibTeX"}
         </button>
-        <span style={{ fontSize: "0.9rem", color: bibCopied ? "#007f5f" : "#6c6c70" }}>
+        <span
+          style={{
+            fontSize: "0.9rem",
+            color: bibCopied
+              ? "var(--ifm-color-success)"
+              : "var(--ifm-color-emphasis-600)",
+          }}
+        >
           {bibCopied
             ? "BibTeX copied to clipboard. Switch to Zotero and choose Import from Clipboard."
             : "Click to copy BibTeX to clipboard for Zotero import."}

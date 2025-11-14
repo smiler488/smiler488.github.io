@@ -33,7 +33,7 @@ const CCOPage = () => {
         <a className="button button--secondary" href="/docs/tutorial-apps/cco-mission-planner-tutorial">Tutorial</a>
       </div>
         <RequireAuthBanner />
-        <p style={{ color: "#555", marginTop: 6 }}>
+        <p style={{ color: 'var(--ifm-color-emphasis-700)', marginTop: 6 }}>
           Upload a target-area KML (single Polygon), set parameters, and preview the “cross-oblique orbit” route. Supports snake stitching, grid rotation, Clip/Prune, auto step, multi-part downloads, and DJI drone/payload enums.
         </p>
 
@@ -47,18 +47,18 @@ const CCOPage = () => {
         >
           {/* LEFT: Controls */}
           <div>
-            <fieldset style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: 12 }}>
+            <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12 }}>
               <legend><b>Target Area</b></legend>
               <label>
                 Upload KML (Polygon)
                 <input id="kmlFile" type="file" accept=".kml" style={{ display: "block", marginTop: 6 }} />
               </label>
-              <div style={{ marginTop: 8, fontSize: 12, color: "#666" }}>
+              <div style={{ marginTop: 8, fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
                 Only a single Polygon &lt;coordinates&gt; is supported.
               </div>
             </fieldset>
 
-            <fieldset style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: 12, marginTop: 12 }}>
+            <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginTop: 12 }}>
               <legend><b>Coverage Parameters</b></legend>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <label>Circle radius (m)
@@ -101,12 +101,12 @@ const CCOPage = () => {
                   </select>
                 </label>
               </div>
-              <div style={{ marginTop: 8, fontSize: 12, color: "#666" }}>
+              <div style={{ marginTop: 8, fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
                 Auto step = max(2*R*(1-overlap), 1 m). Set Grid bearing to obtain a cross‑oblique coverage pattern.
               </div>
             </fieldset>
 
-            <fieldset style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: 12, marginTop: 12 }}>
+            <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginTop: 12 }}>
               <legend><b>Flight & Camera</b></legend>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <label>Altitude (m)
@@ -140,10 +140,10 @@ const CCOPage = () => {
               </div>
             </fieldset>
 
-            <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <button id="previewBtn">Preview</button>
-              <button id="generateBtn">Generate</button>
-              <div id="status" style={{ marginLeft: 8, color: "#666", fontSize: 13 }}>Idle</div>
+            <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <button id="previewBtn" className="button button--secondary">Preview</button>
+              <button id="generateBtn" className="button button--secondary">Generate</button>
+              <div id="status" style={{ marginLeft: 8, color: 'var(--ifm-color-emphasis-600)', fontSize: 13 }}>Idle</div>
             </div>
             <div id="downloads" style={{ display: "none", marginTop: 8 }}>
               <div><a id="downloadTemplate" href="#" download="template.kml">Download template.kml</a></div>
@@ -156,22 +156,22 @@ const CCOPage = () => {
           {/* RIGHT: Preview */}
           <div>
             <div style={{ fontWeight: 600, marginBottom: 6 }}>Live Preview</div>
-            <div style={{ width: "100%", maxWidth: 680 }}>
+            <div style={{ width: '100%', maxWidth: 680 }}>
               <canvas
                 id="previewCanvas"
                 width={680}
                 height={460}
                 style={{
-                  width: "100%",
-                  height: "auto",
+                  width: '100%',
+                  height: 'auto',
                   minHeight: 280,
-                  border: "1px solid #ddd",
+                  border: '1px solid var(--ifm-border-color)',
                   borderRadius: 8,
-                  background: "#fff",
+                  background: 'var(--ifm-background-color)',
                 }}
               />
             </div>
-            <div style={{ color: "#777", marginTop: 6, fontSize: 13 }}>
+            <div style={{ color: 'var(--ifm-color-emphasis-600)', marginTop: 6, fontSize: 13 }}>
               Upload KML → set parameters → click <b>Preview</b> to refresh → click <b>Generate</b> to get download links.
             </div>
           </div>

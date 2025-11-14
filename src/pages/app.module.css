@@ -1,0 +1,91 @@
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 auto 32px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.appGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.appCard {
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 16px;
+  padding: 24px;
+  background: var(--ifm-background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.appCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ifm-global-shadow-md);
+  border-color: var(--ifm-color-primary-lightest);
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cardDescription {
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0 0 20px;
+}
+
+.appLink {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-900);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-900);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.appLink:hover {
+  transform: scale(1.02);
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme='dark'] .appLink {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-0);
+}

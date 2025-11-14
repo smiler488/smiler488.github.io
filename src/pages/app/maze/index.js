@@ -20,6 +20,9 @@ export default function MazePage() {
     const canvas = document.getElementById("mazeCanvas");
     const ctx = canvas.getContext("2d");
 
+    const css = getComputedStyle(document.documentElement);
+    const getVar = (name, fallback) => (css.getPropertyValue(name).trim() || fallback);
+
     // --- 随机生成迷宫 ---
     const rows = 20;
     const cols = 20;
@@ -65,16 +68,16 @@ export default function MazePage() {
       for (let i = 0; i < maze.length; i++) {
         for (let j = 0; j < maze[i].length; j++) {
           if (maze[i][j] === 1) {
-            ctx.fillStyle = "#333";
+            ctx.fillStyle = getVar('--ifm-color-emphasis-800', '#333');
           } else if (maze[i][j] === 2) {
-            ctx.fillStyle = "#999999";
+            ctx.fillStyle = getVar('--ifm-color-emphasis-600', '#999999');
           } else if (maze[i][j] === 3) {
-            ctx.fillStyle = "#e5e5ea"; // neutral light gray
+            ctx.fillStyle = getVar('--app-accent-muted', '#e5e5ea');
           } else {
-            ctx.fillStyle = "#fff";
+            ctx.fillStyle = getVar('--ifm-background-color', '#ffffff');
           }
           ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
-          ctx.strokeStyle = "#ccc";
+          ctx.strokeStyle = getVar('--ifm-border-color', '#cccccc');
           ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
         }
       }
@@ -83,7 +86,7 @@ export default function MazePage() {
     // --- 绘制小球 ---
     function drawBall() {
       ctx.beginPath();
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = getVar('--ifm-color-emphasis-900', '#000000');
       ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
       ctx.fill();
     }
@@ -247,13 +250,13 @@ export default function MazePage() {
             type="text"
             id="playerName"
             placeholder="Enter your name"
-            style={{ padding: "5px", borderRadius: "5px", border: "1px solid #ccc" }}
+            style={{ padding: "5px", borderRadius: "5px", border: "1px solid var(--ifm-border-color)" }}
           />
         </div>
         <div style={{ marginBottom: "10px", fontSize: "1.2rem" }}>
           Steps: <span id="stepCounter">0</span>
         </div>
-        <canvas id="mazeCanvas" width="800" height="800" style={{ border: "2px solid #333" }}></canvas>
+        <canvas id="mazeCanvas" width="800" height="800" style={{ border: "2px solid var(--ifm-color-emphasis-800)" }}></canvas>
         <div id="mazeMessage" style={{ marginTop: "10px", fontSize: "1.2rem" }}></div>
         <div style={{ marginTop: "20px" }}>
           <button id="btnUp" style={{ padding: "10px 15px", margin: "5px" }}>↑</button>

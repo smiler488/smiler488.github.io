@@ -34,33 +34,33 @@ function calculatePolygonArea(points) {
   return Math.abs(area) / 2;
 }
 
-const styles = {
-  page: {
-    padding: '3rem 1rem',
-    background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)',
-    minHeight: '100vh',
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: '20px',
-    padding: '2.5rem',
-    maxWidth: '1100px',
-    margin: '0 auto',
-    boxShadow: '0 40px 80px rgba(15, 23, 42, 0.08)',
-    border: '1px solid rgba(99, 102, 241, 0.15)',
-  },
-  sectionTitle: {
-    margin: 0,
-    fontSize: '2rem',
-    fontWeight: 700,
-    color: '#111827',
-  },
-  sectionLead: {
-    marginTop: '0.75rem',
-    marginBottom: '1.5rem',
-    color: '#4b5563',
-    lineHeight: 1.7,
-  },
+  const styles = {
+    page: {
+      padding: '3rem 1rem',
+    background: 'linear-gradient(180deg, var(--ifm-background-surface-color) 0%, var(--ifm-background-color) 100%)',
+      minHeight: '100vh',
+    },
+    card: {
+    backgroundColor: 'var(--ifm-background-color)',
+      borderRadius: '20px',
+      padding: '2.5rem',
+      maxWidth: '1100px',
+      margin: '0 auto',
+    boxShadow: 'var(--ifm-global-shadow-md)',
+    border: '1px solid var(--ifm-border-color)',
+    },
+    sectionTitle: {
+      margin: 0,
+      fontSize: '2rem',
+      fontWeight: 700,
+    color: 'var(--ifm-color-emphasis-900)',
+    },
+    sectionLead: {
+      marginTop: '0.75rem',
+      marginBottom: '1.5rem',
+    color: 'var(--ifm-color-emphasis-700)',
+      lineHeight: 1.7,
+    },
   form: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -73,40 +73,40 @@ const styles = {
     flexDirection: 'column',
     gap: '0.35rem',
   },
-  label: {
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    color: '#1f2937',
-  },
-  input: {
-    borderRadius: '10px',
-    border: '1px solid rgba(99, 102, 241, 0.4)',
-    padding: '0.65rem 0.9rem',
-    fontSize: '0.95rem',
-  },
+    label: {
+      fontWeight: 600,
+      fontSize: '0.95rem',
+    color: 'var(--ifm-color-emphasis-800)',
+    },
+    input: {
+      borderRadius: '10px',
+    border: '1px solid var(--ifm-border-color)',
+      padding: '0.65rem 0.9rem',
+      fontSize: '0.95rem',
+    },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
     gap: '1.5rem',
   },
-  panel: {
-    border: '1px solid rgba(15, 23, 42, 0.08)',
-    borderRadius: '16px',
-    padding: '1.5rem',
-    background: 'rgba(249, 250, 251, 0.95)',
-  },
-  panelHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '1rem',
-    color: '#475569',
-    fontSize: '0.92rem',
-  },
+    panel: {
+    border: '1px solid var(--ifm-border-color)',
+      borderRadius: '16px',
+      padding: '1.5rem',
+    background: 'var(--ifm-background-surface-color)',
+    },
+    panelHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '1rem',
+    color: 'var(--ifm-color-emphasis-700)',
+      fontSize: '0.92rem',
+    },
   previewCanvas: {
     borderRadius: '14px',
-    border: '1px dashed rgba(148, 163, 184, 0.7)',
-    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(16, 185, 129, 0.08))',
+    border: '1px dashed var(--app-accent-muted)',
+    background: 'var(--app-previewer-bg)',
     padding: '0.5rem',
     minHeight: '280px',
     display: 'flex',
@@ -129,31 +129,31 @@ const styles = {
     borderRadius: '12px',
     padding: '1rem',
   },
-  areaCard: {
-    marginTop: '1rem',
-    padding: '1rem',
-    borderRadius: '12px',
-    background: 'rgba(22, 163, 74, 0.08)',
-    border: '1px solid rgba(22, 163, 74, 0.4)',
-    color: '#15803d',
-  },
-  feedback: {
-    marginBottom: '1.5rem',
-    padding: '0.85rem 1rem',
-    borderRadius: '10px',
-    fontWeight: 600,
-  },
-  feedbackOk: {
-    background: 'rgba(16, 185, 129, 0.12)',
-    border: '1px solid rgba(16, 185, 129, 0.4)',
-    color: '#047857',
-  },
-  feedbackError: {
-    background: 'rgba(248, 113, 113, 0.12)',
-    border: '1px solid rgba(248, 113, 113, 0.5)',
-    color: '#b91c1c',
-  },
-};
+    areaCard: {
+      marginTop: '1rem',
+      padding: '1rem',
+      borderRadius: '12px',
+    background: 'var(--ifm-background-surface-color)',
+    border: '1px solid var(--ifm-border-color)',
+    color: 'var(--ifm-color-emphasis-800)',
+    },
+    feedback: {
+      marginBottom: '1.5rem',
+      padding: '0.85rem 1rem',
+      borderRadius: '10px',
+      fontWeight: 600,
+    },
+    feedbackOk: {
+    background: 'var(--ifm-background-surface-color)',
+    border: '1px solid var(--ifm-border-color)',
+    color: 'var(--ifm-color-emphasis-800)',
+    },
+    feedbackError: {
+    background: 'var(--ifm-background-surface-color)',
+    border: '1px solid var(--ifm-border-color)',
+    color: 'var(--ifm-color-emphasis-800)',
+    },
+  };
 
 function LandSurveyApp() {
   const [points, setPoints] = useState([]);
@@ -423,8 +423,8 @@ function LandSurveyApp() {
                       cx={point.x}
                       cy={point.y}
                       r="1.8"
-                      fill="#0ea5e9"
-                      stroke="#0f172a"
+                      fill="var(--app-accent-blue)"
+                      stroke="var(--app-overlay-stroke)"
                       strokeWidth="0.3"
                     >
                       <title>{`Point ${index + 1}: ${points[index].lat.toFixed(6)}, ${points[index].lng.toFixed(6)}`}</title>
@@ -434,15 +434,15 @@ function LandSurveyApp() {
                     (isClosed ? (
                       <polygon
                         points={polygonPoints}
-                        fill="rgba(67, 160, 71, 0.28)"
-                        stroke="#4caf50"
+                        fill="var(--app-polygon-fill)"
+                        stroke="var(--app-accent-green)"
                         strokeWidth="0.6"
                       />
                     ) : (
                       <polyline
                         points={polygonPoints}
                         fill="none"
-                        stroke="#4caf50"
+                        stroke="var(--app-accent-green)"
                         strokeWidth="0.6"
                       />
                     ))}

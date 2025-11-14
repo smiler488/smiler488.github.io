@@ -72,10 +72,26 @@
   --home-grid-bg: #e6e7ea;
   --home-grid-line: #c8c9cc;
   --home-grid-letter: #000000;
+  --app-accent-blue: #0ea5e9;
+  --app-accent-green: #4caf50;
+  --app-accent-muted: #94a3b8;
+  --app-overlay-stroke: #0f172a;
+  --app-previewer-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(16, 185, 129, 0.08));
+  --app-polygon-fill: rgba(67, 160, 71, 0.28);
+  --app-overlay-bg: rgba(255, 255, 255, 0.75);
+  /* Docs sidebar (desktop) */
+  --doc-sidebar-background: var(--ifm-navbar-background-color);
+  --doc-sidebar-border: var(--ifm-border-color);
+  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
+  --doc-sidebar-active-bg: var(--ifm-background-surface-color);
+  /* Scrollbar */
+  --scrollbar-bg: rgba(0, 0, 0, 0.08);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.25);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
 }
 
 /* 深色模式 - 科技风格深色主题 */
-[data-theme='dark'] {
+html[data-theme='dark'] {
   --ifm-color-primary: #aaaaaa;
   --ifm-color-primary-dark: #888888;
   --ifm-color-primary-darker: #666666;
@@ -127,6 +143,22 @@
   --home-grid-bg: #2a2a2e;
   --home-grid-line: #5b5c60;
   --home-grid-letter: #ffffff;
+  --app-accent-blue: #38bdf8;
+  --app-accent-green: #22c55e;
+  --app-accent-muted: #cbd5e1;
+  --app-overlay-stroke: #e5e7eb;
+  --app-previewer-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(16, 185, 129, 0.12));
+  --app-polygon-fill: rgba(34, 197, 94, 0.28);
+  --app-overlay-bg: rgba(0, 0, 0, 0.6);
+  /* Docs sidebar (desktop) */
+  --doc-sidebar-background: var(--ifm-navbar-background-color);
+  --doc-sidebar-border: var(--ifm-border-color);
+  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
+  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
+  /* Scrollbar */
+  --scrollbar-bg: rgba(255, 255, 255, 0.06);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.22);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
 }
 
 /* Tech-style component enhancements */
@@ -137,6 +169,7 @@
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--ifm-border-color);
   background-color: var(--ifm-navbar-background-color);
+  color: var(--ifm-navbar-link-color);
 }
 
 .navbar__inner,
@@ -144,6 +177,10 @@
 .navbar__toggle {
   background-color: var(--ifm-navbar-background-color);
   color: var(--ifm-navbar-link-color);
+}
+
+.navbar__logo img {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
 }
 
 .navbar__brand,
@@ -160,6 +197,17 @@
 
 .navbar__link:hover {
   color: var(--ifm-color-primary);
+}
+
+html[data-theme='dark'] .navbar,
+html[data-theme='dark'] .navbar__inner,
+html[data-theme='dark'] .navbar__items,
+html[data-theme='dark'] .navbar__toggle,
+html[data-theme='dark'] .navbar__brand,
+html[data-theme='dark'] .navbar__link,
+html[data-theme='dark'] .navbar__title {
+  color: var(--ifm-navbar-link-color);
+  background-color: var(--ifm-navbar-background-color);
 }
 
 /* Hero section improvements */
@@ -353,6 +401,8 @@ code {
 .footer {
   border-top: 1px solid var(--ifm-border-color);
   padding: 3rem 0;
+  background: var(--ifm-footer-background-color);
+  color: var(--ifm-footer-color);
 }
 
 .footer__links {
@@ -367,6 +417,18 @@ code {
 .footer__link-item:hover {
   color: var(--ifm-color-primary);
   text-decoration: none;
+}
+
+.footer__title {
+  color: var(--ifm-footer-color);
+}
+
+.footer__link-item {
+  color: var(--ifm-footer-link-color);
+}
+
+.footer__link-item:hover {
+  color: var(--ifm-footer-link-hover-color);
 }
 
 /* Typography improvements */
@@ -514,6 +576,19 @@ a:hover {
 }
 }
 
+html[data-theme='dark'] .navbar-sidebar {
+  background: var(--ifm-navbar-background-color);
+  color: var(--ifm-navbar-link-color);
+}
+
+html[data-theme='dark'] .navbar-sidebar__item .navbar__link {
+  color: var(--ifm-navbar-link-color);
+}
+
+html[data-theme='dark'] .navbar-sidebar__backdrop {
+  background: rgba(2, 6, 23, 0.65);
+}
+
 /* 文档侧边栏 */
 .theme-doc-sidebar-container {
   background: var(--doc-sidebar-background);
@@ -521,10 +596,12 @@ a:hover {
   box-shadow: var(--ifm-global-shadow-lw);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .theme-doc-sidebar-menu {
   padding: 1rem 0.75rem;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .theme-doc-sidebar-menu .menu__link {
@@ -546,6 +623,44 @@ html[data-theme='dark'] .theme-doc-sidebar-menu .menu__link {
 
 .theme-doc-sidebar-menu .menu__link--active {
   font-weight: 600;
+}
+
+/* Caret / collapse arrow contrast */
+.theme-doc-sidebar-menu .menu__caret {
+  color: var(--doc-sidebar-link-color);
+  opacity: 0.9;
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-menu .menu__caret {
+  color: var(--doc-sidebar-link-color);
+  opacity: 0.8;
+}
+.theme-doc-sidebar-menu .menu__link:hover .menu__caret,
+.theme-doc-sidebar-menu .menu__list-item--collapsed .menu__caret,
+.navbar-sidebar .menu__link:hover .menu__caret {
+  color: var(--ifm-color-primary);
+}
+
+/* Scrollbar global styling */
+html {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+  scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Mobile fallback menu removed: rely on Docusaurus native sidebar */

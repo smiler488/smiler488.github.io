@@ -127,16 +127,16 @@ const WeatherPage = () => {
           </div>
         </div>
 
-        <div
-          style={{
-            backgroundColor: "#f8f9fa",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-            marginBottom: "30px",
-          }}
-        >
-          <h3 style={{ color: "#333333", marginBottom: "20px" }}>
+          <div
+            style={{
+              backgroundColor: 'var(--ifm-background-surface-color)',
+              padding: '20px',
+              borderRadius: '12px',
+              boxShadow: 'var(--ifm-global-shadow-md)',
+              marginBottom: '30px',
+            }}
+          >
+          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
             Location & Date Range
           </h3>
 
@@ -154,7 +154,7 @@ const WeatherPage = () => {
                   display: "block",
                   fontWeight: "bold",
                   marginBottom: "5px",
-                  color: "#495057",
+                  color: 'var(--ifm-color-emphasis-800)',
                 }}
               >
                 Latitude:
@@ -165,11 +165,11 @@ const WeatherPage = () => {
                 placeholder="Enter Latitude (e.g., 44.30)"
                 step="0.0001"
                 style={{
-                  width: "100%",
-                  padding: "10px",
-                  border: "2px solid #e9ecef",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
                 }}
               />
             </div>
@@ -180,7 +180,7 @@ const WeatherPage = () => {
                   display: "block",
                   fontWeight: "bold",
                   marginBottom: "5px",
-                  color: "#495057",
+                  color: 'var(--ifm-color-emphasis-800)',
                 }}
               >
                 Longitude:
@@ -191,11 +191,11 @@ const WeatherPage = () => {
                 placeholder="Enter Longitude (e.g., 86.05)"
                 step="0.0001"
                 style={{
-                  width: "100%",
-                  padding: "10px",
-                  border: "2px solid #e9ecef",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
                 }}
               />
             </div>
@@ -206,7 +206,7 @@ const WeatherPage = () => {
                   display: "block",
                   fontWeight: "bold",
                   marginBottom: "5px",
-                  color: "#495057",
+                  color: 'var(--ifm-color-emphasis-800)',
                 }}
               >
                 Start Date:
@@ -215,11 +215,11 @@ const WeatherPage = () => {
                 type="date"
                 id="startDate"
                 style={{
-                  width: "100%",
-                  padding: "10px",
-                  border: "2px solid #e9ecef",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
                 }}
               />
             </div>
@@ -230,7 +230,7 @@ const WeatherPage = () => {
                   display: "block",
                   fontWeight: "bold",
                   marginBottom: "5px",
-                  color: "#495057",
+                  color: 'var(--ifm-color-emphasis-800)',
                 }}
               >
                 End Date:
@@ -239,11 +239,11 @@ const WeatherPage = () => {
                 type="date"
                 id="endDate"
                 style={{
-                  width: "100%",
-                  padding: "10px",
-                  border: "2px solid #e9ecef",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
                 }}
               />
             </div>
@@ -263,22 +263,22 @@ const WeatherPage = () => {
                 placeholder="Search place or address"
                 style={{
                   flex: 1,
-                  padding: "10px",
-                  border: "2px solid #e9ecef",
-                  borderRadius: "6px",
-                  fontSize: "14px",
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
                 }}
               />
               <button
                 id="searchBtn"
                 style={{
-                  padding: "10px 16px",
-                  backgroundColor: "#000000",
-                  color: "#ffffff",
-                  border: "1px solid #000000",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "14px",
+                  padding: '10px 16px',
+                  backgroundColor: 'var(--ifm-color-primary)',
+                  color: 'var(--ifm-color-white)',
+                  border: '1px solid var(--ifm-color-primary)',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
                   fontWeight: 500,
                 }}
               >
@@ -288,10 +288,10 @@ const WeatherPage = () => {
             <div
               id="weatherMap"
               style={{
-                width: "100%",
-                height: "420px",
-                border: "1px solid #e9ecef",
-                borderRadius: "8px",
+                width: '100%',
+                height: '420px',
+                border: '1px solid var(--ifm-border-color)',
+                borderRadius: '8px',
               }}
             ></div>
           </div>
@@ -307,14 +307,14 @@ const WeatherPage = () => {
             <button
               id="getLocationBtn"
               style={{
-                padding: "12px 24px",
-                backgroundColor: "#6c6c70",
-                color: "#ffffff",
-                border: "1px solid #6c6c70",
-                borderRadius: "10px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "500",
+                padding: '12px 24px',
+                backgroundColor: 'var(--ifm-color-primary)',
+                color: 'var(--ifm-color-white)',
+                border: '1px solid var(--ifm-color-primary)',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
               }}
               disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
             >
@@ -324,14 +324,14 @@ const WeatherPage = () => {
             <button
               id="getDataBtn"
               style={{
-                padding: "12px 24px",
-                backgroundColor: "#6c6c70",
-                color: "#ffffff",
-                border: "1px solid #6c6c70",
-                borderRadius: "10px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "500",
+                padding: '12px 24px',
+                backgroundColor: 'var(--ifm-color-primary)',
+                color: 'var(--ifm-color-white)',
+                border: '1px solid var(--ifm-color-primary)',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
               }}
               disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
             >
@@ -343,22 +343,22 @@ const WeatherPage = () => {
         {/* Status and Progress */}
         <div
           style={{
-            backgroundColor: "#fff",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-            marginBottom: "30px",
+            backgroundColor: 'var(--ifm-background-color)',
+            padding: '20px',
+            borderRadius: '12px',
+            boxShadow: 'var(--ifm-global-shadow-md)',
+            marginBottom: '30px',
           }}
         >
-          <h3 style={{ color: "#495057", marginBottom: "15px" }}>Status</h3>
+          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Status</h3>
           <p
             id="statusMessage"
             style={{
-              margin: "0",
-              padding: "10px",
-              backgroundColor: "#e9ecef",
-              borderRadius: "6px",
-              fontWeight: "500",
+              margin: '0',
+              padding: '10px',
+              backgroundColor: 'var(--ifm-background-surface-color)',
+              borderRadius: '6px',
+              fontWeight: '500',
             }}
           >
             Ready to download NASA POWER weather data
@@ -366,30 +366,30 @@ const WeatherPage = () => {
 
           <div
             id="progressContainer"
-            style={{ display: "none", marginTop: "15px" }}
+            style={{ display: 'none', marginTop: '15px' }}
           >
             <div
               style={{
-                width: "100%",
-                height: "8px",
-                backgroundColor: "#e9ecef",
-                borderRadius: "4px",
-                overflow: "hidden",
+                width: '100%',
+                height: '8px',
+                backgroundColor: 'var(--ifm-background-surface-color)',
+                borderRadius: '4px',
+                overflow: 'hidden',
               }}
             >
               <div
                 id="progressBar"
                 style={{
-                  width: "0%",
-                  height: "100%",
-                  backgroundColor: "#000000",
-                  transition: "width 0.3s ease",
+                  width: '0%',
+                  height: '100%',
+                  backgroundColor: 'var(--ifm-color-primary)',
+                  transition: 'width 0.3s ease',
                 }}
               ></div>
             </div>
             <p
               id="progressText"
-              style={{ margin: "5px 0 0", fontSize: "14px", color: "#6c757d" }}
+            style={{ margin: '5px 0 0', fontSize: '14px', color: 'var(--ifm-color-emphasis-600)' }}
             >
               Processing...
             </p>
@@ -400,21 +400,21 @@ const WeatherPage = () => {
         <div
           id="dataPreview"
           style={{
-            backgroundColor: "#fff",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-            marginBottom: "30px",
-            display: "none",
+            backgroundColor: 'var(--ifm-background-color)',
+            padding: '20px',
+            borderRadius: '12px',
+            boxShadow: 'var(--ifm-global-shadow-md)',
+            marginBottom: '30px',
+            display: 'none',
           }}
         >
-          <h3 style={{ color: "#495057", marginBottom: "15px" }}>Data Preview</h3>
+          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Data Preview</h3>
           <div
             id="dataTable"
             style={{
-              overflowX: "auto",
-              border: "1px solid #dee2e6",
-              borderRadius: "6px",
+              overflowX: 'auto',
+              border: '1px solid var(--ifm-border-color)',
+              borderRadius: '6px',
             }}
           ></div>
 
@@ -430,16 +430,16 @@ const WeatherPage = () => {
             <a
               id="downloadCsvBtn"
               href="#"
-              style={{
-                display: "none",
-                padding: "12px 24px",
-                backgroundColor: "#000000",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "6px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
+                style={{
+                  display: 'none',
+                  padding: '12px 24px',
+                  backgroundColor: 'var(--ifm-color-primary)',
+                  color: 'var(--ifm-color-white)',
+                  textDecoration: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                }}
             >
               Download CSV
             </a>
@@ -447,16 +447,16 @@ const WeatherPage = () => {
             <a
               id="downloadExcelBtn"
               href="#"
-              style={{
-                display: "none",
-                padding: "12px 24px",
-                backgroundColor: "#000000",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "6px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
+                style={{
+                  display: 'none',
+                  padding: '12px 24px',
+                  backgroundColor: 'var(--ifm-color-primary)',
+                  color: 'var(--ifm-color-white)',
+                  textDecoration: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                }}
             >
               Download Excel (PCSE Format)
             </a>
@@ -466,13 +466,13 @@ const WeatherPage = () => {
         {/* Available Parameters */}
         <div
           style={{
-            backgroundColor: "#fff",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            backgroundColor: 'var(--ifm-background-color)',
+            padding: '20px',
+            borderRadius: '12px',
+            boxShadow: 'var(--ifm-global-shadow-md)',
           }}
         >
-          <h3 style={{ color: "#495057", marginBottom: "20px" }}>
+          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
             Available NASA POWER Parameters
           </h3>
 
@@ -528,15 +528,15 @@ const WeatherPage = () => {
               <div
                 key={index}
                 style={{
-                  padding: "15px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef",
+                  padding: '15px',
+                  backgroundColor: 'var(--ifm-background-surface-color)',
+                  borderRadius: '8px',
+                  border: '1px solid var(--ifm-border-color)',
                 }}
               >
                 <h4
                   style={{
-                    color: "#000000",
+                  color: 'var(--ifm-color-emphasis-900)',
                     margin: "0 0 8px 0",
                     fontSize: "16px",
                   }}
@@ -547,7 +547,7 @@ const WeatherPage = () => {
                   style={{
                     margin: "0 0 5px 0",
                     fontSize: "14px",
-                    color: "#495057",
+                  color: 'var(--ifm-color-emphasis-800)',
                   }}
                 >
                   {param.desc}
@@ -556,7 +556,7 @@ const WeatherPage = () => {
                   style={{
                     margin: "0",
                     fontSize: "12px",
-                    color: "#6c757d",
+                  color: 'var(--ifm-color-emphasis-600)',
                     fontWeight: "500",
                   }}
                 >

@@ -871,12 +871,12 @@ OUTPUT:
       </div>
       <RequireAuthBanner />
       <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
-      <p style={{ fontSize: 14, color: '#666' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
+      <p style={{ fontSize: 14, color: 'var(--ifm-color-emphasis-600)' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 
       <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
           {/* Input Mode Selection */}
-          <fieldset style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12, marginBottom: 16 }}>
+          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginBottom: 16 }}>
             <legend>Input Mode</legend>
             <label style={{ display: 'block', marginBottom: 8 }}>
               <input 
@@ -911,7 +911,7 @@ OUTPUT:
           {captureMode === 'camera' && (
             <div>
               <video ref={videoRef} autoPlay playsInline style={{ width: 320, background: '#000', borderRadius: 8 }} />
-              <div style={{ marginTop: 8, color: '#666' }}>
+              <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
                 {ready ? 'Camera ready' : error ? `Camera error: ${error}` : 'Requesting camera permission…'}
               </div>
               <button onClick={handleShoot} disabled={!ready || busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
@@ -926,13 +926,13 @@ OUTPUT:
               {!isSelecting ? (
                 // 初始状态 - 显示截图按钮
                 <>
-                  <div style={{ width: 320, height: 240, background: '#f5f5f5', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #ccc' }}>
-                    <div style={{ textAlign: 'center', color: '#666' }}>
+                  <div style={{ width: 320, height: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed var(--ifm-border-color)' }}>
+                    <div style={{ textAlign: 'center', color: 'var(--ifm-color-emphasis-600)' }}>
                       <div style={{ fontSize: 48, marginBottom: 8 }}> </div>
                       <div>Click the button below to start screenshot</div>
                     </div>
                   </div>
-                  <div style={{ marginTop: 8, color: '#666' }}>
+                  <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
                     Screenshot mode: You can select a specific area after capturing
                   </div>
                   <button onClick={handleScreenshot} disabled={busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
@@ -942,7 +942,7 @@ OUTPUT:
               ) : (
                 // 选择状态 - 显示截图和选择框
                 <>
-                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid #000000', borderRadius: 8, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid var(--ifm-color-emphasis-900)', borderRadius: 8, overflow: 'hidden' }}>
                     <img 
                       src={screenshotData?.dataUrl} 
                       alt="Screenshot" 
@@ -957,7 +957,7 @@ OUTPUT:
                           top: `${(selectionBox.y / screenshotData.height) * 100}%`,
                           width: `${(selectionBox.width / screenshotData.width) * 100}%`,
                           height: `${(selectionBox.height / screenshotData.height) * 100}%`,
-                          border: '2px solid #333333',
+                          border: '2px solid var(--ifm-color-emphasis-800)',
                           backgroundColor: 'rgba(0, 0, 0, 0.06)',
                           cursor: 'move',
                           boxSizing: 'border-box'
@@ -976,7 +976,7 @@ OUTPUT:
                             top: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'nw-resize',
                             borderRadius: '50%'
                           }}
@@ -993,7 +993,7 @@ OUTPUT:
                             top: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'n-resize',
                             borderRadius: '50%',
                             transform: 'translateX(-50%)'
@@ -1011,7 +1011,7 @@ OUTPUT:
                             top: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'ne-resize',
                             borderRadius: '50%'
                           }}
@@ -1028,7 +1028,7 @@ OUTPUT:
                             top: '50%',
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'e-resize',
                             borderRadius: '50%',
                             transform: 'translateY(-50%)'
@@ -1046,7 +1046,7 @@ OUTPUT:
                             bottom: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'se-resize',
                             borderRadius: '50%'
                           }}
@@ -1063,7 +1063,7 @@ OUTPUT:
                             bottom: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 's-resize',
                             borderRadius: '50%',
                             transform: 'translateX(-50%)'
@@ -1081,7 +1081,7 @@ OUTPUT:
                             bottom: -4,
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'sw-resize',
                             borderRadius: '50%'
                           }}
@@ -1098,7 +1098,7 @@ OUTPUT:
                             top: '50%',
                             width: 8,
                             height: 8,
-                            backgroundColor: '#333333',
+                            backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'w-resize',
                             borderRadius: '50%',
                             transform: 'translateY(-50%)'
@@ -1111,21 +1111,21 @@ OUTPUT:
                       </div>
                     )}
                   </div>
-                  <div style={{ marginTop: 8, color: '#666', fontSize: 12 }}>
+                  <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)', fontSize: 12 }}>
                      Selection box shows selected area. Drag to move, drag corner to resize.
                   </div>
                   <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
                     <button 
                       onClick={handleConfirmSelection} 
                       disabled={busy} 
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c6c70', color: 'white', border: '1px solid #6c6c70', borderRadius: 4, cursor: 'pointer' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: 'pointer' }}
 >
                       {busy ? 'Processing…' : 'Analyze Selected Area'}
                     </button>
                     <button 
                       onClick={handleCancelSelection} 
                       disabled={busy}
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: '#6c6c70', color: 'white', border: '1px solid #6c6c70', borderRadius: 4, cursor: 'not-allowed' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: 'not-allowed' }}
                     >
                        Cancel
                     </button>
@@ -1138,8 +1138,8 @@ OUTPUT:
           {/* Text Question Mode */}
           {captureMode === 'text' && (
             <div>
-              <div style={{ width: 320, minHeight: 240, background: '#f9f9f9', borderRadius: 8, padding: 16, border: '1px solid #ddd' }}>
-                <div style={{ marginBottom: 12, color: '#666', fontSize: 14 }}> Text Question Mode</div>
+              <div style={{ width: 320, minHeight: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, padding: 16, border: '1px solid var(--ifm-border-color)' }}>
+                <div style={{ marginBottom: 12, color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}> Text Question Mode</div>
                 <textarea 
                   value={textInput}
                   onChange={e => setTextInput(e.target.value)}
@@ -1147,7 +1147,7 @@ OUTPUT:
                   style={{ 
                     width: '100%', 
                     height: 160, 
-                    border: '1px solid #ccc', 
+                    border: '1px solid var(--ifm-border-color)', 
                     borderRadius: 4, 
                     padding: 8, 
                     fontSize: 14,
@@ -1156,7 +1156,7 @@ OUTPUT:
                   }}
                 />
               </div>
-              <div style={{ marginTop: 8, color: '#666' }}>
+              <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
                 Enter your question directly and the AI will provide a detailed answer
               </div>
               <button 
@@ -1170,12 +1170,12 @@ OUTPUT:
           )}
 
           {lastSizeKB != null && (
-            <div style={{ marginTop: 6, fontSize: 12, color: '#999' }}>Last image size: {lastSizeKB} KB</div>
+            <div style={{ marginTop: 6, fontSize: 12, color: 'var(--ifm-color-emphasis-500)' }}>Last image size: {lastSizeKB} KB</div>
           )}
         </div>
 
         <div style={{ flex: 1, minWidth: 280 }}>
-          <fieldset style={{ border: '1px solid #e5e5ea', borderRadius: 8, padding: 12, marginBottom: 16, background: '#f5f5f7' }}>
+          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginBottom: 16, background: 'var(--ifm-background-surface-color)' }}>
             <legend>API Settings</legend>
             
             {/* Use Default API Button */}
@@ -1186,16 +1186,16 @@ OUTPUT:
                 style={{
                   padding: '6px 12px',
                   fontSize: 12,
-                  backgroundColor: useDefaultApi ? '#4CAF50' : '#f0f0f0',
-                  color: useDefaultApi ? 'white' : '#333',
-                  border: '1px solid #ccc',
+                  backgroundColor: useDefaultApi ? 'var(--ifm-color-success)' : 'var(--ifm-background-surface-color)',
+                  color: useDefaultApi ? 'var(--ifm-color-emphasis-0)' : 'var(--ifm-color-emphasis-800)',
+                  border: '1px solid var(--ifm-border-color)',
                   borderRadius: 4,
                   cursor: 'pointer'
                 }}
               >
                 {useDefaultApi ? '✓ Using Default API' : 'Use Default API'}
               </button>
-              <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
+              <div style={{ fontSize: 11, color: 'var(--ifm-color-emphasis-600)', marginTop: 4 }}>
                 {useDefaultApi
                   ? `Default API enabled → ${defaultApiEndpoint}`
                   : `Click to send requests to ${defaultApiEndpoint}`}
@@ -1211,14 +1211,14 @@ OUTPUT:
                 disabled={useDefaultApi}
               />
             </label>
-            <div style={{ color: '#345', fontSize: 12, marginTop: 8 }}>
+            <div style={{ color: 'var(--ifm-color-emphasis-700)', fontSize: 12, marginTop: 8 }}>
               {useDefaultApi 
                 ? 'Using default API. Disable to enter custom API.' 
                 : 'Enter your API endpoint or enable default API above.'}
             </div>
           </fieldset>
 
-          <fieldset style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12 }}>
+          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12 }}>
             <legend>Request Parameters</legend>
             <label>Model<br />
               <input value={model} onChange={e => setModel(e.target.value)} style={{ width: '100%' }} />
@@ -1240,14 +1240,14 @@ OUTPUT:
                       }
                     }
                   }}
-                  style={{ width: '100%', padding: '4px 8px', borderRadius: 4, border: '1px solid #ccc' }}
+                  style={{ width: '100%', padding: '4px 8px', borderRadius: 4, border: '1px solid var(--ifm-border-color)' }}
                 >
                   {promptPresets.map(preset => (
                     <option key={preset.id} value={preset.id}>{preset.name}</option>
                   ))}
                 </select>
               </label>
-              <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
+              <div style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)', marginTop: 4 }}>
                 {promptPresets.find(p => p.id === selectedPreset)?.description || ''}
               </div>
             </div>
@@ -1264,7 +1264,7 @@ OUTPUT:
                 />
               </label>
             ) : (
-              <div style={{ marginTop: 12, fontSize: 12, color: '#666' }}>
+              <div style={{ marginTop: 12, fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
                 Preset instructions are applied automatically based on the selected mode.
               </div>
             )}
@@ -1276,13 +1276,13 @@ OUTPUT:
         <h3>Response</h3>
         <div style={{ 
           whiteSpace: 'pre-wrap', 
-          background: '#f8f9fa', 
-          color: '#212529', 
+          background: 'var(--ifm-background-surface-color)', 
+          color: 'var(--ifm-color-emphasis-900)', 
           padding: 16, 
           borderRadius: 8, 
           maxHeight: 400, 
           overflow: 'auto',
-          border: '1px solid #dee2e6',
+          border: '1px solid var(--ifm-border-color)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           fontSize: '16px',
           lineHeight: 1.5
@@ -1300,10 +1300,10 @@ OUTPUT:
               padding: '4px 8px', 
               fontSize: 12, 
               background: 'transparent', 
-              border: '1px solid #ccc', 
+              border: '1px solid var(--ifm-border-color)', 
               borderRadius: 4, 
               cursor: 'pointer',
-              color: '#666'
+              color: 'var(--ifm-color-emphasis-600)'
             }}
           >
             Show Raw JSON

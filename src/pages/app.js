@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import CitationNotice from "../components/CitationNotice";
+import styles from "./app.module.css";
 
 const AppHub = () => {
   const apps = [
@@ -92,113 +93,20 @@ const AppHub = () => {
 
   return (
     <Layout title="Digital Plant Phenotyping Platform v25.0">
-      <div style={{ textAlign: "center", padding: "40px 20px" }}>
-        <h1 style={{ 
-          fontSize: "3rem", 
-          fontWeight: "700", 
-          marginBottom: "16px",
-          letterSpacing: "-0.02em",
-          color: "#000000"
-        }}>
-          Digital Plant Phenotyping Platform v25.0
-        </h1>
-        <p style={{ 
-          fontSize: "1.2rem", 
-          color: "#666666", 
-          marginBottom: "40px",
-          maxWidth: "600px",
-          margin: "0 auto 40px",
-          lineHeight: "1.6"
-        }}>
-          Select an app to explore.
-        </p>
+      <div className={styles.hero}>
+        <h1 className={styles.title}>Digital Plant Phenotyping Platform v25.0</h1>
+        <p className={styles.subtitle}>Select an app to explore.</p>
 
-        {/* App cards laid out in a responsive grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "24px",
-            maxWidth: "1200px",
-            margin: "0 auto",
-            padding: "0 20px",
-          }}
-        >
+        <div className={styles.appGrid}>
           {apps.map((app, index) => (
-            <div
-              key={index}
-              style={{
-                border: "1px solid #e5e5e7",
-                borderRadius: "16px",
-                padding: "24px",
-                textAlign: "left",
-                backgroundColor: "#ffffff",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                minHeight: "200px",
-                transition: "all 0.3s ease",
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)";
-                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.12)";
-                e.currentTarget.style.borderColor = "#d2d2d7";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.04)";
-                e.currentTarget.style.borderColor = "#e5e5e7";
-              }}
-            >
+            <div key={index} className={styles.appCard}>
               <div>
-                <h3
-                  style={{
-                    marginTop: "0",
-                    marginBottom: "12px",
-                    color: "#000000",
-                    fontSize: "1.5rem",
-                    fontWeight: "600",
-                    letterSpacing: "-0.01em"
-                  }}
-                >
-                  {app.name}
-                </h3>
-                <p style={{ 
-                  flexGrow: 1, 
-                  marginBottom: "20px", 
-                  overflow: "hidden",
-                  color: "#666666",
-                  lineHeight: "1.6",
-                  fontSize: "1rem"
-                }}>
-                  {app.description}
-                </p>
+                <h3 className={styles.cardTitle}>{app.name}</h3>
+                <p className={styles.cardDescription}>{app.description}</p>
               </div>
               <a
                 href={app.link}
-                style={{
-                  textDecoration: "none",
-                  color: "#ffffff",
-                  backgroundColor: "#000000",
-                  padding: "12px 20px",
-                  borderRadius: "12px",
-                  textAlign: "center",
-                  fontWeight: "500",
-                  transition: "all 0.2s ease",
-                  fontSize: "1rem",
-                  border: "1px solid #000000"
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = "#333333";
-                  e.currentTarget.style.borderColor = "#333333";
-                  e.currentTarget.style.transform = "scale(1.02)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = "#000000";
-                  e.currentTarget.style.borderColor = "#000000";
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
+                className={styles.appLink}
               >
                 Open
               </a>

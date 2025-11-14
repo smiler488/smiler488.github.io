@@ -427,7 +427,7 @@ export default function CloudNotePage() {
             <a className="button button--secondary" href="/auth">Login / Register</a>
           </div>
         </div>
-        <p style={{ color: "#444" }}>
+        <p style={{ color: 'var(--ifm-color-emphasis-800)' }}>
           Create a temporary/shareable note. This zero-backend version stores the note encrypted in the URL fragment.
           Sharing the link allows others to open it. Use a password for higher privacy (recipient must know the password).
         </p>
@@ -453,12 +453,12 @@ export default function CloudNotePage() {
                 <input type="checkbox" checked={readOnly} onChange={(e) => setReadOnly(e.target.checked)} />
                 <div>Read-only link</div>
               </div>
-              <small style={{ color: "#666" }}>Marking read-only is advisory in static links.</small>
+              <small style={{ color: 'var(--ifm-color-emphasis-600)' }}>Marking read-only is advisory in static links.</small>
             </label>
             <label style={{ flexBasis: 260 }}>
               <div>Protect with password (optional)</div>
               <input style={styles.input} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Optional password" />
-              <small style={{ color: "#666" }}>
+              <small style={{ color: 'var(--ifm-color-emphasis-600)' }}>
                 If set, recipients will need the password to open the note.
               </small>
             </label>
@@ -472,8 +472,8 @@ export default function CloudNotePage() {
           </div>
 
           {generatedLink && (
-            <div style={{ background: "#f5f5f7", padding: 8, borderRadius: 6 }}>
-              <div style={{ fontSize: 13 }}>Share link (fragment)</div>
+            <div style={{ background: 'var(--ifm-background-surface-color)', padding: 8, borderRadius: 6 }}>
+              <div style={{ fontSize: 13, color: 'var(--ifm-color-emphasis-700)' }}>Share link (fragment)</div>
               <textarea readOnly rows={2} style={styles.shareArea} value={generatedLink} />
             </div>
           )}
@@ -502,7 +502,7 @@ export default function CloudNotePage() {
                 <button onClick={onOpenByNamePassword} style={styles.btnPrimary} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>Open</button>
                 <button onClick={() => { setLookupName(""); setLookupPassword(""); setStatus(""); }} style={styles.btnGhost}>Clear</button>
               </div>
-              <div style={{ color: "#666", fontSize: 13 }}>
+              <div style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 13 }}>
                 Notes saved by password-protected generation (this browser) are accessible by entering the same name and password.
               </div>
             </div>
@@ -510,7 +510,7 @@ export default function CloudNotePage() {
 
           {parsedFrag ? (
             <div>
-              <div style={{ padding: 8, background: "#f5f5f7", borderRadius: 6 }}>
+              <div style={{ padding: 8, background: 'var(--ifm-background-surface-color)', borderRadius: 6 }}>
                 Parsed shared link found in URL fragment. Mode: <b>{parsedFrag.payload.mode}</b>.
               </div>
               {parsedFrag.payload.mode === "pw" && (
@@ -538,9 +538,9 @@ export default function CloudNotePage() {
           )}
 
           {openedNote && (
-            <div style={{ marginTop: 12, padding: 12, borderRadius: 8, background: "#f5f5f7" }}>
+            <div style={{ marginTop: 12, padding: 12, borderRadius: 8, background: 'var(--ifm-background-surface-color)' }}>
               <h3>{openedNote.name}</h3>
-              <div style={{ color: "#666", fontSize: 13 }}>
+              <div style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 13 }}>
                 Created: {openedNote.createdAtISO}
                 {openedNote.expiresAtISO && <span> · Expires: {openedNote.expiresAtISO}</span>}
                 {openedNote.readOnly && <span> · Read-only</span>}
@@ -568,10 +568,10 @@ export default function CloudNotePage() {
 }
 
 const styles = {
-  input: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc" },
-  textarea: { width: "100%", padding: "8px 10px", marginTop: 6, borderRadius: 6, border: "1px solid #ccc", fontFamily: "inherit" },
-  shareArea: { width: "100%", borderRadius: 6, border: "1px solid #ddd", padding: 6 },
-  btnPrimary: { background: "#6c6c70", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #6c6c70", cursor: "pointer" },
-  btnSecondary: { background: "#6c6c70", color: "#ffffff", padding: "8px 12px", borderRadius: 6, border: "1px solid #6c6c70", cursor: "pointer" },
-  btnGhost: { background: "#fff", color: "#111", padding: "8px 12px", borderRadius: 6, border: "1px solid #ddd", cursor: "pointer" },
+  input: { width: '100%', padding: '8px 10px', marginTop: 6, borderRadius: 6, border: '1px solid var(--ifm-border-color)' },
+  textarea: { width: '100%', padding: '8px 10px', marginTop: 6, borderRadius: 6, border: '1px solid var(--ifm-border-color)', fontFamily: 'inherit' },
+  shareArea: { width: '100%', borderRadius: 6, border: '1px solid var(--ifm-border-color)', padding: 6 },
+  btnPrimary: { background: 'var(--ifm-color-primary)', color: 'var(--ifm-color-white)', padding: '8px 12px', borderRadius: 6, border: '1px solid var(--ifm-color-primary)', cursor: 'pointer' },
+  btnSecondary: { background: 'var(--ifm-color-primary)', color: 'var(--ifm-color-white)', padding: '8px 12px', borderRadius: 6, border: '1px solid var(--ifm-color-primary)', cursor: 'pointer' },
+  btnGhost: { background: 'var(--ifm-background-color)', color: 'var(--ifm-color-emphasis-900)', padding: '8px 12px', borderRadius: 6, border: '1px solid var(--ifm-border-color)', cursor: 'pointer' },
 };

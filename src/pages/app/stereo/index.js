@@ -32,22 +32,22 @@ export default function StereoPage() {
           <a className="button button--secondary" href="/docs/tutorial-apps/stereo-camera-tutorial">Tutorial</a>
         </div>
         <RequireAuthBanner />
-        <p style={{ textAlign: "center", color: "#7f8c8d", marginBottom: 30, fontSize: 16 }}>
+        <p style={{ textAlign: 'center', color: 'var(--ifm-color-emphasis-600)', marginBottom: 30, fontSize: 16 }}>
           High-precision stereo camera system for depth measurement
         </p>
 
         {/* System Status */}
         <div style={{
-          backgroundColor: "#f5f5f7",
+          backgroundColor: 'var(--ifm-background-surface-color)',
           padding: 15,
           borderRadius: 8,
           marginBottom: 20,
-          border: "1px solid #e5e5ea"
+          border: '1px solid var(--ifm-border-color)'
         }}>
           <div id="status" style={{
             fontSize: 14,
-            color: "#333333",
-            textAlign: "center",
+            color: 'var(--ifm-color-emphasis-800)',
+            textAlign: 'center',
             fontWeight: 500
           }}>
             Initializing stereo vision system...
@@ -56,13 +56,13 @@ export default function StereoPage() {
 
         {/* Camera Controls */}
         <div style={{
-          backgroundColor: "#f8f9fa",
+          backgroundColor: 'var(--ifm-background-surface-color)',
           padding: 20,
           borderRadius: 12,
           marginBottom: 20,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+          boxShadow: 'var(--ifm-global-shadow-lw)'
         }}>
-          <h3 style={{ margin: "0 0 15px 0", color: "#495057" }}>Camera Configuration</h3>
+          <h3 style={{ margin: '0 0 15px 0', color: 'var(--ifm-color-emphasis-800)' }}>Camera Configuration</h3>
           
           <div style={{
             display: "grid",
@@ -72,13 +72,13 @@ export default function StereoPage() {
             marginBottom: 15
           }}>
             <div>
-              <label style={{ display: "block", fontWeight: "bold", marginBottom: 5, color: "#495057" }}>
+              <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 5, color: 'var(--ifm-color-emphasis-800)' }}>
                 Video Device:
               </label>
               <select id="deviceSelect" style={{
-                width: "100%",
+                width: '100%',
                 padding: 8,
-                border: "2px solid #e9ecef",
+                border: '2px solid var(--ifm-border-color)',
                 borderRadius: 6,
                 fontSize: 14
               }}></select>
@@ -111,12 +111,12 @@ export default function StereoPage() {
             </div>
             
             <button id="startBtn" type="button" style={{
-              padding: "10px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              border: "1px solid #6c6c70",
+              padding: '10px 16px',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
-              cursor: "pointer",
+              cursor: 'pointer',
               fontSize: 14,
               fontWeight: 500
             }} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
@@ -124,12 +124,12 @@ export default function StereoPage() {
             </button>
             
             <button id="stopBtn" type="button" disabled style={{
-              padding: "10px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              border: "1px solid #6c6c70",
+              padding: '10px 16px',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
-              cursor: "not-allowed",
+              cursor: 'not-allowed',
               fontSize: 14,
               fontWeight: 500
             }}>
@@ -171,12 +171,12 @@ export default function StereoPage() {
         }}>
           {/* Original Stream */}
           <div style={{
-            backgroundColor: "#fff",
+            backgroundColor: 'var(--ifm-background-color)',
             padding: 15,
             borderRadius: 12,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+            boxShadow: 'var(--ifm-global-shadow-lw)'
           }}>
-            <h4 style={{ margin: "0 0 10px 0", color: "#495057" }}>Original Stream</h4>
+            <h4 style={{ margin: '0 0 10px 0', color: 'var(--ifm-color-emphasis-800)' }}>Original Stream</h4>
             <video
               id="video"
               playsInline
@@ -184,7 +184,7 @@ export default function StereoPage() {
               autoPlay
               style={{
                 width: "100%",
-                border: "2px solid #e9ecef",
+                border: '2px solid var(--ifm-border-color)',
                 borderRadius: 8,
                 backgroundColor: "#000"
               }}
@@ -194,10 +194,10 @@ export default function StereoPage() {
 
           {/* Rectified Views */}
           <div style={{
-            backgroundColor: "#fff",
+            backgroundColor: 'var(--ifm-background-color)',
             padding: 15,
             borderRadius: 12,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+            boxShadow: 'var(--ifm-global-shadow-lw)'
           }}>
             <h4 style={{ margin: "0 0 10px 0", color: "#495057" }}>Rectified & Depth</h4>
             <div style={{
@@ -207,29 +207,29 @@ export default function StereoPage() {
               marginBottom: 8
             }}>
               <div>
-                <div style={{ fontSize: 12, color: "#6c757d", marginBottom: 4 }}>Left Eye</div>
+                <div style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)', marginBottom: 4 }}>Left Eye</div>
                 <canvas id="leftRect" width="640" height="480" style={{
                   width: "100%",
-                  border: "1px solid #dee2e6",
+                  border: '1px solid var(--ifm-border-color)',
                   borderRadius: 4,
                   backgroundColor: "#000"
                 }}></canvas>
               </div>
               <div>
-                <div style={{ fontSize: 12, color: "#6c757d", marginBottom: 4 }}>Right Eye</div>
+                <div style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)', marginBottom: 4 }}>Right Eye</div>
                 <canvas id="rightRect" width="640" height="480" style={{
                   width: "100%",
-                  border: "1px solid #dee2e6",
+                  border: '1px solid var(--ifm-border-color)',
                   borderRadius: 4,
                   backgroundColor: "#000"
                 }}></canvas>
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 12, color: "#6c757d", marginBottom: 4 }}>Depth Map</div>
+              <div style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)', marginBottom: 4 }}>Depth Map</div>
               <canvas id="depthCanvas" width="640" height="480" style={{
                 width: "100%",
-                border: "1px solid #dee2e6",
+                border: '1px solid var(--ifm-border-color)',
                 borderRadius: 4,
                 backgroundColor: "#000"
               }}></canvas>
@@ -239,25 +239,25 @@ export default function StereoPage() {
 
         {/* Action Controls */}
         <div style={{
-          backgroundColor: "#fff",
+          backgroundColor: 'var(--ifm-background-color)',
           padding: 20,
           borderRadius: 12,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          boxShadow: 'var(--ifm-global-shadow-lw)',
           marginBottom: 20
         }}>
-          <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>Actions</h4>
+          <h4 style={{ margin: '0 0 15px 0', color: 'var(--ifm-color-emphasis-800)' }}>Actions</h4>
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
             gap: 15
           }}>
             <button id="captureBtn" type="button" disabled style={{
-              padding: "12px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              border: "1px solid #6c6c70",
+              padding: '12px 16px',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
-              cursor: "not-allowed",
+              cursor: 'not-allowed',
               fontSize: 14,
               fontWeight: 500
             }}>
@@ -266,9 +266,9 @@ export default function StereoPage() {
             
             <button id="computeDepthBtn" type="button" disabled style={{
               padding: "12px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              border: "1px solid #6c6c70",
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
               cursor: "not-allowed",
               fontSize: 14,
@@ -279,9 +279,9 @@ export default function StereoPage() {
             
             <button id="captureDepthBtn" type="button" disabled style={{
               padding: "12px 16px",
-              backgroundColor: "#6c6c70",
-              color: "#ffffff",
-              border: "1px solid #6c6c70",
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
               cursor: "not-allowed",
               fontSize: 14,
@@ -291,12 +291,12 @@ export default function StereoPage() {
             </button>
             
             <button id="downloadZipBtn" type="button" disabled style={{
-              padding: "12px 16px",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
+              padding: '12px 16px',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 6,
-              cursor: "pointer",
+              cursor: 'pointer',
               fontSize: 14,
               fontWeight: 500
             }}>
@@ -307,20 +307,20 @@ export default function StereoPage() {
 
         {/* Captures List */}
         <div style={{
-          backgroundColor: "#fff",
+          backgroundColor: '#fff',
           padding: 20,
           borderRadius: 12,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+          boxShadow: 'var(--ifm-global-shadow-lw)'
         }}>
           <h4 style={{ margin: "0 0 15px 0", color: "#495057" }}>Captured Data</h4>
           <div id="capturesList" style={{
             minHeight: 60,
             padding: 15,
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #e9ecef",
+            backgroundColor: 'var(--ifm-background-surface-color)',
+            border: '1px solid var(--ifm-border-color)',
             borderRadius: 6,
             fontSize: 14,
-            color: "#6c757d"
+            color: 'var(--ifm-color-emphasis-600)'
           }}>
             No captured data yet. Start camera to capture stereo images or depth maps.
           </div>

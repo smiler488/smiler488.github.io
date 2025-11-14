@@ -739,7 +739,7 @@ function attachErrorBars(option, errorBars) {
         const highCoord = highCoordArr[1];
         const size = typeof api.size === 'function' ? api.size([1, 0])[0] : 10;
         const cap = Math.max(6, Math.min(12, size * 0.25 || 8));
-        const style = api.style({ stroke: '#333', fill: null, lineWidth: 1.2 });
+        const style = api.style({ stroke: 'var(--ifm-color-emphasis-800)', fill: null, lineWidth: 1.2 });
         return {
           type: 'group',
           children: [
@@ -778,7 +778,7 @@ function applyTukeyLetters(option, lettersMap) {
     targetSeries.label = {
       show: true,
       position: 'top',
-      color: '#111',
+      color: 'var(--ifm-color-emphasis-900)',
       fontSize: 14,
       fontWeight: '600',
       backgroundColor: 'rgba(255,255,255,0.0)',
@@ -1008,10 +1008,11 @@ export default function AiDataVisualizerPage() {
 
   function handleDownloadChart() {
     if (!chartInstanceRef.current) return;
+    const cssBg = getComputedStyle(document.documentElement).getPropertyValue('--ifm-background-color').trim() || '#ffffff';
     const dataUrl = chartInstanceRef.current.getDataURL({
       type: 'png',
       pixelRatio: 2,
-      backgroundColor: '#ffffff',
+      backgroundColor: cssBg,
     });
     const link = document.createElement('a');
     link.href = dataUrl;

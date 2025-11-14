@@ -1,0 +1,93 @@
+.appContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.appTitle {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.lead {
+  margin: 8px 0 24px;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.6;
+}
+
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.controlCard {
+  border: 2px solid var(--ifm-border-color);
+  border-radius: 16px;
+  padding: 24px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.sectionTitle {
+  margin: 0 0 16px;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.formRow {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.select,
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-border-color);
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-900);
+  font-size: 14px;
+}
+
+.twoColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .twoColRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.divider {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid var(--ifm-border-color);
+}

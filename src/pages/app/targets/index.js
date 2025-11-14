@@ -3,6 +3,7 @@ import Layout from "@theme/Layout";
 import RequireAuthBanner from "../../../components/RequireAuthBanner";
 import Head from "@docusaurus/Head";
 import CitationNotice from "../../../components/CitationNotice";
+import styles from "./styles.module.css";
 
 export default function TargetsPage() {
   useEffect(() => {
@@ -12,7 +13,7 @@ export default function TargetsPage() {
     const setStatus = (msg, isError = false) => {
       if (statusEl()) {
         statusEl().textContent = msg;
-        statusEl().style.color = '#333333';
+        statusEl().style.color = 'var(--ifm-color-emphasis-800)';
         statusEl().style.fontWeight = isError ? 'bold' : 'normal';
       }
     };
@@ -40,10 +41,10 @@ export default function TargetsPage() {
       
       if (errors.length > 0) {
         box.textContent = "Invalid parameters";
-        box.style.color = '#333333';
+        box.style.color = 'var(--ifm-color-emphasis-800)';
         if (validationBox) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#333333';
+          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
           validationBox.style.display = 'block';
         }
         return;
@@ -56,11 +57,11 @@ export default function TargetsPage() {
       const boardHeight = sr * size;
       
       box.textContent = `Printed squares = ${sr} × ${sc} = ${totalSquares}`;
-      box.style.color = '#333333';
+      box.style.color = 'var(--ifm-color-emphasis-800)';
       
       if (validationBox) {
         validationBox.textContent = `Board size: ${boardWidth}×${boardHeight}mm`;
-        validationBox.style.color = '#6c757d';
+        validationBox.style.color = 'var(--ifm-color-emphasis-600)';
         validationBox.style.display = 'block';
       }
       
@@ -77,7 +78,7 @@ export default function TargetsPage() {
         const newSize = size * scaleNeeded;
         if (validationBox) {
           validationBox.textContent += ` | Will auto-scale to ${newSize.toFixed(1)}mm squares`;
-          validationBox.style.color = '#666666';
+          validationBox.style.color = 'var(--ifm-color-emphasis-600)';
         }
       }
     };
@@ -101,10 +102,10 @@ export default function TargetsPage() {
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#333333';
+          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
         } else {
           validationBox.textContent = `Target size: ${outer}mm diameter`;
-          validationBox.style.color = '#28a745';
+          validationBox.style.color = 'var(--app-accent-green)';
         }
         validationBox.style.display = 'block';
       }
@@ -130,11 +131,11 @@ export default function TargetsPage() {
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = '#333333';
+          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
         } else {
           const inner = outer - 2 * width;
           validationBox.textContent = `Ring: ${outer}mm outer, ${inner.toFixed(1)}mm inner`;
-          validationBox.style.color = '#28a745';
+          validationBox.style.color = 'var(--ifm-color-success)';
         }
         validationBox.style.display = 'block';
       }
@@ -401,98 +402,51 @@ export default function TargetsPage() {
         <script id="targets-script" src="/js/targets_app.js" defer></script>
       </Head>
 
-      <div className="app-container">
-        <div className="app-header" style={{ marginBottom: 16 }}>
-          <h1 className="app-title">Professional Calibration Targets Generator</h1>
+      <div className={styles.appContainer}>
+        <div className={styles.appHeader}>
+          <h1 className={styles.appTitle}>Professional Calibration Targets Generator</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/calibration-targets-tutorial">Tutorial</a>
         </div>
         <RequireAuthBanner />
-        <p style={{ marginTop: 4, marginBottom: 24, color: "#6c757d" }}>
+        <p className={styles.lead}>
           Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
           Print at <strong>100% / Actual size</strong> to preserve accurate measurements. 
           For chessboards, inputs are <strong>inner corners</strong> (intersection points).
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "400px 1fr",
-            gap: "32px",
-            alignItems: "start",
-          }}
-        >
+        <div className={styles.layoutGrid}>
           {/* Enhanced Control Panel */}
-          <div
-            id="controls"
-            style={{ 
-              border: "2px solid #e9ecef", 
-              borderRadius: 16, 
-              padding: 24,
-              backgroundColor: "#f8f9fa"
-            }}
-          >
-            <h3 style={{ marginTop: 0, color: "#495057" }}>Target Parameters</h3>
+          <div id="controls" className={styles.controlCard}>
+            <h3 className={styles.sectionTitle}>Target Parameters</h3>
 
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Target Type</label>
-              <select 
-                id="targetType" 
-                style={{ 
-                  width: "100%", 
-                  padding: "8px 12px",
-                  border: "1px solid #ced4da",
-                  borderRadius: 6,
-                  fontSize: 14
-                }}
-              >
+            <div className={styles.formRow}>
+              <label className={styles.label}>Target Type</label>
+              <select id="targetType" className={styles.select}>
                 <option value="chessboard">Chessboard (OpenCV Standard)</option>
                 <option value="bullseye">Bullseye (Concentric Circles)</option>
                 <option value="ringArcs">Ring with Arc Gaps</option>
               </select>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+            <div className={styles.twoColRow}>
               <div>
-                <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Paper Format</label>
-                <select 
-                  id="paper" 
-                  style={{ 
-                    width: "100%", 
-                    padding: "8px 12px",
-                    border: "1px solid #ced4da",
-                    borderRadius: 6,
-                    fontSize: 14
-                  }}
-                >
+                <label className={styles.label}>Paper Format</label>
+                <select id="paper" className={styles.select}>
                   <option value="a4">A4 (210×297 mm)</option>
                   <option value="letter">Letter (8.5×11 in)</option>
                 </select>
               </div>
               <div>
-                <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Margin (mm)</label>
-                <input
-                  id="margin"
-                  type="number"
-                  defaultValue="15"
-                  min="5"
-                  max="50"
-                  step="1"
-                  style={{ 
-                    width: "100%", 
-                    padding: "8px 12px",
-                    border: "1px solid #ced4da",
-                    borderRadius: 6,
-                    fontSize: 14
-                  }}
-                />
+                <label className={styles.label}>Margin (mm)</label>
+                <input id="margin" type="number" defaultValue="15" min="5" max="50" step="1" className={styles.input} />
               </div>
             </div>
 
-            <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid #dee2e6" }} />
+            <hr className={styles.divider} />
 
             {/* Enhanced Chessboard Parameters */}
             <div id="chessParams">
-              <h4 style={{ color: "#495057", marginBottom: 16 }}>Chessboard Configuration</h4>
+              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Chessboard Configuration</h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rows (inner corners)</label>
@@ -505,7 +459,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -522,7 +476,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -541,7 +495,7 @@ export default function TargetsPage() {
                   style={{ 
                     width: "100%", 
                     padding: "8px 12px",
-                    border: "1px solid #ced4da",
+                    border: "1px solid var(--ifm-border-color)",
                     borderRadius: 6,
                     fontSize: 14
                   }} 
@@ -549,10 +503,10 @@ export default function TargetsPage() {
               </div>
               <div style={{ 
                 padding: 12, 
-                backgroundColor: "#e3f2fd", 
+                backgroundColor: "var(--ifm-color-primary-lightest)", 
                 borderRadius: 8, 
                 fontSize: 12, 
-                color: "#1565c0",
+                color: "var(--ifm-color-primary-darker)",
                 marginBottom: 8
               }}>
                 <strong>Note:</strong> OpenCV detects <em>inner corners</em> (intersection points). 
@@ -564,8 +518,8 @@ export default function TargetsPage() {
                   fontSize: 13, 
                   fontWeight: "bold",
                   padding: 8,
-                  backgroundColor: "#fff",
-                  border: "1px solid #dee2e6",
+                  backgroundColor: "var(--ifm-background-color)",
+                  border: "1px solid var(--ifm-border-color)",
                   borderRadius: 6
                 }} 
               />
@@ -575,8 +529,8 @@ export default function TargetsPage() {
                   fontSize: 12, 
                   marginTop: 8,
                   padding: 8,
-                  backgroundColor: "#fff",
-                  border: "1px solid #dee2e6",
+                  backgroundColor: "var(--ifm-background-color)",
+                  border: "1px solid var(--ifm-border-color)",
                   borderRadius: 6,
                   display: "none"
                 }} 
@@ -585,7 +539,7 @@ export default function TargetsPage() {
 
             {/* Enhanced Bullseye Parameters */}
             <div id="bullseyeParams" style={{ display: "none" }}>
-              <h4 style={{ color: "#495057", marginBottom: 16 }}>Bullseye Configuration</h4>
+              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Bullseye Configuration</h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
@@ -599,7 +553,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -616,7 +570,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -634,7 +588,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -652,7 +606,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -664,8 +618,8 @@ export default function TargetsPage() {
                 style={{ 
                   fontSize: 12, 
                   padding: 8,
-                  backgroundColor: "#fff",
-                  border: "1px solid #dee2e6",
+                  backgroundColor: "var(--ifm-background-color)",
+                  border: "1px solid var(--ifm-border-color)",
                   borderRadius: 6,
                   display: "none"
                 }} 
@@ -674,7 +628,7 @@ export default function TargetsPage() {
 
             {/* Enhanced Ring Arcs Parameters */}
             <div id="RingArcsParams" style={{ display: "none" }}>
-              <h4 style={{ color: "#495057", marginBottom: 16 }}>Ring with Arc Gaps</h4>
+              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Ring with Arc Gaps</h4>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
@@ -688,7 +642,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -706,7 +660,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -724,7 +678,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -742,7 +696,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -760,7 +714,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -778,7 +732,7 @@ export default function TargetsPage() {
                     style={{ 
                       width: "100%", 
                       padding: "8px 12px",
-                      border: "1px solid #ced4da",
+                      border: "1px solid var(--ifm-border-color)",
                       borderRadius: 6,
                       fontSize: 14
                     }} 
@@ -790,15 +744,15 @@ export default function TargetsPage() {
                 style={{ 
                   fontSize: 12, 
                   padding: 8,
-                  backgroundColor: "#fff",
-                  border: "1px solid #dee2e6",
+                  backgroundColor: "var(--ifm-background-color)",
+                  border: "1px solid var(--ifm-border-color)",
                   borderRadius: 6,
                   display: "none"
                 }} 
               />
             </div>
 
-            <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid #dee2e6" }} />
+            <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid var(--ifm-border-color)" }} />
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <button 
@@ -806,10 +760,10 @@ export default function TargetsPage() {
                 id="btnPreview"
                 style={{
                   padding: "12px 16px",
-                  border: "2px solid #007bff",
+                  border: "2px solid var(--ifm-color-primary)",
                   borderRadius: 8,
-                  backgroundColor: "#fff",
-                  color: "#007bff",
+                  backgroundColor: "var(--ifm-background-color)",
+                  color: "var(--ifm-color-primary)",
                   fontWeight: "bold",
                   cursor: "pointer",
                   fontSize: 14
@@ -825,8 +779,8 @@ export default function TargetsPage() {
                   padding: "12px 16px",
                   border: "none",
                   borderRadius: 8,
-                  backgroundColor: "#28a745",
-                  color: "#fff",
+                  backgroundColor: "var(--ifm-color-success)",
+                  color: "var(--ifm-background-color)",
                   fontWeight: "bold",
                   cursor: "pointer",
                   fontSize: 14
@@ -842,8 +796,8 @@ export default function TargetsPage() {
                 marginTop: 16, 
                 fontSize: 13,
                 padding: 8,
-                backgroundColor: "#fff",
-                border: "1px solid #dee2e6",
+                backgroundColor: "var(--ifm-background-color)",
+                border: "1px solid var(--ifm-border-color)",
                 borderRadius: 6,
                 textAlign: "center"
               }}
@@ -854,17 +808,17 @@ export default function TargetsPage() {
 
           {/* Enhanced Preview Panel */}
           <div style={{ 
-            border: "2px solid #e9ecef", 
+            border: "2px solid var(--ifm-border-color)", 
             borderRadius: 16, 
             padding: 24,
-            backgroundColor: "#fff"
+            backgroundColor: "var(--ifm-background-color)"
           }}>
-            <h3 style={{ marginTop: 0, color: "#495057" }}>Live Preview</h3>
+            <h3 style={{ marginTop: 0, color: "var(--ifm-color-emphasis-800)" }}>Live Preview</h3>
             <div
               style={{
                 width: "100%",
-                background: "#f8f9fa",
-                border: "2px dashed #dee2e6",
+                background: "var(--ifm-background-surface-color)",
+                border: "2px dashed var(--ifm-border-color)",
                 borderRadius: 12,
                 overflow: "hidden",
                 padding: 16,
@@ -877,19 +831,19 @@ export default function TargetsPage() {
                 width="100%" 
                 style={{ 
                   maxHeight: "600px",
-                  border: "1px solid #dee2e6",
+                  border: "1px solid var(--ifm-border-color)",
                   borderRadius: 8,
-                  backgroundColor: "#fff"
+                  backgroundColor: "var(--ifm-background-color)"
                 }}
               />
             </div>
             <div style={{ 
               marginTop: 16, 
-              color: "#6c757d", 
+              color: "var(--ifm-color-emphasis-600)", 
               fontSize: 14,
               textAlign: "center",
               padding: 12,
-              backgroundColor: "#f8f9fa",
+              backgroundColor: "var(--ifm-background-surface-color)",
               borderRadius: 8
             }}>
               <strong>Preview Note:</strong> Scale is proportional for display. 
@@ -901,13 +855,13 @@ export default function TargetsPage() {
         <div style={{ 
           marginTop: 32, 
           padding: 20,
-          backgroundColor: "#fff3cd",
-          border: "1px solid #ffeaa7",
+          backgroundColor: "var(--ifm-color-warning-lightest)",
+          border: "1px solid var(--ifm-color-warning-lightest)",
           borderRadius: 12,
           fontSize: 14, 
-          color: "#856404" 
+          color: "var(--ifm-color-warning-darker)" 
         }}>
-          <h4 style={{ marginTop: 0, color: "#856404" }}>Printing Instructions</h4>
+          <h4 style={{ marginTop: 0, color: "var(--ifm-color-warning-darker)" }}>Printing Instructions</h4>
           <ul style={{ marginBottom: 0, paddingLeft: 20 }}>
             <li>Use high-quality white paper (minimum 80gsm recommended)</li>
             <li>Print at <strong>100% scale / Actual size</strong> - disable "Fit to page"</li>

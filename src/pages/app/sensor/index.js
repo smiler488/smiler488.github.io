@@ -319,7 +319,7 @@ export default function SensorPage() {
           <a className="button button--secondary" href="/docs/tutorial-apps/sensor-app-tutorial">Tutorial</a>
         </div>
         <RequireAuthBanner />
-        <p style={{ color: '#555', marginTop: 0 }}>
+        <p style={{ color: 'var(--ifm-color-emphasis-700)', marginTop: 0 }}>
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
           time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.
         </p>
@@ -334,7 +334,7 @@ export default function SensorPage() {
         </div>
 
         {error && (
-          <div style={{ padding: 12, border: '1px solid #e5e5ea', background: '#f2f2f2', color: '#333333', borderRadius: 8, marginBottom: 16 }}>
+          <div style={{ padding: 12, border: '1px solid var(--ifm-border-color)', background: 'var(--ifm-background-surface-color)', color: 'var(--ifm-color-emphasis-800)', borderRadius: 8, marginBottom: 16 }}>
             {error}
           </div>
         )}
@@ -354,7 +354,7 @@ export default function SensorPage() {
             style={{
               padding: '10px 12px',
               borderRadius: 8,
-              border: '1px solid #ced4da',
+              border: '1px solid var(--ifm-border-color)',
               fontSize: 14
             }}
           />
@@ -363,10 +363,9 @@ export default function SensorPage() {
             disabled={busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
             style={{
               padding: '10px 16px',
-              backgroundColor: busy ? '#6c6c70' : '#000000',
-              color: '#ffffff',
-              border: '1px solid',
-              borderColor: busy ? '#6c6c70' : '#000000',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
+              border: '1px solid var(--ifm-color-primary)',
               borderRadius: 10,
               cursor: busy ? 'not-allowed' : 'pointer',
               fontWeight: 600
@@ -379,8 +378,8 @@ export default function SensorPage() {
             disabled={!rows.length || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
             style={{
               padding: '10px 16px',
-              backgroundColor: !rows.length ? '#6c757d' : '#000000',
-              color: 'white',
+              backgroundColor: 'var(--ifm-color-primary)',
+              color: 'var(--ifm-color-white)',
               border: 'none',
               borderRadius: 8,
               cursor: !rows.length ? 'not-allowed' : 'pointer',
@@ -397,8 +396,8 @@ export default function SensorPage() {
           gap: 16,
           marginBottom: 20
         }}>
-          <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#000000' }}>Current Orientation</h3>
+          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
+            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Current Orientation</h3>
             <div style={{ display: 'grid', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Alpha (Z, yaw):</span><strong>{toFixedMaybe(orientation.alpha, 2)}°</strong>
@@ -416,8 +415,8 @@ export default function SensorPage() {
                 }}
                 style={{
                   marginTop: 8, padding: '8px 12px', borderRadius: 8,
-                  background: permission === 'granted' ? '#000000' : '#6c6c70',
-                  color: '#fff', border: 'none', cursor: 'pointer'
+                  background: 'var(--ifm-color-primary)',
+                  color: 'var(--ifm-color-white)', border: 'none', cursor: 'pointer'
                 }}
                 disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
@@ -426,8 +425,8 @@ export default function SensorPage() {
             </div>
           </div>
 
-          <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#000000' }}>Latest Geo</h3>
+          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
+            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Latest Geo</h3>
             <div style={{ display: 'grid', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Latitude:</span><strong>{toFixedMaybe(geo.latitude, 6) || 'N/A'}</strong>
@@ -440,7 +439,7 @@ export default function SensorPage() {
               </div>
               <button
                 onClick={async () => setGeo(await getCurrentGeo(handleGeoError))}
-                style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: '#000000', color: '#ffffff', border: '1px solid #000000', cursor: 'pointer' }}
+                style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: 'var(--ifm-color-primary)', color: 'var(--ifm-color-white)', border: '1px solid var(--ifm-color-primary)', cursor: 'pointer' }}
                 disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 Refresh Location
@@ -448,8 +447,8 @@ export default function SensorPage() {
             </div>
           </div>
 
-          <div style={{ padding: 16, background: '#f8f9fa', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: '#000000' }}>Status</h3>
+          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
+            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Status</h3>
             <div>Recorded rows: <strong>{rows.length}</strong></div>
             <div>Local time: <strong>{new Date().toLocaleString()}</strong></div>
           </div>
@@ -458,18 +457,18 @@ export default function SensorPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f1f3f5' }}>
+              <tr style={{ background: 'var(--ifm-background-surface-color)' }}>
                 {[
                   'leafId','timestamp','latitude','longitude','altitude',
                   'alpha_deg','beta_deg','gamma_deg','sunElevation_deg','sunAzimuth_deg'
                 ].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid #dee2e6' }}>{h}</th>
+                  <th key={h} style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid var(--ifm-border-color)' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={i} style={{ borderBottom: '1px solid #f1f3f5' }}>
+                <tr key={i} style={{ borderBottom: '1px solid var(--ifm-border-color)' }}>
                   <td style={{ padding: 8 }}>{r.leafId}</td>
                   <td style={{ padding: 8 }}>{r.timestamp}</td>
                   <td style={{ padding: 8 }}>{toFixedMaybe(r.latitude, 6)}</td>
@@ -484,7 +483,7 @@ export default function SensorPage() {
               ))}
               {!rows.length && (
                 <tr>
-                  <td colSpan={10} style={{ padding: 12, color: '#666' }}>
+                  <td colSpan={10} style={{ padding: 12, color: 'var(--ifm-color-emphasis-600)' }}>
                     No data yet. Enter ID and click “Capture Sample”.
                   </td>
                 </tr>
@@ -495,21 +494,21 @@ export default function SensorPage() {
 
         {/* Solar Angle Formulas */}
         <div style={{
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--ifm-background-color)',
           borderRadius: 12,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          boxShadow: 'var(--ifm-global-shadow-md)',
           overflow: 'hidden',
           marginTop: 24
         }}>
           <div style={{
-            background: '#f5f5f7',
-            color: '#000000',
+            background: 'var(--ifm-background-surface-color)',
+            color: 'var(--ifm-color-emphasis-900)',
             padding: 16
           }}>
             <h2 style={{ margin: 0, fontSize: 20 }}>Solar Angle Formulas</h2>
           </div>
 
-          <div style={{ padding: 16, lineHeight: 1.6, color: '#333' }}>
+          <div style={{ padding: 16, lineHeight: 1.6, color: 'var(--ifm-color-emphasis-800)' }}>
             <p style={{ margin: '0 0 8px' }}>
               Elevation (h) and Azimuth (A) computed in this app follow common remote-sensing approximations:
             </p>
