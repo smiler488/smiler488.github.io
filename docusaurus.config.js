@@ -125,8 +125,9 @@ const config = {
       algolia: {
         appId: 'USQTG5BJ2J',
         apiKey: '8bab45a0143db40aa33bdec65b748753',
-        indexName: 'YOUR_INDEX_NAME', // TODO: replace with your actual Algolia index name
-        contextualSearch: true,
+        indexName: 'smiler488',
+        contextualSearch: true, // 启用上下文搜索
+        searchParameters: {},   // 高级搜索参数（暂时留空）
         searchPagePath: 'search',
       },
       navbar: {

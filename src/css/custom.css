@@ -54,6 +54,12 @@
   --ifm-navbar-link-color: #111111;
   --ifm-navbar-link-hover-color: #444444;
 
+  /* 文档侧边栏 */
+  --doc-sidebar-background: rgba(255, 255, 255, 0.95);
+  --doc-sidebar-border: rgba(15, 23, 42, 0.08);
+  --doc-sidebar-link-color: #1f2937;
+  --doc-sidebar-active-bg: rgba(15, 23, 42, 0.06);
+
   /* 页脚 */
   --ifm-footer-background-color: #f5f5f5;
   --ifm-footer-color: #444444;
@@ -106,6 +112,11 @@
   --ifm-navbar-link-color: #e2e8f0;
   --ifm-navbar-link-hover-color: #8f8f93;
 
+  --doc-sidebar-background: rgba(15, 23, 42, 0.94);
+  --doc-sidebar-border: rgba(148, 163, 184, 0.25);
+  --doc-sidebar-link-color: #e2e8f0;
+  --doc-sidebar-active-bg: rgba(148, 163, 184, 0.2);
+
   --ifm-footer-background-color: #1a2234;
   --ifm-footer-color: #cbd5e1;
   --ifm-footer-link-color: #94a3b8;
@@ -125,6 +136,21 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--ifm-border-color);
+  background-color: var(--ifm-navbar-background-color);
+}
+
+.navbar__inner,
+.navbar__items,
+.navbar__toggle {
+  background-color: var(--ifm-navbar-background-color);
+  color: var(--ifm-navbar-link-color);
+}
+
+.navbar__brand,
+.navbar__brand:hover,
+.navbar__title,
+.navbar__link--active {
+  color: var(--ifm-navbar-link-color);
 }
 
 .navbar__link {
@@ -482,10 +508,44 @@ a:hover {
     border-radius: 6px;
   }
 
-  .navbar-sidebar__backdrop {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
+.navbar-sidebar__backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+}
+
+/* 文档侧边栏 */
+.theme-doc-sidebar-container {
+  background: var(--doc-sidebar-background);
+  border-right: 1px solid var(--doc-sidebar-border);
+  box-shadow: var(--ifm-global-shadow-lw);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.theme-doc-sidebar-menu {
+  padding: 1rem 0.75rem;
+}
+
+.theme-doc-sidebar-menu .menu__link {
+  color: var(--doc-sidebar-link-color);
+  border-radius: 8px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-menu .menu__link {
+  color: var(--doc-sidebar-link-color);
+}
+
+.theme-doc-sidebar-menu .menu__link:hover,
+.theme-doc-sidebar-menu .menu__link--active,
+.theme-doc-sidebar-menu .menu__link--sublist {
+  background: var(--doc-sidebar-active-bg);
+  color: var(--ifm-color-primary);
+}
+
+.theme-doc-sidebar-menu .menu__link--active {
+  font-weight: 600;
 }
 
 /* Mobile fallback menu removed: rely on Docusaurus native sidebar */
