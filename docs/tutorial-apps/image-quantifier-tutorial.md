@@ -2,16 +2,16 @@
 
 ## Overview
 
-The Image Quantifier is a specialized tool for precise quantification of biological samples, particularly plant leaves, from digital images. This system provides automated image analysis with accurate measurement capabilities, supporting both uploaded images and camera capture functionality.
+The Image Quantifier runs in a Hugging Face Space (Gradio) and is embedded into the web app. It performs server‑side analysis on uploaded images of leaves or seeds/grains, computes morphology metrics, and returns an overlay preview plus a CSV. Camera capture depends on the Space implementation and is not guaranteed in the embedded mode; use local files when the camera option is unavailable.
 
 ## Key Features
 
-- **High-Precision Leaf Measurement**: Automated detection and quantification of leaf characteristics
-- **Multiple Sample Support**: Analysis of individual leaves or multiple samples in single images
-- **Camera Integration**: Direct image capture from device camera
-- **Measurement Export**: CSV format export for statistical analysis
-- **Quality Control**: Built-in validation for measurement accuracy
-- **Sample Organization**: Support for various sample arrangement patterns
+- **Leaf/Seed Quantification**: Automated detection and per‑sample metrics
+- **Reference Scale**: Coin/ruler/no‑reference modes; ruler requires `ref_size_mm`
+- **Expected Count**: Optionally limit analyzed components to a target count
+- **Color Segmentation**: HSV range (H low/high) with color tolerance; area filters
+- **Overlay Preview**: Server‑generated image with bounding boxes and markers
+- **CSV Export**: Per‑component measurements for downstream analysis
 
 ## Quick Start
 
@@ -42,68 +42,48 @@ Visit in your browser: `/app/image`
 
 ### Step 2: Image Acquisition
 
-1. **Image Upload Option**
-   - Click "Choose Image" to select file from local storage
-   - Supported formats: JPEG, PNG, WebP
-   - Minimum recommended resolution: 2 megapixels
+1. **Image Upload**
+   - Click the upload control in the embedded Space to select files
+   - Supported formats: JPEG, PNG (depending on Space)
+   - Use adequate resolution and consistent lighting
 
-2. **Camera Capture Option**
-   - Click "Take Photo" for live image capture
-   - Grant camera permissions when prompted
-   - Ensure proper lighting and focus
-   - Use stable surface or tripod for sharp images
+2. **Camera Capture (Optional)**
+   - If the Space has a camera widget, you can capture a photo
+   - In embedded mode this option may be disabled; prefer file upload
 
 ### Step 3: Analysis Configuration
 
-1. **Sample Arrangement Pattern**
-   - **Grid**: Regular rows and columns arrangement
-   - **Random**: Irregular sample distribution
-   - **Custom**: User-defined sample positions
+1. **Sample Type**
+   - Choose "leaves" or "seeds/grains" for tailored sorting
 
-2. **Reference Scale Setup**
-   - Place reference object in top-left corner
-   - Use standardized reference (coin, ruler, calibration target)
-   - Ensure reference is in same plane as samples
+2. **Reference Mode & Size**
+   - Select `none` / `coin` / `ruler`; set `ref_size_mm` when using a ruler
 
-3. **Measurement Parameters**
-   - **Area**: Total leaf surface area
-   - **Perimeter**: Leaf boundary length
-   - **Shape Factors**: Circularity, aspect ratio, form factors
-   - **Color Analysis**: Chlorophyll content estimation
+3. **Segmentation & Filters**
+   - Set HSV H‑range (`low_h`, `high_h`) and `color_tol`
+   - Set `min_area_px`/`max_area_px` to filter small/large components
+   - Optionally set `expected_count`
 
-### Step 4: Image Processing
+### Step 4: Processing & Preview
 
 1. **Automatic Detection**
-   - System identifies sample boundaries
-   - Applies morphological operations for accuracy
-   - Separates overlapping samples when possible
+   - The Space segments components and computes per‑component metrics
 
-2. **Manual Adjustment** (if needed)
-   - Review automatic detection results
-   - Adjust sample boundaries if necessary
-   - Add or remove samples as required
-
-3. **Quality Validation**
-   - Check measurement consistency
-   - Verify reference scale accuracy
-   - Review sample segmentation quality
+2. **Overlay Preview**
+   - Review the generated overlay image to verify segmentation
 
 ### Step 5: Results Export
 
 1. **Measurement Data**
-   - Download complete dataset in CSV format
-   - Includes all measured parameters for each sample
-   - Timestamp and analysis parameters metadata
+   - Download CSV with component metrics (area, perimeter, axes, etc.)
 
-2. **Processed Images**
-   - Export annotated images with measurements
-   - High-resolution images for documentation
-   - Overlay visualization of detection results
+2. **Overlay Image**
+   - Save the annotated overlay image for documentation
 
 ## Technical Specifications
 
 ### Image Requirements
-- **Format**: JPEG, PNG, WebP
+- **Format**: JPEG, PNG
 - **Resolution**: Minimum 640×480 pixels, recommended 1920×1080 or higher
 - **Color Depth**: 8-bit or higher for accurate color analysis
 - **Compression**: Minimal compression for measurement accuracy

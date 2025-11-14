@@ -9,118 +9,207 @@ const WeatherPage = () => {
   return (
     <Layout title="Weather App">
       <Head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <script
+          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          defer
+        ></script>
         <script src={scriptUrl} defer></script>
       </Head>
 
       <div className="app-container">
         <div className="app-header" style={{ marginBottom: "30px" }}>
-          <h1 className="app-title">
-            NASA POWER Weather Data Downloader
-          </h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/weather-analyzer-tutorial">Tutorial</a>
+          <h1 className="app-title">NASA POWER Weather Data Downloader</h1>
+          <a
+            className="button button--secondary"
+            href="/docs/tutorial-apps/weather-analyzer-tutorial"
+          >
+            Tutorial
+          </a>
         </div>
-        
-        <div style={{
-          backgroundColor: "#f8f9fa",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-          marginBottom: "30px"
-        }}>
-          <h3 style={{ color: "#333333", marginBottom: "20px" }}>Location & Date Range</h3>
-          
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "20px",
-            marginBottom: "20px"
-          }}>
+
+        <div
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            marginBottom: "30px",
+          }}
+        >
+          <h3 style={{ color: "#333333", marginBottom: "20px" }}>
+            Location & Date Range
+          </h3>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "20px",
+              marginBottom: "20px",
+            }}
+          >
             <div>
-              <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px", color: "#495057" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: "#495057",
+                }}
+              >
                 Latitude:
               </label>
-              <input 
-                type="number" 
-                id="latitude" 
-                placeholder="Enter Latitude (e.g., 44.30)" 
+              <input
+                type="number"
+                id="latitude"
+                placeholder="Enter Latitude (e.g., 44.30)"
                 step="0.0001"
                 style={{
                   width: "100%",
                   padding: "10px",
                   border: "2px solid #e9ecef",
                   borderRadius: "6px",
-                  fontSize: "14px"
+                  fontSize: "14px",
                 }}
               />
             </div>
-            
+
             <div>
-              <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px", color: "#495057" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: "#495057",
+                }}
+              >
                 Longitude:
               </label>
-              <input 
-                type="number" 
-                id="longitude" 
-                placeholder="Enter Longitude (e.g., 86.05)" 
+              <input
+                type="number"
+                id="longitude"
+                placeholder="Enter Longitude (e.g., 86.05)"
                 step="0.0001"
                 style={{
                   width: "100%",
                   padding: "10px",
                   border: "2px solid #e9ecef",
                   borderRadius: "6px",
-                  fontSize: "14px"
+                  fontSize: "14px",
                 }}
               />
             </div>
-            
+
             <div>
-              <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px", color: "#495057" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: "#495057",
+                }}
+              >
                 Start Date:
               </label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 id="startDate"
                 style={{
                   width: "100%",
                   padding: "10px",
                   border: "2px solid #e9ecef",
                   borderRadius: "6px",
-                  fontSize: "14px"
+                  fontSize: "14px",
                 }}
               />
             </div>
-            
+
             <div>
-              <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px", color: "#495057" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: "#495057",
+                }}
+              >
                 End Date:
               </label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 id="endDate"
                 style={{
                   width: "100%",
                   padding: "10px",
                   border: "2px solid #e9ecef",
                   borderRadius: "6px",
-                  fontSize: "14px"
+                  fontSize: "14px",
                 }}
               />
             </div>
           </div>
 
           <div style={{ marginTop: "10px" }}>
-            <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-              <input id="placeSearch" type="text" placeholder="Search place or address" style={{ flex: 1, padding: "10px", border: "2px solid #e9ecef", borderRadius: "6px", fontSize: "14px" }} />
-              <button id="searchBtn" style={{ padding: "10px 16px", backgroundColor: "#000000", color: "#ffffff", border: "1px solid #000000", borderRadius: "6px", cursor: "pointer", fontSize: "14px", fontWeight: 500 }}>Search</button>
+            <div
+              style={{
+                display: "flex",
+                gap: 8,
+                marginBottom: 8,
+              }}
+            >
+              <input
+                id="placeSearch"
+                type="text"
+                placeholder="Search place or address"
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  border: "2px solid #e9ecef",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                }}
+              />
+              <button
+                id="searchBtn"
+                style={{
+                  padding: "10px 16px",
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  border: "1px solid #000000",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                }}
+              >
+                Search
+              </button>
             </div>
-            <div id="weatherMap" style={{ width: "100%", height: "420px", border: "1px solid #e9ecef", borderRadius: "8px" }}></div>
+            <div
+              id="weatherMap"
+              style={{
+                width: "100%",
+                height: "420px",
+                border: "1px solid #e9ecef",
+                borderRadius: "8px",
+              }}
+            ></div>
           </div>
 
-          <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
-            <button 
-              id="getLocationBtn" 
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              id="getLocationBtn"
               style={{
                 padding: "12px 24px",
                 backgroundColor: "#6c6c70",
@@ -130,14 +219,13 @@ const WeatherPage = () => {
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: "500",
-                transition: "all 0.2s ease"
               }}
             >
               Get Current Location
             </button>
-            
-            <button 
-              id="getDataBtn" 
+
+            <button
+              id="getDataBtn"
               style={{
                 padding: "12px 24px",
                 backgroundColor: "#6c6c70",
@@ -147,7 +235,6 @@ const WeatherPage = () => {
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: "500",
-                transition: "all 0.2s ease"
               }}
             >
               Download NASA Weather Data
@@ -156,65 +243,95 @@ const WeatherPage = () => {
         </div>
 
         {/* Status and Progress */}
-        <div style={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-          marginBottom: "30px"
-        }}>
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            marginBottom: "30px",
+          }}
+        >
           <h3 style={{ color: "#495057", marginBottom: "15px" }}>Status</h3>
-          <p id="statusMessage" style={{ 
-            margin: "0",
-            padding: "10px",
-            backgroundColor: "#e9ecef",
-            borderRadius: "6px",
-            fontWeight: "500"
-          }}>
+          <p
+            id="statusMessage"
+            style={{
+              margin: "0",
+              padding: "10px",
+              backgroundColor: "#e9ecef",
+              borderRadius: "6px",
+              fontWeight: "500",
+            }}
+          >
             Ready to download NASA POWER weather data
           </p>
-          
-          <div id="progressContainer" style={{ display: "none", marginTop: "15px" }}>
-            <div style={{
-              width: "100%",
-              height: "8px",
-              backgroundColor: "#e9ecef",
-              borderRadius: "4px",
-              overflow: "hidden"
-            }}>
-              <div id="progressBar" style={{
-                width: "0%",
-                height: "100%",
-                backgroundColor: "#000000",
-                transition: "width 0.3s ease"
-              }}></div>
+
+          <div
+            id="progressContainer"
+            style={{ display: "none", marginTop: "15px" }}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "8px",
+                backgroundColor: "#e9ecef",
+                borderRadius: "4px",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                id="progressBar"
+                style={{
+                  width: "0%",
+                  height: "100%",
+                  backgroundColor: "#000000",
+                  transition: "width 0.3s ease",
+                }}
+              ></div>
             </div>
-            <p id="progressText" style={{ margin: "5px 0 0", fontSize: "14px", color: "#6c757d" }}>
+            <p
+              id="progressText"
+              style={{ margin: "5px 0 0", fontSize: "14px", color: "#6c757d" }}
+            >
               Processing...
             </p>
           </div>
         </div>
 
         {/* Data Preview */}
-        <div id="dataPreview" style={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-          marginBottom: "30px",
-          display: "none"
-        }}>
+        <div
+          id="dataPreview"
+          style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            marginBottom: "30px",
+            display: "none",
+          }}
+        >
           <h3 style={{ color: "#495057", marginBottom: "15px" }}>Data Preview</h3>
-          <div id="dataTable" style={{
-            overflowX: "auto",
-            border: "1px solid #dee2e6",
-            borderRadius: "6px"
-          }}></div>
-          
-          <div style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a 
-              id="downloadCsvBtn" 
-              href="#" 
+          <div
+            id="dataTable"
+            style={{
+              overflowX: "auto",
+              border: "1px solid #dee2e6",
+              borderRadius: "6px",
+            }}
+          ></div>
+
+          <div
+            style={{
+              marginTop: "20px",
+              display: "flex",
+              gap: "10px",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <a
+              id="downloadCsvBtn"
+              href="#"
               style={{
                 display: "none",
                 padding: "12px 24px",
@@ -223,15 +340,15 @@ const WeatherPage = () => {
                 textDecoration: "none",
                 borderRadius: "6px",
                 fontSize: "14px",
-                fontWeight: "500"
+                fontWeight: "500",
               }}
             >
               Download CSV
             </a>
-            
-            <a 
-              id="downloadExcelBtn" 
-              href="#" 
+
+            <a
+              id="downloadExcelBtn"
+              href="#"
               style={{
                 display: "none",
                 padding: "12px 24px",
@@ -240,7 +357,7 @@ const WeatherPage = () => {
                 textDecoration: "none",
                 borderRadius: "6px",
                 fontSize: "14px",
-                fontWeight: "500"
+                fontWeight: "500",
               }}
             >
               Download Excel (PCSE Format)
@@ -249,42 +366,102 @@ const WeatherPage = () => {
         </div>
 
         {/* Available Parameters */}
-        <div style={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-        }}>
-          <h3 style={{ color: "#495057", marginBottom: "20px" }}>Available NASA POWER Parameters</h3>
-          
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "15px"
-          }}>
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3 style={{ color: "#495057", marginBottom: "20px" }}>
+            Available NASA POWER Parameters
+          </h3>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "15px",
+            }}
+          >
             {[
-              { name: "TOA_SW_DWN", desc: "Top-of-atmosphere shortwave downward irradiance", unit: "MJ/m²/day" },
-              { name: "ALLSKY_SFC_SW_DWN", desc: "All-sky surface shortwave downward irradiance", unit: "MJ/m²/day" },
-              { name: "T2M", desc: "Temperature at 2 meters", unit: "°C" },
-              { name: "T2M_MIN", desc: "Minimum temperature at 2 meters", unit: "°C" },
-              { name: "T2M_MAX", desc: "Maximum temperature at 2 meters", unit: "°C" },
-              { name: "T2MDEW", desc: "Dew point temperature at 2 meters", unit: "°C" },
-              { name: "WS2M", desc: "Wind speed at 2 meters", unit: "m/s" },
-              { name: "PRECTOTCORR", desc: "Precipitation corrected", unit: "mm/day" }
+              {
+                name: "TOA_SW_DWN",
+                desc: "Top-of-atmosphere shortwave downward irradiance",
+                unit: "MJ/m²/day",
+              },
+              {
+                name: "ALLSKY_SFC_SW_DWN",
+                desc: "All-sky surface shortwave downward irradiance",
+                unit: "MJ/m²/day",
+              },
+              {
+                name: "T2M",
+                desc: "Temperature at 2 meters",
+                unit: "°C",
+              },
+              {
+                name: "T2M_MIN",
+                desc: "Minimum temperature at 2 meters",
+                unit: "°C",
+              },
+              {
+                name: "T2M_MAX",
+                desc: "Maximum temperature at 2 meters",
+                unit: "°C",
+              },
+              {
+                name: "T2MDEW",
+                desc: "Dew point temperature at 2 meters",
+                unit: "°C",
+              },
+              {
+                name: "WS2M",
+                desc: "Wind speed at 2 meters",
+                unit: "m/s",
+              },
+              {
+                name: "PRECTOTCORR",
+                desc: "Precipitation corrected",
+                unit: "mm/day",
+              },
             ].map((param, index) => (
-              <div key={index} style={{
-                padding: "15px",
-                backgroundColor: "#f8f9fa",
-                borderRadius: "8px",
-                border: "1px solid #e9ecef"
-              }}>
-                <h4 style={{ color: "#000000", margin: "0 0 8px 0", fontSize: "16px" }}>
+              <div
+                key={index}
+                style={{
+                  padding: "15px",
+                  backgroundColor: "#f8f9fa",
+                  borderRadius: "8px",
+                  border: "1px solid #e9ecef",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "#000000",
+                    margin: "0 0 8px 0",
+                    fontSize: "16px",
+                  }}
+                >
                   {param.name}
                 </h4>
-                <p style={{ margin: "0 0 5px 0", fontSize: "14px", color: "#495057" }}>
+                <p
+                  style={{
+                    margin: "0 0 5px 0",
+                    fontSize: "14px",
+                    color: "#495057",
+                  }}
+                >
                   {param.desc}
                 </p>
-                <p style={{ margin: "0", fontSize: "12px", color: "#6c757d", fontWeight: "500" }}>
+                <p
+                  style={{
+                    margin: "0",
+                    fontSize: "12px",
+                    color: "#6c757d",
+                    fontWeight: "500",
+                  }}
+                >
                   Unit: {param.unit}
                 </p>
               </div>

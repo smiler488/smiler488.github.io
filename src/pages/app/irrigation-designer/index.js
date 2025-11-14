@@ -585,6 +585,21 @@ export default function IrrigationDesigner() {
                 ))}
               </ul>
             </section>
+
+            <section className="card padding--md margin-bottom--lg">
+              <div style={{ fontWeight: 600, marginBottom: 8 }}>Underlying formulas & references</div>
+              <p style={{ marginBottom: 8 }}>
+                Mainline and submain headloss use the Hazen–Williams form&nbsp;
+                <code>h<sub>f</sub> = 10.67 · L · Q<sup>1.852</sup> / (C<sup>1.852</sup> · d<sup>4.87</sup>)</code>, with the material coefficient
+                <code> C</code> set by the PE/PVC selector. Velocities are
+                <code> v = Q / (π d² / 4)</code> and slope-induced head difference is
+                <code> Δh = g · slope · length</code>.
+              </p>
+              <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--ifm-color-emphasis-700)" }}>
+                Reference: ASABE EP405 / FAO Irrigation and Drainage Paper 29 for recommended limits on velocity, allowable pressure variation,
+                and Christiansen Uniformity (CU) interpretation.
+              </p>
+            </section>
           </div>
         </div>
 
