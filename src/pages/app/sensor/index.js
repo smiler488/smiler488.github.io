@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
+import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
 
 /**
@@ -247,6 +248,7 @@ export default function SensorPage() {
           <h1 className="app-title">Device Sensor Recorder</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/sensor-app-tutorial">Tutorial</a>
         </div>
+        <RequireAuthBanner />
         <p style={{ color: '#555', marginTop: 0 }}>
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
           time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.
@@ -279,7 +281,7 @@ export default function SensorPage() {
           />
           <button
             onClick={captureOnce}
-            disabled={busy}
+            disabled={busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
             style={{
               padding: '10px 16px',
               backgroundColor: busy ? '#6c6c70' : '#000000',
@@ -295,7 +297,7 @@ export default function SensorPage() {
           </button>
           <button
             onClick={downloadCSV}
-            disabled={!rows.length}
+            disabled={!rows.length || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
             style={{
               padding: '10px 16px',
               backgroundColor: !rows.length ? '#6c757d' : '#000000',
@@ -338,6 +340,7 @@ export default function SensorPage() {
                   background: permission === 'granted' ? '#000000' : '#6c6c70',
                   color: '#fff', border: 'none', cursor: 'pointer'
                 }}
+                disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 {permission === 'granted' ? 'Motion Permission Granted' : 'Enable Motion Permission'}
               </button>
@@ -359,6 +362,7 @@ export default function SensorPage() {
               <button
                 onClick={async () => setGeo(await getCurrentGeo())}
                 style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: '#000000', color: '#ffffff', border: '1px solid #000000', cursor: 'pointer' }}
+                disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 Refresh Location
               </button>

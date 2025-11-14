@@ -235,6 +235,12 @@ export default function MazePage() {
           <h1 className="app-title">2D Marble Maze</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/maze-game-tutorial">Tutorial</a>
         </div>
+        <div className="app-card" style={{ marginBottom: 12, display: typeof window !== 'undefined' && !window.__APP_AUTH_OK__ ? 'block' : 'none' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span className="app-muted">Please login to use app features</span>
+            <a className="button button--secondary" href="/auth">Login / Register</a>
+          </div>
+        </div>
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor="playerName">Player Name: </label>
           <input

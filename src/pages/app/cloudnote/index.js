@@ -421,6 +421,12 @@ export default function CloudNotePage() {
           <h1 className="app-title">Cloud Sticky Note (static)</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/cloud-sticky-note-tutorial">Tutorial</a>
         </div>
+        <div className="app-card" style={{ marginBottom: 12, display: typeof window !== 'undefined' && !window.__APP_AUTH_OK__ ? 'block' : 'none' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span className="app-muted">Please login to use app features</span>
+            <a className="button button--secondary" href="/auth">Login / Register</a>
+          </div>
+        </div>
         <p style={{ color: "#444" }}>
           Create a temporary/shareable note. This zero-backend version stores the note encrypted in the URL fragment.
           Sharing the link allows others to open it. Use a password for higher privacy (recipient must know the password).
@@ -459,7 +465,7 @@ export default function CloudNotePage() {
           </div>
 
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={onGenerateLink} style={styles.btnPrimary}>Generate share link</button>
+            <button onClick={onGenerateLink} style={styles.btnPrimary} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>Generate share link</button>
             <button onClick={copyLink} style={styles.btnSecondary} disabled={!generatedLink}>Copy link</button>
             <button onClick={() => { navigator.clipboard.writeText(content || ""); }} style={styles.btnGhost}>Copy content</button>
             <button onClick={() => { setName(""); setContent(""); setExpires(""); setPassword(""); setReadOnly(false); setGeneratedLink(""); setStatus(""); }} style={styles.btnGhost}>Reset</button>
@@ -493,7 +499,7 @@ export default function CloudNotePage() {
               </label>
 
               <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={onOpenByNamePassword} style={styles.btnPrimary}>Open</button>
+                <button onClick={onOpenByNamePassword} style={styles.btnPrimary} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>Open</button>
                 <button onClick={() => { setLookupName(""); setLookupPassword(""); setStatus(""); }} style={styles.btnGhost}>Clear</button>
               </div>
               <div style={{ color: "#666", fontSize: 13 }}>
@@ -512,7 +518,7 @@ export default function CloudNotePage() {
                   <label>Enter password to open</label>
                   <input style={styles.input} value={openPassword} onChange={(e) => setOpenPassword(e.target.value)} />
                   <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-                    <button onClick={onOpenWithPassword} style={styles.btnPrimary}>Open</button>
+                    <button onClick={onOpenWithPassword} style={styles.btnPrimary} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>Open</button>
                     <button onClick={clearFragmentView} style={styles.btnGhost}>Clear</button>
                   </div>
                 </div>
@@ -546,7 +552,7 @@ export default function CloudNotePage() {
               </div>
 
               <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-                <button disabled={!canEditOpened()} onClick={async () => { await onSaveEditAndRegenerate(); }} style={styles.btnPrimary}>
+                <button disabled={!canEditOpened() || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} onClick={async () => { await onSaveEditAndRegenerate(); }} style={styles.btnPrimary}>
                   Save edits & regenerate link
                 </button>
                 <button onClick={() => { navigator.clipboard.writeText(openedNote.content || ""); }} style={styles.btnSecondary}>Copy content</button>

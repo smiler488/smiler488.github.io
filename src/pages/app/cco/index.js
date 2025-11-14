@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import CitationNotice from "../../../components/CitationNotice";
+import RequireAuthBanner from "../../../components/RequireAuthBanner";
 
 const CCOPage = () => {
   useEffect(() => {
@@ -27,10 +28,11 @@ const CCOPage = () => {
       </Head>
 
       <div className="app-container" style={{ padding: 16 }}>
-        <div className="app-header" style={{ marginBottom: 16 }}>
-          <h1 className="app-title">CCO Waylines Builder</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/cco-mission-planner-tutorial">Tutorial</a>
-        </div>
+      <div className="app-header" style={{ marginBottom: 16 }}>
+        <h1 className="app-title">CCO Waylines Builder</h1>
+        <a className="button button--secondary" href="/docs/tutorial-apps/cco-mission-planner-tutorial">Tutorial</a>
+      </div>
+        <RequireAuthBanner />
         <p style={{ color: "#555", marginTop: 6 }}>
           Upload a target-area KML (single Polygon), set parameters, and preview the “cross-oblique orbit” route. Supports snake stitching, grid rotation, Clip/Prune, auto step, multi-part downloads, and DJI drone/payload enums.
         </p>

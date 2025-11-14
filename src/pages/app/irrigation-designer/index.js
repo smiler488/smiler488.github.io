@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from "react";
 import Layout from "@theme/Layout";
 import CitationNotice from "../../../components/CitationNotice";
+import RequireAuthBanner from "../../../components/RequireAuthBanner";
 
 const ICON_PROPS = {
   viewBox: "0 0 24 24",
@@ -429,22 +430,23 @@ export default function IrrigationDesigner() {
         <div className="row">
           <div className="col col--8">
             <h1 className="app-title">Irrigation Layout Designer</h1>
-            <p>
-              Feed field dimensions, slopes, and headworks constraints to generate a scaled layout of mainlines,
-              submains, and drip laterals while checking velocities, headloss, and pressure uniformity instantly.
-            </p>
           </div>
           <div className="col col--4">
             <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", alignItems: "center", marginTop: 8 }}>
               <a href="/docs/tutorial-apps/irrigation-layout-designer-tutorial" className="button button--secondary">
                 Tutorial
               </a>
-              <button type="button" onClick={() => setConfig(defaultConfig)} className="button button--outline">
+              <button type="button" onClick={() => setConfig(defaultConfig)} className="button button--secondary" disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
                 Reset Defaults
               </button>
             </div>
           </div>
         </div>
+        <RequireAuthBanner />
+        <p style={{ margin: '12px 0 24px' }}>
+          Feed field dimensions, slopes, and headworks constraints to generate a scaled layout of mainlines,
+          submains, and drip laterals while checking velocities, headloss, and pressure uniformity instantly.
+        </p>
 
         <div className="row margin-top--lg">
           <div className="col col--5">

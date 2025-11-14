@@ -19,7 +19,7 @@ const AppHub = () => {
     {
       name: "Irrigation Layout Designer",
       description:
-        "Design Xinjiang-style mainline/submain/drip layouts, visualize SVG hydraulics, and check pressure / flow limits.",
+        "Design drip-irrigation-style mainline/submain/drip layouts, visualize SVG hydraulics, and check pressure / flow limits.",
       link: "/app/irrigation-designer",
     },
     {

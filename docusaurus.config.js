@@ -16,6 +16,14 @@ const config = {
       src: '/js/mobile-fallback-nav.js',
       defer: true,
     },
+    {
+      src: '/js/auth-flag.js',
+      defer: true,
+    },
+    {
+      src: '/js/supabase-config.js',
+      defer: true,
+    },
   ],
   customFields: {
     svgConfig: {
@@ -25,7 +33,7 @@ const config = {
     }
   },
   title: 'Liangchao Deng',
-  tagline: 'PhD in Crop Science (Interdisciplinary: Mathematics × Computer Science × Plant Phenotyping)',
+  tagline: 'Ph.D. in AI × Mathematics × Computer × Plant',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -125,12 +133,12 @@ const config = {
             label: 'Tutorial',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
-         // ✅ 在这里添加 App 跳转
-           {
+          {
             to: "/app",
             label: "App",
             position: "left",
-           },
+          },
+          { to: '/auth', label: 'Account', position: 'right' },
           {
             href: 'https://github.com/smiler488',
             label: 'GitHub',

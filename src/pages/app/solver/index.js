@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
+import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson } from '../../../lib/api';
 
 function useCamera() {
@@ -868,6 +869,7 @@ OUTPUT:
         <h1 className="app-title">AI Solver (Hunyuan)</h1>
         <a className="button button--secondary" href="/docs/tutorial-apps/ai-solver-tutorial">Tutorial</a>
       </div>
+      <RequireAuthBanner />
       <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
       <p style={{ fontSize: 14, color: '#666' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 
@@ -912,7 +914,7 @@ OUTPUT:
               <div style={{ marginTop: 8, color: '#666' }}>
                 {ready ? 'Camera ready' : error ? `Camera error: ${error}` : 'Requesting camera permission…'}
               </div>
-              <button onClick={handleShoot} disabled={!ready || busy} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
+              <button onClick={handleShoot} disabled={!ready || busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
                 {busy ? 'Processing…' : ' Capture and Solve'}
               </button>
             </div>
@@ -933,7 +935,7 @@ OUTPUT:
                   <div style={{ marginTop: 8, color: '#666' }}>
                     Screenshot mode: You can select a specific area after capturing
                   </div>
-                  <button onClick={handleScreenshot} disabled={busy} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
+                  <button onClick={handleScreenshot} disabled={busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
                     {busy ? 'Processing…' : ' Capture Screen'}
                   </button>
                 </>
@@ -1159,7 +1161,7 @@ OUTPUT:
               </div>
               <button 
                 onClick={handleTextQuestion} 
-                disabled={busy || !textInput.trim()} 
+                disabled={busy || !textInput.trim() || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)} 
                 style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}
               >
                 {busy ? 'Thinking…' : ' Ask and Get Answer'}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
+import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import './styles.css';
 
 const MAX_CANVAS_SIZE = 1800;
@@ -448,10 +449,6 @@ export default function RootProcessorApp() {
         <div className="root-app__header">
           <div>
             <h1>Root Image Preprocessor</h1>
-            <p>
-              Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the
-              browser. Inspired by 0_tranbg.py + 1_process.py.
-            </p>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <a className="button button--secondary" href="/docs/tutorial-apps/root-preprocessor-tutorial">Tutorial</a>
@@ -459,11 +456,16 @@ export default function RootProcessorApp() {
               type="button"
               className="root-button secondary"
               onClick={() => fileInputRef.current?.click()}
+              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
             >
               Upload Images
             </button>
           </div>
         </div>
+        <RequireAuthBanner />
+        <p style={{ margin: '12px 0 24px' }}>
+          Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser.
+        </p>
 
         <div className={`root-status ${statusToneClass[status.tone] || ''}`}>
           {status.text}

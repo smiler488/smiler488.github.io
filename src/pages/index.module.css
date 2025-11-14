@@ -27,6 +27,34 @@
   margin-top: 2rem;
 }
 
+.cta {
+  position: relative;
+  cursor: pointer;
+  padding-right: 2.5rem;
+  transition: transform 120ms ease, box-shadow 200ms ease, background-color 200ms ease;
+}
+
+.cta::after {
+  content: '→';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.75;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.cta:hover::after {
+  transform: translate(3px, -50%);
+  opacity: 1;
+}
+
 /* 新增：云朵动画样式 */
 .cloudContainer {
   position: absolute;
@@ -51,6 +79,9 @@
   position: relative;
   z-index: 1;
   margin-top: var(--hero-content-offset, 32vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cloud {

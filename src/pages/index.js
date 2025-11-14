@@ -263,8 +263,10 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
-            to="/blog/curriculum-vitae">
+            className={clsx('button button--secondary button--lg', styles.cta)}
+            to="/blog/curriculum-vitae"
+            aria-label="打开最新简历"
+            title="打开最新简历">
             Curriculum Vitae - Latest 
           </Link>
         </div>

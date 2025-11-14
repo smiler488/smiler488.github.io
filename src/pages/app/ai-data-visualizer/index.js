@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
+import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
 import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, buildHunyuanPayload, extractAssistantText, postJson } from '../../../lib/api';
 
@@ -1027,6 +1028,7 @@ export default function AiDataVisualizerPage() {
               <h1>AI Data Visualizer</h1>
               <a className="button button--secondary" href="/docs/tutorial-apps/ai-data-visualizer-tutorial">Tutorial</a>
             </div>
+            <RequireAuthBanner />
             <p>
               Upload a CSV/TSV file, describe what you want to learn, and let the AI suggest an
               interactive ECharts visualization plus insights. No backend storage — everything runs
@@ -1060,7 +1062,7 @@ export default function AiDataVisualizerPage() {
               <button
                 className="button button--primary margin-top--md"
                 onClick={handleAnalyze}
-                disabled={busy || !table}
+                disabled={busy || !table || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
               >
                 {busy ? 'Analyzing…' : 'Generate visualization'}
               </button>

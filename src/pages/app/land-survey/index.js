@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
+import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
 
 const EARTH_RADIUS = 6378137; // meters
@@ -285,10 +286,11 @@ function LandSurveyApp() {
         <header className="app-header">
           <h1 className="app-title">Land Surveyor · GPS Area Tool</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/land-surveyor-tutorial">Tutorial</a>
-          <p style={styles.sectionLead}>
-            Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
-          </p>
         </header>
+        <RequireAuthBanner />
+        <p style={styles.sectionLead}>
+          Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
+        </p>
 
         <form style={styles.form} onSubmit={handleAddManualPoint}>
           <div style={styles.formGroup}>
@@ -315,21 +317,21 @@ function LandSurveyApp() {
               style={styles.input}
             />
           </div>
-          <button type="submit" className="button button--primary">
+          <button type="submit" className="button button--primary" disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
             Add Point
           </button>
           <button
             type="button"
             className="button button--secondary"
             onClick={handleUseLocation}
-            disabled={!canUseGeolocation || loadingLocation}
+            disabled={!canUseGeolocation || loadingLocation || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
           >
             {loadingLocation ? 'Locating...' : 'Use Device Location'}
           </button>
-          <button type="button" className="button button--secondary" onClick={handleClosePolygon}>
+          <button type="button" className="button button--secondary" onClick={handleClosePolygon} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
             Close Polygon
           </button>
-          <button type="button" className="button button--outline" onClick={handleReset}>
+          <button type="button" className="button button--outline" onClick={handleReset} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
             Reset
           </button>
         </form>

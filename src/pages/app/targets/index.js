@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
+import RequireAuthBanner from "../../../components/RequireAuthBanner";
 import Head from "@docusaurus/Head";
 import CitationNotice from "../../../components/CitationNotice";
 
@@ -405,6 +406,7 @@ export default function TargetsPage() {
           <h1 className="app-title">Professional Calibration Targets Generator</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/calibration-targets-tutorial">Tutorial</a>
         </div>
+        <RequireAuthBanner />
         <p style={{ marginTop: 4, marginBottom: 24, color: "#6c757d" }}>
           Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
           Print at <strong>100% / Actual size</strong> to preserve accurate measurements. 
@@ -812,6 +814,7 @@ export default function TargetsPage() {
                   cursor: "pointer",
                   fontSize: 14
                 }}
+                disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 Live Preview
               </button>
@@ -828,6 +831,7 @@ export default function TargetsPage() {
                   cursor: "pointer",
                   fontSize: 14
                 }}
+                disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 Download PDF
               </button>
