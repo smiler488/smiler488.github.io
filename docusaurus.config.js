@@ -26,12 +26,14 @@ const config = {
       comic1: 'compress_comic1',
       comic2: 'compress_comic2',
       comic3: 'compress_comic3',
-    }
+    },
+    metadata: [
+      { name: 'algolia-site-verification', content: '28A5A8DFE7ED2916' },
+    ],
   },
   title: 'Liangchao Deng',
   tagline: 'Ph.D. in AI × Mathematics × Computer × Plant',
   favicon: 'img/favicon.ico',
-
   // Set the production url of your site here
   url: 'https://smiler488.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -119,6 +121,13 @@ const config = {
         defaultMode: 'light',
         disableSwitch: false,
         respectPrefersColorScheme: true,
+      },
+      algolia: {
+        appId: 'USQTG5BJ2J',
+        apiKey: '8bab45a0143db40aa33bdec65b748753',
+        indexName: 'YOUR_INDEX_NAME', // TODO: replace with your actual Algolia index name
+        contextualSearch: true,
+        searchPagePath: 'search',
       },
       navbar: {
         title: 'Home',
