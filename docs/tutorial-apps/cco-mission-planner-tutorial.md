@@ -49,8 +49,29 @@ Visit in your browser: `/app/cco`
    - **Flight Altitude**: Set optimal flight height for your camera system
    - **Grid Rotation**: Adjust route orientation to match field layout
    - **Overlap Percentage**: Configure image overlap for stitching
-   - **Drone Model**: Select appropriate DJI drone configuration
-   - **Camera Settings**: Configure camera parameters for optimal coverage
+- **Drone Model**: Select appropriate DJI drone configuration
+- **Camera Settings**: Configure camera parameters for optimal coverage
+
+### Import from DJI KMZ
+
+This feature lets you import a DJI-exported route in `.kmz` format and automatically populate device enums required by the Drone & Payload module.
+
+1. Upload DJI KMZ
+   - In the app, open the "Import from DJI KMZ" section
+   - Click to select a `.kmz` file exported from DJI software
+
+2. Parse Drone & Payload
+   - Click "Parse Drone & Payload" to automatically read the following values:
+   - `droneEnum`, `droneSubEnum`, `payloadEnum`, `payloadSubEnum`, `payloadPositionIndex`
+
+3. Auto-fill and Verify
+   - The five inputs in the Drone & Payload panel will be auto-filled
+   - The status bar shows the parsed values and any errors if encountered
+
+Notes
+- KMZ parsing priority: `waylines.wpml` → `wpmz/waylines.wpml` → `template.kml` → `wpmz/template.kml` → `doc.kml` → any `.wpml/.kml`
+- Missing fields fall back to safe defaults to keep workflow unblocked
+- KMZ import focuses on device parameters; upload a KML Polygon separately for target area geometry
 
 ### Step 3: Route Generation
 
