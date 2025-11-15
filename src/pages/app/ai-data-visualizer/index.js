@@ -838,7 +838,7 @@ export default function AiDataVisualizerPage() {
   const [useDefaultApi, setUseDefaultApi] = useState(true);
   const [apiUrl, setApiUrl] = useState('');
   const [apiKey, setApiKey] = useState('');
-  const [model, setModel] = useState('hunyuan');
+  const [model, setModel] = useState('hunyuan-t1-latest');
   const [analysisGoal, setAnalysisGoal] = useState(
     'Highlight the clearest trend, choose the best chart for stakeholders, and annotate anomalies.',
   );
@@ -1070,16 +1070,30 @@ export default function AiDataVisualizerPage() {
       await processAiText(aiText);
       setStatusMessage('Visualization ready!', 'success');
     } catch (err) {
-      const fallback = buildOfflineVisualization(table, analysisGoal, { xField, yField, groupField, agg, errorMetric, multiCharts });
-      if (fallback && fallback.option) {
-        setAiSummary(fallback.summary || 'Offline visualization.');
-        setAiInsights(fallback.insights || []);
-        setChartOption(fallback.option);
-        setRawAiText(JSON.stringify({ mode: 'offline', chart_option: fallback.option }, null, 2));
-        setStatusMessage('AI failed; offline visualization generated.', 'warning');
-      } else {
-        setChartError(err?.message || 'AI call failed.');
-        setStatusMessage('Analysis failed.', 'danger');
+      try {
+        const prompt = buildVisualizationPrompt({
+          datasetSummary: datasetSummary || 'No dataset summary available.',
+          goal: analysisGoal,
+          mapping: { xField, yField, groupField, agg, errorMetric, multiCharts },
+        });
+        let body = { question: prompt, model };
+        const mockResp = await postJson('mock://ai-data-visualizer', body);
+        const mockJson = await mockResp.json();
+        const mockText = extractAssistantText(mockJson);
+        await processAiText(mockText);
+        setStatusMessage('Mock response shown (AI call failed; using local).', 'warning');
+      } catch (_) {
+        const fallback = buildOfflineVisualization(table, analysisGoal, { xField, yField, groupField, agg, errorMetric, multiCharts });
+        if (fallback && fallback.option) {
+          setAiSummary(fallback.summary || 'Offline visualization.');
+          setAiInsights(fallback.insights || []);
+          setChartOption(fallback.option);
+          setRawAiText(JSON.stringify({ mode: 'offline', chart_option: fallback.option }, null, 2));
+          setStatusMessage('AI failed; offline visualization generated.', 'warning');
+        } else {
+          setChartError(err?.message || 'AI call failed.');
+          setStatusMessage('Analysis failed.', 'danger');
+        }
       }
     } finally {
       setBusy(false);
@@ -1314,7 +1328,7 @@ export default function AiDataVisualizerPage() {
                   className={styles.textInput}
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
-                  placeholder="hunyuan"
+                  placeholder="hunyuan-t1-latest"
                 />
               </label>
               <button

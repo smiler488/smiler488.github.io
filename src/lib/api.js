@@ -11,6 +11,12 @@ export function buildHunyuanPayload(question, model) {
     model: model || 'hunyuan-lite',
     messages: [
       {
+        role: 'system',
+        content: [
+          { type: 'text', text: 'Respond ONLY with strict JSON object. No markdown, no prose.' },
+        ],
+      },
+      {
         role: 'user',
         content: [
           {
@@ -22,6 +28,7 @@ export function buildHunyuanPayload(question, model) {
         ],
       },
     ],
+    response_format: { type: 'json_object' },
     stream: false,
   };
 }
