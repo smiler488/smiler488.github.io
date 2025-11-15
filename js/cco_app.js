@@ -18,6 +18,15 @@ async function readFileAsText(file) {
   });
 }
 
+async function readFileAsArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result);
+    fr.onerror = reject;
+    fr.readAsArrayBuffer(file);
+  });
+}
+
 function parseKMLPolygonCoords(kmlText) {
   const dom = new DOMParser().parseFromString(kmlText, "text/xml");
   const err = dom.querySelector("parsererror");
@@ -456,6 +465,8 @@ window.CCO_INIT = function CCO_INIT() {
   const previewBtn = $("previewBtn");
   const generateBtn = $("generateBtn");
   const canvas = $("previewCanvas");
+  const kmzDroneInput = $("kmzDroneFile");
+  const parseDroneBtn = $("parseDroneBtn");
 
   if (!kmlInput || !previewBtn || !generateBtn || !canvas) {
     console.warn("[CCO] UI not ready; retry…");
@@ -626,9 +637,89 @@ window.CCO_INIT = function CCO_INIT() {
     }
   });
 
+  if (kmzDroneInput && parseDroneBtn) {
+    parseDroneBtn.addEventListener("click", async () => {
+      const f = kmzDroneInput.files && kmzDroneInput.files[0];
+      if (!f) { setStatus("Please upload a DJI KMZ first."); return; }
+      try {
+        setStatus("Parsing KMZ for drone/payload…");
+        const device = await parseDeviceFromKMZ(f);
+        $("droneEnum").value = device.droneEnum;
+        $("droneSubEnum").value = device.droneSubEnum;
+        $("payloadEnum").value = device.payloadEnum;
+        $("payloadSubEnum").value = device.payloadSubEnum;
+        $("payloadPosIndex").value = device.payloadPosIndex;
+        setStatus(`Parsed device: D(${device.droneEnum}/${device.droneSubEnum}) P(${device.payloadEnum}/${device.payloadSubEnum}) pos=${device.payloadPosIndex}`);
+      } catch (err) {
+        console.error(err);
+        setStatus(`KMZ parse error: ${err.message}`);
+      }
+    });
+  }
+
   setStatus("Ready. Upload KML and click Preview.");
   console.log("[CCO] INIT bound");
 };
 
 // signal ready for CSR
 window.dispatchEvent(new Event("cco_ready"));
+
+async function parseDeviceFromKMZ(file) {
+  if (typeof JSZip === "undefined") throw new Error("JSZip not available");
+  const buf = await readFileAsArrayBuffer(file);
+  const zip = await JSZip.loadAsync(buf);
+  const names = Object.keys(zip.files);
+  let target = null;
+  const prefer = [
+    "waylines.wpml",
+    "wpmz/waylines.wpml",
+    "template.kml",
+    "wpmz/template.kml",
+    "doc.kml",
+  ];
+  for (const p of prefer) {
+    if (zip.file(p)) { target = p; break; }
+  }
+  if (!target) {
+    const wpml = names.find((n) => n.toLowerCase().endsWith(".wpml"));
+    const kml = names.find((n) => n.toLowerCase().endsWith(".kml"));
+    target = wpml || kml;
+  }
+  if (!target) throw new Error("No KML/WPML found in KMZ");
+  const text = await zip.file(target).async("text");
+  const doc = new DOMParser().parseFromString(text, "text/xml");
+  const err = doc.querySelector("parsererror");
+  if (err) throw new Error("Invalid XML inside KMZ");
+
+  function pickText(sel) {
+    const el = doc.querySelector(sel);
+    return el ? (el.textContent || "").trim() : null;
+  }
+  function pickInt(cands) {
+    for (const s of cands) {
+      const v = pickText(s);
+      if (v != null && v !== "") {
+        const n = parseInt(v, 10);
+        if (!Number.isNaN(n)) return n;
+      }
+    }
+    return null;
+  }
+
+  const isWPML = target.toLowerCase().endsWith(".wpml");
+  const droneEnum = pickInt(isWPML ? ["wpml\\:droneEnumValue", "droneEnumValue"] : ["droneEnumValue", "wpml\\:droneEnumValue"]);
+  const droneSubEnum = pickInt(isWPML ? ["wpml\\:droneSubEnumValue", "droneSubEnumValue"] : ["droneSubEnumValue", "wpml\\:droneSubEnumValue"]);
+  const payloadEnum = pickInt(isWPML ? ["wpml\\:payloadEnumValue", "payloadEnumValue"] : ["payloadEnumValue", "wpml\\:payloadEnumValue"]);
+  const payloadSubEnum = pickInt(isWPML ? ["wpml\\:payloadSubEnumValue", "payloadSubEnumValue"] : ["payloadSubEnumValue", "wpml\\:payloadSubEnumValue"]);
+  let payloadPosIndex = pickInt(isWPML ? ["wpml\\:payloadPositionIndex"] : ["payloadPositionIndex", "wpml\\:payloadPositionIndex"]);
+  if (payloadPosIndex == null) payloadPosIndex = 0;
+
+  const res = {
+    droneEnum: droneEnum != null ? droneEnum : 99,
+    droneSubEnum: droneSubEnum != null ? droneSubEnum : 1,
+    payloadEnum: payloadEnum != null ? payloadEnum : 89,
+    payloadSubEnum: payloadSubEnum != null ? payloadSubEnum : 0,
+    payloadPosIndex: payloadPosIndex,
+  };
+  return res;
+}
