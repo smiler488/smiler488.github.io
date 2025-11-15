@@ -463,7 +463,17 @@ function normalizeEchartsOption(option, extraHints = {}) {
       };
       if (!nextSeries.label) {
         nextSeries.label = { show: normalizedHeatmap.data.length <= 250 };
+      } else if (nextSeries.label.show === undefined) {
+        nextSeries.label = { ...nextSeries.label, show: normalizedHeatmap.data.length <= 250 };
       }
+      nextSeries.label = {
+        ...nextSeries.label,
+        formatter: (params) => {
+          const v = Array.isArray(params?.value) ? params.value[2] : params?.value;
+          const n = Number(v);
+          return Number.isFinite(n) ? n.toFixed(2) : '';
+        },
+      };
       if (!nextSeries.emphasis) {
         nextSeries.emphasis = { itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.4)' } };
       }
@@ -1101,7 +1111,6 @@ export default function AiDataVisualizerPage() {
   }
 
   async function processAiText(aiText) {
-    setRawAiText(aiText);
     const parsed = tryParseJson(aiText);
     if (!parsed) {
       const fallback = buildOfflineVisualization(table, analysisGoal, { xField, yField, groupField, agg, errorMetric, multiCharts });
@@ -1115,6 +1124,11 @@ export default function AiDataVisualizerPage() {
       throw new Error('AI response was not valid JSON.');
     }
 
+    try {
+      setRawAiText(JSON.stringify(parsed, null, 2));
+    } catch (_) {
+      setRawAiText(aiText);
+    }
     setAiSummary(parsed.summary || 'AI did not return a summary.');
     setAiInsights(Array.isArray(parsed.insights) ? parsed.insights : []);
     // Extract Tukey letters if provided by AI

@@ -140,6 +140,20 @@ const CCOPage = () => {
               </div>
             </fieldset>
 
+            <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginTop: 12 }}>
+              <legend><b>Import from DJI KMZ</b></legend>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 10, alignItems: 'end' }}>
+                <label>
+                  Upload DJI route (.kmz)
+                  <input id="kmzDroneFile" type="file" accept=".kmz" style={{ display: 'block', marginTop: 6 }} />
+                </label>
+                <button id="parseDroneBtn" className="button button--secondary">Parse Drone & Payload</button>
+              </div>
+              <div style={{ marginTop: 8, fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
+                Parses droneEnum, droneSubEnum, payloadEnum, payloadSubEnum, payloadPositionIndex from KMZ.
+              </div>
+            </fieldset>
+
             <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <button id="previewBtn" className="button button--secondary">Preview</button>
               <button id="generateBtn" className="button button--secondary">Generate</button>
