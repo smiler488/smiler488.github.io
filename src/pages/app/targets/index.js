@@ -143,6 +143,34 @@ export default function TargetsPage() {
       return errors.length === 0;
     };
 
+    const validateAgisoftParams = () => {
+      const outer = parseFloat($("amOuter")?.value || 0);
+      const width = parseFloat($("amWidth")?.value || 0);
+      const seg = parseFloat($("amSegAngle")?.value || 0);
+      const rows = parseInt($("amRows")?.value || 0, 10);
+      const cols = parseInt($("amCols")?.value || 0, 10);
+      const dot = parseFloat($("amDot")?.value || 0);
+      const box = $("amValidation");
+      const errors = [];
+      if (outer < 40) errors.push("Outer diameter too small");
+      if (width < 5 || width > outer / 2) errors.push("Ring width invalid");
+      if (seg < 20 || seg > 120) errors.push("Segment angle invalid");
+      if (rows < 1 || cols < 1) errors.push("Grid size invalid");
+      if (dot < 1 || dot > 10) errors.push("Center dot invalid");
+      if (box) {
+        if (errors.length) {
+          box.textContent = errors.join(", ");
+          box.style.color = 'var(--ifm-color-emphasis-800)';
+          box.style.display = 'block';
+        } else {
+          box.textContent = `Marker: ${outer}mm outer, ${width}mm width, ${seg}° segments`;
+          box.style.color = 'var(--ifm-color-success)';
+          box.style.display = 'block';
+        }
+      }
+      return errors.length === 0;
+    };
+
     const collectParams = () => {
       const type = $("targetType")?.value || "chessboard";
       const paper = $("paper")?.value || "a4";
@@ -170,18 +198,15 @@ export default function TargetsPage() {
         params.cols = squaresCols;
         params.innerRows = innerRows;
         params.innerCols = innerCols;
-      } else if (type === "bullseye") {
-        params.beOuter = parseFloat($("beOuter")?.value || 160);
-        params.beRings = parseInt($("beRings")?.value || 4, 10);
-        params.beHole = parseFloat($("beHole")?.value || 4);
-        params.beStroke = parseFloat($("beStroke")?.value || 0);
-      } else if (type === "ringArcs") {
-        params.raOuter = parseFloat($("raOuter")?.value || 180);
-        params.raWidth = parseFloat($("raWidth")?.value || 30);
-        params.raA1 = parseFloat($("raA1")?.value || 300);
-        params.raA2 = parseFloat($("raA2")?.value || 120);
-        params.raHub = parseFloat($("raHub")?.value || 40);
-        params.raDot = parseFloat($("raDot")?.value || 2.5);
+      } else if (type === "agisoft") {
+        params.amOuter = parseFloat($("amOuter")?.value || 80);
+        params.amWidth = parseFloat($("amWidth")?.value || 15);
+        params.amSegAngle = parseFloat($("amSegAngle")?.value || 60);
+        params.amRotateStep = parseFloat($("amRotateStep")?.value || 15);
+        params.amRows = parseInt($("amRows")?.value || 3, 10);
+        params.amCols = parseInt($("amCols")?.value || 2, 10);
+        params.amDot = parseFloat($("amDot")?.value || 4);
+        params.amLabel = parseInt($("amLabel")?.value || 12, 10);
       }
       return params;
     };
@@ -189,17 +214,11 @@ export default function TargetsPage() {
     const toggleParamPanels = () => {
       const t = $("targetType")?.value || "chessboard";
       const chess = $("chessParams");
-      const bull = $("bullseyeParams");
-      const arcs = $("RingArcsParams");
-      
+      const agi = $("agisoftParams");
       if (chess) chess.style.display = t === "chessboard" ? "block" : "none";
-      if (bull) bull.style.display = t === "bullseye" ? "block" : "none";
-      if (arcs) arcs.style.display = t === "ringArcs" ? "block" : "none";
-      
-      // Update validation for current type
+      if (agi) agi.style.display = t === "agisoft" ? "block" : "none";
       if (t === "chessboard") updateCbComputed();
-      else if (t === "bullseye") validateBullseyeParams();
-      else if (t === "ringArcs") validateRingArcsParams();
+      if (t === "agisoft") validateAgisoftParams();
     };
 
     const tryInit = (source) => {
@@ -227,12 +246,9 @@ export default function TargetsPage() {
               setStatus("Invalid chessboard parameters", true);
               isValid = false;
             }
-          } else if (p.type === "bullseye") {
-            isValid = validateBullseyeParams();
-            if (!isValid) setStatus("Invalid bullseye parameters", true);
-          } else if (p.type === "ringArcs") {
-            isValid = validateRingArcsParams();
-            if (!isValid) setStatus("Invalid ring arcs parameters", true);
+          } else if (p.type === "agisoft") {
+            isValid = validateAgisoftParams();
+            if (!isValid) setStatus("Invalid Agisoft marker parameters", true);
           }
           
           if (!isValid) return;
@@ -330,8 +346,11 @@ export default function TargetsPage() {
       clearTimeout(updateTimer);
       updateTimer = setTimeout(() => {
         updateFn();
-        const btn = $("btnPreview");
-        if (btn) btn.click();
+        const svg = $("previewSvg");
+        const p = collectParams();
+        if (typeof window !== 'undefined' && typeof window.targetsPreview === 'function' && svg) {
+          window.targetsPreview(p, svg);
+        }
       }, 300);
     };
 
@@ -339,8 +358,11 @@ export default function TargetsPage() {
     if (typeSel) {
       typeSel.addEventListener("change", () => {
         toggleParamPanels();
-        const btn = $("btnPreview");
-        if (btn) btn.click();
+        const svg = $("previewSvg");
+        const p = collectParams();
+        if (typeof window !== 'undefined' && typeof window.targetsPreview === 'function' && svg) {
+          window.targetsPreview(p, svg);
+        }
       });
     }
 
@@ -354,23 +376,12 @@ export default function TargetsPage() {
       }
     });
 
-    // Bullseye parameter listeners
-    const bullseyeInputs = ["beOuter", "beRings", "beHole", "beStroke"];
-    bullseyeInputs.forEach(id => {
+    const agisoftInputs = ["amOuter", "amWidth", "amSegAngle", "amRotateStep", "amRows", "amCols", "amDot", "amLabel"];
+    agisoftInputs.forEach(id => {
       const el = $(id);
       if (el) {
-        el.addEventListener("input", () => debouncedUpdate(validateBullseyeParams));
-        el.addEventListener("change", () => debouncedUpdate(validateBullseyeParams));
-      }
-    });
-
-    // Ring arcs parameter listeners
-    const ringArcsInputs = ["raOuter", "raWidth", "raA1", "raA2", "raHub", "raDot"];
-    ringArcsInputs.forEach(id => {
-      const el = $(id);
-      if (el) {
-        el.addEventListener("input", () => debouncedUpdate(validateRingArcsParams));
-        el.addEventListener("change", () => debouncedUpdate(validateRingArcsParams));
+        el.addEventListener("input", () => debouncedUpdate(validateAgisoftParams));
+        el.addEventListener("change", () => debouncedUpdate(validateAgisoftParams));
       }
     });
 
@@ -423,8 +434,7 @@ export default function TargetsPage() {
               <label className={styles.label}>Target Type</label>
               <select id="targetType" className={styles.select}>
                 <option value="chessboard">Chessboard (OpenCV Standard)</option>
-                <option value="bullseye">Bullseye (Concentric Circles)</option>
-                <option value="ringArcs">Ring with Arc Gaps</option>
+                <option value="agisoft">Segmented Circular Marker (Agisoft)</option>
               </select>
             </div>
 
@@ -481,8 +491,48 @@ export default function TargetsPage() {
                       fontSize: 14
                     }} 
                   />
+              </div>
+            </div>
+
+            {/* Agisoft Segmented Circular Marker Parameters */}
+            <div id="agisoftParams" style={{ display: "none" }}>
+              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Agisoft Marker Configuration</h4>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
+                  <input id="amOuter" type="number" min="40" max="250" step="5" defaultValue="80" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring Width (mm)</label>
+                  <input id="amWidth" type="number" min="5" max="60" step="1" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Segment Angle (°)</label>
+                  <input id="amSegAngle" type="number" min="20" max="120" step="5" defaultValue="60" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rotation Step (°)</label>
+                  <input id="amRotateStep" type="number" min="0" max="60" step="5" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid Rows</label>
+                  <input id="amRows" type="number" min="1" max="10" step="1" defaultValue="3" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid Cols</label>
+                  <input id="amCols" type="number" min="1" max="10" step="1" defaultValue="2" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center Dot (mm)</label>
+                  <input id="amDot" type="number" min="1" max="10" step="0.5" defaultValue="4" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Label Size (pt)</label>
+                  <input id="amLabel" type="number" min="8" max="24" step="1" defaultValue="12" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
               </div>
+              <div id="amValidation" style={{ fontSize: 12, padding: 8, backgroundColor: "var(--ifm-background-color)", border: "1px solid var(--ifm-border-color)", borderRadius: 6, display: "none" }} />
+            </div>
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Square Size (mm)</label>
                 <input 
@@ -768,7 +818,6 @@ export default function TargetsPage() {
                   cursor: "pointer",
                   fontSize: 14
                 }}
-                disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
               >
                 Live Preview
               </button>
