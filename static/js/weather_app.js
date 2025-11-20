@@ -204,6 +204,10 @@
     const lon = parseFloat($("longitude").value);
     const startDate = $("startDate").value;
     const endDate = $("endDate").value;
+    const timeScaleEl = $("timeScaleSelect");
+    const timeStandardEl = $("timeStandardSelect");
+    const timeScale = timeScaleEl && timeScaleEl.value ? timeScaleEl.value : "daily";
+    const timeStandard = timeStandardEl && timeStandardEl.value ? timeStandardEl.value : "LST";
 
     if (Number.isNaN(lat) || Number.isNaN(lon)) {
       updateStatus("Please input valid latitude and longitude or pick on map.");
@@ -217,22 +221,39 @@
     const start = startDate.replace(/-/g, "");
     const end = endDate.replace(/-/g, "");
 
-    const params = [
-      "TOA_SW_DWN",
-      "ALLSKY_SFC_SW_DWN",
-      "T2M",
-      "T2M_MIN",
-      "T2M_MAX",
-      "T2MDEW",
-      "WS2M",
-      "PRECTOTCORR",
-    ].join(",");
-
-    const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON`;
-
-    updateStatus("Requesting NASA POWER data...");
-    showProgress(true, "Requesting data from NASA POWER...");
-    setProgress(10);
+    let url = "";
+    let params = "";
+    if (timeScale === "hourly") {
+      params = [
+        "T2M",
+        "T2MDEW",
+        "RH2M",
+        "WS10M",
+        "U10M",
+        "V10M",
+        "PS",
+        "PRECTOT",
+      ].join(",");
+      url = `https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON&time-standard=${timeStandard}`;
+      updateStatus("Requesting NASA POWER hourly data...");
+      showProgress(true, "Requesting hourly data from NASA POWER...");
+      setProgress(10);
+    } else {
+      params = [
+        "TOA_SW_DWN",
+        "ALLSKY_SFC_SW_DWN",
+        "T2M",
+        "T2M_MIN",
+        "T2M_MAX",
+        "T2MDEW",
+        "WS2M",
+        "PRECTOTCORR",
+      ].join(",");
+      url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON`;
+      updateStatus("Requesting NASA POWER data...");
+      showProgress(true, "Requesting data from NASA POWER...");
+      setProgress(10);
+    }
 
     try {
       const res = await fetch(url);
@@ -243,7 +264,7 @@
       const json = await res.json();
       setProgress(70);
 
-      const records = parseNasaPowerResponse(json);
+      const records = parsePowerResponse(json);
       if (!records || records.length === 0) {
         updateStatus("No data returned for this period.");
         showProgress(false);
@@ -251,7 +272,7 @@
       }
 
       renderTable(records);
-      prepareDownloads(records, lat, lon, startDate, endDate);
+      prepareDownloads(records, lat, lon, startDate, endDate, timeScale);
       setProgress(100);
       showProgress(false, "Done.");
       updateStatus("NASA POWER data downloaded successfully.");
@@ -262,20 +283,36 @@
     }
   }
 
-  function parseNasaPowerResponse(json) {
-    if (
-      !json ||
-      !json.properties ||
-      !json.properties.parameter ||
-      !json.properties.parameter.T2M
-    ) {
-      console.warn("Unexpected NASA POWER format:", json);
+  function parsePowerResponse(json) {
+    if (!json || !json.properties || !json.properties.parameter) {
       return [];
     }
     const p = json.properties.parameter;
-    const dates = Object.keys(p.T2M).sort(); // YYYYMMDD
-
-    const params = Object.keys(p); // 所有参数
+    const anyParam = Object.keys(p)[0];
+    if (!anyParam) return [];
+    const sampleVal = p[anyParam];
+    const keys = Object.keys(sampleVal || {});
+    if (!keys.length) return [];
+    const firstVal = sampleVal[keys[0]];
+    if (Array.isArray(firstVal)) {
+      const params = Object.keys(p);
+      const records = [];
+      keys.sort().forEach((d) => {
+        const len = (p[params[0]] && Array.isArray(p[params[0]][d])) ? p[params[0]][d].length : 0;
+        for (let h = 0; h < len; h += 1) {
+          const obj = { DATE: d, HOUR: h };
+          params.forEach((name) => {
+            const series = p[name];
+            const arr = series && series[d];
+            obj[name] = Array.isArray(arr) ? arr[h] : undefined;
+          });
+          records.push(obj);
+        }
+      });
+      return records;
+    }
+    const dates = Object.keys(p.T2M || sampleVal).sort();
+    const params = Object.keys(p);
     const records = dates.map((d) => {
       const obj = { DATE: d };
       params.forEach((name) => {
@@ -320,7 +357,7 @@
     container.innerHTML = html;
   }
 
-  function prepareDownloads(records, lat, lon, startDate, endDate) {
+  function prepareDownloads(records, lat, lon, startDate, endDate, timeScale) {
     const csvBtn = $("downloadCsvBtn");
     const xlsBtn = $("downloadExcelBtn");
     if (!csvBtn || !xlsBtn) return;
@@ -340,9 +377,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
-    const fileBase = `NASA_POWER_${lat.toFixed(2)}_${lon.toFixed(
-      2
-    )}_${startDate}_${endDate}`;
+    const fileBase = `NASA_POWER_${timeScale.toUpperCase()}_${lat.toFixed(2)}_${lon.toFixed(2)}_${startDate}_${endDate}`;
 
     csvBtn.href = url;
     csvBtn.download = `${fileBase}.csv`;

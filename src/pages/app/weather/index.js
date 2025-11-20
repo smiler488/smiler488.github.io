@@ -127,15 +127,15 @@ const WeatherPage = () => {
           </div>
         </div>
 
-          <div
-            style={{
-              backgroundColor: 'var(--ifm-background-surface-color)',
-              padding: '20px',
-              borderRadius: '12px',
-              boxShadow: 'var(--ifm-global-shadow-md)',
-              marginBottom: '30px',
-            }}
-          >
+        <div
+          style={{
+            backgroundColor: 'var(--ifm-background-surface-color)',
+            padding: '20px',
+            borderRadius: '12px',
+            boxShadow: 'var(--ifm-global-shadow-md)',
+            marginBottom: '30px',
+          }}
+        >
           <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
             Location & Date Range
           </h3>
@@ -148,6 +148,58 @@ const WeatherPage = () => {
               marginBottom: "20px",
             }}
           >
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: 'var(--ifm-color-emphasis-800)',
+                }}
+              >
+                Time Scale:
+              </label>
+              <select
+                id="timeScaleSelect"
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                }}
+              >
+                <option value="daily">Daily</option>
+                <option value="hourly">Hourly</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "bold",
+                  marginBottom: "5px",
+                  color: 'var(--ifm-color-emphasis-800)',
+                }}
+              >
+                Time Standard:
+              </label>
+              <select
+                id="timeStandardSelect"
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid var(--ifm-border-color)',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                }}
+              >
+                <option value="LST">LST</option>
+                <option value="UTC">UTC</option>
+              </select>
+            </div>
+
             <div>
               <label
                 style={{
