@@ -608,6 +608,11 @@
         const width = toNum(params.raWidth, 30);
         return `ringarcs_${raOuter.toFixed(0)}mm_${width}mmw_${timestamp}.pdf`;
       
+      case "agisoft":
+        const amOuter = toNum(params.amOuter, 80);
+        const amWidth = toNum(params.amWidth, 15);
+        return `agisoft_markers_${amOuter.toFixed(0)}mm_${amWidth}mmw_${timestamp}.pdf`;
+      
       default:
         return `calibration_target_${timestamp}.pdf`;
     }
@@ -939,6 +944,74 @@
   // ========================
   // Enhanced Public API
   // ========================
+  function drawAgisoftMarkersToSvg(svg, params) {
+    if (!svg) return;
+    const page = getPage(params);
+    const margin = clamp(toNum(params.margin, 15), 5, 50);
+    const rows = clamp(toNum(params.amRows, 3), 1, 10);
+    const cols = clamp(toNum(params.amCols, 2), 1, 10);
+    let outer = clamp(toNum(params.amOuter, 80), 40, 250);
+    const width = clamp(toNum(params.amWidth, 15), 5, outer / 2);
+    const seg = clamp(toNum(params.amSegAngle, 60), 20, 120);
+    const step = clamp(toNum(params.amRotateStep, 15), 0, 60);
+    const dot = clamp(toNum(params.amDot, 4), 1, 10);
+    const labelSize = clamp(toNum(params.amLabel, 12), 8, 24);
+    clearSvg(svg);
+    setViewPage(svg, page);
+    const rOuter = outer / 2;
+    const rInner = Math.max(0, rOuter - width);
+    const gridW = page.w - 2 * margin;
+    const gridH = page.h - 2 * margin;
+    const cellW = gridW / cols;
+    const cellH = gridH / rows;
+    const baseAngles = [-120, 0, 120];
+    const bg = elRect(0, 0, page.w, page.h, { fill: "#fff" });
+    if (bg) svg.appendChild(bg);
+    let idx = 0;
+    for (let r = 0; r < rows; r += 1) {
+      for (let c = 0; c < cols; c += 1) {
+        const cx = margin + c * cellW + cellW / 2;
+        const cy = margin + r * cellH + cellH / 2;
+        const rotation = idx * step;
+        const segments = (() => {
+          const patterns = [
+            [seg + 40, seg - 10, seg - 10],
+            [seg + 30, seg, seg - 20],
+            [seg + 20, seg - 20, seg],
+            [seg + 35, seg - 5, seg - 25],
+            [seg + 25, seg - 15, seg - 10],
+            [seg + 45, seg - 5, seg - 35],
+          ];
+          const widths = patterns[idx % patterns.length].map((w) => clamp(w, 20, 160));
+          const perm = idx % 3;
+          const order = perm === 1 ? [1, 0, 2] : perm === 2 ? [2, 1, 0] : [0, 1, 2];
+          return order.map((k) => widths[k]);
+        })();
+    segments.forEach((widthDeg, i) => {
+      const a = baseAngles[i];
+      const a1 = a + rotation - widthDeg / 2;
+      const a2 = a + rotation + widthDeg / 2;
+      drawSector(svg, cx, cy, rInner, rOuter, a1, a2, "#000");
+    });
+        const centerR = Math.min(rOuter * 0.32, Math.min(cellW, cellH) * 0.22);
+        const centerDisk = elCircle(cx, cy, centerR, { fill: "#000" });
+        if (centerDisk) svg.appendChild(centerDisk);
+        const dotRBase = clamp(dot / 2, centerR * 0.06, centerR * 0.22);
+        const holeRBase = clamp(dotRBase * 1.9, Math.max(dotRBase * 1.5, centerR * 0.10), centerR * 0.35);
+        const dotR = clamp(dotRBase * 0.2, centerR * 0.01, centerR * 0.12);
+        const holeR = clamp(holeRBase * 0.2, dotR + centerR * 0.01, centerR * 0.20);
+        const hole = elCircle(cx, cy, holeR, { fill: "#fff" });
+        if (hole) svg.appendChild(hole);
+        const centerDot = elCircle(cx, cy, dotR, { fill: "#000" });
+        if (centerDot) svg.appendChild(centerDot);
+        const label = elText(margin + c * cellW + 6, margin + r * cellH + cellH - 6, String(idx + 1), {
+          "font-size": String(labelSize * 0.6), fill: "#000"
+        });
+        if (label) svg.appendChild(label);
+        idx += 1;
+      }
+    }
+  }
   let previewTimer = null;
   
   function doPreview(params, svg) {
@@ -960,6 +1033,9 @@
           break;
         case "ringarcs":
           drawRingArcsToSvg(svg, params);
+          break;
+        case "agisoft":
+          drawAgisoftMarkersToSvg(svg, params);
           break;
         default:
           log(`Unknown target type: ${type}`, 'warn');
@@ -1004,6 +1080,9 @@
           break;
         case "ringarcs":
           downloadRingArcs(params);
+          break;
+        case "agisoft":
+          downloadAgisoftMarkers(params);
           break;
         default:
           log(`Unknown target type for download: ${type}`, 'warn');
@@ -1083,3 +1162,78 @@
   log("Enhanced calibration targets module loaded");
 
 })();
+  function downloadAgisoftMarkers(params) {
+    if (!ensureJsPDF()) return;
+    try {
+      const { jsPDF } = window.jspdf;
+      const page = getPage(params);
+      const margin = clamp(toNum(params.margin, 15), 5, 50);
+      const rows = clamp(toNum(params.amRows, 3), 1, 10);
+      const cols = clamp(toNum(params.amCols, 2), 1, 10);
+      let outer = clamp(toNum(params.amOuter, 80), 40, 250);
+      const width = clamp(toNum(params.amWidth, 15), 5, outer / 2);
+      const seg = clamp(toNum(params.amSegAngle, 60), 20, 120);
+      const step = clamp(toNum(params.amRotateStep, 15), 0, 60);
+      const dot = clamp(toNum(params.amDot, 4), 1, 10);
+      const labelSize = clamp(toNum(params.amLabel, 12), 8, 24);
+      const doc = new jsPDF({ unit: "mm", format: page === PAPER.letter ? "letter" : "a4", compress: true });
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, page.w, page.h, "F");
+      const rOuter = outer / 2;
+      const rInner = Math.max(0, rOuter - width);
+      const gridW = page.w - 2 * margin;
+      const gridH = page.h - 2 * margin;
+      const cellW = gridW / cols;
+      const cellH = gridH / rows;
+      const baseAngles = [-120, 0, 120];
+      let idx = 0;
+      for (let r = 0; r < rows; r += 1) {
+        for (let c = 0; c < cols; c += 1) {
+          const cx = margin + c * cellW + cellW / 2;
+          const cy = margin + r * cellH + cellH / 2;
+          const rotation = idx * step;
+          const segments = (() => {
+            const patterns = [
+              [seg + 40, seg - 10, seg - 10],
+              [seg + 30, seg, seg - 20],
+              [seg + 20, seg - 20, seg],
+              [seg + 35, seg - 5, seg - 25],
+              [seg + 25, seg - 15, seg - 10],
+              [seg + 45, seg - 5, seg - 35],
+            ];
+            const widths = patterns[idx % patterns.length].map((w) => clamp(w, 20, 160));
+            const perm = idx % 3;
+            const order = perm === 1 ? [1, 0, 2] : perm === 2 ? [2, 1, 0] : [0, 1, 2];
+            return order.map((k) => widths[k]);
+          })();
+          segments.forEach((widthDeg, i) => {
+            const a = baseAngles[i];
+            const a1 = a + rotation - widthDeg / 2;
+            const a2 = a + rotation + widthDeg / 2;
+            drawSectorPdf(doc, cx, cy, rInner, rOuter, a1, a2, true);
+          });
+          const centerR = Math.min(rOuter * 0.32, Math.min(cellW, cellH) * 0.22);
+          doc.setFillColor(0, 0, 0);
+          doc.circle(cx, cy, centerR, "F");
+          const dotRBase = Math.min(Math.max(dot / 2, centerR * 0.06), centerR * 0.22);
+          const holeRBase = Math.min(Math.max(dotRBase * 1.9, Math.max(dotRBase * 1.5, centerR * 0.10)), centerR * 0.35);
+          const dotR = Math.min(Math.max(dotRBase * 0.2, centerR * 0.01), centerR * 0.12);
+          const holeR = Math.min(Math.max(holeRBase * 0.2, dotR + centerR * 0.01), centerR * 0.20);
+          doc.setFillColor(255, 255, 255);
+          doc.circle(cx, cy, holeR, "F");
+          doc.setFillColor(0, 0, 0);
+          doc.circle(cx, cy, dotR, "F");
+          doc.setTextColor(0);
+          doc.setFontSize(labelSize);
+          doc.text(String(idx + 1), margin + c * cellW + 6, margin + r * cellH + cellH - 6);
+          idx += 1;
+        }
+      }
+      const filename = generateFilename("agisoft", params);
+      doc.save(filename);
+      log(`Agisoft markers PDF saved: ${filename}`);
+    } catch (error) {
+      log(`PDF generation failed: ${error.message}`, 'error');
+      alert(`PDF generation failed: ${error.message}`);
+    }
+  }
