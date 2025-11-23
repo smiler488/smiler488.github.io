@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-tutorial-apps/calibration-targets-tutorial" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Calibration Targets Tutorial | Liangchao Deng</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="algolia-site-verification" content="59BB444E51EBC712"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Calibration Targets Tutorial | Liangchao Deng"><meta data-rh="true" name="description" content="Overview"><meta data-rh="true" property="og:description" content="Overview"><link data-rh="true" rel="icon" href="/zh-Hans/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/calibration-targets-tutorial" hreflang="en"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/calibration-targets-tutorial" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tutorial - apps","item":"https://smiler488.github.io/zh-Hans/docs/category/tutorial---apps"},{"@type":"ListItem","position":2,"name":"Calibration Targets Tutorial","item":"https://smiler488.github.io/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial"}]}</script><link rel="alternate" type="application/rss+xml" href="/zh-Hans/blog/rss.xml" title="Liangchao Deng RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/zh-Hans/blog/atom.xml" title="Liangchao Deng Atom Feed">
+
+
+
+
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X1RTB3QBXE"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-X1RTB3QBXE",{anonymize_ip:!0})</script>
+
+<script src="/js/auth-flag.js" defer="defer"></script>
+<script src="/js/supabase-config.js" defer="defer"></script><link rel="stylesheet" href="/zh-Hans/assets/css/styles.daa82fa5.css">
+<script src="/zh-Hans/assets/js/runtime~main.9efb38a1.js" defer="defer"></script>
+<script src="/zh-Hans/assets/js/main.6d396f9f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/zh-Hans/img/logo.svg"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/zh-Hans/"><div class="navbar__logo"><img src="/zh-Hans/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/zh-Hans/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Home</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/zh-Hans/docs/category/tutorial---apps">Tutorial</a><a class="navbar__item navbar__link" href="/zh-Hans/blog">Blog</a><a class="navbar__item navbar__link" href="/zh-Hans/cv">CV</a><a class="navbar__item navbar__link" href="/zh-Hans/resources">Resources</a><a class="navbar__item navbar__link" href="/zh-Hans/app">App</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a class="navbar__item navbar__link" href="/zh-Hans/auth">Account</a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/docs/tutorial-apps/calibration-targets-tutorial" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en">English</a></li><li><a href="/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-Hans">中文</a></li></ul></div><a href="https://github.com/smiler488" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/zh-Hans/docs/category/tutorial---apps"><span title="Tutorial - apps" class="categoryLinkLabel_W154">Tutorial - apps</span></a><button aria-label="折叠侧边栏分类 &#x27;Tutorial - apps&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/ai-data-visualizer-tutorial"><span title="AI Data Visualizer Tutorial" class="linkLabel_WmDU">AI Data Visualizer Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/ai-solver-tutorial"><span title="AI Solver Tutorial" class="linkLabel_WmDU">AI Solver Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/zh-Hans/docs/tutorial-apps/calibration-targets-tutorial"><span title="Calibration Targets Tutorial" class="linkLabel_WmDU">Calibration Targets Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/cco-mission-planner-tutorial"><span title="CCO Mission Planner Tutorial" class="linkLabel_WmDU">CCO Mission Planner Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/cloud-sticky-note-tutorial"><span title="Cloud Sticky Note Tutorial" class="linkLabel_WmDU">Cloud Sticky Note Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/custom-harvard-with-journal-abbr"><span title="Custom Harvard With Journal Abbr (CSL)" class="linkLabel_WmDU">Custom Harvard With Journal Abbr (CSL)</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/image-quantifier-tutorial"><span title="Image Quantifier Tutorial" class="linkLabel_WmDU">Image Quantifier Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/irrigation-layout-designer-tutorial"><span title="Irrigation Layout Designer Tutorial" class="linkLabel_WmDU">Irrigation Layout Designer Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"><span title="Journal Selector Tutorial" class="linkLabel_WmDU">Journal Selector Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/land-surveyor-tutorial"><span title="Land Surveyor Tutorial" class="linkLabel_WmDU">Land Surveyor Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/maze-game-tutorial"><span title="maze-game-tutorial" class="linkLabel_WmDU">maze-game-tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/root-preprocessor-tutorial"><span title="Root Image Preprocessor Tutorial" class="linkLabel_WmDU">Root Image Preprocessor Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/sensor-app-tutorial"><span title="Sensor App Tutorial" class="linkLabel_WmDU">Sensor App Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/stereo-camera-tutorial"><span title="Stereo Camera Leaf Measurement System Tutorial" class="linkLabel_WmDU">Stereo Camera Leaf Measurement System Tutorial</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/zh-Hans/docs/tutorial-apps/weather-analyzer-tutorial"><span title="Weather Analyzer Tutorial" class="linkLabel_WmDU">Weather Analyzer Tutorial</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/zh-Hans/docs/category/tutorial---extras"><span title="Tutorial - Extras" class="categoryLinkLabel_W154">Tutorial - Extras</span></a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_z5aJ"><div class="docItemContainer_c0TR"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/zh-Hans/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/zh-Hans/docs/category/tutorial---apps"><span>Tutorial - apps</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Calibration Targets Tutorial</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>Calibration Targets Tutorial</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="#overview" class="hash-link" aria-label="Overview的直接链接" title="Overview的直接链接" translate="no">​</a></h2>
+<p>The Calibration Targets Generator is a specialized tool for creating printable calibration patterns used in computer vision, photogrammetry, and camera calibration applications. This system generates high-precision targets including checkerboards, markers, and AprilTags in ready-to-use PDF format.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-features">Key Features<a href="#key-features" class="hash-link" aria-label="Key Features的直接链接" title="Key Features的直接链接" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Multiple Target Types</strong>: Checkerboards, circular markers, AprilTags, and custom patterns</li>
+<li class=""><strong>High-Precision Generation</strong>: Sub-pixel accuracy for calibration applications</li>
+<li class=""><strong>PDF Export</strong>: Print-ready PDF files with precise dimensions</li>
+<li class=""><strong>Customizable Parameters</strong>: Size, spacing, pattern density, and layout options</li>
+<li class=""><strong>Quality Assurance</strong>: Built-in validation for calibration accuracy</li>
+<li class=""><strong>Industry Standards</strong>: Compliance with computer vision calibration protocols</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="quick-start">Quick Start<a href="#quick-start" class="hash-link" aria-label="Quick Start的直接链接" title="Quick Start的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-access-the-application">1. Access the Application<a href="#1-access-the-application" class="hash-link" aria-label="1. Access the Application的直接链接" title="1. Access the Application的直接链接" translate="no">​</a></h3>
+<p>Visit in your browser: <code>/app/targets</code></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-system-requirements">2. System Requirements<a href="#2-system-requirements" class="hash-link" aria-label="2. System Requirements的直接链接" title="2. System Requirements的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Modern Web Browser</strong>: Chrome, Firefox, Safari, or Edge with PDF support</li>
+<li class=""><strong>PDF Reader</strong>: For viewing and printing generated targets</li>
+<li class=""><strong>High-Quality Printer</strong>: For accurate pattern reproduction</li>
+<li class=""><strong>Standard Paper Sizes</strong>: A4, Letter, or custom dimensions</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="detailed-usage-steps">Detailed Usage Steps<a href="#detailed-usage-steps" class="hash-link" aria-label="Detailed Usage Steps的直接链接" title="Detailed Usage Steps的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-1-target-type-selection">Step 1: Target Type Selection<a href="#step-1-target-type-selection" class="hash-link" aria-label="Step 1: Target Type Selection的直接链接" title="Step 1: Target Type Selection的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Pattern Type Selection</strong></p>
+<ul>
+<li class=""><strong>Checkerboard</strong>: Standard chessboard pattern for camera calibration</li>
+<li class=""><strong>Circular Markers</strong>: Circular targets for sub-pixel accuracy</li>
+<li class=""><strong>AprilTags</strong>: Fiducial markers for pose estimation</li>
+<li class=""><strong>Custom Patterns</strong>: User-defined target configurations</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Pattern Parameters</strong></p>
+<ul>
+<li class=""><strong>Grid Size</strong>: Number of rows and columns</li>
+<li class=""><strong>Element Size</strong>: Physical dimensions of pattern elements</li>
+<li class=""><strong>Spacing</strong>: Distance between pattern elements</li>
+<li class=""><strong>Border Margin</strong>: White space around pattern</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-2-physical-dimensions-configuration">Step 2: Physical Dimensions Configuration<a href="#step-2-physical-dimensions-configuration" class="hash-link" aria-label="Step 2: Physical Dimensions Configuration的直接链接" title="Step 2: Physical Dimensions Configuration的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Paper Size Selection</strong></p>
+<ul>
+<li class=""><strong>Standard Sizes</strong>: A4 (210×297mm), Letter (8.5×11in)</li>
+<li class=""><strong>Custom Dimensions</strong>: User-specified paper size</li>
+<li class=""><strong>Orientation</strong>: Portrait or landscape layout</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Target Scale</strong></p>
+<ul>
+<li class=""><strong>Absolute Dimensions</strong>: Specify exact physical sizes</li>
+<li class=""><strong>Relative Scaling</strong>: Percentage of paper area</li>
+<li class=""><strong>Multiple Targets</strong>: Arrange multiple patterns on single page</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-3-pattern-customization">Step 3: Pattern Customization<a href="#step-3-pattern-customization" class="hash-link" aria-label="Step 3: Pattern Customization的直接链接" title="Step 3: Pattern Customization的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Checkerboard Parameters</strong></p>
+<ul>
+<li class=""><strong>Square Size</strong>: Physical dimension of each square</li>
+<li class=""><strong>Checker Count</strong>: Number of squares per row/column</li>
+<li class=""><strong>Border Width</strong>: Margin around pattern</li>
+<li class=""><strong>Color Scheme</strong>: Black/white or custom colors</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Circular Marker Parameters</strong></p>
+<ul>
+<li class=""><strong>Circle Diameter</strong>: Physical size of circular targets</li>
+<li class=""><strong>Center Spacing</strong>: Distance between circle centers</li>
+<li class=""><strong>Pattern Layout</strong>: Grid, circular, or custom arrangements</li>
+<li class=""><strong>Fiducial Marks</strong>: Additional reference markers</li>
+</ul>
+</li>
+<li class="">
+<p><strong>AprilTag Parameters</strong></p>
+<ul>
+<li class=""><strong>Tag Family</strong>: Selection of AprilTag families (16h5, 25h9, etc.)</li>
+<li class=""><strong>Tag Size</strong>: Physical dimensions of AprilTag</li>
+<li class=""><strong>Encoding</strong>: Custom data encoding options</li>
+<li class=""><strong>Border Configuration</strong>: White border around tags</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-4-preview-and-validation">Step 4: Preview and Validation<a href="#step-4-preview-and-validation" class="hash-link" aria-label="Step 4: Preview and Validation的直接链接" title="Step 4: Preview and Validation的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Pattern Preview</strong></p>
+<ul>
+<li class="">Real-time visualization of target pattern</li>
+<li class="">Zoom and pan capabilities for detailed inspection</li>
+<li class="">Color and contrast adjustment preview</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Quality Validation</strong></p>
+<ul>
+<li class=""><strong>Geometric Accuracy</strong>: Verification of pattern dimensions</li>
+<li class=""><strong>Print Quality</strong>: Simulation of printed appearance</li>
+<li class=""><strong>Calibration Suitability</strong>: Assessment for intended use</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-5-pdf-generation-and-download">Step 5: PDF Generation and Download<a href="#step-5-pdf-generation-and-download" class="hash-link" aria-label="Step 5: PDF Generation and Download的直接链接" title="Step 5: PDF Generation and Download的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>PDF Export</strong></p>
+<ul>
+<li class="">Click &quot;Generate PDF&quot; to create print-ready file</li>
+<li class="">High-resolution vector graphics for sharp printing</li>
+<li class="">Embedded metadata for pattern specifications</li>
+</ul>
+</li>
+<li class="">
+<p><strong>File Management</strong></p>
+<ul>
+<li class="">Automatic file naming with parameters</li>
+<li class="">Multiple format options (PDF, SVG, PNG)</li>
+<li class="">Batch generation for multiple configurations</li>
+</ul>
+</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-specifications">Technical Specifications<a href="#technical-specifications" class="hash-link" aria-label="Technical Specifications的直接链接" title="Technical Specifications的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="pattern-types-and-specifications">Pattern Types and Specifications<a href="#pattern-types-and-specifications" class="hash-link" aria-label="Pattern Types and Specifications的直接链接" title="Pattern Types and Specifications的直接链接" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="checkerboard-patterns">Checkerboard Patterns<a href="#checkerboard-patterns" class="hash-link" aria-label="Checkerboard Patterns的直接链接" title="Checkerboard Patterns的直接链接" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>Square Size Range</strong>: 5mm to 100mm</li>
+<li class=""><strong>Grid Size</strong>: 3×3 to 15×15 squares</li>
+<li class=""><strong>Aspect Ratio</strong>: 1:1 (square) or customizable</li>
+<li class=""><strong>Accuracy</strong>: ±0.1mm for printed dimensions</li>
+<li class=""><strong>Applications</strong>: Camera calibration, lens distortion correction</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="circular-marker-patterns">Circular Marker Patterns<a href="#circular-marker-patterns" class="hash-link" aria-label="Circular Marker Patterns的直接链接" title="Circular Marker Patterns的直接链接" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>Diameter Range</strong>: 2mm to 50mm</li>
+<li class=""><strong>Spacing Accuracy</strong>: ±0.05mm</li>
+<li class=""><strong>Center Detection</strong>: Sub-pixel accuracy support</li>
+<li class=""><strong>Pattern Variations</strong>: Concentric circles, cross patterns</li>
+<li class=""><strong>Applications</strong>: High-precision photogrammetry</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="apriltag-patterns">AprilTag Patterns<a href="#apriltag-patterns" class="hash-link" aria-label="AprilTag Patterns的直接链接" title="AprilTag Patterns的直接链接" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>Supported Families</strong>: 16h5, 25h9, 36h11, and custom</li>
+<li class=""><strong>Tag Size</strong>: 10mm to 200mm</li>
+<li class=""><strong>Data Encoding</strong>: Up to 10 bits per tag</li>
+<li class=""><strong>Detection Robustness</strong>: Partial occlusion tolerance</li>
+<li class=""><strong>Applications</strong>: Robot navigation, augmented reality</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="printing-specifications">Printing Specifications<a href="#printing-specifications" class="hash-link" aria-label="Printing Specifications的直接链接" title="Printing Specifications的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Resolution</strong>: 600 DPI minimum for calibration accuracy</li>
+<li class=""><strong>Paper Quality</strong>: Matte or semi-gloss recommended</li>
+<li class=""><strong>Color Accuracy</strong>: High contrast black/white patterns</li>
+<li class=""><strong>Dimensional Stability</strong>: Low paper expansion/contraction</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="file-formats">File Formats<a href="#file-formats" class="hash-link" aria-label="File Formats的直接链接" title="File Formats的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>PDF</strong>: Primary format with vector graphics</li>
+<li class=""><strong>SVG</strong>: Scalable vector graphics for editing</li>
+<li class=""><strong>PNG</strong>: Raster format for digital applications</li>
+<li class=""><strong>DXF</strong>: CAD-compatible format for engineering applications</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="best-practices">Best Practices<a href="#best-practices" class="hash-link" aria-label="Best Practices的直接链接" title="Best Practices的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="target-design-considerations">Target Design Considerations<a href="#target-design-considerations" class="hash-link" aria-label="Target Design Considerations的直接链接" title="Target Design Considerations的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Pattern Size Selection</strong></p>
+<ul>
+<li class="">Choose pattern size appropriate for camera field of view</li>
+<li class="">Ensure sufficient pattern elements for calibration accuracy</li>
+<li class="">Consider working distance and camera resolution</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Contrast Optimization</strong></p>
+<ul>
+<li class="">Use high-contrast colors (black/white recommended)</li>
+<li class="">Avoid mid-tone grays for better detection</li>
+<li class="">Ensure consistent illumination during use</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Geometric Accuracy</strong></p>
+<ul>
+<li class="">Verify printer calibration before production</li>
+<li class="">Use high-quality paper to minimize dimensional changes</li>
+<li class="">Allow paper to acclimate to environment before printing</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="calibration-procedure">Calibration Procedure<a href="#calibration-procedure" class="hash-link" aria-label="Calibration Procedure的直接链接" title="Calibration Procedure的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Target Placement</strong></p>
+<ul>
+<li class="">Place target in multiple orientations for comprehensive calibration</li>
+<li class="">Ensure target fills significant portion of camera view</li>
+<li class="">Maintain consistent lighting conditions</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Image Acquisition</strong></p>
+<ul>
+<li class="">Capture images from multiple angles and distances</li>
+<li class="">Ensure sharp focus and minimal motion blur</li>
+<li class="">Use appropriate exposure settings</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Validation Methods</strong></p>
+<ul>
+<li class="">Measure reprojection error for calibration quality</li>
+<li class="">Verify consistency across multiple calibration sessions</li>
+<li class="">Compare with known ground truth measurements</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="quality-control">Quality Control<a href="#quality-control" class="hash-link" aria-label="Quality Control的直接链接" title="Quality Control的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Print Quality Assessment</strong></p>
+<ul>
+<li class="">Check for sharp edges and consistent colors</li>
+<li class="">Verify dimensional accuracy with calipers</li>
+<li class="">Ensure no smudging or bleeding</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Pattern Integrity</strong></p>
+<ul>
+<li class="">Verify all pattern elements are correctly rendered</li>
+<li class="">Check for missing or distorted elements</li>
+<li class="">Validate fiducial marker placement</li>
+</ul>
+</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="troubleshooting">Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Troubleshooting的直接链接" title="Troubleshooting的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="common-issues">Common Issues<a href="#common-issues" class="hash-link" aria-label="Common Issues的直接链接" title="Common Issues的直接链接" translate="no">​</a></h3>
+<p><strong>1. Poor Detection Accuracy</strong></p>
+<ul>
+<li class="">Verify print quality and contrast</li>
+<li class="">Check camera focus and exposure settings</li>
+<li class="">Ensure appropriate pattern size for camera resolution</li>
+<li class="">Consider using higher contrast materials</li>
+</ul>
+<p><strong>2. Dimensional Inaccuracies</strong></p>
+<ul>
+<li class="">Calibrate printer for accurate scaling</li>
+<li class="">Use dimensionally stable paper</li>
+<li class="">Allow paper to acclimate to environment</li>
+<li class="">Verify measurement tools are calibrated</li>
+</ul>
+<p><strong>3. PDF Generation Problems</strong></p>
+<ul>
+<li class="">Check browser PDF support and permissions</li>
+<li class="">Verify sufficient system memory for large patterns</li>
+<li class="">Try alternative browser if generation fails</li>
+<li class="">Reduce pattern complexity if necessary</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="performance-optimization">Performance Optimization<a href="#performance-optimization" class="hash-link" aria-label="Performance Optimization的直接链接" title="Performance Optimization的直接链接" translate="no">​</a></h3>
+<p><strong>For Large Patterns</strong></p>
+<ul>
+<li class="">Use vector PDF format for scalability</li>
+<li class="">Consider generating multiple smaller patterns</li>
+<li class="">Optimize pattern density for intended application</li>
+</ul>
+<p><strong>For High-Precision Applications</strong></p>
+<ul>
+<li class="">Use professional printing services for critical applications</li>
+<li class="">Consider laser printing for superior edge definition</li>
+<li class="">Validate printed dimensions with precision measurement tools</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-support">Technical Support<a href="#technical-support" class="hash-link" aria-label="Technical Support的直接链接" title="Technical Support的直接链接" translate="no">​</a></h2>
+<p>If you encounter technical issues:</p>
+<ol>
+<li class="">Check browser console for error messages</li>
+<li class="">Verify pattern parameters are within valid ranges</li>
+<li class="">Ensure PDF viewer compatibility</li>
+<li class="">Contact support with specific error details and pattern requirements</li>
+</ol>
+<hr>
+<p><em>Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS</em><br>
+<em>This tutorial applies to Calibration Targets Generator v1.0</em>
+<em>Optimized for computer vision, photogrammetry, and camera calibration applications</em>
+</p><div style="display:flex;justify-content:flex-end;margin-bottom:8px"><a class="button button--secondary" href="/app/targets">App</a></div><p></p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-apps/calibration-targets-tutorial.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/zh-Hans/docs/tutorial-apps/ai-solver-tutorial"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">AI Solver Tutorial</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/zh-Hans/docs/tutorial-apps/cco-mission-planner-tutorial"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">CCO Mission Planner Tutorial</div></a></nav></div><div style="padding-top:50px"></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#overview" class="table-of-contents__link toc-highlight">Overview</a></li><li><a href="#key-features" class="table-of-contents__link toc-highlight">Key Features</a></li><li><a href="#quick-start" class="table-of-contents__link toc-highlight">Quick Start</a><ul><li><a href="#1-access-the-application" class="table-of-contents__link toc-highlight">1. Access the Application</a></li><li><a href="#2-system-requirements" class="table-of-contents__link toc-highlight">2. System Requirements</a></li></ul></li><li><a href="#detailed-usage-steps" class="table-of-contents__link toc-highlight">Detailed Usage Steps</a><ul><li><a href="#step-1-target-type-selection" class="table-of-contents__link toc-highlight">Step 1: Target Type Selection</a></li><li><a href="#step-2-physical-dimensions-configuration" class="table-of-contents__link toc-highlight">Step 2: Physical Dimensions Configuration</a></li><li><a href="#step-3-pattern-customization" class="table-of-contents__link toc-highlight">Step 3: Pattern Customization</a></li><li><a href="#step-4-preview-and-validation" class="table-of-contents__link toc-highlight">Step 4: Preview and Validation</a></li><li><a href="#step-5-pdf-generation-and-download" class="table-of-contents__link toc-highlight">Step 5: PDF Generation and Download</a></li></ul></li><li><a href="#technical-specifications" class="table-of-contents__link toc-highlight">Technical Specifications</a><ul><li><a href="#pattern-types-and-specifications" class="table-of-contents__link toc-highlight">Pattern Types and Specifications</a></li><li><a href="#printing-specifications" class="table-of-contents__link toc-highlight">Printing Specifications</a></li><li><a href="#file-formats" class="table-of-contents__link toc-highlight">File Formats</a></li></ul></li><li><a href="#best-practices" class="table-of-contents__link toc-highlight">Best Practices</a><ul><li><a href="#target-design-considerations" class="table-of-contents__link toc-highlight">Target Design Considerations</a></li><li><a href="#calibration-procedure" class="table-of-contents__link toc-highlight">Calibration Procedure</a></li><li><a href="#quality-control" class="table-of-contents__link toc-highlight">Quality Control</a></li></ul></li><li><a href="#troubleshooting" class="table-of-contents__link toc-highlight">Troubleshooting</a><ul><li><a href="#common-issues" class="table-of-contents__link toc-highlight">Common Issues</a></li><li><a href="#performance-optimization" class="table-of-contents__link toc-highlight">Performance Optimization</a></li></ul></li><li><a href="#technical-support" class="table-of-contents__link toc-highlight">Technical Support</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">CN Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://space.bilibili.com/16062789" target="_blank" rel="noopener noreferrer" class="footer__link-item">Bilibili<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://v.douyin.com/-1moIAdEYpg/ 4@5.com :2pm" target="_blank" rel="noopener noreferrer" class="footer__link-item">Douyin<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://m.weibo.cn/profile/5283742028" target="_blank" rel="noopener noreferrer" class="footer__link-item">Weibo<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA" target="_blank" rel="noopener noreferrer" class="footer__link-item">WeChat Offical<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">EN Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.youtube.com/channel/UCmz7DQ3nEPRxj4rvEQUCvAg" target="_blank" rel="noopener noreferrer" class="footer__link-item">YouTube<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.tiktok.com/@smiler488tt" target="_blank" rel="noopener noreferrer" class="footer__link-item">TikTok<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://x.com/smiler488" target="_blank" rel="noopener noreferrer" class="footer__link-item">X<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.reddit.com/user/smiler488/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Reddit<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.linkedin.com/in/liangchao-deng-7b420b269/" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://huggingface.co/smiler488" target="_blank" rel="noopener noreferrer" class="footer__link-item">HuggingFace<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://bsky.app/profile/smiler488.bsky.social" target="_blank" rel="noopener noreferrer" class="footer__link-item">Bluesky<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2025 Liangchao Deng. All rights reserved.</div></div></div></footer></div>
+</body>
+</html>
