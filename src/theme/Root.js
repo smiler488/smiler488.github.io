@@ -19,7 +19,7 @@ export default function Root({children}) {
       appId: 'HITKU3S49E',
       indexName: 'smiler488.github.io',
       apiKey: '3b2ba7e1f5fbb72755b79c9a7c616457',
-      askAi: 'YOUR_ALGOLIA_ASSISTANT_ID',
+      askAi: 'AHa325oRsRLD',
     });
     return () => {
       const el = document.getElementById('docsearch');
