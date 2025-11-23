@@ -122,14 +122,7 @@ const config = {
         disableSwitch: false,
         respectPrefersColorScheme: true,
       },
-      algolia: {
-        appId: 'USQTG5BJ2J',
-        apiKey: '8bab45a0143db40aa33bdec65b748753',
-        indexName: 'smiler488',
-        contextualSearch: true, // 启用上下文搜索
-        searchParameters: {},   // 高级搜索参数（暂时留空）
-        searchPagePath: 'search',
-      },
+      
       navbar: {
         title: 'Home',
         logo: {
@@ -144,6 +137,8 @@ const config = {
             label: 'Tutorial',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/cv', label: 'CV', position: 'left'},
+          {to: '/resources', label: 'Resources', position: 'left'},
           {
             to: "/app",
             label: "App",

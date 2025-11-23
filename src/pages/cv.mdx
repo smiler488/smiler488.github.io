@@ -1,35 +1,61 @@
 ---
-slug: curriculum-vitae
 title: Curriculum Vitae
-authors: [liangchao]
-tags: [curriculum vitae, academic cv]
 ---
 import SpeechButton from '@site/src/components/SpeechButton';
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
-
-<!-- truncate -->
+import VisitorMap from '@site/src/components/VisitorMap';
 
 # Curriculum Vitae
 
+<div className="cvPage">
+
+<div className="cvActions">
+  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="Download PDF" title="Download PDF">
+    <span className="icon">⬇️</span>
+    <span>Download PDF</span>
+  </a>
+  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="Print" title="Print">
+    <span className="icon">🖨️</span>
+    <span>Print</span>
+  </a>
+</div>
+
 ## Personal Information
 
-<p className="cvPronunciation">
-  <span className="cvNameText">
-    <strong>Liangchao Deng</strong> (邓良超)
-  </span>
-  <SpeechButton
-    text="邓良超"
-    fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)"
-    title="Play pronunciation"
-  />
-</p>
-Joint Ph.D. Candidate in Crop Science (SHZU × CAS-CEMPS) | 2023 – 2026 (expected)
+<div className="piIntro">
+  <img src="/img/cv_person.png" alt="Liangchao Deng" className="cvAvatar" />
+  <div className="cvHeaderInfo">
+    <div className="cvPronunciation">
+      <span className="cvNameText">
+        <strong>Liangchao Deng</strong> (邓良超)
+      </span>
+      <SpeechButton
+        text="邓良超"
+        fallbackText="Pronunciation: Liáng-chāo (lee-ANG chao)"
+        title="Play pronunciation"
+      />
+    </div>
+    <div className="cvRole">Joint Ph.D. Candidate in Crop Science (SHZU × CAS-CEMPS)</div>
+    <div className="cvAffiliation">2023 – 2026 (expected)</div>
+    <div className="cvSocial">
+      <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" rel="noopener" className="button button--sm button--secondary" title="Google Scholar">🔎 Scholar</a>
+      <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ORCID">🟢 ORCID</a>
+      <a href="https://www.researchgate.net/profile/Liangchao-Deng?ev=hdr_xprf" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ResearchGate">🧪 RG</a>
+      <a href="https://github.com/smiler488" target="_blank" rel="noopener" className="button button--sm button--secondary" title="GitHub">🐙 GitHub</a>
+    </div>
+  </div>
+</div>
 
-**Contact Information:**
-
-- **Institutional Email:** [liangchaodeng@stu.shzu.edu.cn](mailto:liangchaodeng@stu.shzu.edu.cn)
-- **Personal Email:** [googalphdlc@gmail.com](mailto:googalphdlc@gmail.com)
-- **Website:** [https://smiler488.github.io](https://smiler488.github.io)
+<div className="piGrid">
+  <div>
+    <strong>Contact Information:</strong>
+    
+    - **Institutional Email:** [liangchaodeng@stu.shzu.edu.cn](mailto:liangchaodeng@stu.shzu.edu.cn)
+    - **Personal Email:** [googalphdlc@gmail.com](mailto:googalphdlc@gmail.com)
+    - **Website:** [https://smiler488.github.io](https://smiler488.github.io)
+  </div>
+  <div></div>
+</div>
 
 **Academic Profiles:**
 
@@ -135,7 +161,6 @@ College of Science, Shihezi University, Xinjiang, China
 
 ## Publications & Research Output
 
-
 1. **Deng, L.**, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025).
    *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/files/brdf.pdf)
    <AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" />
@@ -146,8 +171,12 @@ College of Science, Shihezi University, Xinjiang, China
 
 ### **Student Mentoring**
 
-- **Yu Jingxuan** | *Undergraduate Research* | *2023 – 2025***Project:** Field-scale 3D reconstruction & quantitative analysis of cotton varieties (UAV)**Role/Outcome:** Guided MVS pipeline; student gained 3D modeling & data-analysis proficiency
-- **Zhang Rongze** | *Undergraduate Research* | *2023 – 2025***Project:** Single-plant 3D reconstruction & morphological quantification**Role/Outcome:** Contributed to automated phenotyping workflow
+- **Yu Jingxuan** | *Undergraduate Research* | *2023 – 2025*
+  **Project:** Field-scale 3D reconstruction & quantitative analysis of cotton varieties (UAV)
+  **Role/Outcome:** Guided MVS pipeline; student gained 3D modeling & data-analysis proficiency
+- **Zhang Rongze** | *Undergraduate Research* | *2023 – 2025*
+  **Project:** Single-plant 3D reconstruction & morphological quantification
+  **Role/Outcome:** Contributed to automated phenotyping workflow
 - **Xie Hejiang** | *Undergraduate Research* | *2023 – 2025*
   **Project:** Cotton yield response under nitrogen treatment regimes
   **Role/Outcome:** Trained in experimental design & statistics; results supported N optimization
@@ -160,9 +189,15 @@ College of Science, Shihezi University, Xinjiang, China
 
 ### **Open-Source Contributions**
 
-- **Stereo-Vision-Camera-Box** · *Python, Computer Vision*Advanced stereo-vision system with custom hardware & GUI for depth and 3D point clouds in phenotyping.https://github.com/smiler488/Stereo-Vision-Camera-Box
-- **CCO-Flight-Planner** · *Python, UAV Technology*Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.https://github.com/smiler488/cco-flight-planner
-- **RootQuantify** · *Python, Image Analysis*Batch root-image quantification with robust preprocessing and morphology metrics.https://github.com/smiler488/RootQuantify
+- **Stereo-Vision-Camera-Box** · *Python, Computer Vision*
+  Advanced stereo-vision system with custom hardware & GUI for depth and 3D point clouds in phenotyping.
+  https://github.com/smiler488/Stereo-Vision-Camera-Box
+- **CCO-Flight-Planner** · *Python, UAV Technology*
+  Automated DJI flight planning from KML polygons; KMZ waypoint generation for field surveys.
+  https://github.com/smiler488/cco-flight-planner
+- **RootQuantify** · *Python, Image Analysis*
+  Batch root-image quantification with robust preprocessing and morphology metrics.
+  https://github.com/smiler488/RootQuantify
 - **Custom-Harvard-Citation-Tool** · *Academic Productivity*
   Zotero-friendly citation insertion with journal-abbreviation support (slides/papers).
   https://github.com/smiler488/custom-harvard-with-journal-abbr
@@ -193,3 +228,15 @@ Email: [songqf@cemps.ac.cn](mailto:zhangyali_cn@foxmail.com)
 ---
 
 *Last updated: October 2025*
+
+<section className="cvFooterSection">
+  <h3 style={{marginBottom: 8}}>Visitors</h3>
+  <VisitorMap mountInToc={false} />
+  <noscript>
+    <a href="https://mapmyvisitors.com/web/1c0ty" title="Visit tracker">
+      <img className="visitorMapImage" src="https://mapmyvisitors.com/map.png?d=ccC5JZBvNNpRHfn94y3CRXzvvcSb99CMKXuy-7wzczI&cl=ffffff" alt="Visitor map" />
+    </a>
+  </noscript>
+</section>
+
+</div>

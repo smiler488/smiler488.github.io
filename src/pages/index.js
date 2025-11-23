@@ -264,7 +264,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className={clsx('button button--secondary button--lg', styles.cta)}
-            to="/blog/curriculum-vitae"
+            to="/cv"
             aria-label="打开最新简历"
             title="打开最新简历">
             Curriculum Vitae - Latest 

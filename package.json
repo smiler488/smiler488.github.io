@@ -20,8 +20,11 @@
     "stylelint": "stylelint \"src/**/*.css\" --fix"
   },
   "dependencies": {
+    "@docsearch/css": "^4.3.2",
+    "@docsearch/js": "^4.3.2",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
+    "@easyops-cn/docusaurus-search-local": "^0.52.1",
     "@giscus/react": "^3.1.0",
     "@mdx-js/react": "^3.0.0",
     "@supabase/supabase-js": "^2.45.3",
