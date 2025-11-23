@@ -115,7 +115,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       metadata: [
-        { name: 'algolia-site-verification', content: '28A5A8DFE7ED2916' },
+        { name: 'algolia-site-verification', content: '59BB444E51EBC712' },
       ],
       colorMode: {
         defaultMode: 'light',
