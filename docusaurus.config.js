@@ -70,7 +70,11 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'zh-Hans'],
+    localeConfigs: {
+      en: { label: 'English' },
+      'zh-Hans': { label: '中文', direction: 'ltr' },
+    },
   },
 
   presets: [
@@ -145,6 +149,7 @@ const config = {
             position: "left",
           },
           { to: '/auth', label: 'Account', position: 'right' },
+          { type: 'localeDropdown', position: 'right' },
           {
             href: 'https://github.com/smiler488',
             label: 'GitHub',

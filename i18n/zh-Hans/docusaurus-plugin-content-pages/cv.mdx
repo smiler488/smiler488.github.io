@@ -1,0 +1,87 @@
+---
+title: 个人简历
+---
+import SpeechButton from '@site/src/components/SpeechButton';
+import AltmetricBadge from '@site/src/components/AltmetricBadge';
+import VisitorMap from '@site/src/components/VisitorMap';
+
+# 个人简历
+
+<div className="cvPage">
+
+<div className="cvActions">
+  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="下载 PDF" title="下载 PDF">
+    <span className="icon">⬇️</span>
+    <span>下载 PDF</span>
+  </a>
+  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="打印" title="打印">
+    <span className="icon">🖨️</span>
+    <span>打印</span>
+  </a>
+</div>
+
+## 个人信息
+
+<div className="piIntro">
+  <img src="/img/cv_person.png" alt="邓良超" className="cvAvatar" />
+  <div className="cvHeaderInfo">
+    <div className="cvPronunciation">
+      <span className="cvNameText">
+        <strong>Liangchao Deng</strong>（邓良超）
+      </span>
+      <SpeechButton text="邓良超" fallbackText="Liáng-chāo" title="播放读音" />
+    </div>
+    <div className="cvRole">作物科学联合培养博士生（石河子大学 × 中科院分子植物卓越中心）</div>
+    <div className="cvAffiliation">2023 – 2026（预计）</div>
+    <div className="cvSocial">
+      <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" rel="noopener" className="button button--sm button--secondary" title="Google Scholar">🔎 Scholar</a>
+      <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ORCID">🟢 ORCID</a>
+      <a href="https://www.researchgate.net/profile/Liangchao-Deng?ev=hdr_xprf" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ResearchGate">🧪 RG</a>
+      <a href="https://github.com/smiler488" target="_blank" rel="noopener" className="button button--sm button--secondary" title="GitHub">🐙 GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div className="piGrid">
+  <div>
+    <strong>联系方式：</strong>
+    
+    - **校内邮箱：** [liangchaodeng@stu.shzu.edu.cn](mailto:liangchaodeng@stu.shzu.edu.cn)
+    - **个人邮箱：** [googalphdlc@gmail.com](mailto:googalphdlc@gmail.com)
+    - **网站：** [https://smiler488.github.io](https://smiler488.github.io)
+  </div>
+  <div></div>
+</div>
+
+---
+
+## 教育经历
+
+**作物科学博士研究生** | *2023 – 2026（预计）*
+石河子大学农业学院 / 中国科学院分子植物卓越中心（联合培养）
+
+---
+
+## 研究方向
+
+- 生成式 AI 在农业中的应用（图像到三维、表型基础模型）
+- 计算植物生物学（光线追踪光合模型、BRDF 光学模拟）
+- 高通量表型（UAV、多光谱/超光谱、LiDAR）
+
+---
+
+## 论文与成果
+
+1. **Deng, L.** 等（2025）
+   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/files/brdf.pdf)
+   <AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" />
+
+---
+
+## 访客
+
+<section className="cvFooterSection">
+  <VisitorMap mountInToc={false} />
+</section>
+
+</div>
