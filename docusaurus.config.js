@@ -143,6 +143,7 @@ const config = {
           {to: '/blog', label: 'Blog', position: 'left'},
           {to: '/cv', label: 'CV', position: 'left'},
           {to: '/resources', label: 'Resources', position: 'left'},
+          {to: '/hologram', label: 'Hologram', position: 'left'},
           {
             to: "/app",
             label: "App",

@@ -1,0 +1,7 @@
+{
+  "name": "Smiler488 Hologram",
+  "description": "Interactive holographic particle display with hand gesture control.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
