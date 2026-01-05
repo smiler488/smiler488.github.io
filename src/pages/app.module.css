@@ -1,57 +1,79 @@
 .hero {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
 }
 
 .title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
   margin: 0 0 16px;
   letter-spacing: -0.02em;
-  color: var(--ifm-color-emphasis-900);
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  color: var(--ifm-color-emphasis-600);
-  margin: 0 auto 32px;
+  font-size: 1.25rem;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0 auto 48px;
   line-height: 1.6;
   max-width: 600px;
+  opacity: 0.8;
 }
 
 .appGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .appCard {
   border: 1px solid var(--ifm-border-color);
-  border-radius: 16px;
-  padding: 24px;
-  background: var(--ifm-background-color);
+  border-radius: 20px;
+  padding: 2rem;
+  background: var(--ifm-card-background-color);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 200px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  box-shadow: var(--ifm-global-shadow-lw);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
 }
 
 .appCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--ifm-global-shadow-md);
-  border-color: var(--ifm-color-primary-lightest);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: var(--ifm-color-primary);
+}
+
+.appIcon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--ifm-color-emphasis-100);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  transition: transform 0.3s ease;
+}
+
+.appCard:hover .appIcon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .cardTitle {
   margin: 0 0 12px;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -59,33 +81,45 @@
   color: var(--ifm-color-emphasis-600);
   line-height: 1.6;
   font-size: 1rem;
-  margin: 0 0 20px;
+  margin: 0 0 24px;
+  flex-grow: 1;
 }
 
 .appLink {
+  align-self: flex-start;
   display: inline-flex;
-  justify-content: center;
   align-items: center;
   text-decoration: none;
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-900);
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-weight: 500;
+  color: var(--ifm-color-primary);
+  font-weight: 700;
   font-size: 1rem;
-  border: 1px solid var(--ifm-color-emphasis-900);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  transition: all 0.2s ease;
 }
 
 .appLink:hover {
-  transform: scale(1.02);
-  background: var(--ifm-color-primary);
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  color: var(--ifm-color-primary-darker);
+  gap: 0.75rem;
+  text-decoration: none;
 }
 
-html[data-theme='dark'] .appLink {
-  background: var(--ifm-color-primary);
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-color-emphasis-0);
+.appLink::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+
+.appLink:hover::after {
+  transform: translateX(4px);
+}
+
+/* Dark Mode specific */
+html[data-theme='dark'] .appCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+html[data-theme='dark'] .appIcon {
+  background: rgba(255, 255, 255, 0.1);
 }

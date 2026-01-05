@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function HologramParticles({ text, onStatusChange, onHandDetect }) {
+export default function HologramParticles({ text, onStatusChange, onHandDetect, style, className }) {
   const canvasRef = React.useRef(null)
   const videoRef = React.useRef(null)
   const containerRef = React.useRef(null)
@@ -104,16 +104,16 @@ export default function HologramParticles({ text, onStatusChange, onHandDetect }
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        ctx.fillText(text || 'SMILER488', canvas.width / 2, canvas.height / 2)
+        ctx.fillText(text || 'SMILER488', canvas.width / 2, canvas.height / 3)
         const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height)
         const gap = 5
         for (let y = 0; y < textCoordinates.height; y += gap) {
           for (let x = 0; x < textCoordinates.width; x += gap) {
             if (textCoordinates.data[y * 4 * textCoordinates.width + x * 4 + 3] > 128) {
               const r = Math.random()
-              let color = '#2dd4bf'
-              if (r > 0.7) color = '#ccfbf1'
-              else if (r < 0.2) color = '#115e59'
+              let color = '#e5e7eb' // Silver
+              if (r > 0.7) color = '#d1d5db' // Darker silver
+              else if (r < 0.2) color = '#f3f4f6' // Lighter silver
               particles.push(new Particle(x, y, color))
             }
           }
@@ -132,7 +132,7 @@ export default function HologramParticles({ text, onStatusChange, onHandDetect }
             const vision = await mod.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm')
             handLandmarker = await mod.HandLandmarker.createFromOptions(vision, { baseOptions: { modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task', delegate: 'GPU' }, runningMode: 'VIDEO', numHands: 2 })
             onStatusChange && onStatusChange('SYSTEM ONLINE - WAITING FOR INPUT')
-            try { videoRef.current.muted = true } catch {}
+            try { videoRef.current.muted = true } catch { }
             videoRef.current?.play()
             predictWebcam()
           }
@@ -193,7 +193,7 @@ export default function HologramParticles({ text, onStatusChange, onHandDetect }
   }, [text, onStatusChange, onHandDetect])
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '70vh' }}>
+    <div ref={containerRef} className={className} style={{ position: 'relative', width: '100%', height: '70vh', ...style }}>
       <video
         ref={videoRef}
         playsInline

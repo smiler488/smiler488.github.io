@@ -108,7 +108,7 @@ const AppHub = () => {
                 href={app.link}
                 className={styles.appLink}
               >
-                Open
+                Launch
               </a>
             </div>
           ))}

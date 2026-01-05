@@ -5,83 +5,162 @@ import SpeechButton from '@site/src/components/SpeechButton';
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 import VisitorMap from '@site/src/components/VisitorMap';
 
+
 # 个人简历
 
 <div className="cvPage">
 
-<div className="cvActions">
-  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="下载 PDF" title="下载 PDF">
-    <span className="icon">⬇️</span>
-    <span>下载 PDF</span>
-  </a>
-  <a href="#" className="cvAction" onClick={(e) => { e.preventDefault(); window.print(); }} aria-label="打印" title="打印">
-    <span className="icon">🖨️</span>
-    <span>打印</span>
-  </a>
-</div>
-
-## 个人信息
-
-<div className="piIntro">
-  <img src="/img/cv_person.png" alt="邓良超" className="cvAvatar" />
-  <div className="cvHeaderInfo">
-    <div className="cvPronunciation">
-      <span className="cvNameText">
-        <strong>Liangchao Deng</strong>（邓良超）
-      </span>
-      <SpeechButton text="邓良超" fallbackText="Liáng-chāo" title="播放读音" />
-    </div>
-    <div className="cvRole">作物科学联合培养博士生（石河子大学 × 中科院分子植物卓越中心）</div>
-    <div className="cvAffiliation">2023 – 2026（预计）</div>
-    <div className="cvSocial">
-      <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" rel="noopener" className="button button--sm button--secondary" title="Google Scholar">🔎 Scholar</a>
-      <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ORCID">🟢 ORCID</a>
-      <a href="https://www.researchgate.net/profile/Liangchao-Deng?ev=hdr_xprf" target="_blank" rel="noopener" className="button button--sm button--secondary" title="ResearchGate">🧪 RG</a>
-      <a href="https://github.com/smiler488" target="_blank" rel="noopener" className="button button--sm button--secondary" title="GitHub">🐙 GitHub</a>
-    </div>
-  </div>
-</div>
-
-<div className="piGrid">
-  <div>
-    <strong>联系方式：</strong>
+  {/* Header Section */}
+  <section className="cvHeaderSection">
+    <img src="/img/cv_person.png" alt="邓良超" className="cvAvatarGiant" />
+    <h1 className="cvNameLarge">邓良超 <span style={{fontSize: '0.5em', opacity: 0.6, fontWeight: 400}}>(Liangchao Deng)</span></h1>
+    <div className="cvTitle">作物科学联合培养博士生（石河子大学 × 中科院分子植物卓越中心）</div>
     
-    - **校内邮箱：** [liangchaodeng@stu.shzu.edu.cn](mailto:liangchaodeng@stu.shzu.edu.cn)
-    - **个人邮箱：** [googalphdlc@gmail.com](mailto:googalphdlc@gmail.com)
-    - **网站：** [https://smiler488.github.io](https://smiler488.github.io)
+    <div className="cvSocialRow">
+      <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" className="button button--secondary button--sm">Google Scholar</a>
+      <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" className="button button--secondary button--sm">ORCID</a>
+      <a href="https://github.com/smiler488" target="_blank" className="button button--secondary button--sm">GitHub</a>
+      <a href="mailto:liangchaodeng@stu.shzu.edu.cn" className="button button--primary button--sm">Email Me</a>
+      <button className="button button--outline button--secondary button--sm" onClick={() => window.print()}>打印简历</button>
+    </div>
+  </section>
+
+  <div className="row">
+    {/* Left Column: Education & Experience */}
+    <div className="col col--7">
+      
+      <h2 className="cvSectionTitle">教育经历</h2>
+      <div className="cvTimeline">
+        <div className="cvTimelineItem">
+          <div className="cvTimelineDate">2023 – 2026（预计）</div>
+          <div className="cvTimelineTitle">作物科学 博士研究生</div>
+          <div className="cvTimelineSubtitle">石河子大学 (SHZU) × 中科院分子植物卓越中心 (CEMPS)</div>
+          <p>联合培养博士项目，专注于智慧农业与作物表型组学。</p>
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">精准农业</span>
+            <span className="cvBadge">冠层光合作用</span>
+          </div>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineDate">2016 – 2021</div>
+          <div className="cvTimelineTitle">信息与计算科学 学士</div>
+          <div className="cvTimelineSubtitle">石河子大学</div>
+          <p>本科毕业论文：相变方程的数值解法研究。</p>
+        </div>
+      </div>
+
+      <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>研究经历</h2>
+      <div className="cvTimeline">
+        <div className="cvTimelineItem">
+          <div className="cvTimelineDate">2024 – 至今</div>
+          <div className="cvTimelineTitle">生成式 AI 在农业中的应用</div>
+          <div className="cvTimelineSubtitle">研究助理</div>
+          <p>开发图像到三维的生成工作流 (Diffusion, NeRF) 以加速三维植物建模。将大语言模型 (LLM) 集成到表型分析流程中。</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineDate">2021 – 至今</div>
+          <div className="cvTimelineTitle">下一代植物表型组学</div>
+          <div className="cvTimelineSubtitle">研究助理</div>
+          <p>利用三维高斯溅射 (3DGS) 和光线追踪技术进行高保真冠层重建与光合作用模拟。</p>
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Ray Tracing</span>
+            <span className="cvBadge">3DGS</span>
+            <span className="cvBadge">Lidar Simulation</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Right Column: Skills & Interests */}
+    <div className="col col--5">
+      
+      <h2 className="cvSectionTitle">专业技能</h2>
+      
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>AI & 机器学习</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">PyTorch</span>
+            <span className="cvBadge">Diffusion Models</span>
+            <span className="cvBadge">NeRF / 3DGS</span>
+            <span className="cvBadge">LLMs</span>
+            <span className="cvBadge">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>计算机视觉</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">OpenCV</span>
+            <span className="cvBadge">Open3D</span>
+            <span className="cvBadge">PCL</span>
+            <span className="cvBadge">Ray Tracing</span>
+            <span className="cvBadge">Blender API</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>开发与工具</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Python</span>
+            <span className="cvBadge">MATLAB</span>
+            <span className="cvBadge">Git</span>
+            <span className="cvBadge">React/Docusaurus</span>
+            <span className="cvBadge">UAV Pilot</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <div></div>
-</div>
 
----
+  <hr style={{margin: '3rem 0'}} />
 
-## 教育经历
+  {/* Publications Section */}
+  <section>
+    <h2 className="cvSectionTitle">精选论文</h2>
+    
+    <div className="cvPubCard">
+      <div className="row">
+        <div className="col col--10">
+          <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits</div>
+          <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Plant Phenomics (2025)</div>
+          <div><strong>Deng, L.</strong>, Yu, L. X., Mao, L., et al.</div>
+          <div style={{marginTop: '0.5rem'}}>
+            <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank">DOI: 10.1016/j.plaphe.2025.100135</a>
+          </div>
+        </div>
+        <div className="col col--2" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+           <AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" />
+        </div>
+      </div>
+    </div>
 
-**作物科学博士研究生** | *2023 – 2026（预计）*
-石河子大学农业学院 / 中国科学院分子植物卓越中心（联合培养）
+    <div className="cvPubCard">
+      <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Digital Plant Phenotyping Platform (v25.0)</div>
+      <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Zenodo (Software)</div>
+      <div><strong>Deng, L.</strong> (2025)</div>
+      <div style={{marginTop: '0.5rem'}}>
+        <a href="https://doi.org/10.5281/zenodo.17544584" target="_blank">DOI: 10.5281/zenodo.17544584</a>
+      </div>
+    </div>
+  </section>
 
----
-
-## 研究方向
-
-- 生成式 AI 在农业中的应用（图像到三维、表型基础模型）
-- 计算植物生物学（光线追踪光合模型、BRDF 光学模拟）
-- 高通量表型（UAV、多光谱/超光谱、LiDAR）
-
----
-
-## 论文与成果
-
-1. **Deng, L.** 等（2025）
-   *Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species* **Plant Phenomics** [DOI:10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135) [**PDF**](/files/brdf.pdf)
-   <AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" />
-
----
-
-## 访客
-
-<section className="cvFooterSection">
-  <VisitorMap mountInToc={false} />
-</section>
+  {/* Footer */}
+  <div style={{marginTop: '4rem', textAlign: 'center', opacity: 0.6}}>
+    <p>最后更新：2026年1月</p>
+    <VisitorMap mountInToc={false} />
+  </div>
 
 </div>

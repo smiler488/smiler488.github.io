@@ -178,9 +178,9 @@ export default function CitationNotice({ containerStyle }) {
         style={{ display: "inline-block", marginBottom: "24px" }}
       >
         <img
-          src="https://zenodo.org/badge/DOI/10.5281/zenodo.17544584.svg"
+          src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.17544584-blue"
           alt="DOI badge"
-          style={{ height: "32px" }}
+          style={{ height: "28px" }}
         />
       </a>
       <hr

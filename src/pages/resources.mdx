@@ -1,135 +1,155 @@
 ---
 title: Learning Resources
 ---
-import Link from '@docusaurus/Link';
 
-# Learning Resources
+<div className="container" style={{paddingTop: '2rem', paddingBottom: '2rem'}}>
 
-<div className="app-grid" style={{gridTemplateColumns: 'repeat(2, minmax(0, 1fr))'}}>
-  <div className="app-card">
-    <h3 className="app-section-title">Plant Phenotyping</h3>
-    <ul>
-      <li><a href="https://plantcv.danforthcenter.org/" target="_blank" rel="noopener">PlantCV</a> — Python toolkit for plant image analysis</li>
-      <li><a href="https://imagej.net/software/fiji" target="_blank" rel="noopener">Fiji (ImageJ)</a> — Open-source image processing platform with rich plugins</li>
-      <li><a href="https://open3d.org/" target="_blank" rel="noopener">Open3D</a> — Point cloud/mesh processing and visualization library</li>
-      <li><a href="https://www.openmv.net/" target="_blank" rel="noopener">OpenMV</a> — Convenient embedded machine vision platform</li>
-    </ul>
+  <div style={{textAlign: 'center', marginBottom: '3rem'}}>
+    <h1 style={{fontSize: '3rem', fontWeight: 800}}>Learning Resources</h1>
+    <p style={{fontSize: '1.2rem', opacity: 0.7, maxWidth: '600px', margin: '0 auto'}}>
+      Curated tools, libraries, and datasets for digital crop phenotyping, 3D reconstruction, and AI-driven precision agriculture.
+    </p>
   </div>
 
-  <div className="app-card">
-    <h3 className="app-section-title">Plant Modeling</h3>
-    <ul>
-      <li><a href="https://github.com/OpenSimRoot/OpenSimRoot" target="_blank" rel="noopener">OpenSimRoot</a> — Functional–structural root model and simulation</li>
-      <li><a href="https://github.com/biocro/biocro" target="_blank" rel="noopener">BioCro</a> — Crop growth and physiology model in R</li>
-      <li><a href="https://openalea.readthedocs.io/" target="_blank" rel="noopener">OpenAlea</a> — Plant modeling and structure generation platform</li>
-      <li><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js</a> — WebGL 3D visualization and interaction</li>
-    </ul>
+  <h2 className="cvSectionTitle"> Plant Phenotyping & Modeling</h2>
+  <div className="resourceGrid">
+    <div className="resourceCard">
+      <div className="resourceTitle">PlantCV</div>
+      <div className="resourceDesc">Open-source Python toolkit for plant image analysis and high-throughput phenotyping.</div>
+      <a href="https://plantcv.danforthcenter.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+    
+    <div className="resourceCard">
+      <div className="resourceTitle">Fiji (ImageJ)</div>
+      <div className="resourceDesc">Powerful image processing platform with a vast ecosystem of biological research plugins.</div>
+      <a href="https://imagej.net/software/fiji" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">OpenSimRoot</div>
+      <div className="resourceDesc">Structural-functional plant model for simulating root system architecture and nutrient uptake.</div>
+      <a href="https://github.com/OpenSimRoot/OpenSimRoot" target="_blank" className="resourceLink">Visit GitHub →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">BioCro</div>
+      <div className="resourceDesc">R package for predicting crop growth and yield under changing environmental conditions.</div>
+      <a href="https://github.com/biocro/biocro" target="_blank" className="resourceLink">Visit GitHub →</a>
+    </div>
   </div>
 
-  <div className="app-card">
-    <h3 className="app-section-title">AI Agent</h3>
-    <ul>
-      <li><a href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a> — LLM engineering framework with tool/agent orchestration</li>
-      <li><a href="https://www.llamaindex.ai/" target="_blank" rel="noopener">LlamaIndex</a> — Data connectors and retrieval-augmented pipelines for agent apps</li>
-      <li><a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener">Microsoft AutoGen</a> — Multi-agent collaborative execution framework</li>
-      <li><a href="https://huggingface.co/docs/transformers/index" target="_blank" rel="noopener">Transformers</a> — Library for pretrained models, fine-tuning and inference</li>
-    </ul>
+  <h2 className="cvSectionTitle" style={{marginTop: '4rem'}}>AI Engineering & Agentic Systems</h2>
+  <div className="resourceGrid">
+    <div className="resourceCard">
+      <div className="resourceTitle">Model Context Protocol (MCP)</div>
+      <div className="resourceDesc">The open standard from Anthropic for connecting AI assistants to systems and data.</div>
+      <a href="https://modelcontextprotocol.io/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">LangGraph</div>
+      <div className="resourceDesc">Library for building stateful, multi-actor applications with LLMs, built on top of LangChain.</div>
+      <a href="https://langchain-ai.github.io/langgraph/" target="_blank" className="resourceLink">Visit Docs →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">CrewAI</div>
+      <div className="resourceDesc">Framework for orchestrating role-playing, autonomous AI agents (Agent-to-Agent collaboration).</div>
+      <a href="https://www.crewai.com/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">Dify</div>
+      <div className="resourceDesc">Open-source LLM app development platform for orchestration, workflows, and agent management.</div>
+      <a href="https://dify.ai/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">Microsoft AutoGen</div>
+      <div className="resourceDesc">Framework for enabling next-gen LLM applications with multi-agent conversation.</div>
+      <a href="https://github.com/microsoft/autogen" target="_blank" className="resourceLink">Visit GitHub →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">LlamaIndex</div>
+      <div className="resourceDesc">Data framework for connecting custom data sources to large language models.</div>
+      <a href="https://www.llamaindex.ai/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
   </div>
 
-  <div className="app-card">
-    <h3 className="app-section-title">UAV Remote Sensing</h3>
-    <ul>
-      <li><a href="https://www.opendronemap.org/" target="_blank" rel="noopener">OpenDroneMap</a> — Open-source photogrammetry suite for orthomosaics and point clouds</li>
-      <li><a href="https://www.qgis.org/" target="_blank" rel="noopener">QGIS</a> — Open-source GIS platform for spatial analysis and visualization</li>
-      <li><a href="https://gdal.org/" target="_blank" rel="noopener">GDAL</a> — Geospatial raster/vector data processing library</li>
-      <li><a href="https://www.agisoft.com/" target="_blank" rel="noopener">Agisoft Metashape</a> — Commercial photogrammetry software with strong accuracy and usability</li>
-      <li><a href="https://www.pix4d.com/" target="_blank" rel="noopener">Pix4D</a> — Commercial surveying and modeling solutions</li>
-    </ul>
+  <h2 className="cvSectionTitle" style={{marginTop: '4rem'}}>Computer Science Education</h2>
+  <div className="resourceGrid">
+    <div className="resourceCard">
+      <div className="resourceTitle">MIT OpenCourseWare (EECS)</div>
+      <div className="resourceDesc">The gold standard for open CS education. Featured: 6.006 (Algo), 6.0001 (Python).</div>
+      <a href="https://ocw.mit.edu/search/?t=Computer%20Science" target="_blank" className="resourceLink">Visit Courseware →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">Stanford CS224n</div>
+      <div className="resourceDesc">Natural Language Processing with Deep Learning. Essential for understanding LLMs.</div>
+      <a href="https://web.stanford.edu/class/cs224n/" target="_blank" className="resourceLink">Visit Course →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">UC Berkeley CS61A</div>
+      <div className="resourceDesc">Structure and Interpretation of Computer Programs. The best introductory CS course.</div>
+      <a href="https://cs61a.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">Harvard CS50</div>
+      <div className="resourceDesc">Introduction to Computer Science. Renowned for its pedagogical excellence.</div>
+      <a href="https://cs50.harvard.edu/x/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
   </div>
+
+  <h2 className="cvSectionTitle" style={{marginTop: '4rem'}}> Remote Sensing & GIS</h2>
+  <div className="resourceGrid">
+    <div className="resourceCard">
+      <div className="resourceTitle">OpenDroneMap</div>
+      <div className="resourceDesc">A command line toolkit to generate maps, point clouds, 3D models and DEMs from drone, balloon or kite images.</div>
+      <a href="https://www.opendronemap.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">Google Earth Engine</div>
+      <div className="resourceDesc">A planetary-scale platform for Earth science data & analysis.</div>
+      <a href="https://earthengine.google.com/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">NASA Earthdata</div>
+      <div className="resourceDesc">Open access to NASA's Earth science data collections.</div>
+      <a href="https://earthdata.nasa.gov/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">QGIS</div>
+      <div className="resourceDesc">A Free and Open Source Geographic Information System.</div>
+      <a href="https://www.qgis.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+  </div>
+
+  <h2 className="cvSectionTitle" style={{marginTop: '4rem'}}> 3D & Computer Vision</h2>
+  <div className="resourceGrid">
+    <div className="resourceCard">
+      <div className="resourceTitle">Open3D</div>
+      <div className="resourceDesc">A Modern Library for 3D Data Processing.</div>
+      <a href="http://www.open3d.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">CloudCompare</div>
+      <div className="resourceDesc">3D point cloud and mesh processing software.</div>
+      <a href="https://www.danielgm.net/cc/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+
+    <div className="resourceCard">
+      <div className="resourceTitle">OpenCV</div>
+      <div className="resourceDesc">Open Source Computer Vision Library.</div>
+      <a href="https://opencv.org/" target="_blank" className="resourceLink">Visit Site →</a>
+    </div>
+  </div>
+
 </div>
-
-## Data Access
-
-- <a href="https://earthexplorer.usgs.gov/" target="_blank" rel="noopener">USGS EarthExplorer</a> — Search and download satellite imagery (e.g., Landsat)
-- <a href="https://lpdaac.usgs.gov/" target="_blank" rel="noopener">NASA LP DAAC</a> — MODIS/VIIRS land-process datasets
-- <a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener">Copernicus Data Space Ecosystem</a> — Access to Sentinel missions
-
-<div className="app-grid" style={{gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', marginTop: 16}}>
-  <div className="app-card">
-    <h3 className="app-section-title">Crop Photosynthesis & Crop Models</h3>
-    <ul>
-      <li><a href="https://www.springer.com/journal/11120" target="_blank" rel="noopener">Photosynthesis Research</a> — Journal on mechanisms to canopy-scale modeling</li>
-      <li><a href="https://www.sciencedirect.com/journal/plant-phenomics" target="_blank" rel="noopener">Plant Phenomics (AAAS)</a> — High-throughput phenotyping, 3D reconstruction, sensors & AI</li>
-      <li><a href="https://dssat.net" target="_blank" rel="noopener">DSSAT</a> — Integrated crop simulation (growth, photosynthesis, water–nutrient, yield)</li>
-      <li><a href="https://www.apsim.info" target="_blank" rel="noopener">APSIM</a> — Agro-ecosystem modeling for crop–soil–climate coupling</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">UAV & Remote Sensing Platforms</h3>
-    <ul>
-      <li><a href="https://earthdata.nasa.gov" target="_blank" rel="noopener">NASA Earthdata</a> — MODIS, Landsat, SMAP, SIF, ET and more key datasets</li>
-      <li><a href="https://earthengine.google.com" target="_blank" rel="noopener">Google Earth Engine</a> — Cloud-scale time-series monitoring and analysis</li>
-      <li><a href="https://www.dji.com/terra" target="_blank" rel="noopener">DJI Terra</a> — Photogrammetry and 3D reconstruction for field plots</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">3D Reconstruction & Point Cloud</h3>
-    <ul>
-      <li><a href="https://www.agisoft.com" target="_blank" rel="noopener">Agisoft Metashape</a> — Industry-standard photogrammetry for plants/canopies</li>
-      <li><a href="https://www.danielgm.net/cc" target="_blank" rel="noopener">CloudCompare</a> — Registration, slicing, segmentation, normals and metrics</li>
-      <li><a href="http://www.open3d.org" target="_blank" rel="noopener">Open3D</a> — Open-source point cloud framework for research</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">AI & Machine Learning</h3>
-    <ul>
-      <li><a href="https://paperswithcode.com" target="_blank" rel="noopener">Papers with Code</a> — Track SOTA algorithms and datasets</li>
-      <li><a href="https://huggingface.co" target="_blank" rel="noopener">Hugging Face</a> — Models for CV, multimodal and LLM deployment</li>
-      <li><a href="https://pytorch.org" target="_blank" rel="noopener">PyTorch</a> — Mainstream deep learning framework for segmentation & inversion</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">Image Processing & Scientific Computing</h3>
-    <ul>
-      <li><a href="https://opencv.org" target="_blank" rel="noopener">OpenCV</a> — Image processing, calibration, stereo reconstruction</li>
-      <li><a href="https://www.mathworks.com" target="_blank" rel="noopener">MATLAB</a> — Scientific computing for modeling and simulation</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">Academic Search & Literature</h3>
-    <ul>
-      <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a> — Academic search with citation tracking</li>
-      <li><a href="https://www.webofscience.com" target="_blank" rel="noopener">Web of Science</a> — Bibliometrics, impact factors and evaluation</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">Scientific Plotting & Visualization</h3>
-    <ul>
-      <li><a href="https://www.originlab.com" target="_blank" rel="noopener">Origin</a> — Classic plotting for agriculture, biology and environment</li>
-      <li><a href="https://www.graphpad.com" target="_blank" rel="noopener">GraphPad Prism</a> — Biostatistics and experimental visualization</li>
-    </ul>
-  </div>
-
-  <div className="app-card">
-    <h3 className="app-section-title">Open Source & Research Code</h3>
-    <ul>
-      <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a> — Code hosting for algorithms, web apps and tools</li>
-    </ul>
-  </div>
-</div>
-
-## About This Page
-
-This resources page curates materials for the following research directions:
-
-- Digital crop photosynthetic phenotyping
-- Canopy light distribution and photosynthesis process modeling
-- Multi-view 3D reconstruction and point-cloud phenotyping
-- UAV remote sensing and multi-source data fusion
-- AI-driven intelligent crop phenomics analysis

@@ -1,14 +1,5 @@
-// @ts-check
-// `@type` JSDoc annotations allow editor autocompletion and type checking
-// (when paired with `@ts-check`).
-// There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
+import { themes as prismThemes } from 'prism-react-renderer';
 
-import {themes as prismThemes} from 'prism-react-renderer';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
-/** @type {import('@docusaurus/types').Config} */
 const config = {
   staticDirectories: ['static'],
   scripts: [
@@ -31,22 +22,16 @@ const config = {
   title: 'Liangchao Deng',
   tagline: 'Ph.D. in AI × Mathematics × Computer × Plant',
   favicon: 'img/favicon.ico',
-  // Set the production url of your site here
   url: 'https://smiler488.github.io/',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-  // Disable trailing slash so asset URLs don't gain an extra `/`
   trailingSlash: false,
 
-  // Enable Mermaid diagrams in Markdown
   markdown: {
     mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-  // Activate Mermaid theme plugin
   themes: ['@docusaurus/theme-mermaid'],
   plugins: [
     [
@@ -58,16 +43,11 @@ const config = {
     ],
   ],
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'smiler488', // Usually your GitHub org/user name.
-  projectName: 'smiler488.github.io', // Usually your repo name.
+  organizationName: 'smiler488',
+  projectName: 'smiler488.github.io',
   deploymentBranch: 'gh-pages',
   onBrokenLinks: 'throw',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'zh-Hans'],
@@ -80,28 +60,20 @@ const config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
-          blogSidebarCount: 'ALL',      // 改成 'ALL' 或者具体数字
-          blogSidebarTitle: 'All posts',// 标题想叫别的也可以
+          blogSidebarCount: 'ALL',
+          blogSidebarTitle: 'All posts',
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
+          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -114,19 +86,29 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       metadata: [
         { name: 'algolia-site-verification', content: '59BB444E51EBC712' },
       ],
+      // Algolia Search Config Placeholder
+      // algolia: {
+      //   appId: 'YOUR_APP_ID',
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'YOUR_INDEX_NAME',
+      // },
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
         respectPrefersColorScheme: true,
       },
-      
+
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: true,
+        },
+      },
       navbar: {
         title: 'Home',
         logo: {
@@ -140,10 +122,9 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {to: '/cv', label: 'CV', position: 'left'},
-          {to: '/resources', label: 'Resources', position: 'left'},
-          {to: '/hologram', label: 'Hologram', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/cv', label: 'CV', position: 'left' },
+          { to: '/resources', label: 'Resources', position: 'left' },
           {
             to: "/app",
             label: "App",
