@@ -69,6 +69,19 @@
   z-index: 0;
 }
 
+.cloudLink {
+  position: absolute; /* Needed for transform/animation */
+  display: block;
+  pointer-events: auto;
+  cursor: pointer;
+  will-change: transform;
+  transition: filter 0.3s ease;
+}
+
+.cloudLink:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) brightness(1.2);
+}
+
 .gridCanvas {
   position: absolute;
   inset: 0;
@@ -91,12 +104,9 @@
 }
 
 .cloud {
-  position: absolute;
+  display: block;
   width: 200px;
   opacity: 0.85;
-  pointer-events: auto;
-  cursor: pointer;
-  will-change: transform;
 }
 
 /* 移除固定关键帧动画，改为 JS 随机路径动画 */

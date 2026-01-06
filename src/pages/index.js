@@ -19,8 +19,10 @@ function CloudAnimation() {
 
     let w = container.clientWidth;
     let h = container.clientHeight;
-    const cw = cloud.clientWidth || 200;
-    const ch = cloud.clientHeight || 120;
+    // Note: cloud is now the <a> tag, checking its dimensions might need its child img loaded or preset size
+    // We can assume a default size or base it on the image styles
+    const cw = 200; // approximated width from CSS
+    const ch = 120; // approximated height
     const margin = 12;
 
     function bounds() {
@@ -78,8 +80,15 @@ function CloudAnimation() {
 
   return (
     <div className={styles.cloudContainer} ref={containerRef}>
-      <a href="https://github.com/tangbonnie/tangbonnie.github.io" target="_blank" rel="noopener noreferrer" style={{ pointerEvents: 'auto' }}>
-        <img ref={cloudRef} className={styles.cloud} src="/img/cloud.png" alt="Cloud" />
+      <a
+        ref={cloudRef}
+        href="https://github.com/tangbonnie/tangbonnie.github.io"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.cloudLink}
+        title="Visit TangBonnie's GitHub (Click Me!)"
+      >
+        <img className={styles.cloud} src="/img/cloud.png" alt="Cloud" />
       </a>
     </div>
   );
