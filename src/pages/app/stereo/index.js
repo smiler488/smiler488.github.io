@@ -3,7 +3,6 @@ import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import CitationNotice from "../../../components/CitationNotice";
-import RequireAuthBanner from "../../../components/RequireAuthBanner";
 
 export default function StereoPage() {
   useEffect(() => {
@@ -31,7 +30,6 @@ export default function StereoPage() {
           <h1 className="app-title">Stereo Vision System</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/stereo-camera-tutorial">Tutorial</a>
         </div>
-        <RequireAuthBanner />
         <p style={{ textAlign: 'center', color: 'var(--ifm-color-emphasis-600)', marginBottom: 30, fontSize: 16 }}>
           High-precision stereo camera system for depth measurement
         </p>
@@ -119,7 +117,7 @@ export default function StereoPage() {
               cursor: 'pointer',
               fontSize: 14,
               fontWeight: 500
-            }} disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}>
+            }} disabled={false}>
               Start Camera
             </button>
             

@@ -3,7 +3,6 @@ import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import CitationNotice from "../../../components/CitationNotice";
-import RequireAuthBanner from "../../../components/RequireAuthBanner";
 
 const WeatherPage = () => {
   const scriptUrl = useBaseUrl('/js/weather_app.js');
@@ -69,7 +68,6 @@ const WeatherPage = () => {
             Tutorial
           </a>
         </div>
-        <RequireAuthBanner />
 
         <div className="app-card" style={{ marginBottom: '12px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
@@ -120,7 +118,7 @@ const WeatherPage = () => {
                   { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
                 );
               }}
-              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+              disabled={false}
             >
               Enable Location Permission
             </button>
@@ -368,7 +366,7 @@ const WeatherPage = () => {
                 fontSize: '14px',
                 fontWeight: '500',
               }}
-              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+              disabled={false}
             >
               Get Current Location
             </button>
@@ -385,7 +383,7 @@ const WeatherPage = () => {
                 fontSize: '14px',
                 fontWeight: '500',
               }}
-              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+              disabled={false}
             >
               Download NASA Weather Data
             </button>

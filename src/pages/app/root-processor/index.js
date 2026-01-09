@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import './styles.css';
 
 const MAX_CANVAS_SIZE = 1800;
@@ -456,13 +455,12 @@ export default function RootProcessorApp() {
               type="button"
               className="root-button secondary"
               onClick={() => fileInputRef.current?.click()}
-              disabled={typeof window !== 'undefined' && !window.__APP_AUTH_OK__}
+              disabled={false}
             >
               Upload Images
             </button>
           </div>
         </div>
-        <RequireAuthBanner />
         <p style={{ margin: '12px 0 24px' }}>
           Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser.
         </p>

@@ -1,276 +1,366 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Layout from "@theme/Layout";
 import Head from "@docusaurus/Head";
 import CitationNotice from "../../../components/CitationNotice";
 
 export default function MazePage() {
-  // 使用 React 状态管理步数和排名显示（也可直接操作 DOM）
   const [stepCount, setStepCount] = useState(0);
   const [ranking, setRanking] = useState([]);
+  const canvasRef = useRef(null);
+  const [playerName, setPlayerName] = useState("Player");
+
+  // Game state refs to avoid closure staleness in event listeners
+  const gameState = useRef({
+    maze: [],
+    ball: { x: 0, y: 0, r: 0, c: 0 }, // r,c are grid coordinates
+    cellSize: 0,
+    rows: 21, // Odd number for better walls
+    cols: 21,
+    moves: 0,
+    startTime: null,
+    gameFinished: false,
+    trail: [] // Array of {r, c}
+  });
 
   useEffect(() => {
-    // 获取玩家名称输入框和其他 DOM 元素
-    let playerName = "Player"; // 默认名称
-    const nameInput = document.getElementById("playerName");
-    nameInput.addEventListener("change", (e) => {
-      playerName = e.target.value.trim() || "Player";
-    });
+    // Load ranking
+    const storedRankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
+    setRanking(storedRankings);
 
-    // 获取画布和上下文
-    const canvas = document.getElementById("mazeCanvas");
+    initGame();
+
+    // keydown listener
+    const onKeyDown = (e) => {
+      // Prevent scrolling if arrow keys
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+      }
+      switch (e.key) {
+        case "ArrowUp": moveBall(-1, 0); break;
+        case "ArrowDown": moveBall(1, 0); break;
+        case "ArrowLeft": moveBall(0, -1); break;
+        case "ArrowRight": moveBall(0, 1); break;
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  function initGame() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    const css = getComputedStyle(document.documentElement);
-    const getVar = (name, fallback) => (css.getPropertyValue(name).trim() || fallback);
+    // Reset state
+    gameState.current.moves = 0;
+    gameState.current.startTime = null;
+    gameState.current.gameFinished = false;
+    gameState.current.trail = [];
+    setStepCount(0);
+    const msg = document.getElementById("mazeMessage");
+    if (msg) msg.innerText = "";
 
-    // --- 随机生成迷宫 ---
-    const rows = 20;
-    const cols = 20;
+    // Maze Dimensions
+    // Ensure odd dimensions for proper wall generation
+    const rows = 21;
+    const cols = 21;
+    gameState.current.rows = rows;
+    gameState.current.cols = cols;
+
+    // Calculate cell size based on current canvas width
     const cellSize = Math.floor(canvas.width / cols);
+    gameState.current.cellSize = cellSize;
 
-    function generateMaze(rows, cols) {
-      const maze = [];
-      for (let i = 0; i < rows; i++) {
-        maze[i] = [];
-        for (let j = 0; j < cols; j++) {
-          if (i === 0 || j === 0 || i === rows - 1 || j === cols - 1) {
-            maze[i][j] = 1; // 墙
-          } else {
-            // 内部随机：70% 概率空，30% 概率墙
-            maze[i][j] = Math.random() < 0.7 ? 0 : 1;
-          }
-        }
-      }
-      // 固定起点（1,1）为空
-      maze[1][1] = 0;
-      // 出口：右边界随机一个非角落单元设为 2
-      const exitRow = Math.floor(Math.random() * (rows - 2)) + 1;
-      maze[exitRow][cols - 1] = 2;
-      return maze;
-    }
-    let maze = generateMaze(rows, cols);
+    // Generate Maze using Recursive Backtracker
+    const maze = generateMazeRecursive(rows, cols);
+    gameState.current.maze = maze;
 
-    // --- 全局变量 ---
-    let moves = 0;          // 移动步数
-    let startTime = null;   // 计时开始时刻
-    let gameFinished = false;
-
-    // 小球初始状态，从起点 (1,1) 的中心出发
-    let ball = {
-      x: cellSize * 1 + cellSize / 2,
-      y: cellSize * 1 + cellSize / 2,
-      radius: cellSize / 4,
-      speed: cellSize, // 每次移动一个格子
+    // Set Ball Position (Start at top-left 1,1)
+    gameState.current.ball = {
+      r: 1,
+      c: 1,
+      x: cellSize * 1.5,
+      y: cellSize * 1.5,
+      radius: cellSize * 0.35
     };
 
-    // --- 绘制迷宫 ---
-    function drawMaze() {
-      for (let i = 0; i < maze.length; i++) {
-        for (let j = 0; j < maze[i].length; j++) {
-          if (maze[i][j] === 1) {
-            ctx.fillStyle = getVar('--ifm-color-emphasis-800', '#333');
-          } else if (maze[i][j] === 2) {
-            ctx.fillStyle = getVar('--ifm-color-emphasis-600', '#999999');
-          } else if (maze[i][j] === 3) {
-            ctx.fillStyle = getVar('--app-accent-muted', '#e5e5ea');
-          } else {
-            ctx.fillStyle = getVar('--ifm-background-color', '#ffffff');
-          }
-          ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
-          ctx.strokeStyle = getVar('--ifm-border-color', '#cccccc');
-          ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
+    // Draw initial frame
+    draw();
+  }
+
+  function generateMazeRecursive(rows, cols) {
+    // Initialize full walls (1)
+    let maze = Array(rows).fill().map(() => Array(cols).fill(1));
+
+    // Carve from (1,1)
+    function carve(r, c) {
+      maze[r][c] = 0; // 0 is path
+
+      // Randomize directions: Up, Right, Down, Left
+      const dirs = [
+        [-2, 0], [0, 2], [2, 0], [0, -2]
+      ].sort(() => Math.random() - 0.5);
+
+      for (let [dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
+        if (nr > 0 && nr < rows - 1 && nc > 0 && nc < cols - 1 && maze[nr][nc] === 1) {
+          maze[r + dr / 2][c + dc / 2] = 0; // Carve wall between
+          carve(nr, nc);
         }
       }
     }
 
-    // --- 绘制小球 ---
-    function drawBall() {
-      ctx.beginPath();
-      ctx.fillStyle = getVar('--ifm-color-emphasis-900', '#000000');
-      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-      ctx.fill();
+    carve(1, 1);
+
+    // Set Exit
+    maze[rows - 2][cols - 1] = 2; // 2 is exit
+    // Ensure path to exit
+    if (maze[rows - 2][cols - 2] === 1) {
+      maze[rows - 2][cols - 2] = 0;
     }
 
-    // --- 更新步数显示 ---
-    function updateStepCounter() {
-      setStepCount(moves);
-      const counterElem = document.getElementById("stepCounter");
-      if (counterElem) {
-        counterElem.innerText = moves;
+    return maze;
+  }
+
+  function draw() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const { maze, cellSize, ball, trail } = gameState.current;
+    const rows = maze.length;
+    const cols = maze[0].length;
+
+    // Clear
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Maze
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (maze[r][c] === 1) {
+          ctx.fillStyle = "#2d3748";
+        } else if (maze[r][c] === 2) {
+          ctx.fillStyle = "#48bb78"; // Exit
+        } else {
+          ctx.fillStyle = "#ffffff";
+        }
+        ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
       }
     }
 
-    // --- 主动画循环 ---
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawMaze();
-      drawBall();
+    // Draw Trail
+    ctx.fillStyle = "#feb2b2"; // Trail color
+    for (let t of trail) {
+      ctx.fillRect(t.c * cellSize, t.r * cellSize, cellSize, cellSize);
+    }
+
+    // Draw Ball
+    ctx.beginPath();
+    ctx.fillStyle = "#e53e3e";
+    ctx.arc(
+      ball.c * cellSize + cellSize / 2,
+      ball.r * cellSize + cellSize / 2,
+      ball.radius,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function moveBall(dr, dc) {
+    if (gameState.current.gameFinished) return;
+
+    if (!gameState.current.startTime) {
+      gameState.current.startTime = Date.now();
+    }
+
+    const { maze, ball } = gameState.current;
+    const newR = ball.r + dr;
+    const newC = ball.c + dc;
+
+    // Check bounds and walls
+    if (maze[newR] && maze[newR][newC] !== 1) {
+      // Valid move
+
+      // Add previous pos to trail only if not backtracking (simple trail)
+      gameState.current.trail.push({ r: ball.r, c: ball.c });
+
+      gameState.current.ball.r = newR;
+      gameState.current.ball.c = newC;
+      gameState.current.moves++;
+
+      setStepCount(gameState.current.moves);
+
       checkExit();
-      requestAnimationFrame(animate);
+      draw();
     }
-    animate();
+  }
 
-    // --- 小球移动函数 --- 
-    // 按一次按键移动一格，同时标记目标格为粉色
-    function moveBall(dx, dy) {
-      if (!startTime) startTime = Date.now(); // 第一次移动时开始计时
+  function checkExit() {
+    const { maze, ball, moves, startTime } = gameState.current;
+    if (maze[ball.r][ball.c] === 2) {
+      gameState.current.gameFinished = true;
+      const endTime = Date.now();
+      const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(2);
 
-      const newX = ball.x + dx;
-      const newY = ball.y + dy;
-      const col = Math.floor(newX / cellSize);
-      const row = Math.floor(newY / cellSize);
-
-      // 如果遇到墙体，直接返回不移动
-      if (maze[row][col] === 1) return;
-
-      // 更新小球位置
-      ball.x = newX;
-      ball.y = newY;
-      moves++;
-      updateStepCounter();
-
-      // 涂鸦：如果该格是空格 0，则标记为粉色（3）
-      if (maze[row][col] === 0) {
-        maze[row][col] = 3;
+      const msg = document.getElementById("mazeMessage");
+      if (msg) {
+        msg.innerText = `Victory! ${playerName} finished in ${elapsedSeconds}s with ${moves} moves!`;
       }
+
+      recordRanking(playerName, parseFloat(elapsedSeconds), moves);
     }
+  }
 
-    // --- 按钮控制 ---
-    document.getElementById("btnUp").addEventListener("click", () => moveBall(0, -ball.speed));
-    document.getElementById("btnDown").addEventListener("click", () => moveBall(0, ball.speed));
-    document.getElementById("btnLeft").addEventListener("click", () => moveBall(-ball.speed, 0));
-    document.getElementById("btnRight").addEventListener("click", () => moveBall(ball.speed, 0));
+  function recordRanking(name, time, steps) {
+    let rankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
+    rankings.push({ name, time, steps });
+    // Sort by time, then steps
+    rankings.sort((a, b) => a.time - b.time || a.steps - b.steps);
+    // Keep top 10
+    rankings = rankings.slice(0, 10);
+    localStorage.setItem("mazeRankings", JSON.stringify(rankings));
+    setRanking(rankings);
+  }
 
-    // --- 键盘控制（箭头键） ---
-    window.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        case "ArrowUp":
-          moveBall(0, -ball.speed);
-          break;
-        case "ArrowDown":
-          moveBall(0, ball.speed);
-          break;
-        case "ArrowLeft":
-          moveBall(-ball.speed, 0);
-          break;
-        case "ArrowRight":
-          moveBall(ball.speed, 0);
-          break;
-        default:
-          break;
-      }
-    });
-
-    // --- 检查是否到达出口 ---
-    function checkExit() {
-      const col = Math.floor(ball.x / cellSize);
-      const row = Math.floor(ball.y / cellSize);
-      if (maze[row][col] === 2 && !gameFinished) {
-        gameFinished = true;
-        const endTime = Date.now();
-        const elapsedSeconds = Math.floor((endTime - startTime) / 1000);
-        document.getElementById("mazeMessage").innerText =
-          `Congratulations, ${playerName || "Player"}! You've reached the exit in ${elapsedSeconds} seconds and ${moves} moves!`;
-        recordRanking(playerName || "Player", elapsedSeconds, moves);
-      } else if (maze[row][col] !== 2) {
-        document.getElementById("mazeMessage").innerText = "";
-      }
-    }
-
-    // --- 记录排名到 localStorage 并更新排名显示 ---
-    function recordRanking(name, time, steps) {
-      let rankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
-      rankings.push({ name, time, steps });
-      rankings.sort((a, b) => a.time - b.time || a.steps - b.steps);
-      localStorage.setItem("mazeRankings", JSON.stringify(rankings));
-      setRanking(rankings);
-      updateRankingDisplay();
-    }
-
-    // --- 更新排名显示 ---
-    function updateRankingDisplay() {
-      const rankingDiv = document.getElementById("ranking");
-      let html = "<h3>Ranking</h3><ol>";
-      const rankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
-      rankings.forEach((entry) => {
-        html += `<li>${entry.name} - ${entry.time} sec, ${entry.steps} moves</li>`;
-      });
-      html += "</ol>";
-      rankingDiv.innerHTML = html;
-    }
-
-    // --- 简单的 React 状态模拟：更新排名（这里直接操作 localStorage 后更新显示） ---
-    function setRanking(rankings) {
-      setRanking(rankings); // 如果需要，可以使用 React 状态管理，但这里我们直接操作 DOM
-    }
-
-    // --- 重置按钮：重置小球位置、步数和涂鸦 ---
-    document.getElementById("resetStepsBtn").addEventListener("click", () => {
-      moves = 0;
-      updateStepCounter();
-      // 重置小球位置到起点
-      ball.x = cellSize * 1 + cellSize / 2;
-      ball.y = cellSize * 1 + cellSize / 2;
-      // 清除涂鸦：将 maze 中所有标记为 3 的格子恢复为空格 0
-      for (let i = 0; i < maze.length; i++) {
-        for (let j = 0; j < maze[i].length; j++) {
-          if (maze[i][j] === 3) {
-            maze[i][j] = 0;
-          }
-        }
-      }
-    });
-
-    // --- 初始化排名显示 ---
-    const storedRankings = JSON.parse(localStorage.getItem("mazeRankings"));
-    if (storedRankings) {
-      updateRankingDisplay();
-    }
-  }, []);
+  // Prevent default scroll when touching control buttons
+  const preventScroll = (e) => {
+    if (e.cancelable) e.preventDefault();
+  };
 
   return (
     <Layout title="2D Marble Maze">
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
-      <div className="app-container">
-        <div className="app-header" style={{ marginBottom: 16 }}>
-          <h1 className="app-title">2D Marble Maze</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/maze-game-tutorial">Tutorial</a>
+      <div className="app-container" style={{ maxWidth: '850px', margin: '0 auto', padding: '1rem', paddingBottom: '3rem' }}>
+        <div className="app-header" style={{ marginBottom: 16, textAlign: 'center' }}>
+          <h1 className="app-title" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Marble Maze</h1>
+          <p style={{ color: 'var(--ifm-color-emphasis-600)' }}>Navigate to the green exit</p>
         </div>
-        <div className="app-card" style={{ marginBottom: 12, display: typeof window !== 'undefined' && !window.__APP_AUTH_OK__ ? 'block' : 'none' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="app-muted">Please login to use app features</span>
-            <a className="button button--secondary" href="/auth">Login / Register</a>
+
+        <div className="app-card" style={{ padding: '0.8rem', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <div style={{ display: "flex", justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <label style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Player:</label>
+              <input
+                type="text"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                style={{ width: '100px', padding: "4px 8px", borderRadius: "6px", border: "1px solid var(--ifm-border-color)" }}
+              />
+            </div>
+            <div style={{ fontSize: "1rem", fontWeight: 'bold' }}>
+              Steps: <span style={{ color: 'var(--ifm-color-primary)' }}>{stepCount}</span>
+            </div>
+            <button
+              onClick={initGame}
+              className="button button--primary button--sm"
+            >
+              New Game
+            </button>
+          </div>
+
+          {/* Flexible container for canvas to fit screen */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '500px',
+            margin: '0 auto',
+            aspectRatio: '1/1'
+          }}>
+            <canvas
+              ref={canvasRef}
+              id="mazeCanvas"
+              width="840"
+              height="840"
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: "8px",
+                background: '#2d3748',
+                touchAction: 'none', // Prevent scrolling on touch
+                display: 'block'
+              }}
+            ></canvas>
+            <div id="mazeMessage" style={{
+              position: 'absolute',
+              bottom: '50%',
+              left: 0,
+              width: '100%',
+              textAlign: 'center',
+              textShadow: '0 2px 4px rgba(0,0,0,0.8)',
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: '1.2rem',
+              pointerEvents: 'none'
+            }}></div>
+          </div>
+
+          {/* D-Pad Controls for Touch/Mouse */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '8px',
+              maxWidth: '160px',
+              margin: '0 auto',
+              touchAction: 'none'
+            }}
+          >
+            <div></div>
+            <button
+              className="button button--secondary"
+              onTouchStart={(e) => { preventScroll(e); moveBall(-1, 0); }}
+              onClick={() => moveBall(-1, 0)}
+              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
+            >▲</button>
+            <div></div>
+
+            <button
+              className="button button--secondary"
+              onTouchStart={(e) => { preventScroll(e); moveBall(0, -1); }}
+              onClick={() => moveBall(0, -1)}
+              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
+            >◀</button>
+
+            <button
+              className="button button--secondary"
+              onTouchStart={(e) => { preventScroll(e); moveBall(1, 0); }}
+              onClick={() => moveBall(1, 0)}
+              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
+            >▼</button>
+
+            <button
+              className="button button--secondary"
+              onTouchStart={(e) => { preventScroll(e); moveBall(0, 1); }}
+              onClick={() => moveBall(0, 1)}
+              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
+            >▶</button>
+          </div>
+          <div style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--ifm-color-emphasis-500)' }}>
+            Tap buttons or use arrow keys
           </div>
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="playerName">Player Name: </label>
-          <input
-            type="text"
-            id="playerName"
-            placeholder="Enter your name"
-            style={{ padding: "5px", borderRadius: "5px", border: "1px solid var(--ifm-border-color)" }}
-          />
+
+        <div className="app-card" style={{ marginTop: "1rem" }}>
+          <h3>Leaderboard</h3>
+          <ol style={{ paddingLeft: '1.5rem', margin: 0 }}>
+            {ranking.length === 0 && <li style={{ color: 'var(--ifm-color-emphasis-500)' }}>No records yet.</li>}
+            {ranking.map((r, i) => (
+              <li key={i} style={{ marginBottom: 4 }}>
+                <strong>{r.name}</strong> — {r.time}s ({r.steps} steps)
+              </li>
+            ))}
+          </ol>
         </div>
-        <div style={{ marginBottom: "10px", fontSize: "1.2rem" }}>
-          Steps: <span id="stepCounter">0</span>
-        </div>
-        <canvas id="mazeCanvas" width="800" height="800" style={{ border: "2px solid var(--ifm-color-emphasis-800)" }}></canvas>
-        <div id="mazeMessage" style={{ marginTop: "10px", fontSize: "1.2rem" }}></div>
-        <div style={{ marginTop: "20px" }}>
-          <button id="btnUp" style={{ padding: "10px 15px", margin: "5px" }}>↑</button>
-          <div>
-            <button id="btnLeft" style={{ padding: "10px 15px", margin: "5px" }}>←</button>
-            <button id="btnDown" style={{ padding: "10px 15px", margin: "5px" }}>↓</button>
-            <button id="btnRight" style={{ padding: "10px 15px", margin: "5px" }}>→</button>
-          </div>
-          <button id="resetStepsBtn" style={{ padding: "10px 15px", margin: "5px" }}>
-             Reset Steps & Doodle
-          </button>
-        </div>
-        <div id="mazeMessage" style={{ marginTop: "10px", fontSize: "1.2rem" }}></div>
-        <div id="ranking" style={{ marginTop: "20px" }}></div>
+
         <CitationNotice />
       </div>
     </Layout>

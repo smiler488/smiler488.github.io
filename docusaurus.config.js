@@ -2,16 +2,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 const config = {
   staticDirectories: ['static'],
-  scripts: [
-    {
-      src: '/js/auth-flag.js',
-      defer: true,
-    },
-    {
-      src: '/js/supabase-config.js',
-      defer: true,
-    },
-  ],
+  scripts: [],
   customFields: {
     svgConfig: {
       comic1: 'compress_comic1',
@@ -130,7 +121,6 @@ const config = {
             label: "App",
             position: "left",
           },
-          { to: '/auth', label: 'Account', position: 'right' },
           { type: 'localeDropdown', position: 'right' },
           {
             href: 'https://github.com/smiler488',

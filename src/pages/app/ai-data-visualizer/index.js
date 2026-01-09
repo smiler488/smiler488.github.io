@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
-import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
 import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, buildHunyuanPayload, extractAssistantText, postJson } from '../../../lib/api';
 import styles from './styles.module.css';
@@ -1223,7 +1222,6 @@ export default function AiDataVisualizerPage() {
             Tutorial
           </a>
         </div>
-        <RequireAuthBanner />
 
         <div className={styles.mainGrid}>
           <div className={styles.leftColumn}>
@@ -1348,7 +1346,7 @@ export default function AiDataVisualizerPage() {
               <button
                 className="button button--primary margin-top--sm"
                 onClick={handleAnalyze}
-                disabled={busy || !table || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
+                disabled={busy || !table || (false)}
               >
                 {busy ? 'Analyzing…' : 'Generate visualization'}
               </button>

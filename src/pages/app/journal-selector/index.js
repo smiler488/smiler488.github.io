@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
-import RequireAuthBanner from '../../../components/RequireAuthBanner';
 import CitationNotice from '../../../components/CitationNotice';
 import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson, buildHunyuanPayload, extractAssistantText } from '../../../lib/api';
 const INDICATOR_FILE_PATH = '/app/journal-selector/journal-indicator-system.md';
@@ -401,7 +400,6 @@ export default function JournalSelectorPage() {
           <h1 className="app-title">Journal Selector</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/journal-selector-tutorial">Tutorial</a>
         </header>
-        <RequireAuthBanner />
         <p style={{ margin: '12px 0 24px', color: 'var(--ifm-color-emphasis-700)' }}>
           Paste your manuscript abstract and the AI will apply the Journal Evaluation Indicator System to suggest target journals plus a downloadable CSV.
         </p>
@@ -534,7 +532,7 @@ export default function JournalSelectorPage() {
             <button
               type="button"
               onClick={handleGenerate}
-              disabled={busy || (typeof window !== 'undefined' && !window.__APP_AUTH_OK__)}
+              disabled={busy || (false)}
               style={{
                 width: '100%',
                 padding: '12px 16px',
