@@ -1,0 +1,3 @@
+// Supabase public config injected at runtime
+window.__SUPABASE_URL__ = 'https://tbavalxqvfxzdpgilduw.supabase.co';
+window.__SUPABASE_ANON_KEY__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRiYXZhbHhxdmZ4emRwZ2lsZHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMTIzNzUsImV4cCI6MjA3ODY4ODM3NX0.h0Cdu_wTtt3e_aGVXgnOshUU5YzIRAo_dZ7tTqbFQ_g';
