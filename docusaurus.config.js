@@ -131,67 +131,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        links: [
-          {
-            title: 'CN Community',
-            items: [
-              {
-                label: 'Bilibili',
-                href: 'https://space.bilibili.com/16062789',
-              },
-              {
-                label: 'Douyin',
-                href: 'https://v.douyin.com/-1moIAdEYpg/ 4@5.com :2pm',
-              },
-              {
-                label: 'Weibo',
-                href: 'https://m.weibo.cn/profile/5283742028',
-              },
-              {
-                label: 'WeChat Offical',
-                href: 'https://mp.weixin.qq.com/s/JPLLGnM6fwT8XpBdfoXKNA',
-              },
-            ],
-          },
-          {
-            title: 'EN Community',
-            items: [
-              {
-                label: 'YouTube',
-                href: 'https://www.youtube.com/channel/UCmz7DQ3nEPRxj4rvEQUCvAg',
-              },
-              {
-                label: 'TikTok',
-                href: 'https://www.tiktok.com/@smiler488tt',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/smiler488',
-              },
-              {
-                label: 'Reddit',
-                href: 'https://www.reddit.com/user/smiler488/',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'LinkedIn',
-                href: 'https://www.linkedin.com/in/liangchao-deng-7b420b269/',
-              },
-              {
-                label: 'HuggingFace',
-                href: 'https://huggingface.co/smiler488',
-              },
-              {
-                label: 'Bluesky',
-                href: 'https://bsky.app/profile/smiler488.bsky.social',
-              },
-            ],
-          },
-        ],
+        links: [],  // 清空原有链接，使用自定义Footer组件
         copyright: `Copyright © ${new Date().getFullYear()} Liangchao Deng. All rights reserved.`,
       },
       prism: {

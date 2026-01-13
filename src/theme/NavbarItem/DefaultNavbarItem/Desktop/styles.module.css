@@ -1,0 +1,209 @@
+/* ================================
+   Graphical Navbar Links with Glass Effect
+   ================================ */
+
+.navbarNavLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ifm-navbar-link-color);
+  text-decoration: none;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 var(--glass-highlight);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Internal highlight */
+.navbarNavLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--glass-highlight);
+  opacity: 0.6;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+/* Icon styling */
+.navbarNavIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--ifm-navbar-link-color);
+  transition: all 0.3s var(--ease-smooth);
+  position: relative;
+  z-index: 1;
+}
+
+.navbarNavIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Label styling */
+.navbarNavLabel {
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+/* Hover effect */
+.navbarNavLink:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--glass-highlight);
+  border-color: var(--ifm-color-emphasis-400);
+  color: var(--ifm-navbar-link-hover-color);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.navbarNavLink:hover::before {
+  opacity: 1;
+}
+
+.navbarNavLink:hover .navbarNavIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Active state */
+.navbarNavLinkActive {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-500);
+  color: var(--ifm-navbar-link-active-color);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+.navbarNavLinkActive .navbarNavIcon {
+  color: var(--ifm-navbar-link-active-color);
+}
+
+/* Active hover */
+.navbarNavLinkActive:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+/* Click effect */
+.navbarNavLink:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+/* Dark mode adjustments */
+html[data-theme='dark'] .navbarNavLink {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme='dark'] .navbarNavLink:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme='dark'] .navbarNavLinkActive {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Tablet/mobile optimization */
+@media screen and (max-width: 996px) {
+  .navbarNavLink {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    gap: 0.4rem;
+    border-radius: 6px;
+  }
+
+  .navbarNavIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .navbarNavLink:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbarNavLink {
+    padding: 0.4rem 0.625rem;
+    font-size: 0.8rem;
+    gap: 0.35rem;
+  }
+
+  .navbarNavIcon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Icon-only mode for very small screens */
+@media screen and (max-width: 640px) {
+  .navbarNavLabel {
+    display: none;
+  }
+
+  .navbarNavLink {
+    padding: 0.5rem;
+    min-width: 38px;
+    justify-content: center;
+  }
+
+  .navbarNavIcon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(8px)) {
+  .navbarNavLink {
+    background: var(--ifm-color-emphasis-100);
+  }
+
+  html[data-theme='dark'] .navbarNavLink {
+    background: var(--ifm-color-emphasis-200);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .navbarNavLink,
+  .navbarNavIcon,
+  .navbarNavLabel,
+  .navbarNavLink::before {
+    transition: none !important;
+  }
+
+  .navbarNavLink:hover {
+    transform: none !important;
+  }
+
+  .navbarNavLink:hover .navbarNavIcon {
+    transform: none !important;
+  }
+}

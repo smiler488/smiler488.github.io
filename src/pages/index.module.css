@@ -33,29 +33,141 @@
 .cta {
   position: relative;
   cursor: pointer;
-  padding-right: 2.5rem;
-  transition: transform 120ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  padding: 0.875rem 2.5rem 0.875rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border-radius: 14px;
+  /* 增强的玻璃态按钮 */
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.15) 0%, 
+    rgba(147, 51, 234, 0.12) 100%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+/* 按钮渐变背景动画 */
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.25) 0%, 
+    rgba(147, 51, 234, 0.2) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+
+/* 按钮顶部高光线 */
 .cta::after {
-  content: '→';
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    transparent 100%);
+  opacity: 0.6;
+  transform: translateY(-100%);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  z-index: 1;
+}
+
+/* 箭头图标 - 改为独立的装饰元素 */
+.cta .arrow {
   position: absolute;
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.75;
-  transition: transform 200ms ease, opacity 200ms ease;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
 }
 
+.cta .arrow::after {
+  content: '→';
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+  opacity: 0.8;
+  transition: all 0.35s ease;
+}
+
+/* 悬停效果 */
 .cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  background-color: var(--ifm-color-emphasis-200);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 40px rgba(31, 38, 135, 0.25),
+    0 0 20px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.cta:hover::before {
+  opacity: 1;
 }
 
 .cta:hover::after {
-  transform: translate(3px, -50%);
+  transform: translateY(0);
   opacity: 1;
+}
+
+.cta:hover .arrow {
+  transform: translateY(-50%) translateX(4px);
+  width: 24px;
+}
+
+.cta:hover .arrow::after {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 点击效果 */
+.cta:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 4px 16px rgba(31, 38, 135, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 脉冲光效动画 */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(31, 38, 135, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(31, 38, 135, 0.25),
+      0 0 25px rgba(59, 130, 246, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+.cta:hover {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* 移除旧的箭头样式 */
+.cta::after {
+  display: none;
 }
 
 /* 新增：云朵动画样式 */
@@ -122,31 +234,59 @@
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
   border-radius: 999px;
-  background: rgba(240, 240, 242, 0.9);
+  /* 玻璃态副标题 */
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
   color: var(--ifm-color-emphasis-900);
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--glass-highlight);
+  transition: all 0.3s var(--ease-smooth);
 }
 
-html[data-theme='dark'] .heroBanner :global(.hero__subtitle) {
-  background: rgba(60, 60, 65, 0.85);
-  color: var(--ifm-color-emphasis-100);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.heroBanner :global(.hero__subtitle):hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 var(--glass-highlight);
 }
 
 .heroBanner :global(.hero__title) {
   display: inline-block;
   padding: 0.75rem 2.5rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
+  /* 玻璃态标题 */
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   color: var(--ifm-color-emphasis-900);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  transition: all 0.4s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
 }
 
-html[data-theme='dark'] .heroBanner :global(.hero__title) {
-  background: rgba(40, 40, 45, 0.9);
-  color: var(--ifm-color-emphasis-100);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+/* 标题内部高光 */
+.heroBanner :global(.hero__title)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--glass-highlight);
+  opacity: 0.8;
+}
+
+/* 标题悬停效果 */
+.heroBanner :global(.hero__title):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass-hover);
+  border-color: var(--glass-highlight);
 }
 
 @media screen and (max-width: 768px) {

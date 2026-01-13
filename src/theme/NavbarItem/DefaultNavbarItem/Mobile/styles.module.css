@@ -1,0 +1,161 @@
+/* ================================
+   Mobile Navbar Links with Glass Effect
+   ================================ */
+
+.mobileNavbarLink {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem !important;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  margin: 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ifm-menu-color) !important;
+  text-decoration: none;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 var(--glass-highlight);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Internal highlight */
+.mobileNavbarLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--glass-highlight);
+  opacity: 0.6;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+/* Icon styling */
+.mobileNavbarIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ifm-menu-color);
+  transition: all 0.3s var(--ease-smooth);
+  position: relative;
+  z-index: 1;
+}
+
+.mobileNavbarIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Label styling */
+.mobileNavbarLabel {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+/* Hover/active effect */
+.mobileNavbarLink:hover,
+.mobileNavbarLink:active {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-400);
+  color: var(--ifm-menu-color-active) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--glass-highlight);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.mobileNavbarLink:hover::before,
+.mobileNavbarLink:active::before {
+  opacity: 1;
+}
+
+.mobileNavbarLink:hover .mobileNavbarIcon,
+.mobileNavbarLink:active .mobileNavbarIcon {
+  transform: scale(1.1);
+  color: var(--ifm-menu-color-active);
+}
+
+/* Active state - using menu__link--active class from Docusaurus */
+.mobileNavbarLink.menu__link--active {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-500);
+  color: var(--ifm-menu-color-active) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+.mobileNavbarLink.menu__link--active .mobileNavbarIcon {
+  color: var(--ifm-menu-color-active);
+}
+
+/* Dark mode adjustments */
+html[data-theme='dark'] .mobileNavbarLink {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme='dark'] .mobileNavbarLink:hover,
+html[data-theme='dark'] .mobileNavbarLink:active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme='dark'] .mobileNavbarLink.menu__link--active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Smaller mobile screens */
+@media screen and (max-width: 480px) {
+  .mobileNavbarLink {
+    padding: 0.625rem 0.875rem !important;
+    gap: 0.625rem;
+    font-size: 0.95rem;
+  }
+
+  .mobileNavbarIcon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(8px)) {
+  .mobileNavbarLink {
+    background: var(--ifm-color-emphasis-100);
+  }
+
+  html[data-theme='dark'] .mobileNavbarLink {
+    background: var(--ifm-color-emphasis-200);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mobileNavbarLink,
+  .mobileNavbarIcon,
+  .mobileNavbarLabel,
+  .mobileNavbarLink::before {
+    transition: none !important;
+  }
+
+  .mobileNavbarLink:hover .mobileNavbarIcon,
+  .mobileNavbarLink:active .mobileNavbarIcon {
+    transform: none !important;
+  }
+}

@@ -1,8 +1,12 @@
 ---
 title: "A Complete Workflow Guide: Using VS Code, Miniconda, and Git for Research Projects"
 slug: workflow-vscode-miniconda-git
-description: "Streamlined setup and collaboration playbook combining VS Code, Miniconda, and Git for reproducible research projects."
+description: Streamlined setup and collaboration playbook combining VS Code, Miniconda, and Git for reproducible research projects.
+authors: [liangchao]
+tags: [Python, Git, VSCode, Miniconda, tutorial]
 ---
+
+<!-- truncate -->
 
 # A Complete Workflow Guide: Using VS Code, Miniconda, and Git for Research Projects
 

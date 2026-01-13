@@ -114,6 +114,7 @@ function HomepageHeader() {
             aria-label="打开最新简历"
             title="打开最新简历">
             Curriculum Vitae - Latest
+            <span className={styles.arrow}></span>
           </Link>
         </div>
       </div>

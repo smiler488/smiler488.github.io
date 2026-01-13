@@ -1,8 +1,12 @@
 ---
-title: Build a Free Personal Website with Docusaurus and GitHub Pages
 slug: personal-website-docusaurus-github-pages
+title: Build a Free Personal Website with Docusaurus and GitHub Pages
+authors: [liangchao]
 description: Step-by-step workflow to launch and maintain a personal portfolio site with Docusaurus, deployed for free on GitHub Pages.
+tags: [Docusaurus, GitHub-Pages, Website, Tutorial]
 ---
+
+<!-- truncate -->
 
 # Build a Free Personal Website with Docusaurus and GitHub Pages
 

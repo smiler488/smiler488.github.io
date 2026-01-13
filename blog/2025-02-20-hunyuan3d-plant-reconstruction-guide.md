@@ -67,6 +67,138 @@ graph TD
 
 This workflow demonstrates the complete pipeline for plant 3D reconstruction using Hunyuan3D, from initial setup to advanced research applications in agricultural science.
 
+## Quick Start (30 Minutes)
+
+**⚠️ Important Note:** This is an advanced tutorial requiring significant GPU resources. For beginners, we recommend starting with smaller test images.
+
+### Simplified Installation (CPU-only for testing)
+
+If you don't have a high-end GPU, you can still experiment with smaller models:
+
+```bash
+# Create environment
+conda create -n 3d-test python=3.9
+conda activate 3d-test
+
+# Install minimal dependencies
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install open3d pillow numpy matplotlib
+
+# Test with sample code (see below)
+```
+
+### Quick Demo with Open3D
+
+Try this simple 3D visualization first to ensure your environment works:
+
+```python
+# test_3d_setup.py
+import open3d as o3d
+import numpy as np
+
+def test_3d_visualization():
+    """Test basic 3D visualization"""
+    # Create a simple point cloud
+    points = np.random.rand(1000, 3)
+    colors = np.random.rand(1000, 3)
+
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(points)
+    pcd.colors = o3d.utility.Vector3dVector(colors)
+
+    print("✅ Point cloud created with", len(pcd.points), "points")
+    print("Opening 3D viewer... (Close window to continue)")
+
+    o3d.visualization.draw_geometries([pcd])
+
+    # Save test file
+    o3d.io.write_point_cloud("test_output.ply", pcd)
+    print("✅ Saved test file: test_output.ply")
+
+    return True
+
+if __name__ == "__main__":
+    print("=== Testing 3D Environment ===\n")
+    try:
+        test_3d_visualization()
+        print("\n✅ Success! Your environment is ready for 3D processing.")
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+        print("Check your Open3D installation.")
+```
+
+Run: `python test_3d_setup.py`
+
+### Environment Check Script
+
+Before attempting the full installation, check your system:
+
+```bash
+#!/bin/bash
+# check_3d_environment.sh
+
+echo "=== 3D Reconstruction Environment Check ==="
+
+# Check GPU
+if command -v nvidia-smi &> /dev/null; then
+    echo ""
+    echo "GPU Information:"
+    nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+
+    vram=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader | head -1 | awk '{print $1}')
+    if [ "$vram" -lt 24000 ]; then
+        echo "⚠️  WARNING: GPU VRAM < 24GB. Hunyuan3D may not run properly."
+        echo "   Consider using cloud GPU services (Colab, AWS, etc.)"
+    else
+        echo "✅ GPU meets minimum requirements"
+    fi
+else
+    echo "❌ No NVIDIA GPU detected"
+    echo "   Hunyuan3D requires CUDA-capable GPU (RTX 3090 or better)"
+    echo "   Alternative: Use cloud GPU services"
+fi
+
+# Check CUDA
+if command -v nvcc &> /dev/null; then
+    echo ""
+    echo "CUDA: $(nvcc --version | grep release | awk '{print $5}' | tr -d ',')"
+else
+    echo "❌ CUDA not found. Install CUDA 11.8+"
+fi
+
+# Check RAM
+echo ""
+echo "System RAM:"
+total_ram=$(free -g | grep Mem | awk '{print $2}')
+echo "  Total: ${total_ram}GB"
+if [ "$total_ram" -lt 32 ]; then
+    echo "⚠️  RAM < 32GB. May cause performance issues."
+else
+    echo "✅ RAM sufficient"
+fi
+
+# Check disk space
+echo ""
+echo "Disk space:"
+free_space=$(df -h . | tail -1 | awk '{print $4}')
+echo "  Available: $free_space"
+echo "  Required: ~500GB for models and data"
+
+echo ""
+echo "=== Recommendation ==="
+if command -v nvidia-smi &> /dev/null && [ "$vram" -ge 24000 ]; then
+    echo "✅ Your system can run Hunyuan3D locally"
+else
+    echo "⚠️  Consider cloud GPU options:"
+    echo "   - Google Colab Pro (T4/A100)"
+    echo "   - AWS EC2 g4dn/p3 instances  "
+    echo "   - Lambda Labs GPU cloud"
+    echo "   - RunPod GPU rental"
+fi
+```
+
+Save as `check_3d_environment.sh`, run `chmod +x check_3d_environment.sh && ./check_3d_environment.sh`
+
 ## Introduction to Hunyuan3D
 
 Hunyuan3D is Tencent's state-of-the-art 3D generation model that excels in creating high-quality 3D models from single images or text descriptions. For agricultural applications, it shows remarkable capability in reconstructing plant structures with detailed geometry and realistic textures.
@@ -421,6 +553,271 @@ Based on our comprehensive evaluation:
 2. **Dataset Sharing**: Public release of annotated cotton dataset
 3. **Hyperparameter Reporting**: Complete experimental configuration details
 4. **Hardware Specifications**: Clear documentation of computational requirements
+
+## Troubleshooting Common Issues
+
+### 1. "CUDA out of memory" Error
+
+**Problem:**
+```
+RuntimeError: CUDA out of memory. Tried to allocate X GB (GPU 0; X GB total capacity)
+```
+
+**Solutions:**
+```python
+# Solution 1: Reduce batch size to 1
+batch_size = 1
+
+# Solution 2: Use gradient checkpointing
+model.gradient_checkpointing_enable()
+
+# Solution 3: Clear GPU cache before inference
+import torch
+torch.cuda.empty_cache()
+
+# Solution 4: Use mixed precision
+from torch.cuda.amp import autocast
+with autocast():
+    output = model(input)
+
+# Solution 5: Reduce image resolution
+image_size = (256, 256)  # Instead of (512, 512)
+```
+
+### 2. Model Download Fails
+
+**Problem:**
+HuggingFace download hangs or fails with network errors.
+
+**Solutions:**
+```bash
+# Method 1: Set mirror (for China users)
+export HF_ENDPOINT=https://hf-mirror.com
+
+# Method 2: Download manually via git
+git lfs install
+git clone https://huggingface.co/tencent/Hunyuan3D-1
+
+# Method 3: Use proxies
+export HTTP_PROXY=http://proxy:port
+export HTTPS_PROXY=http://proxy:port
+```
+
+### 3. Open3D Visualization Window Doesn't Appear
+
+**Problem:**
+`draw_geometries()` doesn't show window or crashes.
+
+**Solutions:**
+```bash
+# For Linux without display:
+export DISPLAY=:0
+
+# Or use headless rendering:
+pip install pyrender
+
+# Alternative: Save to file instead
+o3d.io.write_point_cloud("output.ply", pcd)
+# Then view with MeshLab or CloudCompare
+```
+
+### 4. "No module named 'hunyuan3d'" Error
+
+**Problem:**
+```
+ModuleNotFoundError: No module named 'hunyuan3d'
+```
+
+**Solutions:**
+```bash
+# This tutorial uses the model via transformers/diffusers
+# There's no separate "hunyuan3d" package
+
+# Correct approach:
+pip install transformers diffusers
+
+# Then load via:
+from transformers import AutoModel
+model = AutoModel.from_pretrained("tencent/Hunyuan3D-1", trust_remote_code=True)
+```
+
+### 5. pytorch3d Installation Fails
+
+**Problem:**
+```
+ERROR: Could not build wheels for pytorch3d
+```
+
+**Solutions:**
+```bash
+# Method 1: Use conda (recommended)
+conda install pytorch3d -c pytorch3d
+
+# Method 2: Pre-built wheels
+pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py39_cu118_pyt201/download.html
+
+# Method 3: Skip pytorch3d if only using point clouds
+# (Only needed for advanced mesh operations)
+```
+
+### 6. Point Cloud Appears Empty or Corrupted
+
+**Problem:**
+Generated `.ply` file has no visible geometry.
+
+**Solutions:**
+```python
+# Check point cloud validity
+import open3d as o3d
+pcd = o3d.io.read_point_cloud("output.ply")
+
+print(f"Points: {len(pcd.points)}")
+print(f"Has colors: {pcd.has_colors()}")
+print(f"Has normals: {pcd.has_normals()}")
+
+# Verify point range
+import numpy as np
+points = np.asarray(pcd.points)
+print(f"Point range X: [{points[:,0].min():.3f}, {points[:,0].max():.3f}]")
+print(f"Point range Y: [{points[:,1].min():.3f}, {points[:,1].max():.3f}]")
+print(f"Point range Z: [{points[:,2].min():.3f}, {points[:,2].max():.3f}]")
+
+# If points are valid but not visible:
+# 1. Check camera position in viewer
+# 2. Try normalizing point cloud
+pcd.normalize_normals()
+pcd = pcd.voxel_down_sample(voxel_size=0.01)
+```
+
+### 7. Slow Inference Speed (>5 min per image)
+
+**Problem:**
+Processing takes too long for practical use.
+
+**Solutions:**
+```python
+# Check if GPU is being used
+import torch
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"Current device: {next(model.parameters()).device}")
+
+# Force model to GPU
+model = model.to('cuda')
+
+# Enable optimizations
+model.eval()
+torch.backends.cudnn.benchmark = True
+
+# Use torch.compile (PyTorch 2.0+)
+model = torch.compile(model)
+
+# Consider using TensorRT for deployment
+# Or quantization for faster inference
+```
+
+### 8. Import Error: "kaolin" or "nvdiffrast"
+
+**Problem:**
+These are optional dependencies for advanced features.
+
+**Solutions:**
+```bash
+# Kaolin (optional, for some 3D ops)
+# Only works with specific PyTorch/CUDA versions
+pip install kaolin -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.0.1_cu118.html
+
+# nvdiffrast (optional, for rendering)
+pip install git+https://github.com/NVlabs/nvdiffrast
+
+# Alternative: Skip if not using these features
+# Basic point cloud generation doesn't need them
+```
+
+### Testing Installation
+
+After setup, run this comprehensive test:
+
+```python
+# comprehensive_test.py
+import sys
+
+def test_all():
+    """Comprehensive installation test"""
+    results = {}
+
+    # Test 1: Basic imports
+    print("1. Testing basic imports...")
+    try:
+        import torch
+        import numpy as np
+        import PIL
+        results['basic_imports'] = '✅ Pass'
+    except Exception as e:
+        results['basic_imports'] = f'❌ Fail: {e}'
+
+    # Test 2: GPU availability
+    print("2. Testing GPU...")
+    try:
+        import torch
+        if torch.cuda.is_available():
+            gpu_name = torch.cuda.get_device_name(0)
+            vram = torch.cuda.get_device_properties(0).total_memory / 1e9
+            results['gpu'] = f'✅ {gpu_name} ({vram:.1f}GB)'
+        else:
+            results['gpu'] = '⚠️  No GPU (CPU mode)'
+    except Exception as e:
+        results['gpu'] = f'❌ Fail: {e}'
+
+    # Test 3: 3D libraries
+    print("3. Testing 3D libraries...")
+    try:
+        import open3d as o3d
+        import trimesh
+        results['3d_libs'] = '✅ Pass'
+    except Exception as e:
+        results['3d_libs'] = f'❌ Fail: {e}'
+
+    # Test 4: Transformers
+    print("4. Testing transformers...")
+    try:
+        from transformers import AutoModel, AutoTokenizer
+        results['transformers'] = '✅ Pass'
+    except Exception as e:
+        results['transformers'] = f'❌ Fail: {e}'
+
+    # Test 5: Create test point cloud
+    print("5. Testing point cloud creation...")
+    try:
+        import open3d as o3d
+        import numpy as np
+        pcd = o3d.geometry.PointCloud()
+        pcd.points = o3d.utility.Vector3dVector(np.random.rand(100, 3))
+        o3d.io.write_point_cloud("/tmp/test.ply", pcd)
+        results['point_cloud'] = '✅ Pass'
+    except Exception as e:
+        results['point_cloud'] = f'❌ Fail: {e}'
+
+    # Print results
+    print("\n=== Test Results ===")
+    for test, result in results.items():
+        print(f"{test}: {result}")
+
+    # Overall status
+    failed = [k for k, v in results.items() if '❌' in v]
+    if failed:
+        print(f"\n⚠️  {len(failed)} tests failed: {', '.join(failed)}")
+        print("Please fix these before proceeding.")
+        return False
+    else:
+        print("\n✅ All tests passed! Ready for 3D reconstruction.")
+        return True
+
+if __name__ == "__main__":
+    success = test_all()
+    sys.exit(0 if success else 1)
+```
+
+Run: `python comprehensive_test.py`
 
 ## Future Research Directions
 

@@ -63,16 +63,6 @@ plant phenotyping:
   permalink: /plant-phenotyping
   description: Automated plant trait analysis
 
-computer vision:
-  label: Computer Vision
-  permalink: /computer-vision
-  description: Computer vision and image processing
-
-agriculture:
-  label: Agriculture
-  permalink: /agriculture
-  description: Agricultural technology and applications
-
 research:
   label: Research
   permalink: /research
@@ -287,3 +277,108 @@ local development:
   label: Local Development
   permalink: /local-development
   description: Local development environments and tools
+
+Python:
+  label: Python
+  permalink: /python
+  description: Python programming language
+
+Git:
+  label: Git
+  permalink: /git
+  description: Version control system
+
+VSCode:
+  label: VSCode
+  permalink: /vscode
+  description: Visual Studio Code editor
+
+Miniconda:
+  label: Miniconda
+  permalink: /miniconda
+  description: Miniconda Python distribution
+
+UAV:
+  label: UAV
+  permalink: /uav
+  description: Unmanned Aerial Vehicle
+
+WebODM:
+  label: WebODM
+  permalink: /webodm
+  description: Web OpenDroneMap
+
+QGIS:
+  label: QGIS
+  permalink: /qgis
+  description: QGIS geographic information system
+
+Multispectral:
+  label: Multispectral
+  permalink: /multispectral
+  description: Multispectral imaging
+
+P4M:
+  label: P4M
+  permalink: /p4m
+  description: DJI P4 Multispectral
+
+Image Analysis:
+  label: Image Analysis
+  permalink: /image-analysis
+  description: Image analysis techniques
+
+OpenCV:
+  label: OpenCV
+  permalink: /opencv
+  description: Open Source Computer Vision Library
+
+computer vision:
+  label: Computer Vision
+  permalink: /computer-vision-alt
+  description: Computer vision and image processing
+
+agriculture:
+  label: Agriculture
+  permalink: /agriculture-alt
+  description: Agricultural technology and applications
+
+Computer Vision:
+  label: Computer Vision
+  permalink: /computer-vision
+  description: Computer vision and image processing
+
+Agriculture:
+  label: Agriculture
+  permalink: /agriculture
+  description: Agricultural technology and applications
+
+Docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus-alt
+  description: Docusaurus website framework
+
+GitHub-Pages:
+  label: GitHub-Pages
+  permalink: /github-pages
+  description: GitHub Pages hosting
+
+Website:
+  label: Website
+  permalink: /website
+  description: Website development
+
+growth chamber:
+  label: Growth Chamber
+  permalink: /growth-chamber
+  description: Controlled environment growth chamber
+
+photogrammetry:
+  label: Photogrammetry
+  permalink: /photogrammetry
+  description: Photogrammetry techniques
+
+Tutorial:
+  label: Tutorial
+  permalink: /tutorial-alt
+  description: Tutorial and educational content

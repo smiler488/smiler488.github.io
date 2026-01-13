@@ -1,0 +1,218 @@
+/* ================================
+   图形化社交媒体页脚
+   ================================ */
+
+.socialFooter {
+  background: var(--ifm-footer-background-color);
+  padding: 3rem 0 2rem;
+  border-top: 1px solid var(--ifm-border-color);
+}
+
+.socialGroups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 社交媒体组 */
+.socialGroup {
+  text-align: center;
+}
+
+.groupTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+/* 图标容器 */
+.socialIcons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* 社交媒体图标 */
+.socialIcon {
+  /* 玻璃态图标 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--glass-highlight);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 图标内部高光 */
+.socialIcon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--glass-highlight) 0%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+.socialIcon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: all 0.3s var(--ease-smooth);
+  position: relative;
+  z-index: 1;
+}
+
+/* 悬停效果 */
+.socialIcon:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 var(--glass-highlight);
+  border-color: var(--hover-color);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.socialIcon:hover::before {
+  opacity: 1;
+  background: linear-gradient(135deg, var(--hover-color) 0%, transparent 100%);
+}
+
+.socialIcon:hover img {
+  filter: brightness(1.1);
+  transform: rotate(5deg);
+}
+
+/* 点击效果 */
+.socialIcon:active {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+/* 移动端优化 */
+@media screen and (max-width: 996px) {
+  .socialFooter {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .socialGroups {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .groupTitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .socialIcon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .socialIcon img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 移动端减少玻璃效果 */
+  .socialIcon {
+    -webkit-backdrop-filter: var(--glass-blur-light);
+    backdrop-filter: var(--glass-blur-light);
+  }
+
+  .socialIcon:hover {
+    transform: translateY(-2px) scale(1.05);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .socialGroups {
+    gap: 2rem;
+  }
+
+  .socialIcons {
+    gap: 0.75rem;
+  }
+
+  .socialIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .socialIcon img {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .socialFooter {
+    padding: 2rem 0 1rem;
+  }
+
+  .groupTitle {
+    font-size: 1rem;
+  }
+
+  .socialIcons {
+    gap: 0.5rem;
+  }
+
+  .socialIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .socialIcon img {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* 降级方案 */
+@supports not (backdrop-filter: blur(20px)) {
+  .socialIcon {
+    background: var(--ifm-color-emphasis-100);
+  }
+
+  html[data-theme='dark'] .socialIcon {
+    background: var(--ifm-color-emphasis-200);
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .socialIcon,
+  .socialIcon img,
+  .socialIcon::before {
+    transition: none !important;
+  }
+
+  .socialIcon:hover {
+    transform: none !important;
+  }
+}

@@ -15,14 +15,268 @@ PyTorch is one of the most popular deep learning frameworks, known for its dynam
 
 ## Table of Contents
 
-1. [PyTorch Fundamentals](#pytorch-fundamentals)
-2. [Data Handling and Preprocessing](#data-handling-and-preprocessing)
-3. [Building Neural Networks](#building-neural-networks)
-4. [Training and Optimization](#training-and-optimization)
-5. [Computer Vision with PyTorch](#computer-vision-with-pytorch)
-6. [Natural Language Processing](#natural-language-processing)
-7. [Advanced Topics](#advanced-topics)
-8. [Production Deployment](#production-deployment)
+1. [Quick Start (15 Minutes)](#quick-start-15-minutes) ⚡
+2. [PyTorch Fundamentals](#pytorch-fundamentals)
+3. [Data Handling and Preprocessing](#data-handling-and-preprocessing)
+4. [Building Neural Networks](#building-neural-networks)
+5. [Training and Optimization](#training-and-optimization)
+6. [Computer Vision with PyTorch](#computer-vision-with-pytorch)
+7. [Natural Language Processing](#natural-language-processing)
+8. [Advanced Topics](#advanced-topics)
+9. [Production Deployment](#production-deployment)
+10. [Troubleshooting](#troubleshooting)
+
+## Quick Start (15 Minutes)
+
+**Goal:** Get PyTorch running and train your first neural network in 15 minutes.
+
+### Step 1: Install PyTorch (3 minutes)
+
+Choose the installation method based on your hardware:
+
+```bash
+# Option 1: GPU with CUDA (Recommended for deep learning)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# Option 2: CPU only (Good for learning basics)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Option 3: Mac with Apple Silicon (M1/M2/M3)
+pip install torch torchvision torchaudio
+```
+
+### Step 2: Verify Installation (2 minutes)
+
+Create a file `check_pytorch_env.py`:
+
+```python
+#!/usr/bin/env python3
+"""
+PyTorch Environment Check Script
+Verifies PyTorch installation and hardware capabilities
+"""
+import sys
+
+def check_pytorch_installation():
+    """Check if PyTorch is installed and working"""
+    print("=" * 60)
+    print("PyTorch Environment Check")
+    print("=" * 60)
+
+    # Check PyTorch installation
+    try:
+        import torch
+        print(f"✓ PyTorch installed: version {torch.__version__}")
+    except ImportError:
+        print("✗ PyTorch not installed")
+        print("  Install with: pip install torch torchvision torchaudio")
+        return False
+
+    # Check CUDA availability
+    print(f"\n{'CUDA Support':.<40} ", end="")
+    if torch.cuda.is_available():
+        print(f"✓ Available")
+        print(f"{'  CUDA Version':.<40} {torch.version.cuda}")
+        print(f"{'  Device Count':.<40} {torch.cuda.device_count()}")
+        for i in range(torch.cuda.device_count()):
+            props = torch.cuda.get_device_properties(i)
+            print(f"{'  GPU ' + str(i):.<40} {props.name}")
+            print(f"{'    Memory':.<40} {props.total_memory / 1024**3:.1f} GB")
+            print(f"{'    Compute Capability':.<40} {props.major}.{props.minor}")
+    else:
+        print("✗ Not available (CPU only)")
+        print("  For GPU support, install CUDA-enabled PyTorch")
+
+    # Check MPS (Apple Silicon) availability
+    if hasattr(torch.backends, 'mps'):
+        print(f"\n{'Apple MPS Support':.<40} ", end="")
+        if torch.backends.mps.is_available():
+            print("✓ Available")
+        else:
+            print("✗ Not available")
+
+    # Test basic tensor operations
+    print(f"\n{'Testing Basic Operations':.<40} ", end="")
+    try:
+        x = torch.randn(3, 3)
+        y = torch.randn(3, 3)
+        z = x @ y  # Matrix multiplication
+        print("✓ Success")
+    except Exception as e:
+        print(f"✗ Failed: {e}")
+        return False
+
+    # Test device transfer
+    if torch.cuda.is_available():
+        print(f"{'Testing GPU Transfer':.<40} ", end="")
+        try:
+            x_gpu = x.cuda()
+            y_gpu = y.cuda()
+            z_gpu = x_gpu @ y_gpu
+            print("✓ Success")
+        except Exception as e:
+            print(f"✗ Failed: {e}")
+
+    # Check additional packages
+    print(f"\n{'Additional Packages':-^60}")
+    packages = {
+        'torchvision': 'Image processing',
+        'numpy': 'Numerical computing',
+        'matplotlib': 'Plotting',
+        'scikit-learn': 'ML utilities',
+    }
+
+    for package, description in packages.items():
+        try:
+            __import__(package)
+            print(f"  ✓ {package:.<30} {description}")
+        except ImportError:
+            print(f"  ✗ {package:.<30} Not installed")
+
+    print("\n" + "=" * 60)
+    print("Environment check complete!")
+    print("=" * 60)
+    return True
+
+if __name__ == "__main__":
+    success = check_pytorch_installation()
+    sys.exit(0 if success else 1)
+```
+
+Run the script:
+
+```bash
+python check_pytorch_env.py
+```
+
+**Expected output:**
+```
+============================================================
+PyTorch Environment Check
+============================================================
+✓ PyTorch installed: version 2.1.0
+
+CUDA Support................................ ✓ Available
+  CUDA Version.............................. 11.8
+  Device Count.............................. 1
+  GPU 0..................................... NVIDIA GeForce RTX 3090
+    Memory.................................. 24.0 GB
+    Compute Capability...................... 8.6
+
+Testing Basic Operations.................... ✓ Success
+Testing GPU Transfer........................ ✓ Success
+
+-------------------Additional Packages--------------------
+  ✓ torchvision..................... Image processing
+  ✓ numpy........................... Numerical computing
+  ✓ matplotlib...................... Plotting
+  ✓ scikit-learn.................... ML utilities
+```
+
+### Step 3: Train Your First Neural Network (10 minutes)
+
+Create a simple neural network that learns XOR operation:
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Step 1: Define the network
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.layer1 = nn.Linear(2, 4)  # Input: 2 features, Hidden: 4 neurons
+        self.layer2 = nn.Linear(4, 1)  # Hidden: 4 neurons, Output: 1
+
+    def forward(self, x):
+        x = torch.relu(self.layer1(x))
+        x = torch.sigmoid(self.layer2(x))
+        return x
+
+# Step 2: Prepare data (XOR problem)
+X = torch.tensor([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=torch.float32)
+y = torch.tensor([[0], [1], [1], [0]], dtype=torch.float32)
+
+# Step 3: Create model, loss function, and optimizer
+model = SimpleNN()
+criterion = nn.BCELoss()  # Binary Cross Entropy Loss
+optimizer = optim.Adam(model.parameters(), lr=0.1)
+# Set random seed for reproducibility
+torch.manual_seed(42)
+
+# Step 4: Train the model
+print("Training XOR Neural Network...")
+for epoch in range(1000):
+    # Forward pass
+    outputs = model(X)
+    loss = criterion(outputs, y)
+
+    # Backward pass and optimization
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    # Print progress every 200 epochs
+    if (epoch + 1) % 200 == 0:
+        print(f'Epoch [{epoch+1}/1000], Loss: {loss.item():.4f}')
+
+# Step 5: Test the model
+print("\nTesting the trained model:")
+with torch.no_grad():
+    predictions = model(X)
+    for i, (input_val, pred, target) in enumerate(zip(X, predictions, y)):
+        print(f"Input: {input_val.numpy()}, Predicted: {pred.item():.4f}, Target: {target.item():.0f}")
+```
+
+**Expected output:**
+```
+Training XOR Neural Network...
+Epoch [200/1000], Loss: 0.3847
+Epoch [400/1000], Loss: 0.0823
+Epoch [600/1000], Loss: 0.0234
+Epoch [800/1000], Loss: 0.0103
+Epoch [1000/1000], Loss: 0.0059
+
+Testing the trained model:
+Input: [0. 0.], Predicted: 0.0156, Target: 0
+Input: [0. 1.], Predicted: 0.9821, Target: 1
+Input: [1. 0.], Predicted: 0.9834, Target: 1
+Input: [1. 1.], Predicted: 0.0198, Target: 0
+```
+
+**Congratulations!** You've successfully:
+- Installed PyTorch
+- Verified your environment
+- Trained your first neural network
+- Made predictions
+
+### Hardware Requirements
+
+**For Learning (Chapters 1-4):**
+- CPU: Any modern processor
+- RAM: 8 GB minimum
+- GPU: Optional
+
+**For Deep Learning (Chapters 5-8):**
+- CPU: Multi-core processor (8+ cores recommended)
+- RAM: 16 GB minimum, 32 GB recommended
+- GPU: NVIDIA GPU with 8 GB+ VRAM (RTX 3060, RTX 4060 Ti, or better)
+- Storage: 50 GB free space for datasets and models
+
+**Cloud Alternatives (if local hardware insufficient):**
+- **Google Colab** (Free): Free T4 GPU, good for learning
+- **Kaggle Notebooks** (Free): Free P100 GPU, 30 hours/week
+- **Paperspace Gradient** (Paid): Starting at $0.45/hour for RTX 4000
+- **AWS SageMaker** (Paid): Various GPU instances available
+- **Lambda Labs** (Paid): Cost-effective GPU cloud starting at $0.50/hour
+
+### Next Steps
+
+Now you're ready to dive deeper:
+- **Beginners:** Continue with [PyTorch Fundamentals](#pytorch-fundamentals) to understand tensors, autograd, and basic operations
+- **Intermediate:** Jump to [Building Neural Networks](#building-neural-networks) to learn CNN, RNN architectures
+- **Advanced:** Explore [Advanced Topics](#advanced-topics) for custom losses, GradCAM, and knowledge distillation
 
 ## PyTorch Fundamentals
 
@@ -1773,6 +2027,667 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
 ```
 
+## Troubleshooting
+
+Common issues and solutions for PyTorch development.
+
+### 1. CUDA Out of Memory Error
+
+**Error:**
+```
+RuntimeError: CUDA out of memory. Tried to allocate X MiB
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Reduce batch size
+train_loader = DataLoader(dataset, batch_size=16, shuffle=True)  # Instead of 64
+
+# Solution 2: Use gradient accumulation
+accumulation_steps = 4
+optimizer.zero_grad()
+
+for i, (inputs, targets) in enumerate(train_loader):
+    outputs = model(inputs)
+    loss = criterion(outputs, targets) / accumulation_steps
+    loss.backward()
+
+    if (i + 1) % accumulation_steps == 0:
+        optimizer.step()
+        optimizer.zero_grad()
+
+# Solution 3: Clear cache regularly
+import torch
+torch.cuda.empty_cache()
+
+# Solution 4: Use mixed precision training
+from torch.cuda.amp import autocast, GradScaler
+scaler = GradScaler()
+
+with autocast():
+    outputs = model(inputs)
+    loss = criterion(outputs, targets)
+
+# Solution 5: Enable gradient checkpointing for large models
+from torch.utils.checkpoint import checkpoint
+
+class CheckpointedModel(nn.Module):
+    def forward(self, x):
+        x = checkpoint(self.layer1, x)
+        x = checkpoint(self.layer2, x)
+        return x
+```
+
+**Prevention:**
+- Monitor GPU memory usage: `torch.cuda.memory_allocated()`, `torch.cuda.memory_reserved()`
+- Use smaller batch sizes for training
+- Consider using gradient accumulation
+- Delete unused variables with `del variable`
+
+### 2. PyTorch Installation Issues
+
+**Error:**
+```
+No module named 'torch'
+ImportError: cannot import name 'torch'
+```
+
+**Solutions:**
+
+```bash
+# Solution 1: Verify Python version (requires 3.8+)
+python --version
+
+# Solution 2: Install PyTorch with correct CUDA version
+# Check CUDA version first
+nvidia-smi
+
+# Install matching PyTorch version
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# Solution 3: Use conda for easier dependency management
+conda create -n pytorch_env python=3.10
+conda activate pytorch_env
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# Solution 4: Install CPU-only version if GPU not available
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Solution 5: Clear pip cache if installation corrupted
+pip cache purge
+pip uninstall torch torchvision torchaudio
+pip install torch torchvision torchaudio
+```
+
+**Verification:**
+```python
+import torch
+print(f"PyTorch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"CUDA version: {torch.version.cuda}")
+```
+
+### 3. Version Compatibility Errors
+
+**Error:**
+```
+AttributeError: module 'torch' has no attribute 'XXX'
+RuntimeError: Trying to backward through the graph a second time
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Check PyTorch version compatibility
+import torch
+print(torch.__version__)
+
+# For PyTorch 2.0+, use torch.compile
+model = torch.compile(model)  # Only available in PyTorch 2.0+
+
+# For older versions, use different syntax
+if torch.__version__ >= '2.0':
+    model = torch.compile(model)
+else:
+    # Use alternative optimization
+
+# Solution 2: Fix backward computation
+# Don't call backward() twice on same graph
+loss = criterion(outputs, targets)
+loss.backward()  # Call only once
+
+# If you need to compute gradients twice, use retain_graph=True
+loss1.backward(retain_graph=True)
+loss2.backward()
+
+# Solution 3: Upgrade PyTorch to latest stable version
+pip install --upgrade torch torchvision torchaudio
+
+# Solution 4: Use version-specific imports
+try:
+    from torch.cuda.amp import autocast, GradScaler
+except ImportError:
+    # Fallback for older versions
+    autocast = None
+    GradScaler = None
+```
+
+### 4. DataLoader Worker Errors
+
+**Error:**
+```
+RuntimeError: DataLoader worker is killed by signal
+RuntimeError: Too many open files
+BrokenPipeError: [Errno 32] Broken pipe
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Reduce number of workers
+train_loader = DataLoader(
+    dataset,
+    batch_size=32,
+    num_workers=0,  # Start with 0, then gradually increase
+    pin_memory=True
+)
+
+# Solution 2: Increase system file limit (Unix/Linux)
+import resource
+soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+resource.setrlimit(resource.RLIMIT_NOFILE, (hard, hard))
+
+# Solution 3: Use persistent workers (PyTorch 1.7+)
+train_loader = DataLoader(
+    dataset,
+    batch_size=32,
+    num_workers=4,
+    persistent_workers=True  # Keep workers alive between epochs
+)
+
+# Solution 4: Fix multiprocessing on Windows
+if __name__ == '__main__':
+    train_loader = DataLoader(dataset, num_workers=2)
+    for data in train_loader:
+        pass
+
+# Solution 5: Handle shared memory properly
+train_loader = DataLoader(
+    dataset,
+    batch_size=32,
+    num_workers=2,
+    pin_memory=False  # Disable if causing issues
+)
+```
+
+### 5. Model Device Mismatch
+
+**Error:**
+```
+RuntimeError: Expected all tensors to be on the same device
+RuntimeError: Input type (torch.FloatTensor) and weight type (torch.cuda.FloatTensor) should be the same
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Move all tensors to same device
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+model = model.to(device)
+inputs = inputs.to(device)
+targets = targets.to(device)
+
+# Solution 2: Create helper function
+def to_device(data, device):
+    """Move tensor or list of tensors to device"""
+    if isinstance(data, (list, tuple)):
+        return [to_device(x, device) for x in data]
+    return data.to(device, non_blocking=True)
+
+# Usage
+inputs, targets = to_device((inputs, targets), device)
+
+# Solution 3: Check device before operations
+def forward(self, x):
+    # Ensure input is on correct device
+    if x.device != self.weight.device:
+        x = x.to(self.weight.device)
+    return self.linear(x)
+
+# Solution 4: Use consistent device throughout
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.layer = nn.Linear(10, 5).to(self.device)
+
+    def forward(self, x):
+        x = x.to(self.device)
+        return self.layer(x)
+```
+
+### 6. Gradient Computation Errors
+
+**Error:**
+```
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+RuntimeError: One of the differentiated Tensors appears to not have been used in the graph
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Enable gradient tracking
+x = torch.randn(3, 3, requires_grad=True)  # Enable gradients
+
+# Solution 2: Check model parameters require gradients
+for name, param in model.named_parameters():
+    print(f"{name}: requires_grad={param.requires_grad}")
+
+# Solution 3: Don't detach tensors needed for backward
+# Wrong: loss = loss.detach()
+# Right: loss = criterion(outputs, targets)
+
+# Solution 4: Use torch.no_grad() for inference only
+with torch.no_grad():
+    outputs = model(inputs)  # No gradient computation
+
+# Solution 5: Fix custom loss functions
+class CustomLoss(nn.Module):
+    def forward(self, predictions, targets):
+        # Make sure to return a tensor with grad_fn
+        loss = torch.mean((predictions - targets) ** 2)
+        return loss  # Not loss.item() or loss.detach()
+
+# Solution 6: Avoid in-place operations on tensors requiring gradients
+# Wrong: x += 1  (in-place)
+# Right: x = x + 1  (out-of-place)
+```
+
+### 7. Import and Module Errors
+
+**Error:**
+```
+ModuleNotFoundError: No module named 'torchvision'
+ImportError: cannot import name 'DataLoader'
+AttributeError: module has no attribute
+```
+
+**Solutions:**
+
+```bash
+# Solution 1: Install missing packages
+pip install torchvision torchaudio
+pip install scikit-learn matplotlib numpy pandas
+
+# Solution 2: Check correct import paths
+# Correct imports
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms, datasets
+from torch import nn, optim
+import torch.nn.functional as F
+
+# Solution 3: Verify package installation
+python -c "import torch; import torchvision; print('All imports successful')"
+
+# Solution 4: Use virtual environment to avoid conflicts
+python -m venv pytorch_env
+source pytorch_env/bin/activate  # On Unix
+# or
+pytorch_env\Scripts\activate  # On Windows
+
+pip install torch torchvision torchaudio
+
+# Solution 5: Fix PYTHONPATH issues
+export PYTHONPATH="${PYTHONPATH}:/path/to/your/project"
+```
+
+### 8. Training Performance Issues
+
+**Error:**
+```
+Training is too slow
+GPU utilization is low
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Use mixed precision training
+from torch.cuda.amp import autocast, GradScaler
+
+scaler = GradScaler()
+
+for inputs, targets in train_loader:
+    optimizer.zero_grad()
+
+    with autocast():  # Automatic mixed precision
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
+
+    scaler.scale(loss).backward()
+    scaler.step(optimizer)
+    scaler.update()
+
+# Solution 2: Optimize DataLoader
+train_loader = DataLoader(
+    dataset,
+    batch_size=64,  # Larger batch size
+    num_workers=4,  # Parallel data loading
+    pin_memory=True,  # Faster data transfer to GPU
+    prefetch_factor=2,  # Pre-load batches
+    persistent_workers=True  # Keep workers alive
+)
+
+# Solution 3: Use gradient accumulation for larger effective batch size
+accumulation_steps = 4
+for i, (inputs, targets) in enumerate(train_loader):
+    outputs = model(inputs)
+    loss = criterion(outputs, targets) / accumulation_steps
+    loss.backward()
+
+    if (i + 1) % accumulation_steps == 0:
+        optimizer.step()
+        optimizer.zero_grad()
+
+# Solution 4: Compile model (PyTorch 2.0+)
+model = torch.compile(model, mode='max-autotune')
+
+# Solution 5: Use channels_last memory format for CNNs
+model = model.to(memory_format=torch.channels_last)
+inputs = inputs.to(memory_format=torch.channels_last)
+
+# Solution 6: Profile your code
+from torch.profiler import profile, ProfilerActivity
+
+with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA]) as prof:
+    outputs = model(inputs)
+
+print(prof.key_averages().table(sort_by="cuda_time_total"))
+```
+
+### 9. Model Saving and Loading Issues
+
+**Error:**
+```
+RuntimeError: Error(s) in loading state_dict
+FileNotFoundError: No such file or directory
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Save and load correctly
+# Save model
+torch.save(model.state_dict(), 'model.pth')
+
+# Load model
+model = MyModel()
+model.load_state_dict(torch.load('model.pth'))
+model.eval()
+
+# Solution 2: Save with optimizer and epoch info
+checkpoint = {
+    'epoch': epoch,
+    'model_state_dict': model.state_dict(),
+    'optimizer_state_dict': optimizer.state_dict(),
+    'loss': loss,
+}
+torch.save(checkpoint, 'checkpoint.pth')
+
+# Load checkpoint
+checkpoint = torch.load('checkpoint.pth')
+model.load_state_dict(checkpoint['model_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+epoch = checkpoint['epoch']
+loss = checkpoint['loss']
+
+# Solution 3: Handle device mapping
+# When loading on different device
+model.load_state_dict(torch.load('model.pth', map_location='cpu'))
+
+# Solution 4: Load partial state dict
+state_dict = torch.load('model.pth')
+model.load_state_dict(state_dict, strict=False)  # Ignore missing keys
+
+# Solution 5: Use safeguards for file paths
+import os
+model_path = 'model.pth'
+if os.path.exists(model_path):
+    model.load_state_dict(torch.load(model_path))
+else:
+    print(f"Model file {model_path} not found")
+```
+
+### 10. Distributed Training Errors
+
+**Error:**
+```
+RuntimeError: NCCL error
+RuntimeError: Default process group has not been initialized
+```
+
+**Solutions:**
+
+```python
+# Solution 1: Initialize distributed training properly
+import torch.distributed as dist
+import torch.multiprocessing as mp
+
+def setup(rank, world_size):
+    os.environ['MASTER_ADDR'] = 'localhost'
+    os.environ['MASTER_PORT'] = '12355'
+    dist.init_process_group("nccl", rank=rank, world_size=world_size)
+
+def cleanup():
+    dist.destroy_process_group()
+
+def train(rank, world_size):
+    setup(rank, world_size)
+
+    model = MyModel().to(rank)
+    model = nn.parallel.DistributedDataParallel(model, device_ids=[rank])
+
+    # Training loop
+
+    cleanup()
+
+# Solution 2: Use torchrun for launching
+# Save as train.py, then run:
+# torchrun --nproc_per_node=2 train.py
+
+# Solution 3: Handle NCCL timeouts
+os.environ['NCCL_TIMEOUT'] = '1800'  # 30 minutes
+os.environ['NCCL_DEBUG'] = 'INFO'
+
+# Solution 4: Use DataParallel for single machine multi-GPU
+if torch.cuda.device_count() > 1:
+    model = nn.DataParallel(model)
+
+# Solution 5: Debug distributed training
+def print_rank_0(message):
+    if dist.get_rank() == 0:
+        print(message)
+
+# Use for debugging
+print_rank_0(f"Training step {step}")
+```
+
+### Additional Troubleshooting Resources
+
+**Check GPU Status:**
+```bash
+# Monitor GPU usage
+nvidia-smi
+
+# Watch GPU usage in real-time
+watch -n 1 nvidia-smi
+
+# Check CUDA availability in Python
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
+**Get Help:**
+- PyTorch Forums: https://discuss.pytorch.org/
+- GitHub Issues: https://github.com/pytorch/pytorch/issues
+- Stack Overflow: Tag `pytorch`
+- Documentation: https://pytorch.org/docs/
+
+### Environment Validation Script
+
+Create `validate_pytorch_setup.py` to test all components:
+
+```python
+#!/usr/bin/env python3
+"""
+Complete PyTorch Setup Validation Script
+Tests all major components and reports issues
+"""
+import sys
+import time
+
+def validate_complete_setup():
+    """Comprehensive validation of PyTorch setup"""
+    print("=" * 70)
+    print("PyTorch Complete Setup Validation")
+    print("=" * 70)
+
+    issues = []
+
+    # 1. Test PyTorch import and version
+    print("\n[1/8] Testing PyTorch Installation...")
+    try:
+        import torch
+        print(f"  ✓ PyTorch {torch.__version__}")
+    except ImportError as e:
+        print(f"  ✗ Failed: {e}")
+        issues.append("PyTorch not installed")
+        return issues
+
+    # 2. Test CUDA
+    print("\n[2/8] Testing CUDA Support...")
+    if torch.cuda.is_available():
+        print(f"  ✓ CUDA {torch.version.cuda}")
+        print(f"  ✓ {torch.cuda.device_count()} GPU(s) available")
+        for i in range(torch.cuda.device_count()):
+            print(f"    - {torch.cuda.get_device_name(i)}")
+    else:
+        print("  ! CUDA not available (CPU-only mode)")
+        issues.append("CUDA not available")
+
+    # 3. Test tensor operations
+    print("\n[3/8] Testing Tensor Operations...")
+    try:
+        x = torch.randn(100, 100)
+        y = torch.randn(100, 100)
+        z = torch.matmul(x, y)
+        assert z.shape == (100, 100)
+        print("  ✓ Basic tensor operations work")
+    except Exception as e:
+        print(f"  ✗ Failed: {e}")
+        issues.append("Tensor operations failed")
+
+    # 4. Test GPU transfer
+    print("\n[4/8] Testing GPU Transfer...")
+    if torch.cuda.is_available():
+        try:
+            x_gpu = x.cuda()
+            y_gpu = y.cuda()
+            z_gpu = torch.matmul(x_gpu, y_gpu)
+            print("  ✓ GPU transfer and computation work")
+        except Exception as e:
+            print(f"  ✗ Failed: {e}")
+            issues.append("GPU transfer failed")
+    else:
+        print("  - Skipped (no CUDA)")
+
+    # 5. Test neural network
+    print("\n[5/8] Testing Neural Network...")
+    try:
+        import torch.nn as nn
+        model = nn.Sequential(
+            nn.Linear(10, 20),
+            nn.ReLU(),
+            nn.Linear(20, 5)
+        )
+        input_data = torch.randn(32, 10)
+        output = model(input_data)
+        assert output.shape == (32, 5)
+        print("  ✓ Neural network creation and forward pass work")
+    except Exception as e:
+        print(f"  ✗ Failed: {e}")
+        issues.append("Neural network failed")
+
+    # 6. Test backpropagation
+    print("\n[6/8] Testing Backpropagation...")
+    try:
+        import torch.optim as optim
+        criterion = nn.MSELoss()
+        optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+        target = torch.randn(32, 5)
+        optimizer.zero_grad()
+        loss = criterion(output, target)
+        loss.backward()
+        optimizer.step()
+        print("  ✓ Backpropagation and optimization work")
+    except Exception as e:
+        print(f"  ✗ Failed: {e}")
+        issues.append("Backpropagation failed")
+
+    # 7. Test DataLoader
+    print("\n[7/8] Testing DataLoader...")
+    try:
+        from torch.utils.data import TensorDataset, DataLoader
+        dataset = TensorDataset(torch.randn(100, 10), torch.randn(100, 5))
+        loader = DataLoader(dataset, batch_size=16, shuffle=True)
+        batch = next(iter(loader))
+        print("  ✓ DataLoader works")
+    except Exception as e:
+        print(f"  ✗ Failed: {e}")
+        issues.append("DataLoader failed")
+
+    # 8. Test torchvision
+    print("\n[8/8] Testing Torchvision...")
+    try:
+        import torchvision
+        from torchvision import transforms
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
+        print(f"  ✓ Torchvision {torchvision.__version__}")
+    except ImportError:
+        print("  ! Torchvision not installed (optional)")
+        issues.append("Torchvision not installed")
+
+    # Summary
+    print("\n" + "=" * 70)
+    if not issues:
+        print("✓ All tests passed! PyTorch setup is complete.")
+    else:
+        print(f"✗ Found {len(issues)} issue(s):")
+        for issue in issues:
+            print(f"  - {issue}")
+    print("=" * 70)
+
+    return issues
+
+if __name__ == "__main__":
+    issues = validate_complete_setup()
+    sys.exit(len(issues))
+```
+
+Run the validation:
+
+```bash
+python validate_pytorch_setup.py
+```
+
+This script tests all critical components and helps identify any setup issues.
+
 ## Conclusion
 
 This comprehensive PyTorch tutorial covers the essential aspects of machine learning and deep learning implementation, from basic tensor operations to production deployment. Key takeaways include:
@@ -1808,4 +2723,4 @@ This tutorial provides a solid foundation for building and deploying machine lea
 
 ---
 
-*Last updated: September 2025*
+*Last updated: September 2023*

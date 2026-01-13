@@ -77,6 +77,90 @@ graph TD
 
 This workflow outlines the comprehensive process for deploying AI agents locally, highlighting multiple deployment strategies and their integration points for building robust, scalable AI systems.
 
+## Quick Start (5 Minutes)
+
+For beginners who want to try it immediately, follow these steps:
+
+```bash
+# Step 1: Install Ollama (easiest method)
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Step 2: Pull a small model (downloads ~4GB, takes 3-10 mins)
+ollama pull llama2:7b
+
+# Step 3: Test it!
+ollama run llama2:7b
+
+# You should now see an interactive chat. Try asking:
+# "What is artificial intelligence?"
+```
+
+**Expected output:**
+```
+>>> What is artificial intelligence?
+Artificial intelligence (AI) refers to the simulation of human
+intelligence in machines...
+```
+
+If this works, congratulations! You've successfully deployed a local AI agent. Continue reading for more advanced setups.
+
+## Environment Check Script
+
+Before proceeding, verify your system meets the requirements:
+
+```bash
+#!/bin/bash
+# check_environment.sh - Run this to verify your system
+
+echo "=== System Check ==="
+
+# Check OS
+echo "OS: $(uname -s)"
+
+# Check CPU cores
+echo "CPU Cores: $(nproc)"
+
+# Check RAM
+echo "Total RAM: $(free -h | grep Mem | awk '{print $2}')"
+echo "Available RAM: $(free -h | grep Mem | awk '{print $7}')"
+
+# Check disk space
+echo "Available disk space: $(df -h . | tail -1 | awk '{print $4}')"
+
+# Check Docker
+if command -v docker &> /dev/null; then
+    echo "Docker: Installed ($(docker --version))"
+else
+    echo "Docker: NOT INSTALLED ❌"
+fi
+
+# Check Python
+if command -v python3 &> /dev/null; then
+    echo "Python: Installed ($(python3 --version))"
+else
+    echo "Python: NOT INSTALLED ❌"
+fi
+
+# Check GPU
+if command -v nvidia-smi &> /dev/null; then
+    echo "GPU: Available"
+    nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
+else
+    echo "GPU: Not detected (CPU-only mode)"
+fi
+
+echo ""
+echo "=== Recommendation ==="
+ram_gb=$(free -g | grep Mem | awk '{print $2}')
+if [ "$ram_gb" -lt 16 ]; then
+    echo "⚠️  Low RAM detected. Consider using smaller models (3B-7B parameters)"
+else
+    echo "✅ System looks good for running medium models (7B-13B parameters)"
+fi
+```
+
+Save this as `check_environment.sh`, run `chmod +x check_environment.sh && ./check_environment.sh`
+
 ## Prerequisites
 
 ### Hardware Requirements
@@ -706,7 +790,241 @@ WantedBy=multi-user.target
 
 ## Troubleshooting
 
-### Common Issues
+### Common Issues and Solutions
+
+#### 1. Ollama: "connection refused" Error
+
+**Problem:**
+```bash
+Error: could not connect to ollama server
+```
+
+**Solutions:**
+```bash
+# Check if Ollama is running
+ps aux | grep ollama
+
+# If not running, start it:
+ollama serve
+
+# Or use systemd (Linux):
+sudo systemctl start ollama
+sudo systemctl enable ollama  # Auto-start on boot
+```
+
+#### 2. Model Download Fails or Hangs
+
+**Problem:**
+Model download stops at 50% or shows network errors.
+
+**Solutions:**
+```bash
+# Method 1: Use a mirror or VPN if in restricted regions
+
+# Method 2: Download manually
+mkdir -p ~/.ollama/models
+cd ~/.ollama/models
+# Download from alternative sources like HuggingFace
+
+# Method 3: Increase timeout
+export OLLAMA_DOWNLOAD_TIMEOUT=3600  # 1 hour
+ollama pull llama2
+```
+
+#### 3. "CUDA out of memory" Error
+
+**Problem:**
+```
+RuntimeError: CUDA out of memory. Tried to allocate X GB
+```
+
+**Solutions:**
+```python
+# Solution 1: Use smaller model
+ollama pull llama2:7b  # Instead of 13b or 70b
+
+# Solution 2: Clear GPU cache
+import torch
+torch.cuda.empty_cache()
+
+# Solution 3: Reduce batch size
+batch_size = 1  # Minimum batch size
+
+# Solution 4: Use CPU offloading
+model = AutoModelForCausalLM.from_pretrained(
+    "model_name",
+    device_map="auto",  # Automatically splits across GPU/CPU
+    load_in_8bit=True   # Use quantization
+)
+```
+
+#### 4. ImportError: No module named 'transformers'
+
+**Problem:**
+```
+ModuleNotFoundError: No module named 'transformers'
+```
+
+**Solutions:**
+```bash
+# Verify Python environment
+which python3
+python3 --version
+
+# Install in correct environment
+pip3 install transformers torch
+
+# If using virtual environment:
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate  # Windows
+pip install -r requirements.txt
+```
+
+#### 5. Docker: "permission denied" Error
+
+**Problem:**
+```
+permission denied while trying to connect to the Docker daemon socket
+```
+
+**Solutions:**
+```bash
+# Add user to docker group
+sudo usermod -aG docker $USER
+
+# Logout and login again, or run:
+newgrp docker
+
+# Test without sudo:
+docker ps
+```
+
+#### 6. Slow Inference Speed
+
+**Problem:**
+Response time > 30 seconds per query.
+
+**Solutions:**
+```python
+# Check if GPU is being used
+import torch
+print(f"Using GPU: {torch.cuda.is_available()}")
+
+# Force GPU usage
+model = model.to('cuda')
+
+# Use optimized settings
+model.eval()  # Set to evaluation mode
+torch.backends.cudnn.benchmark = True
+
+# Consider using smaller models or quantization
+from transformers import BitsAndBytesConfig
+config = BitsAndBytesConfig(load_in_8bit=True)
+```
+
+#### 7. Port Already in Use
+
+**Problem:**
+```
+Error: bind: address already in use
+```
+
+**Solutions:**
+```bash
+# Find process using port 8000
+lsof -i :8000
+# or
+netstat -tulpn | grep 8000
+
+# Kill the process
+kill -9 <PID>
+
+# Or use different port
+uvicorn app:app --port 8001
+```
+
+#### 8. Windows: "WSL not installed" Error
+
+**Problem:**
+Using Ollama on Windows requires WSL.
+
+**Solutions:**
+```powershell
+# Install WSL 2
+wsl --install
+
+# Or use Windows-native version:
+# Download from https://ollama.ai/download/windows
+# Run the .exe installer
+```
+
+### Testing Your Setup
+
+After installation, run these tests:
+
+```python
+# test_setup.py
+import sys
+
+def test_imports():
+    """Test if all required packages are installed"""
+    packages = [
+        'torch',
+        'transformers',
+        'fastapi',
+        'langchain',
+        'chromadb'
+    ]
+
+    for package in packages:
+        try:
+            __import__(package)
+            print(f"✅ {package}")
+        except ImportError:
+            print(f"❌ {package} - NOT INSTALLED")
+            return False
+    return True
+
+def test_gpu():
+    """Test GPU availability"""
+    import torch
+    if torch.cuda.is_available():
+        print(f"✅ GPU: {torch.cuda.get_device_name(0)}")
+        print(f"   VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+        return True
+    else:
+        print("⚠️  GPU: Not available (will use CPU)")
+        return False
+
+def test_ollama():
+    """Test Ollama connection"""
+    import requests
+    try:
+        response = requests.get("http://localhost:11434/api/tags")
+        if response.status_code == 200:
+            print("✅ Ollama: Running")
+            return True
+    except:
+        print("❌ Ollama: Not running")
+        return False
+
+if __name__ == "__main__":
+    print("=== Testing AI Agent Setup ===\n")
+
+    print("1. Package Installation:")
+    test_imports()
+
+    print("\n2. GPU Availability:")
+    test_gpu()
+
+    print("\n3. Ollama Service:")
+    test_ollama()
+
+    print("\n=== Test Complete ===")
+```
+
+Run: `python3 test_setup.py`
 
 **Out of Memory Errors:**
 

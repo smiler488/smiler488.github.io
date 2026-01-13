@@ -32,41 +32,133 @@
   padding: 0 20px;
 }
 
+/* 卡片渐入动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .appCard {
-  border: 1px solid var(--ifm-border-color);
+  animation: fadeInUp 0.6s var(--ease-smooth) both;
+}
+
+/* 层叠延迟效果 - 每张卡片依次出现 */
+.appCard:nth-child(1) { animation-delay: 0.05s; }
+.appCard:nth-child(2) { animation-delay: 0.1s; }
+.appCard:nth-child(3) { animation-delay: 0.15s; }
+.appCard:nth-child(4) { animation-delay: 0.2s; }
+.appCard:nth-child(5) { animation-delay: 0.25s; }
+.appCard:nth-child(6) { animation-delay: 0.3s; }
+.appCard:nth-child(7) { animation-delay: 0.35s; }
+.appCard:nth-child(8) { animation-delay: 0.4s; }
+.appCard:nth-child(9) { animation-delay: 0.45s; }
+.appCard:nth-child(10) { animation-delay: 0.5s; }
+.appCard:nth-child(11) { animation-delay: 0.55s; }
+.appCard:nth-child(12) { animation-delay: 0.6s; }
+.appCard:nth-child(13) { animation-delay: 0.65s; }
+.appCard:nth-child(14) { animation-delay: 0.7s; }
+.appCard:nth-child(15) { animation-delay: 0.75s; }
+
+.appCard {
+  border: 1px solid var(--glass-border);
   border-radius: 20px;
   padding: 2rem;
-  background: var(--ifm-card-background-color);
+  /* 玻璃态背景 */
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s var(--ease-smooth);
+  box-shadow: var(--shadow-glass);
   position: relative;
   overflow: hidden;
   height: 100%;
+  /* 3D变换性能优化 */
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .appCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  border-color: var(--ifm-color-primary);
+  /* 3D提升效果 */
+  transform: translateY(-12px) translateZ(20px);
+  /* 增强玻璃效果 */
+  box-shadow: var(--shadow-glass-hover);
+  border-color: var(--glass-highlight);
+  /* 增加模糊和发光 */
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  backdrop-filter: var(--glass-blur-medium);
+}
+
+/* 卡片内部高光效果 */
+.appCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--glass-highlight);
+  opacity: 0.6;
+  transition: opacity 0.4s var(--ease-smooth);
+}
+
+.appCard:hover::before {
+  opacity: 1;
+}
+
+/* 柔和底部发光 */
+.appCard::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 10%;
+  right: 10%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, var(--glow-subtle) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-smooth);
+  pointer-events: none;
+}
+
+.appCard:hover::after {
+  opacity: 1;
 }
 
 .appIcon {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
-  background: var(--ifm-color-emphasis-100);
+  /* 玻璃态图标背景 */
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--glass-border);
   width: 80px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  transition: transform 0.3s ease;
+  transition: all 0.4s var(--ease-spring);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--glass-highlight);
+  position: relative;
+  z-index: 1;
 }
 
 .appCard:hover .appIcon {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.15) rotate(8deg) translateY(-4px);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 var(--glass-highlight);
+  border-color: var(--glass-highlight);
 }
 
 .cardTitle {
@@ -89,37 +181,358 @@
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
-  color: var(--ifm-color-primary);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
   gap: 0.5rem;
-  padding: 0.5rem 0;
-  transition: all 0.2s ease;
+  padding: 0.875rem 1.75rem 0.875rem 1.25rem;
+  border-radius: 14px;
+  /* 灰色玻璃态按钮 */
+  background: linear-gradient(135deg, 
+    rgba(102, 102, 102, 0.12) 0%, 
+    rgba(68, 68, 68, 0.1) 100%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(102, 102, 102, 0.25);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 120px;
+  color: #666666 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.appLink:hover {
-  color: var(--ifm-color-primary-darker);
-  gap: 0.75rem;
-  text-decoration: none;
+/* 按钮渐变背景动画 */
+.appLink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(102, 102, 102, 0.18) 0%, 
+    rgba(68, 68, 68, 0.15) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
 }
 
+/* 按钮顶部高光线 */
 .appLink::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(153, 153, 153, 0.6) 50%, 
+    transparent 100%);
+  opacity: 0.6;
+  transform: translateY(-100%);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  z-index: 1;
+}
+
+/* 按钮文字容器 */
+.appLinkText {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.35s ease;
+  font-weight: 800;
+}
+
+/* 箭头图标 - 灰色圆形 */
+.appLinkArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(102, 102, 102, 0.15);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.appLinkArrow::before {
   content: '→';
-  transition: transform 0.2s ease;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #666666;
+  opacity: 0.8;
+  transition: all 0.35s ease;
+  line-height: 1;
+}
+
+/* 悬停效果 */
+.appLink:hover {
+  transform: translateY(-4px) scale(1.02);
+  gap: 0.625rem;
+  text-decoration: none;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 0 12px rgba(102, 102, 102, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(102, 102, 102, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  color: #444444 !important;
+}
+
+.appLink:hover::before {
+  opacity: 1;
 }
 
 .appLink:hover::after {
-  transform: translateX(4px);
+  transform: translateY(0);
+  opacity: 1;
 }
 
-/* Dark Mode specific */
-html[data-theme='dark'] .appCard {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+.appLink:hover .appLinkText {
+  transform: translateX(-2px);
+  color: #444444;
 }
 
-html[data-theme='dark'] .appIcon {
-  background: rgba(255, 255, 255, 0.1);
+.appLink:hover .appLinkArrow {
+  transform: translateX(6px) scale(1.15);
+  background: rgba(102, 102, 102, 0.25);
+  box-shadow: 
+    0 0 12px rgba(102, 102, 102, 0.3),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.appLink:hover .appLinkArrow::before {
+  opacity: 1;
+  transform: scale(1.15);
+  color: #444444;
+}
+
+/* 点击效果 */
+.appLink:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 聚焦状态（键盘导航） */
+.appLink:focus-visible {
+  outline: 2px solid #666666;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(102, 102, 102, 0.2);
+}
+
+/* 脉冲光效动画 */
+@keyframes launchPulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 0 15px rgba(102, 102, 102, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+.appLink:hover {
+  animation: launchPulse 2.5s ease-in-out infinite;
+}
+
+/* 暗色模式通过CSS变量自动适配，无需额外样式 */
+
+/* ================================
+   移动端优化和性能降级
+   ================================ */
+
+/* 减少动画的用户偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .appCard,
+  .appIcon,
+  .appLink,
+  .appLinkText,
+  .appLinkArrow,
+  .appCard::before,
+  .appCard::after,
+  .appLink::before,
+  .appLink::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .appCard:hover {
+    transform: none !important;
+  }
+
+  .appLink:hover .appLinkArrow {
+    transform: none !important;
+  }
+}
+
+/* 移动端优化 - 平板及以下 */
+@media screen and (max-width: 996px) {
+  .appGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 16px;
+  }
+
+  .appCard {
+    padding: 1.5rem;
+    /* 移动端减少模糊效果以提升性能 */
+    -webkit-backdrop-filter: var(--glass-blur-light);
+    backdrop-filter: var(--glass-blur-light);
+  }
+
+  .appCard:hover {
+    /* 移动端减少3D效果 */
+    transform: translateY(-6px) translateZ(10px);
+  }
+
+  .appIcon {
+    width: 70px;
+    height: 70px;
+    font-size: 3rem;
+  }
+
+  .cardTitle {
+    font-size: 1.35rem;
+  }
+
+  .cardDescription {
+    font-size: 0.95rem;
+  }
+
+  .appLink {
+    font-size: 0.95rem;
+    padding: 0.625rem 1.25rem;
+    min-width: 110px;
+  }
+
+  .appLinkArrow {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* 手机端优化 */
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .appGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .appCard {
+    /* 手机端进一步简化效果 */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--ifm-background-surface-color);
+  }
+
+  /* 手机端禁用3D效果 */
+  .appCard:hover {
+    transform: translateY(-4px);
+  }
+
+  .appCard::after {
+    display: none;
+  }
+
+  /* 减少动画延迟 */
+  .appCard:nth-child(n) {
+    animation-delay: 0s !important;
+  }
+
+  /* 手机端按钮优化 */
+  .appLink {
+    font-size: 0.925rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .appLink:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .appLink:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+/* 小屏手机优化 */
+@media screen and (max-width: 480px) {
+  .hero {
+    padding: 40px 16px;
+  }
+
+  .appCard {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .appIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 2.5rem;
+    border-radius: 14px;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+
+  .cardDescription {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .appLink {
+    font-size: 0.9rem;
+    padding: 0.625rem 1.125rem;
+    min-width: 100px;
+  }
+
+  .appLinkArrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  .appLinkArrow::before {
+    font-size: 1.1rem;
+  }
+}
+
+/* 降级方案 - 不支持backdrop-filter的浏览器 */
+@supports not (backdrop-filter: blur(20px)) {
+  .appCard {
+    background: var(--ifm-background-surface-color);
+    border: 1px solid var(--ifm-border-color);
+  }
+
+  .appIcon {
+    background: var(--ifm-color-emphasis-100);
+  }
+
+  .appLink {
+    background: var(--ifm-background-surface-color);
+  }
 }

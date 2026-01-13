@@ -2,7 +2,11 @@
 title: 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
 slug: growth-chamber-cotton-3d
 description: Formatting refresh; original content preserved verbatim.
+authors: [liangchao]
+tags: [3D reconstruction, cotton, growth chamber, photogrammetry]
 ---
+
+<!-- truncate -->
 
 # 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
 

@@ -1,7 +1,73 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Layout from "@theme/Layout";
 import CitationNotice from "../components/CitationNotice";
 import styles from "./app.module.css";
+
+// 3D卡片倾斜组件
+const Card3D = ({ children, className }) => {
+  const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 检测是否为移动设备
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleMouseMove = (e) => {
+    // 移动端禁用3D效果
+    if (!cardRef.current || !isHovered || isMobile) return;
+
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -8; // 最大8度
+    const rotateY = ((x - centerX) / centerX) * 8;
+
+    card.style.transform = `
+      translateY(-12px)
+      translateZ(20px)
+      perspective(1000px)
+      rotateX(${rotateX}deg)
+      rotateY(${rotateY}deg)
+    `;
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (cardRef.current) {
+      cardRef.current.style.transform = '';
+    }
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </div>
+  );
+};
 
 const AppHub = () => {
   const apps = [
@@ -99,7 +165,7 @@ const AppHub = () => {
 
         <div className={styles.appGrid}>
           {apps.map((app, index) => (
-            <div key={index} className={styles.appCard}>
+            <Card3D key={index} className={styles.appCard}>
               <div>
                 <h3 className={styles.cardTitle}>{app.name}</h3>
                 <p className={styles.cardDescription}>{app.description}</p>
@@ -108,9 +174,10 @@ const AppHub = () => {
                 href={app.link}
                 className={styles.appLink}
               >
-                Launch
+                <span className={styles.appLinkText}>Launch</span>
+                <span className={styles.appLinkArrow} aria-hidden="true"></span>
               </a>
-            </div>
+            </Card3D>
           ))}
         </div>
 
