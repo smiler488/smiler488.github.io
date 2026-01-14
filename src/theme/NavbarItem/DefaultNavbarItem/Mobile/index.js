@@ -68,7 +68,7 @@ function getIconForLabel(label) {
   if (label === 'Tutorial' || label === 'tutorial') return NavbarIcons.Tutorial;
   if (label === 'Blog' || label === 'blog') return NavbarIcons.Blog;
   if (label === 'CV' || label === 'cv') return NavbarIcons.CV;
-  if (label === 'Resources' || label === 'resources') return NavbarIcons.Resources;
+  if (label === 'Resource' || label === 'resource' || label === 'Resources' || label === 'resources') return NavbarIcons.Resources;
   if (label === 'App' || label === 'app') return NavbarIcons.App;
   if (label === 'GitHub' || label === 'github') return NavbarIcons.GitHub;
   return null;

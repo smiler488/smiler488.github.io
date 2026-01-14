@@ -1,61 +1,8 @@
 import React from 'react';
-import docsearch from '@docsearch/js';
-import '@docsearch/css';
 
 export default function Root({children}) {
-  // DocSearch初始化 - 使用 ref 确保只初始化一次
-  const docSearchInitialized = React.useRef(false);
-
-  React.useEffect(() => {
-    // 避免重复初始化
-    if (docSearchInitialized.current) return;
-
-    // 延迟初始化，确保导航栏已渲染
-    const initDocSearch = () => {
-      const navRight = document.querySelector('.navbar__items--right');
-      const host = navRight || document.querySelector('.navbar__items--left') || document.querySelector('.navbar');
-
-      if (!host) {
-        // 导航栏还未渲染，重试
-        setTimeout(initDocSearch, 100);
-        return;
-      }
-
-      // 检查是否已存在容器
-      let container = document.getElementById('docsearch');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'docsearch';
-        container.className = 'docsearch-input';
-        host.insertBefore(container, host.firstChild);
-      }
-
-      try {
-        docsearch({
-          container: '#docsearch',
-          appId: 'HITKU3S49E',
-          indexName: 'smiler488github',
-          apiKey: '3b2ba7e1f5fbb72755b79c9a7c616457',
-          askAi: 'AHa325oRsRLD',
-        });
-        docSearchInitialized.current = true;
-      } catch (error) {
-        console.error('DocSearch initialization failed:', error);
-      }
-    };
-
-    // 在下一帧初始化，确保 DOM 已准备好
-    requestAnimationFrame(() => {
-      setTimeout(initDocSearch, 0);
-    });
-
-    // 不再清理，让搜索框保持稳定
-    // 只在组件卸载时清理
-    return () => {
-      // 页面卸载时才清理
-      docSearchInitialized.current = false;
-    };
-  }, []);
+  // 注意：Algolia DocSearch 已移除，现在使用 @easyops-cn/docusaurus-search-local 插件
+  // 该插件会自动处理搜索功能，无需手动初始化
 
   // 导航栏滚动动态模糊效果
   React.useEffect(() => {
