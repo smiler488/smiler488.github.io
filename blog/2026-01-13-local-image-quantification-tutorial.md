@@ -3,14 +3,17 @@ slug: local-image-quantification-tutorial
 title: Local Image Quantification Tool - A Standalone Python Solution for Agricultural Analysis
 authors: [liangchao]
 tags: [Python, Computer Vision, Agriculture, Image Analysis, OpenCV]
+image: /img/blog-default.jpg
 date: 2026-01-13
 ---
+
+## Project Overview
+
+This tutorial introduces a powerful standalone Python tool for agricultural image quantification analysis. The tool provides automated detection and measurement of plant samples from images, including morphological and color metrics.
 
 <!-- truncate -->
 
 # Local Image Quantification Tool - A Standalone Python Solution for Agricultural Analysis
-
-This tutorial introduces a powerful standalone Python tool for agricultural image quantification analysis. The tool provides automated detection and measurement of plant samples from images, including morphological and color metrics.
 
 ## Overview
 

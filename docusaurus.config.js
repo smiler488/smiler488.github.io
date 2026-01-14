@@ -100,7 +100,12 @@ const config = {
           autoCollapseCategories: true,
         },
       },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 4,
+      },
       navbar: {
+        hideOnScroll: true,
         title: 'Home',
         logo: {
           alt: 'My Site Logo',
@@ -115,7 +120,7 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           { to: '/cv', label: 'CV', position: 'left' },
-          { to: '/resources', label: 'Resources', position: 'left' },
+          { to: '/resources', label: 'Resource', position: 'left' },
           {
             to: "/app",
             label: "App",
@@ -126,6 +131,7 @@ const config = {
             href: 'https://github.com/smiler488',
             label: 'GitHub',
             position: 'right',
+            className: 'no-external-icon',
           },
         ],
       },

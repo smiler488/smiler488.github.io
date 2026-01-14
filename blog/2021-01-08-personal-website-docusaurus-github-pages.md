@@ -4,17 +4,18 @@ title: Build a Free Personal Website with Docusaurus and GitHub Pages
 authors: [liangchao]
 description: Step-by-step workflow to launch and maintain a personal portfolio site with Docusaurus, deployed for free on GitHub Pages.
 tags: [Docusaurus, GitHub-Pages, Website, Tutorial]
+image: /img/blog-default.jpg
 ---
 
-<!-- truncate -->
-
-# Build a Free Personal Website with Docusaurus and GitHub Pages
-
-## 1. Project Goals
+## Project Overview
 
 - Launch a modern personal website without hosting costs.
 - Showcase projects, publications, and blog posts using Markdown/MDX.
 - Automate deployment so every push updates production safely.
+
+<!-- truncate -->
+
+# Build a Free Personal Website with Docusaurus and GitHub Pages
 
 ---
 

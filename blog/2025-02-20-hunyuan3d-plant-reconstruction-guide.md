@@ -3,12 +3,16 @@ slug: hunyuan3d-plant-reconstruction-guide
 title: Guide to 3D Reconstruction with AI
 authors: [liangchao]
 tags: [Hunyuan3D, 3D reconstruction, plant phenotyping, computer vision, agriculture, research]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+This comprehensive guide covers the deployment, optimization, and academic research applications of Hunyuan3D for plant 3D reconstruction, with a focus on cotton plant point cloud generation and phenotyping analysis.
+
 <!-- truncate -->
 
 # Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research
-
-This comprehensive guide covers the deployment, optimization, and academic research applications of Hunyuan3D for plant 3D reconstruction, with a focus on cotton plant point cloud generation and phenotyping analysis.
 
 ## Technical Workflow Overview
 

@@ -138,16 +138,38 @@ export default function MazePage() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw Maze
+    const hamburgerImg = new Image();
+    hamburgerImg.src = "/img/Hamburger.png";
+    
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (maze[r][c] === 1) {
           ctx.fillStyle = "#2d3748";
+          ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
         } else if (maze[r][c] === 2) {
-          ctx.fillStyle = "#48bb78"; // Exit
+          // Draw Hamburger image for exit
+          const drawHamburger = () => {
+            ctx.drawImage(
+              hamburgerImg,
+              c * cellSize,
+              r * cellSize,
+              cellSize,
+              cellSize
+            );
+          };
+          
+          if (hamburgerImg.complete) {
+            drawHamburger();
+          } else {
+            hamburgerImg.onload = drawHamburger;
+            // Fallback while loading
+            ctx.fillStyle = "#48bb78";
+            ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+          }
         } else {
           ctx.fillStyle = "#ffffff";
+          ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
         }
-        ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
       }
     }
 
@@ -157,20 +179,57 @@ export default function MazePage() {
       ctx.fillRect(t.c * cellSize, t.r * cellSize, cellSize, cellSize);
     }
 
-    // Draw Ball
-    ctx.beginPath();
-    ctx.fillStyle = "#e53e3e";
-    ctx.arc(
-      ball.c * cellSize + cellSize / 2,
-      ball.r * cellSize + cellSize / 2,
-      ball.radius,
-      0,
-      Math.PI * 2
-    );
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    // Draw Ball (Einstein)
+    const ballX = ball.c * cellSize + cellSize / 2;
+    const ballY = ball.r * cellSize + cellSize / 2;
+    const ballRadius = ball.radius;
+    
+    // Load and draw Einstein image
+    const einsteinImg = new Image();
+    einsteinImg.src = "/img/Einstein.png";
+    einsteinImg.onload = () => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(
+        einsteinImg,
+        ballX - ballRadius,
+        ballY - ballRadius,
+        ballRadius * 2,
+        ballRadius * 2
+      );
+      ctx.restore();
+      
+      // Add border
+      ctx.beginPath();
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 2;
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.stroke();
+    };
+    
+    // Fallback if image doesn't load immediately
+    if (einsteinImg.complete) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(
+        einsteinImg,
+        ballX - ballRadius,
+        ballY - ballRadius,
+        ballRadius * 2,
+        ballRadius * 2
+      );
+      ctx.restore();
+      
+      ctx.beginPath();
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 2;
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
   }
 
   function moveBall(dr, dc) {

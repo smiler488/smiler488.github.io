@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
+import styles from './styles.module.css';
 
 /**
  * Sensor App
@@ -312,98 +313,66 @@ export default function SensorPage() {
 
   return (
     <Layout title="Sensor App">
-      <div className="app-container">
-        <div className="app-header" style={{ marginBottom: 16 }}>
-          <h1 className="app-title">Device Sensor Recorder</h1>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Device Sensor Recorder</h1>
           <a className="button button--secondary" href="/docs/tutorial-apps/sensor-app-tutorial">Tutorial</a>
         </div>
-        <p style={{ color: 'var(--ifm-color-emphasis-700)', marginTop: 0 }}>
+        <p className={styles.description}>
           Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
           time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.
         </p>
 
-        <div className="app-card" style={{ marginBottom: 12 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <span className="app-muted">Before using sensors, allow motion/orientation and location access on your device.</span>
-            <div style={{ display: 'flex', gap: 8 }}>
+        <div className={styles.permissionCard}>
+          <div className={styles.permissionContent}>
+            <span className={styles.muted}>Before using sensors, allow motion/orientation and location access on your device.</span>
+            <div>
               <button onClick={enableSensors} className="button button--secondary">Enable Sensors</button>
             </div>
           </div>
         </div>
 
         {error && (
-          <div style={{ padding: 12, border: '1px solid var(--ifm-border-color)', background: 'var(--ifm-background-surface-color)', color: 'var(--ifm-color-emphasis-800)', borderRadius: 8, marginBottom: 16 }}>
+          <div className={styles.errorBox}>
             {error}
           </div>
         )}
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto auto',
-          gap: 12,
-          alignItems: 'center',
-          margin: '12px 0 20px'
-        }}>
+        <div className={styles.controls}>
           <input
             type="text"
             placeholder="Enter leaf ID"
             value={leafId}
             onChange={(e) => setLeafId(e.target.value)}
-            style={{
-              padding: '10px 12px',
-              borderRadius: 8,
-              border: '1px solid var(--ifm-border-color)',
-              fontSize: 14
-            }}
+            className={styles.input}
           />
           <button
             onClick={captureOnce}
-            disabled={busy || (false)}
-            style={{
-              padding: '10px 16px',
-              backgroundColor: 'var(--ifm-color-primary)',
-              color: 'var(--ifm-color-white)',
-              border: '1px solid var(--ifm-color-primary)',
-              borderRadius: 10,
-              cursor: busy ? 'not-allowed' : 'pointer',
-              fontWeight: 600
-            }}
+            disabled={busy}
+            className={`${styles.button} ${styles.buttonPrimary}`}
           >
             {busy ? 'Capturing…' : 'Capture Sample'}
           </button>
           <button
             onClick={downloadCSV}
-            disabled={!rows.length || (false)}
-            style={{
-              padding: '10px 16px',
-              backgroundColor: 'var(--ifm-color-primary)',
-              color: 'var(--ifm-color-white)',
-              border: 'none',
-              borderRadius: 8,
-              cursor: !rows.length ? 'not-allowed' : 'pointer',
-              fontWeight: 600
-            }}
+            disabled={!rows.length}
+            className={`${styles.button} ${styles.buttonPrimary}`}
           >
             Export CSV
           </button>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: 16,
-          marginBottom: 20
-        }}>
-          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Current Orientation</h3>
-            <div style={{ display: 'grid', gap: 8 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div className={styles.grid}>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>Current Orientation</h3>
+            <div>
+              <div className={styles.row}>
                 <span>Alpha (Z, yaw):</span><strong>{toFixedMaybe(orientation.alpha, 2)}°</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className={styles.row}>
                 <span>Beta (X, pitch):</span><strong>{toFixedMaybe(orientation.beta, 2)}°</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className={styles.row}>
                 <span>Gamma (Y, roll):</span><strong>{toFixedMaybe(orientation.gamma, 2)}°</strong>
               </div>
               <button
@@ -411,77 +380,73 @@ export default function SensorPage() {
                   const ok = await ensurePermissions();
                   if (!ok) setError('Please allow motion/orientation access in browser settings.');
                 }}
-                style={{
-                  marginTop: 8, padding: '8px 12px', borderRadius: 8,
-                  background: 'var(--ifm-color-primary)',
-                  color: 'var(--ifm-color-white)', border: 'none', cursor: 'pointer'
-                }}
-                disabled={false}
+                className={`${styles.button} ${styles.buttonPrimary}`}
+                style={{ marginTop: 8, width: '100%' }}
               >
                 {permission === 'granted' ? 'Motion Permission Granted' : 'Enable Motion Permission'}
               </button>
             </div>
           </div>
 
-          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Latest Geo</h3>
-            <div style={{ display: 'grid', gap: 8 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>Latest Geo</h3>
+            <div>
+              <div className={styles.row}>
                 <span>Latitude:</span><strong>{toFixedMaybe(geo.latitude, 6) || 'N/A'}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className={styles.row}>
                 <span>Longitude:</span><strong>{toFixedMaybe(geo.longitude, 6) || 'N/A'}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className={styles.row}>
                 <span>Altitude:</span><strong>{geo.altitude == null ? 'N/A' : toFixedMaybe(geo.altitude, 2) + ' m'}</strong>
               </div>
               <button
                 onClick={async () => setGeo(await getCurrentGeo(handleGeoError))}
-                style={{ marginTop: 8, padding: '8px 12px', borderRadius: 8, background: 'var(--ifm-color-primary)', color: 'var(--ifm-color-white)', border: '1px solid var(--ifm-color-primary)', cursor: 'pointer' }}
-                disabled={false}
+                className={`${styles.button} ${styles.buttonPrimary}`}
+                style={{ marginTop: 8, width: '100%' }}
               >
                 Refresh Location
               </button>
             </div>
           </div>
 
-          <div style={{ padding: 16, background: 'var(--ifm-background-surface-color)', borderRadius: 12 }}>
-            <h3 style={{ marginTop: 0, color: 'var(--ifm-color-emphasis-900)' }}>Status</h3>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>Status</h3>
             <div>Recorded rows: <strong>{rows.length}</strong></div>
             <div>Local time: <strong>{new Date().toLocaleString()}</strong></div>
           </div>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: 'var(--ifm-background-surface-color)' }}>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead className={styles.thead}>
+              <tr>
                 {[
                   'leafId','timestamp','latitude','longitude','altitude',
                   'alpha_deg','beta_deg','gamma_deg','sunElevation_deg','sunAzimuth_deg'
                 ].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid var(--ifm-border-color)' }}>{h}</th>
+                  <th key={h} className={styles.th}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={i} style={{ borderBottom: '1px solid var(--ifm-border-color)' }}>
-                  <td style={{ padding: 8 }}>{r.leafId}</td>
-                  <td style={{ padding: 8 }}>{r.timestamp}</td>
-                  <td style={{ padding: 8 }}>{toFixedMaybe(r.latitude, 6)}</td>
-                  <td style={{ padding: 8 }}>{toFixedMaybe(r.longitude, 6)}</td>
-                  <td style={{ padding: 8 }}>{r.altitude == null ? '' : toFixedMaybe(r.altitude, 2)}</td>
-                  <td style={{ padding: 8 }}>{toFixedMaybe(r.alpha, 6)}</td>
-                  <td style={{ padding: 8 }}>{toFixedMaybe(r.beta, 6)}</td>
-                  <td style={{ padding: 8 }}>{toFixedMaybe(r.gamma, 6)}</td>
-                  <td style={{ padding: 8 }}>{r.sunElevationDeg == null ? '' : Number(r.sunElevationDeg).toFixed(6)}</td>
-                  <td style={{ padding: 8 }}>{r.sunAzimuthDeg == null ? '' : Number(r.sunAzimuthDeg).toFixed(6)}</td>
+                <tr key={i} className={styles.tr}>
+                  <td className={styles.td}>{r.leafId}</td>
+                  <td className={styles.td}>{r.timestamp}</td>
+                  <td className={styles.td}>{toFixedMaybe(r.latitude, 6)}</td>
+                  <td className={styles.td}>{toFixedMaybe(r.longitude, 6)}</td>
+                  <td className={styles.td}>{r.altitude == null ? '' : toFixedMaybe(r.altitude, 2)}</td>
+                  <td className={styles.td}>{toFixedMaybe(r.alpha, 6)}</td>
+                  <td className={styles.td}>{toFixedMaybe(r.beta, 6)}</td>
+                  <td className={styles.td}>{toFixedMaybe(r.gamma, 6)}</td>
+                  <td className={styles.td}>{r.sunElevationDeg == null ? '' : Number(r.sunElevationDeg).toFixed(6)}</td>
+                  <td className={styles.td}>{r.sunAzimuthDeg == null ? '' : Number(r.sunAzimuthDeg).toFixed(6)}</td>
                 </tr>
               ))}
               {!rows.length && (
                 <tr>
-                  <td colSpan={10} style={{ padding: 12, color: 'var(--ifm-color-emphasis-600)' }}>
+                  <td colSpan={10} style={{ padding: 12, color: 'var(--ifm-color-emphasis-600)', textAlign: 'center' }}>
                     No data yet. Enter ID and click “Capture Sample”.
                   </td>
                 </tr>
@@ -491,38 +456,20 @@ export default function SensorPage() {
         </div>
 
         {/* Solar Angle Formulas */}
-        <div style={{
-          backgroundColor: 'var(--ifm-background-color)',
-          borderRadius: 12,
-          boxShadow: 'var(--ifm-global-shadow-md)',
-          overflow: 'hidden',
-          marginTop: 24
-        }}>
-          <div style={{
-            background: 'var(--ifm-background-surface-color)',
-            color: 'var(--ifm-color-emphasis-900)',
-            padding: 16
-          }}>
-            <h2 style={{ margin: 0, fontSize: 20 }}>Solar Angle Formulas</h2>
+        <div className={styles.formulaBox}>
+          <div className={styles.formulaHeader}>
+            <h2 className={styles.formulaTitle}>Solar Angle Formulas</h2>
           </div>
 
-          <div style={{ padding: 16, lineHeight: 1.6, color: 'var(--ifm-color-emphasis-800)' }}>
+          <div className={styles.formulaContent}>
             <p style={{ margin: '0 0 8px' }}>
               Elevation (h) and Azimuth (A) computed in this app follow common remote-sensing approximations:
             </p>
 
-            <div style={{
-              fontFamily: 'monospace',
-              fontSize: 14,
-              background: '#f8f9fa',
-              border: '1px solid #e9ecef',
-              borderRadius: 8,
-              padding: 12,
-              marginBottom: 12
-            }}>
-{`h = asin( sin(φ)·sin(δ) + cos(φ)·cos(δ)·cos(H) )  [in radians]`}<br/>
-{`A = atan2( sin(H),  cos(H)·sin(φ) − tan(δ)·cos(φ) )  [in radians]`}<br/>
-{`(degrees) = (radians) × 180/π`}<br/>
+            <div className={styles.codeBlock}>
+{`h = asin( sin(φ)·sin(δ) + cos(φ)·cos(δ)·cos(H) )  [in radians]`}
+{`A = atan2( sin(H),  cos(H)·sin(φ) − tan(δ)·cos(φ) )  [in radians]`}
+{`(degrees) = (radians) × 180/π`}
 {`Azimuth A is reported from North, clockwise (0..360).`}
             </div>
 

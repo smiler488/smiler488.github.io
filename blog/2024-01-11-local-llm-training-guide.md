@@ -3,12 +3,16 @@ slug: local-llm-training-guide-en
 title: Guide to Local LLM
 authors: [liangchao]
 tags: [LLM, AI, training, fine-tuning, local deployment, machine learning]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+This comprehensive guide covers the complete process of deploying, training, and fine-tuning large language models in local environments, from environment setup to production deployment.
+
 <!-- truncate -->
 
 # Guide to Local LLM Deployment, Training and Fine-tuning
-
-This comprehensive guide covers the complete process of deploying, training, and fine-tuning large language models in local environments, from environment setup to production deployment.
 
 ## Technical Workflow Overview
 

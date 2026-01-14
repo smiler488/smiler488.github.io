@@ -8,13 +8,7 @@ description: Development of the DSDI instrument and ensemble learning model for 
 ---
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 
-<!-- truncate -->
-
-<AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" className="brdfAltmetric" />
-
----
-
-## Overview
+## Project Overview
 
 ![Directional Spectrum Detection Instrument and modeling workflow](/img/brdf_cover.jpg)
 
@@ -23,6 +17,10 @@ Light distribution within crop canopies determines how efficiently plants conver
 We developed a novel **Directional Spectrum Detection Instrument (DSDI)** and an **ensemble learning (EL)** model that accurately predict **Bidirectional Reflectance Distribution Function (BRDF)** parameters from measurable **phenotypic traits**.
 
 This work integrates optical physics, phenotyping, and data-driven modeling to enable *computational quantification of leaf optical diversity*—a key step toward designing crop canopies with higher light-use efficiency.
+
+<!-- truncate -->
+
+<AltmetricBadge doi="10.1016/j.plaphe.2025.100135" badgeType="donut" className="brdfAltmetric" />
 
 ---
 

@@ -3,14 +3,18 @@ slug: academic-paper-publication-guide
 title: Guide for scientific papers 
 authors: [liangchao]
 tags: [research]
+image: /img/write_paper.png
 ---
-<!-- truncate -->
 
-# Academic Paper Publication Workflow
+## Project Overview
 
 This guide explains the entire process of publishing a scientific paper, from manuscript preparation to final publication, suitable for graduate students and researchers.
 
 ![Academic paper workflow illustration](/img/write_paper.png)
+
+<!-- truncate -->
+
+# Academic Paper Publication Workflow
 
 ## 1. Overview of the Publication Process
 

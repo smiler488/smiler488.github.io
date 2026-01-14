@@ -3,9 +3,10 @@ slug: macOS-shortcuts
 title: MACOS Shortcuts
 authors: [liangchao]
 tags: [tip]
+image: /img/blog-default.jpg
 ---
 
-## **Personal Information**
+## Project Overview
 
 Below is a categorized list of commonly used macOS shortcuts, combining high-frequency usage scenarios and efficiency improvement techniques:
 

@@ -4,17 +4,18 @@ slug: growth-chamber-cotton-3d
 description: Formatting refresh; original content preserved verbatim.
 authors: [liangchao]
 tags: [3D reconstruction, cotton, growth chamber, photogrammetry]
+image: /img/blog-default.jpg
 ---
 
-<!-- truncate -->
-
-# 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
-
-## 1. Objective
+## Project Overview
 
 - Establish a high-precision 3D reconstruction pipeline for single potted cotton plants under controlled environmental conditions.
 - Generate standardized image datasets for canopy structural analysis and light-distribution modeling.
 - Evaluate reconstruction accuracy and color consistency under multi-view imaging.
+
+<!-- truncate -->
+
+# 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
 
 ---
 

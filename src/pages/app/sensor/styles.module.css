@@ -1,0 +1,226 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header {
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.description {
+  color: var(--ifm-color-emphasis-700);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.permissionCard {
+  margin-bottom: 12px;
+  padding: 16px;
+  background: var(--ifm-background-surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--ifm-border-color);
+}
+
+.permissionContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+}
+
+.errorBox {
+  padding: 12px;
+  border: 1px solid var(--ifm-border-color);
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-danger);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0 20px;
+}
+
+.input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-border-color);
+  font-size: 14px;
+  width: 100%;
+}
+
+.button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.buttonPrimary {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  border: 1px solid var(--ifm-color-primary);
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: transparent;
+}
+
+.buttonSecondary {
+  /* Using Docusaurus button classes usually, but for custom styling */
+  background: transparent;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.card {
+  padding: 16px;
+  background: var(--ifm-background-surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--ifm-border-color);
+}
+
+.cardTitle {
+  margin-top: 0;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 12px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-border-color);
+  margin-bottom: 24px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.thead tr {
+  background: var(--ifm-background-surface-color);
+}
+
+.th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--ifm-border-color);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tr {
+  border-bottom: 1px solid var(--ifm-border-color);
+}
+
+.td {
+  padding: 12px;
+  font-size: 0.9rem;
+}
+
+.formulaBox {
+  background-color: var(--ifm-background-color);
+  border-radius: 12px;
+  box-shadow: var(--ifm-global-shadow-md);
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.formulaHeader {
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-900);
+  padding: 16px;
+}
+
+.formulaTitle {
+  margin: 0;
+  font-size: 20px;
+}
+
+.formulaContent {
+  padding: 16px;
+  line-height: 1.6;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.codeBlock {
+  font-family: monospace;
+  font-size: 14px;
+  background: var(--ifm-pre-background);
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .controls {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .permissionContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

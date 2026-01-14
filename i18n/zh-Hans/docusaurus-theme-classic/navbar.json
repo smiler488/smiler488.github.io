@@ -19,9 +19,9 @@
     "message": "CV",
     "description": "Navbar item with label CV"
   },
-  "item.label.Resources": {
-    "message": "Resources",
-    "description": "Navbar item with label Resources"
+  "item.label.Resource": {
+    "message": "Resource",
+    "description": "Navbar item with label Resource"
   },
   "item.label.App": {
     "message": "App",

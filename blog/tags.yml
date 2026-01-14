@@ -382,3 +382,28 @@ Tutorial:
   label: Tutorial
   permalink: /tutorial-alt
   description: Tutorial and educational content
+
+WeChat Miniapp:
+  label: WeChat Miniapp
+  permalink: /wechat-miniapp
+  description: WeChat Miniapp development and applications
+
+Mobile Research:
+  label: Mobile Research
+  permalink: /mobile-research
+  description: Mobile research tools and applications
+
+Agricultural Technology:
+  label: Agricultural Technology
+  permalink: /agricultural-technology
+  description: Agricultural technology and smart farming
+
+PhenoHUB:
+  label: PhenoHUB
+  permalink: /phenohub
+  description: PhenoHUB - Plant Phenotyping Research Platform
+
+WeChat:
+  label: WeChat
+  permalink: /wechat
+  description: WeChat platform and ecosystem

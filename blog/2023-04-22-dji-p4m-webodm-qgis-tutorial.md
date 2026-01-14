@@ -3,14 +3,17 @@ slug: dji-p4m-webodm-qgis-workflow
 title: Complete Workflow for DJI P4M Multispectral Image Processing with WebODM and QGIS
 authors: [liangchao]
 tags: [UAV, WebODM, QGIS, Multispectral, P4M, Docker]
+image: /img/blog-default.jpg
 date: 2023-04-22
 ---
+
+## Project Overview
+
+This document provides a comprehensive guide on how to process DJI P4 Multispectral (P4M) multispectral imagery using open-source software WebODM and QGIS, from environment setup to final vegetation index extraction.
 
 <!-- truncate -->
 
 # Complete Workflow for DJI P4M Multispectral Image Processing with WebODM and QGIS
-
-This document provides a comprehensive guide on how to process DJI P4 Multispectral (P4M) multispectral imagery using open-source software WebODM and QGIS, from environment setup to final vegetation index extraction.
 
 ## Part 1: Environment Setup and Software Installation
 

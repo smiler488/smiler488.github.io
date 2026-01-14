@@ -3,15 +3,16 @@ slug: canopy-photosynthesis-modeling-en
 title: Canopy Photosynthesis Modeling
 authors: [liangchao]
 tags: [plant phenotyping, 3d reconstruction, photosynthesis, computer vision, ray tracing]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+Canopy photosynthesis modeling is a crucial research area in precision agriculture and plant phenomics. This comprehensive tutorial demonstrates how to build a complete canopy photosynthesis simulation system through multi-view image acquisition, 3D reconstruction, canopy construction, and ray tracing techniques. The complete workflow includes: Camera Capture → SfM/3DGS Reconstruction → Mesh Generation → Canopy Construction → Light Distribution Simulation → Photosynthesis Calculation.
 
 <!-- truncate -->
 
 # Canopy Photosynthesis Modeling Tutorial Based on 3D Reconstruction
-
-## Introduction
-
-Canopy photosynthesis modeling is a crucial research area in precision agriculture and plant phenomics. This comprehensive tutorial demonstrates how to build a complete canopy photosynthesis simulation system through multi-view image acquisition, 3D reconstruction, canopy construction, and ray tracing techniques. The complete workflow includes: Camera Capture → SfM/3DGS Reconstruction → Mesh Generation → Canopy Construction → Light Distribution Simulation → Photosynthesis Calculation.
 
 ## Technical Workflow Overview
 

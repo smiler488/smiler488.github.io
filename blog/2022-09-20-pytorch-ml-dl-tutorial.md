@@ -3,15 +3,16 @@ slug: pytorch-ml-dl-tutorial
 title: PyTorch Tutorial
 authors: [liangchao]
 tags: [pytorch, machine learning, deep learning, neural networks, tutorial]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+PyTorch is one of the most popular deep learning frameworks, known for its dynamic computation graphs, intuitive API, and strong community support. This comprehensive tutorial covers everything from basic tensor operations to advanced deep learning architectures, providing practical examples and best practices for both machine learning and deep learning applications.
 
 <!-- truncate -->
 
 # Complete PyTorch Tutorial for Machine Learning and Deep Learning
-
-## Introduction
-
-PyTorch is one of the most popular deep learning frameworks, known for its dynamic computation graphs, intuitive API, and strong community support. This comprehensive tutorial covers everything from basic tensor operations to advanced deep learning architectures, providing practical examples and best practices for both machine learning and deep learning applications.
 
 ## Table of Contents
 

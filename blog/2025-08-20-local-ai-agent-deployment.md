@@ -3,14 +3,16 @@ slug: local-ai-agent-deployment
 title: Guide to Local AI Agent
 authors: [liangchao]
 tags: [ai, machine learning, deployment, tutorial, local development]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+Deploying AI agents locally offers numerous advantages including data privacy, reduced latency, cost control, and independence from cloud services. This comprehensive guide covers multiple approaches to setting up AI agents on your local infrastructure, from simple chatbots to complex multi-modal systems.
+
 <!-- truncate -->
 
 # Guide to Local AI Agent Deployment
-
-## Introduction
-
-Deploying AI agents locally offers numerous advantages including data privacy, reduced latency, cost control, and independence from cloud services. This comprehensive guide covers multiple approaches to setting up AI agents on your local infrastructure, from simple chatbots to complex multi-modal systems.
 
 ## Technical Workflow Overview
 

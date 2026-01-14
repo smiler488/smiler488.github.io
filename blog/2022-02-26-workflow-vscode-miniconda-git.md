@@ -4,13 +4,16 @@ slug: workflow-vscode-miniconda-git
 description: Streamlined setup and collaboration playbook combining VS Code, Miniconda, and Git for reproducible research projects.
 authors: [liangchao]
 tags: [Python, Git, VSCode, Miniconda, tutorial]
+image: /img/blog-default.jpg
 ---
+
+## Project Overview
+
+This playbook outlines a reproducible workflow for Python-focused research—ideal for data analysis, remote sensing, crop modeling, and computational plant science. Follow the sections in order or jump to the one you need.
 
 <!-- truncate -->
 
 # A Complete Workflow Guide: Using VS Code, Miniconda, and Git for Research Projects
-
-This playbook outlines a reproducible workflow for Python-focused research—ideal for data analysis, remote sensing, crop modeling, and computational plant science. Follow the sections in order or jump to the one you need.
 
 ---
 

@@ -3,10 +3,11 @@ slug: gitHub-beginner-guide
 title: GitHub Beginner Guide
 authors: [liangchao]
 tags: [tutorial]
+image: /img/blog-default.jpg
 ---
 
 
-## Introduction
+## Project Overview
 GitHub is a web-based platform for version control and collaboration. It allows multiple people to work on projects together, track changes, and manage code repositories using Git.
 
 <!-- truncate -->

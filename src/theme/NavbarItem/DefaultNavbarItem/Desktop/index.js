@@ -95,14 +95,29 @@ export default function NavbarNavLink({
       return false;
     }
 
-    return props.isActive ??
-      (activeBasePath || activeBaseRegex
-        ? isRegexpStringMatch(activeBaseRegex, location.pathname) ||
-          location.pathname.startsWith(activeBaseUrl)
-        : toUrl
-          ? location.pathname === toUrl || location.pathname.startsWith(toUrl + '/')
-          : false);
-  }, [props.isActive, activeBasePath, activeBaseRegex, activeBaseUrl, toUrl]);
+    // For docSidebar type (Tutorial), ensure it only activates on /docs/ paths
+    if (activeBasePath || activeBaseRegex) {
+      // Check if this is a docSidebar navigation item
+      if (label === 'Tutorial' || label === 'tutorial') {
+        // Only activate for /docs/ paths, not for other paths that might start with /docs/
+        return location.pathname === '/docs/' || 
+               location.pathname.startsWith('/docs/tutorial-apps/') ||
+               location.pathname.startsWith('/docs/current/');
+      }
+      
+      // For other docSidebar items, use the original logic
+      return isRegexpStringMatch(activeBaseRegex, location.pathname) ||
+             location.pathname.startsWith(activeBaseUrl);
+    }
+    
+    // For regular navigation items (Home, Blog, CV, Resources, App)
+    if (toUrl) {
+      // Exact match or starts with toUrl + '/'
+      return location.pathname === toUrl || location.pathname.startsWith(toUrl + '/');
+    }
+    
+    return false;
+  }, [props.isActive, activeBasePath, activeBaseRegex, activeBaseUrl, toUrl, label]);
 
   const icon = getIconForLabel(label);
 
