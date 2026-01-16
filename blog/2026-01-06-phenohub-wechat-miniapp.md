@@ -1,6 +1,6 @@
 ---
 slug: phenohub-wechat-miniapp
-title: PhenoHUB - Shufeng Bio's Photosynthetic Phenotyping Research Assistant WeChat Miniapp
+title: PhenoHUB - Transformation of mobile results of Digital Plant Phenotyping Platform
 authors: [liangchao]
 tags: [Plant Phenomics, WeChat Miniapp, Mobile Research, Agricultural Technology, AI]
 image: /img/phenohub.png

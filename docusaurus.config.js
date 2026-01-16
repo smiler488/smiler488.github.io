@@ -129,7 +129,7 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/blog', label: 'Research', position: 'left' },
           { to: '/cv', label: 'CV', position: 'left' },
           { to: '/resources', label: 'Resource', position: 'left' },
           {
