@@ -4,7 +4,6 @@ title: Local Image Quantification Tool - A Standalone Python Solution for Agricu
 authors: [liangchao]
 tags: [Python, Computer Vision, Agriculture, Image Analysis, OpenCV]
 image: /img/blog-default.jpg
-date: 2026-01-13
 ---
 
 ## Project Overview

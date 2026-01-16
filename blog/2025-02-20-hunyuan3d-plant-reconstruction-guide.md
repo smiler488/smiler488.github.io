@@ -10,6 +10,8 @@ image: /img/blog-default.jpg
 
 This comprehensive guide covers the deployment, optimization, and academic research applications of Hunyuan3D for plant 3D reconstruction, with a focus on cotton plant point cloud generation and phenotyping analysis.
 
+![hunyuan3d plant reconstruction](/img/i23d.png)
+
 <!-- truncate -->
 
 # Guide to Plant 3D Reconstruction with Hunyuan3D for Academic Research

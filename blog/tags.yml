@@ -407,3 +407,223 @@ WeChat:
   label: WeChat
   permalink: /wechat
   description: WeChat platform and ecosystem
+
+MCTP:
+  label: MCTP
+  permalink: /mctp
+  description: Multi-modal Crop Trait Processing platform
+
+Hyperspectral:
+  label: Hyperspectral
+  permalink: /hyperspectral
+  description: Hyperspectral imaging and analysis
+
+LiDAR:
+  label: LiDAR
+  permalink: /lidar
+  description: LiDAR point cloud processing
+
+RGB:
+  label: RGB
+  permalink: /rgb
+  description: RGB imaging and analysis
+
+Thermal:
+  label: Thermal
+  permalink: /thermal
+  description: Thermal imaging and analysis
+
+3D Reconstruction:
+  label: 3D Reconstruction
+  permalink: /3d-reconstruction-2
+  description: 3D model reconstruction technology
+
+Machine Learning:
+  label: Machine Learning
+  permalink: /machine-learning-2
+  description: Machine learning techniques and applications
+
+Root Analysis:
+  label: Root Analysis
+  permalink: /root-analysis
+  description: Root system image analysis and processing
+
+Image Processing:
+  label: Image Processing
+  permalink: /image-processing
+  description: Digital image processing techniques
+
+Point Cloud:
+  label: Point Cloud
+  permalink: /point-cloud
+  description: 3D point cloud data processing
+
+Canopy:
+  label: Canopy
+  permalink: /canopy
+  description: Plant canopy analysis
+
+CSF:
+  label: CSF
+  permalink: /csf
+  description: Cloth Simulation Filter for ground segmentation
+
+K-means:
+  label: K-means
+  permalink: /k-means
+  description: K-means clustering algorithm
+
+Convex Hull:
+  label: Convex Hull
+  permalink: /convex-hull
+  description: Convex hull geometry calculation
+
+OOBB:
+  label: OOBB
+  permalink: /oobb
+  description: Oriented bounding box analysis
+
+Vercel:
+  label: Vercel
+  permalink: /vercel
+  description: Cloud platform for deploying web applications
+
+Hugging Face:
+  label: Hugging Face
+  permalink: /hugging-face
+  description: AI models and datasets hub
+
+n8n:
+  label: n8n
+  permalink: /n8n
+  description: Workflow automation platform
+
+Claude:
+  label: Claude
+  permalink: /claude
+  description: Anthropic's Claude AI assistant
+
+Anthropic:
+  label: Anthropic
+  permalink: /anthropic
+  description: Anthropic AI research and products
+
+ComfyUI:
+  label: ComfyUI
+  permalink: /comfyui
+  description: AI workflow builder for diffusion models
+
+Marble:
+  label: Marble
+  permalink: /marble
+  description: AI/ML research and spatial intelligence
+
+OpenCode:
+  label: OpenCode
+  permalink: /opencode
+  description: Code generation and AI-assisted programming
+
+Laboratory:
+  label: Laboratory
+  permalink: /laboratory
+  description: Research laboratory websites
+
+Plant Science:
+  label: Plant Science
+  permalink: /plant-science
+  description: Plant biology and genetics research
+
+Computer Vision Research:
+  label: Computer Vision Research
+  permalink: /computer-vision-research
+  description: Computer vision research labs
+
+Deep Learning Research:
+  label: Deep Learning Research
+  permalink: /deep-learning-research
+  description: Deep learning research labs
+
+Purdue:
+  label: Purdue
+  permalink: /purdue
+  description: Purdue University research
+
+UC Davis:
+  label: UC Davis
+  permalink: /uc-davis
+  description: UC Davis research
+
+UIUC:
+  label: UIUC
+  permalink: /uiuc
+  description: University of Illinois Urbana-Champaign research
+
+MIT:
+  label: MIT
+  permalink: /mit
+  description: MIT research
+
+NYU:
+  label: NYU
+  permalink: /nyu
+  description: New York University research
+
+Stanford:
+  label: Stanford
+  permalink: /stanford
+  description: Stanford University research
+
+SJTU:
+  label: SJTU
+  permalink: /sjtu
+  description: Shanghai Jiao Tong University research
+
+Zero-Shot Learning:
+  label: Zero-Shot Learning
+  permalink: /zero-shot-learning
+  description: Zero-shot learning techniques
+
+Background Removal:
+  label: Background Removal
+  permalink: /background-removal
+  description: Image background removal techniques
+
+Multimodal AI:
+  label: Multimodal AI
+  permalink: /multimodal-ai
+  description: Multimodal artificial intelligence
+
+Image Segmentation:
+  label: Image Segmentation
+  permalink: /image-segmentation
+  description: Image segmentation techniques
+
+Botanical:
+  label: Botanical
+  permalink: /botanical
+  description: Botanical research and applications
+
+Batch Processing:
+  label: Batch Processing
+  permalink: /batch-processing
+  description: Batch processing and automation
+
+Prompt Engineering:
+  label: Prompt Engineering
+  permalink: /prompt-engineering
+  description: AI prompt engineering techniques
+
+Aspect Ratio:
+  label: Aspect Ratio
+  permalink: /aspect-ratio
+  description: Image aspect ratio optimization
+
+Binary Stream:
+  label: Binary Stream
+  permalink: /binary-stream
+  description: Binary stream processing
+
+TAS Framework:
+  label: TAS Framework
+  permalink: /tas-framework
+  description: Task-Action-Specification framework
