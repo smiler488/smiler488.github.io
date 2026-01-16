@@ -22,7 +22,7 @@ MCTP is a self-developed field walking phenotyping platform by Shufeng Bio, and 
 ![Hyperspectral module placeholder](/img/hyper.png)
 
 - **ENVI data parsing**: HDR/SPE ingestion with wavelength parsing.
-- **Auto band detection**: RGB band indices inferred from wavelength metadata.
+- **Auto band detection**: Multi band indices inferred from wavelength metadata.
 - **Index calculation and masks**: NDVI with NIR thresholding and glint percentile masks.
 - **Spectral statistics**: Leaf‑region mean spectrum (CSV) and summary metrics (JSON).
 - **Tabbed visualization**: RGB quicklook, NDVI, mask comparison, spectral curves, and stats.
