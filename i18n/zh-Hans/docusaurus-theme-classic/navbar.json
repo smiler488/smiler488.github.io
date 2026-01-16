@@ -27,16 +27,8 @@
     "message": "App",
     "description": "Navbar item with label App"
   },
-  "item.label.Account": {
-    "message": "Account",
-    "description": "Navbar item with label Account"
-  },
   "item.label.GitHub": {
     "message": "GitHub",
     "description": "Navbar item with label GitHub"
-  },
-  "item.label.Hologram": {
-    "message": "Hologram",
-    "description": "Navbar item with label Hologram"
   }
 }
