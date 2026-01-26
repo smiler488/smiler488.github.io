@@ -5,23 +5,34 @@ import SpeechButton from '@site/src/components/SpeechButton';
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 import VisitorMap from '@site/src/components/VisitorMap';
 
-
-# 个人简历
-
 <div className="cvPage">
 
   {/* Header Section */}
   <section className="cvHeaderSection">
-    <img src="/img/cv_person.png" alt="邓良超" className="cvAvatarGiant" />
+    <img src="/img/cv_person.png" alt="Liangchao Deng" className="cvAvatarGiant" />
     <h1 className="cvNameLarge">邓良超 <span style={{fontSize: '0.5em', opacity: 0.6, fontWeight: 400}}>(Liangchao Deng)</span></h1>
-    <div className="cvTitle">作物科学联合培养博士生（石河子大学 × 中科院分子植物卓越中心）</div>
+    <div className="cvTitle">作物科学博士生</div>
+    <div className="cvSubtitle">石河子大学, 中国</div>
+    <div className="cvSubtitle">联合培养博士生, 中国科学院分子植物卓越中心 (CEMPS)</div>
     
     <div className="cvSocialRow">
       <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" className="button button--secondary button--sm">Google Scholar</a>
       <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" className="button button--secondary button--sm">ORCID</a>
       <a href="https://github.com/smiler488" target="_blank" className="button button--secondary button--sm">GitHub</a>
-      <a href="mailto:liangchaodeng@stu.shzu.edu.cn" className="button button--primary button--sm">Email Me</a>
+      <a href="mailto:liangchaodeng@stu.shzu.edu.cn" className="button button--primary button--sm">联系我</a>
       <button className="button button--outline button--secondary button--sm" onClick={() => window.print()}>打印简历</button>
+    </div>
+    
+    <div className="cvContactInfo">
+      <div className="cvContactItem">
+        <strong> 邮箱:</strong> liangchaodeng@stu.shzu.edu.cn
+      </div>
+      <div className="cvContactItem">
+        <strong> 地点:</strong> 石河子大学, 中国
+      </div>
+      <div className="cvContactItem">
+        <strong> 网站:</strong> smiler488.github.io
+      </div>
     </div>
   </section>
 
@@ -29,47 +40,70 @@ import VisitorMap from '@site/src/components/VisitorMap';
     {/* Left Column: Education & Experience */}
     <div className="col col--7">
       
-      <h2 className="cvSectionTitle">教育经历</h2>
+      <h2 className="cvSectionTitle">研究方向</h2>
+      <div className="cvTimeline">
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">农业机器人与计算机视觉</div>
+          <p>3D 植物重建、点云结构分析、机器人传感用于高通量表型分析、自主数据采集</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">AI 驱动的植物表型分析</div>
+          <p>多模态 AI 在图像分割、目标检测、植物表型分析和结构-功能建模中的应用</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">冠层光截获与光合作用模拟</div>
+          <p>基于物理的冠层建模和模拟，用于高效作物研究</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">无人机遥感与多源传感器融合</div>
+          <p>RGB、多光谱、高光谱成像和 LiDAR 数据融合用于智慧农业</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">数字孪生与过程模型耦合</div>
+          <p>将传感数据与作物生长模型耦合，构建农业自动化仿真系统</p>
+        </div>
+      </div>
+
+      <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>教育经历</h2>
       <div className="cvTimeline">
         <div className="cvTimelineItem">
           <div className="cvTimelineDate">2021 – 2026（预计）</div>
-          <div className="cvTimelineTitle">作物科学 硕博连读</div>
-          <div className="cvTimelineSubtitle">石河子大学 (SHZU) × 中科院分子植物卓越中心 (CEMPS)</div>
-          <p>- 2021-2023：硕士研究生阶段</p>
-          <p>- 2023-2026：博士研究生阶段</p>
-          <p>专注于棉花冠层光合模型与作物表型组学研究。</p>
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">精准农业</span>
-            <span className="cvBadge">冠层光合作用</span>
-            <span className="cvBadge">硕博连读</span>
-          </div>
+          <div className="cvTimelineTitle">作物科学博士（硕博连读）</div>
+          <div className="cvTimelineSubtitle">石河子大学, 中国</div>
+          <p><strong>导师:</strong> 张亚莉教授（石河子大学）；宋庆峰博士（中科院分子植物卓越中心）；朱新广教授（中科院分子植物卓越中心）</p>
+          <p><strong>研究方向:</strong> 作物表型组学、无人机遥感、冠层光合作用建模、AI 辅助表型分析</p>
+          <p><strong>核心项目:</strong></p>
+          <p>- 3D 作物冠层重建与光分布模拟：基于多视角立体（SfM）和 3D 高斯溅射（3DGS）算法</p>
+          <p>- 多源传感器数据融合：RGB、多光谱、高光谱和 LiDAR 数据的协同处理与分析</p>
+          <p>- 机器学习在植物表型提取中的应用：深度学习用于图像分割、目标检测和表型参数预测</p>
+          <p><strong>联合培养:</strong> 中国科学院分子植物卓越中心（CEMPS），参与国家级研究项目</p>
         </div>
         <div className="cvTimelineItem">
           <div className="cvTimelineDate">2016 – 2021</div>
-          <div className="cvTimelineTitle">信息与计算科学 学士</div>
-          <div className="cvTimelineSubtitle">石河子大学</div>
-          <p>本科毕业论文：相变方程的数值解法研究。</p>
+          <div className="cvTimelineTitle">信息与计算科学学士</div>
+          <div className="cvTimelineSubtitle">石河子大学, 中国</div>
+          <p><strong>专业基础:</strong> 扎实的数值分析、计算建模、编程和算法设计能力</p>
+          <p><strong>核心课程:</strong> 计算机视觉、机器学习、线性代数、优化算法、图论、数据结构与算法</p>
+          <p><strong>毕业设计:</strong> 基于计算流体动力学的数值模拟（优秀毕业设计）</p>
         </div>
       </div>
 
       <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>研究经历</h2>
       <div className="cvTimeline">
         <div className="cvTimelineItem">
-          <div className="cvTimelineDate">2024 – 至今</div>
-          <div className="cvTimelineTitle">生成式 AI 在农业中的应用</div>
-          <div className="cvTimelineSubtitle">研究助理</div>
-          <p>开发图像到三维的生成工作流 (Diffusion, NeRF) 以加速三维植物建模。将大语言模型 (LLM) 集成到表型分析流程中。</p>
+          <div className="cvTimelineDate">2023 – 至今</div>
+          <div className="cvTimelineTitle">AI 辅助的 3D 作物冠层建模与光合作用模拟</div>
+          <p><strong>3D 作物冠层重建:</strong> 使用 SfM（运动恢复结构）和 3DGS（3D 高斯溅射）算法，结合无人机交叉环形数据采集方法，实现了农田场景的高通量 3D 重建，达到厘米级重建精度。</p>
+          <p><strong>冠层光分布与光合作用模型:</strong> 建立了冠层尺度的光分布和光合作用模型，优化了基于光线追踪和 BRDF 的叶片光学特性，形成了作物生长的数字孪生框架，与传统模型相比显著提高了冠层光分布模拟精度。</p>
+          <p><strong>多模态 AI 数据处理:</strong> 利用多模态 AI（RGB、多光谱、LiDAR）数据处理能力，实现了复杂场景的零样本植物分割，为行走式高通量表型平台提供了数据分析基础。</p>
+          <p><strong>模块化 AI 智能体开发:</strong> 基于 AI 转换冠层光合作用模型，将 3D 重建、网格化、冠层化、光分布模拟和光合作用计算模块化，构建了作物冠层光合作用 AI 智能体。</p>
         </div>
         <div className="cvTimelineItem">
-          <div className="cvTimelineDate">2021 – 至今</div>
-          <div className="cvTimelineTitle">下一代植物表型组学</div>
-          <div className="cvTimelineSubtitle">研究助理</div>
-          <p>利用三维高斯溅射 (3DGS) 和光线追踪技术进行高保真冠层重建与光合作用模拟。</p>
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">Ray Tracing</span>
-            <span className="cvBadge">3DGS</span>
-            <span className="cvBadge">Lidar Simulation</span>
-          </div>
+          <div className="cvTimelineDate">2021 – 2023</div>
+          <div className="cvTimelineTitle">高通量 3D 形态与光谱表型分析</div>
+          <p><strong>基于 BRDF 的叶片光学特性反演框架:</strong> 开发了基于 BRDF 理论的叶片光学特性反演算法，优化了测量方案，实现了叶片光学特性的间接测量。</p>
+          <p><strong>面向高效率的小麦设计研究:</strong> 基于小麦冠层光合作用模型，开展了最优株型和栽培配置的协同建模研究，包括面向产业的项目（如巴斯夫），将研究转化为实际农业解决方案以提高杂草抑制效率。</p>
+          <p><strong>计算机视觉算法开发:</strong> 基于计算机视觉算法构建了多种图像处理和量化方法，用于植物表型参数的自动提取和分析。</p>
         </div>
       </div>
 
@@ -78,49 +112,94 @@ import VisitorMap from '@site/src/components/VisitorMap';
     {/* Right Column: Skills & Interests */}
     <div className="col col--5">
       
-      <h2 className="cvSectionTitle">专业技能</h2>
+      <h2 className="cvSectionTitle">技术技能</h2>
       
       <div className="card margin-bottom--md shadow--tl">
         <div className="card__header">
-          <h3>AI & 机器学习</h3>
+          <h3>编程与数据分析</h3>
         </div>
         <div className="card__body">
           <div className="cvBadgeContainer">
-            <span className="cvBadge">PyTorch</span>
-            <span className="cvBadge">Diffusion Models</span>
-            <span className="cvBadge">NeRF / 3DGS</span>
-            <span className="cvBadge">LLMs</span>
-            <span className="cvBadge">Docker</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="card margin-bottom--md shadow--tl">
-        <div className="card__header">
-          <h3>计算机视觉</h3>
-        </div>
-        <div className="card__body">
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">OpenCV</span>
-            <span className="cvBadge">Open3D</span>
-            <span className="cvBadge">PCL</span>
-            <span className="cvBadge">Ray Tracing</span>
-            <span className="cvBadge">Blender API</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="card margin-bottom--md shadow--tl">
-        <div className="card__header">
-          <h3>开发与工具</h3>
-        </div>
-        <div className="card__body">
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">Python</span>
+            <span className="cvBadge">AI 算法/产品架构设计</span>
+            <span className="cvBadge">Python (NumPy, SciPy, PyTorch, OpenCV)</span>
             <span className="cvBadge">MATLAB</span>
-            <span className="cvBadge">Git</span>
-            <span className="cvBadge">React/Docusaurus</span>
-            <span className="cvBadge">UAV Pilot</span>
+            <span className="cvBadge">R</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>3D 计算机视觉与点云处理</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">多视角 3D 重建 (SfM, Photometry)</span>
+            <span className="cvBadge">点云处理 (PCL, Open3D)</span>
+            <span className="cvBadge">相机标定与双目视觉</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>无人机遥感与多源传感</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">无人机 RGB/多光谱/高光谱成像</span>
+            <span className="cvBadge">LiDAR 数据处理</span>
+            <span className="cvBadge">多源传感器融合</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>机器学习与 AI</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">深度学习 (PyTorch)</span>
+            <span className="cvBadge">表型预测</span>
+            <span className="cvBadge">统计建模</span>
+            <span className="cvBadge">AI 智能体框架 (n8n)</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>建模与仿真</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">冠层光截获 (光线追踪, BRDF)</span>
+            <span className="cvBadge">光合作用模拟</span>
+            <span className="cvBadge">数字孪生框架</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>软件工程</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">全栈研究软件开发</span>
+            <span className="cvBadge">版本控制 (Git)</span>
+            <span className="cvBadge">算法模块化</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>语言能力</h2>
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">中文：母语</span>
+            <span className="cvBadge">英语：熟练（学术写作和科学交流）</span>
           </div>
         </div>
       </div>
@@ -132,14 +211,14 @@ import VisitorMap from '@site/src/components/VisitorMap';
 
   {/* Publications Section */}
   <section>
-    <h2 className="cvSectionTitle">精选论文</h2>
+    <h2 className="cvSectionTitle">论文与软件</h2>
     
     <div className="cvPubCard">
       <div className="row">
         <div className="col col--10">
-          <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits</div>
+          <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework</div>
           <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Plant Phenomics (2025)</div>
-          <div><strong>Deng, L.</strong>, Yu, L. X., Mao, L., et al.</div>
+          <div><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., & Zhu, X.-G.</div>
           <div style={{marginTop: '0.5rem'}}>
             <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank">DOI: 10.1016/j.plaphe.2025.100135</a>
           </div>
@@ -152,12 +231,15 @@ import VisitorMap from '@site/src/components/VisitorMap';
 
     <div className="cvPubCard">
       <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Digital Plant Phenotyping Platform (v25.0)</div>
-      <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Zenodo (Software)</div>
+      <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Zenodo (软件)</div>
       <div><strong>Deng, L.</strong> (2025)</div>
       <div style={{marginTop: '0.5rem'}}>
         <a href="https://doi.org/10.5281/zenodo.17544584" target="_blank">DOI: 10.5281/zenodo.17544584</a>
       </div>
+      <p style={{marginTop: '0.5rem', fontSize: '0.9rem', opacity: 0.8}}>一个集成的植物表型分析、数据处理和分析软件平台。核心模块已通过舒丰生物转让和商业化，用于应用植物表型分析和智能农业服务。</p>
     </div>
+
+
   </section>
 
   {/* Footer */}

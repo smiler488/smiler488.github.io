@@ -11,14 +11,28 @@ import VisitorMap from '@site/src/components/VisitorMap';
   <section className="cvHeaderSection">
     <img src="/img/cv_person.png" alt="Liangchao Deng" className="cvAvatarGiant" />
     <h1 className="cvNameLarge">Liangchao Deng <span style={{fontSize: '0.5em', opacity: 0.6, fontWeight: 400}}>(邓良超)</span></h1>
-    <div className="cvTitle">Ph.D. Candidate in Crop Science (SHZU × CAS-CEMPS)</div>
+    <div className="cvTitle">Ph.D. Candidate in Crop Science</div>
+    <div className="cvSubtitle">Shihezi University, China</div>
+    <div className="cvSubtitle">Joint Ph.D. Trainee, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)</div>
     
     <div className="cvSocialRow">
       <a href="https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works" target="_blank" className="button button--secondary button--sm">Google Scholar</a>
       <a href="https://orcid.org/0000-0002-5194-0655" target="_blank" className="button button--secondary button--sm">ORCID</a>
       <a href="https://github.com/smiler488" target="_blank" className="button button--secondary button--sm">GitHub</a>
-      <a href="mailto:googalphdlc@gmail.com" className="button button--primary button--sm">Email Me</a>
+      <a href="mailto:liangchaodeng@stu.shzu.edu.cn" className="button button--primary button--sm">Email Me</a>
       <button className="button button--outline button--secondary button--sm" onClick={() => window.print()}>Print CV</button>
+    </div>
+    
+    <div className="cvContactInfo">
+      <div className="cvContactItem">
+        <strong> Email:</strong> liangchaodeng@stu.shzu.edu.cn
+      </div>
+      <div className="cvContactItem">
+        <strong> Location:</strong> Shihezi University, China
+      </div>
+      <div className="cvContactItem">
+        <strong> Website:</strong> smiler488.github.io
+      </div>
     </div>
   </section>
 
@@ -26,47 +40,70 @@ import VisitorMap from '@site/src/components/VisitorMap';
     {/* Left Column: Education & Experience */}
     <div className="col col--7">
       
-      <h2 className="cvSectionTitle">Education</h2>
+      <h2 className="cvSectionTitle">Research Interests</h2>
+      <div className="cvTimeline">
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">Agricultural Robotics & Computer Vision</div>
+          <p>3D plant reconstruction, point cloud structural analysis, robotic sensing for high-throughput phenotyping, autonomous data collection</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">AI-driven Plant Phenotyping</div>
+          <p>Multimodal AI applications in image segmentation, target detection, plant phenotypic analysis, and structure-function modeling</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">Canopy Light Interception & Photosynthesis Simulation</div>
+          <p>Physics-based canopy modeling and simulation for high-efficiency crop research</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">UAV Remote Sensing & Multi-source Sensor Fusion</div>
+          <p>RGB, multispectral, hyperspectral imaging, and LiDAR data fusion for smart agriculture</p>
+        </div>
+        <div className="cvTimelineItem">
+          <div className="cvTimelineTitle">Digital Twins & Process Model Coupling</div>
+          <p>Coupling sensing data with crop growth models to build agricultural automation simulation systems</p>
+        </div>
+      </div>
+
+      <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>Education</h2>
       <div className="cvTimeline">
         <div className="cvTimelineItem">
           <div className="cvTimelineDate">2021 – 2026 (Expected)</div>
-          <div className="cvTimelineTitle">Integrated Master-Ph.D. in Crop Science</div>
-          <div className="cvTimelineSubtitle">Shihezi University (SHZU) × CAS-CEMPS</div>
-          <p>- 2021-2023: Master's stage</p>
-          <p>- 2023-2026: Ph.D. stage</p>
-          <p>Research focus: Cotton canopy photosynthetic modeling and crop phenomics.</p>
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">Precision Agriculture</span>
-            <span className="cvBadge">Canopy Photosynthesis</span>
-            <span className="cvBadge">Integrated Master-Ph.D.</span>
-          </div>
+          <div className="cvTimelineTitle">Ph.D. in Crop Science (Integrated Master-Ph.D.)</div>
+          <div className="cvTimelineSubtitle">Shihezi University, China</div>
+          <p><strong>Supervisors:</strong> Prof. Yali Zhang (Shihezi University); Dr. Qingfeng Song (CEMPS, CAS); Prof. Xin-Guang Zhu (CEMPS, CAS)</p>
+          <p><strong>Research Focus:</strong> Crop phenomics, UAV remote sensing, canopy photosynthesis modeling, AI-assisted phenotyping</p>
+          <p><strong>Core Projects:</strong></p>
+          <p>- 3D crop canopy reconstruction and light distribution simulation: Based on multi-view stereo (SfM) and 3D Gaussian Splatting (3DGS) algorithms</p>
+          <p>- Multi-source sensor data fusion: Collaborative processing and analysis of RGB, multispectral, hyperspectral, and LiDAR data</p>
+          <p>- Machine learning in plant phenotypic extraction: Deep learning for image segmentation, target detection, and phenotypic parameter prediction</p>
+          <p><strong>Joint Training:</strong> CAS Center for Excellence in Molecular Plant Sciences (CEMPS), participated in national-level research projects</p>
         </div>
         <div className="cvTimelineItem">
           <div className="cvTimelineDate">2016 – 2021</div>
-          <div className="cvTimelineTitle">B.Sc. in Information & Computational Science</div>
-          <div className="cvTimelineSubtitle">Shihezi University</div>
-          <p>Undergraduate Thesis: Numerical Solution of Phase Transition Equations.</p>
+          <div className="cvTimelineTitle">B.Sc. in Information and Computational Science</div>
+          <div className="cvTimelineSubtitle">Shihezi University, China</div>
+          <p><strong>Professional Foundation:</strong> Solid numerical analysis, computational modeling, programming, and algorithm design skills</p>
+          <p><strong>Core Courses:</strong> Computer Vision, Machine Learning, Linear Algebra, Optimization Algorithms, Graph Theory, Data Structures and Algorithms</p>
+          <p><strong>Graduation Project:</strong> Numerical simulation based on computational fluid dynamics (Excellent graduation project)</p>
         </div>
       </div>
 
       <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>Research Experience</h2>
       <div className="cvTimeline">
         <div className="cvTimelineItem">
-          <div className="cvTimelineDate">2024 – Present</div>
-          <div className="cvTimelineTitle">Generative AI for Agriculture</div>
-          <div className="cvTimelineSubtitle">Research Assistant</div>
-          <p>Developing image-to-3D generative workflows (Diffusion, NeRF) to accelerate 3D plant modeling. Integrating LLMs into phenotyping pipelines.</p>
+          <div className="cvTimelineDate">2023 – Present</div>
+          <div className="cvTimelineTitle">AI-assisted 3D Crop Canopy Modeling and Photosynthesis Simulation</div>
+          <p><strong>3D Crop Canopy Reconstruction:</strong> Implemented high-throughput 3D reconstruction of farmland scenes using SfM (Structure from Motion) and 3DGS (3D Gaussian Splatting) algorithms with UAV cross-circular data acquisition methods, achieving centimeter-level reconstruction accuracy.</p>
+          <p><strong>Canopy Light Distribution and Photosynthesis Model:</strong> Established canopy-scale light distribution and photosynthesis models, optimized ray tracing and BRDF-based leaf optical properties, forming a digital twin framework for crop growth, with significantly improved canopy light distribution simulation accuracy compared to traditional models.</p>
+          <p><strong>Multimodal AI Data Processing:</strong> Leveraged multimodal AI (RGB, multispectral, LiDAR) data processing capabilities to achieve complex-scene, zero-shot plant segmentation, providing a data analysis foundation for field-walking high-throughput phenotyping platforms.</p>
+          <p><strong>Modular AI Agent Development:</strong> Transformed the canopy photosynthesis model based on AI, modularizing 3D reconstruction, meshing, canopyization, light distribution simulation, and photosynthesis calculation to build a crop canopy photosynthesis AI agent.</p>
         </div>
         <div className="cvTimelineItem">
-          <div className="cvTimelineDate">2021 – Present</div>
-          <div className="cvTimelineTitle">Next-Gen Phenotyping</div>
-          <div className="cvTimelineSubtitle">Research Assistant</div>
-          <p>Implementing 3D Gaussian Splatting and Ray Tracing for high-fidelity canopy reconstruction and photosynthetic simulation.</p>
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">Ray Tracing</span>
-            <span className="cvBadge">3DGS</span>
-            <span className="cvBadge">Lidar Simulation</span>
-          </div>
+          <div className="cvTimelineDate">2021 – 2023</div>
+          <div className="cvTimelineTitle">High-throughput 3D Morphological and Spectral Phenotyping</div>
+          <p><strong>BRDF-based Leaf Optical Property Inversion Framework:</strong> Developed a leaf optical property inversion algorithm based on BRDF theory, optimized measurement schemes, and achieved indirect measurement of leaf optical properties.</p>
+          <p><strong>High-Efficiency-Oriented Wheat Design Research:</strong> Conducted collaborative modeling studies on optimal plant architecture and cultivation configurations based on wheat canopy photosynthesis models, including industry-oriented projects (e.g., BASF), translating research into practical agricultural solutions to improve weed suppression efficiency.</p>
+          <p><strong>Computer Vision Algorithm Development:</strong> Built multiple image processing and quantification methods based on computer vision algorithms for automatic extraction and analysis of plant phenotypic parameters.</p>
         </div>
       </div>
 
@@ -75,49 +112,94 @@ import VisitorMap from '@site/src/components/VisitorMap';
     {/* Right Column: Skills & Interests */}
     <div className="col col--5">
       
-      <h2 className="cvSectionTitle">Skills</h2>
+      <h2 className="cvSectionTitle">Technical Skills</h2>
       
       <div className="card margin-bottom--md shadow--tl">
         <div className="card__header">
-          <h3>AI & Machine Learning</h3>
+          <h3>Programming & Data Analysis</h3>
         </div>
         <div className="card__body">
           <div className="cvBadgeContainer">
-            <span className="cvBadge">PyTorch</span>
-            <span className="cvBadge">Diffusion Models</span>
-            <span className="cvBadge">NeRF / 3DGS</span>
-            <span className="cvBadge">LLMs</span>
-            <span className="cvBadge">Docker</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="card margin-bottom--md shadow--tl">
-        <div className="card__header">
-          <h3>Computer Vision</h3>
-        </div>
-        <div className="card__body">
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">OpenCV</span>
-            <span className="cvBadge">Open3D</span>
-            <span className="cvBadge">PCL</span>
-            <span className="cvBadge">Ray Tracing</span>
-            <span className="cvBadge">Blender API</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="card margin-bottom--md shadow--tl">
-        <div className="card__header">
-          <h3>Dev & Tools</h3>
-        </div>
-        <div className="card__body">
-          <div className="cvBadgeContainer">
-            <span className="cvBadge">Python</span>
+            <span className="cvBadge">AI-based algorithm/product architecture design</span>
+            <span className="cvBadge">Python (NumPy, SciPy, PyTorch, OpenCV)</span>
             <span className="cvBadge">MATLAB</span>
-            <span className="cvBadge">Git</span>
-            <span className="cvBadge">React/Docusaurus</span>
-            <span className="cvBadge">UAV Pilot</span>
+            <span className="cvBadge">R</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>3D Computer Vision & Point Cloud Processing</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Multi-view 3D reconstruction (SfM, Photometry)</span>
+            <span className="cvBadge">Point cloud processing (PCL, Open3D)</span>
+            <span className="cvBadge">Camera calibration & binocular vision</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>UAV Remote Sensing & Multi-source Sensing</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">UAV RGB/multispectral/hyperspectral imaging</span>
+            <span className="cvBadge">LiDAR data processing</span>
+            <span className="cvBadge">Multi-source sensor fusion</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>Machine Learning & AI</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Deep learning (PyTorch)</span>
+            <span className="cvBadge">Phenotypic prediction</span>
+            <span className="cvBadge">Statistical modeling</span>
+            <span className="cvBadge">AI agent framework (n8n)</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>Modeling & Simulation</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Canopy light interception (ray tracing, BRDF)</span>
+            <span className="cvBadge">Photosynthesis simulation</span>
+            <span className="cvBadge">Digital twin framework</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__header">
+          <h3>Software Engineering</h3>
+        </div>
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Full-stack research software development</span>
+            <span className="cvBadge">Version control (Git)</span>
+            <span className="cvBadge">Algorithm modularization</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 className="cvSectionTitle" style={{marginTop: '2rem'}}>Language Skills</h2>
+      <div className="card margin-bottom--md shadow--tl">
+        <div className="card__body">
+          <div className="cvBadgeContainer">
+            <span className="cvBadge">Chinese: Native</span>
+            <span className="cvBadge">English: Proficient (academic writing and scientific communication)</span>
           </div>
         </div>
       </div>
@@ -129,14 +211,14 @@ import VisitorMap from '@site/src/components/VisitorMap';
 
   {/* Publications Section */}
   <section>
-    <h2 className="cvSectionTitle">Selected Publications</h2>
+    <h2 className="cvSectionTitle">Publications</h2>
     
     <div className="cvPubCard">
       <div className="row">
         <div className="col col--10">
-          <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Leaf Optical Properties Predicted with BRDF and Phenotypic Traits</div>
+          <div style={{fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem'}}>Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework</div>
           <div style={{fontStyle: 'italic', opacity: 0.8, marginBottom: '0.5rem'}}>Plant Phenomics (2025)</div>
-          <div><strong>Deng, L.</strong>, Yu, L. X., Mao, L., et al.</div>
+          <div><strong>Deng, L.</strong>, Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., & Zhu, X.-G.</div>
           <div style={{marginTop: '0.5rem'}}>
             <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank">DOI: 10.1016/j.plaphe.2025.100135</a>
           </div>
@@ -154,7 +236,9 @@ import VisitorMap from '@site/src/components/VisitorMap';
       <div style={{marginTop: '0.5rem'}}>
         <a href="https://doi.org/10.5281/zenodo.17544584" target="_blank">DOI: 10.5281/zenodo.17544584</a>
       </div>
+      <p style={{marginTop: '0.5rem', fontSize: '0.9rem', opacity: 0.8}}>An integrated software platform for plant phenotyping, data processing, and analysis. Core modules have been transferred and commercialized through Shufeng Bio for applied plant phenotyping and intelligent agriculture services.</p>
     </div>
+
   </section>
 
   {/* Footer */}
