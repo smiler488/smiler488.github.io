@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Journal Selector app converts any manuscript abstract into a structured list of target journals. It leverages Tencent Hunyuan for reasoning and a configurable indicator system (loaded from `/app/journal-selector/journal-indicator-system.md`) to enforce consistent metadata such as impact metrics, review speed, OA policies, and compliance requirements. Output appears in the UI and as a downloadable CSV for portfolio tracking.
+The Journal Selector app converts any manuscript abstract into a structured list of target journals. It uses either the private local demo or your selected AI provider together with a configurable indicator system (loaded from `/app/journal-selector/journal-indicator-system.md`) to enforce consistent metadata such as impact metrics, review speed, OA policies, and compliance requirements. Output appears in the UI and as a downloadable CSV for portfolio tracking.
 
 ## Key Features
 
@@ -11,6 +11,7 @@ The Journal Selector app converts any manuscript abstract into a structured list
 - **Preference Controls** – OA requirement, journal type (Chinese core vs SCI), desired review cycle, and quantity (3–8).
 - **CSV Export** – Exactly the same columns as the indicator schema, always in English.
 - **Raw AI Trace** – Inspect the exact JSON returned for debugging or audit.
+- **Shared AI Settings** – Use the no-network Local demo or bring your own key for OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, or a trusted OpenAI-compatible endpoint.
 
 ## Quick Start
 
@@ -18,7 +19,8 @@ The Journal Selector app converts any manuscript abstract into a structured list
 2. Paste a 200–400 word abstract summarizing objective, method, data, and novelty.
 3. Provide optional keyword hints (semicolon-separated is fine).
 4. Adjust **OA requirement**, **Review speed**, **Journal type**, **Suggestion count**, and **Special notes** (e.g., “avoid page charges”).
-5. Click **Generate journal plan**. When complete you can preview the table, download CSV, or read the raw JSON.
+5. In **“Journal analysis model”**, keep **Local demo** for a no-network sample, or select a live provider, choose/enter its model ID, and paste your own API key.
+6. Click **Generate journal plan**. When complete you can preview the table, download CSV, or read the raw JSON.
 
 ## Workflow Details
 
@@ -42,12 +44,20 @@ The Journal Selector app converts any manuscript abstract into a structured list
 - The CSV mirrors that exact column order; download via **Download CSV** for further analysis.
 - Click **View raw AI response** to review the unformatted JSON, helping you diagnose missing metrics or prompt adjustments.
 
+### AI Provider & Key Safety
+- **Local demo** is the default. It returns sample data locally, makes no network request, and requires no key; its journal metrics are illustrative and must not be treated as verified current facts.
+- Live options are OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, and **Custom compatible API**. Select the matching provider and model before entering its key.
+- A pasted key exists only in the current tab's memory and is cleared on refresh or exit. It is not built into or persisted by the site. However, this is still a static page: browser-entered credentials cannot be protected like server-side secrets. Use a restricted test key, and use your own authenticated backend proxy in production.
+- Direct browser requests work only when the selected provider allows CORS. A correct key does not guarantee that a provider accepts browser-origin requests.
+
 ## Troubleshooting & Tips
 
 - **Build failures**: keep the indicator system file outside `src/pages` (currently under `static/...`) so Docusaurus doesn’t try to compile it as MDX.
 - **Indicator updates**: edit `journal-indicator-system.md` whenever you need to rename/reorder/add columns; the app auto-detects them on load (remember to keep the `key | label | description` table format).
 - **Parsing errors**: if status shows “AI response could not be parsed”, reduce prompt length or regenerate—most often caused by models wrapping JSON with prose. The cleanup logic strips code-fences but not arbitrary commentary.
-- **API usage**: the UI hides custom API options and defaults to the built-in Hunyuan endpoint. If you fork the repo, replace the hardcoded key or proxy the requests per your deployment policy.
+- **Authentication or permission errors**: confirm that the key belongs to the selected provider and can access the chosen model, with valid billing/quota where required.
+- **CORS / network errors**: the provider may not allow direct browser requests. Switch to Local demo for UI testing or use an authenticated backend proxy that calls the provider server-side.
+- **Custom endpoint errors**: enter a full trusted HTTPS OpenAI-compatible endpoint and a model ID it supports. Check its expected response format if parsing fails.
 
 This tutorial, paired with the in-app guidance, should make it straightforward to maintain and extend the Journal Selector workflow. Update this doc whenever you add new indicator sections or modify the UI flow so users understand the latest capabilities.
 <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/journal-selector">App</a></div>

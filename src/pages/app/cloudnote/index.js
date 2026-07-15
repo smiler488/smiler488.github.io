@@ -164,6 +164,18 @@ export default function CloudNotePage() {
   const [lookupName, setLookupName] = useState("");
   const [lookupPassword, setLookupPassword] = useState("");
 
+  function checkExpiryAndReturn(noteObj) {
+    if (!noteObj) return false;
+    if (noteObj.expiresAtISO) {
+      const exp = new Date(noteObj.expiresAtISO);
+      if (!isNaN(exp.getTime()) && Date.now() > exp.getTime()) {
+        setStatus("⚠️ This note has expired.");
+        return false;
+      }
+    }
+    return true;
+  }
+
   useEffect(() => {
     const parsed = parseFragmentHash();
     setParsedFrag(parsed);
@@ -194,18 +206,6 @@ export default function CloudNotePage() {
       }
     }
   }, []);
-
-  function checkExpiryAndReturn(noteObj) {
-    if (!noteObj) return false;
-    if (noteObj.expiresAtISO) {
-      const exp = new Date(noteObj.expiresAtISO);
-      if (!isNaN(exp.getTime()) && Date.now() > exp.getTime()) {
-        setStatus("⚠️ This note has expired.");
-        return false;
-      }
-    }
-    return true;
-  }
 
   async function onOpenWithPassword() {
     if (!parsedFrag) return;

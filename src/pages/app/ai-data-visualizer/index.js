@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, buildHunyuanPayload, extractAssistantText, postJson } from '../../../lib/api';
+import AIProviderSettings from '../../../components/AIProviderSettings';
+import { createDefaultAIConfig, requestAI } from '../../../lib/api';
 import styles from './styles.module.css';
 
 const MAX_SAMPLE_ROWS = 40;
@@ -44,63 +45,21 @@ const SUPPORTED_SERIES_TYPES = [
   'boxplot',
 ];
 
-const ECHARTS_CDN_URL = 'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js';
 let cachedEchartsPromise = null;
 function loadEcharts() {
   if (typeof window === 'undefined') return Promise.resolve(null);
-  if (window.echarts) return Promise.resolve(window.echarts);
   if (cachedEchartsPromise) return cachedEchartsPromise;
-
-  cachedEchartsPromise = new Promise((resolve, reject) => {
-    const existingScript = document.querySelector('script[data-echarts-loader="true"]');
-    if (existingScript) {
-      if (window.echarts) {
-        resolve(window.echarts);
-        return;
-      }
-      existingScript.addEventListener('load', () => resolve(window.echarts));
-      existingScript.addEventListener('error', (err) => reject(err));
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = ECHARTS_CDN_URL;
-    script.async = true;
-    script.dataset.echartsLoader = 'true';
-    script.onload = () => resolve(window.echarts);
-    script.onerror = (err) => reject(err || new Error('Failed to load ECharts script.'));
-    document.body.appendChild(script);
-  });
-
+  cachedEchartsPromise = import('echarts');
   return cachedEchartsPromise;
 }
 
-const XLSX_CDN_URL = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
 let cachedXlsxPromise = null;
 function loadXlsx() {
   if (typeof window === 'undefined') return Promise.resolve(null);
-  if (window.XLSX) return Promise.resolve(window.XLSX);
   if (cachedXlsxPromise) return cachedXlsxPromise;
-  cachedXlsxPromise = new Promise((resolve, reject) => {
-    const existingScript = document.querySelector('script[data-xlsx-loader="true"]');
-    if (existingScript) {
-      if (window.XLSX) { resolve(window.XLSX); return; }
-      existingScript.addEventListener('load', () => resolve(window.XLSX));
-      existingScript.addEventListener('error', (err) => reject(err));
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = XLSX_CDN_URL;
-    script.async = true;
-    script.dataset.xlsxLoader = 'true';
-    script.onload = () => resolve(window.XLSX);
-    script.onerror = (err) => reject(err || new Error('Failed to load XLSX script.'));
-    document.body.appendChild(script);
-  });
+  cachedXlsxPromise = import('xlsx');
   return cachedXlsxPromise;
 }
-
-// computeDefaultApiEndpoint imported
 
 function cleanupJsonText(rawText) {
   if (!rawText) return '';
@@ -206,12 +165,6 @@ function extractFirstJsonObject(text) {
   }
   return null;
 }
-
-// postJson imported
-
-// buildHunyuanPayload imported
-
-// extractAssistantText imported
 
 function buildVisualizationPrompt({ datasetSummary, goal, mapping }) {
   const safeSummary =
@@ -843,11 +796,7 @@ function applyTukeyLetters(option, lettersMap) {
 }
 
 export default function AiDataVisualizerPage() {
-  const defaultApiEndpoint = useMemo(computeDefaultApiEndpoint, []);
-  const [useDefaultApi, setUseDefaultApi] = useState(true);
-  const [apiUrl, setApiUrl] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [model, setModel] = useState('hunyuan-t1-latest');
+  const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
   const [analysisGoal, setAnalysisGoal] = useState(
     'Highlight the clearest trend, choose the best chart for stakeholders, and annotate anomalies.',
   );
@@ -1008,16 +957,6 @@ export default function AiDataVisualizerPage() {
     reader.readAsText(file);
   }
 
-  function getTargetApiUrl() {
-    if (useDefaultApi) {
-      return defaultApiEndpoint;
-    }
-    if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl.trim())) {
-      return apiUrl.trim();
-    }
-    return 'mock://ai-data-visualizer';
-  }
-
   async function handleAnalyze() {
     if (!table) {
       setStatusMessage('Please upload a CSV or TSV file first.', 'warning');
@@ -1041,42 +980,17 @@ export default function AiDataVisualizerPage() {
         mapping: { xField, yField, groupField, agg, errorMetric, multiCharts },
       });
 
-      const targetUrl = getTargetApiUrl();
-      const attemptedDefault = targetUrl === defaultApiEndpoint;
-
       setStatusMessage('Calling AI…', 'info');
-      let body = { question: prompt, model };
-      let headers = {};
-      if (targetUrl === HARDCODED_API_ENDPOINT) {
-        body = buildHunyuanPayload(prompt, model);
-        headers = { Authorization: `Bearer ${HARDCODED_API_KEY}` };
-      } else if (!useDefaultApi && apiKey.trim()) {
-        const trimmedKey = apiKey.trim();
-        headers = {
-          Authorization: trimmedKey.toLowerCase().startsWith('bearer ')
-            ? trimmedKey
-            : `Bearer ${trimmedKey}`,
-        };
-        body.response_format = { type: 'json_object' };
-      }
-
-      const response = await postJson(targetUrl, body, headers);
-      if (!response.ok) {
-        const rawError = await response.text().catch(() => '');
-        if (attemptedDefault && [403, 404, 405].includes(response.status)) {
-          const mockResp = await postJson('mock://ai-data-visualizer', body);
-          const mockJson = await mockResp.json();
-          const mockText = extractAssistantText(mockJson);
-          await processAiText(mockText);
-          setStatusMessage('Mock response shown (default endpoint unavailable).', 'warning');
-          return;
-        }
-        throw new Error(rawError || `API call failed (${response.status})`);
-      }
-
-      const json = await response.json().catch(async () => ({ raw: await response.text() }));
-      const aiText = extractAssistantText(json);
-      await processAiText(aiText);
+      const result = await requestAI(
+        aiConfig,
+        { question: prompt },
+        {
+          jsonMode: true,
+          mockTag: 'ai-data-visualizer',
+          systemPrompt: 'Return only a strict JSON object containing summary, insights, and chart_option.',
+        },
+      );
+      await processAiText(result.text);
       setStatusMessage('Visualization ready!', 'success');
     } catch (err) {
       try {
@@ -1085,12 +999,16 @@ export default function AiDataVisualizerPage() {
           goal: analysisGoal,
           mapping: { xField, yField, groupField, agg, errorMetric, multiCharts },
         });
-        let body = { question: prompt, model };
-        const mockResp = await postJson('mock://ai-data-visualizer', body);
-        const mockJson = await mockResp.json();
-        const mockText = extractAssistantText(mockJson);
-        await processAiText(mockText);
-        setStatusMessage('Mock response shown (AI call failed; using local).', 'warning');
+        const fallbackResult = await requestAI(
+          createDefaultAIConfig(),
+          { question: prompt },
+          { jsonMode: true, mockTag: 'ai-data-visualizer' },
+        );
+        await processAiText(fallbackResult.text);
+        setStatusMessage(
+          `Local fallback shown: ${err?.message || 'live AI request failed.'}`,
+          'warning',
+        );
       } catch (_) {
         const fallback = buildOfflineVisualization(table, analysisGoal, { xField, yField, groupField, agg, errorMetric, multiCharts });
         if (fallback && fallback.option) {
@@ -1334,15 +1252,11 @@ export default function AiDataVisualizerPage() {
                   </button>
                 </div>
               )}
-              <label className={styles.fieldLabel}>
-                Model
-                <input
-                  className={styles.textInput}
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  placeholder="hunyuan-t1-latest"
-                />
-              </label>
+              <AIProviderSettings
+                value={aiConfig}
+                onChange={setAiConfig}
+                title="Analysis model"
+              />
               <button
                 className="button button--primary margin-top--sm"
                 onClick={handleAnalyze}
@@ -1350,37 +1264,6 @@ export default function AiDataVisualizerPage() {
               >
                 {busy ? 'Analyzing…' : 'Generate visualization'}
               </button>
-              <label className={styles.checkboxRow}>
-                <input type="checkbox" checked={useDefaultApi} onChange={(e) => setUseDefaultApi(e.target.checked)} />
-                Use built-in HunYuan endpoint
-              </label>
-              {!useDefaultApi && (
-                <div className={styles.fieldGroup}>
-                  <label className={styles.fieldLabel}>
-                    API URL
-                    <input
-                      type="text"
-                      className={styles.textInput}
-                      value={apiUrl}
-                      onChange={(e) => setApiUrl(e.target.value)}
-                      placeholder="https://your-proxy-endpoint/v1/chat/completions"
-                    />
-                  </label>
-                  <label className={styles.fieldLabel}>
-                    Bearer token
-                    <input
-                      type="password"
-                      className={styles.textInput}
-                      value={apiKey}
-                      onChange={(e) => setApiKey(e.target.value)}
-                      placeholder="sk-..."
-                    />
-                  </label>
-                  <p className={styles.metaText}>
-                    Keys never leave your browser. Leave blank to use the offline mock endpoint.
-                  </p>
-                </div>
-              )}
             </section>
 
             <section className={styles.card}>

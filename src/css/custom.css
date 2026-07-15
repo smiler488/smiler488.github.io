@@ -1,22 +1,21 @@
 /**
- * 简洁科技风格主题 - 黑白灰色调
- * 简约、现代、专业的科技风格设计
+ * Apple-inspired glass system: calm surfaces, generous radii, and restrained motion.
  */
 
 /* 基础变量设置 - 科技风格设计 */
 :root {
-  /* 主色调 - 灰色系 */
-  --ifm-color-primary: #444444;
-  --ifm-color-primary-dark: #333333;
-  --ifm-color-primary-darker: #222222;
-  --ifm-color-primary-darkest: #111111;
-  --ifm-color-primary-light: #666666;
-  --ifm-color-primary-lighter: #888888;
-  --ifm-color-primary-lightest: #aaaaaa;
+  /* Apple blue is used sparingly for focus and primary actions. */
+  --ifm-color-primary: #0071e3;
+  --ifm-color-primary-dark: #0064c8;
+  --ifm-color-primary-darker: #005bb5;
+  --ifm-color-primary-darkest: #004785;
+  --ifm-color-primary-light: #1683ef;
+  --ifm-color-primary-lighter: #409cff;
+  --ifm-color-primary-lightest: #e8f3ff;
 
   /* 背景颜色 */
-  --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #f5f5f5;
+  --ifm-background-color: #f5f5f7;
+  --ifm-background-surface-color: #ffffff;
 
   /* 文本颜色 */
   --ifm-color-emphasis-900: #111111;
@@ -28,16 +27,16 @@
   --ifm-color-emphasis-300: #aaaaaa;
   --ifm-color-emphasis-200: #cccccc;
   --ifm-color-emphasis-100: #eeeeee;
-  --ifm-color-emphasis-0: #f5f5f5;
+  --ifm-color-emphasis-0: #ffffff;
 
   /* 边框和阴影 */
-  --ifm-border-color: #eeeeee;
+  --ifm-border-color: rgba(0, 0, 0, 0.1);
   --ifm-global-shadow-lw: 0 2px 8px rgba(0, 0, 0, 0.05);
   --ifm-global-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --ifm-global-shadow-tl: 0 8px 30px rgba(0, 0, 0, 0.1);
 
   /* 字体设置 */
-  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --ifm-font-size-base: 16px;
   --ifm-line-height-base: 1.65;
@@ -49,7 +48,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(68, 68, 68, 0.08);
 
   /* 导航栏 */
-  --ifm-navbar-background-color: rgba(255, 255, 255, 0.95);
+  --ifm-navbar-background-color: rgba(250, 250, 252, 0.72);
   --ifm-navbar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
   --ifm-navbar-link-color: #111111;
   --ifm-navbar-link-hover-color: #444444;
@@ -61,7 +60,7 @@
   --doc-sidebar-active-bg: rgba(15, 23, 42, 0.06);
 
   /* 页脚 */
-  --ifm-footer-background-color: #f5f5f5;
+  --ifm-footer-background-color: #f5f5f7;
   --ifm-footer-color: #444444;
   --ifm-footer-link-color: #666666;
   --ifm-footer-link-hover-color: #444444;
@@ -90,22 +89,27 @@
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
 
   /* 玻璃态效果 - Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-highlight: rgba(255, 255, 255, 0.25);
-  --glass-blur: blur(20px);
-  --glass-blur-medium: blur(12px);
-  --glass-blur-light: blur(8px);
+  --glass-bg: rgba(255, 255, 255, 0.68);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.82);
+  --glass-blur: blur(28px) saturate(165%);
+  --glass-blur-medium: blur(18px) saturate(155%);
+  --glass-blur-light: blur(12px) saturate(145%);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
 
   /* 增强阴影层次 */
   --shadow-glass:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 18px 50px rgba(0, 0, 0, 0.08),
+    0 2px 10px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
   --shadow-glass-hover:
-    0 16px 48px rgba(0, 0, 0, 0.12),
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 24px 64px rgba(0, 0, 0, 0.12),
+    0 6px 18px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --shadow-glass-active:
     0 4px 16px rgba(0, 0, 0, 0.06),
     0 1px 4px rgba(0, 0, 0, 0.04),
@@ -124,16 +128,16 @@
 
 /* 深色模式 - 科技风格深色主题 */
 html[data-theme='dark'] {
-  --ifm-color-primary: #aaaaaa;
-  --ifm-color-primary-dark: #888888;
-  --ifm-color-primary-darker: #666666;
-  --ifm-color-primary-darkest: #444444;
-  --ifm-color-primary-light: #cccccc;
-  --ifm-color-primary-lighter: #dddddd;
-  --ifm-color-primary-lightest: #eeeeee;
+  --ifm-color-primary: #2997ff;
+  --ifm-color-primary-dark: #1789f3;
+  --ifm-color-primary-darker: #087ee9;
+  --ifm-color-primary-darkest: #0066bd;
+  --ifm-color-primary-light: #55adff;
+  --ifm-color-primary-lighter: #79beff;
+  --ifm-color-primary-lightest: #d6ebff;
 
-  --ifm-background-color: #121212;
-  --ifm-background-surface-color: #1e1e1e;
+  --ifm-background-color: #000000;
+  --ifm-background-surface-color: #1c1c1e;
 
   --ifm-color-emphasis-900: #f5f5f5;
   --ifm-color-emphasis-800: #eeeeee;
@@ -155,7 +159,7 @@ html[data-theme='dark'] {
   --ifm-pre-color: #eeeeee;
   --docusaurus-highlighted-code-line-bg: rgba(170, 170, 170, 0.15);
 
-  --ifm-navbar-background-color: rgba(15, 23, 42, 0.95);
+  --ifm-navbar-background-color: rgba(22, 22, 23, 0.72);
   --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
   --ifm-navbar-link-color: #e2e8f0;
   --ifm-navbar-link-hover-color: #8f8f93;
@@ -165,7 +169,7 @@ html[data-theme='dark'] {
   --doc-sidebar-link-color: #e2e8f0;
   --doc-sidebar-active-bg: rgba(148, 163, 184, 0.2);
 
-  --ifm-footer-background-color: #1a2234;
+  --ifm-footer-background-color: #101010;
   --ifm-footer-color: #cbd5e1;
   --ifm-footer-link-color: #94a3b8;
   --ifm-footer-link-hover-color: #8f8f93;
@@ -184,12 +188,12 @@ html[data-theme='dark'] {
   --app-overlay-bg: rgba(0, 0, 0, 0.6);
 
   /* 玻璃态效果 - 暗色模式 */
-  --glass-bg: rgba(30, 30, 30, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.12);
-  --glass-blur: blur(20px);
-  --glass-blur-medium: blur(12px);
-  --glass-blur-light: blur(8px);
+  --glass-bg: rgba(28, 28, 30, 0.68);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.18);
+  --glass-blur: blur(28px) saturate(155%);
+  --glass-blur-medium: blur(18px) saturate(145%);
+  --glass-blur-light: blur(12px) saturate(135%);
 
   /* 增强阴影层次 - 暗色模式 */
   --shadow-glass:
@@ -222,20 +226,45 @@ html[data-theme='dark'] {
 
 /* Tech-style component enhancements */
 
+html {
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(0, 113, 227, 0.1), transparent 30rem),
+    radial-gradient(circle at 88% 4%, rgba(175, 82, 222, 0.07), transparent 28rem),
+    var(--ifm-background-color);
+  background-attachment: fixed;
+}
+
+html[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(41, 151, 255, 0.16), transparent 32rem),
+    radial-gradient(circle at 88% 4%, rgba(191, 90, 242, 0.1), transparent 28rem),
+    var(--ifm-background-color);
+}
+
 /* Navbar improvements with Glassmorphism */
 .navbar {
   /* 玻璃态导航栏 - 由JS动态控制模糊 */
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--glass-border);
-  background-color: rgba(255, 255, 255, 0.7) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: var(--ifm-navbar-background-color) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
   transition: backdrop-filter 0.3s var(--ease-smooth),
               box-shadow 0.3s var(--ease-smooth);
 }
 
 html[data-theme='dark'] .navbar {
-  background-color: rgba(18, 18, 18, 0.7) !important;
+  background-color: var(--ifm-navbar-background-color) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -270,6 +299,16 @@ html[data-theme='dark'] .navbar {
 
 .navbar__title:hover {
   color: var(--ifm-navbar-link-hover-color);
+}
+
+.navbar__link,
+.navbar__item.dropdown > .navbar__link {
+  border-radius: var(--radius-sm);
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
 }
 
 /* Hide external link icon for GitHub navbar item */
@@ -393,7 +432,7 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 /* Card improvements with hover animation */
 .card {
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   /* 玻璃态卡片 */
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur-light);
@@ -432,7 +471,8 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 
 /* Button improvements */
 .button {
-  border-radius: 99px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
   font-weight: 600;
   transition: all 0.3s var(--ease-smooth);
   border: 1px solid transparent;
@@ -475,29 +515,42 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 
 /* Code block improvements */
 pre {
-  border-radius: 6px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--ifm-border-color);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .app-container {
+  width: 100%;
   max-width: 1200px;
+  min-width: 0;
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(16px, 3vw, 32px);
+}
+
+.app-container fieldset {
+  min-inline-size: 0;
+}
+
+.app-container :where(input, select, textarea) {
+  max-width: 100%;
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
 .app-title {
   margin: 0;
-  color: #000000;
-  font-size: 28px;
-  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
 }
 
 .app-card {
@@ -506,7 +559,7 @@ pre {
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   padding: 20px;
   box-shadow: var(--shadow-glass);
   transition: all 0.4s var(--ease-smooth);
@@ -540,19 +593,58 @@ pre {
 
 .app-section-title {
   margin: 0 0 16px 0;
-  color: #333333;
+  color: var(--ifm-color-emphasis-900);
   font-size: 20px;
   font-weight: 600;
 }
 
 .app-muted {
-  color: #6c757d;
+  color: var(--ifm-color-emphasis-600);
   font-size: 14px;
 }
 
 .app-grid {
   display: grid;
   gap: 16px;
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ifm-color-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    padding: 14px;
+  }
+
+  .app-header {
+    align-items: flex-start;
+  }
+
+  .app-card {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (hover: none) {
+  .card:hover,
+  .app-card:hover,
+  .button:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .navbar,
+  .card,
+  .app-card,
+  .theme-doc-sidebar-container {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--ifm-background-surface-color) !important;
+  }
 }
 
 code {

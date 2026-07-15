@@ -7,7 +7,7 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && gh-pages -d build",
     "deploy:gh": "gh-pages -d build",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
@@ -15,42 +15,48 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . --ext .js,.jsx",
-    "lint:fix": "eslint . --ext .js,.jsx --fix",
-    "stylelint": "stylelint \"src/**/*.css\" --fix"
+    "lint": "eslint src docusaurus.config.js sidebars.js --ext .js,.jsx",
+    "lint:fix": "npm run lint -- --fix",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint:fix": "npm run stylelint -- --fix",
+    "check": "npm run lint && npm run stylelint && npm run build"
   },
   "dependencies": {
     "@docsearch/css": "^4.3.2",
     "@docsearch/js": "^4.3.2",
-    "@docusaurus/core": "^3.9.2",
-    "@docusaurus/preset-classic": "^3.9.2",
-    "@easyops-cn/docusaurus-search-local": "^0.52.1",
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@docusaurus/theme-mermaid": "^3.10.2",
+    "@easyops-cn/docusaurus-search-local": "^0.52.3",
     "@giscus/react": "^3.1.0",
     "@mdx-js/react": "^3.0.0",
     "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+    "@supabase/supabase-js": "2.109.0",
     "algoliasearch": "^5.43.0",
     "cannon-es": "^0.20.0",
     "chart.js": "^4.4.8",
     "clsx": "^2.0.0",
+    "echarts": "^6.1.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "three": "^0.175.0"
+    "three": "^0.175.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.9.2",
-    "@docusaurus/module-type-aliases": "^3.9.2",
-    "@docusaurus/theme-mermaid": "^3.9.2",
-    "@docusaurus/types": "^3.9.2",
+    "@docusaurus/eslint-plugin": "^3.10.2",
+    "@docusaurus/module-type-aliases": "^3.10.2",
+    "@docusaurus/types": "^3.10.2",
+    "baseline-browser-mapping": "^2.10.43",
     "cors": "^2.8.5",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "gh-pages": "^6.3.0",
     "prettier": "^2.8.8",
-    "stylelint": "^16.25.0",
+    "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1"
   },
   "browserslist": {
@@ -66,6 +72,6 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.18.1"
   }
 }

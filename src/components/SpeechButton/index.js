@@ -10,15 +10,13 @@ const SpeechButton = ({
   className = '',
   title = 'Click to hear pronunciation',
 }) => {
-  const [isSupported, setIsSupported] = useState(false);
+  const isSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
   const [isReady, setIsReady] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voices, setVoices] = useState([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      setIsSupported(true);
-      
+    if (isSupported) {
       const loadVoices = () => {
         const availableVoices = speechSynthesis.getVoices();
         setVoices(availableVoices);
@@ -32,7 +30,7 @@ const SpeechButton = ({
         speechSynthesis.removeEventListener('voiceschanged', loadVoices);
       };
     }
-  }, []);
+  }, [isSupported]);
 
   const findBestVoice = (targetLang) => {
     if (!voices.length) return null;

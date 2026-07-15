@@ -67,6 +67,7 @@
   border-radius: 50%;
   padding: 1px;
   background: linear-gradient(135deg, var(--glass-highlight) 0%, transparent 100%);
+  /* stylelint-disable-next-line declaration-property-value-no-unknown -- valid Safari mask shorthand */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

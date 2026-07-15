@@ -1,0 +1,377 @@
+.root {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.root::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+      circle at 30% 22%,
+      rgba(96, 165, 250, 0.2),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 72% 38%,
+      rgba(196, 181, 253, 0.18),
+      transparent 30%
+    );
+  content: "";
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.processingVideo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.interactionIndicator {
+  --interaction-x: -200px;
+  --interaction-y: -200px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: grid;
+  width: 108px;
+  height: 48px;
+  place-items: center;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(148, 163, 184, 0.14)
+    ),
+    rgba(15, 23, 42, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 17px;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(15, 23, 42, 0.1);
+  opacity: 0;
+  transform: translate3d(var(--interaction-x), var(--interaction-y), 0)
+    translate(-50%, -50%) rotate(-7deg) scale(0.82);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+  transition: width 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 180ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 180ms ease,
+    background 180ms ease, box-shadow 180ms ease, opacity 130ms ease,
+    transform 70ms linear;
+  will-change: transform;
+}
+
+.interactionIndicator::before {
+  position: absolute;
+  inset: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: inherit;
+  content: "";
+}
+
+.interactionIndicator[data-visible="true"] {
+  opacity: 0.92;
+  transform: translate3d(var(--interaction-x), var(--interaction-y), 0)
+    translate(-50%, -50%) rotate(-7deg) scale(1);
+}
+
+.interactionIndicator[data-mode="closed"] {
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(
+      circle at 38% 30%,
+      rgba(255, 255, 255, 0.5),
+      transparent 35%
+    ),
+    linear-gradient(145deg, rgba(124, 58, 237, 0.52), rgba(37, 99, 235, 0.36));
+  border-color: rgba(221, 214, 254, 0.72);
+  border-radius: 24px;
+  box-shadow: 0 0 0 10px rgba(139, 92, 246, 0.08),
+    0 20px 52px rgba(76, 29, 149, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+.indicatorGrip {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 24px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  box-shadow: 0 5px 0 rgba(255, 255, 255, 0.22);
+}
+
+[data-mode="closed"] .indicatorGrip {
+  top: 10px;
+  left: 50%;
+  width: 16px;
+  transform: translateX(-50%);
+}
+
+.indicatorLabel {
+  position: relative;
+  margin-top: 10px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 6px rgba(15, 23, 42, 0.35);
+}
+
+.indicatorLabel::before {
+  content: attr(data-open);
+}
+
+[data-mode="closed"] .indicatorLabel::before {
+  content: attr(data-closed);
+}
+
+.controlDock {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.35rem);
+  right: clamp(0.75rem, 2vw, 1.35rem);
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem 0.75rem;
+  align-items: center;
+  max-width: min(33rem, calc(100% - 1.5rem));
+  padding: 0.65rem;
+  color: var(--ifm-color-emphasis-900);
+  background: var(--glass-bg);
+  background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+  border: 1px solid var(--glass-border);
+  border: 1px solid
+    color-mix(in srgb, var(--glass-border) 70%, rgba(255, 255, 255, 0.5));
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  pointer-events: auto;
+  -webkit-backdrop-filter: blur(22px) saturate(175%);
+  backdrop-filter: blur(22px) saturate(175%);
+}
+
+.statusLine {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 0;
+  padding-left: 0.25rem;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+.statusDot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  background: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.12);
+}
+
+.statusDot[data-state="starting"] {
+  background: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14);
+}
+
+.statusDot[data-state="active"] {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.14);
+}
+
+.statusDot[data-state="error"],
+.statusDot[data-state="unsupported"] {
+  background: #fb7185;
+  box-shadow: 0 0 0 4px rgba(251, 113, 133, 0.13);
+}
+
+.cameraButton {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.45rem 0.72rem;
+  color: var(--ifm-color-emphasis-900);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 13px;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 180ms ease, box-shadow 180ms ease;
+}
+
+.cameraButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.36);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  transform: translateY(-1px);
+}
+
+.cameraButton:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.cameraButton:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.cameraButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.cameraGlyph {
+  position: relative;
+  width: 14px;
+  height: 10px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.78;
+}
+
+.cameraGlyph::after {
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  width: 5px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 1px 3px 3px 1px;
+  transform: translateY(-50%);
+  clip-path: polygon(0 22%, 100% 0, 100% 100%, 0 78%);
+  content: "";
+}
+
+.privacyNote {
+  grid-column: 1 / -1;
+  padding: 0 0.25rem 0.05rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.61rem;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.pointerHint {
+  position: absolute;
+  right: clamp(0.75rem, 2vw, 1.35rem);
+  bottom: clamp(0.75rem, 2vw, 1.35rem);
+  z-index: 2;
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.52rem 0.7rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.66rem;
+  font-weight: 650;
+  background: rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.pointerHintIcon {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+  transform: rotate(-12deg);
+}
+
+@supports not (backdrop-filter: blur(2px)) {
+  .controlDock {
+    background: var(--ifm-background-surface-color);
+  }
+
+  .interactionIndicator {
+    background: rgba(51, 65, 85, 0.88);
+  }
+}
+
+@media (max-width: 700px) {
+  .controlDock {
+    top: 0.65rem;
+    right: 0.65rem;
+    left: 0.65rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    max-width: none;
+    padding: 0.55rem;
+    border-radius: 18px;
+  }
+
+  .statusLine {
+    font-size: 0.68rem;
+  }
+
+  .cameraButton {
+    min-height: 44px;
+    font-size: 0.67rem;
+  }
+
+  .privacyNote {
+    font-size: 0.57rem;
+  }
+
+  .pointerHint {
+    right: 50%;
+    bottom: 0.75rem;
+    max-width: calc(100% - 1.5rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translateX(50%);
+  }
+}
+
+@media (max-width: 430px) {
+  .statusLine span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .privacyNote {
+    display: none;
+  }
+
+  .pointerHint {
+    font-size: 0.59rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactionIndicator,
+  .cameraButton {
+    transition: none;
+  }
+}

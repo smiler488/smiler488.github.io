@@ -1,40 +1,61 @@
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson } from '../../../lib/api';
+import AIProviderSettings from '../../../components/AIProviderSettings';
+import { createDefaultAIConfig, requestAI } from '../../../lib/api';
 
 function useCamera() {
   const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const requestIdRef = useRef(0);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
+  const [starting, setStarting] = useState(false);
 
-  useEffect(() => {
-    let stream = null;
-    (async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' },
-          audio: false,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          await videoRef.current.play();
-          setReady(true);
-        }
-      } catch (e) {
-        setError(e?.message || String(e));
-      }
-    })();
-
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach((t) => t.stop());
-      }
-    };
+  const stopCamera = useCallback(() => {
+    requestIdRef.current += 1;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setStarting(false);
+    setReady(false);
   }, []);
 
-  return { videoRef, ready, error };
+  const startCamera = useCallback(async () => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setError('Camera access is not supported by this browser.');
+      return;
+    }
+    stopCamera();
+    const requestId = requestIdRef.current;
+    setError(null);
+    setStarting(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+        audio: false,
+      });
+      if (requestId !== requestIdRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+        setReady(true);
+      }
+    } catch (cameraError) {
+      setError(cameraError?.message || String(cameraError));
+    } finally {
+      if (requestId === requestIdRef.current) setStarting(false);
+    }
+  }, [stopCamera]);
+
+  useEffect(() => stopCamera, [stopCamera]);
+
+  return { videoRef, ready, error, starting, startCamera, stopCamera };
 }
 
 async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
@@ -49,89 +70,71 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
   return await new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/jpeg', quality));
 }
 
-// postJson imported
+function formatAiResponse(result) {
+  const text = result?.text || 'The provider returned an empty response.';
+  const usage = result?.usage || {};
+  const promptTokens =
+    usage.prompt_tokens ?? usage.input_tokens ?? usage.promptTokenCount ?? usage.PromptTokens;
+  const completionTokens =
+    usage.completion_tokens ?? usage.output_tokens ?? usage.candidatesTokenCount ?? usage.CompletionTokens;
+  const totalTokens =
+    usage.total_tokens ??
+    usage.totalTokenCount ??
+    usage.TotalTokens ??
+    (typeof promptTokens === 'number' && typeof completionTokens === 'number'
+      ? promptTokens + completionTokens
+      : null);
 
-function formatAiResponse(data) {
-  if (Array.isArray(data?.choices) && data.choices.length > 0) {
-    const aiMessage = data.choices[0].message?.content || '';
-    const usage = data.usage || {};
-    const formattedResponse = `${aiMessage}\n\n---\nTokens: ${usage.total_tokens || 'N/A'} (Prompt: ${usage.prompt_tokens || 'N/A'}, Completion: ${usage.completion_tokens || 'N/A'})`;
-    return { text: formattedResponse, raw: data };
+  if (promptTokens == null && completionTokens == null && totalTokens == null) {
+    return text;
   }
 
-  if (data?.Response && Array.isArray(data.Response.Choices) && data.Response.Choices.length > 0) {
-    const legacyMessage = data.Response.Choices[0].Message?.Content || '';
-    const legacyUsage = data.Response.Usage || {};
-    const formattedLegacy = `${legacyMessage}\n\n---\nTokens: ${legacyUsage.TotalTokens || 'N/A'} (Prompt: ${legacyUsage.PromptTokens || 'N/A'}, Completion: ${legacyUsage.CompletionTokens || 'N/A'})`;
-    return { text: formattedLegacy, raw: data };
-  }
-
-  const fallback = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-  return { text: fallback, raw: data };
+  return `${text}\n\n---\nTokens: ${totalTokens ?? 'N/A'} (Prompt: ${promptTokens ?? 'N/A'}, Completion: ${completionTokens ?? 'N/A'})`;
 }
 
-function normalizeBase64Image(imageBase64) {
-  if (!imageBase64) return null;
-  if (imageBase64.startsWith('data:')) {
-    return imageBase64;
+function getSafeAiErrorMessage(error) {
+  const message = error instanceof Error ? error.message : String(error || '');
+  const normalized = message.toLowerCase();
+
+  if (
+    normalized.includes('enter an api endpoint') ||
+    normalized.includes('choose or enter a model') ||
+    normalized.includes('enter the api key')
+  ) {
+    return message;
   }
-  return `data:image/jpeg;base64,${imageBase64}`;
-}
-
-function buildHunyuanPayload({ question, imageBase64, imageUrl, model }) {
-  const contents = [];
-  const trimmedQuestion = (question || '').trim();
-
-  if (trimmedQuestion) {
-    contents.push({
-      type: 'text',
-      text: trimmedQuestion,
-    });
+  if (/\b401\b|unauthori[sz]ed|authentication|invalid api key/.test(normalized)) {
+    return 'Authentication failed. Check the API key for the selected provider.';
   }
-
-  const normalizedImageUrl = (imageUrl || '').trim();
-  const normalizedBase64 = normalizeBase64Image(imageBase64);
-
-  if (normalizedImageUrl) {
-    contents.push({
-      type: 'image_url',
-      image_url: { url: normalizedImageUrl },
-    });
-  } else if (normalizedBase64) {
-    contents.push({
-      type: 'image_url',
-      image_url: { url: normalizedBase64 },
-    });
+  if (/\b403\b|permission|forbidden/.test(normalized)) {
+    return 'The provider denied this request. Check key permissions, billing, and model access.';
   }
-
-  if (contents.length === 0) {
-    contents.push({
-      type: 'text',
-      text: '你好',
-    });
+  if (/\b404\b|not found/.test(normalized)) {
+    return 'The API endpoint or model was not found. Check the provider settings.';
+  }
+  if (/\b429\b|rate limit|too many requests/.test(normalized)) {
+    return 'The provider rate limit was reached. Wait briefly or check the account quota.';
+  }
+  if (/cors|failed to fetch|network|load failed|connection/.test(normalized)) {
+    return 'The browser could not reach the provider. Check the endpoint, connection, and CORS support.';
+  }
+  if (/\b5\d\d\b|service unavailable|overloaded/.test(normalized)) {
+    return 'The provider is temporarily unavailable. Please try again later.';
+  }
+  if (/\b400\b|bad request|invalid request/.test(normalized)) {
+    return 'The provider rejected the request. Check that the selected model supports this input type.';
   }
 
-  return {
-    model: model || 'hunyuan-vision',
-    messages: [
-      {
-        role: 'user',
-        content: contents,
-      },
-    ],
-    stream: false,
-  };
+  return 'The AI request failed. Check the provider, model, endpoint, and account status.';
 }
 
 export default function SolverAppPage() {
-  const defaultApiEndpoint = useMemo(computeDefaultApiEndpoint, []);
-  const { videoRef, ready, error } = useCamera();
+  const { videoRef, ready, error, starting, startCamera, stopCamera } = useCamera();
 
   // State management
-  const [apiUrl, setApiUrl] = useState('');
-  const [useDefaultApi, setUseDefaultApi] = useState(false);
+  const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
   // Preset prompt list
-// Preset prompt list — full English version (ready to use with HunYuan API)
+// Preset prompt list — full English version
 const promptPresets = [
   { 
     id: 'default', 
@@ -461,7 +464,6 @@ OUTPUT:
 
   const [selectedPreset, setSelectedPreset] = useState('default');
   const [question, setQuestion] = useState(promptPresets[0].prompt);
-  const [model, setModel] = useState('hunyuan-vision');
   const [respText, setRespText] = useState('');
   const [busy, setBusy] = useState(false);
   const [lastSizeKB, setLastSizeKB] = useState(null);
@@ -471,72 +473,26 @@ OUTPUT:
   const [selectionBox, setSelectionBox] = useState(null); // Selection box
   const [isSelecting, setIsSelecting] = useState(false); // Whether selecting
 
+  useEffect(() => {
+    if (captureMode !== 'camera') stopCamera();
+  }, [captureMode, stopCamera]);
+
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
-    // Determine which API to use: default API, custom API, or mock
-    let targetUrl;
-    const attemptedDefault = !!useDefaultApi;
-    if (useDefaultApi) {
-      targetUrl = defaultApiEndpoint;
-    } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
-      targetUrl = apiUrl;
-    } else {
-      targetUrl = 'mock://ai-solver';
-    }
-
     try {
-      let requestBody = payload;
-      let requestHeaders = {};
-      const usingHardcodedDefault = targetUrl === HARDCODED_API_ENDPOINT;
-
-      if (usingHardcodedDefault) {
-        requestBody = buildHunyuanPayload(payload);
-        requestHeaders = { Authorization: `Bearer ${HARDCODED_API_KEY}` };
-      }
-
-      const response = await postJson(targetUrl, requestBody, requestHeaders);
-
-      if (!response.ok) {
-        const rawText = await response.text().catch(() => '');
-        if (attemptedDefault && (response.status === 404 || response.status === 405 || response.status === 403)) {
-          const snippet = rawText ? rawText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120) : '';
-          const note = `Default API returned ${response.status}${snippet ? ` (${snippet})` : ''}. Using mock response instead.`;
-          const fallbackResp = await postJson('mock://ai-solver', payload);
-          const fallbackData = await fallbackResp.json();
-          const { text } = formatAiResponse(fallbackData);
-          setRespText(`${note}\n\n${text}`);
-          window.lastFullResponse = fallbackData;
-          return;
-        }
-
-        if (response.status === 404) {
-          const guidance = useDefaultApi
-            ? 'The built-in solver endpoint (/api/solve) is not reachable. Deploy the serverless function or point the app to your own API in the settings.'
-            : 'The URL you entered cannot be found. Double-check the API path or start your local proxy (node local-server.js).';
-          throw new Error(`Request failed 404: ${guidance}`);
-        }
-
-        const snippet = rawText
-          ? rawText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180)
-          : '';
-        const detail = snippet ? ` Response: ${snippet}` : '';
-        throw new Error(`Request failed ${response.status}.${detail}`);
-      }
-      const data = await response.json().catch(async () => ({ raw: await response.text() }));
-      const { text } = formatAiResponse(data);
-      setRespText(text);
-      window.lastFullResponse = data;
-    } catch (e) {
-      if (e.name === 'TypeError' && e.message.includes('fetch')) {
-        throw new Error(`Network error: Cannot connect to ${targetUrl}. Please verify the API server or the URL in the settings.`);
-      }
-      throw e instanceof Error ? e : new Error(String(e));
+      const result = await requestAI(aiConfig, payload, {
+        mockTag: 'ai-solver',
+        requireVision: Boolean(payload.imageBase64 || payload.imageUrl),
+      });
+      setRespText(formatAiResponse(result));
+    } catch (error) {
+      throw new Error(getSafeAiErrorMessage(error));
     }
   }
 
   // 发送图片到AI
   async function sendImageToAI(base64) {
-    const payload = { imageBase64: base64, question, model };
+    const payload = { imageBase64: base64, question };
     await sendToAI(payload);
   }
 
@@ -562,7 +518,7 @@ OUTPUT:
       }
     }
     
-    const payload = { question: text, model: 'hunyuan-lite' };
+    const payload = { question: text };
     await sendToAI(payload);
   }
 
@@ -863,16 +819,16 @@ OUTPUT:
 
   return (
     <Layout title="AI Solver">
-    <div className="app-container" style={{ maxWidth: 920, padding: '24px' }}>
+    <div className="app-container" style={{ maxWidth: 920 }}>
       <div className="app-header" style={{ marginBottom: 16 }}>
-        <h1 className="app-title">AI Solver (Hunyuan)</h1>
+        <h1 className="app-title">AI Solver</h1>
         <a className="button button--secondary" href="/docs/tutorial-apps/ai-solver-tutorial">Tutorial</a>
       </div>
-      <p>Supports camera capture, screen capture, and text questions. For security, the page does not accept any keys.</p>
+      <p>Supports camera capture, screen capture, and text questions. Use the private local demo or connect your own AI provider for this page session.</p>
       <p style={{ fontSize: 14, color: 'var(--ifm-color-emphasis-600)' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 
-      <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div>
+      <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap', width: '100%', minWidth: 0 }}>
+        <div style={{ flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }}>
           {/* Input Mode Selection */}
           <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginBottom: 16 }}>
             <legend>Input Mode</legend>
@@ -908,13 +864,53 @@ OUTPUT:
           {/* Camera Preview */}
           {captureMode === 'camera' && (
             <div>
-              <video ref={videoRef} autoPlay playsInline style={{ width: 320, background: '#000', borderRadius: 8 }} />
-              <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
-                {ready ? 'Camera ready' : error ? `Camera error: ${error}` : 'Requesting camera permission…'}
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                playsInline
+                style={{ width: 320, maxWidth: '100%', background: '#000', borderRadius: 18 }}
+              />
+              <div
+                role="status"
+                style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}
+              >
+                {ready
+                  ? 'Camera ready — video stays on this device.'
+                  : starting
+                    ? 'Waiting for camera permission…'
+                    : error
+                      ? `Camera error: ${error}`
+                      : 'Camera is off. It starts only after you choose Enable camera.'}
               </div>
-              <button onClick={handleShoot} disabled={!ready || busy || (false)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
-                {busy ? 'Processing…' : ' Capture and Solve'}
-              </button>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+                {!ready ? (
+                  <button
+                    type="button"
+                    className="button button--primary"
+                    onClick={startCamera}
+                    disabled={starting}
+                  >
+                    {starting ? 'Starting…' : 'Enable camera'}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="button button--secondary"
+                    onClick={stopCamera}
+                  >
+                    Turn off camera
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="button button--primary"
+                  onClick={handleShoot}
+                  disabled={!ready || busy}
+                >
+                  {busy ? 'Processing…' : 'Capture and solve'}
+                </button>
+              </div>
             </div>
           )}
 
@@ -924,7 +920,7 @@ OUTPUT:
               {!isSelecting ? (
                 // 初始状态 - 显示截图按钮
                 <>
-                  <div style={{ width: 320, height: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed var(--ifm-border-color)' }}>
+                  <div style={{ width: 'min(320px, 100%)', aspectRatio: '4 / 3', background: 'var(--ifm-background-surface-color)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed var(--ifm-border-color)' }}>
                     <div style={{ textAlign: 'center', color: 'var(--ifm-color-emphasis-600)' }}>
                       <div style={{ fontSize: 48, marginBottom: 8 }}> </div>
                       <div>Click the button below to start screenshot</div>
@@ -940,7 +936,7 @@ OUTPUT:
               ) : (
                 // 选择状态 - 显示截图和选择框
                 <>
-                  <div style={{ position: 'relative', width: 320, height: 240, border: '2px solid var(--ifm-color-emphasis-900)', borderRadius: 8, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', width: 'min(320px, 100%)', aspectRatio: '4 / 3', border: '2px solid var(--ifm-color-emphasis-900)', borderRadius: 8, overflow: 'hidden' }}>
                     <img 
                       src={screenshotData?.dataUrl} 
                       alt="Screenshot" 
@@ -1136,7 +1132,7 @@ OUTPUT:
           {/* Text Question Mode */}
           {captureMode === 'text' && (
             <div>
-              <div style={{ width: 320, minHeight: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, padding: 16, border: '1px solid var(--ifm-border-color)' }}>
+              <div style={{ width: 'min(320px, 100%)', minHeight: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, padding: 16, border: '1px solid var(--ifm-border-color)' }}>
                 <div style={{ marginBottom: 12, color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}> Text Question Mode</div>
                 <textarea 
                   value={textInput}
@@ -1172,58 +1168,18 @@ OUTPUT:
           )}
         </div>
 
-        <div style={{ flex: 1, minWidth: 280 }}>
-          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginBottom: 16, background: 'var(--ifm-background-surface-color)' }}>
-            <legend>API Settings</legend>
-            
-            {/* Use Default API Button */}
-            <div style={{ marginBottom: 12 }}>
-              <button 
-                type="button"
-                onClick={() => setUseDefaultApi(!useDefaultApi)}
-                style={{
-                  padding: '6px 12px',
-                  fontSize: 12,
-                  backgroundColor: useDefaultApi ? 'var(--ifm-color-success)' : 'var(--ifm-background-surface-color)',
-                  color: useDefaultApi ? 'var(--ifm-color-emphasis-0)' : 'var(--ifm-color-emphasis-800)',
-                  border: '1px solid var(--ifm-border-color)',
-                  borderRadius: 4,
-                  cursor: 'pointer'
-                }}
-              >
-                {useDefaultApi ? '✓ Using Default API' : 'Use Default API'}
-              </button>
-              <div style={{ fontSize: 11, color: 'var(--ifm-color-emphasis-600)', marginTop: 4 }}>
-                {useDefaultApi
-                  ? `Default API enabled → ${defaultApiEndpoint}`
-                  : `Click to send requests to ${defaultApiEndpoint}`}
-              </div>
-            </div>
-            
-            <label>Custom API URL (optional)<br />
-              <input 
-                value={apiUrl} 
-                onChange={e => setApiUrl(e.target.value)} 
-                placeholder="https://your-api.example.com/api/solve" 
-                style={{ width: '100%' }} 
-                disabled={useDefaultApi}
-              />
-            </label>
-            <div style={{ color: 'var(--ifm-color-emphasis-700)', fontSize: 12, marginTop: 8 }}>
-              {useDefaultApi 
-                ? 'Using default API. Disable to enter custom API.' 
-                : 'Enter your API endpoint or enable default API above.'}
-            </div>
-          </fieldset>
+        <div style={{ flex: '1 1 360px', minWidth: 0, maxWidth: '100%' }}>
+          <AIProviderSettings
+            value={aiConfig}
+            onChange={setAiConfig}
+            title="Solver model"
+            requireVision={captureMode !== 'text'}
+          />
 
-          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12 }}>
-            <legend>Request Parameters</legend>
-            <label>Model<br />
-              <input value={model} onChange={e => setModel(e.target.value)} style={{ width: '100%' }} />
-            </label>
-            
+          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginTop: 16 }}>
+            <legend>Prompt Settings</legend>
             {/* Prompt预设选择 */}
-            <div style={{ marginTop: 8 }}>
+            <div>
               <label>PromptPreset<br />
                 <select 
                   value={selectedPreset} 
@@ -1286,26 +1242,6 @@ OUTPUT:
           lineHeight: 1.5
         }}>
           {respText}
-        </div>
-        <div style={{ marginTop: 8, textAlign: 'right' }}>
-          <button 
-            onClick={() => {
-              if (window.lastFullResponse) {
-                setRespText(JSON.stringify(window.lastFullResponse, null, 2));
-              }
-            }}
-            style={{ 
-              padding: '4px 8px', 
-              fontSize: 12, 
-              background: 'transparent', 
-              border: '1px solid var(--ifm-border-color)', 
-              borderRadius: 4, 
-              cursor: 'pointer',
-              color: 'var(--ifm-color-emphasis-600)'
-            }}
-          >
-            Show Raw JSON
-          </button>
         </div>
       </div>
       <CitationNotice />

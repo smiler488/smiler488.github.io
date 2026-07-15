@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
 import CitationNotice from '../../../components/CitationNotice';
-import { HARDCODED_API_ENDPOINT, HARDCODED_API_KEY, computeDefaultApiEndpoint, postJson, buildHunyuanPayload, extractAssistantText } from '../../../lib/api';
+import AIProviderSettings from '../../../components/AIProviderSettings';
+import { createDefaultAIConfig, requestAI } from '../../../lib/api';
 const INDICATOR_FILE_PATH = '/app/journal-selector/journal-indicator-system.md';
 
 const BASE_COLUMNS = [];
@@ -53,14 +54,6 @@ const DEFAULT_INDICATOR_FIELDS = [
   { key: 'submission_advice', label: 'Submission Advice', description: 'Tailored recommendations' },
   { key: 'warning_status', label: 'Warning Status', description: 'Any alerts or risk flags' },
 ];
-
-// computeDefaultApiEndpoint imported
-
-// postJson imported
-
-// buildHunyuanPayload imported
-
-// extractAssistantText imported
 
 function cleanupJsonText(rawText) {
   if (!rawText) return '';
@@ -210,8 +203,6 @@ ${indicatorList}
 }
 
 export default function JournalSelectorPage() {
-  const defaultApiEndpoint = useMemo(computeDefaultApiEndpoint, []);
-
   const [abstractText, setAbstractText] = useState('');
   const [keywordHints, setKeywordHints] = useState('');
   const [oaPreference, setOaPreference] = useState('flexible');
@@ -220,9 +211,7 @@ export default function JournalSelectorPage() {
   const [extraNotes, setExtraNotes] = useState('');
   const [journalPreference, setJournalPreference] = useState('any');
 
-  const useDefaultApi = true;
-  const apiUrl = '';
-  const model = 'hunyuan-lite';
+  const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
 
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('Waiting for an abstract…');
@@ -278,42 +267,17 @@ export default function JournalSelectorPage() {
     : 'Indicator file missing; the default journal evaluation schema will be used.';
 
   async function callAi(prompt) {
-    let targetUrl;
-    const attemptedDefault = !!useDefaultApi;
-    const plainBody = { question: prompt, model };
-    if (useDefaultApi) {
-      targetUrl = defaultApiEndpoint;
-    } else if (apiUrl && apiUrl.trim() && /^https?:\/\//.test(apiUrl)) {
-      targetUrl = apiUrl.trim();
-    } else {
-      targetUrl = 'mock://journal-scout';
-    }
-
-    let body = plainBody;
-    let headers = {};
-    const usingHardcodedDefault = targetUrl === HARDCODED_API_ENDPOINT;
-    if (usingHardcodedDefault) {
-      body = buildHunyuanPayload(prompt, model);
-      headers = { Authorization: `Bearer ${HARDCODED_API_KEY}` };
-    }
-
-    const response = await postJson(targetUrl, body, headers);
-    if (!response.ok) {
-      const rawTextBody = await response.text().catch(() => '');
-      if (attemptedDefault && [403, 404, 405].includes(response.status)) {
-        const mockResp = await postJson('mock://journal-scout', plainBody);
-        const mockJson = await mockResp.json();
-        const fallbackText = extractAssistantText(mockJson);
-        return { text: fallbackText, data: mockJson, warning: rawTextBody };
-      }
-
-      const snippet = rawTextBody ? rawTextBody.replace(/<[^>]+>/g, ' ').slice(0, 140) : '';
-      throw new Error(`API ${response.status}: ${snippet || 'request failed'}`);
-    }
-
-    const data = await response.json().catch(async () => ({ raw: await response.text() }));
-    const text = extractAssistantText(data);
-    return { text, data };
+    const result = await requestAI(
+      aiConfig,
+      { question: prompt },
+      {
+        jsonMode: true,
+        mockTag: 'journal-selector',
+        systemPrompt:
+          'Return only strict JSON. Treat journal metrics as time-sensitive and clearly mark any value that is not verified.',
+      },
+    );
+    return { text: result.text, data: result.raw };
   }
 
   async function handleGenerate() {
@@ -503,6 +467,14 @@ export default function JournalSelectorPage() {
             />
           </div>
         </section>
+
+        <div style={{ marginBottom: 24 }}>
+          <AIProviderSettings
+            value={aiConfig}
+            onChange={setAiConfig}
+            title="Journal analysis model"
+          />
+        </div>
 
         <section
           style={{

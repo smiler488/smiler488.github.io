@@ -911,7 +911,7 @@ export default function TargetsPage() {
           <h4 style={{ marginTop: 0, color: "var(--ifm-color-warning-darker)" }}>Printing Instructions</h4>
           <ul style={{ marginBottom: 0, paddingLeft: 20 }}>
             <li>Use high-quality white paper (minimum 80gsm recommended)</li>
-            <li>Print at <strong>100% scale / Actual size</strong> - disable "Fit to page"</li>
+            <li>Print at <strong>100% scale / Actual size</strong> - disable “Fit to page”</li>
             <li>Use a laser printer for best precision and contrast</li>
             <li>Verify printed dimensions with a ruler before use</li>
             <li>For best results, mount on rigid backing (foam board, etc.)</li>

@@ -461,7 +461,7 @@ function LandSurveyApp() {
           <div style={styles.panel}>
             <div style={styles.panelHeader}>
               <strong>Coordinate List</strong>
-              {points.length >= 3 && !isClosed && <span>Click "Close Polygon" to compute area.</span>}
+              {points.length >= 3 && !isClosed && <span>Click “Close Polygon” to compute area.</span>}
             </div>
             {points.length ? (
               <ol style={styles.list}>

@@ -2,16 +2,16 @@
 
 ## Overview
 
-The AI Solver is an advanced multimodal problem-solving tool powered by Hunyuan AI that provides comprehensive solutions across 18 professional domains. This application supports camera capture, screen capture with advanced selection tools, and direct text queries with specialized modes for academic, technical, and creative applications.
+The AI Solver is an advanced multimodal problem-solving tool that can use the private local demo or a user-selected AI provider across 18 professional domains. This application supports camera capture, screen capture with advanced selection tools, and direct text queries with specialized modes for academic, technical, and creative applications.
 
 ## Key Features
 
 - **Multi-modal Input Support**: Camera capture, advanced screen capture with 8-directional selection, and text-based queries
 - **18 Professional Presets**: Intelligent analysis, math, physics, chemistry, plant identification, lab safety, translation, English learning, code analysis, text extraction, biology, history, medical, engineering, finance, art, legal, and education
 - **Advanced Selection Tools**: Free-form selection with corner and edge resizing for precise area capture
-- **Flexible API Configuration**: Default API support with custom endpoint options
+- **Shared AI Configuration**: No-network Local demo plus bring-your-own-key options for major AI providers and trusted OpenAI-compatible endpoints
 - **Step-by-Step Solutions**: Detailed explanations with comprehensive reasoning
-- **Hunyuan AI Integration**: Advanced AI capabilities for complex problem solving
+- **Multi-provider AI Integration**: OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, and custom OpenAI-compatible APIs
 - **Real-time Analysis**: Instant processing and response generation
 - **Cross-disciplinary Applications**: Comprehensive support for science, technology, engineering, mathematics, arts, and humanities
 
@@ -25,8 +25,9 @@ Visit in your browser: `/app/solver`
 
 - **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with camera support
 - **Camera Access**: For image capture functionality (optional)
-- **Internet Connection**: Required for AI processing
+- **Internet Connection**: Required for live AI processing, but not for Local demo
 - **Image Quality**: Clear, well-lit images for optimal analysis
+- **Vision-capable Model**: Required when sending camera or screen-capture images to a live provider
 
 ## Detailed Usage Steps
 
@@ -34,7 +35,7 @@ Visit in your browser: `/app/solver`
 
 1. **Camera Capture**
    - Select "Camera Capture" mode
-   - Grant camera permissions when prompted
+   - Click **Enable camera**, then grant permission when prompted; the page never starts it automatically
    - Capture clear, focused images of problems or objects
    - Ensure adequate lighting and minimal shadows
    - Click "Capture and Solve" to process the image
@@ -160,11 +161,12 @@ Visit in your browser: `/app/solver`
 ### Step 3: API Configuration and Analysis
 
 1. **API Settings**
-   - **Default API**: Toggle "Use Default API" to call the same-origin `/api/solve` endpoint (on localhost this targets `http://localhost:3001/api/solve`)
-   - **Automatic Fallback**: If the default endpoint responds with 403/404/405, the app shows a notice and returns a mock answer so you can keep testing
-   - **Custom API**: Enter a full URL (including protocol) when you deploy your own proxy or serverless function
-   - **Security**: No API keys are stored in the browser; credentials must live on the backend
-   - **Model Selection**: Choose the appropriate Hunyuan AI model for your use case
+   - **Local demo (default)**: Returns a local sample response, makes no network request, and needs no API key.
+   - **Live providers**: Select OpenAI, Anthropic, Gemini, DeepSeek, Qwen, or Hunyuan, then choose or enter a supported model ID and paste that provider's API key.
+   - **Custom compatible API**: Enter a full trusted HTTPS OpenAI-compatible endpoint, its model ID, and the matching key.
+   - **Model capability**: Camera and screen-capture modes need a vision-capable model. The UI warns when a selected preset is not marked for vision; custom model capability must be verified with its provider. Text-only providers/models can still be used in Text Question mode.
+   - **BYOK safety**: The key stays only in the current tab's memory and is cleared on refresh or exit. It is not bundled with or persisted by the site, but a static page cannot protect it like a backend can. Use a restricted test key; for production, use your own authenticated backend proxy.
+   - **Browser access**: Direct requests depend on each provider's CORS policy. If the provider blocks browser origins, use a backend proxy even when the endpoint and key are valid.
 
 2. **Preset Management**
    - **Quick Selection**: Dropdown menu with 18 professional presets
@@ -173,7 +175,7 @@ Visit in your browser: `/app/solver`
    - **Text Command**: Type `/preset name` in text mode for quick switching
 
 3. **AI Processing**
-   - Upload image or text to Hunyuan AI
+   - Send image or text to the selected AI provider, or generate a local sample in Local demo
    - Automatic problem type recognition based on selected preset
    - Context-aware analysis and solution generation
    - Real-time token usage tracking and performance metrics
@@ -235,7 +237,7 @@ Visit in your browser: `/app/solver`
 #### Advanced Features
 - **8-Directional Selection**: Precise area selection with corner and edge resizing
 - **Real-time Token Tracking**: Usage metrics for performance optimization
-- **Flexible API Configuration**: Default and custom endpoint support
+- **Flexible AI Configuration**: Local demo, supported provider presets, and a custom OpenAI-compatible endpoint
 - **Quick Preset Switching**: Text commands and dropdown selection
 
 ### Specialized Application Areas
@@ -287,10 +289,11 @@ Visit in your browser: `/app/solver`
    - Provide any additional constraints or preferences
 
 5. **API Configuration**
-   - **Default API**: Use for immediate access without configuration
-   - **Custom Endpoints**: Enter full URL including protocol (https://)
-   - **Security**: No credentials stored - enhanced privacy protection
-   - **Quick Switching**: Toggle between default and custom APIs as needed
+   - **Local demo**: Use for immediate, no-network UI testing without credentials
+   - **Provider presets**: Match the provider, key, and model; use a vision-capable model for image input
+   - **Custom endpoints**: Enter a trusted full HTTPS OpenAI-compatible URL and a model it supports
+   - **Security**: Keys are temporary tab-memory values, not server-protected secrets; use restricted test keys and an authenticated backend proxy for production
+   - **Switching providers**: Re-enter the matching key after changing providers; provider changes clear the previous key
 
 ### Solution Validation
 
@@ -367,11 +370,12 @@ Visit in your browser: `/app/solver`
 - **Cannot Move Selection**: Click and drag the selection box itself (not handles)
 
 **6. API Configuration Problems**
-- **Default API Not Working**: Check internet connection and try refreshing the page
-- **Custom API Connection Failed**: Verify URL format includes protocol (https://)
-- **API Switching Issues**: Disable custom API first before enabling default API
-- **Response Format Errors**: Ensure custom API returns compatible JSON format
-- **Mock Response Displayed**: If you see a message explaining that a mock answer is used, deploy `/api/solve` or point the app to your custom endpoint
+- **Local demo selected**: This intentionally uses no network and returns a sample, not a live provider answer.
+- **Missing-key or authentication errors**: Paste a key for the selected provider and confirm its permissions, billing/quota, and model access.
+- **Model or input rejected**: Check the exact model ID. For camera or screen capture, switch to a model that supports vision; use Text Question mode for text-only models.
+- **Custom API connection failed**: Verify that the URL is a trusted full HTTPS OpenAI-compatible endpoint and that its response format is compatible.
+- **CORS / “Failed to fetch”**: The provider may block direct browser-origin requests. This cannot be fixed by changing the key; use your own authenticated backend proxy.
+- **Provider switching issues**: Provider changes clear the previous key by design. Enter the key that belongs to the newly selected provider.
 
 **7. Preset Selection Issues**
 - **Preset Not Available**: All 18 presets should be visible in dropdown menu
@@ -398,7 +402,7 @@ If you encounter technical issues:
 
 1. Check browser console for error messages
 2. Verify image quality and input parameters
-3. Ensure stable internet connection
+3. Ensure a stable internet connection for live providers, or reproduce the UI flow with Local demo
 4. Contact support with specific error details and problem examples
 
 ### Browser Compatibility
@@ -410,12 +414,12 @@ If you encounter technical issues:
 ### Advanced Features Support
 - **8-Directional Selection**: Chrome, Firefox, Edge (full support)
 - **Screen Capture**: Chrome, Firefox, Edge (full support)
-- **Default API**: All modern browsers
+- **Local demo and shared AI settings**: All modern browsers; live provider calls additionally depend on provider CORS support
 - **Quick Preset Commands**: All modern browsers
 
 ---
 *Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
 *This tutorial applies to AI Solver v2.0*
 *Enhanced with 18 professional presets, advanced selection tools, and flexible API configuration*
-*Powered by Hunyuan AI for comprehensive problem-solving applications*
+*Supports local demonstration and user-selected AI providers for comprehensive problem-solving applications*
 <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/solver">App</a></div>
