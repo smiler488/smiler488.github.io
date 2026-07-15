@@ -3,6 +3,9 @@
   let marker;
   let pendingCoords = null;
   let approxLookupInProgress = false;
+  let initialized = false;
+  let activeController = null;
+  let activeDownloadUrl = null;
 
   function $(id) {
     return document.getElementById(id);
@@ -25,6 +28,7 @@
     const bar = $("progressBar");
     if (!bar) return;
     bar.style.width = `${percent}%`;
+    $("progressContainer")?.setAttribute("aria-valuenow", String(percent));
   }
 
   function initMap() {
@@ -72,6 +76,21 @@
     if (searchBtn) {
       searchBtn.addEventListener("click", handleSearchPlace);
     }
+    $("placeSearch")?.addEventListener("keydown", handleSearchKeydown);
+  }
+
+  function unbindEvents() {
+    $("getLocationBtn")?.removeEventListener("click", handleGetLocation);
+    $("getDataBtn")?.removeEventListener("click", handleGetData);
+    $("searchBtn")?.removeEventListener("click", handleSearchPlace);
+    $("placeSearch")?.removeEventListener("keydown", handleSearchKeydown);
+  }
+
+  function handleSearchKeydown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSearchPlace();
+    }
   }
 
   function updateCoordinates(lat, lng, zoom = 10) {
@@ -107,7 +126,7 @@
         throw new Error(`IP lookup HTTP ${res.status}`);
       }
       const data = await res.json();
-      if (!data || !data.latitude || !data.longitude) {
+      if (!data || data.latitude == null || data.longitude == null) {
         throw new Error("IP lookup returned no coordinates");
       }
       const lat = parseFloat(data.latitude);
@@ -183,6 +202,7 @@
           "Accept-Language": "en",
         },
       });
+      if (!res.ok) throw new Error(`Place search HTTP ${res.status}`);
       const data = await res.json();
       if (!data || data.length === 0) {
         updateStatus("No result found for this place.");
@@ -200,10 +220,16 @@
   }
 
   async function handleGetData() {
-    const lat = parseFloat($("latitude").value);
-    const lon = parseFloat($("longitude").value);
-    const startDate = $("startDate").value;
-    const endDate = $("endDate").value;
+    const latitudeEl = $("latitude");
+    const longitudeEl = $("longitude");
+    const startDateEl = $("startDate");
+    const endDateEl = $("endDate");
+    if (!latitudeEl || !longitudeEl || !startDateEl || !endDateEl) return;
+
+    const lat = parseFloat(latitudeEl.value);
+    const lon = parseFloat(longitudeEl.value);
+    const startDate = startDateEl.value;
+    const endDate = endDateEl.value;
     const timeScaleEl = $("timeScaleSelect");
     const timeStandardEl = $("timeStandardSelect");
     const timeScale = timeScaleEl && timeScaleEl.value ? timeScaleEl.value : "daily";
@@ -213,8 +239,25 @@
       updateStatus("Please input valid latitude and longitude or pick on map.");
       return;
     }
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+      updateStatus("Latitude must be between -90 and 90; longitude between -180 and 180.");
+      return;
+    }
     if (!startDate || !endDate) {
       updateStatus("Please select start and end date.");
+      return;
+    }
+
+    const startTime = Date.parse(`${startDate}T00:00:00Z`);
+    const endTime = Date.parse(`${endDate}T00:00:00Z`);
+    if (!Number.isFinite(startTime) || !Number.isFinite(endTime) || startTime > endTime) {
+      updateStatus("Start date must be on or before the end date.");
+      return;
+    }
+    const spanDays = Math.floor((endTime - startTime) / 86400000) + 1;
+    const maximumDays = timeScale === "hourly" ? 366 : 3660;
+    if (spanDays > maximumDays) {
+      updateStatus(`Choose ${maximumDays} days or fewer for ${timeScale} data.`);
       return;
     }
 
@@ -255,8 +298,17 @@
       setProgress(10);
     }
 
+    activeController?.abort();
+    const controller = new AbortController();
+    activeController = controller;
+    const getDataBtn = $("getDataBtn");
+    if (getDataBtn) {
+      getDataBtn.disabled = true;
+      getDataBtn.setAttribute("aria-busy", "true");
+    }
+
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: controller.signal });
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
       }
@@ -277,9 +329,18 @@
       showProgress(false, "Done.");
       updateStatus("NASA POWER data downloaded successfully.");
     } catch (e) {
+      if (e?.name === "AbortError") return;
       console.error(e);
-      updateStatus("Failed to download NASA POWER data. Check console log.");
+      updateStatus(`Failed to download NASA POWER data: ${e?.message || "network error"}.`);
       showProgress(false);
+    } finally {
+      if (activeController === controller) {
+        activeController = null;
+        if (getDataBtn) {
+          getDataBtn.disabled = false;
+          getDataBtn.removeAttribute("aria-busy");
+        }
+      }
     }
   }
 
@@ -334,48 +395,54 @@
     preview.style.display = "block";
 
     const headers = Object.keys(records[0]);
-    let html = "<table style='width:100%; border-collapse:collapse; font-size:12px;'>";
-    html += "<thead><tr>";
-    headers.forEach((h) => {
-      html += `<th style="border:1px solid #dee2e6; padding:4px; background:#f1f3f5;">${h}</th>`;
+    const table = document.createElement("table");
+    table.style.cssText = "width:100%; border-collapse:collapse; font-size:12px;";
+    const head = table.createTHead();
+    const headRow = head.insertRow();
+    headers.forEach((header) => {
+      const cell = document.createElement("th");
+      cell.scope = "col";
+      cell.textContent = header;
+      cell.style.cssText = "border:1px solid var(--ifm-border-color); padding:6px; background:var(--ifm-background-surface-color);";
+      headRow.appendChild(cell);
     });
-    html += "</tr></thead><tbody>";
-
-    records.forEach((row, idx) => {
-      // 只预览前 100 行
-      if (idx > 99) return;
-      html += "<tr>";
-      headers.forEach((h) => {
-        html += `<td style="border:1px solid #dee2e6; padding:4px; text-align:right;">${
-          row[h] ?? ""
-        }</td>`;
+    const body = table.createTBody();
+    records.slice(0, 100).forEach((row) => {
+      const tableRow = body.insertRow();
+      headers.forEach((header) => {
+        const cell = tableRow.insertCell();
+        cell.textContent = row[header] ?? "";
+        cell.style.cssText = "border:1px solid var(--ifm-border-color); padding:6px; text-align:right;";
       });
-      html += "</tr>";
     });
+    container.replaceChildren(table);
+  }
 
-    html += "</tbody></table>";
-    container.innerHTML = html;
+  function escapeCsvField(value) {
+    const text = value == null ? "" : String(value);
+    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
   }
 
   function prepareDownloads(records, lat, lon, startDate, endDate, timeScale) {
     const csvBtn = $("downloadCsvBtn");
-    const xlsBtn = $("downloadExcelBtn");
-    if (!csvBtn || !xlsBtn) return;
+    if (!csvBtn) return;
 
     const headers = Object.keys(records[0]);
     const lines = [];
-    lines.push(headers.join(","));
+    lines.push(headers.map(escapeCsvField).join(","));
     records.forEach((row) => {
       const line = headers
         .map((h) =>
-          row[h] === undefined || row[h] === null ? "" : String(row[h])
+          escapeCsvField(row[h])
         )
         .join(",");
       lines.push(line);
     });
     const csv = lines.join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    if (activeDownloadUrl) URL.revokeObjectURL(activeDownloadUrl);
     const url = URL.createObjectURL(blob);
+    activeDownloadUrl = url;
 
     const fileBase = `NASA_POWER_${timeScale.toUpperCase()}_${lat.toFixed(2)}_${lon.toFixed(2)}_${startDate}_${endDate}`;
 
@@ -383,10 +450,6 @@
     csvBtn.download = `${fileBase}.csv`;
     csvBtn.style.display = "inline-block";
 
-    // 简单处理：Excel 也用 CSV，PCSE 可后续再改格式
-    xlsBtn.href = url;
-    xlsBtn.download = `${fileBase}_pcse.csv`;
-    xlsBtn.style.display = "inline-block";
   }
 
   function onReady(fn) {
@@ -420,8 +483,9 @@
     });
   }
 
-  // 初始化入口
-  onReady(function () {
+  function initialize() {
+    if (initialized) return true;
+    initialized = true;
     bindEvents();
 
     waitForLeaflet()
@@ -434,5 +498,27 @@
           "Leaflet library failed to load. Please check network or CDN."
         );
       });
-  });
+    return true;
+  }
+
+  function destroy() {
+    if (!initialized) return;
+    unbindEvents();
+    activeController?.abort();
+    activeController = null;
+    if (activeDownloadUrl) URL.revokeObjectURL(activeDownloadUrl);
+    activeDownloadUrl = null;
+    if (map) {
+      map.off();
+      map.remove();
+    }
+    map = null;
+    marker = null;
+    pendingCoords = null;
+    initialized = false;
+  }
+
+  window.WEATHER_INIT = initialize;
+  window.WEATHER_DESTROY = destroy;
+  window.dispatchEvent(new CustomEvent("weather_ready"));
 })();

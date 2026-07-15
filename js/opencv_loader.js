@@ -1,128 +1,122 @@
-// OpenCV Loader with fallback options
-(function() {
+// Idempotent OpenCV loader with ordered CDN fallbacks.
+(function () {
   'use strict';
-  
-  // OpenCV sources in order of preference
+
   const OPENCV_SOURCES = [
     'https://cdn.jsdelivr.net/npm/opencv.js@4.8.0/opencv.js',
     'https://docs.opencv.org/4.8.0/opencv.js',
     'https://unpkg.com/opencv.js@4.8.0/opencv.js',
     'https://cdn.jsdelivr.net/npm/opencv-js@4.8.0/opencv.js'
   ];
-  
-  let currentSourceIndex = 0;
-  let loadAttempts = 0;
-  const MAX_ATTEMPTS = 3;
-  
+
+  let loadingPromise = null;
+
+  function isReady() {
+    return Boolean(window.cv && typeof window.cv.Mat === 'function');
+  }
+
   function logStatus(message, isError = false) {
-    console.log(`[OpenCV Loader] ${message}`);
-    
-    // Dispatch custom event for status updates
+    console[isError ? 'warn' : 'log'](`[OpenCV Loader] ${message}`);
     window.dispatchEvent(new CustomEvent('opencv-status', {
       detail: { message, isError }
     }));
   }
-  
-  function loadOpenCVFromSource(sourceUrl) {
+
+  function waitForRuntime(timeoutMs = 15000) {
+    return new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        if (isReady()) {
+          clearInterval(timer);
+          resolve();
+        } else if (Date.now() - startedAt >= timeoutMs) {
+          clearInterval(timer);
+          reject(new Error('OpenCV runtime initialization timed out'));
+        }
+      }, 75);
+    });
+  }
+
+  function loadFromSource(sourceUrl) {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
+      let settled = false;
+      const finish = (callback, value, removeScript = false) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        script.onload = null;
+        script.onerror = null;
+        if (removeScript) script.remove();
+        callback(value);
+      };
+      const timeout = setTimeout(() => {
+        finish(reject, new Error(`Timed out loading ${sourceUrl}`), true);
+      }, 20000);
+
       script.src = sourceUrl;
       script.async = true;
-      
-      const timeout = setTimeout(() => {
-        reject(new Error(`Timeout loading from ${sourceUrl}`));
-      }, 15000); // 15 second timeout
-      
-      script.onload = () => {
-        clearTimeout(timeout);
-        logStatus(`Script loaded from ${sourceUrl}`);
-        
-        // Wait for OpenCV to initialize
-        if (window.cv && typeof window.cv.Mat === 'function') {
-          resolve();
-        } else if (window.cv) {
-          // Set up callback for when OpenCV finishes initializing
-          window.cv.onRuntimeInitialized = () => {
-            logStatus('OpenCV runtime initialized');
-            resolve();
-          };
-          
-          // Fallback check in case callback doesn't fire
-          setTimeout(() => {
-            if (window.cv && typeof window.cv.Mat === 'function') {
-              resolve();
-            }
-          }, 3000);
-        } else {
-          reject(new Error('OpenCV object not found after script load'));
+      script.dataset.openCvSource = sourceUrl;
+      script.onload = async () => {
+        try {
+          await waitForRuntime();
+          finish(resolve);
+        } catch (error) {
+          finish(reject, error, true);
         }
       };
-      
       script.onerror = () => {
-        clearTimeout(timeout);
-        reject(new Error(`Failed to load script from ${sourceUrl}`));
+        finish(reject, new Error(`Failed to load ${sourceUrl}`), true);
       };
-      
       document.head.appendChild(script);
     });
   }
-  
-  async function tryLoadOpenCV() {
-    if (currentSourceIndex >= OPENCV_SOURCES.length) {
-      if (loadAttempts < MAX_ATTEMPTS) {
-        loadAttempts++;
-        currentSourceIndex = 0;
-        logStatus(`Retrying all sources (attempt ${loadAttempts}/${MAX_ATTEMPTS})`);
-        return tryLoadOpenCV();
-      } else {
-        logStatus('All OpenCV sources failed after multiple attempts', true);
-        throw new Error('Failed to load OpenCV from any source');
-      }
-    }
-    
-    const sourceUrl = OPENCV_SOURCES[currentSourceIndex];
-    logStatus(`Attempting to load OpenCV from: ${sourceUrl}`);
-    
-    try {
-      await loadOpenCVFromSource(sourceUrl);
-      logStatus('OpenCV loaded and initialized successfully!');
-      
-      // Test basic functionality
+
+  async function loadWithFallbacks() {
+    if (isReady()) return;
+
+    let lastError = null;
+    for (const sourceUrl of OPENCV_SOURCES) {
+      logStatus(`Loading OpenCV from ${sourceUrl}`);
       try {
-        const testMat = new cv.Mat(10, 10, cv.CV_8UC1);
+        await loadFromSource(sourceUrl);
+        const testMat = new window.cv.Mat(2, 2, window.cv.CV_8UC1);
         testMat.delete();
-        logStatus('OpenCV functionality test passed');
-      } catch (testError) {
-        logStatus(`OpenCV functionality test failed: ${testError.message}`, true);
+        logStatus('OpenCV is ready');
+        window.dispatchEvent(new CustomEvent('opencv-ready'));
+        return;
+      } catch (error) {
+        lastError = error;
+        logStatus(error.message, true);
       }
-      
-      // Dispatch success event
-      window.dispatchEvent(new CustomEvent('opencv-ready'));
-      
-    } catch (error) {
-      logStatus(`Failed to load from ${sourceUrl}: ${error.message}`, true);
-      currentSourceIndex++;
-      return tryLoadOpenCV();
     }
+
+    throw lastError || new Error('OpenCV could not be loaded');
   }
-  
-  // Start loading OpenCV
+
   function startLoading() {
-    logStatus('Starting OpenCV loading process...');
-    tryLoadOpenCV().catch(error => {
-      logStatus(`Final error: ${error.message}`, true);
+    if (isReady()) {
+      window.dispatchEvent(new CustomEvent('opencv-ready'));
+      return Promise.resolve();
+    }
+    if (loadingPromise) return loadingPromise;
+
+    loadingPromise = loadWithFallbacks().catch((error) => {
+      logStatus(`OpenCV unavailable: ${error.message}`, true);
       window.dispatchEvent(new CustomEvent('opencv-error', { detail: error }));
+      throw error;
     });
+    // The auto-start path intentionally consumes rejection; explicit callers can
+    // still receive the same promise through window.loadOpenCV().
+    loadingPromise.catch(() => {});
+    return loadingPromise;
   }
-  
-  // Export the loader function
+
   window.loadOpenCV = startLoading;
-  
-  // Auto-start if DOM is ready
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startLoading);
+    document.addEventListener('DOMContentLoaded', startLoading, { once: true });
   } else {
-    setTimeout(startLoading, 100);
+    startLoading();
   }
-  
 })();

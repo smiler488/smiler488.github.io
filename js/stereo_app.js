@@ -8,6 +8,9 @@
   let video, rawCanvas, rawCtx, leftCanvas, rightCanvas, depthCanvas, statusEl;
   let devicesCached = [];
   let stream = null, animHandle = null;
+  let initialized = false;
+  let openCvInitTimer = null;
+  let deviceSelectChangeHandler = null;
 
   // Capture/ZIP state
   let zip = null;
@@ -68,20 +71,37 @@
     console.log(`[Stereo] ${msg}`);
     if (statusEl) {
       statusEl.textContent = msg;
-      statusEl.style.backgroundColor = '#f5f5f7';
-      statusEl.style.color = '#333333';
+      statusEl.dataset.state = isError ? 'error' : 'ready';
+      statusEl.style.color = isError ? 'var(--ifm-color-danger-dark)' : 'var(--ifm-color-emphasis-800)';
     }
+  }
+
+  function safeDelete(value) {
+    try {
+      value?.delete?.();
+    } catch (error) {
+      console.warn('[Stereo] OpenCV resource cleanup failed:', error);
+    }
+  }
+
+  function releaseOpenCvResources() {
+    [map1x, map1y, map2x, map2y, Q_matrix].forEach(safeDelete);
+    map1x = map1y = map2x = map2y = Q_matrix = null;
+    rectificationMapsReady = false;
+    cvReady = false;
   }
 
   // ============ OPENCV INITIALIZATION ============
   
   function initializeOpenCV() {
+    if (cvReady && rectificationMapsReady) return true;
     if (!window.cv || !window.cv.Mat) {
       setStatus('OpenCV not loaded, using basic mode', true);
       return false;
     }
 
     try {
+      releaseOpenCvResources();
       setStatus('Initializing OpenCV rectification maps...');
       
       const imageSize = new cv.Size(640, 480); // Single camera resolution
@@ -463,21 +483,6 @@
     }
   }
 
-  async function requestCameraPermission() {
-    try {
-      const tempStream = await navigator.mediaDevices.getUserMedia({ 
-        video: true, 
-        audio: false 
-      });
-      tempStream.getTracks().forEach(track => track.stop());
-      return true;
-    } catch (error) {
-      console.warn("Camera permission not granted:", error);
-      setStatus("Camera permission denied", true);
-      return false;
-    }
-  }
-
   // ============ STREAMING ============
   
   async function startStream() {
@@ -488,6 +493,16 @@
     if (!video) {
       setStatus('Video element not found', true);
       return;
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setStatus('Camera access is not supported in this browser', true);
+      return;
+    }
+
+    if (animHandle) {
+      cancelAnimationFrame(animHandle);
+      animHandle = null;
     }
 
     if (stream) {
@@ -537,6 +552,10 @@
       document.getElementById("stopBtn").disabled = false;
       document.getElementById("captureBtn").disabled = false;
       document.getElementById("computeDepthBtn").disabled = false;
+      document.getElementById("captureDepthBtn").disabled = true;
+      depthComputed = false;
+
+      listVideoDevices();
       
       drawLoop();
     } catch (error) {
@@ -560,13 +579,21 @@
       stream = null;
     }
 
+    if (video) video.srcObject = null;
+    depthComputed = false;
+
     setStatus("Camera stopped");
     
-    document.getElementById("startBtn").disabled = false;
-    document.getElementById("stopBtn").disabled = true;
-    document.getElementById("captureBtn").disabled = true;
-    document.getElementById("computeDepthBtn").disabled = true;
-    document.getElementById("captureDepthBtn").disabled = true;
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const captureBtn = document.getElementById("captureBtn");
+    const computeBtn = document.getElementById("computeDepthBtn");
+    const captureDepthBtn = document.getElementById("captureDepthBtn");
+    if (startBtn) startBtn.disabled = false;
+    if (stopBtn) stopBtn.disabled = true;
+    if (captureBtn) captureBtn.disabled = true;
+    if (computeBtn) computeBtn.disabled = true;
+    if (captureDepthBtn) captureDepthBtn.disabled = true;
   }
 
   // ============ MAIN RENDERING LOOP ============
@@ -681,13 +708,13 @@
         }
         
         const captureDiv = document.createElement("div");
-        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #f8f9fa;';
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass-bg);';
         captureDiv.innerHTML = `
           <div style="margin-bottom: 8px;">
             <a href="${leftDataURL}" download="${baseName}_left_rectified.png" style="margin-right: 10px;">${baseName}_left_rectified.png</a>
             <a href="${rightDataURL}" download="${baseName}_right_rectified.png">${baseName}_right_rectified.png</a>
           </div>
-          <small style="color: #6c757d;">Rectified stereo image pair</small>
+          <small style="color: var(--ifm-color-emphasis-600);">Rectified stereo image pair</small>
         `;
         capturesList.appendChild(captureDiv);
       }
@@ -726,10 +753,10 @@
       const capturesList = document.getElementById("capturesList");
       if (capturesList) {
         const captureDiv = document.createElement("div");
-        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid #e9ecef; border-radius: 6px; background: #f5f5f7;';
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass-bg);';
         captureDiv.innerHTML = `
           <a href="${depthDataURL}" download="${baseName}_depth_precision.png">${baseName}_depth_precision.png</a>
-          <br><small style="color: #333333;">Precision depth map (grayscale)</small>
+          <br><small style="color: var(--ifm-color-emphasis-600);">Precision depth map (grayscale)</small>
         `;
         capturesList.appendChild(captureDiv);
       }
@@ -777,6 +804,7 @@
   // ============ INITIALIZATION ============
   
   window.STEREO_INIT = function () {
+    if (initialized) return true;
     try {
       video = document.getElementById("video");
       rawCanvas = document.getElementById("rawCanvas");
@@ -791,8 +819,10 @@
       if (!video || !rawCanvas || !rawCtx || !leftCanvas || !rightCanvas || !depthCanvas) {
         console.error('Required DOM elements not found');
         setStatus('Required DOM elements not found', true);
-        return;
+        return false;
       }
+
+      initialized = true;
 
       document.getElementById("startBtn")?.addEventListener("click", startStream);
       document.getElementById("stopBtn")?.addEventListener("click", stopStream);
@@ -802,9 +832,8 @@
       document.getElementById("downloadZipBtn")?.addEventListener("click", downloadZip);
 
       if (navigator.mediaDevices?.enumerateDevices) {
-        requestCameraPermission().then(() => {
-          listVideoDevices();
-        });
+        // Device labels may be hidden until the user explicitly starts the camera.
+        listVideoDevices();
         
         if (navigator.mediaDevices.addEventListener) {
           navigator.mediaDevices.addEventListener('devicechange', listVideoDevices);
@@ -814,7 +843,7 @@
       }
 
       const deviceSelect = document.getElementById("deviceSelect");
-      deviceSelect?.addEventListener("change", async () => {
+      deviceSelectChangeHandler = async () => {
         if (deviceSelect.value) {
           localStorage.setItem("stereo_last_deviceId", deviceSelect.value);
         }
@@ -823,7 +852,8 @@
           await new Promise(resolve => setTimeout(resolve, 500));
           startStream();
         }
-      });
+      };
+      deviceSelect?.addEventListener("change", deviceSelectChangeHandler);
 
       ensureJSZip().then(() => {
         if (!zip) zip = new JSZip();
@@ -834,28 +864,53 @@
       setStatus('Stereo vision system initialized (waiting for OpenCV...)');
       
       // Initialize OpenCV when available
-      setTimeout(() => {
+      openCvInitTimer = setTimeout(() => {
         if (initializeOpenCV()) {
           setStatus('Stereo vision system ready (high precision mode)');
         } else {
           setStatus('Stereo vision system ready (basic mode)');
         }
       }, 2000);
+
+      window.addEventListener('opencv-ready', initializeOpenCV);
+      return true;
       
     } catch (error) {
       console.error('Initialization failed:', error);
       setStatus('Initialization failed', true);
+      initialized = false;
+      return false;
     }
   };
 
-  // Auto-initialize
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.STEREO_INIT) window.STEREO_INIT();
-    });
-  } else {
-    if (window.STEREO_INIT) window.STEREO_INIT();
-  }
+  window.STEREO_DESTROY = function () {
+    if (!initialized) return;
+
+    if (openCvInitTimer) {
+      clearTimeout(openCvInitTimer);
+      openCvInitTimer = null;
+    }
+    stopStream();
+    document.getElementById("startBtn")?.removeEventListener("click", startStream);
+    document.getElementById("stopBtn")?.removeEventListener("click", stopStream);
+    document.getElementById("captureBtn")?.removeEventListener("click", capturePair);
+    document.getElementById("computeDepthBtn")?.removeEventListener("click", computeDepthFrame);
+    document.getElementById("captureDepthBtn")?.removeEventListener("click", captureDepth);
+    document.getElementById("downloadZipBtn")?.removeEventListener("click", downloadZip);
+    if (deviceSelectChangeHandler) {
+      document.getElementById("deviceSelect")?.removeEventListener("change", deviceSelectChangeHandler);
+      deviceSelectChangeHandler = null;
+    }
+    navigator.mediaDevices?.removeEventListener?.('devicechange', listVideoDevices);
+    window.removeEventListener('opencv-ready', initializeOpenCV);
+    releaseOpenCvResources();
+
+    video = rawCanvas = rawCtx = leftCanvas = rightCanvas = depthCanvas = statusEl = null;
+    leafIdEl = downloadBtnEl = null;
+    zip = null;
+    captureIndex = 1;
+    initialized = false;
+  };
 
   window.dispatchEvent(new CustomEvent("stereo_ready"));
 

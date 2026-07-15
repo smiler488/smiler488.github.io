@@ -1141,27 +1141,14 @@
   };
 
   // Enhanced initialization
+  let initialized = false;
   window.TARGETS_INIT = function() {
+    if (initialized) return true;
+    initialized = true;
     log("Calibration targets generator initialized");
-    
-    // Dispatch ready event
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent("targets_ready"));
-    }, 50);
+    return true;
   };
 
-  // Auto-initialize
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.TARGETS_INIT) window.TARGETS_INIT();
-    });
-  } else {
-    if (window.TARGETS_INIT) window.TARGETS_INIT();
-  }
-
-  log("Enhanced calibration targets module loaded");
-
-})();
   function downloadAgisoftMarkers(params) {
     if (!ensureJsPDF()) return;
     try {
@@ -1237,3 +1224,7 @@
       alert(`PDF generation failed: ${error.message}`);
     }
   }
+
+  log("Enhanced calibration targets module loaded");
+  window.dispatchEvent(new CustomEvent("targets_ready"));
+})();
