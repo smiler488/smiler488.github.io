@@ -6,6 +6,7 @@ Shenzhen Institute of China Agricultural University, Shenzhen, China
 Appointment: 1 August 2026 – 31 July 2029
 Ph.D. in Crop Science, Shihezi University (awarded 2026)
 
+- Academic Email: googalphdlc@gmail.com
 - Business Inquiries: dengliangchao@smiler488.com
 - Assistant Email: smiler488@agent.qq.com
 - ORCID: https://orcid.org/0000-0002-5194-0655
@@ -95,7 +96,7 @@ Supervisors: Prof. Yali Zhang (Shihezi University); Dr. Qingfeng Song (CEMPS, CA
 - R
 
 **3D Computer Vision & Point Cloud Processing**
-- Multi-view 3D reconstruction (Structure from Motion, Photometry)
+- Multi-view 3D reconstruction (Structure from Motion, photogrammetry)
 - Point cloud processing and structural trait extraction (PCL, Open3D)
 - Camera calibration and binocular vision
 
