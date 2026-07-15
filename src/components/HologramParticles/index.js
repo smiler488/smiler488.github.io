@@ -3,11 +3,12 @@ import styles from "./styles.module.css";
 
 const DEFAULT_LABELS = {
   pointerReady: "Pointer mode ready",
-  reducedMotion: "Static mode · pointer ready",
+  reducedMotion: "Static particle display · motion reduced",
   cameraStarting: "Starting private hand tracking…",
+  cameraPreviewOnly: "Camera preview active · pointer mode remains available",
   cameraWaiting: "Gesture mode · show one hand",
-  cameraOpen: "Open hand · particle eraser",
-  cameraClosed: "Closed hand · gravity well",
+  cameraOpen: "Open hand · disperse particles",
+  cameraClosed: "Closed hand · attract and orbit particles",
   cameraError: "Camera unavailable · pointer mode remains active",
   cameraUnsupported: "Camera API unavailable · pointer mode active",
   enableCamera: "Enable gestures",
@@ -16,9 +17,11 @@ const DEFAULT_LABELS = {
   retryCamera: "Retry gestures",
   unavailableCamera: "Camera unavailable",
   privacy: "Processed on this device · video is never uploaded",
-  pointerHint: "Move or touch to erase · press to attract",
-  eraserOpen: "ERASE",
-  eraserClosed: "GRAVITY",
+  pointerHint: "Move to disperse · press or switch mode to orbit",
+  fieldDisperse: "Switch pointer field to disperse",
+  fieldAttract: "Switch pointer field to attract",
+  fieldModeDisperse: "Disperse",
+  fieldModeAttract: "Attract",
 };
 
 const FRICTION = 0.9;
@@ -53,6 +56,9 @@ export default function HologramParticles({
   style,
   className,
   labels,
+  showCameraPreview = false,
+  cloudImage,
+  obstacleSelector = "[data-particle-obstacle]",
 }) {
   const canvasRef = React.useRef(null);
   const videoRef = React.useRef(null);
@@ -62,14 +68,17 @@ export default function HologramParticles({
   const handDataRef = React.useRef(null);
   const cameraStreamRef = React.useRef(null);
   const handLandmarkerRef = React.useRef(null);
+  const cameraPredictRef = React.useRef(null);
   const cameraFrameRef = React.useRef(0);
   const cameraSessionRef = React.useRef(0);
   const mountedRef = React.useRef(false);
+  const isInViewRef = React.useRef(true);
   const onStatusChangeRef = React.useRef(onStatusChange);
   const onHandDetectRef = React.useRef(onHandDetect);
   const [cameraState, setCameraState] = React.useState("idle");
   const [statusKey, setStatusKey] = React.useState("pointerReady");
   const [reducedMotion, setReducedMotion] = React.useState(false);
+  const [fieldMode, setFieldMode] = React.useState("disperse");
   const copy = React.useMemo(
     () => ({ ...DEFAULT_LABELS, ...labels }),
     [labels]
@@ -147,6 +156,7 @@ export default function HologramParticles({
 
   const releaseCameraResources = React.useCallback(() => {
     cameraSessionRef.current += 1;
+    cameraPredictRef.current = null;
     if (cameraFrameRef.current) {
       cancelAnimationFrame(cameraFrameRef.current);
       cameraFrameRef.current = 0;
@@ -219,39 +229,53 @@ export default function HologramParticles({
       video.muted = true;
       await video.play();
 
-      const visionModule = await import("@mediapipe/tasks-vision");
-      if (session !== cameraSessionRef.current || !mountedRef.current) return;
-
-      const vision = await visionModule.FilesetResolver.forVisionTasks(
-        CAMERA_WASM_URL
-      );
-      if (session !== cameraSessionRef.current || !mountedRef.current) return;
-
-      const options = {
-        baseOptions: {
-          modelAssetPath: CAMERA_MODEL_URL,
-          delegate: "GPU",
-        },
-        runningMode: "VIDEO",
-        numHands: 1,
-        minHandDetectionConfidence: 0.55,
-        minTrackingConfidence: 0.5,
-      };
-
       try {
-        createdLandmarker = await visionModule.HandLandmarker.createFromOptions(
-          vision,
-          options
+        const visionModule = await import("@mediapipe/tasks-vision");
+        if (session !== cameraSessionRef.current || !mountedRef.current) return;
+
+        const vision = await visionModule.FilesetResolver.forVisionTasks(
+          CAMERA_WASM_URL
         );
+        if (session !== cameraSessionRef.current || !mountedRef.current) return;
+
+        const options = {
+          baseOptions: {
+            modelAssetPath: CAMERA_MODEL_URL,
+            delegate: "GPU",
+          },
+          runningMode: "VIDEO",
+          numHands: 1,
+          minHandDetectionConfidence: 0.55,
+          minTrackingConfidence: 0.5,
+        };
+
+        try {
+          createdLandmarker =
+            await visionModule.HandLandmarker.createFromOptions(
+              vision,
+              options
+            );
+        } catch {
+          if (session !== cameraSessionRef.current || !mountedRef.current)
+            return;
+          createdLandmarker =
+            await visionModule.HandLandmarker.createFromOptions(vision, {
+              ...options,
+              baseOptions: { ...options.baseOptions, delegate: "CPU" },
+            });
+        }
       } catch {
         if (session !== cameraSessionRef.current || !mountedRef.current) return;
-        createdLandmarker = await visionModule.HandLandmarker.createFromOptions(
-          vision,
-          {
-            ...options,
-            baseOptions: { ...options.baseOptions, delegate: "CPU" },
-          }
-        );
+        try {
+          createdLandmarker?.close?.();
+        } catch {
+          // The preview remains useful even if a partially loaded model cannot close.
+        }
+        handDataRef.current = null;
+        onHandDetectRef.current?.(null);
+        setCameraState("preview");
+        setStatusKey("cameraPreviewOnly");
+        return;
       }
 
       if (session !== cameraSessionRef.current || !mountedRef.current) {
@@ -266,14 +290,16 @@ export default function HologramParticles({
       let lastVideoTime = -1;
       let lastDetectionAt = 0;
       const predict = (now) => {
+        cameraFrameRef.current = 0;
         if (session !== cameraSessionRef.current || !handLandmarkerRef.current)
           return;
+        if (document.hidden || !isInViewRef.current) return;
 
         const activeVideo = videoRef.current;
         if (
           activeVideo?.readyState >= 2 &&
           activeVideo.currentTime !== lastVideoTime &&
-          now - lastDetectionAt >= 34
+          now - lastDetectionAt >= 55
         ) {
           lastVideoTime = activeVideo.currentTime;
           lastDetectionAt = now;
@@ -284,13 +310,20 @@ export default function HologramParticles({
               now
             );
           } catch {
-            releaseCameraResources();
+            const failedLandmarker = handLandmarkerRef.current;
+            handLandmarkerRef.current = null;
+            cameraPredictRef.current = null;
+            try {
+              failedLandmarker?.close?.();
+            } catch {
+              // Keep the local camera preview if hand tracking becomes unavailable.
+            }
             handDataRef.current = null;
-            setIndicator(null);
+            setIndicator(pointerDataRef.current);
             onHandDetectRef.current?.(null);
             if (mountedRef.current) {
-              setCameraState("error");
-              setStatusKey("cameraError");
+              setCameraState("preview");
+              setStatusKey("cameraPreviewOnly");
             }
             return;
           }
@@ -326,7 +359,10 @@ export default function HologramParticles({
         cameraFrameRef.current = requestAnimationFrame(predict);
       };
 
-      cameraFrameRef.current = requestAnimationFrame(predict);
+      cameraPredictRef.current = predict;
+      if (!document.hidden && isInViewRef.current) {
+        cameraFrameRef.current = requestAnimationFrame(predict);
+      }
     } catch {
       if (session !== cameraSessionRef.current) return;
       createdLandmarker?.close?.();
@@ -353,10 +389,26 @@ export default function HologramParticles({
   React.useEffect(() => {
     const activeTouches = new Set();
 
+    const clearPointer = () => {
+      activeTouches.clear();
+      pointerDataRef.current = null;
+      if (!handDataRef.current) setIndicator(null);
+    };
+
     const updatePointer = (event) => {
       if (handDataRef.current) return;
       if (event.pointerType === "touch" && !activeTouches.has(event.pointerId))
         return;
+
+      const interactiveTarget =
+        event.target instanceof Element &&
+        event.target.closest(
+          "a,button,input,textarea,select,summary,[role='button'],[contenteditable='true'],[data-particle-obstacle]"
+        );
+      if (interactiveTarget) {
+        clearPointer();
+        return;
+      }
 
       const container = containerRef.current;
       if (!container) return;
@@ -376,7 +428,9 @@ export default function HologramParticles({
       const interaction = {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,
-        isClosed: event.pointerType !== "touch" && event.buttons > 0,
+        isClosed:
+          fieldMode === "attract" ||
+          (event.pointerType !== "touch" && event.buttons > 0),
         source: "pointer",
       };
       pointerDataRef.current = interaction;
@@ -395,11 +449,6 @@ export default function HologramParticles({
       } else {
         updatePointer(event);
       }
-    };
-    const clearPointer = () => {
-      activeTouches.clear();
-      pointerDataRef.current = null;
-      if (!handDataRef.current) setIndicator(null);
     };
     const handlePointerOut = (event) => {
       if (!event.relatedTarget) clearPointer();
@@ -428,13 +477,13 @@ export default function HologramParticles({
       window.removeEventListener("resize", clearPointer);
       window.removeEventListener("blur", clearPointer);
     };
-  }, [setIndicator]);
+  }, [fieldMode, setIndicator]);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return undefined;
-    const context = canvas.getContext("2d", { willReadFrequently: true });
+    const context = canvas.getContext("2d");
     if (!context) return undefined;
 
     let particles = [];
@@ -444,67 +493,232 @@ export default function HologramParticles({
     let canvasHeight = 0;
     let disposed = false;
     let isInView = true;
+    let previousFrameAt = performance.now();
+    let cloudImageElement = null;
+    const cloudState = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      width: 0,
+      height: 0,
+      nextTargetAt: 0,
+    };
 
-    class Particle {
-      constructor(x, y, color) {
-        this.baseX = x;
-        this.baseY = y;
-        this.x = Math.random() * canvasWidth;
-        this.y = Math.random() * canvasHeight;
-        this.z = Math.random();
-        this.vx = 0;
-        this.vy = 0;
-        this.color = color;
-        this.size = 1.25 + this.z * 1.25;
+    const isLowPower =
+      window.matchMedia("(max-width: 700px), (pointer: coarse)").matches ||
+      navigator.connection?.saveData ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+    const textParticleLimit = isLowPower ? 1250 : 2800;
+    const cloudParticleLimit = isLowPower ? 280 : 620;
+
+    const createParticle = ({ x, y, color, group, localX, localY }) => {
+      const depth = Math.random();
+      return {
+        baseX: x,
+        baseY: y,
+        localX: localX || 0,
+        localY: localY || 0,
+        x: reducedMotion ? x : Math.random() * canvasWidth,
+        y: reducedMotion ? y : Math.random() * canvasHeight,
+        vx: 0,
+        vy: 0,
+        z: depth,
+        color,
+        group,
+        size: (group === "cloud" ? 1.05 : 1.2) + depth * 1.15,
+      };
+    };
+
+    const getObstacleRects = () => {
+      if (!obstacleSelector) return [];
+      const stage =
+        container.closest("[data-particle-stage]") ||
+        container.parentElement ||
+        container;
+      const containerRect = container.getBoundingClientRect();
+      return Array.from(stage.querySelectorAll(obstacleSelector))
+        .filter((element) => element !== container && element.offsetParent)
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            left: rect.left - containerRect.left,
+            right: rect.right - containerRect.left,
+            top: rect.top - containerRect.top,
+            bottom: rect.bottom - containerRect.top,
+          };
+        });
+    };
+
+    const isSafeCloudPoint = (x, y, obstacles = getObstacleRects()) => {
+      const insetX = cloudState.width / 2 + 28;
+      const insetY = cloudState.height / 2 + 28;
+      return obstacles.every(
+        (rect) =>
+          x < rect.left - insetX ||
+          x > rect.right + insetX ||
+          y < rect.top - insetY ||
+          y > rect.bottom + insetY
+      );
+    };
+
+    const isSafeCloudPath = (fromX, fromY, toX, toY, obstacles) => {
+      for (let step = 0; step <= 12; step += 1) {
+        const progress = step / 12;
+        const x = fromX + (toX - fromX) * progress;
+        const y = fromY + (toY - fromY) * progress;
+        if (!isSafeCloudPoint(x, y, obstacles)) return false;
+      }
+      return true;
+    };
+
+    const chooseCloudTarget = (preferStatic = false) => {
+      if (!cloudState.width || !cloudState.height) return;
+      const obstacles = getObstacleRects();
+      const edgeX = cloudState.width / 2 + 24;
+      const edgeY = cloudState.height / 2 + 24;
+      const minX = Math.min(edgeX, canvasWidth / 2);
+      const maxX = Math.max(minX, canvasWidth - edgeX);
+      const minY = Math.min(edgeY + 54, canvasHeight / 2);
+      const maxY = Math.max(minY, canvasHeight - edgeY);
+      const candidates = [];
+
+      if (preferStatic) {
+        candidates.push(
+          { x: canvasWidth * 0.82, y: canvasHeight * 0.35 },
+          { x: canvasWidth * 0.18, y: canvasHeight * 0.34 }
+        );
+      }
+      for (let index = 0; index < 36; index += 1) {
+        candidates.push({
+          x: minX + Math.random() * Math.max(maxX - minX, 1),
+          y: minY + Math.random() * Math.max(maxY - minY, 1),
+        });
       }
 
-      draw() {
-        context.fillStyle = this.color;
-        context.globalAlpha = 0.45 + this.z * 0.5;
-        context.beginPath();
-        context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        context.fill();
+      const currentX = cloudState.x || candidates[0]?.x || canvasWidth / 2;
+      const currentY = cloudState.y || candidates[0]?.y || canvasHeight / 2;
+      const candidate = candidates.find(
+        (point) =>
+          isSafeCloudPoint(point.x, point.y, obstacles) &&
+          (preferStatic ||
+            isSafeCloudPath(currentX, currentY, point.x, point.y, obstacles))
+      );
+
+      if (!candidate) {
+        cloudState.nextTargetAt = performance.now() + 1600;
+        return;
       }
+      cloudState.targetX = Math.min(Math.max(candidate.x, minX), maxX);
+      cloudState.targetY = Math.min(Math.max(candidate.y, minY), maxY);
+      cloudState.nextTargetAt = performance.now() + 5200 + Math.random() * 3800;
+      if (!cloudState.x || !cloudState.y || preferStatic) {
+        cloudState.x = cloudState.targetX;
+        cloudState.y = cloudState.targetY;
+      }
+    };
 
-      update() {
-        const interaction = handDataRef.current || pointerDataRef.current;
-        if (interaction) {
-          const dx = interaction.x - this.x;
-          const dy = interaction.y - this.y;
-          const interactionDistance = Math.max(Math.hypot(dx, dy), 0.001);
-          const radius = interaction.isClosed ? RADIUS_ATTRACT : RADIUS_REPEL;
+    const updateCloud = (now, delta) => {
+      if (!cloudState.width) return;
+      if (now >= cloudState.nextTargetAt) chooseCloudTarget();
+      const follow = 1 - Math.exp(-delta / 2400);
+      cloudState.x += (cloudState.targetX - cloudState.x) * follow;
+      cloudState.y += (cloudState.targetY - cloudState.y) * follow;
+    };
 
-          if (interactionDistance < radius) {
-            const force = (radius - interactionDistance) / radius;
-            const direction = interaction.isClosed ? 1 : -1;
-            const depth = 0.55 + this.z * 0.85;
-            const strength = interaction.isClosed ? 1.4 : 1.05;
-            this.vx +=
-              (dx / interactionDistance) * force * direction * depth * strength;
-            this.vy +=
-              (dy / interactionDistance) * force * direction * depth * strength;
+    const updateParticle = (particle, cloudScale) => {
+      const homeX =
+        particle.group === "cloud"
+          ? cloudState.x + particle.localX * cloudScale
+          : particle.baseX;
+      const homeY =
+        particle.group === "cloud"
+          ? cloudState.y + particle.localY * cloudScale
+          : particle.baseY;
+      const interaction = handDataRef.current || pointerDataRef.current;
+
+      if (interaction) {
+        const dx = interaction.x - particle.x;
+        const dy = interaction.y - particle.y;
+        const interactionDistance = Math.max(Math.hypot(dx, dy), 0.001);
+        const radius = interaction.isClosed ? RADIUS_ATTRACT : RADIUS_REPEL;
+
+        if (interactionDistance < radius) {
+          const force = (radius - interactionDistance) / radius;
+          const direction = interaction.isClosed ? 1 : -1;
+          const depth = 0.55 + particle.z * 0.85;
+          const groupBoost = particle.group === "cloud" ? 1.18 : 1;
+          const strength = interaction.isClosed ? 1.45 : 1.08;
+          particle.vx +=
+            (dx / interactionDistance) *
+            force *
+            direction *
+            depth *
+            strength *
+            groupBoost;
+          particle.vy +=
+            (dy / interactionDistance) *
+            force *
+            direction *
+            depth *
+            strength *
+            groupBoost;
+          if (interaction.isClosed) {
+            const swirl = force * (0.18 + particle.z * 0.2);
+            particle.vx += (-dy / interactionDistance) * swirl;
+            particle.vy += (dx / interactionDistance) * swirl;
           }
         }
-
-        this.vx += (this.baseX - this.x) * EASE;
-        this.vy += (this.baseY - this.y) * EASE;
-        this.vx *= FRICTION;
-        this.vy *= FRICTION;
-        this.x += this.vx;
-        this.y += this.vy;
       }
-    }
 
-    const drawFrame = (animateParticles) => {
+      const ease = particle.group === "cloud" ? 0.045 : EASE;
+      particle.vx += (homeX - particle.x) * ease;
+      particle.vy += (homeY - particle.y) * ease;
+      particle.vx *= FRICTION;
+      particle.vy *= FRICTION;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+    };
+
+    const drawFrame = (animateParticles, now = performance.now()) => {
       context.clearRect(0, 0, canvasWidth, canvasHeight);
+      const cloudScale = 1 + Math.sin(now / 950) * 0.018;
+
+      if (cloudState.width) {
+        const aura = context.createRadialGradient(
+          cloudState.x,
+          cloudState.y,
+          4,
+          cloudState.x,
+          cloudState.y,
+          cloudState.width * 0.72
+        );
+        aura.addColorStop(0, "rgba(125, 211, 252, 0.11)");
+        aura.addColorStop(1, "rgba(125, 211, 252, 0)");
+        context.fillStyle = aura;
+        context.fillRect(
+          cloudState.x - cloudState.width,
+          cloudState.y - cloudState.height,
+          cloudState.width * 2,
+          cloudState.height * 2
+        );
+      }
+
       particles.forEach((particle) => {
-        if (animateParticles) particle.update();
-        particle.draw();
+        if (animateParticles) updateParticle(particle, cloudScale);
+        context.fillStyle = particle.color;
+        context.globalAlpha =
+          particle.group === "cloud"
+            ? 0.38 + particle.z * 0.42
+            : 0.48 + particle.z * 0.48;
+        context.beginPath();
+        context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        context.fill();
       });
       context.globalAlpha = 1;
 
       if (animateParticles) {
-        const scanY = (performance.now() / 18) % Math.max(canvasHeight, 1);
+        const scanY = (now / 21) % Math.max(canvasHeight, 1);
         const gradient = context.createLinearGradient(
           0,
           scanY - 16,
@@ -528,7 +742,7 @@ export default function HologramParticles({
         3_200_000 / (canvasWidth * canvasHeight)
       );
       const pixelRatio = Math.max(
-        1,
+        0.75,
         Math.min(window.devicePixelRatio || 1, 1.5, areaAwareRatio)
       );
       canvas.width = Math.floor(canvasWidth * pixelRatio);
@@ -536,52 +750,139 @@ export default function HologramParticles({
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
+      const sampleCanvas = document.createElement("canvas");
+      sampleCanvas.width = canvasWidth;
+      sampleCanvas.height = canvasHeight;
+      const sampleContext = sampleCanvas.getContext("2d", {
+        willReadFrequently: true,
+      });
+      if (!sampleContext) return;
+
       const displayText = text || "SMILER488";
       let fontSize = Math.min(canvasWidth * 0.18, 220);
-      context.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
+      sampleContext.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
       const maxTextWidth = canvasWidth * 0.86;
-      const measuredWidth = context.measureText(displayText).width;
+      const measuredWidth = sampleContext.measureText(displayText).width;
       if (measuredWidth > maxTextWidth)
         fontSize *= maxTextWidth / measuredWidth;
 
-      context.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
-      context.fillStyle = "#ffffff";
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-      context.fillText(displayText, canvasWidth / 2, canvasHeight * 0.33);
+      sampleContext.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
+      sampleContext.fillStyle = "#ffffff";
+      sampleContext.textAlign = "center";
+      sampleContext.textBaseline = "middle";
+      sampleContext.fillText(displayText, canvasWidth / 2, canvasHeight * 0.29);
 
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-      const gap = Math.max(
-        Math.round((canvasWidth < 620 ? 7 : 5) * pixelRatio),
-        4
+      const imageData = sampleContext.getImageData(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
       );
+      const gap = canvasWidth < 620 ? 7 : 5;
       const isDarkTheme = document.documentElement.dataset.theme === "dark";
       const palette = isDarkTheme
         ? ["#f8fafc", "#bfdbfe", "#c4b5fd", "#93c5fd"]
         : ["#475569", "#2563eb", "#7c3aed", "#64748b"];
       particles = [];
+      const textPoints = [];
 
       for (let y = 0; y < imageData.height; y += gap) {
         for (let x = 0; x < imageData.width; x += gap) {
           if (imageData.data[(y * imageData.width + x) * 4 + 3] > 128) {
-            particles.push(
-              new Particle(
-                x / pixelRatio,
-                y / pixelRatio,
-                palette[Math.floor(Math.random() * palette.length)]
-              )
-            );
+            textPoints.push({ x, y });
           }
         }
       }
 
-      if (reducedMotion) {
-        particles.forEach((particle) => {
-          particle.x = particle.baseX;
-          particle.y = particle.baseY;
-        });
+      const textStride = Math.max(
+        1,
+        Math.ceil(textPoints.length / textParticleLimit)
+      );
+      for (let index = 0; index < textPoints.length; index += textStride) {
+        const point = textPoints[index];
+        particles.push(
+          createParticle({
+            x: point.x,
+            y: point.y,
+            group: "text",
+            color: palette[Math.floor(Math.random() * palette.length)],
+          })
+        );
       }
 
+      const textParticleCount = particles.length;
+      if (cloudImageElement?.complete && cloudImageElement.naturalWidth) {
+        cloudState.width = Math.min(
+          Math.max(canvasWidth * 0.12, isLowPower ? 96 : 132),
+          isLowPower ? 128 : 176
+        );
+        cloudState.height =
+          cloudState.width *
+          (cloudImageElement.naturalHeight / cloudImageElement.naturalWidth);
+        const cloudCanvas = document.createElement("canvas");
+        cloudCanvas.width = Math.max(Math.round(cloudState.width), 1);
+        cloudCanvas.height = Math.max(Math.round(cloudState.height), 1);
+        const cloudContext = cloudCanvas.getContext("2d", {
+          willReadFrequently: true,
+        });
+        cloudContext?.drawImage(
+          cloudImageElement,
+          0,
+          0,
+          cloudCanvas.width,
+          cloudCanvas.height
+        );
+        const cloudData = cloudContext?.getImageData(
+          0,
+          0,
+          cloudCanvas.width,
+          cloudCanvas.height
+        );
+        const cloudPoints = [];
+        const cloudGap = isLowPower ? 5 : 4;
+        if (cloudData) {
+          for (let y = 0; y < cloudData.height; y += cloudGap) {
+            for (let x = 0; x < cloudData.width; x += cloudGap) {
+              if (cloudData.data[(y * cloudData.width + x) * 4 + 3] > 78) {
+                cloudPoints.push({
+                  x: x - cloudData.width / 2,
+                  y: y - cloudData.height / 2,
+                });
+              }
+            }
+          }
+        }
+
+        chooseCloudTarget(true);
+        const cloudPalette = isDarkTheme
+          ? ["#e0f2fe", "#bae6fd", "#c4b5fd", "#f8fafc"]
+          : ["#38bdf8", "#60a5fa", "#8b5cf6", "#64748b"];
+        const cloudStride = Math.max(
+          1,
+          Math.ceil(cloudPoints.length / cloudParticleLimit)
+        );
+        for (let index = 0; index < cloudPoints.length; index += cloudStride) {
+          const point = cloudPoints[index];
+          particles.push(
+            createParticle({
+              x: cloudState.x + point.x,
+              y: cloudState.y + point.y,
+              localX: point.x,
+              localY: point.y,
+              group: "cloud",
+              color:
+                cloudPalette[Math.floor(Math.random() * cloudPalette.length)],
+            })
+          );
+        }
+      }
+
+      canvas.dataset.textParticles = String(textParticleCount);
+      canvas.dataset.cloudParticles = String(
+        particles.length - textParticleCount
+      );
+      canvas.dataset.cloudWidth = String(Math.round(cloudState.width));
+      canvas.dataset.cloudHeight = String(Math.round(cloudState.height));
       context.clearRect(0, 0, canvasWidth, canvasHeight);
       drawFrame(false);
     };
@@ -597,10 +898,30 @@ export default function HologramParticles({
       animationFrame = 0;
     };
 
-    const animate = () => {
+    const stopCameraPrediction = () => {
+      if (!cameraFrameRef.current) return;
+      cancelAnimationFrame(cameraFrameRef.current);
+      cameraFrameRef.current = 0;
+    };
+
+    const startCameraPrediction = () => {
+      if (
+        !cameraPredictRef.current ||
+        cameraFrameRef.current ||
+        document.hidden ||
+        !isInViewRef.current
+      )
+        return;
+      cameraFrameRef.current = requestAnimationFrame(cameraPredictRef.current);
+    };
+
+    const animate = (now) => {
       animationFrame = 0;
       if (disposed || reducedMotion || !isInView || document.hidden) return;
-      drawFrame(true);
+      const delta = Math.min(Math.max(now - previousFrameAt, 0), 34);
+      previousFrameAt = now;
+      updateCloud(now, delta);
+      drawFrame(true, now);
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -613,12 +934,18 @@ export default function HologramParticles({
         animationFrame
       )
         return;
+      previousFrameAt = performance.now();
       animationFrame = requestAnimationFrame(animate);
     };
 
     const handleVisibilityChange = () => {
-      if (document.hidden) stopAnimation();
-      else startAnimation();
+      if (document.hidden) {
+        stopAnimation();
+        stopCameraPrediction();
+      } else {
+        startAnimation();
+        startCameraPrediction();
+      }
     };
 
     const resizeObserver =
@@ -632,8 +959,14 @@ export default function HologramParticles({
         : new IntersectionObserver(
             ([entry]) => {
               isInView = entry.isIntersecting;
-              if (isInView) startAnimation();
-              else stopAnimation();
+              isInViewRef.current = isInView;
+              if (isInView) {
+                startAnimation();
+                startCameraPrediction();
+              } else {
+                stopAnimation();
+                stopCameraPrediction();
+              }
             },
             { rootMargin: "120px 0px" }
           );
@@ -645,11 +978,20 @@ export default function HologramParticles({
     });
     document.addEventListener("visibilitychange", handleVisibilityChange);
     if (!resizeObserver) window.addEventListener("resize", scheduleResize);
+    if (cloudImage) {
+      cloudImageElement = new Image();
+      cloudImageElement.decoding = "async";
+      cloudImageElement.onload = scheduleResize;
+      cloudImageElement.src = cloudImage;
+    }
     scheduleResize();
     startAnimation();
+    startCameraPrediction();
+    document.fonts?.ready?.then(scheduleResize).catch(() => {});
 
     return () => {
       disposed = true;
+      isInViewRef.current = false;
       resizeObserver?.disconnect();
       intersectionObserver?.disconnect();
       themeObserver.disconnect();
@@ -657,16 +999,20 @@ export default function HologramParticles({
       if (!resizeObserver) window.removeEventListener("resize", scheduleResize);
       cancelAnimationFrame(resizeFrame);
       stopAnimation();
+      stopCameraPrediction();
       particles = [];
+      cloudImageElement = null;
     };
-  }, [reducedMotion, text]);
+  }, [cloudImage, obstacleSelector, reducedMotion, text]);
 
   const isCameraRunning =
-    cameraState === "starting" || cameraState === "active";
+    cameraState === "starting" ||
+    cameraState === "active" ||
+    cameraState === "preview";
   const cameraButtonLabel =
     cameraState === "starting"
       ? copy.cancelCamera
-      : cameraState === "active"
+      : cameraState === "active" || cameraState === "preview"
       ? copy.disableCamera
       : cameraState === "error"
       ? copy.retryCamera
@@ -679,6 +1025,9 @@ export default function HologramParticles({
       ref={containerRef}
       className={[styles.root, className].filter(Boolean).join(" ")}
       style={{ width: "100%", height: "70vh", ...style }}
+      data-camera={cameraState}
+      data-preview={showCameraPreview ? "true" : "false"}
+      data-motion={reducedMotion ? "reduced" : "full"}
     >
       <video
         ref={videoRef}
@@ -687,6 +1036,7 @@ export default function HologramParticles({
         muted
         aria-hidden="true"
       />
+      <div className={styles.cameraScrim} aria-hidden="true" />
       <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
 
       <div
@@ -698,15 +1048,14 @@ export default function HologramParticles({
         aria-hidden="true"
       >
         <span className={styles.indicatorGrip} />
-        <span
-          className={styles.indicatorLabel}
-          data-open={copy.eraserOpen}
-          data-closed={copy.eraserClosed}
-        />
       </div>
 
-      <div className={styles.controlDock}>
-        <div className={styles.statusLine} role="status" aria-live="polite">
+      <div className={styles.controlDock} data-particle-obstacle>
+        <div
+          className={styles.statusLine}
+          role="status"
+          aria-live={cameraState === "active" ? "off" : "polite"}
+        >
           <span className={styles.statusDot} data-state={cameraState} />
           <span>{statusText}</span>
         </div>
@@ -720,10 +1069,45 @@ export default function HologramParticles({
           <span className={styles.cameraGlyph} aria-hidden="true" />
           {cameraButtonLabel}
         </button>
+        <button
+          type="button"
+          className={styles.fieldButton}
+          data-mode={fieldMode}
+          aria-pressed={fieldMode === "attract"}
+          aria-label={
+            fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
+          }
+          title={
+            fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
+          }
+          onClick={() => {
+            const nextMode = fieldMode === "disperse" ? "attract" : "disperse";
+            setFieldMode(nextMode);
+            if (pointerDataRef.current) {
+              const interaction = {
+                ...pointerDataRef.current,
+                isClosed: nextMode === "attract",
+              };
+              pointerDataRef.current = interaction;
+              setIndicator(interaction);
+            }
+          }}
+        >
+          <span className={styles.fieldGlyph} aria-hidden="true" />
+          <span className={styles.fieldLabel}>
+            {fieldMode === "attract"
+              ? copy.fieldModeAttract
+              : copy.fieldModeDisperse}
+          </span>
+        </button>
         <span className={styles.privacyNote}>{copy.privacy}</span>
       </div>
 
-      <div className={styles.pointerHint} aria-hidden="true">
+      <div
+        className={styles.pointerHint}
+        data-particle-obstacle
+        aria-hidden="true"
+      >
         <span className={styles.pointerHintIcon} />
         {copy.pointerHint}
       </div>

@@ -1,3 +1,349 @@
+:global(.navbar) {
+  height: var(--ifm-navbar-height);
+  padding: 6px clamp(10px, 2vw, 24px) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.navbarSurface {
+  width: min(100%, 1440px);
+  height: 48px;
+  min-height: 48px;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+  background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--glass-border) 78%, var(--glass-highlight));
+  border-radius: 18px;
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1),
+    0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 var(--glass-highlight);
+  -webkit-backdrop-filter: blur(24px) saturate(165%);
+  backdrop-filter: blur(24px) saturate(165%);
+  transition: border-color 180ms ease, box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.navbarSurface:focus-within {
+  border-color: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 34%,
+    var(--glass-border)
+  );
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.12),
+    0 0 0 3px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+.leftRail,
+.rightRail,
+.utilityNav,
+.primaryNav,
+.rightItems,
+.searchSlot,
+.brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.leftRail,
+.rightRail {
+  height: 100%;
+  gap: 0.3rem;
+  background: transparent !important;
+}
+
+.leftRail {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.rightRail {
+  flex: 0 0 auto;
+}
+
+.brand {
+  flex: 0 0 auto;
+  height: 100%;
+}
+
+.brand :global(.navbar__brand) {
+  min-width: 0;
+  margin-right: 0.25rem;
+  padding: 0.2rem 0.42rem;
+  border-radius: 12px;
+}
+
+.brand :global(.navbar__logo) {
+  height: 27px;
+  margin-right: 0.42rem;
+}
+
+.brand :global(.navbar__title) {
+  overflow: hidden;
+  color: var(--ifm-navbar-link-color);
+  font-size: 0.88rem;
+  font-weight: 720;
+  letter-spacing: -0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.primaryNav,
+.rightItems {
+  gap: 0.12rem;
+}
+
+.primaryNav {
+  overflow: hidden;
+}
+
+.primaryNav > a,
+.rightItems > a,
+.rightItems > :global(.navbar__item) > :global(.navbar__link),
+.rightItems > :global(.navbar__item) > :global(.dropdown__link) {
+  min-height: 36px;
+  padding: 0.42rem 0.62rem !important;
+  color: var(--ifm-navbar-link-color) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+}
+
+.primaryNav > a:hover,
+.rightItems > a:hover,
+.rightItems > :global(.navbar__item) > :global(.navbar__link):hover {
+  color: var(--ifm-color-primary) !important;
+  background: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 9%,
+    transparent
+  ) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.primaryNav > a[class*="navbarNavLinkActive"],
+.primaryNav > a:global(.navbar__link--active),
+.rightItems > a[class*="navbarNavLinkActive"],
+.rightItems > a:global(.navbar__link--active) {
+  color: var(--ifm-color-primary) !important;
+  background: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 12%,
+    var(--glass-bg)
+  ) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 18%,
+    transparent
+  ) !important;
+  box-shadow: inset 0 1px 0 var(--glass-highlight) !important;
+}
+
+.primaryNav :global([class*="navbarNavIcon"]),
+.rightItems :global([class*="navbarNavIcon"]) {
+  width: 17px;
+  height: 17px;
+}
+
+.primaryNav > a:hover :global([class*="navbarNavIcon"]),
+.rightItems > a:hover :global([class*="navbarNavIcon"]) {
+  transform: none !important;
+}
+
+.utilityNav {
+  gap: 0.3rem;
+}
+
+.searchSlot :global(.navbar__search) {
+  margin: 0;
+}
+
+.searchSlot :global(.navbar__search-input) {
+  width: clamp(8.5rem, 13vw, 12rem);
+  height: 36px;
+  color: var(--ifm-navbar-link-color);
+  background-color: color-mix(in srgb, var(--glass-bg) 82%, transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  transition: width 180ms ease, border-color 180ms ease,
+    background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.searchSlot :global(.navbar__search-input):focus {
+  width: clamp(10rem, 16vw, 14rem);
+  background-color: color-mix(in srgb, var(--glass-bg) 96%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 44%,
+    var(--glass-border)
+  );
+  box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--ifm-color-primary) 12%, transparent),
+    inset 0 1px 0 var(--glass-highlight);
+  outline: 0;
+}
+
 .colorModeToggle {
-  margin: 0 0.5rem;
+  flex: 0 0 auto;
+  margin: 0 !important;
+  border-radius: 12px;
+}
+
+.colorModeToggle > button {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+@media (max-width: 1180px) and (min-width: 997px) {
+  .primaryNav > a,
+  .rightItems > a,
+  .rightItems > :global(.navbar__item) > :global(.navbar__link) {
+    padding-inline: 0.48rem !important;
+  }
+
+  .primaryNav :global([class*="navbarNavIcon"]),
+  .rightItems :global([class*="navbarNavIcon"]) {
+    display: none;
+  }
+
+  .searchSlot :global(.navbar__search-input) {
+    width: 8.5rem;
+  }
+}
+
+@media (max-width: 996px) {
+  :global(.navbar) {
+    padding: 6px 8px !important;
+  }
+
+  .navbarSurface {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 0.38rem;
+    border-radius: 17px;
+  }
+
+  .leftRail,
+  .rightRail {
+    height: 48px;
+  }
+
+  .leftRail :global(.navbar__toggle) {
+    display: inline-flex !important;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 12px;
+  }
+
+  .brand :global(.navbar__brand) {
+    margin: 0;
+    padding-inline: 0.25rem;
+  }
+
+  .brand :global(.navbar__logo) {
+    height: 24px;
+    margin-right: 0.32rem;
+  }
+
+  .brand :global(.navbar__title) {
+    max-width: clamp(5.5rem, 30vw, 8.5rem);
+    font-size: 0.82rem;
+  }
+
+  .primaryNav,
+  .rightItems,
+  .colorModeToggle {
+    display: none;
+  }
+
+  .utilityNav {
+    gap: 0;
+  }
+
+  .searchSlot :global(.navbar__search-input) {
+    width: 40px !important;
+    height: 40px;
+    padding-right: 0;
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .searchSlot :global(.navbar__search-input):focus {
+    width: min(15rem, calc(100vw - 12rem)) !important;
+    min-width: 8.5rem;
+    padding-right: 0.75rem;
+    cursor: text;
+    background-color: var(--ifm-background-surface-color);
+    border-color: color-mix(
+      in srgb,
+      var(--ifm-color-primary) 44%,
+      var(--glass-border)
+    );
+  }
+}
+
+@media (max-width: 390px) {
+  .brand :global(.navbar__title) {
+    max-width: 6.3rem;
+  }
+
+  .searchSlot :global(.navbar__search-input):focus {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: calc(100% - 58px) !important;
+    max-width: none;
+  }
+}
+
+@supports not (backdrop-filter: blur(2px)) {
+  .navbarSurface {
+    background: var(--ifm-background-surface-color);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .navbarSurface {
+    background: var(--ifm-background-surface-color);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbarSurface,
+  .searchSlot :global(.navbar__search-input) {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .navbarSurface,
+  .searchSlot :global(.navbar__search-input) {
+    background: Canvas;
+    border: 1px solid CanvasText;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }

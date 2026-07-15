@@ -1,374 +1,343 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
 .heroBanner {
-  min-height: calc(100vh - var(--ifm-navbar-height));
-  min-height: calc(100svh - var(--ifm-navbar-height));
-  padding: clamp(3.5rem, 7vw, 6rem) 0;
-  text-align: center;
   position: relative;
-  isolation: isolate;
+  display: grid;
+  min-height: max(760px, calc(100svh - var(--ifm-navbar-height)));
+  padding: clamp(21rem, 46vh, 27rem) clamp(1rem, 5vw, 4.5rem)
+    clamp(1.5rem, 5vw, 4rem);
   overflow: hidden;
-  background: var(--home-grid-bg);
-  background: radial-gradient(
-      circle at 14% 18%,
-      rgba(96, 165, 250, 0.2),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 86% 42%,
-      rgba(196, 181, 253, 0.18),
-      transparent 32%
-    ),
-    linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--home-grid-bg) 92%, white),
-      var(--home-grid-bg)
-    );
-  box-shadow: inset 0 -1px 0 var(--glass-border);
   color: var(--ifm-color-emphasis-900);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    radial-gradient(circle at 14% 8%, rgba(0, 113, 227, 0.22), transparent 34%),
+    radial-gradient(
+      circle at 88% 28%,
+      rgba(175, 82, 222, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(155deg, #eef4fa 0%, #e5e8ef 48%, #dce3ec 100%);
+  background-size: 38px 38px, 38px 38px, auto, auto, auto;
+  border-bottom: 1px solid var(--glass-border);
+  isolation: isolate;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 3rem 1rem;
-  }
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.cta {
-  position: relative;
-  cursor: pointer;
-  padding: 0.875rem 2.5rem 0.875rem 1.5rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  border-radius: 14px;
-  /* 增强的玻璃态按钮 */
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.15) 0%,
-    rgba(147, 51, 234, 0.12) 100%
-  ) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  color: white !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* 按钮渐变背景动画 */
-.cta::before {
+.heroBanner::after {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  height: 28%;
+  background: linear-gradient(180deg, transparent, rgba(238, 244, 250, 0.62));
+  pointer-events: none;
   content: "";
+}
+
+.particleLayer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.25) 0%,
-    rgba(147, 51, 234, 0.2) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  z-index: 0;
-}
-
-/* 按钮顶部高光线 */
-.cta::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.8) 50%,
-    transparent 100%
-  );
-  opacity: 0.6;
-  transform: translateY(-100%);
-  transition: transform 0.35s ease, opacity 0.35s ease;
-  z-index: 1;
-}
-
-/* 箭头图标 - 改为独立的装饰元素 */
-.cta .arrow {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1;
-}
-
-.cta .arrow::after {
-  content: "→";
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: white;
-  opacity: 0.8;
-  transition: all 0.35s ease;
-}
-
-/* 悬停效果 */
-.cta:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25),
-    0 0 20px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  border-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.cta:hover::before {
-  opacity: 1;
-}
-
-.cta:hover::after {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.cta:hover .arrow {
-  transform: translateY(-50%) translateX(4px);
-  width: 24px;
-}
-
-.cta:hover .arrow::after {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* 点击效果 */
-.cta:active {
-  transform: translateY(-1px) scale(0.98);
-  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2),
-    inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* 脉冲光效动画 */
-@keyframes pulseGlow {
-  0%,
-  100% {
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
-  50% {
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25),
-      0 0 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-}
-
-.cta:hover {
-  animation: pulseGlow 2s ease-in-out infinite;
-}
-
-/* 移除旧的箭头样式 */
-.cta::after {
-  display: none;
-}
-
-/* 新增：云朵动画样式 */
-.cloudContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* 默认不拦截，但子元素可开启 */
-  z-index: 0;
-}
-
-.cloudLink {
-  position: absolute; /* Needed for transform/animation */
-  display: block;
-  pointer-events: auto;
-  cursor: pointer;
-  will-change: transform;
-  transition: filter 0.3s ease;
-}
-
-.cloudLink:hover {
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) brightness(1.2);
-}
-
-.gridCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
   pointer-events: none;
 }
 
 .heroContent {
   position: relative;
-  z-index: 2;
-  margin-top: var(--hero-content-offset, 31vh);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-}
-
-.cloud {
-  display: block;
-  width: 200px;
-  opacity: 0.85;
-}
-
-/* 移除固定关键帧动画，改为 JS 随机路径动画 */
-
-/* 确保主要内容层级在云朵之上 */
-.container {
-  position: relative;
-  z-index: 1;
-}
-
-.heroBanner :global(.hero__subtitle) {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1.5rem;
-  border-radius: 999px;
-  /* 玻璃态副标题 */
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  color: var(--ifm-color-emphasis-900);
-  font-weight: 500;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 var(--glass-highlight);
-  transition: all 0.3s var(--ease-smooth);
-}
-
-.heroBanner :global(.hero__subtitle):hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 var(--glass-highlight);
-}
-
-.heroBanner :global(.hero__title) {
-  display: inline-block;
-  padding: 0.75rem 2.5rem;
-  border-radius: 24px;
-  /* 玻璃态标题 */
-  background: var(--glass-bg);
-  color: var(--ifm-color-emphasis-900);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
-  transition: all 0.4s var(--ease-smooth);
-  position: relative;
+  z-index: 3;
+  align-self: end;
+  justify-self: start;
+  width: min(710px, 100%);
+  padding: clamp(1.25rem, 2.6vw, 2.15rem);
   overflow: hidden;
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
+  text-align: left;
+  background: rgba(255, 255, 255, 0.64);
+  background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: clamp(24px, 3vw, 34px);
+  box-shadow: 0 30px 80px rgba(39, 52, 75, 0.16),
+    0 4px 18px rgba(39, 52, 75, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
 }
 
-/* 标题内部高光 */
-.heroBanner :global(.hero__title)::before {
-  content: "";
+.heroContent::before {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  right: 8%;
+  left: 8%;
   height: 1px;
-  background: var(--glass-highlight);
-  opacity: 0.8;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.98),
+    transparent
+  );
+  content: "";
 }
 
-/* 标题悬停效果 */
-.heroBanner :global(.hero__title):hover {
+.eyebrow {
+  margin: 0 0 0.72rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.7rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  max-width: 15ch;
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(2.2rem, 5vw, 4.65rem);
+  font-weight: 780;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  text-wrap: balance;
+}
+
+.heroRole {
+  margin: 1.05rem 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: clamp(0.86rem, 1.5vw, 1rem);
+  font-weight: 720;
+  line-height: 1.45;
+}
+
+.heroIntro {
+  max-width: 64ch;
+  margin: 0.65rem 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
+  line-height: 1.65;
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chipList li {
+  padding: 0.38rem 0.66rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.7rem;
+  font-weight: 680;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.36);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.primaryAction,
+.secondaryAction,
+.textAction {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease, background 180ms ease;
+}
+
+.primaryAction {
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #0071e3, #146cd1 56%, #6d4be8);
+  box-shadow: 0 10px 24px rgba(0, 113, 227, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.secondaryAction {
+  padding: 0.75rem 1rem;
+  color: var(--ifm-color-emphasis-900);
+  background: rgba(255, 255, 255, 0.36);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+.textAction {
+  padding: 0.72rem 0.52rem;
+  color: var(--ifm-color-primary);
+}
+
+.primaryAction:hover,
+.secondaryAction:hover,
+.textAction:hover {
+  text-decoration: none;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glass-hover);
-  border-color: var(--glass-highlight);
 }
 
-@media screen and (max-width: 768px) {
+.primaryAction:hover {
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(0, 113, 227, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+.secondaryAction:hover {
+  color: var(--ifm-color-emphasis-900);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.primaryAction:focus-visible,
+.secondaryAction:focus-visible,
+.textAction:focus-visible {
+  outline: 3px solid
+    color-mix(in srgb, var(--ifm-color-primary) 38%, transparent);
+  outline-offset: 3px;
+}
+
+.availability {
+  display: flex;
+  gap: 0.48rem;
+  align-items: center;
+  margin: 1rem 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.availability span {
+  width: 7px;
+  height: 7px;
+  background: #30d158;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(48, 209, 88, 0.12);
+}
+
+.homeMain {
+  position: relative;
+  overflow: hidden;
+  background: var(--ifm-background-color);
+}
+
+:global(html[data-theme="dark"]) .heroBanner {
+  background: linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    radial-gradient(circle at 14% 8%, rgba(41, 151, 255, 0.28), transparent 36%),
+    radial-gradient(circle at 88% 28%, rgba(191, 90, 242, 0.2), transparent 35%),
+    linear-gradient(155deg, #111827 0%, #090d16 52%, #05070c 100%);
+  background-size: 38px 38px, 38px 38px, auto, auto, auto;
+}
+
+:global(html[data-theme="dark"]) .heroBanner::after {
+  background: linear-gradient(180deg, transparent, rgba(5, 7, 12, 0.72));
+}
+
+:global(html[data-theme="dark"]) .heroContent {
+  background: rgba(19, 25, 37, 0.68);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.54),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+:global(html[data-theme="dark"]) .chipList li,
+:global(html[data-theme="dark"]) .secondaryAction {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+@supports not (backdrop-filter: blur(2px)) {
+  .heroContent {
+    background: var(--ifm-background-surface-color);
+  }
+}
+
+@media (max-width: 700px) {
   .heroBanner {
-    min-height: calc(100vh - var(--ifm-navbar-height));
-    min-height: calc(100svh - var(--ifm-navbar-height));
+    min-height: 820px;
+    padding: 22rem 0.85rem 1rem;
   }
 
   .heroContent {
-    margin-top: var(--hero-content-offset-mobile, 29vh);
+    width: 100%;
+    padding: 1.2rem;
+    border-radius: 26px;
   }
 
-  .heroBanner :global(.hero__title) {
-    padding: 0.6rem 2rem;
-    font-size: 2rem;
-    border-radius: 20px;
+  .heroTitle {
+    max-width: 18ch;
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1;
   }
 
-  .heroBanner :global(.hero__subtitle) {
-    margin-top: 0.75rem;
-    padding: 0.4rem 1.2rem;
-    font-size: 0.95rem;
+  .heroRole {
+    margin-top: 0.8rem;
   }
 
-  .cloud {
-    width: 150px;
+  .heroIntro {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .actionRow {
+    align-items: stretch;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    flex: 1 1 auto;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media (max-width: 390px) {
   .heroBanner {
-    padding: 2.5rem 0.75rem;
+    min-height: 850px;
+    padding-top: 21rem;
   }
 
-  .heroBanner :global(.hero__title) {
-    padding: 0.5rem 1.5rem;
-    font-size: 1.75rem;
-    border-radius: 18px;
+  .heroContent {
+    padding: 1rem;
   }
 
-  .heroBanner :global(.hero__subtitle) {
-    padding: 0.35rem 1rem;
-    font-size: 0.9rem;
+  .eyebrow {
+    font-size: 0.62rem;
   }
 
-  .cloud {
-    width: 120px;
-    top: 25%;
-    opacity: 0.7;
+  .chipList li {
+    font-size: 0.64rem;
+  }
+
+  .actionRow {
+    gap: 0.48rem;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .heroContent {
+    background: var(--ifm-background-surface-color);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cta,
-  .cta::before,
-  .cta .arrow,
-  .cloudLink,
-  .heroBanner :global(.hero__title),
-  .heroBanner :global(.hero__subtitle) {
-    animation: none;
+  .primaryAction,
+  .secondaryAction,
+  .textAction {
     transition: none;
   }
 
-  .cta:hover,
-  .heroBanner :global(.hero__title):hover,
-  .heroBanner :global(.hero__subtitle):hover {
+  .primaryAction:hover,
+  .secondaryAction:hover,
+  .textAction:hover {
     transform: none;
   }
 }

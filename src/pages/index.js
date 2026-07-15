@@ -2,19 +2,51 @@ import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
-import clsx from "clsx";
-import styles from "./index.module.css";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import HologramParticles from "@site/src/components/HologramParticles";
+import styles from "./index.module.css";
+
+const HOME_COPY = {
+  en: {
+    pageTitle: "Home",
+    eyebrow: "Liangchao Deng · SMILER488",
+    title: "Intelligent systems for crops, built to be explored.",
+    role: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
+    intro:
+      "I connect computer vision, crop models, and scientific AI to turn complex plant data into reproducible research tools.",
+    chips: ["Plant Phenotyping", "Crop Modeling", "AI for Science"],
+    primaryAction: "Explore the research",
+    appAction: "Open App Lab",
+    cvAction: "View CV",
+    availability: "Research, open tools, and collaboration",
+    description:
+      "Liangchao Deng's research, computational plant science projects, and interactive tools.",
+  },
+  zh: {
+    pageTitle: "首页",
+    eyebrow: "邓良超 · SMILER488",
+    title: "把作物科学，构建成可以探索的智能系统。",
+    role: "博士后研究人员 · 人工智能 × 作物表型 × 作物模型",
+    intro:
+      "连接计算机视觉、作物模型与科学智能，把复杂的植物数据转化为可复现、可使用的科研工具。",
+    chips: ["作物表型", "作物模型", "科学智能"],
+    primaryAction: "探索研究方向",
+    appAction: "进入应用实验室",
+    cvAction: "查看简历",
+    availability: "研究、开放工具与合作",
+    description: "邓良超的作物表型、作物模型、科学智能研究与交互工具。",
+  },
+};
 
 const ZH_HOLOGRAM_LABELS = {
-  pointerReady: "指针互动已就绪",
-  reducedMotion: "静态模式 · 指针互动可用",
+  pointerReady: "粒子互动已就绪",
+  reducedMotion: "静态粒子展示 · 已减少动态效果",
   cameraStarting: "正在启动本地手势识别…",
+  cameraPreviewOnly: "摄像头背景已开启 · 指针互动仍可用",
   cameraWaiting: "手势模式 · 请将一只手放入画面",
-  cameraOpen: "张开手掌 · 粒子橡皮擦",
-  cameraClosed: "闭合手势 · 粒子引力场",
+  cameraOpen: "张开手掌 · 扩散粒子",
+  cameraClosed: "闭合手势 · 吸附并旋转粒子",
   cameraError: "摄像头不可用 · 已保留指针模式",
   cameraUnsupported: "浏览器不支持摄像头 · 指针模式可用",
   enableCamera: "启用手势",
@@ -23,198 +55,81 @@ const ZH_HOLOGRAM_LABELS = {
   retryCamera: "重试手势",
   unavailableCamera: "摄像头不可用",
   privacy: "仅在本机处理 · 不会上传视频",
-  pointerHint: "移动或触摸擦除 · 鼠标按下聚合",
-  eraserOpen: "擦除",
-  eraserClosed: "引力",
+  pointerHint: "移动或触摸扩散 · 按下或切换模式吸附",
+  fieldDisperse: "切换为粒子扩散模式",
+  fieldAttract: "切换为粒子吸附模式",
+  fieldModeDisperse: "扩散",
+  fieldModeAttract: "吸附",
 };
 
-// CloudAnimation 组件：在页面上显示移动云朵
-function CloudAnimation() {
-  const containerRef = React.useRef(null);
-  const cloudRef = React.useRef(null);
-  React.useEffect(() => {
-    const container = containerRef.current;
-    const cloud = cloudRef.current;
-    if (!container || !cloud) return;
-
-    let w = container.clientWidth;
-    let h = container.clientHeight;
-    let frameId = 0;
-    let disposed = false;
-    const motionPreference = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
-    let reduceMotion = motionPreference.matches;
-    const margin = 12;
-
-    function bounds() {
-      const cw = cloud.offsetWidth || 200;
-      const ch = cloud.offsetHeight || 120;
-      const s = getComputedStyle(container.parentElement);
-      const leftVar = parseFloat(s.getPropertyValue("--grid-text-left"));
-      const rightVar = parseFloat(s.getPropertyValue("--grid-text-right"));
-      const hasVars =
-        Number.isFinite(leftVar) &&
-        Number.isFinite(rightVar) &&
-        rightVar > leftVar;
-      const xMin = hasVars
-        ? Math.max(margin, leftVar)
-        : Math.max(margin, w * 0.2);
-      const xMaxRaw = hasVars ? rightVar : w * 0.8;
-      const xMax = Math.max(
-        xMin + 10,
-        Math.min(w - cw - margin, xMaxRaw - cw - margin)
-      );
-      const yMin = Math.max(margin, h * 0.25);
-      const yMax = Math.max(yMin + 10, h * 0.65 - ch - margin);
-      return { xMin, xMax, yMin, yMax };
-    }
-    let b = bounds();
-
-    let x = b.xMin + Math.random() * (b.xMax - b.xMin);
-    let y = b.yMin + Math.random() * (b.yMax - b.yMin);
-    let tx = x,
-      ty = y;
-    let start = 0;
-    let dur = 6000;
-
-    function pickTarget() {
-      b = bounds();
-      tx = b.xMin + Math.random() * (b.xMax - b.xMin);
-      ty = b.yMin + Math.random() * (b.yMax - b.yMin);
-      dur = 4000 + Math.random() * 6000;
-      start = 0;
-    }
-
-    function step(t) {
-      if (disposed || reduceMotion) return;
-      if (!start) start = t;
-      const p = Math.min(1, (t - start) / dur);
-      const ease = 0.5 - Math.cos(Math.PI * p) / 2;
-      const nx = x + (tx - x) * ease;
-      const ny = y + (ty - y) * ease;
-      cloud.style.transform = `translate(${nx}px, ${ny}px)`;
-      if (p >= 1) {
-        x = tx;
-        y = ty;
-        pickTarget();
-      }
-      frameId = requestAnimationFrame(step);
-    }
-
-    function positionStatic() {
-      cancelAnimationFrame(frameId);
-      frameId = 0;
-      b = bounds();
-      x = b.xMin + (b.xMax - b.xMin) * 0.72;
-      y = b.yMin + (b.yMax - b.yMin) * 0.3;
-      cloud.style.transform = `translate(${x}px, ${y}px)`;
-    }
-
-    function startAnimation() {
-      cancelAnimationFrame(frameId);
-      start = 0;
-      pickTarget();
-      frameId = requestAnimationFrame(step);
-    }
-
-    if (reduceMotion) positionStatic();
-    else startAnimation();
-
-    function onResize() {
-      w = container.clientWidth;
-      h = container.clientHeight;
-      b = bounds();
-      if (reduceMotion) positionStatic();
-    }
-
-    function onMotionPreferenceChange(event) {
-      reduceMotion = event.matches;
-      if (reduceMotion) positionStatic();
-      else startAnimation();
-    }
-
-    window.addEventListener("resize", onResize);
-    if (motionPreference.addEventListener) {
-      motionPreference.addEventListener("change", onMotionPreferenceChange);
-    } else {
-      motionPreference.addListener?.(onMotionPreferenceChange);
-    }
-
-    return () => {
-      disposed = true;
-      cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", onResize);
-      if (motionPreference.removeEventListener) {
-        motionPreference.removeEventListener(
-          "change",
-          onMotionPreferenceChange
-        );
-      } else {
-        motionPreference.removeListener?.(onMotionPreferenceChange);
-      }
-    };
-  }, []);
-
-  return (
-    <div className={styles.cloudContainer} ref={containerRef}>
-      <a
-        ref={cloudRef}
-        href="https://github.com/tangbonnie/tangbonnie.github.io"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.cloudLink}
-        title="Visit TangBonnie's GitHub (Click Me!)"
-      >
-        <img className={styles.cloud} src="/img/cloud.png" alt="Cloud" />
-      </a>
-    </div>
-  );
-}
-
 function HomepageHeader() {
-  const { siteConfig, i18n } = useDocusaurusContext();
+  const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
+  const copy = isChinese ? HOME_COPY.zh : HOME_COPY.en;
+
   return (
-    <header className={clsx("hero hero--primary", styles.heroBanner)}>
-      <div className={styles.gridCanvas}>
+    <header className={styles.heroBanner} data-particle-stage>
+      <div className={styles.particleLayer}>
         <HologramParticles
           text="SMILER488"
+          cloudImage="/img/cloud.png"
+          showCameraPreview
+          obstacleSelector="[data-particle-obstacle]"
           style={{ height: "100%" }}
           labels={isChinese ? ZH_HOLOGRAM_LABELS : undefined}
         />
       </div>
-      <CloudAnimation />
-      <div className={styles.heroContent}>
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+
+      <div
+        className={styles.heroContent}
+        data-particle-obstacle
+        aria-labelledby="home-hero-title"
+      >
+        <p className={styles.eyebrow}>{copy.eyebrow}</p>
+        <Heading as="h1" id="home-hero-title" className={styles.heroTitle}>
+          {copy.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className={clsx("button button--secondary button--lg", styles.cta)}
-            to="/cv"
-            aria-label={isChinese ? "打开最新简历" : "Open the latest CV"}
-            title={isChinese ? "打开最新简历" : "Open the latest CV"}
-          >
-            Curriculum Vitae - Latest
-            <span className={styles.arrow}></span>
+        <p className={styles.heroRole}>{copy.role}</p>
+        <p className={styles.heroIntro}>{copy.intro}</p>
+
+        <ul className={styles.chipList} aria-label={copy.role}>
+          {copy.chips.map((chip) => (
+            <li key={chip}>{chip}</li>
+          ))}
+        </ul>
+
+        <div className={styles.actionRow}>
+          <Link className={styles.primaryAction} to="#research-heading">
+            {copy.primaryAction}
+            <span aria-hidden="true">↘</span>
+          </Link>
+          <Link className={styles.secondaryAction} to="/app">
+            {copy.appAction}
+          </Link>
+          <Link className={styles.textAction} to="/cv">
+            {copy.cvAction}
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
+
+        <p className={styles.availability}>
+          <span aria-hidden="true" />
+          {copy.availability}
+        </p>
       </div>
     </header>
   );
 }
 
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
+  const { i18n } = useDocusaurusContext();
+  const isChinese = i18n.currentLocale === "zh-Hans";
+  const copy = isChinese ? HOME_COPY.zh : HOME_COPY.en;
+
   return (
-    <Layout
-      title={siteConfig.title}
-      description="Deng Liangchao's research, computational plant science projects, and interactive tools."
-    >
+    <Layout title={copy.pageTitle} description={copy.description}>
       <HomepageHeader />
-      <main>
+      <main className={styles.homeMain}>
         <HomepageFeatures />
       </main>
     </Layout>

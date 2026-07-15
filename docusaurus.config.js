@@ -15,7 +15,7 @@ const config = {
     },
   },
   title: "Liangchao Deng",
-  tagline: "Ph.D. in AI × Mathematics × Computer × Plant",
+  tagline: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
   favicon: "img/favicon.ico",
   url: "https://smiler488.github.io/",
   baseUrl: "/",
@@ -122,9 +122,9 @@ const config = {
     },
     navbar: {
       hideOnScroll: true,
-      title: "Home",
+      title: "SMILER488",
       logo: {
-        alt: "My Site Logo",
+        alt: "SMILER488 — Liangchao Deng",
         src: "img/logo.svg",
       },
       items: [

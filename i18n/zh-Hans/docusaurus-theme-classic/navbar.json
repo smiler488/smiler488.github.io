@@ -1,22 +1,22 @@
 {
   "title": {
-    "message": "Home",
+    "message": "SMILER488",
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "My Site Logo",
+    "message": "SMILER488 — 邓良超",
     "description": "The alt text of navbar logo"
   },
   "item.label.Tutorial": {
-    "message": "Tutorial",
+    "message": "教程",
     "description": "Navbar item with label Tutorial"
   },
-  "item.label.Blog": {
-    "message": "Research",
+  "item.label.Research": {
+    "message": "研究",
     "description": "Navbar item with label Blog"
   },
   "item.label.CV": {
-    "message": "CV",
+    "message": "简历",
     "description": "Navbar item with label CV"
   },
   "item.label.Resource": {
@@ -24,7 +24,7 @@
     "description": "Navbar item with label Resource"
   },
   "item.label.App": {
-    "message": "App",
+    "message": "应用",
     "description": "Navbar item with label App"
   },
   "item.label.GitHub": {
