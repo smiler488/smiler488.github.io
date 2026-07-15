@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
+import AppScaffold from '../../../components/AppScaffold';
 import './styles.css';
 
 const MAX_CANVAS_SIZE = 1800;
+const MAX_BATCH_FILES = 6;
+const MAX_TOTAL_PIXELS = 9000000;
+const MAX_FILE_BYTES = 24 * 1024 * 1024;
 const MAX_POINTS = 60;
-const HISTORY_LIMIT = 10;
+const HISTORY_LIMIT = 4;
 
 const defaultSettings = {
   bgThreshold: 35,
@@ -22,7 +26,6 @@ const statusToneClass = {
 };
 
 export default function RootProcessorApp() {
-  const isBrowser = typeof window !== 'undefined';
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [interactionMode, setInteractionMode] = useState('polygon');
@@ -30,6 +33,7 @@ export default function RootProcessorApp() {
   const [brushSize, setBrushSize] = useState(14);
   const [settings, setSettings] = useState(defaultSettings);
   const [processing, setProcessing] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(false);
   const [status, setStatus] = useState({
     text: 'Upload JPG/PNG scans of root systems to begin.',
     tone: 'info',
@@ -48,7 +52,7 @@ export default function RootProcessorApp() {
 
   const currentImage = images[activeIndex] || null;
 
-  const updateStatus = (text, tone = 'info') => setStatus({ text, tone });
+  const updateStatus = useCallback((text, tone = 'info') => setStatus({ text, tone }), []);
 
   const updateImageEntry = useCallback((id, updater) => {
     setImages((prev) =>
@@ -63,20 +67,32 @@ export default function RootProcessorApp() {
   }, []);
 
   const handleFileChange = async (event) => {
-    if (!isBrowser) {
+    if (typeof window === 'undefined') {
       return;
     }
-    const files = Array.from(event.target.files || []);
+    const selectedFiles = Array.from(event.target.files || []);
+    const availableSlots = Math.max(0, MAX_BATCH_FILES - images.length);
+    const files = selectedFiles.slice(0, availableSlots);
     if (!files.length) {
+      if (selectedFiles.length) updateStatus(`A maximum of ${MAX_BATCH_FILES} images can be open at once.`, 'warning');
+      event.target.value = '';
       return;
     }
     const previousCount = images.length;
+    let totalPixels = images.reduce((sum, image) => sum + image.width * image.height, 0);
+    setLoadingFiles(true);
     updateStatus(`Loading ${files.length} image(s)...`, 'info');
     const newEntries = [];
 
     for (const file of files) {
       try {
+        if (!file.type.startsWith('image/')) throw new Error('Unsupported file type');
+        if (file.size > MAX_FILE_BYTES) throw new Error('File is larger than 24 MB');
         const { imageData, width, height } = await loadFileAsImageData(file);
+        if (totalPixels + width * height > MAX_TOTAL_PIXELS) {
+          throw new Error('Combined image dimensions exceed the safe browser limit');
+        }
+        totalPixels += width * height;
         const id = `${file.name}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
         imageDataRef.current[id] = imageData;
         previewDataRef.current[id] = cloneImageData(imageData);
@@ -93,7 +109,7 @@ export default function RootProcessorApp() {
         });
       } catch (error) {
         console.error(error);
-        updateStatus(`Unable to read ${file.name}`, 'warning');
+        updateStatus(`Unable to add ${file.name}: ${error?.message || 'image decode failed'}`, 'warning');
       }
     }
 
@@ -106,6 +122,10 @@ export default function RootProcessorApp() {
       }
       updateStatus('Images loaded. Select ROI points on the right canvas.', 'success');
     }
+    if (selectedFiles.length > files.length) {
+      updateStatus(`Loaded the safe batch limit of ${MAX_BATCH_FILES} images.`, 'warning');
+    }
+    setLoadingFiles(false);
     event.target.value = '';
   };
 
@@ -261,6 +281,17 @@ export default function RootProcessorApp() {
     updateStatus('Processed result cleared. You can redefine the ROI.', 'info');
   };
 
+  const handleClearImages = () => {
+    setImages([]);
+    setActiveIndex(0);
+    imageDataRef.current = {};
+    processedDataRef.current = {};
+    previewDataRef.current = {};
+    historyRef.current = {};
+    setInteractionMode('polygon');
+    updateStatus('Images and in-memory edit history cleared.', 'info');
+  };
+
   const handleUndoBrush = () => {
     if (!currentImage) {
       return;
@@ -349,7 +380,7 @@ export default function RootProcessorApp() {
   );
 
   useEffect(() => {
-    if (!isBrowser) {
+    if (typeof window === 'undefined') {
       return;
     }
     const canvas = workingCanvasRef.current;
@@ -389,7 +420,7 @@ export default function RootProcessorApp() {
       window.removeEventListener('pointerup', finishStroke);
       canvas.removeEventListener('pointerleave', finishStroke);
     };
-  }, [interactionMode, manualBrushHandler, commitManualStroke, isBrowser]);
+  }, [interactionMode, manualBrushHandler, commitManualStroke]);
 
   useEffect(() => {
     if (!currentImage) {
@@ -431,33 +462,26 @@ export default function RootProcessorApp() {
     interactionMode,
   ]);
 
-  if (!isBrowser) {
-    return (
-      <Layout title="Root Image Preprocessor">
-        <div className="root-app root-app--placeholder">
-          <p>Loading root preprocessing workspace...</p>
-        </div>
-        <CitationNotice />
-      </Layout>
-    );
-  }
-
   return (
-    <Layout title="Root Image Preprocessor">
+    <AppScaffold appId="root-processor">
       <div className="root-app">
         <div className="root-app__header">
           <div>
-            <h1>Root Image Preprocessor</h1>
+            <Heading as="h2">Processing workspace</Heading>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <a className="button button--secondary" href="/docs/tutorial-apps/root-preprocessor-tutorial">Tutorial</a>
+            {images.length > 0 && (
+              <button type="button" className="root-button ghost" onClick={handleClearImages} disabled={processing || loadingFiles}>
+                Clear batch
+              </button>
+            )}
             <button
               type="button"
               className="root-button secondary"
               onClick={() => fileInputRef.current?.click()}
-              disabled={false}
+              disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
             >
-              Upload Images
+              {loadingFiles ? 'Loading…' : 'Upload images'}
             </button>
           </div>
         </div>
@@ -465,7 +489,7 @@ export default function RootProcessorApp() {
           Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser.
         </p>
 
-        <div className={`root-status ${statusToneClass[status.tone] || ''}`}>
+        <div className={`root-status ${statusToneClass[status.tone] || ''}`} role={status.tone === 'danger' ? 'alert' : 'status'} aria-live="polite">
           {status.text}
         </div>
 
@@ -478,13 +502,14 @@ export default function RootProcessorApp() {
                 multiple
                 ref={fileInputRef}
                 onChange={handleFileChange}
+                disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
               />
-              <p>Drag & drop or pick files. Images larger than {MAX_CANVAS_SIZE}px on the longest edge are scaled.</p>
+              <p>Choose up to {MAX_BATCH_FILES} JPG/PNG files. Images larger than {MAX_CANVAS_SIZE}px on the longest edge are scaled.</p>
             </div>
 
             <div className="root-filelist">
               <div className="root-filelist__header">
-                <h3>Batch</h3>
+                <Heading as="h3">Batch</Heading>
                 <span>{images.length} file(s)</span>
               </div>
               {images.length === 0 && <p className="root-muted">No uploads yet.</p>}
@@ -508,7 +533,7 @@ export default function RootProcessorApp() {
             </div>
 
             <div className="root-settings">
-              <h3>Automation Settings</h3>
+              <Heading as="h3">Automation Settings</Heading>
               <label>
                 Background threshold ({settings.bgThreshold})
                 <input
@@ -560,7 +585,7 @@ export default function RootProcessorApp() {
             <div className="root-canvas-row">
               <div>
                 <div className="root-panel-heading">
-                  <h3>Original Preview</h3>
+                  <Heading as="h3">Original Preview</Heading>
                   <span className="root-muted">Read-only</span>
                 </div>
                 <canvas ref={originalCanvasRef} className="root-canvas" />
@@ -568,7 +593,7 @@ export default function RootProcessorApp() {
 
               <div>
                 <div className="root-panel-heading">
-                  <h3>ROI / Processing Canvas</h3>
+                  <Heading as="h3">ROI / Processing Canvas</Heading>
                   <span className="root-muted">
                     {interactionMode === 'polygon' ? 'Click to add polygon points' : 'Brush to refine'}
                   </span>
@@ -583,7 +608,7 @@ export default function RootProcessorApp() {
 
             <div className="root-controls">
               <div className="root-controls__group">
-                <h4>ROI Polygon</h4>
+                <Heading as="h4">ROI Polygon</Heading>
                 <p>Click on the right canvas to trace the region containing the root system.</p>
                 <div className="root-chip-row">
                   <span className="root-chip">Points: {currentImage?.polygonPoints.length || 0}</span>
@@ -603,7 +628,7 @@ export default function RootProcessorApp() {
               </div>
 
               <div className="root-controls__group">
-                <h4>Automation</h4>
+                <Heading as="h4">Automation</Heading>
                 <p>
                   Background removal (0_tranbg) and ROI enhancement (1_process) are combined. Use the sliders to tune the
                   binary mask before running.
@@ -619,7 +644,7 @@ export default function RootProcessorApp() {
               </div>
 
               <div className="root-controls__group">
-                <h4>Manual Cleanup</h4>
+                <Heading as="h4">Manual Cleanup</Heading>
                 <p>After automation, switch to manual mode to adjust fine details with brush + undo.</p>
                 <div className="root-button-row">
                   <button
@@ -641,6 +666,7 @@ export default function RootProcessorApp() {
                       }
                       setInteractionMode('manual');
                     }}
+                    disabled={!currentImage}
                   >
                     Manual Brush
                   </button>
@@ -675,7 +701,7 @@ export default function RootProcessorApp() {
               </div>
 
               <div className="root-controls__group">
-                <h4>Export</h4>
+                <Heading as="h4">Export</Heading>
                 <div className="root-button-row">
                   <button
                     type="button"
@@ -700,7 +726,7 @@ export default function RootProcessorApp() {
         </div>
         <CitationNotice />
       </div>
-    </Layout>
+    </AppScaffold>
   );
 }
 
@@ -760,19 +786,21 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
 
 async function loadFileAsImageData(file) {
   const resource = await createImageResource(file);
-  const scale = Math.min(1, MAX_CANVAS_SIZE / Math.max(resource.width, resource.height));
-  const width = Math.max(1, Math.round(resource.width * scale));
-  const height = Math.max(1, Math.round(resource.height * scale));
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(resource.element, 0, 0, width, height);
-  const imageData = ctx.getImageData(0, 0, width, height);
-  if (resource.revoke) {
-    resource.revoke();
+  try {
+    const scale = Math.min(1, MAX_CANVAS_SIZE / Math.max(resource.width, resource.height));
+    const width = Math.max(1, Math.round(resource.width * scale));
+    const height = Math.max(1, Math.round(resource.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas is unavailable');
+    ctx.drawImage(resource.element, 0, 0, width, height);
+    const imageData = ctx.getImageData(0, 0, width, height);
+    return { imageData, width, height };
+  } finally {
+    resource.revoke?.();
   }
-  return { imageData, width, height };
 }
 
 function createImageResource(file) {
@@ -800,7 +828,10 @@ function createImageResource(file) {
         revoke: () => URL.revokeObjectURL(url),
       });
     };
-    img.onerror = (error) => reject(error);
+    img.onerror = (error) => {
+      URL.revokeObjectURL(url);
+      reject(error);
+    };
     img.src = url;
   });
 }

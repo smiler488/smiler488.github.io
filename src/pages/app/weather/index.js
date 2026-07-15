@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
-import Layout from "@theme/Layout";
+import React, { Fragment, useEffect } from "react";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Heading from "@theme/Heading";
+import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
+import styles from "./styles.module.css";
 
 const WeatherPage = () => {
-  const scriptUrl = useBaseUrl('/js/weather_app.js');
+  const scriptUrl = useBaseUrl('js/weather_app.js');
   useEffect(() => {
     if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
 
@@ -14,17 +16,27 @@ const WeatherPage = () => {
       if (el) el.textContent = msg;
     };
 
+    const tryInit = () => window.WEATHER_INIT?.();
+    window.addEventListener('weather_ready', tryInit);
+    tryInit();
+
     // If geolocation API itself is missing
     if (!('geolocation' in navigator)) {
       setStatus(
         'Geolocation is not supported in this browser, or it may be disabled. Please use a modern browser (preferably on mobile) and ensure location services are enabled.'
       );
-      return;
+      return () => {
+        window.removeEventListener('weather_ready', tryInit);
+        window.WEATHER_DESTROY?.();
+      };
     }
 
     // Try Permissions API, if available, to detect permanently denied state
     if (!navigator.permissions || typeof navigator.permissions.query !== 'function') {
-      return;
+      return () => {
+        window.removeEventListener('weather_ready', tryInit);
+        window.WEATHER_DESTROY?.();
+      };
     }
 
     try {
@@ -43,9 +55,14 @@ const WeatherPage = () => {
     } catch {
       // Swallow any unexpected errors from Permissions API
     }
+
+    return () => {
+      window.removeEventListener('weather_ready', tryInit);
+      window.WEATHER_DESTROY?.();
+    };
   }, [scriptUrl]);
   return (
-    <Layout title="Weather App">
+    <Fragment>
       <Head>
         <link
           rel="stylesheet"
@@ -58,74 +75,11 @@ const WeatherPage = () => {
         <script src={scriptUrl} defer></script>
       </Head>
 
+      <AppScaffold appId="weather">
       <div className="app-container">
-        <div className="app-header" style={{ marginBottom: "30px" }}>
-          <h1 className="app-title">NASA POWER Weather Data Downloader</h1>
-          <a
-            className="button button--secondary"
-            href="/docs/tutorial-apps/weather-analyzer-tutorial"
-          >
-            Tutorial
-          </a>
-        </div>
 
-        <div className="app-card" style={{ marginBottom: '12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <span className="app-muted">Before using location features, please allow the browser to access your location (HTTPS recommended).</span>
-            <button
-              className="button button--secondary"
-              onClick={() => {
-                const setStatus = (msg) => {
-                  const el = document.getElementById('statusMessage');
-                  if (el) el.textContent = msg;
-                };
-
-                if (typeof navigator === 'undefined') {
-                  setStatus('Navigator API is not available in this environment.');
-                  return;
-                }
-
-                if (!('geolocation' in navigator)) {
-                  setStatus(
-                    'Geolocation is not supported in this browser, or it may be disabled. Please use a modern browser and ensure location services are enabled.'
-                  );
-                  return;
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                  () => setStatus('Location permission granted. You can now use "Get Current Location".'),
-                  (err) => {
-                    let msg = 'Unable to access location. ';
-                    if (err && typeof err.code === 'number') {
-                      // 1: PERMISSION_DENIED, 2: POSITION_UNAVAILABLE, 3: TIMEOUT
-                      if (err.code === 1) {
-                        msg +=
-                          'Permission was denied. Please allow location access for this site in your browser/system settings and try again.';
-                      } else if (err.code === 2) {
-                        msg += 'Position is unavailable. Please check GPS or network connectivity.';
-                      } else if (err.code === 3) {
-                        msg += 'The location request timed out. Please try again.';
-                      } else {
-                        msg += 'Your browser or device may have blocked geolocation.';
-                      }
-                    } else if (err && err.message) {
-                      msg += err.message;
-                    } else {
-                      msg += 'Your browser or device may have blocked geolocation.';
-                    }
-                    setStatus(msg);
-                  },
-                  { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-                );
-              }}
-              disabled={false}
-            >
-              Enable Location Permission
-            </button>
-          </div>
-        </div>
-
-        <div
+        <section
+          className={styles.panel}
           style={{
             backgroundColor: 'var(--ifm-background-surface-color)',
             padding: '20px',
@@ -134,9 +88,9 @@ const WeatherPage = () => {
             marginBottom: '30px',
           }}
         >
-          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
+          <Heading as="h2" style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
             Location & Date Range
-          </h3>
+          </Heading>
 
           <div
             style={{
@@ -148,6 +102,7 @@ const WeatherPage = () => {
           >
             <div>
               <label
+                htmlFor="timeScaleSelect"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -174,6 +129,7 @@ const WeatherPage = () => {
 
             <div>
               <label
+                htmlFor="timeStandardSelect"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -200,6 +156,7 @@ const WeatherPage = () => {
 
             <div>
               <label
+                htmlFor="latitude"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -212,6 +169,8 @@ const WeatherPage = () => {
               <input
                 type="number"
                 id="latitude"
+                min="-90"
+                max="90"
                 placeholder="Enter Latitude (e.g., 44.30)"
                 step="0.0001"
                 style={{
@@ -226,6 +185,7 @@ const WeatherPage = () => {
 
             <div>
               <label
+                htmlFor="longitude"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -238,6 +198,8 @@ const WeatherPage = () => {
               <input
                 type="number"
                 id="longitude"
+                min="-180"
+                max="180"
                 placeholder="Enter Longitude (e.g., 86.05)"
                 step="0.0001"
                 style={{
@@ -252,6 +214,7 @@ const WeatherPage = () => {
 
             <div>
               <label
+                htmlFor="startDate"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -276,6 +239,7 @@ const WeatherPage = () => {
 
             <div>
               <label
+                htmlFor="endDate"
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -300,6 +264,7 @@ const WeatherPage = () => {
           </div>
 
           <div style={{ marginTop: "10px" }}>
+            <label htmlFor="placeSearch" className={styles.searchLabel}>Search place or address</label>
             <div
               style={{
                 display: "flex",
@@ -337,6 +302,9 @@ const WeatherPage = () => {
             </div>
             <div
               id="weatherMap"
+              className={styles.map}
+              role="region"
+              aria-label="Interactive location map. You can also enter latitude and longitude above."
               style={{
                 width: '100%',
                 height: '420px',
@@ -388,10 +356,11 @@ const WeatherPage = () => {
               Download NASA Weather Data
             </button>
           </div>
-        </div>
+        </section>
 
         {/* Status and Progress */}
-        <div
+        <section
+          className={styles.panel}
           style={{
             backgroundColor: 'var(--ifm-background-color)',
             padding: '20px',
@@ -400,9 +369,12 @@ const WeatherPage = () => {
             marginBottom: '30px',
           }}
         >
-          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Status</h3>
+          <Heading as="h2" style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Status</Heading>
           <p
             id="statusMessage"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
             style={{
               margin: '0',
               padding: '10px',
@@ -416,6 +388,11 @@ const WeatherPage = () => {
 
           <div
             id="progressContainer"
+            role="progressbar"
+            aria-label="Weather data download progress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
             style={{ display: 'none', marginTop: '15px' }}
           >
             <div
@@ -444,10 +421,11 @@ const WeatherPage = () => {
               Processing...
             </p>
           </div>
-        </div>
+        </section>
 
         {/* Data Preview */}
-        <div
+        <section
+          className={styles.panel}
           id="dataPreview"
           style={{
             backgroundColor: 'var(--ifm-background-color)',
@@ -458,7 +436,7 @@ const WeatherPage = () => {
             display: 'none',
           }}
         >
-          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Data Preview</h3>
+          <Heading as="h2" style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '15px' }}>Data preview</Heading>
           <div
             id="dataTable"
             style={{
@@ -477,6 +455,8 @@ const WeatherPage = () => {
               flexWrap: "wrap",
             }}
           >
+            {/* Blob download URLs require a native anchor. */}
+            {/* eslint-disable-next-line @docusaurus/no-html-links */}
             <a
               id="downloadCsvBtn"
               href="#"
@@ -494,27 +474,12 @@ const WeatherPage = () => {
               Download CSV
             </a>
 
-            <a
-              id="downloadExcelBtn"
-              href="#"
-                style={{
-                  display: 'none',
-                  padding: '12px 24px',
-                  backgroundColor: 'var(--ifm-color-primary)',
-                  color: 'var(--ifm-color-white)',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                }}
-            >
-              Download Excel (PCSE Format)
-            </a>
           </div>
-        </div>
+        </section>
 
         {/* Available Parameters */}
-        <div
+        <section
+          className={styles.panel}
           style={{
             backgroundColor: 'var(--ifm-background-color)',
             padding: '20px',
@@ -522,9 +487,9 @@ const WeatherPage = () => {
             boxShadow: 'var(--ifm-global-shadow-md)',
           }}
         >
-          <h3 style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
+          <Heading as="h2" style={{ color: 'var(--ifm-color-emphasis-800)', marginBottom: '20px' }}>
             Available NASA POWER Parameters
-          </h3>
+          </Heading>
 
           <div
             style={{
@@ -584,7 +549,8 @@ const WeatherPage = () => {
                   border: '1px solid var(--ifm-border-color)',
                 }}
               >
-                <h4
+                <Heading
+                  as="h3"
                   style={{
                   color: 'var(--ifm-color-emphasis-900)',
                     margin: "0 0 8px 0",
@@ -592,7 +558,7 @@ const WeatherPage = () => {
                   }}
                 >
                   {param.name}
-                </h4>
+                </Heading>
                 <p
                   style={{
                     margin: "0 0 5px 0",
@@ -615,10 +581,11 @@ const WeatherPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        </section>
         <CitationNotice />
       </div>
-    </Layout>
+      </AppScaffold>
+    </Fragment>
   );
 };
 

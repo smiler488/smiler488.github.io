@@ -1,10 +1,22 @@
 import React, { useState } from "react";
+import Heading from "@theme/Heading";
+import Link from "@docusaurus/Link";
 
 const containerBaseStyle = {
+  boxSizing: "border-box",
+  width: "100%",
   maxWidth: "800px",
+  minWidth: 0,
   margin: "60px auto 0",
   textAlign: "left",
-  padding: "0 20px",
+  padding: "clamp(20px, 4vw, 32px)",
+  overflow: "hidden",
+  border: "1px solid var(--glass-border)",
+  borderRadius: "24px",
+  background: "var(--glass-bg)",
+  WebkitBackdropFilter: "var(--glass-blur-light)",
+  backdropFilter: "var(--glass-blur-light)",
+  boxShadow: "var(--shadow-glass), inset 0 1px 0 var(--glass-highlight)",
 };
 
 const headingStyle = {
@@ -31,12 +43,23 @@ const blockquoteStyle = {
 };
 
 const codeBlockStyle = {
+  boxSizing: "border-box",
+  width: "100%",
+  maxWidth: "100%",
   backgroundColor: "var(--ifm-background-surface-color)",
   padding: "16px",
   borderRadius: "12px",
   overflowX: "auto",
   border: "1px solid var(--ifm-border-color)",
   color: "var(--ifm-color-emphasis-800)",
+};
+
+const actionRowStyle = {
+  display: "flex",
+  alignItems: "center",
+  flexWrap: "wrap",
+  marginBottom: "16px",
+  gap: "12px",
 };
 
 const subheadingStyle = {
@@ -118,7 +141,9 @@ export default function CitationNotice({ containerStyle }) {
 
   return (
     <div style={{ ...containerBaseStyle, ...containerStyle }}>
-      <h2 style={headingStyle}>Citation</h2>
+      <Heading as="h2" style={headingStyle}>
+        Citation
+      </Heading>
       <p style={paragraphStyle}>
         If you use <strong>Digital Plant Phenotyping Platform v25.0</strong> or
         any of its applications in your research, please cite it as:
@@ -129,17 +154,19 @@ export default function CitationNotice({ containerStyle }) {
           smiler488/smiler488.github.io: Digital Plant Phenotyping Platform
           v25.0 (v25.0.0)
         </em>
-        . Zenodo.<br />
-        <a href="https://doi.org/10.5281/zenodo.17544584">
+        . Zenodo.
+        <br />
+        <Link to="https://doi.org/10.5281/zenodo.17544584">
           https://doi.org/10.5281/zenodo.17544584
-        </a>
+        </Link>
       </blockquote>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: "16px", gap: "12px" }}>
+      <div style={actionRowStyle}>
         <button
           type="button"
           onClick={handleCopyCitation}
           style={{
             padding: "8px 16px",
+            minHeight: "44px",
             borderRadius: "8px",
             border: "1px solid var(--ifm-color-emphasis-900)",
             backgroundColor: "var(--ifm-color-emphasis-900)",
@@ -155,7 +182,8 @@ export default function CitationNotice({ containerStyle }) {
             e.currentTarget.style.transform = "translateY(-1px)";
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--ifm-color-emphasis-900)";
+            e.currentTarget.style.backgroundColor =
+              "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.borderColor = "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.transform = "translateY(0)";
           }}
@@ -170,11 +198,13 @@ export default function CitationNotice({ containerStyle }) {
               : "var(--ifm-color-emphasis-600)",
           }}
         >
-          {copied ? "Citation copied to clipboard." : "Click to copy APA citation."}
+          {copied
+            ? "Citation copied to clipboard."
+            : "Click to copy APA citation."}
         </span>
       </div>
-      <a
-        href="https://doi.org/10.5281/zenodo.17544584"
+      <Link
+        to="https://doi.org/10.5281/zenodo.17544584"
         style={{ display: "inline-block", marginBottom: "24px" }}
       >
         <img
@@ -182,7 +212,7 @@ export default function CitationNotice({ containerStyle }) {
           alt="DOI badge"
           style={{ height: "28px" }}
         />
-      </a>
+      </Link>
       <hr
         style={{
           border: "none",
@@ -190,15 +220,16 @@ export default function CitationNotice({ containerStyle }) {
           marginBottom: "24px",
         }}
       />
-      <h3 style={subheadingStyle}>
+      <Heading as="h3" style={subheadingStyle}>
         BibTeX citation (Zotero → File → Import from Clipboard)
-      </h3>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: "16px", gap: "12px" }}>
+      </Heading>
+      <div style={actionRowStyle}>
         <button
           type="button"
           onClick={handleCopyBibtex}
           style={{
             padding: "8px 16px",
+            minHeight: "44px",
             borderRadius: "8px",
             border: "1px solid var(--ifm-color-emphasis-900)",
             backgroundColor: "var(--ifm-color-emphasis-900)",
@@ -214,7 +245,8 @@ export default function CitationNotice({ containerStyle }) {
             e.currentTarget.style.transform = "translateY(-1px)";
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--ifm-color-emphasis-900)";
+            e.currentTarget.style.backgroundColor =
+              "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.borderColor = "var(--ifm-color-emphasis-900)";
             e.currentTarget.style.transform = "translateY(0)";
           }}

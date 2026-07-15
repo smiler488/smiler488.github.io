@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
+import AppScaffold from '../../../components/AppScaffold';
 import styles from './styles.module.css';
 
 /**
@@ -15,16 +16,28 @@ import styles from './styles.module.css';
  * - Geolocation uses high accuracy and may take a moment to resolve
  */
 
-function useOrientation() {
-  const [ori, setOri] = useState({ alpha: 0, beta: 0, gamma: 0 });
+function useOrientation(enabled) {
+  const [ori, setOri] = useState({ alpha: null, beta: null, gamma: null, receivedAt: null });
+  const latestRef = useRef(ori);
   const handlerRef = useRef(null);
 
   useEffect(() => {
+    if (!enabled) return undefined;
+    let frame = null;
+    let latestEvent = null;
     handlerRef.current = (e) => {
-      setOri({
-        alpha: typeof e.alpha === 'number' ? e.alpha : 0, // yaw (Z)
-        beta: typeof e.beta === 'number' ? e.beta : 0,    // pitch (X)
-        gamma: typeof e.gamma === 'number' ? e.gamma : 0, // roll (Y)
+      latestEvent = e;
+      if (frame !== null) return;
+      frame = window.requestAnimationFrame(() => {
+        const reading = {
+          alpha: typeof latestEvent?.alpha === 'number' ? latestEvent.alpha : null,
+          beta: typeof latestEvent?.beta === 'number' ? latestEvent.beta : null,
+          gamma: typeof latestEvent?.gamma === 'number' ? latestEvent.gamma : null,
+          receivedAt: Date.now(),
+        };
+        latestRef.current = reading;
+        setOri(reading);
+        frame = null;
       });
     };
     window.addEventListener('deviceorientation', handlerRef.current);
@@ -32,10 +45,24 @@ function useOrientation() {
       if (handlerRef.current) {
         window.removeEventListener('deviceorientation', handlerRef.current);
       }
+      if (frame !== null) window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [enabled]);
 
-  return ori;
+  return { orientation: ori, latestRef };
+}
+
+function waitForOrientation(latestRef, timeout = 1800) {
+  if (latestRef.current?.receivedAt) return Promise.resolve(latestRef.current);
+  return new Promise((resolve) => {
+    const startedAt = Date.now();
+    const timer = window.setInterval(() => {
+      if (latestRef.current?.receivedAt || Date.now() - startedAt >= timeout) {
+        window.clearInterval(timer);
+        resolve(latestRef.current);
+      }
+    }, 60);
+  });
 }
 
 async function requestMotionPermissionIfNeeded() {
@@ -80,7 +107,7 @@ function getCurrentGeo(onError) {
   return new Promise((resolve) => {
     if (!('geolocation' in navigator)) {
       if (onError) onError(new Error('Geolocation is not supported on this device or browser.'));
-      resolve({ latitude: null, longitude: null, altitude: null });
+      resolve({ latitude: null, longitude: null, altitude: null, accuracy: null });
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -90,11 +117,12 @@ function getCurrentGeo(onError) {
           latitude: typeof latitude === 'number' ? latitude : null,
           longitude: typeof longitude === 'number' ? longitude : null,
           altitude: typeof altitude === 'number' ? altitude : null,
+          accuracy: typeof pos.coords?.accuracy === 'number' ? pos.coords.accuracy : null,
         });
       },
       (err) => {
         if (onError) onError(err);
-        resolve({ latitude: null, longitude: null, altitude: null });
+        resolve({ latitude: null, longitude: null, altitude: null, accuracy: null });
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
@@ -112,10 +140,11 @@ function computeSunPosition(latitude, longitude, date) {
   const rad = Math.PI / 180;
   const deg = 180 / Math.PI;
 
-  // UTC day-of-year
-  const utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-  const startOfYear = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
-  const n = Math.floor((utc - startOfYear) / 86400000) + 1;
+  // Local calendar day expressed through UTC values, avoiding DST and timezone double-shifts.
+  const year = date.getFullYear();
+  const n = Math.floor(
+    (Date.UTC(year, date.getMonth(), date.getDate()) - Date.UTC(year, 0, 0)) / 86400000,
+  );
 
   const B = (2 * Math.PI * (n - 81)) / 364;
   const EoT = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B); // minutes
@@ -153,10 +182,10 @@ function toFixedMaybe(v, d = 6) {
 }
 
 export default function SensorPage() {
-  const orientation = useOrientation();
   const [leafId, setLeafId] = useState('');
   const [permission, setPermission] = useState(null); // null | 'granted' | 'denied'
-  const [geo, setGeo] = useState({ latitude: null, longitude: null, altitude: null });
+  const { orientation, latestRef: latestOrientationRef } = useOrientation(permission === 'granted');
+  const [geo, setGeo] = useState({ latitude: null, longitude: null, altitude: null, accuracy: null });
   const [rows, setRows] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
@@ -223,12 +252,16 @@ export default function SensorPage() {
       // make sure motion permission
       const ok = await ensurePermissions();
       if (!ok) {
-        setBusy(false);
         return;
       }
       // geolocation
       const g = await getCurrentGeo(handleGeoError);
       setGeo(g);
+      const sensorReading = await waitForOrientation(latestOrientationRef);
+      if (!sensorReading?.receivedAt) {
+        setError('No orientation reading arrived. Keep the phone awake, check motion access, and try again.');
+        return;
+      }
       const now = new Date();
       const { elevation, azimuth } = computeSunPosition(g.latitude, g.longitude, now);
 
@@ -238,9 +271,11 @@ export default function SensorPage() {
         latitude: g.latitude,
         longitude: g.longitude,
         altitude: g.altitude,
-        alpha: orientation.alpha,
-        beta: orientation.beta,
-        gamma: orientation.gamma,
+        geoAccuracy: g.accuracy,
+        alpha: sensorReading.alpha,
+        beta: sensorReading.beta,
+        gamma: sensorReading.gamma,
+        sensorTimestamp: new Date(sensorReading.receivedAt).toISOString(),
         sunElevationDeg: elevation,
         sunAzimuthDeg: azimuth,
       };
@@ -268,18 +303,21 @@ export default function SensorPage() {
       'latitude',
       'longitude',
       'altitude',
+      'geoAccuracy_m',
       'alpha_deg',
       'beta_deg',
       'gamma_deg',
       'sunElevation_deg',
       'sunAzimuth_deg',
+      'sensorTimestamp',
     ];
     const escapeCell = (v) => {
       if (v === null || v === undefined) return '';
       const s = String(v);
-      return s.includes(',') || s.includes('"') || s.includes('\n')
-        ? '"' + s.replace(/"/g, '""') + '"'
-        : s;
+      const safe = /^[=+\-@]/.test(s.trimStart()) ? `'${s}` : s;
+      return safe.includes(',') || safe.includes('"') || safe.includes('\n')
+        ? '"' + safe.replace(/"/g, '""') + '"'
+        : safe;
     };
     const lines = [
       headers.join(','),
@@ -290,16 +328,18 @@ export default function SensorPage() {
           toFixedMaybe(r.latitude),
           toFixedMaybe(r.longitude),
           toFixedMaybe(r.altitude, 2),
+          toFixedMaybe(r.geoAccuracy, 2),
           toFixedMaybe(r.alpha, 6),
           toFixedMaybe(r.beta, 6),
           toFixedMaybe(r.gamma, 6),
           r.sunElevationDeg == null ? '' : Number(r.sunElevationDeg).toFixed(6),
           r.sunAzimuthDeg == null ? '' : Number(r.sunAzimuthDeg).toFixed(6),
+          r.sensorTimestamp,
         ].map(escapeCell).join(',')
       ),
     ].join('\n');
 
-    const blob = new Blob([lines], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([`\uFEFF${lines}`], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     const ts = new Date().toISOString().replace(/[:.]/g, '-');
@@ -312,41 +352,43 @@ export default function SensorPage() {
   }
 
   return (
-    <Layout title="Sensor App">
+    <AppScaffold appId="sensor">
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Device Sensor Recorder</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/sensor-app-tutorial">Tutorial</a>
-        </div>
-        <p className={styles.description}>
-          Enter leaf ID, then click “Capture Sample” to record device orientation (alpha/beta/gamma),
-          time, latitude/longitude/altitude, and computed solar elevation/azimuth. Export all data as CSV.
-        </p>
-
         <div className={styles.permissionCard}>
           <div className={styles.permissionContent}>
-            <span className={styles.muted}>Before using sensors, allow motion/orientation and location access on your device.</span>
             <div>
-              <button onClick={enableSensors} className="button button--secondary">Enable Sensors</button>
+              <strong>Sensor readiness</strong>
+              <span className={styles.muted}>Allow motion/orientation and location access from an explicit tap.</span>
+            </div>
+            <div>
+              <button type="button" onClick={enableSensors} className="button button--secondary">
+                {permission === 'granted' ? 'Sensors enabled' : 'Enable sensors'}
+              </button>
             </div>
           </div>
         </div>
 
         {error && (
-          <div className={styles.errorBox}>
+          <div className={styles.errorBox} role="alert" aria-live="assertive">
             {error}
           </div>
         )}
 
         <div className={styles.controls}>
-          <input
-            type="text"
-            placeholder="Enter leaf ID"
-            value={leafId}
-            onChange={(e) => setLeafId(e.target.value)}
-            className={styles.input}
-          />
+          <div className={styles.leafField}>
+            <label htmlFor="sensor-leaf-id">Leaf or sample ID</label>
+            <input
+              id="sensor-leaf-id"
+              type="text"
+              placeholder="e.g. Plot-04-Leaf-12"
+              value={leafId}
+              onChange={(e) => setLeafId(e.target.value)}
+              className={styles.input}
+              maxLength={80}
+            />
+          </div>
           <button
+            type="button"
             onClick={captureOnce}
             disabled={busy}
             className={`${styles.button} ${styles.buttonPrimary}`}
@@ -354,6 +396,7 @@ export default function SensorPage() {
             {busy ? 'Capturing…' : 'Capture Sample'}
           </button>
           <button
+            type="button"
             onClick={downloadCSV}
             disabled={!rows.length}
             className={`${styles.button} ${styles.buttonPrimary}`}
@@ -364,18 +407,19 @@ export default function SensorPage() {
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Current Orientation</h3>
+            <Heading as="h2" className={styles.cardTitle}>Current orientation</Heading>
             <div>
               <div className={styles.row}>
-                <span>Alpha (Z, yaw):</span><strong>{toFixedMaybe(orientation.alpha, 2)}°</strong>
+                <span>Alpha (Z, yaw):</span><strong>{toFixedMaybe(orientation.alpha, 2) || 'N/A'}{orientation.alpha == null ? '' : '°'}</strong>
               </div>
               <div className={styles.row}>
-                <span>Beta (X, pitch):</span><strong>{toFixedMaybe(orientation.beta, 2)}°</strong>
+                <span>Beta (X, pitch):</span><strong>{toFixedMaybe(orientation.beta, 2) || 'N/A'}{orientation.beta == null ? '' : '°'}</strong>
               </div>
               <div className={styles.row}>
-                <span>Gamma (Y, roll):</span><strong>{toFixedMaybe(orientation.gamma, 2)}°</strong>
+                <span>Gamma (Y, roll):</span><strong>{toFixedMaybe(orientation.gamma, 2) || 'N/A'}{orientation.gamma == null ? '' : '°'}</strong>
               </div>
               <button
+                type="button"
                 onClick={async () => {
                   const ok = await ensurePermissions();
                   if (!ok) setError('Please allow motion/orientation access in browser settings.');
@@ -389,7 +433,7 @@ export default function SensorPage() {
           </div>
 
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Latest Geo</h3>
+            <Heading as="h2" className={styles.cardTitle}>Latest location</Heading>
             <div>
               <div className={styles.row}>
                 <span>Latitude:</span><strong>{toFixedMaybe(geo.latitude, 6) || 'N/A'}</strong>
@@ -400,7 +444,11 @@ export default function SensorPage() {
               <div className={styles.row}>
                 <span>Altitude:</span><strong>{geo.altitude == null ? 'N/A' : toFixedMaybe(geo.altitude, 2) + ' m'}</strong>
               </div>
+              <div className={styles.row}>
+                <span>Accuracy:</span><strong>{geo.accuracy == null ? 'N/A' : `±${toFixedMaybe(geo.accuracy, 1)} m`}</strong>
+              </div>
               <button
+                type="button"
                 onClick={async () => setGeo(await getCurrentGeo(handleGeoError))}
                 className={`${styles.button} ${styles.buttonPrimary}`}
                 style={{ marginTop: 8, width: '100%' }}
@@ -411,9 +459,9 @@ export default function SensorPage() {
           </div>
 
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Status</h3>
+            <Heading as="h2" className={styles.cardTitle}>Session status</Heading>
             <div>Recorded rows: <strong>{rows.length}</strong></div>
-            <div>Local time: <strong>{new Date().toLocaleString()}</strong></div>
+            <div>Motion access: <strong>{permission === 'granted' ? 'Enabled' : permission === 'denied' ? 'Unavailable' : 'Not requested'}</strong></div>
           </div>
         </div>
 
@@ -422,8 +470,8 @@ export default function SensorPage() {
             <thead className={styles.thead}>
               <tr>
                 {[
-                  'leafId','timestamp','latitude','longitude','altitude',
-                  'alpha_deg','beta_deg','gamma_deg','sunElevation_deg','sunAzimuth_deg'
+                  'leafId','timestamp','latitude','longitude','altitude','accuracy_m',
+                  'alpha_deg','beta_deg','gamma_deg','sunElevation_deg','sunAzimuth_deg','sensorTimestamp'
                 ].map(h => (
                   <th key={h} className={styles.th}>{h}</th>
                 ))}
@@ -437,16 +485,18 @@ export default function SensorPage() {
                   <td className={styles.td}>{toFixedMaybe(r.latitude, 6)}</td>
                   <td className={styles.td}>{toFixedMaybe(r.longitude, 6)}</td>
                   <td className={styles.td}>{r.altitude == null ? '' : toFixedMaybe(r.altitude, 2)}</td>
+                  <td className={styles.td}>{r.geoAccuracy == null ? '' : toFixedMaybe(r.geoAccuracy, 2)}</td>
                   <td className={styles.td}>{toFixedMaybe(r.alpha, 6)}</td>
                   <td className={styles.td}>{toFixedMaybe(r.beta, 6)}</td>
                   <td className={styles.td}>{toFixedMaybe(r.gamma, 6)}</td>
                   <td className={styles.td}>{r.sunElevationDeg == null ? '' : Number(r.sunElevationDeg).toFixed(6)}</td>
                   <td className={styles.td}>{r.sunAzimuthDeg == null ? '' : Number(r.sunAzimuthDeg).toFixed(6)}</td>
+                  <td className={styles.td}>{r.sensorTimestamp}</td>
                 </tr>
               ))}
               {!rows.length && (
                 <tr>
-                  <td colSpan={10} style={{ padding: 12, color: 'var(--ifm-color-emphasis-600)', textAlign: 'center' }}>
+                  <td colSpan={12} style={{ padding: 12, color: 'var(--ifm-color-emphasis-600)', textAlign: 'center' }}>
                     No data yet. Enter ID and click “Capture Sample”.
                   </td>
                 </tr>
@@ -458,7 +508,7 @@ export default function SensorPage() {
         {/* Solar Angle Formulas */}
         <div className={styles.formulaBox}>
           <div className={styles.formulaHeader}>
-            <h2 className={styles.formulaTitle}>Solar Angle Formulas</h2>
+            <Heading as="h2" className={styles.formulaTitle}>Solar angle formulas</Heading>
           </div>
 
           <div className={styles.formulaContent}>
@@ -467,10 +517,7 @@ export default function SensorPage() {
             </p>
 
             <div className={styles.codeBlock}>
-{`h = asin( sin(φ)·sin(δ) + cos(φ)·cos(δ)·cos(H) )  [in radians]`}
-{`A = atan2( sin(H),  cos(H)·sin(φ) − tan(δ)·cos(φ) )  [in radians]`}
-{`(degrees) = (radians) × 180/π`}
-{`Azimuth A is reported from North, clockwise (0..360).`}
+{`h = asin( sin(φ)·sin(δ) + cos(φ)·cos(δ)·cos(H) )  [in radians]\nA = atan2( sin(H), cos(H)·sin(φ) − tan(δ)·cos(φ) )  [in radians]\n(degrees) = (radians) × 180/π\nAzimuth A is reported from North, clockwise (0..360).`}
             </div>
 
             <p style={{ margin: '0 0 6px' }}><strong>Symbols:</strong></p>
@@ -480,13 +527,13 @@ export default function SensorPage() {
               <li>H: hour angle (H = 15° × (solar time − 12))</li>
             </ul>
 
-            <p style={{ margin: '8px 0 0', color: '#555' }}>
+            <p className={styles.formulaNote}>
               Note: The implementation also includes Equation of Time (EoT) and time-zone offset to estimate apparent solar time.
             </p>
           </div>
         </div>
         <CitationNotice />
       </div>
-    </Layout>
+    </AppScaffold>
   );
 }

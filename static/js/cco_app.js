@@ -2,11 +2,42 @@
 
 // ---------- small DOM helpers ----------
 const $ = (id) => document.getElementById(id);
+const MAX_KML_BYTES = 5 * 1024 * 1024;
+const MAX_KMZ_BYTES = 25 * 1024 * 1024;
+const MAX_EXTRACTED_XML_CHARS = 5_000_000;
+const MAX_POLYGON_VERTICES = 10_000;
+const MAX_GRID_CENTERS = 15_000;
+const MAX_ROUTE_POINTS = 120_000;
+
 const setStatus = (msg) => {
   const el = $("status");
   if (el) el.textContent = msg;
   console.log("[CCO]", msg);
 };
+
+function readNumber(
+  id,
+  { min = -Infinity, max = Infinity, integer = false } = {}
+) {
+  const input = $(id);
+  const value = integer
+    ? Number.parseInt(input?.value, 10)
+    : Number.parseFloat(input?.value);
+  if (!Number.isFinite(value)) throw new Error(`${id} must be a valid number.`);
+  if (value < min || value > max) {
+    throw new Error(`${id} must be between ${min} and ${max}.`);
+  }
+  return value;
+}
+
+function escapeXml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
 
 // ---------- KML parsing ----------
 async function readFileAsText(file) {
@@ -39,27 +70,40 @@ function parseKMLPolygonCoords(kmlText) {
 
   if (!node) throw new Error("No <coordinates> found in KML (need a Polygon).");
 
-  const tuples = node.textContent.trim().split(/\s+/).map((t) => t.trim()).filter(Boolean);
+  const tuples = node.textContent
+    .trim()
+    .split(/\s+/)
+    .map((t) => t.trim())
+    .filter(Boolean);
   const coords = tuples.map((t) => {
     const [lonStr, latStr] = t.split(",");
     const lon = parseFloat(lonStr);
     const lat = parseFloat(latStr);
-    if (Number.isNaN(lat) || Number.isNaN(lon)) throw new Error("Invalid coordinate");
+    if (Number.isNaN(lat) || Number.isNaN(lon))
+      throw new Error("Invalid coordinate");
     return { lon, lat };
   });
 
   if (coords.length > 2) {
-    const a = coords[0], b = coords[coords.length - 1];
-    if (Math.abs(a.lon - b.lon) < 1e-12 && Math.abs(a.lat - b.lat) < 1e-12) coords.pop();
+    const a = coords[0],
+      b = coords[coords.length - 1];
+    if (Math.abs(a.lon - b.lon) < 1e-12 && Math.abs(a.lat - b.lat) < 1e-12)
+      coords.pop();
   }
   if (coords.length < 3) throw new Error("Polygon must have ≥3 vertices.");
+  if (coords.length > MAX_POLYGON_VERTICES) {
+    throw new Error(
+      `Polygon exceeds the ${MAX_POLYGON_VERTICES.toLocaleString()} vertex limit.`
+    );
+  }
   return coords;
 }
 
 // ---------- geometry like python ----------
 function mScale(latDeg) {
   const lat = (latDeg * Math.PI) / 180;
-  const m_per_deg_lat = 111132.92 - 559.82 * Math.cos(2 * lat) + 1.175 * Math.cos(4 * lat);
+  const m_per_deg_lat =
+    111132.92 - 559.82 * Math.cos(2 * lat) + 1.175 * Math.cos(4 * lat);
   const m_per_deg_lon = 111412.84 * Math.cos(lat) - 93.5 * Math.cos(3 * lat);
   return { m_per_deg_lon, m_per_deg_lat };
 }
@@ -80,7 +124,8 @@ function bearingToVector(bearingDeg, dist_m) {
 
 function rotateXY(x, y, deg) {
   const a = (deg * Math.PI) / 180;
-  const ca = Math.cos(a), sa = Math.sin(a);
+  const ca = Math.cos(a),
+    sa = Math.sin(a);
   return { x: x * ca - y * sa, y: x * sa + y * ca };
 }
 
@@ -89,9 +134,11 @@ function pointInPolygon(lon, lat, poly) {
   let inside = false;
   const n = poly.length;
   for (let i = 0; i < n; i++) {
-    const x1 = poly[i].lon, y1 = poly[i].lat;
-    const x2 = poly[(i + 1) % n].lon, y2 = poly[(i + 1) % n].lat;
-    const cond = (y1 > lat) !== (y2 > lat);
+    const x1 = poly[i].lon,
+      y1 = poly[i].lat;
+    const x2 = poly[(i + 1) % n].lon,
+      y2 = poly[(i + 1) % n].lat;
+    const cond = y1 > lat !== y2 > lat;
     if (cond) {
       const xinters = ((x2 - x1) * (lat - y1)) / (y2 - y1 + 1e-15) + x1;
       if (lon < xinters) inside = !inside;
@@ -102,16 +149,21 @@ function pointInPolygon(lon, lat, poly) {
 
 function polygonCentroid(poly) {
   // plane approx around first vertex, like python
-  const lon0 = poly[0].lon, lat0 = poly[0].lat;
+  const lon0 = poly[0].lon,
+    lat0 = poly[0].lat;
   const { m_per_deg_lon, m_per_deg_lat } = mScale(lat0);
   const xy = poly.map(({ lon, lat }) => ({
     x: (lon - lon0) * m_per_deg_lon,
     y: (lat - lat0) * m_per_deg_lat,
   }));
-  let A = 0, Cx = 0, Cy = 0;
+  let A = 0,
+    Cx = 0,
+    Cy = 0;
   for (let i = 0; i < xy.length; i++) {
-    const x1 = xy[i].x, y1 = xy[i].y;
-    const x2 = xy[(i + 1) % xy.length].x, y2 = xy[(i + 1) % xy.length].y;
+    const x1 = xy[i].x,
+      y1 = xy[i].y;
+    const x2 = xy[(i + 1) % xy.length].x,
+      y2 = xy[(i + 1) % xy.length].y;
     const cross = x1 * y2 - x2 * y1;
     A += cross;
     Cx += (x1 + x2) * cross;
@@ -132,7 +184,10 @@ function polygonCentroid(poly) {
 }
 
 function lonLatBounds(coords) {
-  let minLat = +Infinity, maxLat = -Infinity, minLon = +Infinity, maxLon = -Infinity;
+  let minLat = +Infinity,
+    maxLat = -Infinity,
+    minLon = +Infinity,
+    maxLon = -Infinity;
   coords.forEach(({ lat, lon }) => {
     if (lat < minLat) minLat = lat;
     if (lat > maxLat) maxLat = lat;
@@ -144,7 +199,8 @@ function lonLatBounds(coords) {
 
 function mapLonLatToCanvas(coords, canvas, paddingPx = 20) {
   const { minLat, maxLat, minLon, maxLon } = lonLatBounds(coords);
-  const w = canvas.width, h = canvas.height;
+  const w = canvas.width,
+    h = canvas.height;
   const lonSpan = maxLon - minLon || 1e-9;
   const latSpan = maxLat - minLat || 1e-9;
   const innerW = Math.max(1, w - 2 * paddingPx);
@@ -162,7 +218,13 @@ function mapLonLatToCanvas(coords, canvas, paddingPx = 20) {
 }
 
 // sample circle and see if any waypoint inside polygon
-function circleTouchesPolygon(center, radius_m, per_circle, start_bearing_deg, poly) {
+function circleTouchesPolygon(
+  center,
+  radius_m,
+  per_circle,
+  start_bearing_deg,
+  poly
+) {
   const count = Math.max(3, per_circle);
   const step = 360.0 / count;
   for (let k = 0; k < count; k++) {
@@ -182,27 +244,51 @@ function gridCircleCenters(poly, center, step_m, padding_m, bearing_deg = 0.0) {
   const { minLat, maxLat, minLon, maxLon } = lonLatBounds(poly);
   const dx = padding_m / m_per_deg_lon;
   const dy = padding_m / m_per_deg_lat;
-  const xmin = minLon - dx, xmax = maxLon + dx, ymin = minLat - dy, ymax = maxLat + dy;
+  const xmin = minLon - dx,
+    xmax = maxLon + dx,
+    ymin = minLat - dy,
+    ymax = maxLat + dy;
 
   function lonlat_to_xy(lon, lat) {
-    return { x: (lon - center.lon) * m_per_deg_lon, y: (lat - center.lat) * m_per_deg_lat };
+    return {
+      x: (lon - center.lon) * m_per_deg_lon,
+      y: (lat - center.lat) * m_per_deg_lat,
+    };
   }
   function xy_to_lonlat(x, y) {
-    return { lon: center.lon + x / m_per_deg_lon, lat: center.lat + y / m_per_deg_lat };
+    return {
+      lon: center.lon + x / m_per_deg_lon,
+      lat: center.lat + y / m_per_deg_lat,
+    };
   }
 
   const bl = lonlat_to_xy(xmin, ymin);
   const tr = lonlat_to_xy(xmax, ymax);
-  const x0 = Math.min(bl.x, tr.x), x1 = Math.max(bl.x, tr.x);
-  const y0 = Math.min(bl.y, tr.y), y1 = Math.max(bl.y, tr.y);
+  const x0 = Math.min(bl.x, tr.x),
+    x1 = Math.max(bl.x, tr.x);
+  const y0 = Math.min(bl.y, tr.y),
+    y1 = Math.max(bl.y, tr.y);
 
   const step = Math.max(1.0, step_m);
   const xs = [];
   let x = Math.floor(x0 / step) * step;
-  while (x <= x1 + 1e-6) { xs.push(x); x += step; }
+  while (x <= x1 + 1e-6) {
+    xs.push(x);
+    x += step;
+  }
   const ys = [];
   let y = Math.floor(y0 / step) * step;
-  while (y <= y1 + 1e-6) { ys.push(y); y += step; }
+  while (y <= y1 + 1e-6) {
+    ys.push(y);
+    y += step;
+  }
+
+  const centerCount = xs.length * ys.length;
+  if (centerCount > MAX_GRID_CENTERS) {
+    throw new Error(
+      `This setup would create ${centerCount.toLocaleString()} grid centers. Increase center step or reduce padding (limit ${MAX_GRID_CENTERS.toLocaleString()}).`
+    );
+  }
 
   const centers = [];
   let reverse = false;
@@ -217,16 +303,29 @@ function gridCircleCenters(poly, center, step_m, padding_m, bearing_deg = 0.0) {
 }
 
 // prune centers whose entire circle does not intersect polygon
-function pruneCentersOutside(poly, centers, radius_m, per_circle, start_bearing_deg = 0.0) {
+function pruneCentersOutside(
+  poly,
+  centers,
+  radius_m,
+  per_circle,
+  start_bearing_deg = 0.0
+) {
   const kept = [];
   for (const c of centers) {
-    if (circleTouchesPolygon(c, radius_m, per_circle, start_bearing_deg, poly)) kept.push(c);
+    if (circleTouchesPolygon(c, radius_m, per_circle, start_bearing_deg, poly))
+      kept.push(c);
   }
   return kept;
 }
 
 // build full point sequence (snake across circles) + heading to center
-function generateCoverCCOPoints(centers, per_circle, radius_m, start_bearing_deg = 0.0, clip_poly = null) {
+function generateCoverCCOPoints(
+  centers,
+  per_circle,
+  radius_m,
+  start_bearing_deg = 0.0,
+  clip_poly = null
+) {
   if (!centers || centers.length === 0) return [];
   const all = [];
   let last = null;
@@ -252,10 +351,14 @@ function generateCoverCCOPoints(centers, per_circle, radius_m, start_bearing_deg
     let seq = reverseCir ? ring.slice().reverse() : ring;
     if (last && seq.length) {
       // rotate seq to nearest start
-      let bestI = 0, bestD = Infinity;
+      let bestI = 0,
+        bestD = Infinity;
       for (let i = 0; i < seq.length; i++) {
         const d = distM(last, seq[i]);
-        if (d < bestD) { bestD = d; bestI = i; }
+        if (d < bestD) {
+          bestD = d;
+          bestI = i;
+        }
       }
       if (bestI) seq = seq.slice(bestI).concat(seq.slice(0, bestI));
     }
@@ -275,8 +378,15 @@ function distM(p1, p2) {
 }
 
 // ---------- KML / WPML builders (aligned to your py semantics) ----------
-function buildTemplateKML(points, alt_m, speed_mps, gimbal_pitch, device = null) {
-  const devKML = device ? `
+function buildTemplateKML(
+  points,
+  alt_m,
+  speed_mps,
+  gimbal_pitch,
+  device = null
+) {
+  const devKML = device
+    ? `
     <droneInfo xmlns="http://www.dji.com/wpmz/1.0.4">
       <droneEnumValue>${device.droneEnum}</droneEnumValue>
       <droneSubEnumValue>${device.droneSubEnum}</droneSubEnumValue>
@@ -286,12 +396,17 @@ function buildTemplateKML(points, alt_m, speed_mps, gimbal_pitch, device = null)
       <payloadSubEnumValue>${device.payloadSubEnum}</payloadSubEnumValue>
       <payloadPositionIndex>${device.payloadPosIndex}</payloadPositionIndex>
     </payloadInfo>
-  ` : "";
+  `
+    : "";
 
-  const placemarks = points.map((p, i) => `
+  const placemarks = points
+    .map(
+      (p, i) => `
     <Placemark>
       <name>WP ${i}</name>
-      <Point><coordinates>${p.lon.toFixed(8)},${p.lat.toFixed(8)}</coordinates></Point>
+      <Point><coordinates>${p.lon.toFixed(8)},${p.lat.toFixed(
+        8
+      )}</coordinates></Point>
       <index xmlns="http://www.dji.com/wpmz/1.0.4">${i}</index>
       <useGlobalHeight xmlns="http://www.dji.com/wpmz/1.0.4">0</useGlobalHeight>
       <height xmlns="http://www.dji.com/wpmz/1.0.4">${alt_m}</height>
@@ -300,13 +415,17 @@ function buildTemplateKML(points, alt_m, speed_mps, gimbal_pitch, device = null)
         <waypointHeadingMode>smoothTransition</waypointHeadingMode>
         <waypointHeadingAngle>${p.head.toFixed(1)}</waypointHeadingAngle>
       </waypointHeadingParam>
-      <gimbalPitchAngle xmlns="http://www.dji.com/wpmz/1.0.4">${gimbal_pitch.toFixed(1)}</gimbalPitchAngle>
+      <gimbalPitchAngle xmlns="http://www.dji.com/wpmz/1.0.4">${gimbal_pitch.toFixed(
+        1
+      )}</gimbalPitchAngle>
       <waypointTurnParam xmlns="http://www.dji.com/wpmz/1.0.4">
         <waypointTurnMode>toPointAndStopWithDiscontinuityCurvature</waypointTurnMode>
         <waypointTurnDampingDist>0.0</waypointTurnDampingDist>
       </waypointTurnParam>
     </Placemark>
-  `).join("");
+  `
+    )
+    .join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -316,7 +435,9 @@ function buildTemplateKML(points, alt_m, speed_mps, gimbal_pitch, device = null)
     <flyToWaylineMode>safely</flyToWaylineMode>
     <finishAction>goHome</finishAction>
     <exitOnRCLost>goContinue</exitOnRCLost>
-    <takeOffSecurityHeight>${Math.max(alt_m * 0.1, 5).toFixed(1)}</takeOffSecurityHeight>
+    <takeOffSecurityHeight>${Math.max(alt_m * 0.1, 5).toFixed(
+      1
+    )}</takeOffSecurityHeight>
     <globalTransitionalSpeed>${speed_mps}</globalTransitionalSpeed>
   </missionConfig>
   <Folder>
@@ -327,8 +448,17 @@ function buildTemplateKML(points, alt_m, speed_mps, gimbal_pitch, device = null)
 </kml>`;
 }
 
-function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbow", device=null) {
-  const dev = device ? `
+function buildWPML(
+  points,
+  alt_m,
+  speed_mps,
+  gimbal_pitch,
+  file_suffix = "Rainbow",
+  device = null
+) {
+  const safeFileSuffix = escapeXml(file_suffix);
+  const dev = device
+    ? `
   <wpml:droneInfo>
     <wpml:droneEnumValue>${device.droneEnum}</wpml:droneEnumValue>
     <wpml:droneSubEnumValue>${device.droneSubEnum}</wpml:droneSubEnumValue>
@@ -337,9 +467,12 @@ function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbo
     <wpml:payloadEnumValue>${device.payloadEnum}</wpml:payloadEnumValue>
     <wpml:payloadSubEnumValue>${device.payloadSubEnum}</wpml:payloadSubEnumValue>
     <wpml:payloadPositionIndex>${device.payloadPosIndex}</wpml:payloadPositionIndex>
-  </wpml:payloadInfo>` : "";
+  </wpml:payloadInfo>`
+    : "";
 
-  const items = points.map((p, i) => `
+  const items = points
+    .map(
+      (p, i) => `
     <wpml:waypoint index="${i}">
       <wpml:coordinate>
         <wpml:longitude>${p.lon.toFixed(7)}</wpml:longitude>
@@ -348,7 +481,9 @@ function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbo
       </wpml:coordinate>
       <wpml:waypointHeadingParam>
         <wpml:waypointHeadingMode>smoothTransition</wpml:waypointHeadingMode>
-        <wpml:waypointHeadingAngle>${p.head.toFixed(1)}</wpml:waypointHeadingAngle>
+        <wpml:waypointHeadingAngle>${p.head.toFixed(
+          1
+        )}</wpml:waypointHeadingAngle>
       </wpml:waypointHeadingParam>
       <wpml:gimbalPitchAngle>${gimbal_pitch.toFixed(1)}</wpml:gimbalPitchAngle>
       <wpml:actionGroup>
@@ -365,12 +500,14 @@ function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbo
           <wpml:actionActuatorFunc>takePhoto</wpml:actionActuatorFunc>
           <wpml:actionActuatorFuncParam>
             <wpml:payloadPositionIndex>0</wpml:payloadPositionIndex>
-            <wpml:fileSuffix>${file_suffix}</wpml:fileSuffix>
+            <wpml:fileSuffix>${safeFileSuffix}</wpml:fileSuffix>
           </wpml:actionActuatorFuncParam>
         </wpml:action>
       </wpml:actionGroup>
     </wpml:waypoint>
-  `).join("");
+  `
+    )
+    .join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <wpml:mission xmlns:wpml="http://www.dji.com/wpmz/1.0.4">
@@ -379,7 +516,9 @@ function buildWPML(points, alt_m, speed_mps, gimbal_pitch, file_suffix = "Rainbo
     <wpml:flyToWaylineMode>safely</wpml:flyToWaylineMode>
     <wpml:finishAction>goHome</wpml:finishAction>
     <wpml:exitOnRCLost>goContinue</wpml:exitOnRCLost>
-    <wpml:takeOffSecurityHeight>${Math.max(alt_m * 0.1, 5).toFixed(1)}</wpml:takeOffSecurityHeight>
+    <wpml:takeOffSecurityHeight>${Math.max(alt_m * 0.1, 5).toFixed(
+      1
+    )}</wpml:takeOffSecurityHeight>
     <wpml:globalTransitionalSpeed>${speed_mps}</wpml:globalTransitionalSpeed>
   </wpml:missionConfig>
   <wpml:waylines>
@@ -401,7 +540,8 @@ function drawPreview(canvas, polygon, centers, points) {
   ctx.beginPath();
   polygon.forEach((p, i) => {
     const { x, y } = proj(p.lon, p.lat);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
   });
   ctx.closePath();
   ctx.fillStyle = "rgba(0,0,0,0.08)";
@@ -415,7 +555,9 @@ function drawPreview(canvas, polygon, centers, points) {
     ctx.fillStyle = "#999";
     centers.forEach((c) => {
       const { x, y } = proj(c.lon, c.lat);
-      ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
     });
   }
 
@@ -426,22 +568,31 @@ function drawPreview(canvas, polygon, centers, points) {
     ctx.beginPath();
     points.forEach((p, i) => {
       const { x, y } = proj(p.lon, p.lat);
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     });
     ctx.stroke();
 
     ctx.fillStyle = "#e91e63";
     points.forEach((p) => {
       const { x, y } = proj(p.lon, p.lat);
-      ctx.beginPath(); ctx.arc(x, y, 2.4, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, Math.PI * 2);
+      ctx.fill();
     });
 
     // start/end marks
     const s0 = proj(points[0].lon, points[0].lat);
-    const se = proj(points[points.length - 1].lon, points[points.length - 1].lat);
+    const se = proj(
+      points[points.length - 1].lon,
+      points[points.length - 1].lat
+    );
     ctx.fillStyle = "#222";
     ctx.fillRect(s0.x - 3, s0.y - 3, 6, 6);
-    ctx.beginPath(); ctx.arc(se.x, se.y, 4, 0, Math.PI * 2); ctx.strokeStyle = "#222"; ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(se.x, se.y, 4, 0, Math.PI * 2);
+    ctx.strokeStyle = "#222";
+    ctx.stroke();
   }
 }
 
@@ -455,9 +606,23 @@ function chunkSlices(total, maxPoints) {
 }
 
 // ---------- global state ----------
-let polygonCoords = null;   // [{lon,lat}]
-let routePoints = [];       // [{lon,lat,head}]
-let centersCache = [];      // for preview
+let polygonCoords = null; // [{lon,lat}]
+let routePoints = []; // [{lon,lat,head}]
+let centersCache = []; // for preview
+const activeObjectUrls = new Set();
+
+function createTrackedObjectUrl(blob) {
+  const url = URL.createObjectURL(blob);
+  activeObjectUrls.add(url);
+  return url;
+}
+
+function clearDownloadUrls() {
+  activeObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+  activeObjectUrls.clear();
+}
+
+window.CCO_CLEANUP = clearDownloadUrls;
 
 // ---------- main init ----------
 window.CCO_INIT = function CCO_INIT() {
@@ -482,10 +647,14 @@ window.CCO_INIT = function CCO_INIT() {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
     try {
+      if (f.size > MAX_KML_BYTES)
+        throw new Error("KML file exceeds the 5 MB limit.");
       setStatus("Reading KML…");
       const txt = await readFileAsText(f);
       polygonCoords = parseKMLPolygonCoords(txt);
-      setStatus(`Loaded polygon with ${polygonCoords.length} vertices. Click Preview.`);
+      setStatus(
+        `Loaded polygon with ${polygonCoords.length} vertices. Click Preview.`
+      );
     } catch (err) {
       console.error(err);
       setStatus(`KML parse error: ${err.message}`);
@@ -494,16 +663,19 @@ window.CCO_INIT = function CCO_INIT() {
   });
 
   previewBtn.addEventListener("click", () => {
-    if (!polygonCoords) { setStatus("Please upload a KML first."); return; }
+    if (!polygonCoords) {
+      setStatus("Please upload a KML first.");
+      return;
+    }
 
     try {
-      const R = parseFloat($("radius").value || "30");
-      const PR = Math.max(3, parseInt($("perRing").value || "60", 10));
-      const OV = Math.max(0, Math.min(0.9, parseFloat($("overlap").value || "0.3")));
-      const STEP = parseFloat($("centerStep").value || "0");
-      const PAD = parseFloat($("padding").value || "10");
-      const BEAR = parseFloat($("bearing").value || "0");
-      const START_BEAR = parseFloat($("startBearing").value || "0");
+      const R = readNumber("radius", { min: 0.5, max: 500 });
+      const PR = readNumber("perRing", { min: 3, max: 360, integer: true });
+      const OV = readNumber("overlap", { min: 0, max: 0.9 });
+      const STEP = readNumber("centerStep", { min: 0, max: 10_000 });
+      const PAD = readNumber("padding", { min: 0, max: 10_000 });
+      const BEAR = readNumber("bearing", { min: -360, max: 360 });
+      const START_BEAR = readNumber("startBearing", { min: -360, max: 360 });
       const CLIP = $("clipInside").value === "1";
       const PRUNE = $("pruneOutside").value === "1";
       const CMODE = $("centerMode").value;
@@ -521,18 +693,43 @@ window.CCO_INIT = function CCO_INIT() {
       const step_m = STEP > 0 ? STEP : Math.max(2.0 * R * (1.0 - OV), 1.0);
 
       // centers
-      centersCache = gridCircleCenters(polygonCoords, center, step_m, PAD, BEAR);
+      centersCache = gridCircleCenters(
+        polygonCoords,
+        center,
+        step_m,
+        PAD,
+        BEAR
+      );
       if (!CLIP && PRUNE) {
-        centersCache = pruneCentersOutside(polygonCoords, centersCache, R, PR, START_BEAR);
+        centersCache = pruneCentersOutside(
+          polygonCoords,
+          centersCache,
+          R,
+          PR,
+          START_BEAR
+        );
+      }
+
+      const estimatedPointCount = centersCache.length * PR;
+      if (estimatedPointCount > MAX_ROUTE_POINTS) {
+        throw new Error(
+          `This setup could create ${estimatedPointCount.toLocaleString()} waypoints. Increase center step or reduce points per circle (limit ${MAX_ROUTE_POINTS.toLocaleString()}).`
+        );
       }
 
       // points (snake)
       routePoints = generateCoverCCOPoints(
-        centersCache, PR, R, START_BEAR, CLIP ? polygonCoords : null
+        centersCache,
+        PR,
+        R,
+        START_BEAR,
+        CLIP ? polygonCoords : null
       );
 
       drawPreview(canvas, polygonCoords, centersCache, routePoints);
-      setStatus(`Preview done. Centers=${centersCache.length}, Points=${routePoints.length}`);
+      setStatus(
+        `Preview done. Centers=${centersCache.length}, Points=${routePoints.length}`
+      );
     } catch (err) {
       console.error(err);
       setStatus(`Preview error: ${err.message}`);
@@ -546,25 +743,51 @@ window.CCO_INIT = function CCO_INIT() {
     }
     try {
       setStatus("Generating files…");
-      const alt = parseFloat($("alt").value || "60");
-      const speed = parseFloat($("speed").value || "6");
-      const gimbal = parseFloat($("gimbal").value || "-45");
+      const alt = readNumber("alt", { min: 2, max: 500 });
+      const speed = readNumber("speed", { min: 0.1, max: 30 });
+      const gimbal = readNumber("gimbal", { min: -90, max: 30 });
       const suffix = ($("fileSuffix").value || "Rainbow").trim() || "Rainbow";
-      const maxPts = Math.max(0, parseInt($("maxPoints").value || "300", 10));
+      const maxPts = readNumber("maxPoints", {
+        min: 0,
+        max: 10_000,
+        integer: true,
+      });
 
       const device = {
-        droneEnum: parseInt($("droneEnum").value || "99", 10),
-        droneSubEnum: parseInt($("droneSubEnum").value || "1", 10),
-        payloadEnum: parseInt($("payloadEnum").value || "89", 10),
-        payloadSubEnum: parseInt($("payloadSubEnum").value || "0", 10),
-        payloadPosIndex: parseInt($("payloadPosIndex").value || "0", 10),
+        droneEnum: readNumber("droneEnum", {
+          min: 0,
+          max: 10_000,
+          integer: true,
+        }),
+        droneSubEnum: readNumber("droneSubEnum", {
+          min: 0,
+          max: 10_000,
+          integer: true,
+        }),
+        payloadEnum: readNumber("payloadEnum", {
+          min: 0,
+          max: 10_000,
+          integer: true,
+        }),
+        payloadSubEnum: readNumber("payloadSubEnum", {
+          min: 0,
+          max: 10_000,
+          integer: true,
+        }),
+        payloadPosIndex: readNumber("payloadPosIndex", {
+          min: 0,
+          max: 10_000,
+          integer: true,
+        }),
       };
 
       // build files
       const tpl = buildTemplateKML(routePoints, alt, speed, gimbal, device);
       const wpml = buildWPML(routePoints, alt, speed, gimbal, suffix, device);
 
-      const blobTpl = new Blob([tpl], { type: "application/vnd.google-earth.kml+xml" });
+      const blobTpl = new Blob([tpl], {
+        type: "application/vnd.google-earth.kml+xml",
+      });
       const blobWpml = new Blob([wpml], { type: "application/xml" });
       let blobKmz = null;
       if (typeof JSZip !== "undefined") {
@@ -574,9 +797,16 @@ window.CCO_INIT = function CCO_INIT() {
         blobKmz = await zip.generateAsync({ type: "blob" });
       }
 
-      $("downloadTemplate").href = URL.createObjectURL(blobTpl);
-      $("downloadWPML").href = URL.createObjectURL(blobWpml);
-      if (blobKmz) $("downloadKMZ").href = URL.createObjectURL(blobKmz);
+      clearDownloadUrls();
+      $("downloadTemplate").href = createTrackedObjectUrl(blobTpl);
+      $("downloadWPML").href = createTrackedObjectUrl(blobWpml);
+      if (blobKmz) {
+        $("downloadKMZ").href = createTrackedObjectUrl(blobKmz);
+        $("downloadKMZ").style.display = "inline";
+      } else {
+        $("downloadKMZ").removeAttribute("href");
+        $("downloadKMZ").style.display = "none";
+      }
 
       // splitting (parts)
       const partsDiv = $("partsContainer");
@@ -584,7 +814,9 @@ window.CCO_INIT = function CCO_INIT() {
       if (maxPts > 0 && routePoints.length > maxPts) {
         const cuts = chunkSlices(routePoints.length, maxPts);
         const list = document.createElement("div");
-        list.innerHTML = `<b>Split parts (${cuts.length})</b>`;
+        const listTitle = document.createElement("b");
+        listTitle.textContent = `Split parts (${cuts.length})`;
+        list.appendChild(listTitle);
         partsDiv.appendChild(list);
 
         for (let i = 0; i < cuts.length; i++) {
@@ -595,12 +827,18 @@ window.CCO_INIT = function CCO_INIT() {
           const a1 = document.createElement("a");
           a1.textContent = `part${i + 1}-template.kml`;
           a1.download = `part${i + 1}-template.kml`;
-          a1.href = URL.createObjectURL(new Blob([tplPart], { type: "application/vnd.google-earth.kml+xml" }));
+          a1.href = createTrackedObjectUrl(
+            new Blob([tplPart], {
+              type: "application/vnd.google-earth.kml+xml",
+            })
+          );
           a1.style.marginRight = "8px";
           const a2 = document.createElement("a");
           a2.textContent = `part${i + 1}-waylines.wpml`;
           a2.download = `part${i + 1}-waylines.wpml`;
-          a2.href = URL.createObjectURL(new Blob([wpmlPart], { type: "application/xml" }));
+          a2.href = createTrackedObjectUrl(
+            new Blob([wpmlPart], { type: "application/xml" })
+          );
 
           const row = document.createElement("div");
           row.style.marginTop = "2px";
@@ -618,9 +856,11 @@ window.CCO_INIT = function CCO_INIT() {
               zip.file("wpmz/waylines.wpml", wpmlPart);
               const bz = await zip.generateAsync({ type: "blob" });
               const a = document.createElement("a");
-              a.href = URL.createObjectURL(bz);
+              const zipUrl = URL.createObjectURL(bz);
+              a.href = zipUrl;
               a.download = `part${i + 1}.kmz`;
               a.click();
+              setTimeout(() => URL.revokeObjectURL(zipUrl), 1_000);
             };
             row.appendChild(btnZip);
           }
@@ -640,8 +880,13 @@ window.CCO_INIT = function CCO_INIT() {
   if (kmzDroneInput && parseDroneBtn) {
     parseDroneBtn.addEventListener("click", async () => {
       const f = kmzDroneInput.files && kmzDroneInput.files[0];
-      if (!f) { setStatus("Please upload a DJI KMZ first."); return; }
+      if (!f) {
+        setStatus("Please upload a DJI KMZ first.");
+        return;
+      }
       try {
+        if (f.size > MAX_KMZ_BYTES)
+          throw new Error("KMZ file exceeds the 25 MB limit.");
         setStatus("Parsing KMZ for drone/payload…");
         const device = await parseDeviceFromKMZ(f);
         $("droneEnum").value = device.droneEnum;
@@ -649,13 +894,17 @@ window.CCO_INIT = function CCO_INIT() {
         $("payloadEnum").value = device.payloadEnum;
         $("payloadSubEnum").value = device.payloadSubEnum;
         $("payloadPosIndex").value = device.payloadPosIndex;
-        setStatus(`Parsed device: D(${device.droneEnum}/${device.droneSubEnum}) P(${device.payloadEnum}/${device.payloadSubEnum}) pos=${device.payloadPosIndex}`);
+        setStatus(
+          `Parsed device: D(${device.droneEnum}/${device.droneSubEnum}) P(${device.payloadEnum}/${device.payloadSubEnum}) pos=${device.payloadPosIndex}`
+        );
       } catch (err) {
         console.error(err);
         setStatus(`KMZ parse error: ${err.message}`);
       }
     });
   }
+
+  window.addEventListener("pagehide", clearDownloadUrls, { once: true });
 
   setStatus("Ready. Upload KML and click Preview.");
   console.log("[CCO] INIT bound");
@@ -678,7 +927,10 @@ async function parseDeviceFromKMZ(file) {
     "doc.kml",
   ];
   for (const p of prefer) {
-    if (zip.file(p)) { target = p; break; }
+    if (zip.file(p)) {
+      target = p;
+      break;
+    }
   }
   if (!target) {
     const wpml = names.find((n) => n.toLowerCase().endsWith(".wpml"));
@@ -687,6 +939,9 @@ async function parseDeviceFromKMZ(file) {
   }
   if (!target) throw new Error("No KML/WPML found in KMZ");
   const text = await zip.file(target).async("text");
+  if (text.length > MAX_EXTRACTED_XML_CHARS) {
+    throw new Error("Extracted KML/WPML exceeds the safe processing limit");
+  }
   const doc = new DOMParser().parseFromString(text, "text/xml");
   const err = doc.querySelector("parsererror");
   if (err) throw new Error("Invalid XML inside KMZ");
@@ -707,11 +962,31 @@ async function parseDeviceFromKMZ(file) {
   }
 
   const isWPML = target.toLowerCase().endsWith(".wpml");
-  const droneEnum = pickInt(isWPML ? ["wpml\\:droneEnumValue", "droneEnumValue"] : ["droneEnumValue", "wpml\\:droneEnumValue"]);
-  const droneSubEnum = pickInt(isWPML ? ["wpml\\:droneSubEnumValue", "droneSubEnumValue"] : ["droneSubEnumValue", "wpml\\:droneSubEnumValue"]);
-  const payloadEnum = pickInt(isWPML ? ["wpml\\:payloadEnumValue", "payloadEnumValue"] : ["payloadEnumValue", "wpml\\:payloadEnumValue"]);
-  const payloadSubEnum = pickInt(isWPML ? ["wpml\\:payloadSubEnumValue", "payloadSubEnumValue"] : ["payloadSubEnumValue", "wpml\\:payloadSubEnumValue"]);
-  let payloadPosIndex = pickInt(isWPML ? ["wpml\\:payloadPositionIndex"] : ["payloadPositionIndex", "wpml\\:payloadPositionIndex"]);
+  const droneEnum = pickInt(
+    isWPML
+      ? ["wpml\\:droneEnumValue", "droneEnumValue"]
+      : ["droneEnumValue", "wpml\\:droneEnumValue"]
+  );
+  const droneSubEnum = pickInt(
+    isWPML
+      ? ["wpml\\:droneSubEnumValue", "droneSubEnumValue"]
+      : ["droneSubEnumValue", "wpml\\:droneSubEnumValue"]
+  );
+  const payloadEnum = pickInt(
+    isWPML
+      ? ["wpml\\:payloadEnumValue", "payloadEnumValue"]
+      : ["payloadEnumValue", "wpml\\:payloadEnumValue"]
+  );
+  const payloadSubEnum = pickInt(
+    isWPML
+      ? ["wpml\\:payloadSubEnumValue", "payloadSubEnumValue"]
+      : ["payloadSubEnumValue", "wpml\\:payloadSubEnumValue"]
+  );
+  let payloadPosIndex = pickInt(
+    isWPML
+      ? ["wpml\\:payloadPositionIndex"]
+      : ["payloadPositionIndex", "wpml\\:payloadPositionIndex"]
+  );
   if (payloadPosIndex == null) payloadPosIndex = 0;
 
   const res = {

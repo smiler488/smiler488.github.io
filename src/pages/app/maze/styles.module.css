@@ -1,0 +1,281 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.36fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.gameCard,
+.leaderboard {
+  min-width: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+}
+
+.gameCard {
+  padding: clamp(16px, 3vw, 26px);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.playerField {
+  display: grid;
+  gap: 5px;
+}
+
+.playerField label,
+.boardHeading span,
+.leaderboardHeading span {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.playerField input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
+  color: var(--ifm-font-color-base);
+  font: inherit;
+}
+
+.steps {
+  display: grid;
+  min-width: 74px;
+  text-align: center;
+}
+
+.steps span {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.72rem;
+}
+
+.steps strong {
+  color: var(--ifm-color-primary);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.newGameButton {
+  min-height: 44px;
+  padding: 9px 16px;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 13px;
+  background: var(--ifm-color-primary);
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.boardHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100%, 560px);
+  margin: 0 auto 10px;
+}
+
+.boardHeading h2,
+.leaderboardHeading h2 {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+}
+
+.keyboardHint {
+  text-align: right;
+}
+
+.canvasFrame {
+  position: relative;
+  width: min(100%, 560px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, white 22%, transparent);
+  border-radius: 20px;
+  background: #2d3748;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.2);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  color: white;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.message:empty {
+  display: none;
+}
+
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 54px);
+  gap: 8px;
+  justify-content: center;
+  margin: 18px auto 0;
+  touch-action: manipulation;
+}
+
+.dpad button {
+  width: 54px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.dpad button:active {
+  transform: translateY(1px);
+}
+
+.leaderboard {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 18px);
+  padding: 20px;
+}
+
+.leaderboardHeading {
+  margin-bottom: 15px;
+}
+
+.leaderboard ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.leaderboard li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 8px 10px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--ifm-background-color) 64%, transparent);
+}
+
+.leaderboard li > span:nth-child(2) {
+  display: grid;
+  min-width: 0;
+}
+
+.leaderboard li strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard small,
+.leaderboard > p {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.place {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.leaderboard .emptyRanking {
+  display: block;
+  padding: 16px;
+  color: var(--ifm-color-emphasis-600);
+  text-align: center;
+}
+
+.leaderboard > p {
+  margin: 14px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .leaderboard {
+    position: static;
+  }
+}
+
+@media (max-width: 520px) {
+  .gameCard,
+  .leaderboard {
+    border-radius: 19px;
+  }
+
+  .toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .newGameButton {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .boardHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .keyboardHint {
+    text-align: left;
+  }
+
+  .canvasFrame {
+    border-radius: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dpad button:active {
+    transform: none;
+  }
+}

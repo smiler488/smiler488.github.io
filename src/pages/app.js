@@ -1,190 +1,253 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Layout from "@theme/Layout";
+import Heading from "@theme/Heading";
+import Link from "@docusaurus/Link";
 import CitationNotice from "../components/CitationNotice";
+import { APP_CATEGORIES, APP_MANIFEST } from "../data/appManifest";
 import styles from "./app.module.css";
 
-// 3D卡片倾斜组件
-const Card3D = ({ children, className }) => {
-  const cardRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // 检测是否为移动设备
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const handleMouseMove = (e) => {
-    // 移动端禁用3D效果
-    if (!cardRef.current || !isHovered || isMobile) return;
-
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -8; // 最大8度
-    const rotateY = ((x - centerX) / centerX) * 8;
-
-    card.style.transform = `
-      translateY(-12px)
-      translateZ(20px)
-      perspective(1000px)
-      rotateX(${rotateX}deg)
-      rotateY(${rotateY}deg)
-    `;
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (cardRef.current) {
-      cardRef.current.style.transform = '';
-    }
-  };
-
+function AppCard({ app }) {
   return (
-    <div
-      ref={cardRef}
-      className={className}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <Link
+      className={styles.appCard}
+      to={app.route}
+      data-tone={app.tone}
+      aria-label={`Open ${app.name}`}
     >
-      {children}
-    </div>
-  );
-};
+      <div className={styles.cardTopline}>
+        <span className={styles.appIcon} aria-hidden="true">
+          {app.icon}
+        </span>
+        <span className={styles.categoryLabel}>{app.categoryLabel}</span>
+      </div>
 
-const AppHub = () => {
-  const apps = [
-    {
-      name: "Sensor App",
-      description:
-        "Collect and analyze sensor data from your device in real time, then export complete CSV reports.",
-      link: "/app/sensor",
-    },
-    {
-      name: "Land Surveyor",
-      description:
-        "Plot GPS points manually or via phone location, close the polygon, and instantly estimate surface area.",
-      link: "/app/land-survey",
-    },
-    {
-      name: "Irrigation Layout Designer",
-      description:
-        "Design drip-irrigation-style mainline/submain/drip layouts, visualize SVG hydraulics, and check pressure / flow limits.",
-      link: "/app/irrigation-designer",
-    },
-    {
-      name: "Weather Analyzer",
-      description:
-        "Monitor and analyze climate and agrometeorological data interactively, with clear chart insights.",
-      link: "/app/weather",
-    },
-    {
-      name: "Image Quantifier",
-      description:
-        "Upload or capture leaf images to quantify leaf precisely, export results to CSV.",
-      link: "/app/image",
-    },
-    {
-      name: "Root Preprocessor",
-      description:
-        "Web-native workflow for root scans: polygon ROI selection, high-pass enhancement, and manual cleanup.",
-      link: "/app/root-processor",
-    },
-    {
-      name: "Maze App",
-      description:
-        "Play through a 2D maze simulation with simple physics controls, enjoy an interactive and playful demo.",
-      link: "/app/maze",
-    },
-    {
-      name: "CCO Mission Planner",
-      description:
-        "Upload target area to generate compressed folders with optimized drone CCO mission routes.",
-      link: "/app/cco",
-    },
-    {
-      name: "Stereo Rectification",
-      description:
-        "Rectify stereo video streams in the browser, preview left and right, capture and export PNG or ZIP.",
-      link: "/app/stereo",
-    },
-    {
-      name: "Calibration Targets",
-      description:
-        "Generate printable checkerboards, markers, and AprilTags, download PDF ready to use.",
-      link: "/app/targets",
-    },
-    {
-      name: "Cloud Note",
-      description:
-        "Online encrypted cloud sticky notes, supporting text and files.",
-      link: "/app/cloudnote",
-    },
-    {
-      name: "AI Solver",
-      description:
-        "Take a photo of a problem and get step-by-step solutions powered by Hunyuan AI.",
-      link: "/app/solver",
-    },
-    {
-      name: "Journal Selector",
-      description:
-        "Paste your manuscript abstract and receive journal suggestions plus a downloadable CSV.",
-      link: "/app/journal-selector",
-    },
-    {
-      name: "AI Data Visualizer",
-      description:
-        "Upload CSV/TSV tables and let HunYuan AI summarize trends plus generate interactive ECharts dashboards.",
-      link: "/app/ai-data-visualizer",
-    },
-  ];
+      <div className={styles.cardCopy}>
+        <Heading as="h2" className={styles.cardTitle}>
+          {app.shortName}
+        </Heading>
+        <p className={styles.cardDescription}>{app.description}</p>
+      </div>
+
+      <ul className={styles.cardBadges} aria-label="Capabilities">
+        {app.badges.slice(0, 3).map((badge) => (
+          <li key={badge}>{badge}</li>
+        ))}
+      </ul>
+
+      <div className={styles.cardAction} aria-hidden="true">
+        <span>Open tool</span>
+        <span className={styles.cardArrow}>↗</span>
+      </div>
+    </Link>
+  );
+}
+
+export default function AppHub() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [query, setQuery] = useState("");
+
+  const visibleApps = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    return APP_MANIFEST.filter((app) => {
+      const matchesCategory =
+        activeCategory === "all" || app.category === activeCategory;
+      const searchText = [
+        app.name,
+        app.shortName,
+        app.description,
+        app.categoryLabel,
+        ...app.badges,
+        ...app.keywords,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return (
+        matchesCategory &&
+        (!normalizedQuery || searchText.includes(normalizedQuery))
+      );
+    });
+  }, [activeCategory, query]);
+
+  const clearFilters = () => {
+    setActiveCategory("all");
+    setQuery("");
+  };
 
   return (
-    <Layout title="Digital Plant Phenotyping Platform v25.0">
-      <div className={styles.hero}>
-        <h1 className={styles.title}>Digital Plant Phenotyping Platform v25.0</h1>
-        <p className={styles.subtitle}>Select an app to explore.</p>
-
-        <div className={styles.appGrid}>
-          {apps.map((app, index) => (
-            <Card3D key={index} className={styles.appCard}>
-              <div>
-                <h3 className={styles.cardTitle}>{app.name}</h3>
-                <p className={styles.cardDescription}>{app.description}</p>
-              </div>
-              <a
-                href={app.link}
-                className={styles.appLink}
-              >
-                <span className={styles.appLinkText}>Launch</span>
-                <span className={styles.appLinkArrow} aria-hidden="true"></span>
-              </a>
-            </Card3D>
-          ))}
+    <Layout
+      title="App Lab — Browser Tools for AI and Plant Science"
+      description="Fourteen focused browser tools for field data, crop research, imaging, visualization and AI-assisted workflows."
+    >
+      <main className={styles.page}>
+        <div className={styles.ambient} aria-hidden="true">
+          <span className={styles.orbitOne} />
+          <span className={styles.orbitTwo} />
+          <span className={styles.gridGlow} />
         </div>
 
-        <CitationNotice />
-      </div>
+        <section className={styles.hero} aria-labelledby="app-lab-title">
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <span className={styles.liveDot} aria-hidden="true" />
+              Digital plant phenotyping platform
+            </p>
+            <Heading as="h1" className={styles.title} id="app-lab-title">
+              A focused lab for field data, imaging and AI.
+            </Heading>
+            <p className={styles.subtitle}>
+              Fourteen practical browser tools shaped around plant science
+              workflows. Each workspace now shares one calm, responsive
+              interface while keeping its specialist controls close at hand.
+            </p>
+
+            <dl className={styles.stats} aria-label="App Lab overview">
+              <div>
+                <dt>14</dt>
+                <dd>browser tools</dd>
+              </div>
+              <div>
+                <dt>5</dt>
+                <dd>workflow areas</dd>
+              </div>
+              <div>
+                <dt>BYOK</dt>
+                <dd>AI model choice</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className={styles.heroVisual} aria-hidden="true">
+            <div className={styles.visualCore}>
+              <span>APP</span>
+              <strong>LAB</strong>
+            </div>
+            <span className={styles.visualNode} data-node="field">
+              GPS
+            </span>
+            <span className={styles.visualNode} data-node="vision">
+              CV
+            </span>
+            <span className={styles.visualNode} data-node="ai">
+              AI
+            </span>
+            <span className={styles.visualNode} data-node="data">
+              CSV
+            </span>
+          </div>
+        </section>
+
+        <section className={styles.catalog} aria-labelledby="catalog-title">
+          <div className={styles.catalogHeader}>
+            <div>
+              <p className={styles.sectionEyebrow}>Explore the toolkit</p>
+              <Heading as="h2" id="catalog-title">
+                Choose a workflow
+              </Heading>
+              <p>
+                Search by task or filter by research stage. Every card opens a
+                dedicated workspace.
+              </p>
+            </div>
+
+            <label className={styles.searchBox}>
+              <span className={styles.visuallyHidden}>Search tools</span>
+              <span className={styles.searchIcon} aria-hidden="true" />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search tools or tasks"
+                autoComplete="off"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </label>
+          </div>
+
+          <div className={styles.filterRow}>
+            <div
+              className={styles.filters}
+              aria-label="Filter tools by category"
+            >
+              {APP_CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className={
+                    activeCategory === category.id
+                      ? styles.filterActive
+                      : undefined
+                  }
+                  aria-pressed={activeCategory === category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+            <p className={styles.resultCount} aria-live="polite">
+              {visibleApps.length} {visibleApps.length === 1 ? "tool" : "tools"}
+            </p>
+          </div>
+
+          {visibleApps.length > 0 ? (
+            <div className={styles.appGrid}>
+              {visibleApps.map((app) => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <span aria-hidden="true">⌕</span>
+              <Heading as="h2">No matching tool</Heading>
+              <p>Try a broader term or return to the complete App Lab.</p>
+              <button type="button" onClick={clearFilters}>
+                Show all tools
+              </button>
+            </div>
+          )}
+        </section>
+
+        <section
+          className={styles.trustStrip}
+          aria-label="Privacy and runtime notes"
+        >
+          <div>
+            <strong>Local-first where possible</strong>
+            <span>
+              Files and calculations stay in the browser unless a tool clearly
+              names an external service.
+            </span>
+          </div>
+          <div>
+            <strong>Your model, your key</strong>
+            <span>
+              AI tools use the provider and API credentials you configure for
+              that session.
+            </span>
+          </div>
+          <div>
+            <strong>Research-aware output</strong>
+            <span>
+              Scientific assumptions, external runtimes and preliminary
+              estimates are labelled in context.
+            </span>
+          </div>
+        </section>
+
+        <div className={styles.citationWrap}>
+          <CitationNotice />
+        </div>
+      </main>
     </Layout>
   );
-};
-
-export default AppHub;
+}

@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
 import AIProviderSettings from '../../../components/AIProviderSettings';
+import AppScaffold from '../../../components/AppScaffold';
 import { createDefaultAIConfig, requestAI } from '../../../lib/api';
+import styles from './styles.module.css';
 const INDICATOR_FILE_PATH = '/app/journal-selector/journal-indicator-system.md';
 
 const BASE_COLUMNS = [];
@@ -110,9 +112,23 @@ function toCsv(rows, columns) {
 
 function escapeCsvValue(value) {
   if (value === undefined || value === null) return '""';
-  const str = String(value);
-  const escaped = str.replace(/"/g, '""');
+  const str = formatCellValue(value);
+  const spreadsheetSafe = /^[=+\-@]/.test(str.trimStart()) ? `'${str}` : str;
+  const escaped = spreadsheetSafe.replace(/"/g, '""');
   return `"${escaped}"`;
+}
+
+function formatCellValue(value) {
+  if (value === undefined || value === null) return '';
+  if (Array.isArray(value)) return value.map(formatCellValue).filter(Boolean).join('; ');
+  if (typeof value === 'object') {
+    try {
+      return JSON.stringify(value);
+    } catch {
+      return String(value);
+    }
+  }
+  return String(value);
 }
 
 function downloadCsv(text, filename) {
@@ -207,7 +223,7 @@ export default function JournalSelectorPage() {
   const [keywordHints, setKeywordHints] = useState('');
   const [oaPreference, setOaPreference] = useState('flexible');
   const [reviewSpeed, setReviewSpeed] = useState(SPEED_OPTIONS[1]);
-  const [maxResults, setMaxResults] = useState(5);
+  const [maxResults, setMaxResults] = useState('5');
   const [extraNotes, setExtraNotes] = useState('');
   const [journalPreference, setJournalPreference] = useState('any');
 
@@ -294,12 +310,13 @@ export default function JournalSelectorPage() {
     setRawText('');
 
     try {
+      const normalizedMaxResults = Math.min(8, Math.max(3, Number(maxResults) || 5));
       const prompt = buildJournalPrompt({
         abstractText,
         keywordHints,
         oaPreference: OA_OPTIONS.find((opt) => opt.value === oaPreference)?.label || oaPreference,
         reviewSpeed,
-        maxResults,
+        maxResults: normalizedMaxResults,
         extraNotes,
         journalPreference: JOURNAL_PREF_OPTIONS.find((opt) => opt.value === journalPreference)?.label || journalPreference,
         indicatorFields: activeIndicatorFields,
@@ -316,25 +333,28 @@ export default function JournalSelectorPage() {
         return;
       }
 
-      const rows = parsed.journals.slice(0, maxResults).map((row, idx) => {
+      const rows = parsed.journals.slice(0, normalizedMaxResults).map((row, idx) => {
+        const sourceRow = row && typeof row === 'object' && !Array.isArray(row)
+          ? row
+          : { journal_name: formatCellValue(row) };
         const normalized = {};
 
         activeIndicatorFields.forEach((field) => {
           const key = field.key;
           let value =
-            row[key] ??
-            row[field.label] ??
-            row?.indicators?.[key] ??
-            row?.indicators?.[field.label];
+            sourceRow[key] ??
+            sourceRow[field.label] ??
+            sourceRow?.indicators?.[key] ??
+            sourceRow?.indicators?.[field.label];
 
           if ((value === undefined || value === null || value === '') && key === 'serial_number') {
             value = idx + 1;
           }
           if ((value === undefined || value === null || value === '') && key === 'journal_name') {
-            value = row.journal_name || `Candidate Journal ${idx + 1}`;
+            value = sourceRow.journal_name || `Candidate Journal ${idx + 1}`;
           }
           if ((value === undefined || value === null || value === '') && key === 'publisher') {
-            value = row.publisher || '-';
+            value = sourceRow.publisher || '-';
           }
 
           normalized[key] = value === undefined || value === null || value === '' ? '-' : value;
@@ -358,62 +378,50 @@ export default function JournalSelectorPage() {
   const canDownload = !!csvText && journals.length > 0;
 
   return (
-    <Layout title="Journal Selector">
-      <div className="app-container">
-        <header className="app-header" style={{ marginBottom: 8 }}>
-          <h1 className="app-title">Journal Selector</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/journal-selector-tutorial">Tutorial</a>
-        </header>
-        <p style={{ margin: '12px 0 24px', color: 'var(--ifm-color-emphasis-700)' }}>
-          Paste your manuscript abstract and the AI will apply the Journal Evaluation Indicator System to suggest target journals plus a downloadable CSV.
-        </p>
-
-        <section
-          style={{
-            display: 'grid',
-            gap: 16,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            marginBottom: 24,
-          }}
-        >
-          <div style={{ gridColumn: 'span 2', minHeight: 260 }}>
-            <label style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>Abstract</label>
+    <AppScaffold appId="journal-selector">
+      <section className={styles.inputGrid} aria-label="Manuscript and journal preferences">
+        <div className={`${styles.glassPanel} ${styles.abstractPanel}`}>
+          <div className={styles.panelHeading}>
+            <div>
+              <span className={styles.step}>01 · Manuscript</span>
+              <Heading as="h2">Research abstract</Heading>
+            </div>
+            <span className={styles.hint}>Recommended 200–400 words</span>
+          </div>
+          <label className={styles.label} htmlFor="journal-abstract">Abstract</label>
             <textarea
+              id="journal-abstract"
               value={abstractText}
               onChange={(e) => setAbstractText(e.target.value)}
               placeholder="Paste a 200–400 word abstract covering objective, method, data, and novelty."
-              style={{
-                width: '100%',
-                minHeight: 220,
-                borderRadius: 12,
-                border: '1px solid #d1d5db',
-                padding: 16,
-                fontSize: 15,
-                lineHeight: 1.5,
-              }}
+              className={styles.abstractInput}
             />
-          </div>
+        </div>
 
-          <div style={{ background: 'var(--ifm-background-surface-color)', borderRadius: 12, padding: 16 }}>
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Keywords / Focus</label>
+        <div className={styles.glassPanel}>
+          <div className={styles.panelHeading}>
+            <div>
+              <span className={styles.step}>02 · Preferences</span>
+              <Heading as="h2">Submission profile</Heading>
+            </div>
+          </div>
+          <div className={styles.fieldGrid}>
+            <div className={styles.fieldFull}>
+              <label className={styles.label} htmlFor="journal-keywords">Keywords / Focus</label>
             <input
+                id="journal-keywords"
               value={keywordHints}
               onChange={(e) => setKeywordHints(e.target.value)}
               placeholder="e.g., precision agriculture; hyperspectral imaging; maize"
-              style={{
-                width: '100%',
-                borderRadius: 8,
-                border: '1px solid #d1d5db',
-                padding: '8px 12px',
-                marginBottom: 12,
-              }}
             />
+            </div>
 
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>OA requirement</label>
+            <div>
+              <label className={styles.label} htmlFor="journal-oa">OA requirement</label>
             <select
+                id="journal-oa"
               value={oaPreference}
               onChange={(e) => setOaPreference(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {OA_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -421,12 +429,14 @@ export default function JournalSelectorPage() {
                 </option>
               ))}
             </select>
+            </div>
 
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Review speed preference</label>
+            <div>
+              <label className={styles.label} htmlFor="journal-speed">Review speed</label>
             <select
+                id="journal-speed"
               value={reviewSpeed}
               onChange={(e) => setReviewSpeed(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {SPEED_OPTIONS.map((opt) => (
                 <option key={opt} value={opt}>
@@ -434,12 +444,14 @@ export default function JournalSelectorPage() {
                 </option>
               ))}
             </select>
+            </div>
 
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Journal type preference</label>
+            <div>
+              <label className={styles.label} htmlFor="journal-type">Journal type</label>
             <select
+                id="journal-type"
               value={journalPreference}
               onChange={(e) => setJournalPreference(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
             >
               {JOURNAL_PREF_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -447,74 +459,78 @@ export default function JournalSelectorPage() {
                 </option>
               ))}
             </select>
+            </div>
 
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Number of suggestions (3-8)</label>
+            <div>
+              <label className={styles.label} htmlFor="journal-count">Suggestions (3–8)</label>
             <input
+                id="journal-count"
               type="number"
               min={3}
               max={8}
               value={maxResults}
-              onChange={(e) => setMaxResults(Math.min(8, Math.max(3, Number(e.target.value) || 5)))}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--ifm-border-color)', marginBottom: 12 }}
+                onChange={(e) => setMaxResults(e.target.value)}
+                onBlur={() => setMaxResults(String(Math.min(8, Math.max(3, Number(maxResults) || 5))))}
             />
+            </div>
 
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: 6 }}>Special notes</label>
+            <div className={styles.fieldFull}>
+              <label className={styles.label} htmlFor="journal-notes">Special notes</label>
             <textarea
+                id="journal-notes"
               value={extraNotes}
               onChange={(e) => setExtraNotes(e.target.value)}
               placeholder="e.g., need open data compliance, avoiding page charges, prefer Q1."
-              style={{ width: '100%', borderRadius: 8, border: '1px solid var(--ifm-border-color)', padding: 12, minHeight: 90 }}
+                className={styles.notesInput}
             />
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <div style={{ marginBottom: 24 }}>
+      <section className={styles.modelSection} aria-label="AI model configuration">
           <AIProviderSettings
             value={aiConfig}
             onChange={setAiConfig}
             title="Journal analysis model"
           />
-        </div>
+      </section>
 
-        <section
-          style={{
-            background: 'var(--ifm-background-surface-color)',
-            borderRadius: 16,
-            color: 'var(--ifm-color-emphasis-900)',
-            padding: 16,
-            marginBottom: 24,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Indicator reference</h3>
-          <p style={{ margin: 0, whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{indicatorPreview}</p>
+      <section className={`${styles.glassPanel} ${styles.referencePanel}`}>
+          <div className={styles.panelHeading}>
+            <div>
+              <span className={styles.step}>03 · Criteria</span>
+              <Heading as="h2">Indicator reference</Heading>
+            </div>
+            <span className={styles.metricCount}>{activeIndicatorFields.length} metrics</span>
+          </div>
+          <p className={styles.referencePreview}>{indicatorPreview}</p>
           {indicatorText.length > indicatorPreview.length && (
-            <small style={{ display: 'block', marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
+            <small className={styles.hint}>
               Preview shows the first 300 characters; the full content is sent to the AI.
             </small>
           )}
-          <div style={{ marginTop: 12, fontSize: 14, color: 'var(--ifm-color-emphasis-700)', lineHeight: 1.5 }}>
+          <details className={styles.metricDetails}>
+            <summary>Review all required indicators</summary>
+            <p>
             Required indicators: {activeIndicatorFields.map((field) => field.label).join(', ')}
-          </div>
-        </section>
+            </p>
+          </details>
+      </section>
 
-        <section style={{ marginBottom: 24 }}>
-          <div style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16 }}>
-            <h3 style={{ marginTop: 0 }}>Status</h3>
-            <p style={{ minHeight: 48, lineHeight: 1.4 }}>{status}</p>
+      <section className={`${styles.glassPanel} ${styles.actionPanel}`}>
+          <div>
+            <span className={styles.step}>04 · Generate</span>
+            <Heading as="h2">Build a journal shortlist</Heading>
+            <p className={styles.status} role="status" aria-live="polite">{status}</p>
+            <p className={styles.disclaimer}>Journal metrics change over time. Verify rankings, fees and review timelines on the publisher website before submission.</p>
+          </div>
+          <div className={styles.actionButtons}>
             <button
               type="button"
               onClick={handleGenerate}
-              disabled={busy || (false)}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                borderRadius: 10,
-                border: 'none',
-                background: 'var(--ifm-color-primary)',
-                color: 'var(--ifm-color-white)',
-                fontSize: 16,
-                cursor: busy ? 'not-allowed' : 'pointer',
-              }}
+              disabled={busy}
+              className={styles.primaryButton}
             >
               {busy ? 'Generating…' : 'Generate journal plan'}
             </button>
@@ -522,50 +538,81 @@ export default function JournalSelectorPage() {
               type="button"
               onClick={() => downloadCsv(csvText, 'journal-recommendations.csv')}
               disabled={!canDownload}
-              style={{
-                width: '100%',
-                padding: '10px 16px',
-                borderRadius: 10,
-                border: '1px solid var(--ifm-color-primary)',
-                background: 'var(--ifm-background-color)',
-                color: canDownload ? 'var(--ifm-color-primary)' : 'var(--ifm-color-emphasis-500)',
-                fontSize: 15,
-                cursor: canDownload ? 'pointer' : 'not-allowed',
-                marginTop: 12,
-              }}
+              className={styles.secondaryButton}
             >
               Download CSV
             </button>
           </div>
-        </section>
+      </section>
 
         {overview && (
-          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
-            <h3 style={{ marginTop: 0 }}>AI Summary</h3>
-            <p style={{ marginBottom: 8 }}>
+        <section className={styles.glassPanel}>
+            <Heading as="h2">AI summary</Heading>
+            <div className={styles.summaryGrid}>
+              <div>
               <strong>Abstract recap:</strong>
-              <br />
-              {overview.abstract_summary || '—'}
-            </p>
-            <p style={{ margin: 0 }}>
+                <p>{formatCellValue(overview.abstract_summary) || '—'}</p>
+              </div>
+              <div>
               <strong>Alignment:</strong>
-              <br />
-              {overview.alignment_summary || '—'}
-            </p>
+                <p>{formatCellValue(overview.alignment_summary) || '—'}</p>
+              </div>
+            </div>
           </section>
         )}
 
         {journals.length > 0 && (
-          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24, overflowX: 'auto' }}>
-            <h3 style={{ marginTop: 0 }}>Recommended journals</h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+        <section className={styles.resultsSection} aria-labelledby="journal-results-title">
+            <div className={styles.resultsHeading}>
+              <div>
+                <span className={styles.step}>Results</span>
+                <Heading as="h2" id="journal-results-title">Recommended journals</Heading>
+              </div>
+              <span className={styles.metricCount}>{journals.length} candidates</span>
+            </div>
+
+            <div className={styles.resultCards}>
+              {journals.map((row, idx) => (
+                <article className={styles.resultCard} key={`${formatCellValue(row.journal_name)}-${idx}`}>
+                  <div className={styles.resultCardHeader}>
+                    <span className={styles.rank}>#{idx + 1}</span>
+                    <div>
+                      <Heading as="h3">{formatCellValue(row.journal_name) || `Candidate Journal ${idx + 1}`}</Heading>
+                      <p>{formatCellValue(row.publisher) || 'Publisher not provided'}</p>
+                    </div>
+                  </div>
+                  <dl className={styles.quickFacts}>
+                    {['impact_factor_2024', 'jcr_quartile', 'cas_quartile', 'oa_type'].map((key) => {
+                      const column = allColumns.find((item) => item.key === key);
+                      return column ? (
+                        <div key={key}>
+                          <dt>{column.label}</dt>
+                          <dd>{formatCellValue(row[key]) || '—'}</dd>
+                        </div>
+                      ) : null;
+                    })}
+                  </dl>
+                  <details className={styles.resultDetails}>
+                    <summary>View all evaluation fields</summary>
+                    <dl>
+                      {allColumns.map((col) => (
+                        <div key={col.key}>
+                          <dt>{col.label}</dt>
+                          <dd>{formatCellValue(row[col.key]) || '—'}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </details>
+                </article>
+              ))}
+            </div>
+
+            <div className={styles.tableScroll} tabIndex="0" role="region" aria-label="Complete journal comparison table">
+            <table className={styles.resultsTable}>
               <thead>
                 <tr>
                   {allColumns.map((col) => (
-                    <th
-                      key={col.key}
-                        style={{ textAlign: 'left', padding: '8px 6px', borderBottom: '1px solid var(--ifm-border-color)', background: 'var(--ifm-background-surface-color)' }}
-                    >
+                      <th key={col.key} scope="col">
                       {col.label}
                     </th>
                   ))}
@@ -575,22 +622,23 @@ export default function JournalSelectorPage() {
                 {journals.map((row, idx) => (
                   <tr key={row.journal_name + idx}>
                     {allColumns.map((col) => (
-                      <td key={col.key} style={{ padding: '8px 6px', borderBottom: '1px solid var(--ifm-border-color)', verticalAlign: 'top' }}>
-                        {String(row[col.key] ?? '')}
+                        <td key={col.key}>
+                          {formatCellValue(row[col.key])}
                       </td>
                     ))}
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
           </section>
         )}
 
         {rawText && (
-          <section style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
-            <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600 }}>View raw AI response</summary>
-              <pre style={{ whiteSpace: 'pre-wrap', fontSize: 13, background: 'var(--ifm-background-surface-color)', padding: 12, borderRadius: 8 }}>
+        <section className={styles.rawPanel}>
+            <details className={styles.metricDetails}>
+              <summary>View raw AI response</summary>
+              <pre className={styles.rawText}>
                 {rawText}
               </pre>
             </details>
@@ -598,7 +646,6 @@ export default function JournalSelectorPage() {
         )}
 
         <CitationNotice />
-      </div>
-    </Layout>
+    </AppScaffold>
   );
 }

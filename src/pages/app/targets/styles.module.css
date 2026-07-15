@@ -1,7 +1,7 @@
 .appContainer {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0;
   color: var(--ifm-color-emphasis-900);
 }
 
@@ -20,15 +20,22 @@
 }
 
 .lead {
-  margin: 8px 0 24px;
+  margin: 0 0 1rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 1.2rem;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(155%);
+  backdrop-filter: blur(20px) saturate(155%);
+  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
   color: var(--ifm-color-emphasis-600);
   line-height: 1.6;
 }
 
 .layoutGrid {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 32px;
+  grid-template-columns: minmax(20rem, 25rem) minmax(0, 1fr);
+  gap: 1rem;
   align-items: flex-start;
 }
 
@@ -39,11 +46,24 @@
 }
 
 .controlCard {
-  border: 2px solid var(--ifm-border-color);
-  border-radius: 16px;
-  padding: 24px;
-  background: var(--ifm-background-surface-color);
-  box-shadow: var(--ifm-global-shadow-lw);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.4rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+  backdrop-filter: blur(22px) saturate(155%);
+  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+}
+
+.previewCard {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.4rem;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+  backdrop-filter: blur(22px) saturate(155%);
+  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
 }
 
 .sectionTitle {
@@ -80,9 +100,41 @@
   margin-bottom: 20px;
 }
 
+.paramGrid,
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.printNotice {
+  margin-top: 1rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--ifm-color-warning) 32%, var(--glass-border));
+  border-radius: 1.2rem;
+  color: var(--ifm-color-emphasis-700);
+  background: color-mix(in srgb, var(--ifm-color-warning-lightest) 46%, var(--glass-bg));
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.printNotice h2 {
+  margin-top: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.15rem;
+}
+
 @media (max-width: 640px) {
-  .twoColRow {
+  .twoColRow,
+  .paramGrid,
+  .actionGrid {
     grid-template-columns: 1fr;
+  }
+
+  .controlCard,
+  .previewCard {
+    border-radius: 1.1rem;
   }
 }
 
@@ -90,4 +142,15 @@
   margin: 24px 0;
   border: none;
   border-top: 1px solid var(--ifm-border-color);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lead,
+  .controlCard,
+  .previewCard,
+  .printNotice {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--ifm-background-surface-color);
+  }
 }

@@ -1,32 +1,9 @@
 .appContainer {
   width: 100%;
-  max-width: 1200px;
+  max-width: none;
   min-width: 0;
   margin: 0 auto;
-  padding: 32px 20px 64px;
-}
-
-.heroRow {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  align-items: flex-start;
-}
-
-.heroTitle {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: var(--ifm-color-emphasis-900);
-}
-
-.heroDescription {
-  color: var(--ifm-color-emphasis-600);
-  line-height: 1.6;
-  max-width: 720px;
-  margin: 8px 0 0;
+  padding: 0;
 }
 
 .mainGrid {
@@ -52,12 +29,25 @@
 }
 
 .card {
+  position: relative;
   min-width: 0;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-border-color);
-  border-radius: 16px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
   padding: 20px;
-  box-shadow: var(--ifm-global-shadow-lw);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+}
+
+.card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--glass-highlight);
+  content: "";
+  pointer-events: none;
 }
 
 .cardHeading {
@@ -80,8 +70,8 @@
   justify-content: center;
   padding: 2px 10px;
   border-radius: 999px;
-  background: var(--ifm-color-primary);
-  color: var(--ifm-color-emphasis-0);
+  background: rgba(var(--app-accent-rgb), 0.12);
+  color: var(--app-accent);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -95,8 +85,13 @@
   width: 100%;
   padding: 0.75rem;
   border-radius: 12px;
-  border: 1px dashed var(--ifm-border-color);
-  background: var(--ifm-background-surface-color);
+  min-height: 48px;
+  border: 1px dashed rgba(var(--app-accent-rgb), 0.35);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 84%,
+    transparent
+  );
   color: var(--ifm-color-emphasis-700);
   cursor: pointer;
   font-size: 0.95rem;
@@ -106,10 +101,14 @@
   width: 100%;
   min-height: 160px;
   border-radius: 12px;
-  border: 1px solid var(--ifm-border-color);
+  border: 1px solid var(--glass-border);
   padding: 12px;
   font-size: 0.95rem;
-  background: var(--ifm-background-color);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 84%,
+    transparent
+  );
   color: var(--ifm-color-emphasis-900);
   resize: vertical;
 }
@@ -123,8 +122,13 @@
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid var(--ifm-border-color);
-  background: var(--ifm-background-color);
+  min-height: 44px;
+  border: 1px solid var(--glass-border);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 84%,
+    transparent
+  );
   color: var(--ifm-color-emphasis-900);
   font-size: 0.95rem;
 }
@@ -142,6 +146,11 @@
   color: var(--ifm-color-emphasis-800);
   display: block;
   margin-top: 12px;
+  line-height: 1.45;
+}
+
+.fieldLabel > :is(input, select, textarea) {
+  margin-top: 6px;
 }
 
 .checkboxRow {
@@ -165,6 +174,8 @@
   padding: 10px 14px;
   font-size: 0.9rem;
   font-weight: 500;
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 18%, transparent);
 }
 
 .status--muted {
@@ -194,6 +205,8 @@
 
 .tableScroll {
   overflow-x: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
 }
 
 .previewTable {
@@ -204,17 +217,26 @@
 
 .previewTable th,
 .previewTable td {
-  border: 1px solid var(--ifm-border-color);
+  border: 0;
+  border-bottom: 1px solid var(--glass-border);
   padding: 8px 10px;
   text-align: left;
 }
 
 .previewTable thead {
-  background: var(--ifm-background-surface-color);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 90%,
+    transparent
+  );
 }
 
 .previewTable tbody tr:nth-child(even) {
-  background: var(--ifm-background-surface-color);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 58%,
+    transparent
+  );
 }
 
 .insightList {
@@ -231,6 +253,14 @@
 
 .chartShell {
   min-height: 360px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 78%,
+    transparent
+  );
 }
 
 .chartContainer {
@@ -248,4 +278,50 @@
   background: var(--ifm-background-surface-color);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .mainGrid,
+  .leftColumn,
+  .rightColumn {
+    gap: 14px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .cardHeading {
+    align-items: flex-start;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .chartShell,
+  .chartContainer {
+    min-height: 460px;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .card {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--ifm-background-surface-color);
+  }
 }

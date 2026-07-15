@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
-import Layout from "@theme/Layout";
+import React, { Fragment, useEffect } from "react";
 import Head from "@docusaurus/Head";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Heading from "@theme/Heading";
+import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
 
 export default function TargetsPage() {
+  const targetsScript = useBaseUrl("js/targets_app.js");
+
   useEffect(() => {
     const $ = (id) => document.getElementById(id);
     const statusEl = () => $("status");
@@ -213,8 +217,10 @@ export default function TargetsPage() {
     const toggleParamPanels = () => {
       const t = $("targetType")?.value || "chessboard";
       const chess = $("chessParams");
+      const chessDetails = $("chessDetails");
       const agi = $("agisoftParams");
       if (chess) chess.style.display = t === "chessboard" ? "block" : "none";
+      if (chessDetails) chessDetails.style.display = t === "chessboard" ? "block" : "none";
       if (agi) agi.style.display = t === "agisoft" ? "block" : "none";
       if (t === "chessboard") updateCbComputed();
       if (t === "agisoft") validateAgisoftParams();
@@ -226,10 +232,7 @@ export default function TargetsPage() {
       if (!has) return false;
 
       try {
-        if (window.TARGETS_INIT && !window.__targetsReady) {
-          window.TARGETS_INIT();
-          window.__targetsReady = true;
-        }
+        window.TARGETS_INIT?.();
         
         const previewBtn = $("btnPreview");
         const downloadBtn = $("btnDownload");
@@ -290,6 +293,12 @@ export default function TargetsPage() {
               setStatus("Cannot download: Invalid ring arcs parameters", true);
               return;
             }
+          } else if (p.type === "agisoft") {
+            isValid = validateAgisoftParams();
+            if (!isValid) {
+              setStatus("Cannot download: Invalid Agisoft marker parameters", true);
+              return;
+            }
           }
           
           if (typeof window.targetsDownload === "function") {
@@ -327,16 +336,27 @@ export default function TargetsPage() {
       }
     };
 
-    if (tryInit("immediate")) return;
+    let initialized = tryInit("immediate");
 
-    const onReady = () => tryInit("targets_ready");
-    const onLoad = () => tryInit("window.load");
+    const onReady = () => {
+      initialized = tryInit("targets_ready") || initialized;
+    };
+    const onLoad = () => {
+      initialized = tryInit("window.load") || initialized;
+    };
 
     window.addEventListener("targets_ready", onReady);
     window.addEventListener("load", onLoad);
 
+    let pollAttempts = 0;
     const poll = setInterval(() => {
-      if (tryInit("poll")) clearInterval(poll);
+      pollAttempts += 1;
+      initialized = tryInit("poll") || initialized;
+      if (initialized) clearInterval(poll);
+      if (!initialized && pollAttempts >= 40) {
+        clearInterval(poll);
+        setStatus("The target generator script could not be loaded. Refresh and try again.", true);
+      }
     }, 150);
 
     // Enhanced event listeners with debouncing
@@ -406,17 +426,14 @@ export default function TargetsPage() {
   }, []);
 
   return (
-    <Layout title="Calibration Targets Generator">
+    <Fragment>
       <Head>
-        <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-        <script id="targets-script" src="/js/targets_app.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer />
+        <script id="targets-script" src={targetsScript} defer />
       </Head>
 
+      <AppScaffold appId="targets">
       <div className={styles.appContainer}>
-        <div className={styles.appHeader}>
-          <h1 className={styles.appTitle}>Professional Calibration Targets Generator</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/calibration-targets-tutorial">Tutorial</a>
-        </div>
         <p className={styles.lead}>
           Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
           Print at <strong>100% / Actual size</strong> to preserve accurate measurements. 
@@ -426,10 +443,10 @@ export default function TargetsPage() {
         <div className={styles.layoutGrid}>
           {/* Enhanced Control Panel */}
           <div id="controls" className={styles.controlCard}>
-            <h3 className={styles.sectionTitle}>Target Parameters</h3>
+            <Heading as="h2" className={styles.sectionTitle}>Target parameters</Heading>
 
             <div className={styles.formRow}>
-              <label className={styles.label}>Target Type</label>
+              <label className={styles.label} htmlFor="targetType">Target type</label>
               <select id="targetType" className={styles.select}>
                 <option value="chessboard">Chessboard (OpenCV Standard)</option>
                 <option value="agisoft">Segmented Circular Marker (Agisoft)</option>
@@ -438,14 +455,14 @@ export default function TargetsPage() {
 
             <div className={styles.twoColRow}>
               <div>
-                <label className={styles.label}>Paper Format</label>
+                <label className={styles.label} htmlFor="paper">Paper format</label>
                 <select id="paper" className={styles.select}>
                   <option value="a4">A4 (210×297 mm)</option>
                   <option value="letter">Letter (8.5×11 in)</option>
                 </select>
               </div>
               <div>
-                <label className={styles.label}>Margin (mm)</label>
+                <label className={styles.label} htmlFor="margin">Margin (mm)</label>
                 <input id="margin" type="number" defaultValue="15" min="5" max="50" step="1" className={styles.input} />
               </div>
             </div>
@@ -454,10 +471,10 @@ export default function TargetsPage() {
 
             {/* Enhanced Chessboard Parameters */}
             <div id="chessParams">
-              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Chessboard Configuration</h4>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Chessboard configuration</Heading>
+              <div className={styles.paramGrid}>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rows (inner corners)</label>
+                  <label htmlFor="cbRows" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rows (inner corners)</label>
                   <input 
                     id="cbRows" 
                     type="number" 
@@ -474,7 +491,7 @@ export default function TargetsPage() {
                   />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Cols (inner corners)</label>
+                  <label htmlFor="cbCols" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Columns (inner corners)</label>
                   <input 
                     id="cbCols" 
                     type="number" 
@@ -491,48 +508,50 @@ export default function TargetsPage() {
                   />
               </div>
             </div>
+            </div>
 
             {/* Agisoft Segmented Circular Marker Parameters */}
             <div id="agisoftParams" style={{ display: "none" }}>
-              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Agisoft Marker Configuration</h4>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Agisoft marker configuration</Heading>
+              <div className={styles.paramGrid}>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
+                  <label htmlFor="amOuter" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer diameter (mm)</label>
                   <input id="amOuter" type="number" min="40" max="250" step="5" defaultValue="80" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring Width (mm)</label>
+                  <label htmlFor="amWidth" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring width (mm)</label>
                   <input id="amWidth" type="number" min="5" max="60" step="1" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Segment Angle (°)</label>
+                  <label htmlFor="amSegAngle" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Segment angle (°)</label>
                   <input id="amSegAngle" type="number" min="20" max="120" step="5" defaultValue="60" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rotation Step (°)</label>
+                  <label htmlFor="amRotateStep" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rotation step (°)</label>
                   <input id="amRotateStep" type="number" min="0" max="60" step="5" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid Rows</label>
+                  <label htmlFor="amRows" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid rows</label>
                   <input id="amRows" type="number" min="1" max="10" step="1" defaultValue="3" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid Cols</label>
+                  <label htmlFor="amCols" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid columns</label>
                   <input id="amCols" type="number" min="1" max="10" step="1" defaultValue="2" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center Dot (mm)</label>
+                  <label htmlFor="amDot" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center dot (mm)</label>
                   <input id="amDot" type="number" min="1" max="10" step="0.5" defaultValue="4" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Label Size (pt)</label>
+                  <label htmlFor="amLabel" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Label size (pt)</label>
                   <input id="amLabel" type="number" min="8" max="24" step="1" defaultValue="12" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
                 </div>
               </div>
-              <div id="amValidation" style={{ fontSize: 12, padding: 8, backgroundColor: "var(--ifm-background-color)", border: "1px solid var(--ifm-border-color)", borderRadius: 6, display: "none" }} />
+              <div id="amValidation" role="status" aria-live="polite" style={{ fontSize: 12, padding: 8, backgroundColor: "var(--ifm-background-color)", border: "1px solid var(--ifm-border-color)", borderRadius: 6, display: "none" }} />
             </div>
+            <div id="chessDetails">
               <div style={{ marginBottom: 16 }}>
-                <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Square Size (mm)</label>
+                <label htmlFor="cbSize" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Square size (mm)</label>
                 <input 
                   id="cbSize" 
                   type="number" 
@@ -562,6 +581,8 @@ export default function TargetsPage() {
               </div>
               <div 
                 id="cbComputed" 
+                role="status"
+                aria-live="polite"
                 style={{ 
                   fontSize: 13, 
                   fontWeight: "bold",
@@ -573,6 +594,8 @@ export default function TargetsPage() {
               />
               <div 
                 id="cbValidation" 
+                role="status"
+                aria-live="polite"
                 style={{ 
                   fontSize: 12, 
                   marginTop: 8,
@@ -587,7 +610,7 @@ export default function TargetsPage() {
 
             {/* Enhanced Bullseye Parameters */}
             <div id="bullseyeParams" style={{ display: "none" }}>
-              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Bullseye Configuration</h4>
+              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Bullseye configuration</Heading>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
@@ -676,7 +699,7 @@ export default function TargetsPage() {
 
             {/* Enhanced Ring Arcs Parameters */}
             <div id="RingArcsParams" style={{ display: "none" }}>
-              <h4 style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Ring with Arc Gaps</h4>
+              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Ring with arc gaps</Heading>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
@@ -802,7 +825,7 @@ export default function TargetsPage() {
 
             <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid var(--ifm-border-color)" }} />
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className={styles.actionGrid}>
               <button 
                 type="button" 
                 id="btnPreview"
@@ -839,6 +862,9 @@ export default function TargetsPage() {
             </div>
             <p 
               id="status" 
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
               style={{ 
                 marginTop: 16, 
                 fontSize: 13,
@@ -854,13 +880,8 @@ export default function TargetsPage() {
           </div>
 
           {/* Enhanced Preview Panel */}
-          <div style={{ 
-            border: "2px solid var(--ifm-border-color)", 
-            borderRadius: 16, 
-            padding: 24,
-            backgroundColor: "var(--ifm-background-color)"
-          }}>
-            <h3 style={{ marginTop: 0, color: "var(--ifm-color-emphasis-800)" }}>Live Preview</h3>
+          <div className={styles.previewCard}>
+            <Heading as="h2" style={{ marginTop: 0, color: "var(--ifm-color-emphasis-800)" }}>Live preview</Heading>
             <div
               style={{
                 width: "100%",
@@ -876,6 +897,8 @@ export default function TargetsPage() {
                 id="previewSvg" 
                 viewBox="0 0 210 297" 
                 width="100%" 
+                role="img"
+                aria-label="Printable calibration target preview"
                 style={{ 
                   maxHeight: "600px",
                   border: "1px solid var(--ifm-border-color)",
@@ -899,16 +922,8 @@ export default function TargetsPage() {
           </div>
         </div>
 
-        <div style={{ 
-          marginTop: 32, 
-          padding: 20,
-          backgroundColor: "var(--ifm-color-warning-lightest)",
-          border: "1px solid var(--ifm-color-warning-lightest)",
-          borderRadius: 12,
-          fontSize: 14, 
-          color: "var(--ifm-color-warning-darker)" 
-        }}>
-          <h4 style={{ marginTop: 0, color: "var(--ifm-color-warning-darker)" }}>Printing Instructions</h4>
+        <aside className={styles.printNotice}>
+          <Heading as="h2">Printing instructions</Heading>
           <ul style={{ marginBottom: 0, paddingLeft: 20 }}>
             <li>Use high-quality white paper (minimum 80gsm recommended)</li>
             <li>Print at <strong>100% scale / Actual size</strong> - disable “Fit to page”</li>
@@ -916,9 +931,10 @@ export default function TargetsPage() {
             <li>Verify printed dimensions with a ruler before use</li>
             <li>For best results, mount on rigid backing (foam board, etc.)</li>
           </ul>
-        </div>
+        </aside>
         <CitationNotice />
       </div>
-    </Layout>
+      </AppScaffold>
+    </Fragment>
   );
 }

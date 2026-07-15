@@ -1,7 +1,7 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 0;
 }
 
 .header {
@@ -27,9 +27,12 @@
 .permissionCard {
   margin-bottom: 12px;
   padding: 16px;
-  background: var(--ifm-background-surface-color);
-  border-radius: 12px;
-  border: 1px solid var(--ifm-border-color);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
 }
 
 .permissionContent {
@@ -41,6 +44,8 @@
 }
 
 .muted {
+  display: block;
+  margin-top: 3px;
   color: var(--ifm-color-emphasis-600);
   font-size: 0.9rem;
 }
@@ -56,16 +61,30 @@
 
 .controls {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 12px;
   align-items: center;
   margin: 12px 0 20px;
 }
 
+.leafField {
+  display: grid;
+  gap: 5px;
+}
+
+.leafField label {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
 .input {
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--ifm-border-color);
+  min-height: 44px;
+  border-radius: 13px;
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
+  color: var(--ifm-font-color-base);
   font-size: 14px;
   width: 100%;
 }
@@ -78,6 +97,7 @@
   border: none;
   transition: all 0.2s ease;
   white-space: nowrap;
+  min-height: 44px;
 }
 
 .buttonPrimary {
@@ -108,15 +128,19 @@
 
 .card {
   padding: 16px;
-  background: var(--ifm-background-surface-color);
-  border-radius: 12px;
-  border: 1px solid var(--ifm-border-color);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
 }
 
 .cardTitle {
   margin-top: 0;
   color: var(--ifm-color-emphasis-900);
   margin-bottom: 12px;
+  font-size: 1.05rem;
 }
 
 .row {
@@ -135,7 +159,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 1180px;
 }
 
 .thead tr {
@@ -160,9 +184,12 @@
 }
 
 .formulaBox {
-  background-color: var(--ifm-background-color);
-  border-radius: 12px;
-  box-shadow: var(--ifm-global-shadow-md);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
   overflow: hidden;
   margin-top: 24px;
 }
@@ -193,6 +220,13 @@
   padding: 12px;
   margin-bottom: 12px;
   overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.formulaNote {
+  margin: 8px 0 0;
+  color: var(--ifm-color-emphasis-600);
 }
 
 /* Mobile Adjustments */
@@ -200,6 +234,12 @@
   .controls {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .permissionCard,
+  .card,
+  .formulaBox {
+    border-radius: 18px;
   }
 
   .input {

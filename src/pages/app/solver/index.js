@@ -1,6 +1,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Layout from '@theme/Layout';
+import AppScaffold from '../../../components/AppScaffold';
+import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
 import AIProviderSettings from '../../../components/AIProviderSettings';
 import { createDefaultAIConfig, requestAI } from '../../../lib/api';
@@ -66,8 +67,11 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
   canvas.width = Math.round(w * scale);
   canvas.height = Math.round(h * scale);
   const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas rendering is not available in this browser.');
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  return await new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/jpeg', quality));
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+  if (!blob) throw new Error('The browser could not encode the captured image.');
+  return blob;
 }
 
 function formatAiResponse(result) {
@@ -472,21 +476,39 @@ OUTPUT:
   const [screenshotData, setScreenshotData] = useState(null); // Screenshot data
   const [selectionBox, setSelectionBox] = useState(null); // Selection box
   const [isSelecting, setIsSelecting] = useState(false); // Whether selecting
+  const screenshotViewportRef = useRef(null);
+  const dragCleanupRef = useRef(null);
+  const requestControllerRef = useRef(null);
 
   useEffect(() => {
     if (captureMode !== 'camera') stopCamera();
   }, [captureMode, stopCamera]);
 
+  useEffect(
+    () => () => {
+      dragCleanupRef.current?.();
+      requestControllerRef.current?.abort();
+    },
+    [],
+  );
+
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
+    requestControllerRef.current?.abort();
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
     try {
       const result = await requestAI(aiConfig, payload, {
         mockTag: 'ai-solver',
         requireVision: Boolean(payload.imageBase64 || payload.imageUrl),
+        signal: controller.signal,
       });
       setRespText(formatAiResponse(result));
     } catch (error) {
+      if (error?.name === 'AbortError') return;
       throw new Error(getSafeAiErrorMessage(error));
+    } finally {
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
     }
   }
 
@@ -549,27 +571,33 @@ OUTPUT:
 
     setRespText('');
     setBusy(true);
+    let stream = null;
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
+      stream = await navigator.mediaDevices.getDisplayMedia({
         video: { mediaSource: 'screen' },
         audio: false
       });
 
       const video = document.createElement('video');
       video.srcObject = stream;
-      video.play();
-
-      await new Promise((resolve) => {
-        video.onloadedmetadata = resolve;
-      });
+      video.muted = true;
+      video.playsInline = true;
+      if (video.readyState < 1) {
+        await new Promise((resolve, reject) => {
+          video.onloadedmetadata = resolve;
+          video.onerror = () => reject(new Error('The shared screen could not be read.'));
+        });
+      }
+      await video.play();
 
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
+      if (!ctx || !canvas.width || !canvas.height) {
+        throw new Error('The shared screen did not provide a usable video frame.');
+      }
       ctx.drawImage(video, 0, 0);
-
-      stream.getTracks().forEach(track => track.stop());
 
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
       
@@ -599,6 +627,7 @@ OUTPUT:
         setRespText('Error: ' + (e?.message || String(e)));
       }
     } finally {
+      stream?.getTracks().forEach((track) => track.stop());
       setBusy(false);
     }
   }
@@ -614,6 +643,7 @@ OUTPUT:
       cropCanvas.width = selectionBox.width;
       cropCanvas.height = selectionBox.height;
       const cropCtx = cropCanvas.getContext('2d');
+      if (!cropCtx) throw new Error('Canvas rendering is not available in this browser.');
       
       // 从原始canvas裁剪选中区域
       cropCtx.drawImage(
@@ -625,6 +655,7 @@ OUTPUT:
       const blob = await new Promise((resolve) => 
         cropCanvas.toBlob((b) => resolve(b), 'image/jpeg', 0.85)
       );
+      if (!blob) throw new Error('The browser could not encode the selected area.');
       
       setLastSizeKB(Math.round(blob.size / 1024));
 
@@ -665,7 +696,8 @@ OUTPUT:
     e.stopPropagation();
     
     // 获取图像容器的位置和尺寸信息
-    const containerRect = e.currentTarget.getBoundingClientRect();
+    const containerRect = screenshotViewportRef.current?.getBoundingClientRect();
+    if (!containerRect?.width || !containerRect?.height) return;
     
     // 计算图像的实际尺寸与显示尺寸的比例
     const scaleX = screenshotData.width / containerRect.width;
@@ -676,10 +708,10 @@ OUTPUT:
     const startX = e.clientX;
     const startY = e.clientY;
     
-    // 创建一个引用，用于存储最新的选择框状态
-    const currentBoxRef = { ...initialBox };
-    
-    const handleMouseMove = (moveEvent) => {
+    const pointerId = e.pointerId;
+
+    const handlePointerMove = (moveEvent) => {
+      if (moveEvent.pointerId !== pointerId) return;
       // 阻止默认行为，防止选择文本等
       moveEvent.preventDefault();
       
@@ -704,93 +736,38 @@ OUTPUT:
           y: newY 
         };
       } else if (type === 'resize' && corner) {
-        // 自由调整大小操作 - 根据拖拽的角落调整
-        switch (corner) {
-          case 'top-left':
-            newBox = {
-              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
-              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
-            };
-            break;
-          case 'top-right':
-            newBox = {
-              x: initialBox.x,
-              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
-            };
-            break;
-          case 'bottom-left':
-            newBox = {
-              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
-              y: initialBox.y,
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
-            };
-            break;
-          case 'bottom-right':
-            newBox = {
-              x: initialBox.x,
-              y: initialBox.y,
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
-            };
-            break;
-          case 'top':
-            newBox = {
-              x: initialBox.x,
-              y: Math.max(0, Math.min(initialBox.y + initialBox.height - 50, initialBox.y + deltaY)),
-              width: initialBox.width,
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height - deltaY))
-            };
-            break;
-          case 'bottom':
-            newBox = {
-              x: initialBox.x,
-              y: initialBox.y,
-              width: initialBox.width,
-              height: Math.max(50, Math.min(screenshotData.height - initialBox.y, initialBox.height + deltaY))
-            };
-            break;
-          case 'left':
-            newBox = {
-              x: Math.max(0, Math.min(initialBox.x + initialBox.width - 50, initialBox.x + deltaX)),
-              y: initialBox.y,
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width - deltaX)),
-              height: initialBox.height
-            };
-            break;
-          case 'right':
-            newBox = {
-              x: initialBox.x,
-              y: initialBox.y,
-              width: Math.max(50, Math.min(screenshotData.width - initialBox.x, initialBox.width + deltaX)),
-              height: initialBox.height
-            };
-            break;
-        }
+        const minimum = Math.min(50, screenshotData.width, screenshotData.height);
+        let left = initialBox.x;
+        let top = initialBox.y;
+        let right = initialBox.x + initialBox.width;
+        let bottom = initialBox.y + initialBox.height;
+
+        if (corner.includes('left')) left = Math.max(0, Math.min(right - minimum, left + deltaX));
+        if (corner.includes('right')) right = Math.min(screenshotData.width, Math.max(left + minimum, right + deltaX));
+        if (corner.includes('top')) top = Math.max(0, Math.min(bottom - minimum, top + deltaY));
+        if (corner.includes('bottom')) bottom = Math.min(screenshotData.height, Math.max(top + minimum, bottom + deltaY));
+
+        newBox = { x: left, y: top, width: right - left, height: bottom - top };
       }
-      
-      // 更新引用中的当前状态
-      Object.assign(currentBoxRef, newBox);
-      
-      // 使用函数式更新确保我们总是基于最新状态进行更新
-      setSelectionBox(newBox);
+
+      if (newBox) setSelectionBox(newBox);
     };
-    
-    const handleMouseUp = () => {
-      // 清理事件监听器
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mouseleave', handleMouseUp);
+
+    const cleanup = () => {
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('pointercancel', handlePointerUp);
+      dragCleanupRef.current = null;
     };
-    
-    // 添加事件监听器到document而不是组件
-    document.addEventListener('mousemove', handleMouseMove, { passive: false });
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mouseleave', handleMouseUp);
+    const handlePointerUp = (upEvent) => {
+      if (upEvent.pointerId === pointerId) cleanup();
+    };
+
+    dragCleanupRef.current?.();
+    dragCleanupRef.current = cleanup;
+    document.addEventListener('pointermove', handlePointerMove, { passive: false });
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('pointercancel', handlePointerUp);
   }
 
   // 拍照功能
@@ -818,12 +795,8 @@ OUTPUT:
   }
 
   return (
-    <Layout title="AI Solver">
-    <div className="app-container" style={{ maxWidth: 920 }}>
-      <div className="app-header" style={{ marginBottom: 16 }}>
-        <h1 className="app-title">AI Solver</h1>
-        <a className="button button--secondary" href="/docs/tutorial-apps/ai-solver-tutorial">Tutorial</a>
-      </div>
+    <AppScaffold appId="solver">
+    <div className="app-container" style={{ maxWidth: 1040 }}>
       <p>Supports camera capture, screen capture, and text questions. Use the private local demo or connect your own AI provider for this page session.</p>
       <p style={{ fontSize: 14, color: 'var(--ifm-color-emphasis-600)' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
 
@@ -936,12 +909,25 @@ OUTPUT:
               ) : (
                 // 选择状态 - 显示截图和选择框
                 <>
-                  <div style={{ position: 'relative', width: 'min(320px, 100%)', aspectRatio: '4 / 3', border: '2px solid var(--ifm-color-emphasis-900)', borderRadius: 8, overflow: 'hidden' }}>
+                  <div
+                    ref={screenshotViewportRef}
+                    style={{
+                      position: 'relative',
+                      width: 'min(560px, 100%)',
+                      aspectRatio: screenshotData ? `${screenshotData.width} / ${screenshotData.height}` : '4 / 3',
+                      border: '1px solid var(--glass-border)',
+                      borderRadius: 18,
+                      overflow: 'hidden',
+                      touchAction: 'none',
+                      background: '#000',
+                    }}
+                  >
                     <img 
                       src={screenshotData?.dataUrl} 
                       alt="Screenshot" 
-                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                      onMouseDown={(e) => handleSelectionDrag(e, 'move')}
+                      draggable={false}
+                      style={{ width: '100%', height: '100%', objectFit: 'fill', userSelect: 'none' }}
+                      onPointerDown={(e) => handleSelectionDrag(e, 'move')}
                     />
                     {selectionBox && screenshotData && (
                       <div
@@ -956,7 +942,7 @@ OUTPUT:
                           cursor: 'move',
                           boxSizing: 'border-box'
                         }}
-                        onMouseDown={(e) => {
+                        onPointerDown={(e) => {
                           e.stopPropagation();
                           handleSelectionDrag(e, 'move');
                         }}
@@ -966,15 +952,15 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            left: -4,
-                            top: -4,
-                            width: 8,
-                            height: 8,
+                            left: -8,
+                            top: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'nw-resize',
                             borderRadius: '50%'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'top-left');
                           }}
@@ -984,15 +970,15 @@ OUTPUT:
                           style={{
                             position: 'absolute',
                             left: '50%',
-                            top: -4,
-                            width: 8,
-                            height: 8,
+                            top: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'n-resize',
                             borderRadius: '50%',
                             transform: 'translateX(-50%)'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'top');
                           }}
@@ -1001,15 +987,15 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            right: -4,
-                            top: -4,
-                            width: 8,
-                            height: 8,
+                            right: -8,
+                            top: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'ne-resize',
                             borderRadius: '50%'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'top-right');
                           }}
@@ -1018,16 +1004,16 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            right: -4,
+                            right: -8,
                             top: '50%',
-                            width: 8,
-                            height: 8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'e-resize',
                             borderRadius: '50%',
                             transform: 'translateY(-50%)'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'right');
                           }}
@@ -1036,15 +1022,15 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            right: -4,
-                            bottom: -4,
-                            width: 8,
-                            height: 8,
+                            right: -8,
+                            bottom: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'se-resize',
                             borderRadius: '50%'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'bottom-right');
                           }}
@@ -1054,15 +1040,15 @@ OUTPUT:
                           style={{
                             position: 'absolute',
                             left: '50%',
-                            bottom: -4,
-                            width: 8,
-                            height: 8,
+                            bottom: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 's-resize',
                             borderRadius: '50%',
                             transform: 'translateX(-50%)'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'bottom');
                           }}
@@ -1071,15 +1057,15 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            left: -4,
-                            bottom: -4,
-                            width: 8,
-                            height: 8,
+                            left: -8,
+                            bottom: -8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'sw-resize',
                             borderRadius: '50%'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'bottom-left');
                           }}
@@ -1088,16 +1074,16 @@ OUTPUT:
                         <div
                           style={{
                             position: 'absolute',
-                            left: -4,
+                            left: -8,
                             top: '50%',
-                            width: 8,
-                            height: 8,
+                            width: 16,
+                            height: 16,
                             backgroundColor: 'var(--ifm-color-emphasis-800)',
                             cursor: 'w-resize',
                             borderRadius: '50%',
                             transform: 'translateY(-50%)'
                           }}
-                          onMouseDown={(e) => {
+                          onPointerDown={(e) => {
                             e.stopPropagation();
                             handleSelectionDrag(e, 'resize', 'left');
                           }}
@@ -1119,7 +1105,7 @@ OUTPUT:
                     <button 
                       onClick={handleCancelSelection} 
                       disabled={busy}
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: 'not-allowed' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: busy ? 'not-allowed' : 'pointer' }}
                     >
                        Cancel
                     </button>
@@ -1134,7 +1120,11 @@ OUTPUT:
             <div>
               <div style={{ width: 'min(320px, 100%)', minHeight: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, padding: 16, border: '1px solid var(--ifm-border-color)' }}>
                 <div style={{ marginBottom: 12, color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}> Text Question Mode</div>
-                <textarea 
+                <label htmlFor="solver-text-question" style={{ display: 'block', marginBottom: 8, fontWeight: 700 }}>
+                  Your question
+                </label>
+                <textarea
+                  id="solver-text-question"
                   value={textInput}
                   onChange={e => setTextInput(e.target.value)}
                   placeholder="Please enter your question, for example:&#10;• Explain the basic principles of quantum mechanics&#10;• Write a Python sorting algorithm&#10;• Type /preset to see available presets"
@@ -1227,8 +1217,13 @@ OUTPUT:
       </div>
 
       <div style={{ marginTop: 16 }}>
-        <h3>Response</h3>
-        <div style={{ 
+        <Heading as="h2">Response</Heading>
+        <div
+          role="status"
+          aria-live="polite"
+          aria-busy={busy}
+          tabIndex={0}
+          style={{
           whiteSpace: 'pre-wrap', 
           background: 'var(--ifm-background-surface-color)', 
           color: 'var(--ifm-color-emphasis-900)', 
@@ -1246,6 +1241,6 @@ OUTPUT:
       </div>
       <CitationNotice />
     </div>
-    </Layout>
+    </AppScaffold>
   );
 }

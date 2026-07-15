@@ -1,0 +1,177 @@
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.workspace > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.preliminaryNotice,
+.panel {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+}
+
+.preliminaryNotice {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border-color: color-mix(in srgb, #c75c00 28%, var(--glass-border));
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.55;
+}
+
+.preliminaryNotice strong {
+  color: var(--ifm-color-emphasis-900);
+}
+
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.35fr);
+  gap: 18px;
+  align-items: start;
+  min-width: 0;
+}
+
+.controlsColumn,
+.resultsColumn {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.panel {
+  min-width: 0;
+  margin: 0;
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.05rem;
+}
+
+.fieldControl,
+.panel select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  color: var(--ifm-font-color-base);
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 84%,
+    transparent
+  );
+}
+
+.panel input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--ifm-color-primary);
+}
+
+.previewPanel {
+  overflow: hidden;
+}
+
+.canvasFrame {
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 90%,
+    transparent
+  );
+}
+
+.layoutSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 280px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metricCard {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color) 72%,
+    transparent
+  );
+}
+
+.noticeSuccess {
+  border-color: color-mix(in srgb, #178a58 34%, var(--glass-border));
+  color: color-mix(in srgb, #178a58 76%, var(--ifm-font-color-base));
+}
+
+.noticeWarning {
+  border-color: color-mix(in srgb, #c75c00 38%, var(--glass-border));
+  color: var(--ifm-color-emphasis-800);
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .resultsColumn {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .panel {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .layoutSvg {
+    min-height: 220px;
+  }
+
+  .actionRow > :global(.button) {
+    flex: 1 1 9rem;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .preliminaryNotice,
+  .panel {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--ifm-background-surface-color);
+  }
+}

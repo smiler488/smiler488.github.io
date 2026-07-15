@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
+import AppScaffold from '../../../components/AppScaffold';
+import pageStyles from './styles.module.css';
 
 const EARTH_RADIUS = 6378137; // meters
 
@@ -194,12 +196,13 @@ function LandSurveyApp() {
   useEffect(() => {
     if (!canUseGeolocation) return;
     if (typeof navigator === 'undefined' || typeof navigator.permissions === 'undefined') return;
+    let cancelled = false;
 
     try {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then((result) => {
-          if (result.state === 'denied') {
+          if (!cancelled && result.state === 'denied') {
             setError(
               'Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.'
             );
@@ -211,6 +214,9 @@ function LandSurveyApp() {
     } catch {
       // Swallow any unexpected errors from permissions API
     }
+    return () => {
+      cancelled = true;
+    };
   }, [canUseGeolocation]);
 
   const addPoint = useCallback((lat, lng, source = 'Manual entry') => {
@@ -266,6 +272,30 @@ function LandSurveyApp() {
     );
   };
 
+  const handleCheckLocationAccess = async () => {
+    setError('');
+    if (!canUseGeolocation) {
+      setError('Geolocation is not supported in this browser. You can still enter coordinates manually.');
+      return;
+    }
+    if (typeof navigator.permissions?.query !== 'function') {
+      setStatus('Location is supported. Your browser will ask for permission when you choose “Add current location”.');
+      return;
+    }
+    try {
+      const result = await navigator.permissions.query({ name: 'geolocation' });
+      const messages = {
+        granted: 'Location access is already allowed. You can add your current location.',
+        prompt: 'Location is available. Your browser will ask for permission when you add your current location.',
+        denied: 'Location access is blocked. Enable it in browser or system settings, or enter coordinates manually.',
+      };
+      setStatus(messages[result.state] || 'Location capability checked.');
+      if (result.state === 'denied') setError(messages.denied);
+    } catch {
+      setStatus('Location is supported. Permission will be checked when you add your current location.');
+    }
+  };
+
   const handleClosePolygon = () => {
     if (points.length < 3) {
       setError('You need at least 3 points to close the polygon.');
@@ -287,6 +317,8 @@ function LandSurveyApp() {
   const handleRemovePoint = (id) => {
     setPoints((prev) => prev.filter((point) => point.id !== id));
     setIsClosed(false);
+    setError('');
+    setStatus('Point removed. Close the polygon again to update the area.');
   };
 
   const previewPoints = useMemo(() => {
@@ -302,9 +334,11 @@ function LandSurveyApp() {
     const latSpan = Math.max(0.00001, maxLat - minLat);
     const lngSpan = Math.max(0.00001, maxLng - minLng);
 
+    const inset = 7;
+    const span = 100 - inset * 2;
     return points.map((point) => ({
-      x: ((point.lng - minLng) / lngSpan) * 100,
-      y: 100 - ((point.lat - minLat) / latSpan) * 100,
+      x: inset + ((point.lng - minLng) / lngSpan) * span,
+      y: inset + (1 - (point.lat - minLat) / latSpan) * span,
     }));
   }, [points]);
 
@@ -328,26 +362,22 @@ function LandSurveyApp() {
         : null;
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <header className="app-header">
-          <h1 className="app-title">Land Surveyor · GPS Area Tool</h1>
-          <a className="button button--secondary" href="/docs/tutorial-apps/land-surveyor-tutorial">Tutorial</a>
-        </header>
+    <div className={pageStyles.workspace}>
+      <section className={pageStyles.introCard}>
+        <Heading as="h2">Map a field boundary</Heading>
         <p style={styles.sectionLead}>
           Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
         </p>
 
-        <div className="app-card" style={{ marginBottom: '12px' }}>
+        <div className={pageStyles.readinessCard}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <span className="app-muted">Before using, please allow device location access.</span>
+            <span className="app-muted">Check whether location is available without adding a survey point.</span>
             <button
               type="button"
               className="button button--secondary"
-              onClick={handleUseLocation}
-              disabled={false}
+              onClick={handleCheckLocationAccess}
             >
-              Enable Location Permission
+              Check location access
             </button>
           </div>
         </div>
@@ -363,6 +393,10 @@ function LandSurveyApp() {
               value={latInput}
               onChange={(event) => setLatInput(event.target.value)}
               style={styles.input}
+              min="-90"
+              max="90"
+              inputMode="decimal"
+              required
             />
           </div>
           <div style={styles.formGroup}>
@@ -375,37 +409,42 @@ function LandSurveyApp() {
               value={lngInput}
               onChange={(event) => setLngInput(event.target.value)}
               style={styles.input}
+              min="-180"
+              max="180"
+              inputMode="decimal"
+              required
             />
           </div>
-          <button type="submit" className="button button--primary" disabled={false}>
+          <button type="submit" className="button button--primary">
             Add Point
           </button>
           <button
             type="button"
             className="button button--secondary"
             onClick={handleUseLocation}
-            disabled={!canUseGeolocation || loadingLocation || (false)}
+            disabled={!canUseGeolocation || loadingLocation}
           >
-            {loadingLocation ? 'Locating...' : 'Use Device Location'}
+            {loadingLocation ? 'Locating...' : 'Add current location'}
           </button>
-          <button type="button" className="button button--secondary" onClick={handleClosePolygon} disabled={false}>
+          <button type="button" className="button button--secondary" onClick={handleClosePolygon}>
             Close Polygon
           </button>
-          <button type="button" className="button button--outline" onClick={handleReset} disabled={false}>
+          <button type="button" className="button button--outline" onClick={handleReset}>
             Reset
           </button>
         </form>
 
         {(status || error) && (
-          <div style={statusClass}>
+          <div style={statusClass} role={error ? 'alert' : 'status'} aria-live="polite">
             {error || status}
           </div>
         )}
+      </section>
 
-        <div style={styles.grid}>
-          <div style={styles.panel}>
+        <div style={styles.grid} className={pageStyles.resultsGrid}>
+          <section style={styles.panel} className={pageStyles.glassPanel}>
             <div style={styles.panelHeader}>
-              <strong>Live Polyline Preview</strong>
+              <Heading as="h2" className={pageStyles.panelTitle}>Live polyline preview</Heading>
               <span>
                 {points.length
                   ? `Captured ${points.length} point${points.length === 1 ? '' : 's'}`
@@ -414,7 +453,13 @@ function LandSurveyApp() {
             </div>
             <div style={styles.previewCanvas}>
               {previewPoints.length ? (
-                <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '260px' }}>
+                <svg
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="xMidYMid meet"
+                  style={{ width: '100%', height: '260px' }}
+                  role="img"
+                  aria-label={`${points.length}-point ${isClosed ? 'closed field boundary' : 'open survey path'} preview`}
+                >
                   {previewPoints.map((point, index) => (
                     <circle
                       key={`${point.x}-${point.y}-${index}`}
@@ -456,11 +501,11 @@ function LandSurveyApp() {
                 <span>≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu</span>
               </div>
             )}
-          </div>
+          </section>
 
-          <div style={styles.panel}>
+          <section style={styles.panel} className={pageStyles.glassPanel}>
             <div style={styles.panelHeader}>
-              <strong>Coordinate List</strong>
+              <Heading as="h2" className={pageStyles.panelTitle}>Coordinate list</Heading>
               {points.length >= 3 && !isClosed && <span>Click “Close Polygon” to compute area.</span>}
             </div>
             {points.length ? (
@@ -469,9 +514,9 @@ function LandSurveyApp() {
                   <li key={point.id} style={styles.listItem}>
                     <div>
                       <strong>Point {index + 1}</strong>
-                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>Latitude: {point.lat.toFixed(6)}</p>
-                      <p style={{ margin: '0.2rem 0', color: '#334155' }}>Longitude: {point.lng.toFixed(6)}</p>
-                      <p style={{ margin: '0.2rem 0', color: '#475569' }}>Source: {point.source}</p>
+                      <p className={pageStyles.coordinateMeta}>Latitude: {point.lat.toFixed(6)}</p>
+                      <p className={pageStyles.coordinateMeta}>Longitude: {point.lng.toFixed(6)}</p>
+                      <p className={pageStyles.coordinateMeta}>Source: {point.source}</p>
                     </div>
                     <button
                       type="button"
@@ -484,13 +529,12 @@ function LandSurveyApp() {
                 ))}
               </ol>
             ) : (
-              <p style={{ padding: '1rem', textAlign: 'center', color: '#475569', background: 'rgba(148, 163, 184, 0.1)', borderRadius: '10px' }}>
+              <p className={pageStyles.emptyState}>
                 No coordinates yet. Add a point to get started.
               </p>
             )}
-          </div>
+          </section>
         </div>
-      </div>
 
       <CitationNotice />
     </div>
@@ -499,8 +543,8 @@ function LandSurveyApp() {
 
 export default function LandSurveyPage() {
   return (
-    <Layout title="Land Surveyor">
+    <AppScaffold appId="land-survey">
       <LandSurveyApp />
-    </Layout>
+    </AppScaffold>
   );
 }

@@ -1,13 +1,59 @@
 import React, { useEffect, useState, useRef } from "react";
-import Layout from "@theme/Layout";
-import Head from "@docusaurus/Head";
+import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
+import AppScaffold from "../../../components/AppScaffold";
+import styles from "./styles.module.css";
+
+const RANKING_KEY = "mazeRankings";
+const MAX_RANKINGS = 10;
+const MAX_TRAIL_LENGTH = 500;
+
+function currentTimestamp() {
+  return Date.now();
+}
+
+function readRankings() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(RANKING_KEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter(
+        (item) =>
+          item &&
+          typeof item.name === "string" &&
+          Number.isFinite(Number(item.time)) &&
+          Number.isFinite(Number(item.steps))
+      )
+      .slice(0, MAX_RANKINGS)
+      .map((item) => ({
+        name: item.name.slice(0, 32),
+        time: Number(item.time),
+        steps: Number(item.steps),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+function writeRankings(rankings) {
+  try {
+    localStorage.setItem(RANKING_KEY, JSON.stringify(rankings));
+  } catch {
+    // The game remains playable when storage is unavailable or full.
+  }
+}
 
 export default function MazePage() {
   const [stepCount, setStepCount] = useState(0);
   const [ranking, setRanking] = useState([]);
   const canvasRef = useRef(null);
   const [playerName, setPlayerName] = useState("Player");
+  const [message, setMessage] = useState("");
+  const playerNameRef = useRef(playerName);
+  const drawRef = useRef(null);
+  const initGameRef = useRef(null);
+  const moveBallRef = useRef(null);
+  const imageAssetsRef = useRef({ hamburger: null, einstein: null });
 
   // Game state refs to avoid closure staleness in event listeners
   const gameState = useRef({
@@ -19,49 +65,23 @@ export default function MazePage() {
     moves: 0,
     startTime: null,
     gameFinished: false,
-    trail: [] // Array of {r, c}
+    trail: [], // Array of {r, c}
   });
 
   useEffect(() => {
-    // Load ranking
-    const storedRankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
-    setRanking(storedRankings);
-
-    initGame();
-
-    // keydown listener
-    const onKeyDown = (e) => {
-      // Prevent scrolling if arrow keys
-      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
-        e.preventDefault();
-      }
-      switch (e.key) {
-        case "ArrowUp": moveBall(-1, 0); break;
-        case "ArrowDown": moveBall(1, 0); break;
-        case "ArrowLeft": moveBall(0, -1); break;
-        case "ArrowRight": moveBall(0, 1); break;
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
+    playerNameRef.current = playerName;
+  }, [playerName]);
 
   function initGame() {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
     // Reset state
     gameState.current.moves = 0;
     gameState.current.startTime = null;
     gameState.current.gameFinished = false;
     gameState.current.trail = [];
     setStepCount(0);
-    const msg = document.getElementById("mazeMessage");
-    if (msg) msg.innerText = "";
+    setMessage("");
 
     // Maze Dimensions
     // Ensure odd dimensions for proper wall generation
@@ -84,7 +104,7 @@ export default function MazePage() {
       c: 1,
       x: cellSize * 1.5,
       y: cellSize * 1.5,
-      radius: cellSize * 0.35
+      radius: cellSize * 0.35,
     };
 
     // Draw initial frame
@@ -93,7 +113,9 @@ export default function MazePage() {
 
   function generateMazeRecursive(rows, cols) {
     // Initialize full walls (1)
-    let maze = Array(rows).fill().map(() => Array(cols).fill(1));
+    let maze = Array(rows)
+      .fill()
+      .map(() => Array(cols).fill(1));
 
     // Carve from (1,1)
     function carve(r, c) {
@@ -101,13 +123,22 @@ export default function MazePage() {
 
       // Randomize directions: Up, Right, Down, Left
       const dirs = [
-        [-2, 0], [0, 2], [2, 0], [0, -2]
+        [-2, 0],
+        [0, 2],
+        [2, 0],
+        [0, -2],
       ].sort(() => Math.random() - 0.5);
 
       for (let [dr, dc] of dirs) {
         const nr = r + dr;
         const nc = c + dc;
-        if (nr > 0 && nr < rows - 1 && nc > 0 && nc < cols - 1 && maze[nr][nc] === 1) {
+        if (
+          nr > 0 &&
+          nr < rows - 1 &&
+          nc > 0 &&
+          nc < cols - 1 &&
+          maze[nr][nc] === 1
+        ) {
           maze[r + dr / 2][c + dc / 2] = 0; // Carve wall between
           carve(nr, nc);
         }
@@ -137,10 +168,10 @@ export default function MazePage() {
     // Clear
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Maze
-    const hamburgerImg = new Image();
-    hamburgerImg.src = "/img/Hamburger.png";
-    
+    // Draw Maze with images preloaded once for the lifetime of the page.
+    const { hamburger: hamburgerImg, einstein: einsteinImg } =
+      imageAssetsRef.current;
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (maze[r][c] === 1) {
@@ -148,7 +179,7 @@ export default function MazePage() {
           ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
         } else if (maze[r][c] === 2) {
           // Draw Hamburger image for exit
-          const drawHamburger = () => {
+          if (hamburgerImg?.complete && hamburgerImg.naturalWidth > 0) {
             ctx.drawImage(
               hamburgerImg,
               c * cellSize,
@@ -156,13 +187,7 @@ export default function MazePage() {
               cellSize,
               cellSize
             );
-          };
-          
-          if (hamburgerImg.complete) {
-            drawHamburger();
           } else {
-            hamburgerImg.onload = drawHamburger;
-            // Fallback while loading
             ctx.fillStyle = "#48bb78";
             ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
           }
@@ -183,11 +208,8 @@ export default function MazePage() {
     const ballX = ball.c * cellSize + cellSize / 2;
     const ballY = ball.r * cellSize + cellSize / 2;
     const ballRadius = ball.radius;
-    
-    // Load and draw Einstein image
-    const einsteinImg = new Image();
-    einsteinImg.src = "/img/Einstein.png";
-    einsteinImg.onload = () => {
+
+    if (einsteinImg?.complete && einsteinImg.naturalWidth > 0) {
       ctx.save();
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
@@ -200,35 +222,18 @@ export default function MazePage() {
         ballRadius * 2
       );
       ctx.restore();
-      
+
       // Add border
       ctx.beginPath();
       ctx.strokeStyle = "#fff";
       ctx.lineWidth = 2;
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
       ctx.stroke();
-    };
-    
-    // Fallback if image doesn't load immediately
-    if (einsteinImg.complete) {
-      ctx.save();
+    } else {
+      ctx.fillStyle = "#f5c542";
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.drawImage(
-        einsteinImg,
-        ballX - ballRadius,
-        ballY - ballRadius,
-        ballRadius * 2,
-        ballRadius * 2
-      );
-      ctx.restore();
-      
-      ctx.beginPath();
-      ctx.strokeStyle = "#fff";
-      ctx.lineWidth = 2;
-      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.fill();
     }
   }
 
@@ -236,7 +241,7 @@ export default function MazePage() {
     if (gameState.current.gameFinished) return;
 
     if (!gameState.current.startTime) {
-      gameState.current.startTime = Date.now();
+      gameState.current.startTime = currentTimestamp();
     }
 
     const { maze, ball } = gameState.current;
@@ -249,6 +254,9 @@ export default function MazePage() {
 
       // Add previous pos to trail only if not backtracking (simple trail)
       gameState.current.trail.push({ r: ball.r, c: ball.c });
+      if (gameState.current.trail.length > MAX_TRAIL_LENGTH) {
+        gameState.current.trail.shift();
+      }
 
       gameState.current.ball.r = newR;
       gameState.current.ball.c = newC;
@@ -265,163 +273,218 @@ export default function MazePage() {
     const { maze, ball, moves, startTime } = gameState.current;
     if (maze[ball.r][ball.c] === 2) {
       gameState.current.gameFinished = true;
-      const endTime = Date.now();
+      const endTime = currentTimestamp();
       const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(2);
 
-      const msg = document.getElementById("mazeMessage");
-      if (msg) {
-        msg.innerText = `Victory! ${playerName} finished in ${elapsedSeconds}s with ${moves} moves!`;
-      }
-
-      recordRanking(playerName, parseFloat(elapsedSeconds), moves);
+      const safeName = playerNameRef.current.trim().slice(0, 32) || "Player";
+      setMessage(
+        `Victory! ${safeName} finished in ${elapsedSeconds}s with ${moves} moves!`
+      );
+      recordRanking(safeName, parseFloat(elapsedSeconds), moves);
     }
   }
 
   function recordRanking(name, time, steps) {
-    let rankings = JSON.parse(localStorage.getItem("mazeRankings")) || [];
+    let rankings = readRankings();
     rankings.push({ name, time, steps });
     // Sort by time, then steps
     rankings.sort((a, b) => a.time - b.time || a.steps - b.steps);
     // Keep top 10
-    rankings = rankings.slice(0, 10);
-    localStorage.setItem("mazeRankings", JSON.stringify(rankings));
+    rankings = rankings.slice(0, MAX_RANKINGS);
+    writeRankings(rankings);
     setRanking(rankings);
   }
 
-  // Prevent default scroll when touching control buttons
-  const preventScroll = (e) => {
-    if (e.cancelable) e.preventDefault();
-  };
+  useEffect(() => {
+    drawRef.current = draw;
+    initGameRef.current = initGame;
+    moveBallRef.current = moveBall;
+  });
+
+  useEffect(() => {
+    const rankingFrame = window.requestAnimationFrame(() => {
+      setRanking(readRankings());
+    });
+
+    const hamburger = new Image();
+    const einstein = new Image();
+    imageAssetsRef.current = { hamburger, einstein };
+    const redraw = () => drawRef.current?.();
+    hamburger.addEventListener("load", redraw);
+    einstein.addEventListener("load", redraw);
+    hamburger.src = "/img/Hamburger.png";
+    einstein.src = "/img/Einstein.png";
+
+    initGameRef.current?.();
+
+    const onKeyDown = (e) => {
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(target.tagName))
+      ) {
+        return;
+      }
+      if (
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.code)
+      ) {
+        e.preventDefault();
+      }
+      switch (e.key) {
+        case "ArrowUp":
+          moveBallRef.current?.(-1, 0);
+          break;
+        case "ArrowDown":
+          moveBallRef.current?.(1, 0);
+          break;
+        case "ArrowLeft":
+          moveBallRef.current?.(0, -1);
+          break;
+        case "ArrowRight":
+          moveBallRef.current?.(0, 1);
+          break;
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(rankingFrame);
+      window.removeEventListener("keydown", onKeyDown);
+      hamburger.removeEventListener("load", redraw);
+      einstein.removeEventListener("load", redraw);
+      imageAssetsRef.current = { hamburger: null, einstein: null };
+    };
+  }, []);
 
   return (
-    <Layout title="2D Marble Maze">
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </Head>
-      <div className="app-container" style={{ maxWidth: '850px', margin: '0 auto', padding: '1rem', paddingBottom: '3rem' }}>
-        <div className="app-header" style={{ marginBottom: 16, textAlign: 'center' }}>
-          <h1 className="app-title" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Marble Maze</h1>
-          <p style={{ color: 'var(--ifm-color-emphasis-600)' }}>Navigate to the green exit</p>
-        </div>
-
-        <div className="app-card" style={{ padding: '0.8rem', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          <div style={{ display: "flex", justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <label style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Player:</label>
+    <AppScaffold appId="maze">
+      <div className={styles.layout}>
+        <section className={styles.gameCard} aria-labelledby="maze-board-title">
+          <div className={styles.toolbar}>
+            <div className={styles.playerField}>
+              <label htmlFor="maze-player">Player</label>
               <input
+                id="maze-player"
                 type="text"
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
-                style={{ width: '100px', padding: "4px 8px", borderRadius: "6px", border: "1px solid var(--ifm-border-color)" }}
+                maxLength={32}
+                autoComplete="nickname"
               />
             </div>
-            <div style={{ fontSize: "1rem", fontWeight: 'bold' }}>
-              Steps: <span style={{ color: 'var(--ifm-color-primary)' }}>{stepCount}</span>
+            <div className={styles.steps} aria-live="polite">
+              <span>Steps</span>
+              <strong>{stepCount}</strong>
             </div>
             <button
+              type="button"
               onClick={initGame}
-              className="button button--primary button--sm"
+              className={styles.newGameButton}
             >
               New Game
             </button>
           </div>
 
-          {/* Flexible container for canvas to fit screen */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: '500px',
-            margin: '0 auto',
-            aspectRatio: '1/1'
-          }}>
+          <div className={styles.boardHeading}>
+            <div>
+              <span>Procedural board</span>
+              <Heading as="h2" id="maze-board-title">
+                Find the green exit
+              </Heading>
+            </div>
+            <span className={styles.keyboardHint}>Arrow keys or controls</span>
+          </div>
+
+          <div className={styles.canvasFrame}>
             <canvas
               ref={canvasRef}
               id="mazeCanvas"
               width="840"
               height="840"
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: "8px",
-                background: '#2d3748',
-                touchAction: 'none', // Prevent scrolling on touch
-                display: 'block'
-              }}
-            ></canvas>
-            <div id="mazeMessage" style={{
-              position: 'absolute',
-              bottom: '50%',
-              left: 0,
-              width: '100%',
-              textAlign: 'center',
-              textShadow: '0 2px 4px rgba(0,0,0,0.8)',
-              color: '#fff',
-              fontWeight: 'bold',
-              fontSize: '1.2rem',
-              pointerEvents: 'none'
-            }}></div>
+              className={styles.canvas}
+              role="img"
+              aria-label={`21 by 21 maze board. ${stepCount} moves completed.${
+                message ? ` ${message}` : ""
+              }`}
+            >
+              A 21 by 21 maze. Use the arrow controls to move from the top-left
+              to the green exit.
+            </canvas>
+            <div className={styles.message} role="status" aria-live="assertive">
+              {message}
+            </div>
           </div>
 
-          {/* D-Pad Controls for Touch/Mouse */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '8px',
-              maxWidth: '160px',
-              margin: '0 auto',
-              touchAction: 'none'
-            }}
-          >
-            <div></div>
+          <div className={styles.dpad} aria-label="Maze direction controls">
+            <span />
             <button
-              className="button button--secondary"
-              onTouchStart={(e) => { preventScroll(e); moveBall(-1, 0); }}
+              type="button"
               onClick={() => moveBall(-1, 0)}
-              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
-            >▲</button>
-            <div></div>
+              aria-label="Move up"
+            >
+              ▲
+            </button>
+            <span />
 
             <button
-              className="button button--secondary"
-              onTouchStart={(e) => { preventScroll(e); moveBall(0, -1); }}
+              type="button"
               onClick={() => moveBall(0, -1)}
-              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
-            >◀</button>
+              aria-label="Move left"
+            >
+              ◀
+            </button>
 
             <button
-              className="button button--secondary"
-              onTouchStart={(e) => { preventScroll(e); moveBall(1, 0); }}
+              type="button"
               onClick={() => moveBall(1, 0)}
-              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
-            >▼</button>
+              aria-label="Move down"
+            >
+              ▼
+            </button>
 
             <button
-              className="button button--secondary"
-              onTouchStart={(e) => { preventScroll(e); moveBall(0, 1); }}
+              type="button"
               onClick={() => moveBall(0, 1)}
-              style={{ padding: '16px', fontSize: '1.2rem', lineHeight: 1 }}
-            >▶</button>
+              aria-label="Move right"
+            >
+              ▶
+            </button>
           </div>
-          <div style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--ifm-color-emphasis-500)' }}>
-            Tap buttons or use arrow keys
-          </div>
-        </div>
+        </section>
 
-        <div className="app-card" style={{ marginTop: "1rem" }}>
-          <h3>Leaderboard</h3>
-          <ol style={{ paddingLeft: '1.5rem', margin: 0 }}>
-            {ranking.length === 0 && <li style={{ color: 'var(--ifm-color-emphasis-500)' }}>No records yet.</li>}
+        <aside
+          className={styles.leaderboard}
+          aria-labelledby="maze-leaderboard-title"
+        >
+          <div className={styles.leaderboardHeading}>
+            <span>Local records</span>
+            <Heading as="h2" id="maze-leaderboard-title">
+              Leaderboard
+            </Heading>
+          </div>
+          <ol>
+            {ranking.length === 0 && (
+              <li className={styles.emptyRanking}>
+                Finish a maze to set the first record.
+              </li>
+            )}
             {ranking.map((r, i) => (
-              <li key={i} style={{ marginBottom: 4 }}>
-                <strong>{r.name}</strong> — {r.time}s ({r.steps} steps)
+              <li key={`${r.name}-${r.time}-${r.steps}-${i}`}>
+                <span className={styles.place}>{i + 1}</span>
+                <span>
+                  <strong>{r.name}</strong>
+                  <small>{r.steps} steps</small>
+                </span>
+                <strong>{r.time}s</strong>
               </li>
             ))}
           </ol>
-        </div>
-
-        <CitationNotice />
+          <p>Scores stay in this browser and are never uploaded.</p>
+        </aside>
       </div>
-    </Layout>
+
+      <CitationNotice />
+    </AppScaffold>
   );
 }
