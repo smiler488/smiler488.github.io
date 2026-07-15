@@ -20,7 +20,7 @@
     "description": "Navbar item with label CV"
   },
   "item.label.Resource": {
-    "message": "Resource",
+    "message": "资源",
     "description": "Navbar item with label Resource"
   },
   "item.label.App": {
