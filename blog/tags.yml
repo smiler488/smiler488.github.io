@@ -1,629 +1,84 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+web-development:
+  label: Web Development
+  permalink: /web-development
+  description: Building, publishing, and maintaining research software on the web.
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+productivity:
+  label: Productivity
+  permalink: /productivity
+  description: Practical workflows for focused work and reliable day-to-day computing.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
-
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
-
-tutorial:
-  label: Tutorial
-  permalink: /tutorial
-  description: Tutorial tag description
-
-cotton:
-  label: Cotton
-  permalink: /cotton
-  description: Cotton tag description
-
-curriculum vitae:
-  label: Curriculum Vitae
-  permalink: /curriculum vitae
-  description: Curriculum Vitae tag description
-
-tip:
-  label: Tip
-  permalink: /tip
-  description: Tip tag description
-
-Hunyuan3D:
-  label: Hunyuan3D
-  permalink: /hunyuan3d
-  description: Tencent's 3D generation model
-
-hunyuan3d:
-  label: Hunyuan3D
-  permalink: /hunyuan3d-alt
-  description: Tencent's 3D generation model
-
-3D reconstruction:
-  label: 3D Reconstruction
-  permalink: /3d-reconstruction
-  description: 3D model reconstruction technology
-
-3d reconstruction:
-  label: 3D Reconstruction
-  permalink: /3d-reconstruction-alt
-  description: 3D model reconstruction technology
-
-plant phenotyping:
-  label: Plant Phenotyping
-  permalink: /plant-phenotyping
-  description: Automated plant trait analysis
-
-research:
-  label: Research
-  permalink: /research
-  description: Academic research and publications
-
-LLM:
-  label: LLM
-  permalink: /llm
-  description: Large Language Models
-
-llm:
-  label: LLM
-  permalink: /llm-alt
-  description: Large Language Models
-
-AI:
-  label: AI
-  permalink: /ai
-  description: Artificial Intelligence
-
-ai:
-  label: AI
-  permalink: /ai-alt
-  description: Artificial Intelligence
-
-training:
-  label: Training
-  permalink: /training
-  description: Model training and optimization
-
-fine-tuning:
-  label: Fine-tuning
-  permalink: /fine-tuning
-  description: Model fine-tuning techniques
-
-local deployment:
-  label: Local Deployment
-  permalink: /local-deployment
-  description: Local model deployment
-
-machine learning:
-  label: Machine Learning
-  permalink: /machine-learning
-  description: Machine learning techniques and applications
-
-academic cv:
-  label: Academic CV
-  permalink: /academic-cv
-  description: Academic curriculum vitae
-
-pytorch:
-  label: PyTorch
-  permalink: /pytorch
-  description: PyTorch deep learning framework
-
-PyTorch:
-  label: PyTorch
-  permalink: /pytorch-alt
-  description: PyTorch deep learning framework
-
-deep learning:
-  label: Deep Learning
-  permalink: /deep-learning
-  description: Deep learning techniques and neural networks
-
-neural networks:
-  label: Neural Networks
-  permalink: /neural-networks
-  description: Neural network architectures and implementations
-
-CNN:
-  label: CNN
-  permalink: /cnn
-  description: Convolutional Neural Networks
-
-RNN:
-  label: RNN
-  permalink: /rnn
-  description: Recurrent Neural Networks
-
-transformer:
-  label: Transformer
-  permalink: /transformer
-  description: Transformer architecture and attention mechanisms
-
-NLP:
-  label: NLP
-  permalink: /nlp
-  description: Natural Language Processing
-
-model deployment:
-  label: Model Deployment
-  permalink: /model-deployment
-  description: Machine learning model deployment and optimization
-
-ONNX:
-  label: ONNX
-  permalink: /onnx
-  description: Open Neural Network Exchange format
-
-TensorRT:
-  label: TensorRT
-  permalink: /tensorrt
-  description: NVIDIA TensorRT optimization
-
-quantization:
-  label: Quantization
-  permalink: /quantization
-  description: Model quantization and compression
-
-transfer learning:
-  label: Transfer Learning
-  permalink: /transfer-learning
-  description: Transfer learning techniques
-
-data preprocessing:
-  label: Data Preprocessing
-  permalink: /data-preprocessing
-  description: Data preprocessing and augmentation
-
-optimization:
-  label: Optimization
-  permalink: /optimization
-  description: Model optimization and performance tuning
-
-Plant Phenomics:
-  label: Plant Phenomics
-  permalink: /plant-phenomics
-  description: Optical trait discovery and phenomics research
-
-BRDF:
-  label: BRDF
-  permalink: /brdf
-  description: Bidirectional reflectance distribution function modeling
-
-Phenomics:
-  label: Phenomics
-  permalink: /phenomics
-  description: Quantitative analysis of plant traits across scales
-
-Photosynthesis:
-  label: Photosynthesis
-  permalink: /photosynthesis-alt
-  description: Light-use efficiency and crop photosynthesis research
-
-Remote Sensing:
-  label: Remote Sensing
-  permalink: /remote-sensing
-  description: Field phenotyping with multi-sensor remote sensing
-
-photosynthesis:
-  label: Photosynthesis
-  permalink: /photosynthesis
-  description: Photosynthesis modeling and simulation
-
-canopy modeling:
-  label: Canopy Modeling
-  permalink: /canopy-modeling
-  description: Plant canopy modeling and analysis
-
-ray tracing:
-  label: Ray Tracing
-  permalink: /ray-tracing
-  description: Ray tracing algorithms and light simulation
-
-SfM:
-  label: SfM
-  permalink: /sfm
-  description: Structure from Motion reconstruction
-
-3D Gaussian Splatting:
-  label: 3D Gaussian Splatting
-  permalink: /3d-gaussian-splatting
-  description: 3D Gaussian Splatting technique
-
-mesh processing:
-  label: Mesh Processing
-  permalink: /mesh-processing
-  description: 3D mesh processing and manipulation
-
-agent deployment:
-  label: Agent Deployment
-  permalink: /agent-deployment
-  description: AI agent deployment and management
-
-Ollama:
-  label: Ollama
-  permalink: /ollama
-  description: Ollama local LLM deployment
-
-Docker:
-  label: Docker
-  permalink: /docker
-  description: Docker containerization
-
-LangChain:
-  label: LangChain
-  permalink: /langchain
-  description: LangChain framework for LLM applications
-
-RAG:
-  label: RAG
-  permalink: /rag
-  description: Retrieval-Augmented Generation
-
-deployment:
-  label: Deployment
-  permalink: /deployment
-  description: Software deployment and infrastructure
-
-local development:
-  label: Local Development
-  permalink: /local-development
-  description: Local development environments and tools
-
-Python:
-  label: Python
-  permalink: /python
-  description: Python programming language
-
-Git:
+git:
   label: Git
   permalink: /git
-  description: Version control system
+  description: Version control and collaborative development practices.
 
-VSCode:
-  label: VSCode
-  permalink: /vscode
-  description: Visual Studio Code editor
+reproducible-research:
+  label: Reproducible Research
+  permalink: /reproducible-research
+  description: Traceable environments, data, code, and validation for scientific work.
 
-Miniconda:
-  label: Miniconda
-  permalink: /miniconda
-  description: Miniconda Python distribution
+python:
+  label: Python
+  permalink: /python
+  description: Python tools and implementation patterns for research computing.
 
-UAV:
-  label: UAV
-  permalink: /uav
-  description: Unmanned Aerial Vehicle
+artificial-intelligence:
+  label: Artificial Intelligence
+  permalink: /artificial-intelligence
+  description: Applied AI systems with explicit evidence, privacy, and validation boundaries.
 
-WebODM:
-  label: WebODM
-  permalink: /webodm
-  description: Web OpenDroneMap
+machine-learning:
+  label: Machine Learning
+  permalink: /machine-learning
+  description: Model development, evaluation, and deployment for scientific applications.
 
-QGIS:
-  label: QGIS
-  permalink: /qgis
-  description: QGIS geographic information system
-
-Multispectral:
-  label: Multispectral
-  permalink: /multispectral
-  description: Multispectral imaging
-
-P4M:
-  label: P4M
-  permalink: /p4m
-  description: DJI P4 Multispectral
-
-Image Analysis:
-  label: Image Analysis
-  permalink: /image-analysis
-  description: Image analysis techniques
-
-OpenCV:
-  label: OpenCV
-  permalink: /opencv
-  description: Open Source Computer Vision Library
-
-computer vision:
-  label: Computer Vision
-  permalink: /computer-vision-alt
-  description: Computer vision and image processing
-
-agriculture:
-  label: Agriculture
-  permalink: /agriculture-alt
-  description: Agricultural technology and applications
-
-Computer Vision:
+computer-vision:
   label: Computer Vision
   permalink: /computer-vision
-  description: Computer vision and image processing
+  description: Image understanding, segmentation, reconstruction, and measurement workflows.
 
-Agriculture:
-  label: Agriculture
-  permalink: /agriculture
-  description: Agricultural technology and applications
+plant-phenotyping:
+  label: Plant Phenotyping
+  permalink: /plant-phenotyping
+  description: Methods and systems for observable, quantitative crop and plant traits.
 
-Docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus-alt
-  description: Docusaurus website framework
-
-GitHub-Pages:
-  label: GitHub-Pages
-  permalink: /github-pages
-  description: GitHub Pages hosting
-
-Website:
-  label: Website
-  permalink: /website
-  description: Website development
-
-growth chamber:
-  label: Growth Chamber
-  permalink: /growth-chamber
-  description: Controlled environment growth chamber
-
-photogrammetry:
-  label: Photogrammetry
-  permalink: /photogrammetry
-  description: Photogrammetry techniques
-
-Tutorial:
-  label: Tutorial
-  permalink: /tutorial-alt
-  description: Tutorial and educational content
-
-WeChat Miniapp:
-  label: WeChat Miniapp
-  permalink: /wechat-miniapp
-  description: WeChat Miniapp development and applications
-
-Mobile Research:
-  label: Mobile Research
-  permalink: /mobile-research
-  description: Mobile research tools and applications
-
-Agricultural Technology:
-  label: Agricultural Technology
-  permalink: /agricultural-technology
-  description: Agricultural technology and smart farming
-
-PhenoHUB:
-  label: PhenoHUB
-  permalink: /phenohub
-  description: PhenoHUB - Plant Phenotyping Research Platform
-
-WeChat:
-  label: WeChat
-  permalink: /wechat
-  description: WeChat platform and ecosystem
-
-MCTP:
-  label: MCTP
-  permalink: /mctp
-  description: Multi-modal Crop Trait Processing platform
-
-Hyperspectral:
-  label: Hyperspectral
-  permalink: /hyperspectral
-  description: Hyperspectral imaging and analysis
-
-LiDAR:
-  label: LiDAR
-  permalink: /lidar
-  description: LiDAR point cloud processing
-
-RGB:
-  label: RGB
-  permalink: /rgb
-  description: RGB imaging and analysis
-
-Thermal:
-  label: Thermal
-  permalink: /thermal
-  description: Thermal imaging and analysis
-
-3D Reconstruction:
+three-dimensional-reconstruction:
   label: 3D Reconstruction
-  permalink: /3d-reconstruction-2
-  description: 3D model reconstruction technology
+  permalink: /3d-reconstruction
+  description: Geometry capture and reconstruction from multi-view images, point clouds, and models.
 
-Machine Learning:
-  label: Machine Learning
-  permalink: /machine-learning-2
-  description: Machine learning techniques and applications
+remote-sensing:
+  label: Remote Sensing
+  permalink: /remote-sensing
+  description: Calibrated aerial and spectral observations for crop research.
 
-Root Analysis:
-  label: Root Analysis
-  permalink: /root-analysis
-  description: Root system image analysis and processing
+crop-modeling:
+  label: Crop Modeling
+  permalink: /crop-modeling
+  description: Mechanistic and data-driven representations of crop structure and function.
 
-Image Processing:
-  label: Image Processing
-  permalink: /image-processing
-  description: Digital image processing techniques
+data-analysis:
+  label: Data Analysis
+  permalink: /data-analysis
+  description: Transparent data processing, quality control, visualization, and interpretation.
 
-Point Cloud:
-  label: Point Cloud
-  permalink: /point-cloud
-  description: 3D point cloud data processing
+uav:
+  label: UAV
+  permalink: /uav
+  description: Uncrewed aerial imaging workflows for field-scale observation.
 
-Canopy:
-  label: Canopy
-  permalink: /canopy
-  description: Plant canopy analysis
+scientific-writing:
+  label: Scientific Writing
+  permalink: /scientific-writing
+  description: Manuscript planning, publication, data availability, and research communication.
 
-CSF:
-  label: CSF
-  permalink: /csf
-  description: Cloth Simulation Filter for ground segmentation
+local-ai:
+  label: Local AI
+  permalink: /local-ai
+  description: Locally operated models, retrieval systems, and privacy-aware AI workflows.
 
-K-means:
-  label: K-means
-  permalink: /k-means
-  description: K-means clustering algorithm
-
-Convex Hull:
-  label: Convex Hull
-  permalink: /convex-hull
-  description: Convex hull geometry calculation
-
-OOBB:
-  label: OOBB
-  permalink: /oobb
-  description: Oriented bounding box analysis
-
-Vercel:
-  label: Vercel
-  permalink: /vercel
-  description: Cloud platform for deploying web applications
-
-Hugging Face:
-  label: Hugging Face
-  permalink: /hugging-face
-  description: AI models and datasets hub
-
-n8n:
-  label: n8n
-  permalink: /n8n
-  description: Workflow automation platform
-
-Claude:
-  label: Claude
-  permalink: /claude
-  description: Anthropic's Claude AI assistant
-
-Anthropic:
-  label: Anthropic
-  permalink: /anthropic
-  description: Anthropic AI research and products
-
-ComfyUI:
-  label: ComfyUI
-  permalink: /comfyui
-  description: AI workflow builder for diffusion models
-
-Marble:
-  label: Marble
-  permalink: /marble
-  description: AI/ML research and spatial intelligence
-
-OpenCode:
-  label: OpenCode
-  permalink: /opencode
-  description: Code generation and AI-assisted programming
-
-Laboratory:
-  label: Laboratory
-  permalink: /laboratory
-  description: Research laboratory websites
-
-Plant Science:
-  label: Plant Science
-  permalink: /plant-science
-  description: Plant biology and genetics research
-
-Computer Vision Research:
-  label: Computer Vision Research
-  permalink: /computer-vision-research
-  description: Computer vision research labs
-
-Deep Learning Research:
-  label: Deep Learning Research
-  permalink: /deep-learning-research
-  description: Deep learning research labs
-
-Purdue:
-  label: Purdue
-  permalink: /purdue
-  description: Purdue University research
-
-UC Davis:
-  label: UC Davis
-  permalink: /uc-davis
-  description: UC Davis research
-
-UIUC:
-  label: UIUC
-  permalink: /uiuc
-  description: University of Illinois Urbana-Champaign research
-
-MIT:
-  label: MIT
-  permalink: /mit
-  description: MIT research
-
-NYU:
-  label: NYU
-  permalink: /nyu
-  description: New York University research
-
-Stanford:
-  label: Stanford
-  permalink: /stanford
-  description: Stanford University research
-
-SJTU:
-  label: SJTU
-  permalink: /sjtu
-  description: Shanghai Jiao Tong University research
-
-Zero-Shot Learning:
-  label: Zero-Shot Learning
-  permalink: /zero-shot-learning
-  description: Zero-shot learning techniques
-
-Background Removal:
-  label: Background Removal
-  permalink: /background-removal
-  description: Image background removal techniques
-
-Multimodal AI:
-  label: Multimodal AI
-  permalink: /multimodal-ai
-  description: Multimodal artificial intelligence
-
-Image Segmentation:
-  label: Image Segmentation
-  permalink: /image-segmentation
-  description: Image segmentation techniques
-
-Botanical:
-  label: Botanical
-  permalink: /botanical
-  description: Botanical research and applications
-
-Batch Processing:
-  label: Batch Processing
-  permalink: /batch-processing
-  description: Batch processing and automation
-
-Prompt Engineering:
-  label: Prompt Engineering
-  permalink: /prompt-engineering
-  description: AI prompt engineering techniques
-
-Aspect Ratio:
-  label: Aspect Ratio
-  permalink: /aspect-ratio
-  description: Image aspect ratio optimization
-
-Binary Stream:
-  label: Binary Stream
-  permalink: /binary-stream
-  description: Binary stream processing
-
-TAS Framework:
-  label: TAS Framework
-  permalink: /tas-framework
-  description: Task-Action-Specification framework
+image-analysis:
+  label: Image Analysis
+  permalink: /image-analysis
+  description: Reproducible extraction and validation of information from scientific images.

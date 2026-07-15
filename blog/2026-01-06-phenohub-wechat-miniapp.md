@@ -1,357 +1,97 @@
 ---
 slug: phenohub-wechat-miniapp
-title: PhenoHUB - Transformation of mobile results of Digital Plant Phenotyping Platform
+title: "PhenoHUB: A Mobile Toolkit for Digital Plant Phenotyping"
 authors: [liangchao]
-tags: [Plant Phenomics, WeChat Miniapp, Mobile Research, Agricultural Technology, AI]
+category: Plant phenotyping
+article_type: Research project
+tags: [plant-phenotyping, artificial-intelligence, data-analysis]
 image: /img/phenohub.png
-description: A professional plant phenotyping research toolset based on WeChat Miniapp, integrating AI drawing, environmental monitoring, data management, and other functions to provide convenient mobile solutions for agricultural researchers.
+description: A January 2026 snapshot of a WeChat Mini Program combining field utilities, weather queries, image tools, and experimental AI assistants.
 ---
 
-## Project Overview
+## Overview
 
-**PhenoHUB** is a WeChat Miniapp focused on plant photosynthetic phenotyping research, integrating multiple scientific tools and AI analysis functions to help researchers quickly obtain and analyze plant phenotyping data in the field.
+![PhenoHUB prototype screens and WeChat Mini Program code](/img/phenohub.png)
 
-<div style={{display: 'flex', justifyContent: 'center', gap: '20px', margin: '20px 0'}}>
-  <div style={{textAlign: 'center'}}>
-    <img src="/img/phenohub.png" alt="PhenoHUB Main Interface" style={{width: '400px', maxWidth: '100%', border: '1px solid #ddd', borderRadius: '8px'}}/>
-    <div style={{fontSize: '12px', marginTop: '5px', color: '#666'}}>Main Interface</div>
-  </div>
-</div>
+**PhenoHUB** is a WeChat Mini Program prototype that groups mobile utilities for plant-phenotyping work. The project explores how field measurements, weather queries, image analysis, and AI-assisted research tasks can be made easier to access from a phone.
+
+This article records the **January 2026 project snapshot** represented by the interface above. It is not a live completeness report, and the presence of a module in the launcher does not by itself establish measurement accuracy or production readiness.
 
 <!-- truncate -->
 
----
+## Prototype modules
 
-## Core Function Modules
+### Device-orientation measurements
 
-###  Phenotyping Measurement Tools
-
-**Leaf Angle Measurement** - Precise leaf angle measurement based on device sensors
-- Utilizes mobile phone gyroscope and accelerometer
-- Real-time angle display and recording
-- Supports batch measurement of multiple leaves
+The leaf-angle utility uses phone motion sensors to display and record device orientation. It can support rapid relative measurements when the phone is aligned consistently with a leaf.
 
-**Land Area Calculation** - GPS-based farmland area measurement tool
-- High-precision GPS positioning
-- Real-time trajectory tracking
-- Automatic area calculation and unit conversion
+The result should not be described as a precise leaf angle without a defined mounting method, sensor calibration, reference plane, and validation against a trusted instrument. Device model, case geometry, operator alignment, and motion can all affect the reading.
 
-**Image Quantitative Analysis** - Intelligent analysis and feature extraction of plant images
-- Image processing based on OpenCV
-- Leaf area and chlorophyll content estimation
-- Supports batch image processing
-
-###  AI Intelligent Analysis
-
-**AI Drawing Agent** - CSV data intelligent visualization, supporting 8 professional chart types
-- Bar charts, ANOVA analysis charts, heatmaps, line charts
-- Histograms, violin plots, scatter plots, radar charts
-- Smart data validation and anomaly detection
-- One-click generation of high-quality charts suitable for paper publication
-
-**AI Academic Assistant** - Research paper writing and data analysis assistance
-- Experimental design suggestions
-- Data analysis method recommendations
-- Paper writing guidance
-
-###  Environmental Monitoring
-
-**Agricultural Meteorology** - Real-time weather data and agricultural meteorological indicators
-- Temperature, humidity, light intensity
-- Soil moisture monitoring
-- Agricultural meteorological index calculation
-
-**Location Services** - Precise geographic location and altitude measurement
-- GPS/BeiDou dual-mode positioning
-- Altitude measurement
-- Geographic coordinate conversion
-
-###  Data Management
-
-**Data Import/Export** - CSV format data processing support
-- Excel/CSV file import
-- Data cleaning and preprocessing
-- Batch export functionality
-
-**Statistical Analysis** - Built-in professional statistical analysis functions
-- Descriptive statistics
-- Hypothesis testing
-- Regression analysis
-
-**Report Generation** - Automatic generation of analysis reports and charts
-- One-click PDF report generation
-- Automatic chart layout
-- Supports custom templates
-
----
-
-## Technical Architecture
-
-### Frontend Technology Stack
-
-**WeChat Miniapp Native Development**
-- Based on WeChat Miniapp framework
-- Supports iOS and Android platforms
-- No installation required, ready to use
-
-**UI Library: TDesign Miniprogram v1.8.6**
-- Professional mobile UI component library
-- Unified design language
-- Excellent user experience
-
-**Chart Libraries**
-- Canvas API (local rendering) - Lightweight charts
-- ECharts for Weixin v1.0.2 - Professional charts
-- Supports interactive charts
-
-**Styling: LESS Preprocessor**
-- Improves development efficiency
-- Strong code maintainability
-- Supports variables and mixins
-
-### Backend Services
-
-**Python FastAPI**
-- High-performance API services
-- Asynchronous processing support
-- Good scalability
-
-**AI Model Integration**
-- Supports multiple AI analysis models
-- Intelligent data processing
-- Continuous learning optimization
-
-**Data Processing Engine**
-- Professional statistical analysis
-- Big data processing capabilities
-- Real-time computing optimization
-
----
-
-## Project Structure
-
-```
-PhenoHUB/
-├── pages/                    # Page files
-│   ├── hub/                 # Toolbox homepage
-│   ├── web/                 # Official website display
-│   ├── leafAngle/           # Leaf angle measurement
-│   ├── landArea/            # Land area calculation
-│   ├── agriWeather/         # Agricultural weather
-│   ├── imageQuantitativeAnalysis/  # Image quantitative analysis
-│   ├── aiImage/             # AI Drawing Agent
-│   ├── aiJournal/           # AI Academic Assistant
-│   └── my/                  # Personal center
-├── components/              # Custom components
-├── utils/                   # Utility functions
-├── static/                  # Static resources
-├── Backend code/            # Backend service code
-└── docs/                    # Project documentation
-```
-
----
-
-## Feature Highlights
-
-###  Professionalism
-- Professional tools designed specifically for plant phenotyping research
-- Data formats and analysis methods compliant with scientific standards
-- Supports multiple statistical analysis and visualization requirements
-- Compatible with international mainstream research tools
-
-###  Portability
-- Based on WeChat Miniapp, no installation required
-- Supports offline data collection and online synchronization
-- Suitable for mobile operations in the field
-- Cross-platform compatibility, covering iOS and Android
-
-###  Intelligence
-- Integrated AI analysis capabilities, automatic chart and report generation
-- Smart data validation and anomaly detection
-- Provides scientific writing and data analysis suggestions
-- Continuous learning, continuous function optimization
-
-###  Visualization
-- 8 professional chart types to meet different analysis needs
-- Supports interactive charts and data exploration
-- High-quality chart export suitable for paper publication
-- Real-time data visualization, intuitive result display
-
----
-
-## Use Cases
-
-###  University Research
-- Plant physiology experiment data collection
-- Crop phenomics research
-- Agricultural ecology field surveys
-
-###  Agricultural Enterprises
-- Variety breeding process monitoring
-- Farmland management decision support
-- Yield prediction and optimization
-
-###  Research Institutions
-- Large-scale phenotyping data collection
-- Cross-regional variety comparison
-- Climate change impact research
-
----
-
-## Quick Start
-
-### Environment Requirements
-- WeChat Developer Tools (latest version)
-- Node.js >= 14.0.0
-- WeChat Miniapp base library >= 2.6.5
-
-### Installation Steps
-
-1. **Clone Project**
-```bash
-git clone https://git.weixin.qq.com/Smiler488/PhenoHUB.git
-cd PhenoHUB
-```
-
-2. **Install Dependencies**
-```bash
-npm install
-```
-
-3. **Developer Tool Configuration**
-- Open [WeChat Developer Tools](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
-- Import project directory
-- Build npm packages: `Tools → Build npm`
-- Preview or real-device debugging
-
-### Backend Service Deployment
-
-1. **Python Environment**
-```bash
-cd "Backend code"
-pip install -r requirements.txt
-```
-
-2. **Start Service**
-```bash
-python main.py
-```
-
----
-
-## Development Status
-
- **Core Function Modules** (90% complete)
-- Basic measurement tools implemented
-- AI drawing function basically complete
-- Data management module perfected
-
- **UI Interface Design** (100% complete)
-- Unified design language
-- Excellent user experience
-- Responsive layout
-
- **Data Processing Engine** (95% complete)
-- Statistical analysis functions
-- Data import/export
-- Report generation
-
- **AI Service Integration** (70% complete)
-- Basic AI model integration
-- Continuous optimization in progress
-- New function development
-
- **Backend API Development** (60% complete)
-- Basic API interfaces
-- Performance optimization in progress
-- Security enhancement
-
- **Performance Optimization** (Planned)
-- Response speed optimization
-- Memory usage optimization
-- Offline function enhancement
-
----
-
-## Technical Highlights
-
-###  Data Flow Optimization
-- Local caching mechanism to reduce network requests
-- Smart data synchronization strategy
-- Offline resume functionality
-
-###  Data Security
-- Local data encryption storage
-- Transmission data encryption
-- User privacy protection
-
-###  User Experience
-- Smooth animation effects
-- Intuitive operation flow
-- Detailed usage guidance
-
-###  Scalability
-- Modular design, easy to extend
-- Plugin-based architecture
-- Supports custom functions
-
----
-
-## Future Plans
-
-### Short-term Goals (2026 Q1)
-- [ ] Improve AI service integration
-- [ ] Optimize backend API performance
-- [ ] Add more chart types
-- [ ] Perfect user feedback system
-
-### Medium-term Goals (2026 Q2-Q3)
-- [ ] Integrate more AI models
-- [ ] Support multilingual interface
-- [ ] Develop desktop application
-- [ ] Establish user community
-
-### Long-term Vision
-- Become the standard tool for plant phenotyping research
-- Support global multilingual versions
-- Establish an open data ecosystem
-- Promote digital transformation of agricultural research
-
----
-
-## Contribution Guide
-
-Welcome to submit Issues and Pull Requests to improve the project.
-
-### Development Standards
-- Follow WeChat Miniapp development standards
-- Use ESLint and Prettier for code formatting
-- Run `npm run lint:fix` before submission
-
-### Submission Process
-1. Fork the project
-2. Create a feature branch
-3. Submit changes
-4. Initiate Pull Request
-
----
-
-## License
-
-This project adopts the [MIT License](https://opensource.org/licenses/MIT).
-
----
-
-## Contact Us
-
-- **Project Repository**: https://git.weixin.qq.com/Smiler488/PhenoHUB.git
-- **Issue Feedback**: Submit through Git Issues
-- **Technical Support**: View project documentation or contact development team
-- **WeChat Communication**: Scan the QR code below to join the discussion group
-
----
-
-**PhenoHUB** - Making plant phenotyping research simpler, smarter, and more efficient.
-
-*Author: Liangchao Deng, Shihezi University / CAS-CEMPS*  
-*Project Development Team: Liangchao Deng for Shufeng Bio*
+### Land-area estimation
+
+The area utility records a location track and estimates the enclosed polygon. It is useful for reconnaissance and rough field records, but consumer-phone positioning is not survey-grade.
+
+- Accuracy varies with the device, satellite visibility, buildings, trees, and sampling interval.
+- Altitude from a phone location service is especially uncertain.
+- Boundaries used for contracts, regulation, engineering, or precision operations require suitable survey equipment.
+
+### Weather and environmental context
+
+The agricultural-weather module is designed to query location-based weather information. Values obtained from a weather service describe the provider's grid or station estimate; they are not direct measurements from the phone.
+
+Soil moisture, canopy temperature, light intensity, or other local variables require an explicit data source or external sensor. The interface should always label the provider, observation or forecast time, units, and location.
+
+### Image analysis
+
+The image module provides an entry point for plant-image preprocessing and quantitative analysis. Any reported area, count, color, or shape trait depends on segmentation quality, scale calibration, and acquisition conditions.
+
+Image color alone should not be presented as chlorophyll content without a documented calibration model and independent validation.
+
+### Experimental AI assistants
+
+The prototype includes entries for chart generation and research assistance. These tools can help explore CSV data or draft analytical ideas, but AI output must remain reviewable:
+
+- Charts should be traced back to the exact input rows and transformations.
+- Statistical tests require their assumptions and sample structure to be checked.
+- Literature, journal, and writing suggestions can be incomplete or incorrect.
+- Research data sent to an external model are subject to that provider's privacy terms.
+
+## Architecture snapshot
+
+The mobile client uses the native WeChat Mini Program environment with reusable UI components and Canvas/ECharts-style visualization. Some analysis tasks can be local to the Mini Program, while network-dependent features can call an external API service.
+
+This split keeps lightweight interaction on the phone but creates clear boundaries:
+
+1. Sensor and location permissions should be requested only when the user starts the relevant tool.
+2. Local and remote processing must be identified in the interface.
+3. Uploaded files and API requests need size limits, failure states, and privacy guidance.
+4. Model-generated results should include the provider, model, and generation time when possible.
+
+## Appropriate use
+
+PhenoHUB is most suitable as a prototype for:
+
+- Field notes and rapid exploratory measurements
+- Teaching mobile phenotyping concepts
+- Testing interaction designs before instrument integration
+- Providing one launch point for small research utilities
+
+It should not be treated as a replacement for calibrated scientific instruments, validated statistical software, or a laboratory data-management system.
+
+## Access and reproducibility
+
+The project repository is hosted on WeChat Git and currently requires authenticated access. External readers cannot reliably clone it from a public URL, so this article does not present public installation or contribution steps.
+
+For an internal or authorized deployment, record at least:
+
+- Mini Program revision and backend revision
+- Device model and operating-system version
+- Permission and calibration procedure
+- Weather, map, or AI provider and request time
+- Input files, parameters, raw readings, and exported results
+
+Access questions can be directed through the contact channels on the [CV page](/cv).
+
+## Development priorities
+
+The next useful milestones are evidence-driven rather than percentage-based: validate each measurement against a reference method, label experimental modules clearly, add provenance to exports, document privacy boundaries, and test the complete workflow on both iOS and Android devices.

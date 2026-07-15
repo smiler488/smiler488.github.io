@@ -1,13 +1,16 @@
-import React from 'react';
-import Giscus from '@giscus/react';
+import React from "react";
+import Giscus from "@giscus/react";
+import { useColorMode } from "@docusaurus/theme-common";
 
 export const Comment = () => {
+  const { colorMode } = useColorMode();
+
   return (
     <div style={{ paddingTop: 50 }}>
       <Giscus
         id="comments"
-        repo="smiler488/smiler488.github.io" 
-        repoId="R_kgDOOA7x0w" 
+        repo="smiler488/smiler488.github.io"
+        repoId="R_kgDOOA7x0w"
         category="General"
         categoryId="DIC_kwDOOA7x084CnbRG"
         mapping="pathname"
@@ -16,7 +19,7 @@ export const Comment = () => {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="bottom"
-        theme="preferred_color_scheme"
+        theme={colorMode === "dark" ? "dark" : "light"}
         lang="en"
         loading="lazy"
       />

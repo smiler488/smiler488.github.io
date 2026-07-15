@@ -1,0 +1,50 @@
+.page {
+  min-width: 0;
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.collection {
+  width: min(100% - 2rem, 1180px);
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.paginator {
+  margin-top: 2rem;
+}
+
+.paginator :global(.pagination-nav__link) {
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .collection {
+    width: min(100% - 1rem, 1180px);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .paginator :global(.pagination-nav__link) {
+    background: var(--ifm-background-surface-color);
+  }
+}

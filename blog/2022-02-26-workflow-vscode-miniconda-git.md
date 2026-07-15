@@ -1,238 +1,245 @@
 ---
-title: "A Complete Workflow Guide: Using VS Code, Miniconda, and Git for Research Projects"
+title: A Reproducible Research Workflow with VS Code, Miniconda, and Git
 slug: workflow-vscode-miniconda-git
-description: Streamlined setup and collaboration playbook combining VS Code, Miniconda, and Git for reproducible research projects.
+description: A practical workflow for structuring Python research projects, recording environments, collaborating through Git, and preserving data provenance.
 authors: [liangchao]
-tags: [Python, Git, VSCode, Miniconda, tutorial]
+category: Research practice
+article_type: Workflow
+tags: [reproducible-research, python, git, data-analysis]
 image: /img/blog-default.jpg
 ---
 
-## Project Overview
+## Project overview
 
-This playbook outlines a reproducible workflow for Python-focused research—ideal for data analysis, remote sensing, crop modeling, and computational plant science. Follow the sections in order or jump to the one you need.
+This workflow combines VS Code, a project-specific Conda environment, and Git. The tools are useful, but reproducibility comes from the records around them: environment specifications, immutable raw data, configuration files, checksums, clear commits, and documented outputs.
 
 <!-- truncate -->
 
-# A Complete Workflow Guide: Using VS Code, Miniconda, and Git for Research Projects
+## 1. Install the core tools
 
----
+- [Visual Studio Code](https://code.visualstudio.com/) with the Python, Pylance, and Jupyter extensions
+- [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+- [Git](https://git-scm.com/downloads)
 
-## 1. Environment Setup
-
-### 1.1 Install Visual Studio Code
-
-- Download the installer from [code.visualstudio.com](https://code.visualstudio.com/).
-- Recommended extensions: Python (Microsoft), Jupyter, GitLens, Pylance, Markdown All in One, Remote - SSH.
-
-### 1.2 Install Miniconda
-
-- Download from [docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html).
-- Verify the installation:
+Confirm that the active shell can find them:
 
 ```bash
+code --version
 conda --version
-```
-
-- Keep Conda updated:
-
-```bash
-conda update conda
-```
-
-### 1.3 Install Git
-
-- Download from [git-scm.com/downloads](https://git-scm.com/downloads).
-- Confirm the version and configure your identity:
-
-```bash
 git --version
+```
+
+Configure Git once:
+
+```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
 ```
 
----
-
-## 2. Project Initialization and Environment Management
-
-### 2.1 Create the Project Folder
+## 2. Create a project and environment
 
 ```bash
-mkdir cotton_modeling
-cd cotton_modeling
-```
-
-### 2.2 Initialize Git
-
-```bash
+mkdir cotton-modeling
+cd cotton-modeling
 git init
-```
 
-### 2.3 Create the Conda Environment
-
-```bash
-conda create -n cotton python=3.10
+conda create --name cotton python=3.11
 conda activate cotton
-```
-
-### 2.4 Install Core Packages
-
-```bash
 conda install numpy pandas matplotlib scikit-learn
-conda install -c conda-forge opencv open3d
+conda install --channel conda-forge opencv open3d
 ```
 
-### 2.5 Share the Environment
+Choose the Python version and packages required by the project rather than copying this example unchanged.
+
+Open the folder:
 
 ```bash
-conda env export > environment.yml
+code .
 ```
 
-To reproduce the environment elsewhere:
+In VS Code, run **Python: Select Interpreter** and select the `cotton` environment.
 
-```bash
-conda env create -f environment.yml
-```
+## 3. Use a research-friendly structure
 
----
-
-## 3. Set Up the Project in VS Code
-
-### 3.1 Open the Workspace
-
-- Launch VS Code → `File > Open Folder…` → choose the project directory.
-- Select the Python interpreter (`Command Palette > Python: Select Interpreter`) and pick `conda: cotton`.
-
-### 3.2 Suggested Project Structure
-
-```
-cotton_modeling/
-├── data/              # Raw & processed datasets (not committed)
-├── notebooks/         # Jupyter notebooks
-├── scripts/           # Core Python modules
-│   ├── preprocessing.py
-│   ├── modeling.py
-│   └── visualization.py
-├── results/           # Generated figures, tables, reports
-├── environment.yml    # Conda spec for reproducibility
-├── README.md          # Project overview and usage
+```text
+cotton-modeling/
+├── README.md
+├── environment.yml
+├── pyproject.toml          # optional package and tool configuration
+├── configs/                # versioned experiment parameters
+├── data/
+│   ├── README.md           # source, license, schema, and retrieval notes
+│   ├── raw/                # immutable source data
+│   └── processed/          # reproducible derived data
+├── notebooks/              # exploration, not the only implementation
+├── src/cotton_modeling/    # reusable Python modules
+├── tests/
+├── results/
+│   └── README.md           # explains how outputs are generated
 └── .gitignore
 ```
 
-### 3.3 `.gitignore` Essentials
+Keep raw data immutable. A processing script should create a new derived artifact rather than overwrite its input.
 
-```
+## 4. Decide what Git should track
+
+A starting `.gitignore`:
+
+```text
 __pycache__/
-*.pyc
-*.ipynb_checkpoints
-data/
-results/
+*.py[cod]
+.ipynb_checkpoints/
 .env
+.DS_Store
+data/raw/*
+data/processed/*
+results/generated/*
 ```
 
----
+Do not ignore the explanatory `README.md` files, schemas, small test fixtures, configuration, or the code required to reproduce an output.
 
-## 4. Git Workflow (Single Researcher)
+For data too large or restricted for Git:
 
-### 4.1 Stage and Commit Changes
+- store it in an approved repository or object store;
+- record a persistent identifier or retrieval location;
+- record checksums and access dates;
+- use DVC or Git LFS only when they fit the collaboration and preservation plan.
+
+Never commit credentials from `.env`.
+
+## 5. Record the environment
+
+For a portable list of the packages you explicitly requested:
 
 ```bash
-git add .
-git commit -m "Initial commit: data preprocessing pipeline"
+conda env export --from-history > environment.yml
 ```
 
-### 4.2 Connect to GitHub
+Recreate it with:
 
 ```bash
-git remote add origin https://github.com/yourname/cotton_modeling.git
+conda env create --file environment.yml
+```
+
+`--from-history` is readable and cross-platform, but it does not lock every transitive dependency. When exact package builds matter, create a platform-specific explicit specification or use a lock-file tool, then archive that file with the release.
+
+Update the environment description only after confirming the project still runs:
+
+```bash
+conda env export --from-history > environment.yml
+git diff environment.yml
+```
+
+## 6. Keep notebooks and modules in sync
+
+Use notebooks for exploration and communication, but move stable operations into `src/`:
+
+```python
+# src/cotton_modeling/preprocessing.py
+from pathlib import Path
+
+def list_images(folder: str) -> list[Path]:
+    extensions = {".jpg", ".jpeg", ".png", ".tif", ".tiff"}
+    return sorted(
+        path for path in Path(folder).iterdir()
+        if path.suffix.lower() in extensions
+    )
+```
+
+Notebooks should import these functions instead of containing the only copy of an analysis.
+
+For a named Jupyter kernel:
+
+```bash
+conda install ipykernel
+python -m ipykernel install --user --name cotton --display-name "Python (cotton)"
+```
+
+## 7. Commit a reproducible unit of work
+
+Review before staging:
+
+```bash
+git status
+git diff
+```
+
+Commit code, configuration, tests, and documentation together:
+
+```bash
+git add README.md environment.yml configs src tests
+git diff --staged
+git commit -m "feat: add canopy preprocessing pipeline"
+```
+
+Connect a GitHub repository:
+
+```bash
 git branch -M main
+git remote add origin https://github.com/yourname/cotton_modeling.git
 git push -u origin main
 ```
 
-### 4.3 Sync Regularly
+Before starting new work:
 
 ```bash
-git pull origin main
-git push origin main
+git fetch origin
+git status
+git pull --ff-only origin main
 ```
 
-### 4.4 Use Feature Branches
+## 8. Choose one collaboration model
+
+### Shared repository
+
+Members with write access create branches in the same repository:
 
 ```bash
-git checkout -b feature-light-simulation
-# Implement changes...
-git add .
-git commit -m "Add light simulation module"
-git push origin feature-light-simulation
+git switch -c feature-light-simulation
+# edit and test
+git add configs src tests
+git commit -m "feat: add light simulation module"
+git push -u origin feature-light-simulation
 ```
 
----
+Open a pull request, review the diff and checks, then merge.
 
-## 5. Collaboration Workflow
+### Fork-based contribution
 
-1. Fork the repository and clone locally:
+Contributors without write access clone their own fork and register the original repository as `upstream`:
 
-   ```bash
-   git clone https://github.com/leader/cotton_modeling.git
-   ```
+```bash
+git clone https://github.com/yourname/cotton_modeling.git
+cd cotton_modeling
+git remote add upstream https://github.com/leader/cotton_modeling.git
+git fetch upstream
+git switch -c analysis-update
+```
 
-2. Create a feature branch:
+Push the branch to the fork and open a pull request against `upstream/main`.
 
-   ```bash
-   git checkout -b analysis-update
-   ```
+## 9. Reproducibility checklist
 
-3. Commit and push updates:
+For each analysis or model run, preserve:
 
-   ```bash
-   git add .
-   git commit -m "Update canopy reflectance model"
-   git push origin analysis-update
-   ```
+- code commit and, for releases, an annotated Git tag;
+- environment or lock file;
+- input dataset identifier, version, license, and checksum;
+- configuration and random seeds;
+- hardware or accelerator details when results are sensitive to them;
+- commands used to run the workflow;
+- generated logs, metrics, and a description of expected outputs;
+- any manual step that cannot yet be automated.
 
-4. Open a pull request on GitHub for review and merging.
+Do not claim bit-for-bit reproducibility across platforms unless it has been tested. The stronger and usually more useful target is a documented workflow that reproduces the scientific conclusion within defined tolerances.
 
----
+## Common issues
 
-## 6. Maintenance and Reproducibility
-
-- **Keep environments current:** `conda env export > environment.yml`
-- **Document clearly:** Maintain `README.md` with project overview, requirements, usage, and data notes; use docstrings for modules.
-- **Tag releases:** `git tag -a v1.0 -m "First release"` then `git push origin v1.0`.
-- **Manage data responsibly:** Keep raw data read-only, avoid committing large binaries, update `.gitignore` to exclude generated files.
-
----
-
-## 7. Typical Research Project Flow
-
-1. Initialize the repository with Git.
-2. Create and activate the Conda environment.
-3. Develop scripts and notebooks in VS Code.
-4. Commit frequently and push to GitHub.
-5. Branch for experiments or new modules.
-6. Export results and environment descriptors.
-7. Reference commit hashes or tags in publications for transparency.
-
----
-
-## 8. Common Issues and Fixes
-
-| Issue | Quick Fix |
-| --- | --- |
-| VS Code cannot find the Conda environment | Use `Python: Select Interpreter` and choose the correct Conda env. |
-| `git push` authentication errors | Refresh your GitHub token or sign in again using `gh auth login`. |
-| Conda dependency conflicts | Run `conda clean --all` or recreate the environment from `environment.yml`. |
-| Jupyter kernel missing | Install kernel: `python -m ipykernel install --user --name=cotton`. |
-
----
-
-## 9. Final Notes
-
-Adopting VS Code, Miniconda, and Git as a unified workflow delivers:
-- Reproducibility: every environment and code change is versioned.
-- Transparency: collaboration and provenance are traceable.
-- Efficiency: tooling accelerates experimentation and debugging.
-
----
-
-*Author: Liangchao Deng*  
-*Website: smiler488.github.io*
+| Issue                           | Check                                                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| VS Code uses the wrong Python   | Run **Python: Select Interpreter** and verify `python -c "import sys; print(sys.executable)"`.         |
+| Notebook kernel is missing      | Install `ipykernel` inside the environment and register the kernel.                                    |
+| Conda cannot solve dependencies | Remove unnecessary constraints, create a fresh environment, and document the resolved set.             |
+| Push authentication fails       | Use GitHub CLI, a credential manager, PAT, or SSH; account passwords are not accepted for Git pushes.  |
+| A large dataset was committed   | Stop, review whether history was published, and follow the repository's approved data-removal process. |

@@ -1,201 +1,268 @@
 ---
 slug: gitHub-beginner-guide
-title: GitHub Beginner Guide
+title: Git and GitHub Beginner Guide
+description: A safe, modern introduction to repositories, commits, branches, remotes, pull requests, authentication, and undoing mistakes.
 authors: [liangchao]
-tags: [tutorial]
+category: Developer tools
+article_type: Technical guide
+tags: [git, reproducible-research, web-development]
 image: /img/blog-default.jpg
 ---
 
+## Project overview
 
-## Project Overview
-GitHub is a web-based platform for version control and collaboration. It allows multiple people to work on projects together, track changes, and manage code repositories using Git.
+Git records changes to files on your computer. GitHub hosts Git repositories and adds collaboration features such as pull requests, issues, and automated checks. This guide follows a complete first workflow and separates safe recovery commands from history-rewriting operations.
 
 <!-- truncate -->
 
-## 1. Setting Up Git and GitHub
+## 1. Install and identify yourself
 
-### **1.1 Create a GitHub Account**
-1. Go to [GitHub](https://github.com/).
-2. Click **Sign up** and fill in your details.
-3. Verify your email and set up your profile.
+### Install Git
 
-### **1.2 Install Git**
-#### **Windows:**
-Download and install Git from [Git for Windows](https://git-scm.com/).
+- **Windows:** download [Git for Windows](https://git-scm.com/).
+- **macOS:** install the Xcode Command Line Tools or use Homebrew:
 
-#### **Mac:**
+  ```bash
+  brew install git
+  ```
+
+- **Ubuntu or Debian:**
+
+  ```bash
+  sudo apt update
+  sudo apt install git
+  ```
+
+Confirm the installation:
+
 ```bash
-brew install git
+git --version
 ```
 
-#### **Linux:**
+### Configure commit identity
+
+Use the name you want shown in commit history. The email should be an address associated with your GitHub account, or your GitHub-provided private `noreply` address.
+
 ```bash
-sudo apt update
-sudo apt install git
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
 ```
 
-### **1.3 Configure Git**
-Set up your Git username and email:
+Review the configuration:
+
 ```bash
-git config --global user.name "Your GitHub Username"
-git config --global user.email "Your GitHub Email"
-```
-Check the configuration:
-```bash
-git config --list
+git config --global --list
 ```
 
----
+## 2. Create a repository
 
-## 2. Creating a Repository on GitHub
-1. Log in to [GitHub](https://github.com/).
-2. Click **New repository**.
-3. Enter a **repository name**, select visibility (Public or Private), and click **Create repository**.
+Create a folder locally:
 
----
+```bash
+mkdir my-project
+cd my-project
+git init
+```
 
-## 3. Cloning a Repository
-To copy a GitHub repository to your local machine:
+Add a minimal project description:
+
+```bash
+echo "# My Project" > README.md
+git status
+git add README.md
+git commit -m "docs: add project overview"
+```
+
+Before staging data, credentials, or generated files, create a `.gitignore`:
+
+```text
+.env
+node_modules/
+__pycache__/
+*.log
+```
+
+Never commit API keys or passwords. Removing a secret in a later commit does not remove it from earlier history; rotate an exposed credential immediately.
+
+## 3. Connect the GitHub remote
+
+Create an empty repository on [GitHub](https://github.com/) without initializing another README, then connect it:
+
+```bash
+git branch -M main
+git remote add origin https://github.com/your-username/repository-name.git
+git remote -v
+git push -u origin main
+```
+
+GitHub does not accept an account password for Git operations over HTTPS. Use a supported credential manager, GitHub CLI, a personal access token, or SSH authentication.
+
+For an existing repository:
+
 ```bash
 git clone https://github.com/your-username/repository-name.git
-```
-
-Move into the directory:
-```bash
 cd repository-name
 ```
 
----
+## 4. The everyday edit cycle
 
-## 4. Adding and Committing Changes
-### **4.1 Create a new file**
+Inspect changes before staging:
+
 ```bash
-echo "# My Project" > README.md
+git status
+git diff
 ```
 
-### **4.2 Add files to staging**
+Stage intentionally and commit a coherent unit:
+
 ```bash
-git add README.md
+git add path/to/file
+git diff --staged
+git commit -m "feat: describe the change"
+git push
 ```
 
-### **4.3 Commit changes**
+Prefer specific paths over `git add .` when a workspace contains unrelated or generated changes.
+
+Before starting new work on a shared branch:
+
 ```bash
-git commit -m "Initial commit"
+git fetch origin
+git status
+git pull --ff-only origin main
 ```
 
----
+`--ff-only` refuses to create an unexpected merge commit. If local and remote histories have diverged, inspect them and decide whether to rebase or merge rather than forcing the operation.
 
-## 5. Pushing Code to GitHub
+## 5. Work on a branch
+
+Create and switch to a feature branch:
+
 ```bash
+git switch -c feature-clear-name
+```
+
+Commit and publish it:
+
+```bash
+git add path/to/file
+git commit -m "feat: add clear capability"
+git push -u origin feature-clear-name
+```
+
+After review, return to the default branch and update it:
+
+```bash
+git switch main
+git pull --ff-only origin main
+```
+
+Delete a fully merged local branch:
+
+```bash
+git branch -d feature-clear-name
+```
+
+## 6. Forks and pull requests
+
+Use a fork when you do not have permission to push branches to the upstream repository.
+
+1. Open the upstream repository and select **Fork**.
+2. Clone your fork, not the original repository:
+
+   ```bash
+   git clone https://github.com/your-username/forked-repository.git
+   cd forked-repository
+   ```
+
+3. Add the original repository as `upstream`:
+
+   ```bash
+   git remote add upstream https://github.com/original-owner/repository.git
+   git fetch upstream
+   ```
+
+4. Create a branch, commit, and push it to your fork:
+
+   ```bash
+   git switch -c analysis-update
+   git add path/to/file
+   git commit -m "feat: update analysis"
+   git push -u origin analysis-update
+   ```
+
+5. On GitHub, open a pull request from the fork branch to the upstream default branch.
+
+To synchronize later:
+
+```bash
+git switch main
+git fetch upstream
+git merge --ff-only upstream/main
 git push origin main
 ```
 
-If your branch is different from `main`, use:
+## 7. Undo changes safely
+
+Choose the command based on where the mistake exists.
+
+### Discard an unstaged file edit
+
 ```bash
-git push origin your-branch-name
+git restore path/to/file
 ```
 
----
+This permanently replaces the working copy with the last committed version.
 
-## 6. Pulling Updates from GitHub
-To get the latest changes from GitHub:
+### Unstage a file but keep its edits
+
 ```bash
-git pull origin main
+git restore --staged path/to/file
 ```
 
----
+### Correct the most recent local commit
 
-## 7. Branching and Merging
-### **7.1 Create a New Branch**
+If it has not been pushed:
+
 ```bash
-git branch feature-branch
+git add path/to/fix
+git commit --amend
 ```
 
-### **7.2 Switch to the New Branch**
+### Reverse a published commit
+
+Create a new commit that reverses the selected commit:
+
 ```bash
-git checkout feature-branch
+git log --oneline
+git revert <commit-hash>
 ```
 
-### **7.3 Merge a Branch**
-```bash
-git checkout main
-git merge feature-branch
-```
+:::warning Avoid destructive history changes on shared branches
+`git reset --hard` discards local work, and force-pushing rewrites shared history. They are not routine beginner recovery tools. Make a backup branch and confirm the collaboration policy before using either.
+:::
 
-### **7.4 Delete a Branch**
-```bash
-git branch -d feature-branch
-```
+## 8. Useful inspection commands
 
----
+| Command                                      | Purpose                            |
+| -------------------------------------------- | ---------------------------------- |
+| `git status`                                 | Show branch and working-tree state |
+| `git diff`                                   | Show unstaged changes              |
+| `git diff --staged`                          | Show staged changes                |
+| `git log --oneline --graph --decorate --all` | Inspect branch history             |
+| `git remote -v`                              | Show remote names and URLs         |
+| `git branch -vv`                             | Show branches and their upstreams  |
+| `git show <commit>`                          | Inspect one commit                 |
 
-## 8. Forking a Repository and Creating Pull Requests
-### **8.1 Fork a Repository**
-1. Go to the repository on GitHub.
-2. Click **Fork** (top-right corner).
-3. Clone your forked repository:
-```bash
-git clone https://github.com/your-username/forked-repository.git
-```
+## Final checklist
 
-### **8.2 Make Changes and Push**
-```bash
-git add .
-git commit -m "Modified file"
-git push origin your-branch
-```
+Before pushing:
 
-### **8.3 Create a Pull Request (PR)**
-1. Go to your forked repository on GitHub.
-2. Click **New pull request**.
-3. Compare changes and click **Create pull request**.
+- no secrets or private data are staged;
+- generated files are excluded unless intentionally versioned;
+- the diff matches the commit message;
+- tests or builds relevant to the change pass;
+- the destination branch and remote are correct.
 
----
-
-## 9. Git Ignore and Undo Changes
-### **9.1 Ignoring Files**
-Create a `.gitignore` file and add files or folders you want to ignore:
-```
-node_modules/
-*.log
-.env
-```
-
-### **9.2 Undo Changes**
-#### **Undo uncommitted changes:**
-```bash
-git checkout -- filename
-```
-
-#### **Undo last commit (keep changes unstaged):**
-```bash
-git reset --soft HEAD~1
-```
-
-#### **Undo last commit (discard changes):**
-```bash
-git reset --hard HEAD~1
-```
-
----
-
-## 10. Useful Git Commands Summary
-| Command | Description |
-|---------|-------------|
-| `git init` | Initialize a Git repository |
-| `git clone URL` | Clone a repository |
-| `git status` | Show current changes |
-| `git add .` | Add all files to staging |
-| `git commit -m "message"` | Commit changes |
-| `git push origin branch` | Push changes to GitHub |
-| `git pull origin branch` | Pull changes from GitHub |
-| `git branch branch-name` | Create a new branch |
-| `git checkout branch-name` | Switch branches |
-| `git merge branch-name` | Merge branches |
-| `git reset --hard HEAD~1` | Undo last commit |
-| `git log` | View commit history |
-
----
-
-## Conclusion
-This guide covers the basics of Git and GitHub. As you become more familiar, you can explore advanced topics such as GitHub Actions, contributing to open-source projects, and automated deployments.
+For more detail, use the official [Git documentation](https://git-scm.com/doc) and [GitHub Docs](https://docs.github.com/).

@@ -64,18 +64,24 @@ const config = {
         docs: {
           sidebarPath: "./sidebars.js",
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/smiler488/smiler488.github.io/tree/master/",
         },
         blog: {
           showReadingTime: true,
-          blogSidebarCount: "ALL",
-          blogSidebarTitle: "All posts",
+          blogTitle: "Research & Engineering Notes",
+          blogDescription:
+            "Research notes on artificial intelligence, plant phenotyping, imaging, and reproducible scientific computing.",
+          postsPerPage: 9,
+          blogSidebarCount: 0,
           feedOptions: {
             type: ["rss", "atom"],
+            title: "Liangchao Deng · Research & Engineering Notes",
+            description:
+              "Practical research notes on AI, plant phenotyping, imaging, and scientific software.",
             xslt: true,
           },
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/smiler488/smiler488.github.io/tree/master/",
           onInlineTags: "warn",
           onInlineAuthors: "warn",
           onUntruncatedBlogPosts: "warn",

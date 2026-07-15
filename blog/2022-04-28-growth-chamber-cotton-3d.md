@@ -1,185 +1,171 @@
 ---
-title: 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
+title: Turntable Photogrammetry for Potted Cotton in a Growth Chamber
 slug: growth-chamber-cotton-3d
-description: Formatting refresh; original content preserved verbatim.
+description: An experimental, validation-first protocol for acquiring and reconstructing multi-view images of potted cotton plants in a controlled environment.
 authors: [liangchao]
-tags: [3D reconstruction, cotton, growth chamber, photogrammetry]
+category: Imaging & 3D
+article_type: Research project
+tags:
+  [
+    plant-phenotyping,
+    three-dimensional-reconstruction,
+    image-analysis,
+    computer-vision,
+  ]
 image: /img/blog-default.jpg
 ---
 
-## Project Overview
+## Project overview
 
-- Establish a high-precision 3D reconstruction pipeline for single potted cotton plants under controlled environmental conditions.
-- Generate standardized image datasets for canopy structural analysis and light-distribution modeling.
-- Evaluate reconstruction accuracy and color consistency under multi-view imaging.
+This protocol uses a rotating plant and fixed cameras to create a multi-view image set for 3D reconstruction. It is intended as an experimental starting point, not a validated claim of high-precision phenotyping. Accuracy depends on plant motion, image sharpness, calibration, scale control, background masking, and independent validation.
 
 <!-- truncate -->
 
-# 3D Reconstruction of Potted Cotton Plants in a Controlled-Environment Growth Chamber
+## Research objective
 
----
+The workflow can support:
 
-## 2. Experimental Setup
+- visualization of plant architecture;
+- exploratory estimates of plant height, width, volume, and leaf orientation;
+- development of organ-segmentation and light-distribution methods;
+- comparison of reconstruction settings under controlled acquisition.
 
-### 2.1 Environment
+Do not treat mesh-derived traits as ground truth until their errors have been quantified against independent measurements.
 
-- **Location:** Controlled-environment growth chamber (adjustable temperature, humidity, and illumination).
-- **Background and Floor:** Black non-reflective cloth covering both background and floor to suppress unwanted reflections.
-- **Lighting:**
-  - Ambient illuminance: 500–800 lux (uniform diffuse light).
-  - Avoid direct or specular lighting.
-  - Side-mounted diffused LED panels are recommended; disable ceiling spotlights.
+## 1. Prepare the imaging area
 
-### 2.2 Rotating Platform
+### Stable environment
 
-- **Material:** Transparent acrylic turntable (**diameter 60–80 cm**).
-- **Surface Treatment:** Covered with a *diffuse transparent film* to eliminate specular highlights.
-- **Markers:** Four symmetric *reference markers* placed on the turntable surface for spatial alignment in Agisoft.
-- **Drive:** Electrically controlled motorized base, rotating one full revolution in **60–90 seconds** at a constant speed.
+- Stop fans and minimize airflow during capture; small leaf motion can break feature matching.
+- Use diffuse, flicker-free light and keep it constant for the full sequence.
+- Measure and record illuminance or exposure conditions rather than adopting an arbitrary universal lux value.
+- Avoid specular highlights, deep shadows, and automatic lighting changes.
 
-### 2.3 Plant Placement
+### Background and turntable
 
-- **Specimen:** Healthy potted cotton plant at vegetative or early reproductive stage.
-- **Positioning:** Pot center aligned precisely with the turntable center.
-- **Stability:** Secure with a ring stand or counterweight if necessary.
+- Use a matte, visually uniform background that can be masked reliably.
+- Use a rigid, matte turntable large enough for the pot and plant.
+- Avoid transparent or reflective acrylic unless its reflections are controlled and validated.
+- Keep static background features, color charts, cables, and supports out of the reconstruction mask. In turntable photogrammetry, the plant moves relative to the room, so static background features violate the assumed scene geometry.
 
-### 2.4 Color Calibration
+### Scale and control
 
-- **Tool:** *SpyderCheck24* color calibration chart.
-- **Placement:** Mounted on the background within the visible field of both cameras.
-- **Purpose:** Used later for color correction to remove lighting or sensor bias.
+Place measured scale bars and uniquely identifiable coded markers on the rotating platform so they move with the plant. Avoid symmetric, repeated marker layouts that can create ambiguous correspondences.
 
----
+Reserve at least one independent scale or distance as a check rather than using every measurement to define the model.
 
-## 3. Data Acquisition
+## 2. Configure the cameras
 
-### 3.1 Camera Configuration
+One well-controlled camera moved between height levels is often easier to calibrate than two unmatched phone cameras. If multiple cameras are used:
 
-- **Devices:** Two *iPhone Pro* cameras (iPhone 13 Pro or later).
-- **Angles:**
-  - Camera A: −45° pitch angle, distance ≈ 1.0 m.
-  - Camera B: 0° (horizontal), distance ≈ 1.2 m.
-- **Resolution:** 4K (3840 × 2160 px) at 30 fps.
-- **Focus/Exposure:** Manual lock for both.
-- **Mode:** Continuous video recording.
+- lock focus, shutter speed, ISO, white balance, and focal length;
+- disable automatic HDR or lens switching when possible;
+- record each device, lens, resolution, frame rate, and exposure setting;
+- acquire calibration data for each camera;
+- avoid digital zoom;
+- verify that all views are sharp and free from rolling-shutter or stabilization artifacts.
 
-### 3.2 Shooting Procedure
+Phone video is compressed and may apply computational processing between frames. Still images or high-quality intra-frame video are preferable when the workflow permits.
 
-1. Start the turntable; ensure uniform rotation for one full cycle.
-2. Begin recording simultaneously on both cameras.
-3. Confirm that the *SpyderCheck24* and all four markers remain visible throughout rotation.
-4. Stop recording when the turntable completes one revolution.
-5. Rename videos (e.g., `Plant01_A_45.mp4`, `Plant01_B_0.mp4`).
+Use at least two elevation bands to reduce top- and underside occlusion. Exact angles and distances depend on plant size and field of view; verify that the entire specimen and scale controls remain visible.
 
----
+## 3. Capture the sequence
 
-## 4. Pre-Processing
+1. Center and secure the pot without deforming the plant.
+2. Record a sharp reference view and the experiment metadata.
+3. Start a slow, constant rotation.
+4. Capture enough angular views to maintain feature overlap around the full plant.
+5. Repeat at the second camera height or elevation.
+6. Inspect the sequence immediately for blur, exposure drift, leaf motion, missing regions, and marker visibility.
 
-### 4.1 Video Frame Extraction and Color Correction
+Do not export every one or two video frames by default. At 30 frames per second, that produces thousands of highly redundant images. Sample by angular coverage and image quality. Document the final angular interval, number of retained frames, and rejection criteria.
 
-Using **DaVinci Resolve**:
+## 4. Manage color separately from geometry
 
-1. Import both videos.
-2. In the *Color* workspace, calibrate color balance with *SpyderCheck24*.
-3. Adjust white balance and exposure to maintain natural tones.
-4. Export sequential frames at 1–2-frame intervals (JPG or PNG).
+A color chart such as SpyderCheck24 can help monitor camera and lighting consistency, but it does not by itself make image values physically calibrated reflectance.
 
-### 4.2 File Naming Convention
+- Capture the chart under the same camera and lighting settings.
+- Apply one documented correction consistently to the sequence.
+- Keep the static chart out of the geometry reconstruction mask.
+- Preserve the uncorrected source files and the correction parameters.
 
-Use consistent naming for automatic sorting:
+If color is a scientific output, validate the corrected patch values and report the color space, white balance, exposure, and error metric.
 
-```
-Plant01_A_45_####.jpg
-Plant01_B_0_####.jpg
-```
+## 5. Organize and screen the images
 
----
+Use names that preserve plant, camera, elevation, and view order:
 
-## 5. 3D Reconstruction (Agisoft Metashape Professional)
-
-### 5.1 Project Setup
-
-- Create a new project and import all images.
-- Group images into two camera sets:
-  - *Group A* (−45° angle)
-  - *Group B* (horizontal view)
-
-### 5.2 Image Alignment
-
-Use **Align Photos** with:
-
-- Accuracy = High
-- Generic Preselection = Enabled
-- Key point limit = 40000
-- Tie point limit = 10000
-
-Inspect the sparse cloud and verify that all marker points are correctly detected.
-
-### 5.3 Camera Optimization
-
-- Assign marker coordinates (measured or symmetrical).
-- Run **Optimize Cameras** to refine intrinsic parameters and reduce lens distortion.
-
-### 5.4 Dense Cloud and Mesh
-
-- **Build Dense Cloud:** Quality = High, Depth Filtering = Mild.
-- **Build Mesh:** Source = Dense Cloud.
-- **Build Texture:** Mapping Mode = Generic, Blending Mode = Mosaic.
-
-### 5.5 Export
-
-Export the reconstructed model as:
-
-- OBJ / PLY / GLB (depending on downstream analysis).
-  Include camera positions and coordinate metadata.
-
----
-
-## 6. Post-Processing and Analysis
-
-- **Color Validation:** Compare RGB values of *SpyderCheck24* patches to verify calibration.
-- **Point-Cloud Cleaning:** Use *CloudCompare* or *Open3D* to denoise and normalize scale.
-- **Phenotypic Trait Extraction:**
-  - Plant height, canopy width, volume, leaf inclination, etc.
-  - Implement with *Python + Open3D + NumPy* pipelines.
-
----
-
-## 7. Notes
-
-1. Avoid any vibration or airflow during recording.
-2. Keep rotation speed constant throughout.
-3. Align camera optical centers with the turntable axis to reduce reconstruction bias.
-4. Maintain consistent EXIF timestamps for all frames.
-5. Save Agisoft project files (`.psx`) frequently to prevent data loss.
-
----
-
-## 8. Recommended Directory Structure
-
-```
-3D_Reconstruction_Cotton/
-│
-├── Raw_Videos/
-│   ├── Plant01_A_45.mp4
-│   └── Plant01_B_0.mp4
-│
-├── Calibrated_Frames/
-│   ├── A_45/
-│   └── B_0/
-│
-├── Agisoft_Project/
-│   ├── Plant01.psx
-│   └── Export/
-│       ├── Plant01.obj
-│       └── Plant01_texture.jpg
-│
-└── Metadata/
-    ├── Camera_Settings.txt
-    └── Turntable_Info.txt
+```text
+Plant01/
+├── raw/
+│   ├── camera-a/
+│   └── camera-b/
+├── selected/
+│   ├── upper/
+│   └── horizontal/
+├── masks/
+├── calibration/
+├── reconstruction/
+└── validation/
 ```
 
----
+For every selected image, check:
 
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*Experiment conducted in the controlled-environment phenotyping facility.*
+- sharpness at leaf edges;
+- consistent exposure and white balance;
+- sufficient overlap with adjacent views;
+- no large leaf displacement;
+- no accidental crop of the plant or scale controls;
+- a mask that excludes the static room and color chart.
+
+## 6. Reconstruct in Metashape or comparable software
+
+Software labels vary by version, so the workflow is described by purpose:
+
+1. import the selected images;
+2. apply masks before or during feature matching;
+3. estimate camera poses and a sparse reconstruction;
+4. inspect and remove obvious outlier tie points cautiously;
+5. identify coded markers and enter measured scale constraints;
+6. optimize camera parameters only after checking that the control geometry is correct;
+7. generate depth maps and a dense point cloud;
+8. remove unsupported background geometry;
+9. build and, if required, texture a mesh;
+10. export the point cloud or mesh with units and coordinate metadata.
+
+Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.
+
+## 7. Validate before extracting traits
+
+At minimum, report:
+
+- number of input and aligned images;
+- camera reprojection error, with its definition and units;
+- marker and scale residuals;
+- error on an independent distance or object;
+- visibly missing or falsely filled plant regions;
+- repeatability across replicate captures;
+- sensitivity of traits to masking and reconstruction settings.
+
+For manual plant height or width measurements (m_i) and reconstructed values (r_i), summarize bias and RMSE:
+
+```text
+bias = mean(r_i - m_i)
+RMSE = sqrt(mean((r_i - m_i)^2))
+```
+
+A visually plausible mesh can still give biased traits, particularly for thin leaf margins, overlapping leaves, and reflective or texture-poor surfaces.
+
+## 8. Export research-ready outputs
+
+Preserve:
+
+- original images and metadata;
+- selected-frame manifest and rejection reasons;
+- masks and calibration records;
+- reconstruction project and software version;
+- scale constraints and independent validation measurements;
+- exported PLY/OBJ/GLB with units;
+- scripts, parameters, and trait tables linked to a code commit.
+
+This evidence makes the reconstruction auditable and allows future processing improvements without repeating the experiment.

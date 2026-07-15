@@ -1,0 +1,222 @@
+.page {
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 2.5rem) 1rem clamp(3rem, 7vw, 6rem);
+}
+
+.layout {
+  display: grid;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 245px);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: start;
+}
+
+.layoutWithoutToc {
+  width: min(100%, 900px);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.articleColumn {
+  min-width: 0;
+}
+
+.tocColumn {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.25rem);
+  min-width: 0;
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2.5rem);
+}
+
+.tocSurface,
+.mobileToc,
+.paginatorSurface,
+.commentSurface {
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  backdrop-filter: var(--glass-blur-medium);
+}
+
+:global(html[data-theme="dark"]) .tocSurface,
+:global(html[data-theme="dark"]) .mobileToc,
+:global(html[data-theme="dark"]) .paginatorSurface,
+:global(html[data-theme="dark"]) .commentSurface {
+  background: rgba(28, 28, 30, 0.86);
+}
+
+.tocSurface {
+  max-height: inherit;
+  overflow: auto;
+  padding: 1.15rem 1rem;
+}
+
+.tocSurface > p,
+.commentSurface > div > p {
+  margin: 0 0 0.75rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.68rem;
+  font-weight: 740;
+  letter-spacing: 0.12em;
+}
+
+.tocSurface :global(.table-of-contents) {
+  padding: 0;
+  border: 0;
+  font-size: 0.78rem;
+}
+
+.tocSurface :global(.thin-scrollbar) {
+  position: static;
+  max-height: none;
+  overflow: visible;
+}
+
+.tocSurface :global(.table-of-contents__link) {
+  display: block;
+  padding: 0.28rem 0;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.4;
+}
+
+.tocSurface :global(.table-of-contents__link--active) {
+  color: var(--ifm-color-primary);
+  font-weight: 660;
+}
+
+.paginatorSurface {
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+.paginatorSurface :global(.pagination-nav) {
+  gap: 0.5rem;
+  margin: 0 !important;
+}
+
+.paginatorSurface :global(.pagination-nav__link) {
+  min-width: 0;
+  border: 0;
+  border-radius: 18px;
+  background: color-mix(
+    in srgb,
+    var(--ifm-background-surface-color),
+    transparent 38%
+  );
+  box-shadow: none;
+}
+
+.paginatorSurface :global(.pagination-nav__label) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commentSurface {
+  margin-top: 1rem;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+}
+
+.commentSurface h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  letter-spacing: -0.035em;
+}
+
+.commentSurface > div + div {
+  padding-top: 1.5rem !important;
+}
+
+.mobileToc {
+  display: none;
+  margin-bottom: 1rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.mobileToc summary {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  color: var(--ifm-color-emphasis-800);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 650;
+  list-style: none;
+}
+
+.mobileToc summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobileTocContent {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.mobileTocContent :global(.table-of-contents) {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+
+.mobileTocContent :global(.table-of-contents ul) {
+  list-style: none;
+}
+
+@media (max-width: 996px) {
+  .layout {
+    width: min(100%, 880px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tocColumn {
+    display: none;
+  }
+
+  .mobileToc {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 0.5rem 0.5rem 3rem;
+  }
+
+  .tocSurface,
+  .mobileToc,
+  .paginatorSurface,
+  .commentSurface {
+    border-radius: 20px;
+    -webkit-backdrop-filter: var(--glass-blur-light);
+    backdrop-filter: var(--glass-blur-light);
+  }
+
+  .paginatorSurface :global(.pagination-nav) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .paginatorSurface :global(.pagination-nav__link--next) {
+    grid-column: 1;
+  }
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .tocSurface,
+  .mobileToc,
+  .paginatorSurface,
+  .commentSurface {
+    background: var(--ifm-background-surface-color);
+  }
+}

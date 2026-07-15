@@ -1,274 +1,102 @@
 ---
 slug: botanical-extract-ai-pro
-title: "Botanical Extract AI Pro: Zero-Shot Plant Image Segmentation with Multimodal AI Models"
+title: "Botanical Extract AI Pro: An Experimental Background-Isolation Workflow"
 authors: [liangchao]
-tags: [plant phenotyping, Multimodal AI, Image Segmentation, Zero-Shot Learning, Computer Vision, Background Removal]
-description: "A comprehensive guide to Botanical Extract AI Pro - a zero-shot plant image segmentation system using multimodal AI models for efficient plant phenotyping data preprocessing."
+category: AI & machine learning
+article_type: Workflow
+tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
+image: /img/botanical-extract-ai-pro.png
+description: An experimental web and batch workflow for placing plants on white backgrounds with multimodal image models, including scientific and privacy limitations.
 ---
 
-## 1. Project Overview
+## Overview
 
-**Botanical Extract AI Pro** is a project designed to address the challenges of background interference and high manual segmentation costs in traditional plant phenotyping analysis. By leveraging the visual understanding and generation capabilities of **multimodal AI models**, the system achieves **zero-shot** high-precision plant image background removal and segmentation. The system supports both single-image interactive processing (Web end) and large-scale batch processing (script end), providing efficient data preprocessing tools for botanical research.
-![Botanical Extracted Results](/img/botanical-extract-ai-pro.png)
+![Examples of source plant images and AI-generated white-background outputs](/img/botanical-extract-ai-pro.png)
 
-### Key Features:
-- **Zero-Shot Segmentation**: No training required, works directly with multimodal AI models
-- **Dual-Mode Processing**: Web interface for interactive processing + Node.js script for batch processing
-- **Intelligent Aspect Ratio Adaptation**: Automatically matches optimal image ratios for model input
-- **Robust Binary Stream Processing**: Handles multiple input formats and sources
-- **Batch Pipeline**: Automated processing for hundreds/thousands of images
+**Botanical Extract AI Pro** explores whether a multimodal image model can reduce background clutter in plant photographs without project-specific model training. It provides an interactive web workflow for individual images and a Node.js-oriented workflow for repeated processing.
+
+This is best described as **AI-assisted background isolation**, not validated scientific segmentation. A generative model may redraw leaves, remove thin structures, change colors, or invent boundaries even when the prompt asks it not to.
 
 <!-- truncate -->
 
-## 2. System Architecture
+:::warning Experimental output
+“Zero-shot” means that no task-specific training was performed. It does not imply zero error, pixel-perfect preservation, or suitability for quantitative phenotyping.
+:::
 
-The system adopts a "dual-end, single-core" architecture design, where the Web interactive end and Node.js batch processing end share the same core multimodal AI service logic.
+## Workflow
 
-### Architecture Diagram:
+The two clients follow the same basic path:
 
-```mermaid
-graph TD
-    User[User] --> |Web Interaction| WebApp[React Web Application]
-    User --> |Batch Tasks| BatchScript[Node.js Batch Processing Script]
-    
-    subgraph "Frontend/Client Layer"
-        WebApp --> |Upload Image| ImageProcess[Image Preprocessing]
-        BatchScript --> |Read Directory| FileScan[File Scanning]
-        FileScan --> ImageProcess
-    end
-    
-    subgraph "Core Logic Layer (Services)"
-        ImageProcess --> |Binary Stream| FormatCheck[Format Validation]
-        FormatCheck --> |Calculate Ratio| AR_Opt[Aspect Ratio Optimization Algorithm]
-        AR_Opt --> |Build Request| PromptEng[Prompt Engineering]
-    end
-    
-    subgraph "Cloud Model Layer"
-        PromptEng --> |API Call| MultimodalAI[Multimodal AI Model]
-        MultimodalAI --> |Return Image| Result[Segmentation Result PNG]
-    end
-    
-    Result --> |Display| WebApp
-    Result --> |Save File| BatchScript
-```
+1. Load an image and decode it to confirm the format and dimensions.
+2. Select the closest aspect ratio supported by the chosen model API.
+3. Send the image and a constrained background-replacement instruction to the provider.
+4. Save the returned image beside the untouched original.
+5. Record the provider, model, prompt version, time, and processing outcome.
 
-### 2.1 Technology Stack
-- **Core Model**: Multimodal AI Model (Vision Capable)
-- **Web End**: React 19, TypeScript, Vite, Tailwind CSS
-- **Batch Processing End**: Node.js, fs/promises
-- **SDK**: Multimodal AI SDK (compatible with various providers)
+The web interface supports visual comparison for a single sample. The batch workflow scans a directory, mirrors its structure in an output directory, and records successes and failures.
 
-## 3. Key Technical Implementations
+## What the prompt can and cannot do
 
-### 3.1 Prompt Engineering (TAS Framework)
+A prompt can request a white background and ask the model to preserve the plant. It cannot force a generative system to retain the original pixels. Statements such as “pixel-perfect” are therefore **instructions to the model**, not guarantees about the result.
 
-To ensure segmentation accuracy and consistency, we designed a structured **TAS (Task-Action-Specification)** prompt system.
+Aspect-ratio matching is similarly limited. Choosing the nearest supported ratio can reduce avoidable cropping or stretching in the API request, but it does not guarantee identical geometry or resolution in the generated image.
 
-**Core Prompt (Constants/Script)**:
-```text
-TASK: Image Segmentation / Background Replacement.
-INPUT: A photo of a plant.
-OUTPUT: The exact same plant pixels, but with the background replaced by pure solid white (#FFFFFF).
+## Input validation
 
-INSTRUCTIONS:
-1. OUTPUT: Return the input image with the background replaced by solid white.
-2. PRESERVATION: The plant (leaves, stems, flowers, pots if integral) must remain pixel-perfectly identical to the original. Do not redraw or restyle.
-3. BACKGROUND: All non-plant pixels (walls, ground, shadows) must be solid white.
-4. FORMAT: Return a PNG image.
-```
+File extensions alone are not sufficient validation. A safer client should:
 
-**Design Highlights**:
-*   **Role Definition**: Explicit "Technical editing task" positioning reduces model "creative" interpretation and minimizes hallucination.
-*   **Constraint Reinforcement**: Using "pixel-perfectly identical" keywords forces the model to preserve original texture details.
-*   **Negative Constraints**: Clearly specifies elements to remove (walls, ground, shadows).
+- Check the binary signature and successfully decode the image
+- Enforce file-size and pixel-dimension limits
+- Reject unsupported or malformed data
+- Normalize orientation without silently discarding the original
+- Keep provider payloads separate from local metadata
 
-### 3.2 Intelligent Aspect Ratio Adaptation Algorithm
+The current Base64-style request pattern loads the image into memory. It should not be described as streaming, and large inputs need explicit limits.
 
-Multimodal AI models are sensitive to input image aspect ratios. To avoid image stretching and deformation, we implemented an **optimal ratio matching algorithm**.
+## Bounded batch processing
 
-**Algorithm Logic**:
-1.  Read original image dimensions ($W, H$).
-2.  Calculate original ratio $R = W / H$.
-3.  Define supported ratio set $S = \{1:1, 3:4, 4:3, 9:16, 16:9\}$.
-4.  Calculate absolute difference between $R$ and each standard ratio in set $S$.
-5.  Select the standard ratio with minimum difference as the API request parameter `aspectRatio`.
+`Promise.allSettled(files.map(processFile))` does **not** control concurrency; it schedules every task immediately. A production batch client should place a small limit around the provider call:
 
-**Code Snippet (Simplified)**:
-```typescript
-const supported = [
-  { id: "1:1", val: 1.0 },
-  { id: "4:3", val: 1.33 },
-  // ... other ratios
-];
-
-// Reduce to find closest ratio
-const closest = supported.reduce((prev, curr) => {
-  return (Math.abs(curr.val - ratio) < Math.abs(prev.val - ratio) ? curr : prev);
-});
-return closest.id;
-```
-
-### 3.3 Robust Binary Stream Processing
-
-To be compatible with multiple input sources (File objects from Web end, Buffers from batch processing end), we uniformly handle Base64 encoding and MIME type detection at the底层.
-
-*   **Format Sniffing**: Not relying on file extensions, directly reading binary headers (Magic Bytes) to determine if it's PNG ($89 50...), JPEG ($FF D8...), or BMP.
-*   **Data Cleaning**: Automatically stripping Data URL Scheme (`data:image/...;base64,`) to ensure clean payload is sent to the API.
-
-## 4. Batch Processing Pipeline
-
-For research scenarios requiring processing of hundreds or thousands of images, we developed an automated batch processing script (`batch-process.js`).
-
-**Workflow**:
-1.  **Scanning**: Recursively traverse the `input` directory, filtering target files via regex `/\.(jpg|jpeg...)$/i`.
-2.  **Mirror Structure**: Generate a file tree structure in the `output` directory that is completely consistent with the input directory.
-3.  **Exception Circuit Breaker & Retry**:
-    *   Capture API errors (e.g., Rate Limit), record failed file paths.
-    *   Implement basic backoff strategy for `500` or `429` errors (currently controlled via simple delay).
-4.  **Progress Feedback**: Real-time output of progress bar (Current/Total) and success/failure statistics in the console.
-
-## 5. Technical Implementation Details
-
-### 5.1 Web End (React + TypeScript)
-
-**Key Components**:
-- **Image Upload**: Drag-and-drop support, file validation
-- **Preview Area**: Real-time display of original and processed images
-- **Settings Panel**: Adjustable parameters (aspect ratio, output format)
-- **Progress Indicator**: Visual feedback for processing status
-
-**Core Logic**:
-```typescript
-// Aspect ratio calculation
-const calculateAspectRatio = (width: number, height: number): string => {
-  const ratio = width / height;
-  const supported = [
-    { id: "1:1", val: 1.0 },
-    { id: "4:3", val: 1.33 },
-    { id: "3:4", val: 0.75 },
-    { id: "16:9", val: 1.78 },
-    { id: "9:16", val: 0.56 }
-  ];
-  
-  return supported.reduce((prev, curr) => {
-    return Math.abs(curr.val - ratio) < Math.abs(prev.val - ratio) ? curr : prev;
-  }).id;
-};
-
-// Image processing
-const processImage = async (file: File): Promise<Blob> => {
-  // 1. Read file as binary
-  // 2. Convert to Base64
-  // 3. Build prompt with TAS framework
-  // 4. Call multimodal AI API
-  // 5. Return processed PNG
-};
-```
-
-### 5.2 Batch Processing (Node.js)
-
-**Key Features**:
-- **Directory Traversal**: Recursive file scanning
-- **Parallel Processing**: Controlled concurrency to avoid rate limits
-- **Error Handling**: Comprehensive error logging and retry mechanism
-- **Progress Tracking**: Real-time console output
-
-**Core Logic**:
 ```javascript
-// Batch processing script
-const processBatch = async (inputDir, outputDir) => {
-  // 1. Scan directory
-  const files = await scanDirectory(inputDir);
-  
-  // 2. Process with controlled concurrency
-  const results = await Promise.allSettled(
-    files.map(async (file, index) => {
-      try {
-        // 3. Read and preprocess image
-        const imageBuffer = await fs.readFile(file.path);
-        const aspectRatio = calculateAspectRatio(imageBuffer);
-        
-        // 4. Call multimodal AI API
-        const result = await callMultimodalAI(imageBuffer, aspectRatio);
-        
-        // 5. Save result
-        const outputPath = file.path.replace(inputDir, outputDir);
-        await fs.writeFile(outputPath, result);
-        
-        console.log(`[${index + 1}/${files.length}] ✓ ${file.name}`);
-        return { success: true, file: file.name };
-      } catch (error) {
-        console.error(`[${index + 1}/${files.length}] ✗ ${file.name}: ${error.message}`);
-        return { success: false, file: file.name, error: error.message };
-      }
-    })
-  );
-  
-  // 6. Generate summary
-  const summary = generateSummary(results);
-  console.log(summary);
-};
+import pLimit from 'p-limit';
+
+const limit = pLimit(3);
+
+const results = await Promise.allSettled(
+  files.map((file) => limit(() => processOneImage(file))),
+);
 ```
 
-## 6. Use Cases
+The processing function should also use capped exponential backoff for retryable `429` and `5xx` responses, stop retrying permanent errors, and write a resumable manifest. Concurrency must be adjusted to the provider's documented limits and the available memory.
 
-### 6.1 Plant Phenotyping Research
-- **Leaf Area Measurement**: Accurate segmentation for leaf area calculation
-- **Canopy Structure Analysis**: Background removal for 3D reconstruction
-- **Growth Monitoring**: Consistent image preprocessing for time-series analysis
+## Scientific quality control
 
-### 6.2 Agricultural Applications
-- **Crop Health Assessment**: Clean images for disease detection
-- **Yield Prediction**: Standardized data for machine learning models
-- **Breeding Programs**: High-throughput phenotyping data collection
+Generated outputs should not be used directly for leaf area, shape, disease, growth, or time-series measurements without validation. A practical review should include:
 
-### 6.3 Educational Purposes
-- **Botany Teaching**: Demonstrate plant anatomy without background distractions
-- **Computer Vision Labs**: Practical examples of zero-shot segmentation
-- **Research Methodology**: Data preprocessing best practices
+1. Overlay the source and output at the same scale.
+2. Inspect thin stems, leaf tips, holes, flowers, labels, and pot boundaries.
+3. Check whether colors, shadows, or plant geometry changed.
+4. Compare a manually annotated validation subset with appropriate mask and boundary metrics.
+5. Reject or manually correct failed samples before quantitative analysis.
 
-## 7. Performance Considerations
+For measurements that require a reproducible binary mask, a conventional segmentation model or a validated interactive segmentation tool is usually more appropriate than image generation.
 
-### 7.1 API Rate Limits
-- Implement exponential backoff for rate limit errors
-- Use request queuing to control concurrency
-- Monitor API usage and adjust batch sizes accordingly
+## Privacy, cost, and reproducibility
 
-### 7.2 Memory Management
-- Stream large images instead of loading entirely into memory
-- Implement garbage collection for long-running batch processes
-- Use buffer pooling for repeated operations
+Unless a local model is used, uploaded images leave the device and are processed by an external provider. Before processing research data:
 
-### 7.3 Error Recovery
-- Log all failures with detailed context
-- Implement retry logic with configurable attempts
-- Provide resume capability for interrupted batch processes
+- Review the provider's retention and training policies.
+- Remove sensitive labels, locations, and personal information.
+- Store API keys in server-side or environment configuration, never in public client code.
+- Estimate per-image cost and rate limits before starting a batch.
+- Preserve the original files and a machine-readable processing manifest.
 
-## 8. Future Enhancements
+## Current limitations
 
-### 8.1 Model Optimization
-- Fine-tune prompts for specific plant species
-- Implement model-specific optimizations
-- Add support for multiple multimodal AI providers
+- No public benchmark currently establishes accuracy across species, organs, backgrounds, or imaging conditions.
+- Results may vary across model versions and repeated requests.
+- The workflow produces an edited image, not necessarily an alpha mask or class-labeled segmentation.
+- Large-scale processing requires bounded concurrency, recovery logs, and manual quality assurance.
+- The project should not be described as open source unless a public repository and license are provided.
 
-### 8.2 Feature Expansion
-- **Interactive Mask Editing**: Manual correction of segmentation results
-- **Batch Parameter Tuning**: Optimize settings for different plant types
-- **Quality Metrics**: Automated evaluation of segmentation quality
-- **Export Formats**: Support for multiple output formats (JPEG, WebP, etc.)
-
-### 8.3 Integration
-- **Cloud Storage**: Direct integration with Google Drive, AWS S3
-- **API Endpoints**: RESTful API for programmatic access
-- **Desktop Application**: Cross-platform GUI application
-- **Mobile Support**: React Native app for field data collection
-
-## 9. Conclusion
-
-Botanical Extract AI Pro demonstrates the power of multimodal AI models in solving real-world botanical research challenges. By combining zero-shot learning with intelligent preprocessing algorithms, the system provides an efficient, scalable solution for plant phenotyping data preparation.
-
-The project's dual-mode architecture ensures flexibility for both interactive research workflows and large-scale batch processing needs. As multimodal AI models continue to evolve, the system's modular design allows for easy integration of future improvements and new capabilities.
-
----
-
-*Botanical Extract AI Pro is an open-source project designed to advance plant phenotyping research through accessible AI tools. For questions, contributions, or collaboration opportunities, visit the project repository.*
+The project remains useful as a prototype for rapid visual cleanup and for studying how multimodal models behave on botanical imagery. Its outputs should be treated as generated derivatives, not as ground truth.

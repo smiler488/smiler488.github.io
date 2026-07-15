@@ -1,1090 +1,290 @@
 ---
 slug: local-ai-agent-deployment
-title: Guide to Local AI Agent
+title: "Local AI Assistants and Agents: A Secure, Reproducible Deployment Guide"
+description: "A practical path from a local Ollama assistant to retrieval and controlled tool use, with explicit privacy, security, versioning, and deployment boundaries."
 authors: [liangchao]
-tags: [ai, machine learning, deployment, tutorial, local development]
+tags: [artificial-intelligence, local-ai, reproducible-research, python]
 image: /img/blog-default.jpg
+category: "AI & machine learning"
+article_type: Technical guide
 ---
 
-## Project Overview
+Running a model locally can reduce dependence on a hosted inference API and keep prompts on controlled hardware. It does not automatically create an **agent**, and it does not guarantee privacy if the surrounding application uses remote search, telemetry, hosted embeddings, public tunnels, or networked tools.
 
-Deploying AI agents locally offers numerous advantages including data privacy, reduced latency, cost control, and independence from cloud services. This comprehensive guide covers multiple approaches to setting up AI agents on your local infrastructure, from simple chatbots to complex multi-modal systems.
+This guide begins with a local assistant, then adds retrieval and optional tool use one boundary at a time. Each new capability should be observable, reversible, and no more privileged than the task requires.
 
 <!-- truncate -->
 
-# Guide to Local AI Agent Deployment
+## Assistant, RAG system, or agent?
 
-## Technical Workflow Overview
+| System | What it adds | Main risk |
+| --- | --- | --- |
+| Local assistant | A model that generates responses from prompts | Hallucination and accidental network exposure |
+| Retrieval-augmented generation (RAG) | Search over a controlled document collection | Data leakage, stale indexes, and unsupported answers |
+| Tool-using assistant | Structured calls to approved functions | Incorrect arguments and unintended side effects |
+| Agent | A loop that chooses and executes multiple actions using state | Compounding errors, excessive autonomy, and unclear accountability |
 
-```mermaid
-graph TD
-    A[Prerequisites Analysis] --> B[Hardware Requirements]
-    A --> C[Software Prerequisites]
-    B --> D[Method Selection]
-    C --> D
-    D --> E[Ollama Simple Deployment]
-    D --> F[Docker-based Deployment]
-    D --> G[LangChain Integration]
-    D --> H[Multi-Modal Systems]
-    D --> I[RAG Systems]
-    E --> J[API Integration]
-    F --> K[Container Orchestration]
-    G --> L[Memory Management]
-    H --> M[Vision-Language Models]
-    I --> N[Vector Database Setup]
-    J --> O[Performance Testing]
-    K --> O
-    L --> O
-    M --> O
-    N --> O
-    O --> P[Production Deployment]
-    P --> Q[Monitoring & Maintenance]
-    
-    B --> B1[CPU/RAM Requirements]
-    B --> B2[GPU Acceleration]
-    B --> B3[Storage Considerations]
-    
-    C --> C1[OS Compatibility]
-    C --> C2[Docker Setup]
-    C --> C3[Python Environment]
-    
-    E --> E1[Model Selection]
-    E --> E2[Service Configuration]
-    
-    F --> F1[Container Definition]
-    F --> F2[Service Orchestration]
-    
-    G --> G1[Chain Configuration]
-    G --> G2[Prompt Engineering]
-    
-    H --> H1[Image Processing]
-    H --> H2[Multi-modal Fusion]
-    
-    I --> I1[Document Processing]
-    I --> I2[Vector Embeddings]
-    I --> I3[Retrieval Optimization]
-    
-    O --> O1[Load Testing]
-    O --> O2[Security Assessment]
-    O --> O3[Scalability Analysis]
-    
-    P --> P1[API Gateway]
-    P --> P2[Load Balancing]
-    P --> P3[Failover Mechanisms]
-    
-    Q --> Q1[Performance Metrics]
-    Q --> Q2[Resource Monitoring]
-    Q --> Q3[Update Management]
-```
+An interactive chat with Ollama is a local assistant. Call it an agent only after adding an explicit action loop, tool contracts, state, stopping conditions, and authorization controls.
 
-This workflow outlines the comprehensive process for deploying AI agents locally, highlighting multiple deployment strategies and their integration points for building robust, scalable AI systems.
+## 1. Write the deployment boundary first
 
-## Quick Start (5 Minutes)
+Document these decisions before installation:
 
-For beginners who want to try it immediately, follow these steps:
+- Which data classifications may enter prompts?
+- Must the system work with the network disabled?
+- Which users and devices may access it?
+- Which tools are read-only, and which can change files or external systems?
+- Which actions require confirmation?
+- What is logged, for how long, and who can read it?
+- How will model, prompt, index, and tool versions be identified?
+- What is the rollback and incident-response path?
+
+“Local model” describes where inference runs. It does not answer these system-level questions.
+
+## 2. Start with Ollama on localhost
+
+Install Ollama from the [official download page](https://ollama.com/download). Where the shell installer is supported:
 
 ```bash
-# Step 1: Install Ollama (easiest method)
-curl -fsSL https://ollama.ai/install.sh | sh
-
-# Step 2: Pull a small model (downloads ~4GB, takes 3-10 mins)
-ollama pull llama2:7b
-
-# Step 3: Test it!
-ollama run llama2:7b
-
-# You should now see an interactive chat. Try asking:
-# "What is artificial intelligence?"
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-**Expected output:**
-```
->>> What is artificial intelligence?
-Artificial intelligence (AI) refers to the simulation of human
-intelligence in machines...
-```
-
-If this works, congratulations! You've successfully deployed a local AI agent. Continue reading for more advanced setups.
-
-## Environment Check Script
-
-Before proceeding, verify your system meets the requirements:
+Select a current model from the official library that fits the available memory and license requirements, then replace `<model-name>`:
 
 ```bash
-#!/bin/bash
-# check_environment.sh - Run this to verify your system
-
-echo "=== System Check ==="
-
-# Check OS
-echo "OS: $(uname -s)"
-
-# Check CPU cores
-echo "CPU Cores: $(nproc)"
-
-# Check RAM
-echo "Total RAM: $(free -h | grep Mem | awk '{print $2}')"
-echo "Available RAM: $(free -h | grep Mem | awk '{print $7}')"
-
-# Check disk space
-echo "Available disk space: $(df -h . | tail -1 | awk '{print $4}')"
-
-# Check Docker
-if command -v docker &> /dev/null; then
-    echo "Docker: Installed ($(docker --version))"
-else
-    echo "Docker: NOT INSTALLED ❌"
-fi
-
-# Check Python
-if command -v python3 &> /dev/null; then
-    echo "Python: Installed ($(python3 --version))"
-else
-    echo "Python: NOT INSTALLED ❌"
-fi
-
-# Check GPU
-if command -v nvidia-smi &> /dev/null; then
-    echo "GPU: Available"
-    nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
-else
-    echo "GPU: Not detected (CPU-only mode)"
-fi
-
-echo ""
-echo "=== Recommendation ==="
-ram_gb=$(free -g | grep Mem | awk '{print $2}')
-if [ "$ram_gb" -lt 16 ]; then
-    echo "⚠️  Low RAM detected. Consider using smaller models (3B-7B parameters)"
-else
-    echo "✅ System looks good for running medium models (7B-13B parameters)"
-fi
+ollama pull <model-name>
+ollama run <model-name>
+ollama list
 ```
 
-Save this as `check_environment.sh`, run `chmod +x check_environment.sh && ./check_environment.sh`
-
-## Prerequisites
-
-### Hardware Requirements
-
-**Minimum Configuration:**
-
-- CPU: 8-core processor (Intel i7/AMD Ryzen 7 or equivalent)
-- RAM: 16GB DDR4
-- Storage: 100GB available SSD space
-- GPU: Optional but recommended (NVIDIA GTX 1060 or better)
-
-**Recommended Configuration:**
-
-- CPU: 12+ core processor (Intel i9/AMD Ryzen 9 or equivalent)
-- RAM: 32GB+ DDR4/DDR5
-- Storage: 500GB+ NVMe SSD
-- GPU: NVIDIA RTX 3080/4070 or better with 12GB+ VRAM
-
-### Software Prerequisites
-
-- Operating System: Ubuntu 20.04+, macOS 12+, or Windows 10/11
-- Docker and Docker Compose
-- Python 3.8+ with pip
-- Git
-- NVIDIA drivers (for GPU acceleration)
-
-## Method 1: Ollama - The Simplest Approach
-
-### Installation
-
-**Linux/macOS:**
-
-```bash
-curl -fsSL https://ollama.ai/install.sh | sh
-```
-
-**Windows:**
-Download and install from https://ollama.ai/download
-
-### Basic Usage
-
-```bash
-# Pull a model
-ollama pull llama2
-
-# Run interactive chat
-ollama run llama2
-
-# Start as service
-ollama serve
-```
-
-### API Integration
+Test the local chat API:
 
 ```python
 import requests
+
+response = requests.post(
+    "http://localhost:11434/api/chat",
+    json={
+        "model": "<model-name>",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Summarize this experiment plan in five bullets.",
+            }
+        ],
+        "stream": False,
+    },
+    timeout=120,
+)
+response.raise_for_status()
+print(response.json()["message"]["content"])
+```
+
+Install the only additional dependency used by this example:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install requests
+python -m pip freeze > requirements-lock.txt
+```
+
+Keep the service on localhost while testing. Confirm listening interfaces with operating-system network tools before assuming it is private.
+
+## 3. Record the environment portably
+
+This Python report works across major desktop platforms without Linux-only commands such as `free` or `nproc`:
+
+```python
 import json
-
-def chat_with_ollama(message, model="llama2"):
-    url = "http://localhost:11434/api/generate"
-    payload = {
-        "model": model,
-        "prompt": message,
-        "stream": False
-    }
-  
-    response = requests.post(url, json=payload)
-    return response.json()["response"]
-
-# Example usage
-response = chat_with_ollama("Explain quantum computing")
-print(response)
-```
-
-### Available Models
-
-- **llama2**: General purpose conversational AI
-- **codellama**: Code generation and analysis
-- **mistral**: Efficient multilingual model
-- **neural-chat**: Optimized for dialogue
-- **llava**: Vision-language model
-
-## Method 2: Docker-based Deployment
-
-### Create Docker Environment
-
-**Dockerfile:**
-
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY . .
-
-EXPOSE 8000
-
-CMD ["python", "app.py"]
-```
-
-**requirements.txt:**
-
-```
-fastapi==0.104.1
-uvicorn==0.24.0
-transformers==4.35.0
-torch==2.1.0
-accelerate==0.24.1
-langchain==0.0.335
-chromadb==0.4.15
-sentence-transformers==2.2.2
-```
-
-**docker-compose.yml:**
-
-```yaml
-version: '3.8'
-
-services:
-  ai-agent:
-    build: .
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./models:/app/models
-      - ./data:/app/data
-    environment:
-      - CUDA_VISIBLE_DEVICES=0
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  vector-db:
-    image: chromadb/chroma:latest
-    ports:
-      - "8001:8000"
-    volumes:
-      - ./chroma_data:/chroma/chroma
-```
-
-### FastAPI Application
-
-**app.py:**
-
-```python
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
-import uvicorn
-
-app = FastAPI(title="Local AI Agent API")
-
-class ChatRequest(BaseModel):
-    message: str
-    max_length: int = 512
-    temperature: float = 0.7
-
-class AIAgent:
-    def __init__(self, model_name="microsoft/DialoGPT-medium"):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(model_name)
-        self.model.to(self.device)
-    
-        if self.tokenizer.pad_token is None:
-            self.tokenizer.pad_token = self.tokenizer.eos_token
-
-    def generate_response(self, message, max_length=512, temperature=0.7):
-        inputs = self.tokenizer.encode(message, return_tensors="pt").to(self.device)
-    
-        with torch.no_grad():
-            outputs = self.model.generate(
-                inputs,
-                max_length=max_length,
-                temperature=temperature,
-                do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id
-            )
-    
-        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return response[len(message):].strip()
-
-# Initialize agent
-agent = AIAgent()
-
-@app.post("/chat")
-async def chat(request: ChatRequest):
-    try:
-        response = agent.generate_response(
-            request.message,
-            request.max_length,
-            request.temperature
-        )
-        return {"response": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy", "device": str(agent.device)}
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-```
-
-## Method 3: LangChain with Local Models
-
-### Setup LangChain Environment
-
-```python
-from langchain.llms import LlamaCpp
-from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
-from langchain.prompts import PromptTemplate
-
-class LocalAIAgent:
-    def __init__(self, model_path):
-        callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-    
-        self.llm = LlamaCpp(
-            model_path=model_path,
-            temperature=0.7,
-            max_tokens=512,
-            top_p=1,
-            callback_manager=callback_manager,
-            verbose=True,
-            n_ctx=2048,
-            n_gpu_layers=35  # Adjust based on your GPU
-        )
-    
-        self.memory = ConversationBufferMemory()
-    
-        template = """
-        You are a helpful AI assistant. Have a conversation with the human.
-    
-        Current conversation:
-        {history}
-        Human: {input}
-        AI Assistant:"""
-    
-        prompt = PromptTemplate(
-            input_variables=["history", "input"],
-            template=template
-        )
-    
-        self.conversation = ConversationChain(
-            llm=self.llm,
-            memory=self.memory,
-            prompt=prompt,
-            verbose=True
-        )
-  
-    def chat(self, message):
-        return self.conversation.predict(input=message)
-
-# Usage
-agent = LocalAIAgent("./models/llama-2-7b-chat.gguf")
-response = agent.chat("What is machine learning?")
-```
-
-## Method 4: Multi-Modal AI Agent
-
-### Vision-Language Model Setup
-
-```python
-import torch
-from transformers import BlipProcessor, BlipForConditionalGeneration
-from PIL import Image
-import requests
-from io import BytesIO
-
-class MultiModalAgent:
-    def __init__(self):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
-        # Load vision-language model
-        self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-        self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
-        self.model.to(self.device)
-  
-    def analyze_image(self, image_path_or_url, question=None):
-        # Load image
-        if image_path_or_url.startswith('http'):
-            response = requests.get(image_path_or_url)
-            image = Image.open(BytesIO(response.content))
-        else:
-            image = Image.open(image_path_or_url)
-    
-        if question:
-            # Visual question answering
-            inputs = self.processor(image, question, return_tensors="pt").to(self.device)
-            out = self.model.generate(**inputs, max_length=50)
-            answer = self.processor.decode(out[0], skip_special_tokens=True)
-            return answer
-        else:
-            # Image captioning
-            inputs = self.processor(image, return_tensors="pt").to(self.device)
-            out = self.model.generate(**inputs, max_length=50)
-            caption = self.processor.decode(out[0], skip_special_tokens=True)
-            return caption
-
-# Usage
-agent = MultiModalAgent()
-caption = agent.analyze_image("path/to/image.jpg")
-answer = agent.analyze_image("path/to/image.jpg", "What color is the car?")
-```
-
-## Method 5: RAG (Retrieval-Augmented Generation) System
-
-### Vector Database Setup
-
-```python
-import chromadb
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import DirectoryLoader, TextLoader
-
-class RAGAgent:
-    def __init__(self, documents_path, persist_directory="./chroma_db"):
-        # Initialize embeddings
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
-        )
-    
-        # Load and process documents
-        loader = DirectoryLoader(documents_path, glob="*.txt", loader_cls=TextLoader)
-        documents = loader.load()
-    
-        # Split documents
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=200
-        )
-        texts = text_splitter.split_documents(documents)
-    
-        # Create vector store
-        self.vectorstore = Chroma.from_documents(
-            documents=texts,
-            embedding=self.embeddings,
-            persist_directory=persist_directory
-        )
-    
-        # Initialize LLM (using Ollama)
-        from langchain.llms import Ollama
-        self.llm = Ollama(model="llama2")
-  
-    def query(self, question, k=3):
-        # Retrieve relevant documents
-        docs = self.vectorstore.similarity_search(question, k=k)
-    
-        # Create context from retrieved documents
-        context = "\n\n".join([doc.page_content for doc in docs])
-    
-        # Generate response
-        prompt = f"""
-        Based on the following context, answer the question:
-    
-        Context:
-        {context}
-    
-        Question: {question}
-    
-        Answer:"""
-    
-        response = self.llm(prompt)
-        return response, docs
-
-# Usage
-rag_agent = RAGAgent("./documents")
-answer, sources = rag_agent.query("What is the main topic discussed?")
-```
-
-## Performance Optimization
-
-### GPU Acceleration
-
-```python
-# Check GPU availability
-import torch
-print(f"CUDA available: {torch.cuda.is_available()}")
-print(f"GPU count: {torch.cuda.device_count()}")
-if torch.cuda.is_available():
-    print(f"GPU name: {torch.cuda.get_device_name(0)}")
-
-# Optimize memory usage
-torch.cuda.empty_cache()
-
-# Use mixed precision
-from torch.cuda.amp import autocast, GradScaler
-
-scaler = GradScaler()
-
-with autocast():
-    # Your model inference here
-    pass
-```
-
-### Model Quantization
-
-```python
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
-
-# 4-bit quantization
-quantization_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_compute_dtype=torch.float16,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4"
-)
-
-model = AutoModelForCausalLM.from_pretrained(
-    "model_name",
-    quantization_config=quantization_config,
-    device_map="auto"
-)
-```
-
-## Monitoring and Logging
-
-### System Monitoring
-
-```python
-import psutil
-import GPUtil
-import logging
-from datetime import datetime
-
-class SystemMonitor:
-    def __init__(self):
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('ai_agent.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(__name__)
-  
-    def log_system_stats(self):
-        # CPU usage
-        cpu_percent = psutil.cpu_percent(interval=1)
-    
-        # Memory usage
-        memory = psutil.virtual_memory()
-        memory_percent = memory.percent
-    
-        # GPU usage
-        gpus = GPUtil.getGPUs()
-        gpu_stats = []
-        for gpu in gpus:
-            gpu_stats.append({
-                'id': gpu.id,
-                'name': gpu.name,
-                'load': gpu.load * 100,
-                'memory_used': gpu.memoryUsed,
-                'memory_total': gpu.memoryTotal,
-                'temperature': gpu.temperature
-            })
-    
-        self.logger.info(f"CPU: {cpu_percent}%, Memory: {memory_percent}%")
-        for gpu_stat in gpu_stats:
-            self.logger.info(f"GPU {gpu_stat['id']}: {gpu_stat['load']:.1f}% load, "
-                           f"{gpu_stat['memory_used']}/{gpu_stat['memory_total']}MB memory")
-
-monitor = SystemMonitor()
-monitor.log_system_stats()
-```
-
-## Security Considerations
-
-### API Security
-
-```python
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import jwt
-import hashlib
 import os
-
-app = FastAPI()
-security = HTTPBearer()
-
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key")
-
-def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    try:
-        payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=["HS256"])
-        return payload
-    except jwt.PyJWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials"
-        )
-
-@app.post("/secure-chat")
-async def secure_chat(request: ChatRequest, user=Depends(verify_token)):
-    # Your secure chat logic here
-    pass
-```
-
-### Input Sanitization
-
-```python
-import re
-from typing import str
-
-def sanitize_input(text: str) -> str:
-    # Remove potentially harmful characters
-    text = re.sub(r'[<>"\']', '', text)
-  
-    # Limit length
-    text = text[:1000]
-  
-    # Remove excessive whitespace
-    text = ' '.join(text.split())
-  
-    return text
-
-def validate_input(text: str) -> bool:
-    # Check for common injection patterns
-    dangerous_patterns = [
-        r'<script',
-        r'javascript:',
-        r'eval\(',
-        r'exec\(',
-        r'import\s+os',
-        r'__import__'
-    ]
-  
-    for pattern in dangerous_patterns:
-        if re.search(pattern, text, re.IGNORECASE):
-            return False
-  
-    return True
-```
-
-## Deployment Scripts
-
-### Automated Setup Script
-
-```bash
-#!/bin/bash
-
-# setup_ai_agent.sh
-
-set -e
-
-echo "Setting up Local AI Agent Environment..."
-
-# Update system
-sudo apt update && sudo apt upgrade -y
-
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-sudo usermod -aG docker $USER
-
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# Install NVIDIA Container Toolkit (if GPU present)
-if lspci | grep -i nvidia; then
-    distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-    curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-    curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-    sudo apt-get update && sudo apt-get install -y nvidia-docker2
-    sudo systemctl restart docker
-fi
-
-# Install Python dependencies
-pip3 install --upgrade pip
-pip3 install -r requirements.txt
-
-# Download models
-mkdir -p models
-cd models
-
-# Download Llama 2 model (example)
-wget https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.q4_0.gguf
-
-echo "Setup complete! Run 'docker-compose up' to start the AI agent."
-```
-
-### Systemd Service
-
-```ini
-# /etc/systemd/system/ai-agent.service
-
-[Unit]
-Description=Local AI Agent Service
-After=network.target
-
-[Service]
-Type=simple
-User=aiagent
-WorkingDirectory=/opt/ai-agent
-ExecStart=/usr/local/bin/docker-compose up
-ExecStop=/usr/local/bin/docker-compose down
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## Troubleshooting
-
-### Common Issues and Solutions
-
-#### 1. Ollama: "connection refused" Error
-
-**Problem:**
-```bash
-Error: could not connect to ollama server
-```
-
-**Solutions:**
-```bash
-# Check if Ollama is running
-ps aux | grep ollama
-
-# If not running, start it:
-ollama serve
-
-# Or use systemd (Linux):
-sudo systemctl start ollama
-sudo systemctl enable ollama  # Auto-start on boot
-```
-
-#### 2. Model Download Fails or Hangs
-
-**Problem:**
-Model download stops at 50% or shows network errors.
-
-**Solutions:**
-```bash
-# Method 1: Use a mirror or VPN if in restricted regions
-
-# Method 2: Download manually
-mkdir -p ~/.ollama/models
-cd ~/.ollama/models
-# Download from alternative sources like HuggingFace
-
-# Method 3: Increase timeout
-export OLLAMA_DOWNLOAD_TIMEOUT=3600  # 1 hour
-ollama pull llama2
-```
-
-#### 3. "CUDA out of memory" Error
-
-**Problem:**
-```
-RuntimeError: CUDA out of memory. Tried to allocate X GB
-```
-
-**Solutions:**
-```python
-# Solution 1: Use smaller model
-ollama pull llama2:7b  # Instead of 13b or 70b
-
-# Solution 2: Clear GPU cache
-import torch
-torch.cuda.empty_cache()
-
-# Solution 3: Reduce batch size
-batch_size = 1  # Minimum batch size
-
-# Solution 4: Use CPU offloading
-model = AutoModelForCausalLM.from_pretrained(
-    "model_name",
-    device_map="auto",  # Automatically splits across GPU/CPU
-    load_in_8bit=True   # Use quantization
-)
-```
-
-#### 4. ImportError: No module named 'transformers'
-
-**Problem:**
-```
-ModuleNotFoundError: No module named 'transformers'
-```
-
-**Solutions:**
-```bash
-# Verify Python environment
-which python3
-python3 --version
-
-# Install in correct environment
-pip3 install transformers torch
-
-# If using virtual environment:
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-```
-
-#### 5. Docker: "permission denied" Error
-
-**Problem:**
-```
-permission denied while trying to connect to the Docker daemon socket
-```
-
-**Solutions:**
-```bash
-# Add user to docker group
-sudo usermod -aG docker $USER
-
-# Logout and login again, or run:
-newgrp docker
-
-# Test without sudo:
-docker ps
-```
-
-#### 6. Slow Inference Speed
-
-**Problem:**
-Response time > 30 seconds per query.
-
-**Solutions:**
-```python
-# Check if GPU is being used
-import torch
-print(f"Using GPU: {torch.cuda.is_available()}")
-
-# Force GPU usage
-model = model.to('cuda')
-
-# Use optimized settings
-model.eval()  # Set to evaluation mode
-torch.backends.cudnn.benchmark = True
-
-# Consider using smaller models or quantization
-from transformers import BitsAndBytesConfig
-config = BitsAndBytesConfig(load_in_8bit=True)
-```
-
-#### 7. Port Already in Use
-
-**Problem:**
-```
-Error: bind: address already in use
-```
-
-**Solutions:**
-```bash
-# Find process using port 8000
-lsof -i :8000
-# or
-netstat -tulpn | grep 8000
-
-# Kill the process
-kill -9 <PID>
-
-# Or use different port
-uvicorn app:app --port 8001
-```
-
-#### 8. Windows: "WSL not installed" Error
-
-**Problem:**
-Using Ollama on Windows requires WSL.
-
-**Solutions:**
-```powershell
-# Install WSL 2
-wsl --install
-
-# Or use Windows-native version:
-# Download from https://ollama.ai/download/windows
-# Run the .exe installer
-```
-
-### Testing Your Setup
-
-After installation, run these tests:
-
-```python
-# test_setup.py
-import sys
-
-def test_imports():
-    """Test if all required packages are installed"""
-    packages = [
-        'torch',
-        'transformers',
-        'fastapi',
-        'langchain',
-        'chromadb'
-    ]
-
-    for package in packages:
-        try:
-            __import__(package)
-            print(f"✅ {package}")
-        except ImportError:
-            print(f"❌ {package} - NOT INSTALLED")
-            return False
-    return True
-
-def test_gpu():
-    """Test GPU availability"""
-    import torch
-    if torch.cuda.is_available():
-        print(f"✅ GPU: {torch.cuda.get_device_name(0)}")
-        print(f"   VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
-        return True
-    else:
-        print("⚠️  GPU: Not available (will use CPU)")
-        return False
-
-def test_ollama():
-    """Test Ollama connection"""
-    import requests
-    try:
-        response = requests.get("http://localhost:11434/api/tags")
-        if response.status_code == 200:
-            print("✅ Ollama: Running")
-            return True
-    except:
-        print("❌ Ollama: Not running")
-        return False
-
-if __name__ == "__main__":
-    print("=== Testing AI Agent Setup ===\n")
-
-    print("1. Package Installation:")
-    test_imports()
-
-    print("\n2. GPU Availability:")
-    test_gpu()
-
-    print("\n3. Ollama Service:")
-    test_ollama()
-
-    print("\n=== Test Complete ===")
-```
-
-Run: `python3 test_setup.py`
-
-**Out of Memory Errors:**
-
-```python
-# Reduce batch size
-batch_size = 1
-
-# Use gradient checkpointing
-model.gradient_checkpointing_enable()
-
-# Clear cache regularly
-torch.cuda.empty_cache()
-```
-
-**Slow Inference:**
-
-```python
-# Use torch.no_grad() for inference
-with torch.no_grad():
-    output = model(input_ids)
-
-# Optimize for inference
-model.eval()
-torch.backends.cudnn.benchmark = True
-```
-
-**Model Loading Issues:**
-
-```python
-# Check available disk space
+import platform
 import shutil
-free_space = shutil.disk_usage('.').free / (1024**3)  # GB
-print(f"Free space: {free_space:.2f} GB")
 
-# Use model caching
-from transformers import AutoModel
-model = AutoModel.from_pretrained("model_name", cache_dir="./model_cache")
+report = {
+    "platform": platform.platform(),
+    "python": platform.python_version(),
+    "cpu_count": os.cpu_count(),
+    "ollama_path": shutil.which("ollama"),
+    "docker_path": shutil.which("docker"),
+}
+
+try:
+    import torch
+
+    report["torch"] = torch.__version__
+    report["cuda_available"] = torch.cuda.is_available()
+    if torch.cuda.is_available():
+        report["gpu"] = torch.cuda.get_device_name(0)
+except ImportError:
+    report["torch"] = None
+
+print(json.dumps(report, indent=2))
 ```
 
-## Best Practices
+Memory requirements depend on model, quantization, context, parallel requests, and runtime overhead. Benchmark the chosen artifact on the actual machine rather than labeling all 7B or 13B models with one hardware threshold.
 
-1. **Resource Management**: Monitor CPU, GPU, and memory usage continuously
-2. **Model Selection**: Choose models appropriate for your hardware capabilities
-3. **Caching**: Implement proper caching for models and embeddings
-4. **Logging**: Maintain comprehensive logs for debugging and monitoring
-5. **Security**: Implement proper authentication and input validation
-6. **Backup**: Regular backup of models and configuration files
-7. **Updates**: Keep dependencies and models updated
-8. **Testing**: Implement comprehensive testing for all components
+## 4. Add retrieval without hiding provenance
 
-## Conclusion
+A maintainable local RAG pipeline has five explicit stages:
 
-Local AI agent deployment offers significant advantages in terms of privacy, control, and cost-effectiveness. The methods outlined in this guide provide various approaches depending on your specific requirements, from simple chatbots using Ollama to complex multi-modal RAG systems.
+1. **Ingest:** allowlisted files are parsed; unsupported or encrypted files fail visibly.
+2. **Chunk:** document structure and stable identifiers are preserved.
+3. **Embed:** the exact embedding model and revision are recorded.
+4. **Retrieve:** candidate chunks include source, page or section, score, and index version.
+5. **Generate:** the prompt instructs the model to answer from evidence and cite retrieved sources.
 
-Choose the approach that best fits your hardware capabilities, technical requirements, and use case. Start with simpler methods like Ollama for proof-of-concept, then scale up to more complex deployments as needed.
+Keep the original document identifier in every chunk. Evaluate retrieval separately from answer generation: if the relevant passage is not retrieved, changing the final prompt cannot repair the evidence gap.
 
-Remember to continuously monitor performance, implement proper security measures, and maintain your deployment for optimal results.
+### Minimal evaluation set
 
----
+Create questions with expected source passages and include:
 
-*Last updated: September 2025*
+- answerable questions;
+- questions whose answer is absent;
+- conflicting documents;
+- superseded versions;
+- tables, captions, and long sections;
+- adversarial text embedded inside a document.
+
+Measure retrieval recall, citation correctness, unsupported-claim rate, latency, and behavior when evidence is missing.
+
+## 5. Add tools through narrow contracts
+
+Do not give a model a general shell, unrestricted filesystem, or broad API token as the first tool. Wrap each capability in a small typed function.
+
+```python
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class ReadTextRequest:
+    relative_path: str
+
+
+def read_project_text(request: ReadTextRequest, workspace: Path) -> str:
+    root = workspace.resolve()
+    target = (root / request.relative_path).resolve()
+
+    if root not in target.parents:
+        raise ValueError("Path escapes the approved workspace")
+    if target.suffix.lower() not in {".md", ".txt", ".csv"}:
+        raise ValueError("File type is not allowed")
+    if target.stat().st_size > 1_000_000:
+        raise ValueError("File exceeds the read limit")
+
+    return target.read_text(encoding="utf-8")
+```
+
+This example is read-only and workspace-scoped. A production tool still needs structured error handling, audit identifiers, denial tests, and protection against symbolic-link and race-condition edge cases.
+
+For every tool, define:
+
+- an input schema and size limits;
+- authentication context and least-privilege credentials;
+- allowed resources and denied paths;
+- timeout, retry, and idempotency behavior;
+- a preview for consequential actions;
+- user confirmation rules;
+- a structured, redacted audit event;
+- a deterministic stop condition.
+
+Treat retrieved text, webpages, emails, and documents as untrusted data. They can contain instructions designed to manipulate the model.
+
+## 6. Control the agent loop
+
+A safe loop should be bounded by design:
+
+```text
+receive request
+  → classify data and permissions
+  → propose a plan
+  → choose one allowlisted tool
+  → validate arguments
+  → request confirmation when required
+  → execute with timeout
+  → record a redacted result
+  → stop, or continue within a strict step budget
+```
+
+Set limits for steps, wall time, tokens, tool calls, file volume, and retries. The model must not be able to increase its own limits or grant itself new tools.
+
+## 7. Secure the service before sharing it
+
+Minimum controls for any networked deployment include:
+
+- bind only to the intended interface;
+- authenticate users and authorize each tool separately;
+- generate secrets outside source code and fail closed when missing;
+- use TLS across untrusted networks;
+- set request, context, concurrency, and rate limits;
+- keep document stores and vector databases off public ports;
+- redact prompts, documents, credentials, and personal data from logs;
+- separate model execution from privileged tools;
+- scan dependencies and pin container images by version or digest;
+- back up indexes and configuration with tested restore procedures;
+- provide a kill switch and revoke credentials after an incident.
+
+Character blacklists are not a defense against prompt injection. Likewise, a default JWT secret such as `your-secret-key` turns a configuration error into an authentication bypass.
+
+## Docker and GPU notes
+
+A CPU Python base image does not gain CUDA support merely because a Compose file reserves a GPU. Use an inference image documented for the target runtime and driver, or keep Ollama outside the application container and call its restricted local endpoint.
+
+Do not expose an unauthenticated vector database, model API, or development UI. Avoid `latest` image tags in a reproducible deployment. Follow current [Docker installation guidance](https://get.docker.com) and NVIDIA container documentation rather than copying an old `apt-key` or `nvidia-docker2` setup script.
+
+## Operational tests
+
+Before allowing real research data, test:
+
+- service restart during a request;
+- malformed and oversized inputs;
+- prompt injection in retrieved documents;
+- tool arguments that escape the allowlist;
+- missing secrets and expired credentials;
+- unreachable model or vector store;
+- concurrent requests near the resource limit;
+- cancellation and timeout behavior;
+- restoration from backup;
+- model or index rollback.
+
+Record failure outcomes, not only successful demonstrations.
+
+## Reproducibility manifest
+
+```json
+{
+  "runtime": "Ollama",
+  "runtime_version": "<version>",
+  "model": "<model-name>",
+  "model_digest": "<digest>",
+  "prompt_version": "assistant-v1",
+  "embedding_model": "<model-and-revision>",
+  "index_version": "documents-2026-07-16",
+  "tool_policy_version": "read-only-v1",
+  "network_mode": "localhost-only",
+  "evaluation_set": "local-agent-eval-v1"
+}
+```
+
+Store this record with evaluation results and deployment configuration.
+
+## Related App Lab tool
+
+[Multimodal AI Solver](/app/solver) is a browser client for user-supplied AI-provider credentials and multimodal requests. Its [tutorial](/docs/tutorial-apps/ai-solver-tutorial) describes provider, model, browser-permission, screen-capture, and privacy boundaries. It is not a local offline model runtime.
+
+## Final checklist
+
+- [ ] Local assistant works before retrieval or tools are added
+- [ ] Network behavior has been observed and documented
+- [ ] Model and dependency versions are pinned
+- [ ] Retrieval citations are evaluated
+- [ ] Tools are narrow and least-privileged
+- [ ] Consequential actions require confirmation
+- [ ] Agent loop has hard budgets and a stop condition
+- [ ] Secrets fail closed and never use a default value
+- [ ] Logs are redacted and access-controlled
+- [ ] Rollback and kill-switch procedures are tested
+
+*Workflow reviewed: July 2026. Re-check Ollama, container-runtime, and framework documentation before deployment.*

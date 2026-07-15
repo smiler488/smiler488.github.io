@@ -1,220 +1,202 @@
 ---
 slug: academic-paper-publication-guide
-title: Guide for scientific papers 
+title: "From Manuscript to Publication: A Practical Guide for Researchers"
+description: "A concise, publisher-neutral guide to journal selection, manuscript preparation, submission, peer review, publication status, research integrity, and post-publication maintenance."
 authors: [liangchao]
-tags: [research]
+tags: [scientific-writing, reproducible-research, productivity]
 image: /img/write_paper.png
+category: Research practice
+article_type: Reference
 ---
 
-## Project Overview
+Publishing a scientific paper is not a single submission event. It is a documented process that connects a research question, a defensible method, transparent evidence, appropriate journal selection, peer review, and long-term stewardship of the resulting paper, data, and code.
 
-This guide explains the entire process of publishing a scientific paper, from manuscript preparation to final publication, suitable for graduate students and researchers.
+This guide provides a publisher-neutral workflow. Exact status labels, DOI timing, accepted-manuscript policies, and indexing practices vary by journal, so always follow the current instructions for the selected venue.
 
 ![Academic paper workflow illustration](/img/write_paper.png)
 
 <!-- truncate -->
 
-# Academic Paper Publication Workflow
+## Publication workflow
+
+```mermaid
+flowchart LR
+  A[Research record] --> B[Manuscript and artifacts]
+  B --> C[Journal fit check]
+  C --> D[Submission]
+  D --> E[Editorial screening]
+  E --> F[Peer review]
+  F --> G[Revision or decision]
+  G --> H[Acceptance and production]
+  H --> I[Version of record]
+  I --> J[Data, code, corrections, and outreach]
+```
+
+## 1. Define the contribution before choosing a journal
+
+Write one sentence for each item:
+
+- **Problem:** What unresolved question or practical limitation is addressed?
+- **Evidence:** What observations, experiments, simulations, or analyses answer it?
+- **Contribution:** What becomes possible or better understood because of the work?
+- **Boundary:** Where should the conclusion not be generalized?
+
+Choose the paper type that matches the evidence: research article, methods paper, data paper, software paper, brief report, perspective, or review. A new tool without validation is not automatically a methods contribution, and a large dataset without adequate documentation is not automatically reusable.
+
+## 2. Select a journal by fit and trustworthiness
+
+Start with scope and audience rather than a single metric.
+
+| Criterion | Questions to ask |
+| --- | --- |
+| Scope | Has the journal recently published work with a similar question and evidence type? |
+| Audience | Will the intended scientific community find and use the result? |
+| Article format | Does it accept the manuscript, data, software, or methods format? |
+| Review and production | Are typical timelines, editorial policies, and fees transparent? |
+| Access and rights | What are the open-access options, licenses, and self-archiving rules? |
+| Research integrity | Are ethics, corrections, retractions, and data policies clearly stated? |
+| Indexing | Is the journal actually indexed in the databases relevant to the field? |
 
-## 1. Overview of the Publication Process
+Impact Factor can describe a journal-level citation pattern; it does not measure the quality of an individual paper. Avoid journals that guarantee acceptance, imitate another journal's identity, conceal fees, or provide unverifiable editorial information.
+
+## 3. Build a reproducible manuscript package
+
+Most empirical papers use an IMRaD-like structure, but the journal's author guide takes precedence.
+
+| Section | Core job |
+| --- | --- |
+| Introduction | Define the question, gap, and contribution without reviewing every related paper |
+| Materials and Methods | Enable a qualified reader to understand and, where possible, reproduce the work |
+| Results | Report evidence without hiding negative or null findings |
+| Discussion | Interpret results, compare alternatives, and state limitations |
+| Conclusion | Answer the research question without introducing new evidence |
 
-Scientific publishing generally includes seven stages:
+Prepare the manuscript together with its supporting artifacts:
 
-1. Research preparation and identifying innovation
-2. Manuscript writing and formatting
-3. Journal selection and submission
-4. Peer review and revision
-5. Acceptance
-6. Proof and In Press (online-first publication)
-7. Final publication and post-release maintenance
+- figures and tables with units, sample sizes, uncertainty, and accessible labels;
+- data dictionary and analysis-ready data where sharing is permitted;
+- source code, environment information, and an executable workflow;
+- author contributions using a consistent taxonomy such as CRediT;
+- funding, conflicts of interest, ethics approvals, and consent statements;
+- data and code availability statements;
+- reporting checklist required by the field;
+- disclosure of any generative-AI use according to journal policy.
 
----
+Vector formats are useful for diagrams and plots when accepted, while raster images should meet the journal's dimensions, color mode, and resolution requirements. “300 dpi” alone is not a universal rule for every figure type.
 
-## 2. Editorial Workflow Stages
+## 4. Perform a pre-submission audit
 
-| **Status**                | **Editorial Stage (CN)** | **Available Online** | **DOI Assigned** | **Volume/Issue Assigned** | **Citable**          |
-| ------------------------------- | ------------------------------ | -------------------------- | ---------------------- | ------------------------------- | -------------------------- |
-| **Submitted**             | 投稿                           | No                         | No                     | No                              | No                         |
-| **Under Review**          | 审稿中                         | No                         | No                     | No                              | No                         |
-| **Accepted**              | 录用                           | No                         | No                     | No                              | Yes (mark as “accepted”) |
-| **In Press**              | 排版中                         | No                         | Yes                    | No                              | Yes                        |
-| **Online / Early Access** | 在线发表                       | Yes                        | Yes                    | No                              | Yes                        |
-| **Published**             | 出版                           | Yes                        | Yes                    | Yes                             | Yes (final version)        |
+- [ ] Title and abstract match the actual evidence.
+- [ ] Every stated objective is answered in the Results and Discussion.
+- [ ] Sample counts are consistent across text, tables, figures, and supplements.
+- [ ] Statistical units match the experimental design.
+- [ ] Code reproduces the final figures and tables from the archived inputs.
+- [ ] References are complete and checked against primary sources.
+- [ ] All authors approve the manuscript and author order.
+- [ ] Permissions are available for reused material.
+- [ ] The manuscript is not simultaneously submitted elsewhere.
+- [ ] The journal's formatting and policy checklist is complete.
 
-Explanation:
+Reference managers such as Zotero or EndNote can reduce formatting work, but imported metadata still needs human verification.
 
-- "Accepted" means approved after peer review.
-- "In Press" means accepted and assigned a DOI but not yet in a journal issue.
-- "Online/Early Access" means available on the journal website ahead of print.
-- "Published" indicates final pagination and indexing.
+## 5. Submit a complete, consistent record
 
----
+Submission portals differ, but commonly request:
 
-## 3. Research Preparation
+| Item | Purpose |
+| --- | --- |
+| Manuscript | Main scientific narrative |
+| Figures and tables | Separate production-quality files when required |
+| Supplementary material | Extended methods, results, media, or appendices |
+| Cover letter | Journal fit, contribution, and required declarations |
+| Author metadata | Names, affiliations, ORCID IDs, and contribution roles |
+| Suggested or opposed reviewers | Expertise and conflicts, when requested |
+| Data/code statement | Persistent links, access conditions, or justified restrictions |
 
-### 3.1 Define the Core Contribution
+Save the submitted PDF, source files, metadata, cover letter, and manuscript ID together. Check the generated submission PDF before final confirmation; conversion can alter equations, fonts, line breaks, and figure order.
 
-- Identify one clear innovation: a method, instrument, or biological insight.
-- Choose paper type:
-  - Research Article: new findings
-  - Method Paper: new algorithms or tools
-  - Review: literature summary
+## 6. Interpret editorial statuses cautiously
 
-### 3.2 Select a Suitable Journal
+Status names are publisher-specific. The following table describes common patterns, not universal rules.
 
-| Field                               | Example Journals                                                   |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| Crop phenotyping and photosynthesis | Plant Phenomics, Plant Methods                                     |
-| Remote sensing and modeling         | Remote Sensing of Environment, Agricultural and Forest Meteorology |
-| Agronomy and breeding               | Field Crops Research, European Journal of Agronomy                 |
+| Typical status | Usual meaning | Public and citable? |
+| --- | --- | --- |
+| Submitted / With editor | Administrative or editorial assessment | Usually not public; a separate preprint may be citable |
+| Under review | External review is in progress | Usually not public through the journal |
+| Revision requested | Authors may submit a revised version and response | The decision is not acceptance |
+| Accepted | Scientific decision is positive; production may not be complete | Citation format depends on journal and style; a DOI may not yet exist |
+| Article in press / early view | A publisher-hosted version may be available before issue assignment | Often citable by DOI, but terminology varies |
+| Version of record | Final publisher version | Citable using its final DOI and available bibliographic metadata |
 
-Selection criteria:
+Volume, issue, page range, article number, DOI assignment, online publication, and database indexing do not always occur at the same time. Verify the article record instead of inferring its state from one label.
 
-- Impact Factor
-- Review time and acceptance rate
-- Open Access policy
-- Scope and audience fit
+## 7. Respond to reviewers point by point
 
----
+A useful response document is easy to navigate and separates the reviewer's text, the response, and the exact manuscript change.
 
-## 4. Manuscript Writing
+```text
+Reviewer 1, Comment 3
+[Paste the complete comment]
 
-### 4.1 IMRaD Structure
+Response
+Thank you for identifying this ambiguity. We now define the biological
+replicate before the statistical model and have rerun the analysis at the
+plot level.
 
-| Section               | Content                          |
-| --------------------- | -------------------------------- |
-| Introduction          | Background, question, innovation |
-| Materials and Methods | Experiments, data, algorithms    |
-| Results               | Findings and figures             |
-| Discussion            | Interpretation and implications  |
-| Conclusion            | Summary and perspectives         |
+Change in manuscript
+Methods, Section 2.4: “The plot, rather than an individual image, was
+treated as the biological replicate ...”
+```
 
-### 4.2 Writing Tips
+When declining a suggestion, explain the scientific or practical reason and, when possible, add a limitation or alternative analysis. Do not claim a change was made if only the response letter changed.
 
-- Follow journal guidelines precisely.
-- Use English language tools such as Grammarly or Writefull.
-- Manage references with Zotero or EndNote.
-- Prefer vector graphics (SVG, EPS) or 300 dpi images.
+## 8. Check proofs and the version of record
 
----
+During production, verify:
 
-## 5. Submission Process
+- title, author names, affiliations, and corresponding-author details;
+- equations, symbols, units, and special characters;
+- figure resolution, labels, captions, and color interpretation;
+- table rows, footnotes, and supplementary links;
+- funding, ethics, data, and code statements;
+- references and DOI links.
 
-### 5.1 Common Submission Systems
+Proof correction is not normally a second opportunity to redesign the study. If a substantive error is discovered, contact the production editor transparently.
 
-- Elsevier: Editorial Manager or EVISE
-- Springer/Nature: Manuscript Tracking System
-- Wiley, MDPI, Frontiers: proprietary platforms
+## 9. Cite the actual publication state
 
-### 5.2 Files to Prepare
+Use the metadata available for the version being cited and follow the required style. Do not invent a DOI, issue, or year for an accepted manuscript.
 
-| File                   | Description                             |
-| ---------------------- | --------------------------------------- |
-| Main Manuscript        | Full text with references               |
-| Figures/Tables         | Uploaded separately if required         |
-| Cover Letter           | Briefly describe novelty and importance |
-| Supplementary Material | Additional data or methods              |
+An updated APA-style reference for the example paper is:
 
-### 5.3 Workflow
+> Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., & Zhu, X.-G. (2025). Leaf bidirectional reflectance distribution function (BRDF) prediction with phenotypic traits in four species: Development of a novel measuring and analyzing framework. *Plant Phenomics, 7*(4), 100135. https://doi.org/10.1016/j.plaphe.2025.100135
 
-1. Log in to the submission portal
-2. Fill in author and affiliation details
-3. Upload all required files
-4. Select section or topic
-5. Submit and obtain a Manuscript ID
+The DOI is the durable link: [https://doi.org/10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135).
 
----
+## 10. Maintain the research record
 
-## 6. Peer Review
+After publication:
 
-### 6.1 Status Flow
+1. Deposit the permitted manuscript version according to the journal policy.
+2. Update ORCID, institutional profiles, Google Scholar, Web of Science Researcher Profile, and the personal website.
+3. Release data and code at the promised persistent locations.
+4. Create a tagged software release matching the paper.
+5. Monitor repository issues and document known limitations.
+6. Correct material errors promptly through the appropriate journal mechanism.
+7. Preserve the analysis environment and provenance needed to reproduce the figures.
 
-| Status               | Meaning                    |
-| -------------------- | -------------------------- |
-| Submitted            | Awaiting editor decision   |
-| With Editor          | Under editorial check      |
-| Under Review         | Sent to reviewers          |
-| Reviews Completed    | Reviews returned           |
-| Decision in Process  | Editorial decision pending |
-| Major/Minor Revision | Revisions requested        |
-| Accepted             | Approved for publication   |
+## Journal-analysis workbook
 
-### 6.2 Responding to Reviewers
+The accompanying workbook is a personal comparison aid, not an authoritative or permanently current ranking. Journal metrics, fees, scope, and review practices change; verify every decision on the official journal site.
 
-- Prepare a document titled "Response to Reviewers."
-- Reply point-by-point to each comment.
-- Highlight or track all changes.
-- Example:
-  We thank the reviewers for their constructive suggestions. All modifications are highlighted in red in the revised manuscript.
+[Download the journal-analysis workbook (.xlsx)](/files/2025journalanalysis.xlsx)
 
----
+## Final checklist
 
-## 7. Acceptance and Publication
+Define the contribution → select by fit → preserve provenance → write from evidence → submit consistently → respond transparently → verify the record → maintain artifacts.
 
-### 7.1 Acceptance
+**Citation of this guide**
 
-- Once accepted, the paper can be cited as “Accepted” or “in press” in CVs and proposals.
-- A formal acceptance letter is issued.
+Deng, L. (2025). *From manuscript to publication: A practical guide for researchers.* Digital Crop Photosynthesis Phenotyping Platform.
 
-### 7.2 Proof and In Press
-
-- After acceptance, the paper is typeset and assigned a DOI.
-- It is citable even before it appears in a journal issue.
-
-### 7.3 Online / Early Access
-
-- The paper appears on the journal website before pagination.
-- It has a DOI and is considered officially published.
-
-### 7.4 Final Publication
-
-- The paper receives volume, issue, and page numbers.
-- It is indexed in major databases (Web of Science, Scopus).
-
----
-
-## 8. Citation Examples (APA 7th Edition)
-
-| Stage               | Example                                                                                                                                                                                                                                                                                                         |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Accepted (no DOI)   | Deng, L., … (in press).*Leaf Optical Properties Predicted…* *Plant Phenomics.*                                                                                                                                                                                                                            |
-| In Press (with DOI) | Deng, L., … (2025, in press).*Leaf Optical Properties Predicted…* *Plant Phenomics.* https://doi.org/10.1016/j.plaphe.2025.100135                                                                                                                                                                         |
-| Published (final)   | Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., & Zhu, X.-G. (2025).*Leaf Optical Properties Predicted with BRDF and Phenotypic Traits in Four Species: Development of Novel Analysis Tools.* *Plant Phenomics*, 7(3), 100135. https://doi.org/10.1016/j.plaphe.2025.100135 |
-
----
-
-## 9. Post-Publication Maintenance
-
-### 9.1 Update Academic Profiles
-
-- Google Scholar: usually automatic
-- ORCID, ResearchGate, Publons: update manually
-- Personal website: update with latest APA citations
-
-### 9.2 Data and Code Sharing
-
-- Upload data to Zenodo, Figshare, or Dryad
-- Assign a DOI for data citation
-
-### 9.3 Promote Your Work
-
-- Share via LinkedIn, ResearchGate, or institutional news
-- Monitor citations and Altmetric statistics
-
----
-
-## 10. Summary
-
-Publishing a scientific paper is a systematic and transparent process of communicating new research findings.
-Success depends on rigorous methodology, precise writing, and consistent improvement.
-
-Define innovation → Write carefully → Submit strategically → Revise seriously → Cite correctly.
-
-Here I'm sharing the journal analysis I've compiled, hoping it can be helpful to everyone. [**CSV**](/files/2025journalanalysis.xlsx)
-
----
-
-**Citation of this Guide**
-Deng, L. (2025). *Academic Paper Publication Workflow.* Digital Crop Photosynthesis Phenotyping Platform Documentation.
-
----
+*Content reviewed and bibliographic example updated: July 2026.*

@@ -1,97 +1,106 @@
 ---
 slug: macOS-shortcuts
-title: MACOS Shortcuts
+title: macOS Keyboard Shortcuts — A Practical Reference
+description: A compact, safety-aware reference for everyday macOS, Finder, text-editing, browser, screenshot, and recovery shortcuts.
 authors: [liangchao]
-tags: [tip]
+category: Developer tools
+article_type: Reference
+tags: [productivity, reproducible-research]
 image: /img/blog-default.jpg
 ---
 
-## Project Overview
+## At a glance
 
-Below is a categorized list of commonly used macOS shortcuts, combining high-frequency usage scenarios and efficiency improvement techniques:
+These shortcuts cover the actions most useful in research and development work: finding files, navigating text, managing windows, capturing evidence, and recovering from an unresponsive app.
+
+- Shortcuts can vary by app and keyboard layout.
+- On newer keyboards, the **Fn/Globe** key may open the Character Viewer.
+- Recovery shortcuts can discard unsaved work; read their warnings before using them.
 
 <!-- truncate -->
 
+## Modifier-key legend
 
+| Symbol      | Key              |
+| ----------- | ---------------- |
+| `⌘`         | Command          |
+| `⌥`         | Option / Alt     |
+| `⌃`         | Control          |
+| `⇧`         | Shift            |
+| `Fn` / `🌐` | Function / Globe |
 
-### 1. **System-Level Operations**
+## Search, apps, and windows
 
-1. **Quick Search**  
-    `⌘ + Space` – Open Spotlight search for finding files, applications, calculations, etc.  
-    `⌃ + ⌘ + Space` – Open the system emoji panel.
-    
-2. **Window Management**
-    
-    - `⌘ + Tab` – Switch between open applications.
-    - `⌘ + H` – Hide the current window; `⌥ + ⌘ + H` – Hide all other windows.
-3. **Screenshot & Screen Recording**
-    
-    - `⌘ + Shift + 3` – Capture the entire screen.
-    - `⌘ + Shift + 4` – Capture a selected area (press Space to capture a window).
-    - `⌘ + Shift + 5` – Open the advanced screenshot/recording menu.
-4. **Force Operations**
-    
-    - `⌘ + ⌥ + Esc` – Force quit unresponsive applications.
-    - `⌃ + ⌘ + Power button` – Force shutdown.
+- `⌘ Space` — open Spotlight.
+- `⌘ Tab` — switch to the next open app; keep holding Command to choose an app.
+- `⌘ H` — hide all windows of the front app.
+- `⌥ ⌘ H` — hide windows of every app except the front app.
+- `⌘ M` — minimize the front window.
+- `⌘ W` — close the front window or tab.
+- `⌘ Q` — quit the front app.
+- `⌃ ⌘ Q` — lock the screen.
 
----
+## Screenshots and screen recording
 
-### 2. **Files & Finder**
+- `⇧ ⌘ 3` — capture the entire screen.
+- `⇧ ⌘ 4` — capture a selected region; press Space after invoking it to capture a window.
+- `⇧ ⌘ 5` — open screenshot and screen-recording controls.
 
-1. **Basic Operations**
-    
-    - `⌘ + Delete` – Move file to the Trash.
-    - `⌘ + Shift + Delete` – Empty the Trash.
-    - `⌘ + I` – Get file info.
-    - `⌘ + D` – Duplicate selected file.
-2. **Navigation**
-    
-    - `⌘ + ↑` – Go up one folder level.
-    - `⌘ + ↓` – Open selected file or folder.
-    - `⌘ + ⇧ + G` – Go to a specific folder path.
-3. **View & Sorting**
-    
-    - `⌘ + 1` – Icon view.
-    - `⌘ + 2` – List view.
-    - `⌘ + 3` – Column view.
-    - `⌘ + 4` – Gallery view.
+Use `⌃` with a screenshot shortcut when you want to copy the capture to the clipboard instead of saving a file.
 
----
+## Finder
 
-### 3. **Text Editing & Navigation**
+### Files
 
-1. **Selection & Movement**
-    
-    - `⌘ + A` – Select all.
-    - `⌘ + C` – Copy.
-    - `⌘ + X` – Cut.
-    - `⌘ + V` – Paste.
-    - `⌘ + Z` – Undo.
-    - `⌘ + ⇧ + Z` – Redo.
-2. **Text Navigation**
-    
-    - `⌥ + →` – Move cursor one word forward.
-    - `⌥ + ←` – Move cursor one word backward.
-    - `⌘ + →` – Move cursor to the end of the line.
-    - `⌘ + ←` – Move cursor to the beginning of the line.
+- `⌘ Delete` — move selected items to the Trash.
+- `⇧ ⌘ Delete` — empty the Trash after confirmation.
+- `⌘ I` — show information for the selected item.
+- `⌘ D` — duplicate the selected item.
+- `Space` — preview the selected item with Quick Look.
 
----
+### Navigation
 
-### 4. **Browser Shortcuts (Safari/Chrome)**
+- `⌘ ↑` — open the enclosing folder.
+- `⌘ ↓` — open the selected item.
+- `⇧ ⌘ G` — go to a folder by path.
+- `⌘ 1`, `⌘ 2`, `⌘ 3`, `⌘ 4` — switch among icon, list, column, and gallery views.
 
-1. **Tabs & Windows**
-    
-    - `⌘ + T` – Open a new tab.
-    - `⌘ + W` – Close the current tab.
-    - `⌘ + ⇧ + T` – Reopen the last closed tab.
-    - `⌘ + N` – Open a new window.
-2. **Navigation**
-    
-    - `⌘ + L` – Focus the address bar.
-    - `⌘ + R` – Refresh the page.
-    - `⌘ + [` – Go back.
-    - `⌘ + ]` – Go forward.
+## Text editing and navigation
 
----
+These work in most native text fields and many editors:
 
-These shortcuts will help improve efficiency when using macOS in various scenarios.
+- `⌘ A` — select all.
+- `⌘ C`, `⌘ X`, `⌘ V` — copy, cut, and paste.
+- `⌘ Z` — undo.
+- `⇧ ⌘ Z` — redo in apps that follow the standard convention.
+- `⌥ ←` / `⌥ →` — move one word backward or forward.
+- `⌘ ←` / `⌘ →` — move to the beginning or end of the current line.
+- `Fn Delete` — forward delete on compact keyboards.
+
+## Safari and Chrome
+
+- `⌘ T` — open a new tab.
+- `⌘ W` — close the current tab.
+- `⇧ ⌘ T` — reopen the most recently closed tab.
+- `⌘ L` — focus the address bar.
+- `⌘ R` — reload the page.
+- `⌘ [` / `⌘ ]` — go backward or forward in tab history.
+
+Browser extensions and web apps may override some shortcuts.
+
+## Recovery and power controls
+
+:::warning Save work first
+The following actions can close apps or discard unsaved changes. Use them only when the normal app or Apple menu controls do not work.
+:::
+
+- `⌥ ⌘ Esc` — open Force Quit Applications.
+- Press and hold the power button — force the Mac to turn off when it is unresponsive.
+- `⌃ ⌘ Power` — on supported built-in keyboards without Touch ID, force a restart without prompting to save open documents.
+- `⌃ ⌥ ⌘ Power` — on supported built-in keyboards without Touch ID, ask apps to quit and then shut down; apps with unsaved documents may prompt first.
+
+Power-key behavior differs across Touch ID keyboards, external keyboards, and macOS versions. Prefer **Apple menu → Shut Down** or **Restart** whenever the system still responds.
+
+## Official reference
+
+Apple maintains the authoritative and most current list at [Mac keyboard shortcuts](https://support.apple.com/en-us/102650).
