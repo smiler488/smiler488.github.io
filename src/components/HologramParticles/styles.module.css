@@ -83,105 +83,98 @@
   left: 0;
   z-index: 4;
   display: block;
-  width: 76px;
-  height: 42px;
+  width: 88px;
+  height: 88px;
   overflow: hidden;
-  background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.42),
-      rgba(148, 163, 184, 0.14)
+  background: radial-gradient(
+      circle at 32% 26%,
+      rgba(255, 255, 255, 0.34),
+      transparent 46%
     ),
-    rgba(15, 23, 42, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.58);
-  border-radius: 15px;
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -1px 0 rgba(15, 23, 42, 0.1);
+    rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -10px 22px rgba(148, 163, 184, 0.14);
   opacity: 0;
   pointer-events: none;
   transform: translate3d(var(--interaction-x), var(--interaction-y), 0)
-    translate(-50%, -50%) rotate(-7deg) scale(0.82);
-  transition: width 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 180ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 180ms ease,
-    background 180ms ease, box-shadow 180ms ease, opacity 130ms ease,
+    translate(-50%, -50%) scale(0.82);
+  transition: width 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 200ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease,
+    border-color 200ms ease, box-shadow 200ms ease, opacity 140ms ease,
     transform 70ms linear;
-  -webkit-backdrop-filter: blur(18px) saturate(170%);
-  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(10px) saturate(165%);
+  backdrop-filter: blur(10px) saturate(165%);
   will-change: transform;
 }
 
 .interactionIndicator::before {
   position: absolute;
-  inset: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: inherit;
+  inset: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
   content: "";
 }
 
 .interactionIndicator::after {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 22px;
-  height: 100%;
+  top: 12%;
+  left: 18%;
+  width: 34%;
+  height: 22%;
   background: linear-gradient(
-    180deg,
-    rgba(96, 165, 250, 0.62),
-    rgba(124, 58, 237, 0.5)
+    120deg,
+    rgba(255, 255, 255, 0.62),
+    rgba(255, 255, 255, 0)
   );
-  border-left: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
   content: "";
+  transform: rotate(-24deg);
 }
 
 .interactionIndicator[data-visible="true"] {
-  opacity: 0.94;
+  opacity: 1;
   transform: translate3d(var(--interaction-x), var(--interaction-y), 0)
-    translate(-50%, -50%) rotate(-7deg) scale(1);
+    translate(-50%, -50%) scale(1);
 }
 
 .interactionIndicator[data-mode="closed"] {
   width: 62px;
   height: 62px;
   background: radial-gradient(
-      circle at 38% 30%,
-      rgba(255, 255, 255, 0.5),
-      transparent 35%
+      circle at 32% 26%,
+      rgba(255, 255, 255, 0.4),
+      transparent 44%
     ),
-    linear-gradient(145deg, rgba(124, 58, 237, 0.54), rgba(37, 99, 235, 0.4));
-  border-color: rgba(221, 214, 254, 0.72);
-  border-radius: 50%;
-  box-shadow: 0 0 0 10px rgba(139, 92, 246, 0.08),
-    0 20px 52px rgba(76, 29, 149, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+    rgba(139, 92, 246, 0.14);
+  border-color: rgba(221, 214, 254, 0.75);
+  box-shadow: 0 0 0 10px rgba(139, 92, 246, 0.07),
+    0 16px 44px rgba(76, 29, 149, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -8px 18px rgba(139, 92, 246, 0.16);
 }
 
-.interactionIndicator[data-mode="closed"]::after {
-  top: 50%;
-  right: auto;
-  left: 50%;
-  width: 34px;
-  height: 34px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+.interactionIndicator[data-mode="closed"]::before {
+  inset: 4px;
+  border-color: rgba(221, 214, 254, 0.45);
 }
 
 .indicatorGrip {
   position: absolute;
-  top: 10px;
-  left: 12px;
-  width: 25px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.52);
-  border-radius: 999px;
-  box-shadow: 0 6px 0 rgba(255, 255, 255, 0.24);
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.16);
+  transform: translate(-50%, -50%);
 }
 
 [data-mode="closed"] .indicatorGrip {
-  top: 13px;
-  left: 50%;
-  width: 14px;
-  transform: translateX(-50%);
+  background: rgba(221, 214, 254, 0.9);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.22);
 }
 
 .controlDock {
@@ -431,6 +424,29 @@
   background: rgba(139, 92, 246, 0.28);
 }
 
+:global(html[data-theme="dark"]) .interactionIndicator {
+  background: radial-gradient(
+      circle at 32% 26%,
+      rgba(255, 255, 255, 0.16),
+      transparent 46%
+    ),
+    rgba(148, 163, 184, 0.07);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -10px 22px rgba(30, 41, 59, 0.4);
+}
+
+:global(html[data-theme="dark"]) .interactionIndicator[data-mode="closed"] {
+  background: radial-gradient(
+      circle at 32% 26%,
+      rgba(255, 255, 255, 0.18),
+      transparent 44%
+    ),
+    rgba(139, 92, 246, 0.18);
+  border-color: rgba(196, 181, 253, 0.5);
+}
+
 @supports not (backdrop-filter: blur(2px)) {
   .controlDock,
   .pointerHint {
@@ -438,7 +454,7 @@
   }
 
   .interactionIndicator {
-    background: rgba(51, 65, 85, 0.92);
+    background: rgba(203, 213, 225, 0.45);
   }
 }
 
@@ -488,8 +504,8 @@
   }
 
   .interactionIndicator {
-    width: 70px;
-    height: 40px;
+    width: 64px;
+    height: 64px;
   }
 }
 

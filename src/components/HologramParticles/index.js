@@ -28,10 +28,22 @@ const FRICTION = 0.9;
 const EASE = 0.035;
 const RADIUS_ATTRACT = 230;
 const RADIUS_REPEL = 145;
+const LOCAL_WASM_URL = "/mediapipe/wasm";
+const LOCAL_MODEL_URL = "/mediapipe/hand_landmarker.task";
 const CAMERA_WASM_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm";
 const CAMERA_MODEL_URL =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
+
+async function resolveAsset(localUrl, remoteUrl) {
+  try {
+    const response = await fetch(localUrl, { method: "HEAD" });
+    if (response.ok) return localUrl;
+  } catch {
+    // Fall through to the CDN copy when the self-hosted asset is missing.
+  }
+  return remoteUrl;
+}
 
 function distance(a, b) {
   return Math.hypot(a.x - b.x, a.y - b.y);
@@ -136,8 +148,8 @@ export default function HologramParticles({
 
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const horizontalInset = Math.min(interaction.isClosed ? 34 : 58, width / 2);
-    const verticalInset = Math.min(interaction.isClosed ? 34 : 26, height / 2);
+    const horizontalInset = Math.min(interaction.isClosed ? 34 : 48, width / 2);
+    const verticalInset = Math.min(interaction.isClosed ? 34 : 48, height / 2);
     const x = Math.min(
       Math.max(interaction.x, horizontalInset),
       width - horizontalInset
@@ -233,14 +245,18 @@ export default function HologramParticles({
         const visionModule = await import("@mediapipe/tasks-vision");
         if (session !== cameraSessionRef.current || !mountedRef.current) return;
 
+        const wasmUrl = await resolveAsset(LOCAL_WASM_URL, CAMERA_WASM_URL);
+        const modelUrl = await resolveAsset(LOCAL_MODEL_URL, CAMERA_MODEL_URL);
+        if (session !== cameraSessionRef.current || !mountedRef.current) return;
+
         const vision = await visionModule.FilesetResolver.forVisionTasks(
-          CAMERA_WASM_URL
+          wasmUrl
         );
         if (session !== cameraSessionRef.current || !mountedRef.current) return;
 
         const options = {
           baseOptions: {
-            modelAssetPath: CAMERA_MODEL_URL,
+            modelAssetPath: modelUrl,
             delegate: "GPU",
           },
           runningMode: "VIDEO",
@@ -671,6 +687,22 @@ export default function HologramParticles({
         }
       }
 
+      // 云团像一阵风：路过文字时把文字粒子轻轻推开并带起旋涡
+      if (particle.group === "text" && cloudState.width) {
+        const cloudDx = particle.x - cloudState.x;
+        const cloudDy = particle.y - cloudState.y;
+        const cloudRadius = cloudState.width * 0.95;
+        const cloudDistance = Math.hypot(cloudDx, cloudDy);
+        if (cloudDistance < cloudRadius && cloudDistance > 0.001) {
+          const wind =
+            (1 - cloudDistance / cloudRadius) * (0.34 + particle.z * 0.4);
+          particle.vx += (cloudDx / cloudDistance) * wind;
+          particle.vy += (cloudDy / cloudDistance) * wind * 0.82;
+          particle.vx += (-cloudDy / cloudDistance) * wind * 0.3;
+          particle.vy += (cloudDx / cloudDistance) * wind * 0.3;
+        }
+      }
+
       const ease = particle.group === "cloud" ? 0.045 : EASE;
       particle.vx += (homeX - particle.x) * ease;
       particle.vy += (homeY - particle.y) * ease;
@@ -759,18 +791,78 @@ export default function HologramParticles({
       if (!sampleContext) return;
 
       const displayText = text || "SMILER488";
-      let fontSize = Math.min(canvasWidth * 0.18, 220);
-      sampleContext.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
-      const maxTextWidth = canvasWidth * 0.86;
-      const measuredWidth = sampleContext.measureText(displayText).width;
-      if (measuredWidth > maxTextWidth)
-        fontSize *= maxTextWidth / measuredWidth;
+      const setFont = (size) => {
+        sampleContext.font = `800 ${size}px "SF Pro Display", "Inter", system-ui, sans-serif`;
+      };
 
-      sampleContext.font = `800 ${fontSize}px "SF Pro Display", "Inter", system-ui, sans-serif`;
+      // 让文字避开 hero 卡片等障碍物：在文字水平带内找最宽的空闲区间
+      const layoutText = () => {
+        const obstacles = getObstacleRects();
+        const fontCap = Math.min(canvasWidth * 0.18, 220);
+        setFont(100);
+        const widthPerFontPx =
+          sampleContext.measureText(displayText).width / 100;
+
+        const findWidestGap = (bandTop, bandBottom) => {
+          const margin = 30;
+          const blockers = obstacles
+            .filter((rect) => rect.bottom > bandTop && rect.top < bandBottom)
+            .map((rect) => [rect.left - margin, rect.right + margin])
+            .sort((a, b) => a[0] - b[0]);
+          let cursor = 0;
+          let best = null;
+          const consider = (start, end) => {
+            if (end - start > (best ? best[1] - best[0] : 0))
+              best = [start, end];
+          };
+          blockers.forEach(([start, end]) => {
+            if (start > cursor) consider(cursor, Math.min(start, canvasWidth));
+            cursor = Math.max(cursor, end);
+          });
+          if (cursor < canvasWidth) consider(cursor, canvasWidth);
+          return best || [0, canvasWidth];
+        };
+
+        // 在若干候选高度上扫描，选出能容纳最大字号的空闲区间
+        const preferredY = canvasHeight * 0.29;
+        let best = null;
+        for (let ratio = 0.16; ratio <= 0.62; ratio += 0.03) {
+          const candidateY = canvasHeight * ratio;
+          // 先用一个粗略字号估计文字带的厚度，再用区间宽度收敛
+          let size = fontCap;
+          for (let pass = 0; pass < 2; pass += 1) {
+            const band = findWidestGap(
+              candidateY - size * 0.55,
+              candidateY + size * 0.55
+            );
+            size = Math.min(
+              fontCap,
+              ((band[1] - band[0]) * 0.92) / widthPerFontPx
+            );
+          }
+          const band = findWidestGap(
+            candidateY - size * 0.55,
+            candidateY + size * 0.55
+          );
+          const score =
+            size -
+            (Math.abs(candidateY - preferredY) / canvasHeight) * fontCap * 0.35;
+          if (!best || score > best.score) {
+            best = { score, fontSize: size, band, textY: candidateY };
+          }
+        }
+
+        const fontSize = Math.max(best.fontSize, 26);
+        const centerX = (best.band[0] + best.band[1]) / 2;
+        return { fontSize, centerX, textY: best.textY };
+      };
+
+      const { fontSize, centerX, textY } = layoutText();
+      setFont(fontSize);
       sampleContext.fillStyle = "#ffffff";
       sampleContext.textAlign = "center";
       sampleContext.textBaseline = "middle";
-      sampleContext.fillText(displayText, canvasWidth / 2, canvasHeight * 0.29);
+      sampleContext.fillText(displayText, centerX, textY);
 
       const imageData = sampleContext.getImageData(
         0,
