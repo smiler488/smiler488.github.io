@@ -1,11 +1,13 @@
 # Curriculum Vitae
 
 ## Liangchao Deng (邓良超)
-**Ph.D. Candidate in Crop Science**
-Shihezi University, China
-Joint Ph.D. Trainee, CAS Center for Excellence in Molecular Plant Sciences (CEMPS)
+**Postdoctoral Researcher**
+Shenzhen Institute of China Agricultural University, Shenzhen, China
+Appointment: 1 August 2026 – 31 July 2029
+Ph.D. in Crop Science, Shihezi University (awarded 2026)
 
-- Email: liangchaodeng@stu.shzu.edu.cn
+- Business Inquiries: dengliangchao@smiler488.com
+- Assistant Email: smiler488@agent.qq.com
 - ORCID: https://orcid.org/0000-0002-5194-0655
 - GitHub: https://github.com/smiler488
 - Personal Website: https://smiler488.github.io/ (for more details)
@@ -21,9 +23,18 @@ Joint Ph.D. Trainee, CAS Center for Excellence in Molecular Plant Sciences (CEMP
 
 ---
 
+## Professional Appointment
+
+### Postdoctoral Researcher, 1 August 2026 – 31 July 2029
+**Shenzhen Institute of China Agricultural University, Shenzhen, China**
+
+- Postdoctoral research at the Shenzhen Institute of China Agricultural University.
+
+---
+
 ## Education
 
-### Ph.D. in Crop Science (Integrated Master-Ph.D., 2021 – Expected June 2026)
+### Ph.D. in Crop Science (Integrated Master-Ph.D., 2021 – 2026)
 **Shihezi University, China**
 Supervisors: Prof. Yali Zhang (Shihezi University); Dr. Qingfeng Song (CEMPS, CAS); Prof. Xin-Guang Zhu (CEMPS, CAS)
 
@@ -131,4 +142,4 @@ Supervisors: Prof. Yali Zhang (Shihezi University); Dr. Qingfeng Song (CEMPS, CA
 
 ---
 
-*Last updated: January 2026*
+*Last updated: July 2026*
