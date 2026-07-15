@@ -929,57 +929,120 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   background: rgba(2, 6, 23, 0.65);
 }
 
-/* 文档侧边栏 */
+/* 文档侧边栏 — 与全站毛玻璃语言一致 */
 .theme-doc-sidebar-container {
-  background: var(--doc-sidebar-background);
-  border-right: 1px solid var(--doc-sidebar-border);
-  box-shadow: var(--ifm-global-shadow-lw);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--glass-bg) 62%, transparent);
+  border-right: 1px solid var(--glass-border);
+  box-shadow: none;
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .theme-doc-sidebar-menu {
-  padding: 1rem 0.75rem;
+  padding: 1.35rem 0.9rem 1rem;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .theme-doc-sidebar-menu .menu__link {
-  color: var(--doc-sidebar-link-color);
-  border-radius: 8px;
+  padding: 0.46rem 0.75rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 12px;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-html[data-theme='dark'] .theme-doc-sidebar-menu .menu__link {
-  color: var(--doc-sidebar-link-color);
-}
-
-.theme-doc-sidebar-menu .menu__link:hover,
-.theme-doc-sidebar-menu .menu__link--active,
-.theme-doc-sidebar-menu .menu__link--sublist {
-  background: var(--doc-sidebar-active-bg);
+.theme-doc-sidebar-menu .menu__link:hover {
   color: var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
 }
 
-.theme-doc-sidebar-menu .menu__link--active {
+.theme-doc-sidebar-menu .menu__link--active:not(.menu__link--sublist) {
+  color: var(--ifm-color-primary);
   font-weight: 600;
+  background: color-mix(in srgb, var(--ifm-color-primary) 11%, transparent);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
+}
+
+/* 顶级分类：眉题式小标签，替代灰色块 */
+.theme-doc-sidebar-menu
+  > .menu__list-item
+  > .menu__list-item-collapsible
+  > .menu__link--sublist,
+.theme-doc-sidebar-menu > .menu__list-item > .menu__link {
+  margin-bottom: 0.2rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+}
+
+.theme-doc-sidebar-menu
+  > .menu__list-item
+  > .menu__list-item-collapsible:hover
+  > .menu__link--sublist,
+.theme-doc-sidebar-menu > .menu__list-item > .menu__link:hover {
+  color: var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+}
+
+/* 顶级分类之间留出呼吸空间 */
+.theme-doc-sidebar-menu > .menu__list-item {
+  margin-top: 0.35rem;
+}
+
+.theme-doc-sidebar-menu > .menu__list-item:first-child {
+  margin-top: 0;
+}
+
+/* 嵌套列表：缩进导览线 */
+.theme-doc-sidebar-menu .menu__list {
+  margin-left: 0.85rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--glass-border);
 }
 
 /* Caret / collapse arrow contrast */
 .theme-doc-sidebar-menu .menu__caret {
-  color: var(--doc-sidebar-link-color);
-  opacity: 0.9;
+  color: var(--ifm-color-emphasis-500);
+  border-radius: 10px;
 }
 
-html[data-theme='dark'] .theme-doc-sidebar-menu .menu__caret {
-  color: var(--doc-sidebar-link-color);
-  opacity: 0.8;
+.theme-doc-sidebar-menu .menu__caret::before,
+.theme-doc-sidebar-menu .menu__link--sublist-caret::after {
+  background-size: 1.35rem 1.35rem;
+  opacity: 0.65;
+}
+
+.theme-doc-sidebar-menu .menu__caret:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
 }
 
 .theme-doc-sidebar-menu .menu__link:hover .menu__caret,
 .theme-doc-sidebar-menu .menu__list-item--collapsed .menu__caret,
 .navbar-sidebar .menu__link:hover .menu__caret {
   color: var(--ifm-color-primary);
+}
+
+/* 底部“收起侧栏”按钮 */
+.theme-doc-sidebar-container [class*="collapseSidebarButton"] {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  border-radius: 0;
+}
+
+.theme-doc-sidebar-container [class*="collapseSidebarButton"]:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
+}
+
+html[data-theme="dark"] .theme-doc-sidebar-container {
+  background: color-mix(in srgb, var(--glass-bg) 55%, transparent);
 }
 
 /* Scrollbar global styling */
