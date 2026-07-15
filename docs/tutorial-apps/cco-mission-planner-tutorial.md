@@ -1,191 +1,113 @@
-# CCO Mission Planner Tutorial
+---
+title: CCO Waylines Builder
+description: Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings.
+sidebar_label: CCO Mission Planner
+sidebar_position: 5
+hide_title: true
+keywords:
+  - drone
+  - uav
+  - cco
+  - kml
+  - kmz
+  - wayline
+app_route: /app/cco
+app_icon: UAV
+app_category: Field planning
+app_runtime: Local route generation
+app_tone: orange
+app_badges:
+  - KML / KMZ
+  - Route preview
+  - DJI waylines
+---
 
-## Overview
+## What it does
 
-The CCO (Cross-Circular Orbit) Mission Planner is a specialized tool for generating optimized drone mission routes for agricultural and environmental monitoring applications. This system creates compressed folders containing waylines, KML files, and mission parameters specifically designed for cross-oblique orbit photography.
+CCO Waylines Builder reads a KML polygon, places a rotated grid of circular route centres around it, builds a snake-ordered sequence of camera-facing waypoints and exports KML, WPML and, when JSZip is available, KMZ files. It can also read drone and payload enum values from an existing DJI KMZ.
 
-## Key Features
+:::caution Flight-planning preview
+Validate route geometry, altitude interpretation, device enums, payload actions, obstacles, airspace and local flight rules in DJI software before operating an aircraft.
+:::
 
-- **KML Polygon Processing**: Upload target area KML files for route generation
-- **Cross-Oblique Orbit Optimization**: Advanced algorithm for optimal camera coverage
-- **Snake Stitching Support**: Automatic route stitching for continuous coverage
-- **Grid Rotation**: Flexible orientation adjustment for different field layouts
-- **Multi-part Downloads**: Large area segmentation with automatic part management
-- **DJI Drone Compatibility**: Support for various DJI drone and payload configurations
+## Before you start
 
-## Quick Start
+- Prepare a `.kml` file whose first usable geometry is the target polygon. KML input is limited to 5 MB and 10,000 vertices.
+- Use geographic longitude/latitude coordinates appropriate for KML.
+- Obtain the correct DJI drone and payload enum values, or prepare a DJI `.kmz` of no more than 25 MB from which to read them.
+- Keep the route small enough for the browser and the intended aircraft workflow. The app limits grid centres to 15,000 and estimated route points to 120,000.
+- Network access is required to load JSZip from its CDN for KMZ import and export.
 
-### 1. Access the Application
+## Quick workflow
 
-Visit in your browser: `/app/cco`
+1. Under **Target Area**, choose a polygon KML file.
+2. Configure **Coverage Parameters**, especially **Circle radius (m)**, **Pts/circle**, **Overlap (0~0.9)** and **Grid bearing (°)**.
+3. Configure **Flight & Camera** and verify **Drone & Payload (Optional)** values. Optionally upload a DJI KMZ and select **Parse Drone & Payload**.
+4. Select **Preview** and inspect the field boundary, centres and route in **Live Preview**.
+5. Adjust parameters and select **Preview** again until the route is suitable for validation.
+6. Select **Generate files**, then download `template.kml`, `waylines.wpml`, `cco_full.kmz` or any generated split parts.
 
-### 2. Hardware Requirements
+## Controls & outputs
 
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with JavaScript support
-- **KML File**: Target area defined as a single polygon in KML format
-- **Internet Connection**: Required for initial page load and script execution
+| Group                                             | Inputs or outputs                                                                                   |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Target Area**                                   | One `.kml` upload, maximum 5 MB. The parser uses the first matching polygon coordinate element.     |
+| **Circle radius / Pts/circle**                    | Sets each sampled ring radius and waypoint count (`3–360`).                                         |
+| **Overlap (0~0.9)**                               | Controls automatic centre spacing, not photographic forward or side overlap.                        |
+| **Center step**                                   | Uses the entered metre spacing; `0` selects the automatic formula.                                  |
+| **Padding / Grid bearing / Start bearing**        | Expands the working bounds, rotates the centre grid and rotates the first point on every ring.      |
+| **Center mode**                                   | Uses polygon centroid or bounding-box centre as the local grid origin.                              |
+| **Clip inside**                                   | Keeps only generated ring waypoints that fall inside the polygon.                                   |
+| **Prune outside centers**                         | When clipping is off, removes a centre if none of its sampled ring points falls inside the polygon. |
+| **Altitude / Speed / Gimbal pitch / File suffix** | Writes fixed mission and per-waypoint values into the generated XML.                                |
+| **Drone & Payload**                               | Accepts numeric DJI enums; the app does not identify a model name from them.                        |
+| **Max points / part**                             | Splits output when the route exceeds this value; `0` disables splitting.                            |
+| **Live Preview**                                  | Shows the polygon, retained centres, waypoint path, start and end markers.                          |
 
-## Detailed Usage Steps
+## How it works
 
-### Step 1: Prepare Target Area KML
+1. The parser reads the first matching KML coordinate element, removes a duplicate closing vertex and validates basic numeric coordinates and limits.
+2. A local metres-per-degree approximation is built near the selected polygon centre.
+3. Centre points are generated across the padded bounds, rotated by **Grid bearing** and ordered in alternating rows.
+4. With **Center step** set to `0`, spacing is:
 
-1. **Create KML File**
-   - Define your target area as a single polygon in KML format
-   - Ensure polygon boundaries are properly closed
-   - Use geographic coordinates (WGS84) for accurate positioning
+   ```text
+   max(2 × circle radius × (1 − overlap), 1 metre)
+   ```
 
-2. **Download Template** (Optional)
-   - Use the "Download template.kml" link for reference structure
-   - Template provides proper KML formatting guidelines
+5. Each retained centre produces a ring of waypoints. Adjacent rings reverse direction, and the next ring is rotated to begin near the preceding endpoint. Waypoint headings face the ring centre.
+6. **Generate files** writes a take-photo action at each waypoint and creates `template.kml`, `waylines.wpml` and a `wpmz/` KMZ package when JSZip is available.
+7. If the route exceeds **Max points / part**, the point list is divided into sequential KML/WPML parts with optional KMZ downloads.
 
-### Step 2: Upload KML File
+DJI KMZ import searches, in order, for `waylines.wpml`, `wpmz/waylines.wpml`, `template.kml`, `wpmz/template.kml`, `doc.kml`, then any WPML or KML file. Missing enum fields fall back to the app defaults and must still be verified.
 
-1. **Select KML File**
-   - Click "Choose File" button in the upload section
-   - Select your prepared KML file from local storage
-   - System validates file format and polygon structure
+## Data, privacy & external services
 
-2. **Parameter Configuration**
-   - **Flight Altitude**: Set optimal flight height for your camera system
-   - **Grid Rotation**: Adjust route orientation to match field layout
-   - **Overlap Percentage**: Configure image overlap for stitching
-- **Drone Model**: Select appropriate DJI drone configuration
-- **Camera Settings**: Configure camera parameters for optimal coverage
+KML/KMZ reading, geometry generation, preview and file construction run in the browser; uploaded route files are not sent to a route-generation server. Temporary download URLs are revoked when replaced or when the page is cleaned up.
 
-### Import from DJI KMZ
+JSZip is loaded from jsDelivr. If it is unavailable, plain KML and WPML generation can still work, but KMZ parsing and KMZ packaging are unavailable.
 
-This feature lets you import a DJI-exported route in `.kmz` format and automatically populate device enums required by the Drone & Payload module.
+## Limitations
 
-1. Upload DJI KMZ
-   - In the app, open the "Import from DJI KMZ" section
-   - Click to select a `.kmz` file exported from DJI software
-
-2. Parse Drone & Payload
-   - Click "Parse Drone & Payload" to automatically read the following values:
-   - `droneEnum`, `droneSubEnum`, `payloadEnum`, `payloadSubEnum`, `payloadPositionIndex`
-
-3. Auto-fill and Verify
-   - The five inputs in the Drone & Payload panel will be auto-filled
-   - The status bar shows the parsed values and any errors if encountered
-
-Notes
-- KMZ parsing priority: `waylines.wpml` → `wpmz/waylines.wpml` → `template.kml` → `wpmz/template.kml` → `doc.kml` → any `.wpml/.kml`
-- Missing fields fall back to safe defaults to keep workflow unblocked
-- KMZ import focuses on device parameters; upload a KML Polygon separately for target area geometry
-
-### Step 3: Route Generation
-
-1. **Preview Generation**
-   - Click "Generate Preview" to visualize the proposed route
-   - System calculates optimal cross-oblique orbit pattern
-   - Preview shows waypoints, camera positions, and coverage area
-
-2. **Route Optimization**
-   - **Snake Stitching**: Automatic optimization for continuous coverage
-   - **Grid Rotation**: Adjust orientation for wind conditions or field shape
-   - **Step Optimization**: Automatic calculation of optimal waypoint spacing
-
-### Step 4: Mission Export
-
-1. **Download Mission Files**
-   - **Waylines.wpml**: Mission waypoints in WPML format
-   - **CCO_Full.kmz**: Complete mission package in KMZ format
-   - **Template.kml**: Reference file for future missions
-
-2. **Multi-part Management**
-   - For large areas, system automatically segments into manageable parts
-   - Each part contains complete mission parameters
-   - Download individual parts or complete mission package
-
-## Technical Specifications
-
-### Supported Input Formats
-- **KML**: Keyhole Markup Language with single polygon definition
-- **KMZ**: Compressed KML files for easier handling
-
-### Output Formats
-- **WPML**: Waypoint Markup Language for drone mission control
-- **KMZ**: Compressed mission package with all necessary files
-- **KML**: Reference files for visualization in mapping software
-
-### Mission Parameters
-- **Flight Altitude Range**: 5-10 meters (configurable)
-- **Image Overlap**: 60-80% (recommended for stitching)
-- **Grid Rotation**: 0-360 degrees (full rotation capability)
-- **Waypoint Spacing**: Automatic optimization based on camera parameters
-
-### Drone Compatibility
-- **DJI Matrice Series**: M300 RTK, M350 RTK...
-- **DJI Phantom Series**: Phantom 4 RTK, Phantom 4 Pro...
-- **DJI Mavic Series**: Mavic 3 Enterprise, Mavic 2 Enterprise...
-- **Custom Configurations**: Support for user-defined drone parameters
-
-## Best Practices
-
-### Mission Planning
-1. **Area Assessment**
-   - Survey target area for obstacles and terrain variations
-   - Consider wind conditions and flight regulations
-   - Plan for battery life and mission duration
-
-2. **Camera Configuration**
-   - Set appropriate ISO, shutter speed, and aperture
-   - Configure camera angle for optimal oblique coverage
-   - Test camera settings in similar conditions
-
-### Data Management
-1. **File Organization**
-   - Use descriptive naming conventions for mission files
-   - Maintain version control for mission parameters
-   - Archive previous missions for reference
-
-2. **Quality Control**
-   - Verify mission parameters before execution
-   - Test mission in simulation mode if available
-   - Document any modifications to standard parameters
+- The route is a deterministic local-grid heuristic, not an optimiser for image overlap, GSD, battery, time, terrain or wind.
+- The app does not configure sensor size, focal length, ISO, shutter speed or aperture.
+- It does not check obstacles, elevation models, geofences, airspace, take-off position, radio link, battery changes or return paths.
+- The local longitude/latitude approximation is unsuitable for very large areas, high latitudes or polygons crossing the date line.
+- MultiPolygon geometry, holes and full KML schema semantics are not supported.
+- “DJI-compatible” output still depends on the target software, aircraft, firmware, enum values and payload configuration.
+- Splitting creates sequential files but does not add safe transit, take-off or landing logic between parts.
 
 ## Troubleshooting
 
-### Common Issues
+| Problem                                      | What to check                                                                                                             |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| KML is rejected                              | Confirm the file is valid XML, under 5 MB and contains a polygon coordinate element with at least three numeric vertices. |
+| Preview reports too many centres or points   | Increase **Center step**, reduce **Padding**, reduce **Pts/circle** or use a smaller target area.                         |
+| Preview has no route points                  | Recheck **Clip inside**, **Prune outside centers**, radius, spacing and polygon geometry.                                 |
+| **Generate files** asks for a preview        | Select **Preview** after the latest KML or coverage-parameter change.                                                     |
+| KMZ parsing fails                            | Confirm the file is under 25 MB, contains KML/WPML and that the JSZip CDN loaded. Enter enum values manually if needed.   |
+| Generated files are rejected by DJI software | Verify device enums, altitude, speed, payload position, WPML expectations and route size in the target DJI version.       |
 
-**1. KML File Rejection**
-- Ensure file contains exactly one polygon
-- Verify coordinate system is WGS84
-- Check for proper polygon closure
+[Open CCO Waylines Builder](/app/cco)
 
-**2. Route Generation Failure**
-- Verify polygon size is within operational limits
-- Check parameter values are within valid ranges
-- Ensure sufficient system memory for large areas
-
-**3. Download Issues**
-- Check browser download permissions
-- Verify sufficient storage space
-- Try alternative download method if available
-
-### Performance Optimization
-
-**For Large Areas**
-- Use multi-part segmentation for flignt points > 300
-- Increase system memory allocation if available
-- Consider processing during low system usage periods
-
-**For Complex Terrain**
-- Use higher flight altitudes for varied terrain
-- Increase overlap percentage for better stitching
-- Consider additional waypoints for elevation changes
-
-## Technical Support
-
-If you encounter technical issues:
-
-1. Check browser console for error messages
-2. Verify KML file structure meets requirements
-3. Ensure system meets minimum requirements
-4. Contact support with specific error details
-
----
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to CCO Mission Planner v1.0*
-*Optimized for agricultural and environmental monitoring applications*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/cco">App</a></div>
+[Browse all apps](/app)

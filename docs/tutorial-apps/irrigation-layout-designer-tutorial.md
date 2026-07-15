@@ -1,92 +1,119 @@
-# Irrigation Layout Designer Tutorial
+---
+title: Irrigation Layout Designer
+description: Explore drip-line layouts, hydraulic constraints and pressure-loss estimates in an interactive preliminary design workspace.
+sidebar_label: Irrigation Designer
+sidebar_position: 3
+hide_title: true
+keywords:
+  - irrigation
+  - hydraulic
+  - drip
+  - pressure
+  - layout
+app_route: /app/irrigation-designer
+app_icon: H₂O
+app_category: Field planning
+app_runtime: Local browser calculation
+app_tone: cyan
+app_badges:
+  - Hydraulics
+  - Scaled SVG
+  - Local calculation
+---
 
-## Overview
+## What it does
 
-The Irrigation Layout Designer builds a practical “mainline–submains–drip laterals” plan for field blocks. It draws a scaled SVG layout from your field dimensions, orientation, slope, and network parameters, and estimates hydraulics using the Hazen–Williams approach. You get instant feedback on flow, velocities, head losses, available pressure at laterals, and a rough CU (Christiansen Uniformity) estimate, plus warnings when constraints are exceeded. The SVG can be exported for reports or handover packages.
+Irrigation Layout Designer is an interactive screening workspace for a rectangular drip-irrigation block. It draws a scaled SVG schematic and estimates simultaneous flow, mainline and submain velocity, Hazen–Williams head loss, pressure margin and a simple pressure-variation-based uniformity indicator.
 
-## Key Features
+:::caution Preliminary design only
+The calculator simplifies emitter behaviour, lateral losses, fittings, transients and terrain. Confirm a final layout with field measurements, manufacturer data and a qualified irrigation engineer.
+:::
 
-- Real‑time layout: adjust field size, orientation, slopes, spacings; the preview updates instantly.
-- Headworks constraints: pump pressure, filter loss, fertigation loss, max system flow, pressure variation limit all feed the hydraulic budget.
-- Network details: ring main option, two‑side‑fed submains, material (PE/PVC), emitter spacing and flow, operating pressure.
-- Slope correction: percent slope along length/width converts to kPa head differences for uniformity checks.
-- Hydraulic summary and warnings: total flow, velocities, headlosses, net pump, available pressure, CU estimate; warnings for velocity or pressure deficit.
-- SVG export: one click to download the scaled layout as `irrigation-layout.svg`.
+## Before you start
 
-## Quick Start
+- Measure the block length, width, row orientation and representative slopes.
+- Gather pump pressure and flow rating, filter loss, pipe diameters and emitter specifications.
+- Decide whether the scenario assumes a ring main, two-side-fed submains or pressure-compensating emitters.
+- Treat all displayed values as one comparative scenario, not a construction specification.
 
-1. Open the app at `/app/irrigation-designer`.
-2. Field & terrain: set `Length (m)`, `Width (m)`, and `Orientation (°)` (clockwise from true north) to match row direction.
-3. Slopes: provide `Slope along length (%)` and `Slope along width (%)`. Positive means head drops along the positive axis.
-4. Headworks & constraints: set `Pump pressure (kPa)`, `Max flow (m³/h)`, `Filter loss (kPa)`, toggle `Fertigation skid`, and define `Allowable ΔP (%)` and `Max velocity (m/s)`.
-5. Mainline: set `Diameter (mm)`, `Length (m)`, `Material (PE/PVC)`, `Location (edge/center)`, and whether it’s a `Ring / two-end feed`.
-6. Submains: set `Spacing (m)`, `Diameter (mm)`, `Two-side feed`, and `Valve every (runs)`.
-7. Drip laterals: set `Tape spacing (m)`, `Emitter spacing (cm)`, `Emitter flow (L/h)`, `Operating pressure (kPa)`, `Tape length (m)`, and whether they are `Pressure-compensating`.
-8. Review outputs: use the right pane for the scaled SVG layout, hydraulic summary cards, and warnings.
-9. Export: click “Export SVG” to download `irrigation-layout.svg`.
+## Quick workflow
 
-## Detailed Workflow
+1. In **Field & Terrain**, enter dimensions, orientation and slopes.
+2. In **Headworks & Constraints**, set pump pressure, maximum flow, filter loss, fertigation, allowable pressure variation and maximum velocity.
+3. Configure **Mainline**, **Submains** and **Drip laterals**.
+4. Review **Layout preview**, **Hydraulic summary** and **Constraint checks** as values update.
+5. Select **Export SVG** to save the current schematic.
+6. Select **Reset** or **Reset defaults** to restore the initial scenario.
 
-### 1) Field & slope modeling
+## Controls & outputs
 
-- Length/Width: choose realistic block dimensions (e.g., 320 × 140 m).
-- Orientation: clockwise angle relative to true north rotates the layout for satellite map alignment.
-- Slopes: ≥0.5% slopes can materially affect end‑of‑tape pressure; positive values imply head decreases along the positive direction.
+| Group                       | Inputs or outputs                                                                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Field & Terrain**         | Length, width, clockwise orientation from north, lengthwise slope and cross-field slope.                                                       |
+| **Headworks & Constraints** | Pump pressure, pump flow rating, filter loss, fixed 5 kPa fertigation loss toggle, allowable `ΔP` and velocity limit.                          |
+| **Mainline**                | Diameter, hydraulic length, PE (`C≈140`) or PVC (`C≈150`), edge or centreline display, and ring/two-end feed.                                  |
+| **Submains**                | Spacing, diameter, two-side feed and a `Valve every (runs)` planning value.                                                                    |
+| **Drip laterals**           | Tape spacing, emitter spacing, emitter flow, operating pressure, tape length and pressure-compensating label.                                  |
+| **Layout preview**          | Scaled SVG schematic with headworks, mainline, submains and laterals.                                                                          |
+| **Hydraulic summary**       | Total laterals, system flow, main/submain velocities and head losses, available pressure, pump pressure and estimated CU.                      |
+| **Constraint checks**       | Warnings for mainline velocity, pump flow, non-positive post-main pressure, negative lateral pressure margin and large slope head differences. |
 
-### 2) Headworks and constraints
+`Valve every (runs)` and the pressure-compensating toggle are recorded in the scenario but do not currently change the geometry or hydraulic equations.
 
-- Pump pressure: discharge gauge pressure in kPa.
-- Filter loss / Fertigation: filter loss subtracts from net pump; fertigation subtracts an additional ~5 kPa.
-- Max flow: validates total demand against the pump/system rating.
-- Allowable pressure variation: feeds CU estimate; e.g., 10% often maps to ~84 CU.
-- Max velocity: typical threshold 1.5 m/s for main/submains; exceeding triggers a velocity warning.
+## How it works
 
-### 3) Mainline configuration
+### Layout and demand
 
-- Material: PE ≈ C140, PVC ≈ C150 in Hazen–Williams.
-- Ring feed: halves effective length and flow per leg, reducing headloss.
-- Location: `edge` places the mainline along one boundary; `center` runs through the midline.
+- Submain and lateral counts are derived with floor-based spacing rules and a minimum of one run.
+- Emitters per tape are estimated from configured tape length and emitter spacing.
+- System flow assumes every derived tape operates at the same time and every emitter supplies the entered nominal flow.
+- Orientation rotates the local SVG geometry; it does not georeference the drawing.
 
-### 4) Submains and laterals
+### Hydraulic estimate
 
-- Submain spacing: sets count and placement across field width; the app distributes evenly.
-- Two‑side feed: halves effective length/flow per side, simulating dual valves.
-- Valve every (runs): organizational hint for zone valves (symbol not drawn in this version).
-- Drip laterals: tape spacing, emitter spacing, emitter flow, operating pressure, and tape length define total demand and headloss behavior.
-- Pressure‑compensating: marks whether PC emitters are assumed when computing uniformity.
+Mainline and submain friction use:
 
-### 5) Reading the outputs
+```text
+hf = 10.67 × L × Q^1.852 / (C^1.852 × d^4.87)
+v  = Q / (π × d² / 4)
+```
 
-- Total laterals / system flow (m³/h): use for material counts and pump sizing checks.
-- Net pump (kPa): pump pressure minus filter/fertigation losses.
-- Available at laterals (kPa): net pump minus main/sub headlosses and slope‑induced head difference.
-- Margin (kPa): `available - operating pressure`. Negative margin triggers warnings.
-- Warnings: velocity limits, pump insufficiency, slope‑induced head differences, etc.
-- Tips: practical notes for reducing ΔP, when to use ring mains or PC emitters.
+The mainline uses the selected material coefficient. The submain uses `C=140`. Ring feed halves effective mainline length and flow; two-side feed halves effective submain length and flow.
 
-## Best Practices
+Available lateral pressure subtracts filter loss, the optional 5 kPa fertigation loss, mainline loss, submain loss and positive lengthwise slope head from pump pressure. Cross-field slope is reported as a warning but is not deducted from the displayed available pressure.
 
-- Match slope to emitters: if slope induces >10 kPa head difference, prefer PC emitters or zoning.
-- Check total flow: if demand nears the max rating, consider time‑based zoning or larger pump/pipe sizes.
-- Two‑side feed: enable for long submains to reduce end pressure drop.
-- Ring main: use on larger fields to lower peak velocity and headloss.
-- Export & overlay: place the SVG over CAD/satellite basemaps and annotate headworks, valves, returns before construction.
+The displayed CU is a bounded heuristic:
+
+```text
+estimated CU = clamp(100 − 1.6 × allowable ΔP, 60, 98)
+```
+
+It is not calculated from simulated emitter discharge measurements.
+
+## Data, privacy & external services
+
+All inputs, calculations and SVG generation run locally in the browser. The app does not upload the design or call a hydraulic service. Settings last only for the current page session unless the SVG is exported.
+
+## Limitations
+
+- Lateral friction, local fittings, valves, filter curves, elevation profiles, pressure transients and water hammer are not modelled.
+- Nominal emitter flow is not adjusted through a pressure–discharge curve.
+- The cross-field slope, valve frequency and pressure-compensating toggle do not alter the pressure calculation.
+- Only mainline velocity is compared with the entered velocity limit.
+- Tape length affects demand and lengthwise slope, while laterals in the schematic span the displayed field block.
+- The SVG has no geographic coordinates and should not be treated as CAD, GIS or an installation drawing.
 
 ## Troubleshooting
 
-| Issue | Resolution |
-| --- | --- |
-| Layout doesn’t rotate with Orientation | Ensure the angle is numeric; reload the page if needed (Ctrl/Cmd+R). |
-| Total system flow exceeds Max flow | Lower emitter flow, reduce concurrently active laterals, or split into zones. |
-| Pressure margin is negative | Increase pump pressure, upsize main/sub diameters, enable ring/two‑side feed, or shorten tape length. |
-| CU estimate too low | Tighten allowable pressure variation or switch to PC emitters; verify with vendor data in real projects. |
-| SVG export fails or looks garbled | Allow downloads in the browser; prefer desktop browsers for exporting. |
+| Problem                               | What to check                                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| System flow exceeds the pump rating   | Reduce simultaneous laterals or emitter flow, or evaluate zoning and a different pump scenario.       |
+| Pressure margin is negative           | Increase available pressure, reduce losses, upsize pipes, shorten runs or compare ring/two-side feed. |
+| Mainline velocity warning appears     | Increase mainline diameter or reduce simultaneous flow.                                               |
+| The CU value seems unexpected         | It is derived only from **Allowable ΔP (%)** and is not a network simulation.                         |
+| The drawing is clipped after rotation | Try a smaller orientation angle for inspection; the export uses the same fixed SVG canvas.            |
+| SVG does not download                 | Allow browser downloads and try **Export SVG** again.                                                 |
 
-## Related Resources
+[Open Irrigation Layout Designer](/app/irrigation-designer)
 
-- `/app/sensor` for leaf posture/positioning to help confirm row direction.
-- `/app/weather` for ET₀ and meteorological context when designing irrigation schedules.
-- See `docs/tutorial-apps/weather-analyzer-tutorial.md` for integrating weather APIs.
-
-Once parameters are ready, head to `/app/irrigation-designer` and build your next field‑ready drip layout.
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/irrigation-designer">App</a></div>
+[Browse all apps](/app)

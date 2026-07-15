@@ -1,230 +1,111 @@
-# Cloud Sticky Note Tutorial
+---
+title: "Encrypted Note"
+description: "Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage."
+sidebar_label: "Encrypted Note"
+sidebar_position: 13
+hide_title: true
+keywords:
+  - "note"
+  - "encrypt"
+  - "share"
+  - "password"
+  - "local"
+app_route: "/app/cloudnote"
+app_icon: "TXT"
+app_category: "Utilities"
+app_runtime: "Local encryption and storage"
+app_tone: "rose"
+app_badges:
+  - "Web Crypto"
+  - "Local storage"
+  - "Text only"
+---
 
-## Overview
+## What it does
 
-The Cloud Sticky Note system is a secure, zero-backend solution for creating and sharing encrypted notes and files. This application provides end-to-end encryption with shareable links, supporting both text content and file attachments without requiring server-side storage.
+Encrypted Note encrypts a text note in your browser and places the encrypted payload in a shareable URL fragment. You can use a random-key link or add a password. Password-protected payloads are also stored under the note name in this browser's local storage.
 
-## Key Features
+:::info Text-only utility
+The current app accepts a note name and up to 3,000 characters of text. It does not support file attachments, accounts or built-in cross-device synchronization.
+:::
 
-- **End-to-End Encryption**: AES-256 encryption for maximum security
-- **Zero-Backend Architecture**: No server storage required for note content
-- **Shareable Links**: Encrypted payloads embedded in URL fragments
-- **File Attachment Support**: Secure file sharing with encryption
-- **Local Storage Option**: Optional browser storage for convenience
-- **Password Protection**: Optional password-based encryption keys
-- **Cross-Device Compatibility**: Notes accessible from any modern browser
+## Before you start
 
-## Quick Start
+- Use a recent browser with Web Crypto, localStorage and JavaScript support.
+- A note name can contain up to 80 characters; content can contain up to 3,000.
+- Treat an unprotected link as a bearer secret: anyone with the complete URL can decrypt it.
+- For password mode, share the password through a different trusted channel.
+- Some chat, email or QR tools truncate long URLs, so test the received link.
 
-### 1. Access the Application
+## Quick workflow
 
-Visit in your browser: `/app/cloudnote`
+1. [Open Encrypted Note](/app/cloudnote).
+2. Under **Create New Note**, enter **Note Name** and **Content**.
+3. Optionally set **Expires**, **Password Protection** and **Read-only link**.
+4. Select **Generate Share Link**, then **Copy Link**.
+5. Send the complete link. A random-key link opens automatically; a password link asks the recipient to select **Unlock** after entering the password.
+6. To reopen a password-protected copy in the same browser, enter **Stored Note Name** and **Password**, then select **Open Saved**.
+7. An editable opened note can use **Save Edits & Get New Link**. Use **Copy Text** or **Close** as needed.
 
-### 2. System Requirements
+## Controls & outputs
 
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with JavaScript support
-- **Internet Connection**: Required for initial page load (notes work offline)
-- **URL Sharing Capability**: For sharing encrypted note links
+| Control or output                  | Purpose                                                                                                           |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Note Name**                      | Identifies the note and, in password mode, becomes the local-storage lookup name.                                 |
+| **Content**                        | Stores text only, with a 3,000-character counter and limit.                                                       |
+| **Expires (Optional)**             | Adds a client-checked expiration timestamp.                                                                       |
+| **Password Protection (Optional)** | Derives the encryption key from a password instead of embedding a random key in the link.                         |
+| **Read-only link**                 | Opens the note as non-editable in this app's UI; this is advisory only.                                           |
+| **Generate Share Link**            | Encrypts the current note and creates a URL fragment.                                                             |
+| **Copy Link / Copy Text**          | Copies the generated URL or current text to the clipboard.                                                        |
+| **Reset form**                     | Clears the creation form; it does not delete saved browser data or revoke an old link.                            |
+| **Open Saved**                     | Looks up a password-protected payload by exact name in this browser, then decrypts it with the supplied password. |
+| **Save Edits & Get New Link**      | Re-encrypts an editable opened note and creates a new link.                                                       |
 
-## Detailed Usage Steps
+## How it works
 
-### Step 1: Note Creation
+The note object contains its name, content, creation time, optional expiration and read-only flag. Encryption and decryption use the browser's Web Crypto API.
 
-1. **Note Information Setup**
-   - **Note Name**: Descriptive identifier for the note
-   - **Content**: Main text content of the note
-   - **File Attachments**: Optional file uploads (images, documents, etc.)
+Without a password, the app generates a random 256-bit AES-GCM key. The encrypted payload and raw key are both placed in the URL fragment, so possession of the full link is sufficient to decrypt the note.
 
-2. **Security Configuration**
-   - **Password Protection**: Optional password for additional security
-   - **Encryption Method**: Automatic AES-256 encryption
-   - **Key Generation**: Random encryption key generation
+With a password, the app derives a 256-bit AES-GCM key using PBKDF2-SHA-256, a random 16-byte salt and 200,000 iterations. The URL contains the salt, IV and ciphertext but not the password-derived key. The encrypted payload is also saved to localStorage under the note name.
 
-### Step 2: Encryption and Link Generation
+Each encryption uses a new random IV. Editing and regenerating creates a new payload and link; the old link remains valid. Expiration and read-only behavior are checked by this page's client code and are not cryptographic revocation controls.
 
-1. **Automatic Encryption Process**
-   - Content encrypted before leaving the browser
-   - Encryption key embedded in URL (if no password)
-   - Password-derived keys for enhanced security
+## Data, privacy & external services
 
-2. **Shareable Link Creation**
-   - URL format: `https://.../app/cloudnote#note=<encrypted_payload>`
-   - Contains all note data in encrypted form
-   - No server-side storage of sensitive information
+In the standard deployment, encryption, fragment parsing and saved-note lookup happen locally. URL fragments are normally not included in an HTTP request to the hosting server.
 
-### Step 3: Note Sharing and Access
+A complete random-key link exposes both ciphertext and its key to anyone who obtains it through browser history, clipboard access, screenshots, extensions, synced tabs or the receiving application. Password mode separates the password from the link, but security still depends on password strength and how it is shared.
 
-1. **Link Distribution**
-   - Copy generated URL to share with recipients
-   - URL contains everything needed to decrypt and view note
-   - Recipients need only the URL (and password if set)
+The code supports an optional developer-configured backend, but the public UI has no backend selector. If such a backend is configured, a password-protected encrypted payload and the note name are sent to it for save/retrieval. Do not assume zero-backend behavior on a modified deployment.
 
-2. **Note Access**
-   - Recipients open URL in any modern browser
-   - Automatic decryption using embedded key
-   - Password prompt if password protection enabled
+:::caution No revocation or enforced access control
+Deleting a message containing the URL does not invalidate copies of that link. Expiry and read-only flags can be bypassed outside this UI, and the app has no account identity, server-side authorization or link-revocation service.
+:::
 
-### Step 4: Optional Local Storage
+## Limitations
 
-1. **Browser Storage**
-   - Optional local storage for frequently accessed notes
-   - Encrypted storage in browser's local storage
-   - Accessible by note name without URL sharing
-
-2. **Multi-Device Synchronization**
-   - Optional backend integration for device synchronization
-   - Encrypted payload storage with name-based retrieval
-   - Requires backend service configuration
-
-## Technical Specifications
-
-### Encryption Protocol
-
-#### AES-256 Encryption
-- **Algorithm**: Advanced Encryption Standard with 256-bit keys
-- **Mode**: CBC (Cipher Block Chaining) mode
-- **Key Derivation**: PBKDF2 with random salt
-- **Initialization Vector**: Random IV for each encryption
-
-#### Key Management
-- **Random Key Generation**: Cryptographically secure random keys
-- **Password-based Keys**: PBKDF2 derivation from user passwords
-- **Key Storage**: Embedded in URL or derived from password
-- **Key Rotation**: New key for each note creation
-
-### Data Format
-
-#### URL Structure
-```
-https://domain.com/app/cloudnote#note=<base64_encoded_payload>
-```
-
-#### Payload Structure
-```json
-{
-  "version": "1.0",
-  "name": "Note Name",
-  "content": "Encrypted content",
-  "files": ["Encrypted file data"],
-  "salt": "Random salt for key derivation",
-  "iv": "Initialization vector for AES",
-  "timestamp": "Creation timestamp"
-}
-```
-
-### Security Features
-
-#### Zero-Knowledge Architecture
-- **No Server Access**: Encryption/decryption occurs client-side only
-- **URL-based Sharing**: All data contained in shareable link
-- **Ephemeral Storage**: No persistent server storage of sensitive data
-
-#### Privacy Protection
-- **Metadata Minimization**: Minimal identifying information in URLs
-- **Forward Secrecy**: Each note uses unique encryption keys
-- **Access Control**: Password protection for sensitive notes
-
-## Best Practices
-
-### Security Considerations
-
-1. **Password Management**
-   - Use strong, unique passwords for sensitive notes
-   - Share passwords through secure channels
-   - Consider password managers for complex passwords
-
-2. **Link Sharing Security**
-   - Share URLs through secure communication channels
-   - Consider link expiration for time-sensitive information
-   - Use password protection for sensitive content
-
-3. **Data Sensitivity Assessment**
-   - Evaluate sensitivity before using cloud sharing
-   - Consider alternative methods for highly sensitive data
-   - Use appropriate security measures based on content
-
-### Usage Scenarios
-
-#### Research Collaboration
-- Share research notes and preliminary findings
-- Collaborate on document drafts
-- Distribute meeting notes and action items
-
-#### Project Management
-- Share project specifications and requirements
-- Distribute task lists and progress updates
-- Collaborate on documentation and reports
-
-#### Personal Organization
-- Create encrypted personal notes
-- Share information across personal devices
-- Secure storage of sensitive personal data
-
-### Data Management
-
-1. **Note Organization**
-   - Use descriptive note names for easy identification
-   - Maintain consistent naming conventions
-   - Archive or delete notes when no longer needed
-
-2. **Version Control**
-   - Create new notes for significant updates
-   - Maintain version history through note naming
-   - Document changes in note content
-
-3. **Backup Strategies**
-   - Save important notes locally
-   - Use multiple sharing methods for critical information
-   - Consider printed copies for essential data
+- Text only: no attachments, rich text or file transfer.
+- No account, note list, synchronization, audit log, version history or local-delete control.
+- Password strength is not enforced.
+- Local browser storage can be cleared, blocked or overwritten; reusing the same note name replaces its saved payload.
+- **Reset form** does not remove an already saved password-protected payload.
+- Long encrypted URLs may exceed limits in browsers, messaging platforms or QR tools.
+- An expired note is blocked by this UI but its encrypted payload is not automatically erased.
+- Saving an edit generates a new link but does not revoke the previous one.
 
 ## Troubleshooting
 
-### Common Issues
+- **The shared link does not open:** copy the complete URL, including everything after `#note=`.
+- **Wrong password or decryption failed:** passwords are case-sensitive; confirm both the password and link are unchanged.
+- **No stored note found:** **Open Saved** works only for password-protected notes saved under the exact name in this browser or browser profile.
+- **This note has expired:** the client-side expiration time has passed; the app does not provide an override.
+- **Copy failed:** select the generated link or note text and copy it manually.
+- **Web Crypto is unavailable:** update the browser and use the HTTPS site.
+- **A generated URL is truncated:** shorten the note or share the link through a channel that preserves long URL fragments.
+- **An old link still opens after editing:** this is expected; distribute the new link and treat the old one as still valid.
 
-**1. Link Access Problems**
-- Verify URL is copied completely and accurately
-- Check browser compatibility and JavaScript support
-- Ensure network connectivity for initial page load
+[Open Encrypted Note →](/app/cloudnote)
 
-**2. Decryption Failures**
-- Verify correct password entry (case-sensitive)
-- Check URL integrity (no truncation or modification)
-- Ensure browser supports required cryptographic functions
-
-**3. File Attachment Issues**
-- Check file size limits for browser compatibility
-- Verify supported file types for attachment
-- Ensure sufficient system memory for large files
-
-### Performance Optimization
-
-**For Large Notes**
-- Consider splitting large content into multiple notes
-- Use text compression for extensive text content
-- Optimize file attachments for web sharing
-
-**For Mobile Devices**
-- Use responsive design for mobile accessibility
-- Optimize for limited mobile browser capabilities
-- Consider data usage for large attachments
-
-## Technical Support
-
-If you encounter technical issues:
-
-1. Check browser console for error messages
-2. Verify URL structure and completeness
-3. Ensure browser supports modern cryptographic functions
-4. Contact support with specific error details and browser information
-
-### Browser Compatibility
-- **Chrome 60+**: Full support with modern cryptographic APIs
-- **Firefox 55+**: Complete functionality with Web Crypto API
-- **Safari 11+**: Support for required encryption standards
-- **Edge 79+**: Full compatibility with modern standards
-
----
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to Cloud Sticky Note System v1.0*
-*Optimized for secure, decentralized note sharing and collaboration*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/cloudnote">App</a></div>
+[← Back to App Lab](/app)

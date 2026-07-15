@@ -1,323 +1,114 @@
-# Stereo Camera Leaf Measurement System Tutorial
+---
+title: Stereo Vision Workspace
+description: "Split and rectify a side-by-side camera stream, inspect stereo pairs and explore depth output with an explicit calibration profile."
+sidebar_label: Stereo Vision
+sidebar_position: 8
+hide_title: true
+keywords: [stereo, camera, depth, opencv, rectification]
+app_route: /app/stereo
+app_icon: "3D"
+app_category: "Imaging & vision"
+app_runtime: "Local camera processing"
+app_tone: violet
+app_badges: ["Camera input", "Stereo pair", "Depth preview"]
+---
 
-## Overview
+## What it does
 
-This is a high-precision stereo vision system specifically designed for leaf morphological measurements. The system uses your calibration parameters for image correction, providing millimeter-level depth measurement accuracy, suitable for leaf research within a 30cm height shooting box.
+Stereo Vision Workspace reads a side-by-side camera stream, separates the two eye views, applies a bundled rectification profile when OpenCV is available, and produces an exploratory grayscale depth preview. You can save stereo pairs and depth images individually or package the session files as a ZIP.
 
-## Key Features
+:::caution Exploratory depth only
 
-- **High-precision Image Correction**: Distortion correction and stereo rectification using calibrated intrinsic matrices
-- **Accurate Depth Measurement**: Millimeter-level depth accuracy within 5-30cm range
-- **Leaf-optimized Algorithms**: Stereo matching specifically optimized for plant leaf characteristics
-- **Corrected Image Capture**: Save high-quality stereo image pairs after correction
-- **Precise Depth Data**: Suitable for leaf thickness and morphological analysis
+The depth canvas is a per-frame visualization, not calibrated raw depth data. It does not preserve millimetre values and must not be used directly for leaf thickness, dimensional metrology, or comparisons between independently normalized frames.
 
-## Quick Start
+:::
 
-### 1. Access the Application
+## Before you start
 
-Visit in your browser: `/app/stereo`
+- Connect a camera that outputs left and right views side by side in one video frame.
+- Use HTTPS or localhost and a browser that supports `MediaDevices`, Canvas, and WebAssembly.
+- Grant camera permission only after selecting **Start camera**; the page does not start capture automatically.
+- For the bundled calibration profile, use the original 1280 × 480 stream: 640 × 480 pixels per eye. Other devices or resolutions are not calibrated by this profile.
+- Keep an internet connection available while OpenCV.js and JSZip load from external CDNs.
+- Expect substantial CPU and memory use during live rectification and depth computation.
 
-### 2. Hardware Requirements
+## Quick workflow
 
-- **Stereo Camera System**: Your built stereo camera supporting side-by-side format output
-- **Shooting Box**: 30cm height shooting environment
-- **Browser**: Modern browsers like Chrome, Firefox, Safari (WebAssembly support required)
-- **Network Environment**: HTTPS or localhost (camera permission requirements)
-- **OpenCV.js**: Automatically loaded by the system for high-precision image processing
+1. Under **Camera configuration**, choose **Video device** and set **Total width** and **Height**.
+2. Enter a filesystem-safe **Sample ID** or keep the default `sample` prefix.
+3. Select **Start camera** and approve the browser permission request.
+4. Check the status panel. Calibrated rectification requires OpenCV and successfully initialized rectification maps; **basic mode** is only a fallback preview.
+5. Select **Capture stereo** to save the current left and right canvases.
+6. Select **Compute depth**, inspect the grayscale result, then select **Save depth map** if it is useful as a visual record.
+7. Select **Download ZIP** to package all captured session files.
+8. Select **Stop** before disconnecting the camera or leaving the page.
 
-## Detailed Usage Steps
+## Controls & outputs
 
-### Step 1: Device Setup
+| Control              | Current behaviour                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| Video device         | Selects a detected camera. Labels may remain generic until permission is granted.           |
+| Total width / Height | Requests a stream size. These values do not create a new calibration profile.               |
+| Start camera / Stop  | Starts or releases the selected media stream.                                               |
+| Sample ID            | Supplies the sanitized prefix used in captured filenames.                                   |
+| Capture stereo       | Adds left and right PNGs to the session ZIP and provides individual download links.         |
+| Compute depth        | Computes one disparity-derived grayscale depth visualization from the current pair.         |
+| Save depth map       | Adds the current grayscale depth PNG to the session. It is enabled after depth computation. |
+| Download ZIP         | Downloads the in-memory session as `stereo_captures.zip`.                                   |
 
-1. **Connect Stereo Camera**
+Stereo-pair filenames follow:
 
-   - Ensure the stereo camera is properly connected to the computer
-   - Camera should output side-by-side format stereo images
-2. **Select Camera Device**
-
-   - Choose your stereo camera from the "Camera Device" dropdown menu
-   - System automatically remembers the last selected device
-3. **Set Resolution**
-
-   - **Width**: 1280 pixels (total stereo width, 640px per eye)
-   - **Height**: 480 pixels (per-eye resolution)
-   - These parameters match your calibration data, do not modify arbitrarily
-
-### Step 2: Start Camera
-
-1. **Click "Start Camera" Button**
-
-   - First use will request camera permission, click "Allow"
-   - Success will display real-time video stream
-2. **Check Image Display**
-
-   - **Original Stream**: Displays raw stereo video stream
-   - **Left Eye**: Distortion-corrected and stereo-rectified left eye image
-   - **Right Eye**: Distortion-corrected and stereo-rectified right eye image
-   - **Depth Map**: Shows "Image Corrected" prompt, waiting for depth calculation
-
-### Step 3: Precise Depth Calculation
-
-1. **Click "Calculate Depth" Button**
-
-   - System uses OpenCV's StereoBM algorithm for high-precision stereo matching
-   - Parameter settings optimized for leaf features
-   - Generates precise depth map within 5-30cm range
-2. **Depth Map Grayscale Rendering Principle**
-
-   - System automatically detects **nearest distance** and **farthest distance** in the scene
-   - Normalized rendering based on actual depth value range
-   - **Black (0)**: Nearest distance in scene or invalid depth regions
-   - **White (255)**: Farthest distance in scene
-   - **Intermediate Grayscale**: Linearly distributed by depth value
-
-   **Depth Value Calculation Formula**:
-
-   ```
-   Grayscale Value = (Current Depth - Nearest Depth) / (Farthest Depth - Nearest Depth) × 255
-   Actual Depth = Nearest Depth + (Grayscale Value / 255) × (Farthest Depth - Nearest Depth)
-   ```
-
-   **Advantages**:
-
-   - Full utilization of 0-255 grayscale range
-   - Adaptive to scene depth distribution
-   - Maximized depth detail contrast
-
-### Step 4: Image Capture
-
-1. **Set Sample ID**
-
-   - Enter descriptive name in the "Sample ID" input box
-   - Examples: "Desktop Objects", "Indoor Scene", etc.
-2. **Capture Corrected Stereo Image Pair**
-
-   - Click "Capture Image Pair" button
-   - System saves high-quality images after distortion correction and stereo rectification
-   - File naming format: `SampleID_stereo_001_left_rectified.png`, `SampleID_stereo_001_right_rectified.png`
-   - These images can be directly used for subsequent scientific analysis
-3. **Capture Precise Depth Map** (Recommended)
-
-   - First execute depth calculation
-   - Click "Capture Depth Map" button
-   - Save high-precision depth visualization image: `SampleID_depth_001_precision.png`
-   - Depth map contains precise depth information within 5-30cm range
-
-### Step 5: Data Download
-
-1. **View Capture List**
-
-   - Check all captured images in the "Capture Data" panel
-   - Can download each file individually
-2. **Batch Download**
-
-   - Click "Download ZIP" button
-   - System packages all captured images into ZIP file
-   - File name: `leaf_stereo_captures.zip`
-   - Contains corrected stereo image pairs and precise depth maps
-
-## Technical Specifications and Parameters
-
-### Calibration Parameters (Built-in)
-
-System uses your precise calibration parameters:
-
-**Left Camera Intrinsic Matrix**:
-
-```
-fx: 526.36, fy: 527.67, cx: 312.51, cy: 257.35
-Distortion Coefficients: [-0.0356, 0.1847, 0, 0, 0]
+```text
+sample_stereo_001_left_rectified.png
+sample_stereo_001_right_rectified.png
 ```
 
-**Right Camera Intrinsic Matrix**:
+Depth filenames follow:
 
+```text
+sample_depth_001_depth_precision.png
 ```
-fx: 528.81, fy: 529.73, cx: 319.85, cy: 259.80
-Distortion Coefficients: [-0.0274, 0.1308, 0, 0, 0]
-```
 
-**Stereo Calibration Parameters**:
+The filename describes the intended workflow. Confirm the status panel reported working OpenCV rectification; fallback split images can otherwise retain the `_rectified` suffix without calibrated remapping.
 
-- **Baseline Distance**: 59.936mm (high precision)
-- **Rotation Matrix R**: Corrected inter-camera rotation relationship
-- **Translation Vector T**: [-59.936, 0.006, 0.957]mm
+## How it works
 
-### Leaf Measurement Optimization Parameters
+Each video frame is copied to a hidden Canvas and split at half its width. With OpenCV ready, the app uses fixed intrinsic, distortion, rotation, and translation values to build 640 × 480 rectification maps for one stereo rig, then remaps the two eye images.
 
-**StereoBM Algorithm Settings**:
+**Compute depth** converts the pair to grayscale and runs OpenCV StereoBM with 64 disparities and a 15-pixel block. Disparity is converted internally using the bundled focal length and approximately 59.94 mm baseline, but the app then maps the valid minimum and maximum of that single frame to 0–255. Only this normalized image is displayed and saved.
 
-- **Number of Disparities**: 64 pixels (suitable for 30cm shooting distance)
-- **Block Size**: 15×15 pixels (balances accuracy and detail)
-- **Uniqueness Ratio**: 10% (ensures matching reliability)
-- **Speckle Filtering**: Window 50 pixels, range 2 pixels
+If OpenCV cannot load, the app falls back to a simple split and a browser-based block matcher. That fallback is slower and is not a calibrated replacement for the OpenCV path.
 
-**Depth Measurement Range**:
+## Data, privacy & external services
 
-- **Minimum Depth**: 50mm (5cm)
-- **Maximum Depth**: 300mm (30cm)
-- **Depth Accuracy**: Sub-millimeter level (theoretical accuracy ~0.5mm)
+- Camera frames, image processing, capture lists, and ZIP assembly stay in the browser; the app does not upload the video stream.
+- OpenCV.js is attempted from several public CDNs, and JSZip is loaded from jsDelivr. Their availability and policies are external to this site.
+- Captures remain only in the page's in-memory ZIP until downloaded. Refreshing or leaving the page clears the session.
+- The selected camera ID is stored locally so the browser can restore the preference later.
+
+## Limitations
+
+- The bundled calibration is specific to one 1280 × 480 side-by-side rig. Lens changes, camera movement, focus changes, resizing, or another device invalidate it.
+- With the configured focal length, baseline, and 64-disparity search, the nearest representable depth is approximately 0.49 m. The workspace is therefore not configured for a 5–30 cm measurement range.
+- The saved depth PNG contains relative grayscale only; it does not include the frame's normalization limits, raw disparity, confidence, or metric depth.
+- Per-frame normalization means equal gray values in different images need not represent equal distances.
+- Textureless, reflective, repetitive, occluded, or poorly synchronized scenes can produce invalid matches.
+- Live remapping and the fallback matcher can be slow on mobile or low-power hardware.
+- No calibration editor, raw-depth export, point cloud, leaf contour, or thickness analysis is provided.
 
 ## Troubleshooting
 
-### Common Issues
+| Problem                           | What to check                                                                                                   |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| No camera is listed               | Connect the device, use HTTPS, grant permission, and reopen the device list after the browser reveals labels.   |
+| Camera access fails               | Close other camera applications, check site permission, and try **Start camera** again.                         |
+| The two eye views are not aligned | Confirm side-by-side ordering, request 1280 × 480, and verify the physical rig matches the bundled calibration. |
+| Status reports basic mode         | Check the network and reload so OpenCV.js can initialize; do not treat fallback output as calibrated.           |
+| Depth is mostly black or noisy    | Improve texture and diffuse lighting, reduce reflections, keep both eyes synchronized, and avoid occlusion.     |
+| **Save depth map** is disabled    | Start the camera and complete **Compute depth** first.                                                          |
+| ZIP download is unavailable       | Capture at least one stereo pair or depth map and ensure the JSZip CDN loaded.                                  |
+| The page becomes unresponsive     | Stop the stream, reduce resolution, close other heavy tabs, and avoid the basic fallback on low-power devices.  |
 
-**1. Camera Cannot Start**
+[Open Stereo Vision Workspace](/app/stereo)
 
-- Check if camera is properly connected
-- Confirm browser has granted camera permission
-- Try refreshing page to re-authorize
-
-**2. Abnormal Image Display**
-
-- Confirm camera outputs side-by-side format
-- Check if resolution settings are correct
-- Try different camera devices
-
-**3. Abnormal Depth Map Display**
-
-- Ensure leaf surface has sufficient texture features
-- Check if lighting in shooting box is uniform and soft
-- Avoid strong reflections or shadows
-- Ensure leaves are within 5-30cm measurement range
-
-**4. Insufficient Depth Measurement Accuracy**
-
-- Check if camera is stably fixed
-- Ensure leaf surface is clean, free of water droplets or dust
-- Use diffuse light sources, avoid point light sources
-- Ensure leaves are flat, minimize bending deformation
-
-**5. Poor Image Correction Effect**
-
-- System uses your calibration parameters, check calibration quality if issues occur
-- Ensure camera position is consistent with calibration
-- Check if lenses are clean
-
-### Leaf Measurement Optimization
-
-**Improve Measurement Accuracy**:
-
-- Use uniform ring LED light sources
-- Ensure leaf surfaces are dry and clean
-- Maintain stable shooting environment temperature
-- Use tripod to fix camera system
-
-**Leaf Placement Techniques**:
-
-- Lay leaves flat on neutral background
-- Avoid leaf overlap or bending
-- Ensure main parts of leaves are within 15-25cm depth range
-- Use background materials with moderate contrast
-
-**Data Quality Control**:
-
-- Shoot multiple angles for each sample
-- Record environmental conditions during shooting
-- Regularly check system calibration accuracy
-- Save original corrected images for subsequent analysis
-
-## Technical Specifications
-
-### Supported Image Formats
-
-- **Input**: Real-time video stream (stereo side-by-side, 1280×480)
-- **Output**: PNG format high-quality images
-- **Depth Data**: Visualized PNG images (future support for raw depth data export)
-
-### Browser Compatibility
-
-- Chrome 90+ (recommended, best WebAssembly performance)
-- Firefox 85+
-- Safari 14+
-- Edge 90+
-
-### System Requirements
-
-- **Memory**: Recommended 8GB+ (OpenCV processing requires)
-- **Processor**: WebAssembly support, recommended multi-core CPU
-- **Network**: HTTPS or localhost access
-- **Graphics Card**: Hardware acceleration support (optional, improves performance)
-
-## Usage Tips
-
-### Leaf Measurement Best Practices
-
-1. **Leaf Preparation**
-
-   - Select healthy, complete leaf samples
-   - Clean leaf surfaces, remove dust and water droplets
-   - Ensure leaves are relatively flat, minimize bending
-2. **Shooting Environment Setup**
-
-   - Use ring LED light sources for uniform illumination
-   - Choose neutral background colors (light gray or white)
-   - Control environmental temperature and humidity to avoid leaf deformation
-   - Eliminate vibration and airflow effects
-3. **Measurement Operation Standards**
-
-   - Wait for complete system initialization after startup
-   - Confirm good image correction effect
-   - Take multiple measurements per sample and average
-   - Record detailed measurement conditions and parameters
-4. **Data Management**
-
-   - Use descriptive sample IDs for naming
-   - Establish standardized file naming conventions
-   - Regularly backup measurement data
-   - Record metadata related to each sample
-
-### Data Management
-
-1. **File Naming**
-
-   - Use descriptive sample IDs
-   - Classify by date or scene
-   - Maintain naming consistency
-2. **Data Backup**
-
-   - Regularly download ZIP files
-   - Establish local backup strategy
-   - Record shooting parameters and conditions
-
-## Technical Support
-
-If you encounter problems or need technical support, please:
-
-1. Check browser console error messages
-2. Confirm hardware connections and settings
-3. Try basic troubleshooting steps
-4. Record specific error phenomena and environmental information
-
-## Update Log
-
-### Current Version Features (v2.0 - Leaf Measurement Special Edition)
-
-- High-precision image correction (using your calibration parameters)
-- OpenCV StereoBM depth calculation
-- 5-30cm precise depth measurement
-- Leaf-optimized stereo matching algorithm
-- Corrected image capture
-- Precise depth map saving
-- Batch data management
-
-### Planned Features
-
-- Raw depth data export (CSV/JSON format)
-- Automatic leaf contour extraction
-- Leaf thickness distribution analysis
-- Multi-spectral depth fusion
-- Real-time depth measurement display
-
-### Leaf Research Applications
-
-- **Morphological Analysis**: Leaf thickness distribution, surface texture
-- **Growth Monitoring**: 3D changes during leaf development process
-- **Variety Comparison**: Morphological differences between different varieties
-- **Environmental Response**: Leaf morphological responses to environmental conditions
-
----
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to Leaf Measurement Stereo Camera System v2.0*
-*Optimized for 30cm shooting box environment and leaf research*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/stereo">App</a></div>
+[Back to App Lab](/app)

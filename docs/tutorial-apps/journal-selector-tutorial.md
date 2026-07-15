@@ -1,63 +1,117 @@
-# Journal Selector Tutorial
+---
+title: "AI Journal Selector"
+description: "Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose."
+sidebar_label: "Journal Selector"
+sidebar_position: 11
+hide_title: true
+keywords:
+  - "journal"
+  - "abstract"
+  - "publication"
+  - "jcr"
+  - "ai"
+app_route: "/app/journal-selector"
+app_icon: "JCR"
+app_category: "AI & research"
+app_runtime: "Uses your selected AI provider"
+app_tone: "blue"
+app_badges:
+  - "BYOK AI"
+  - "Custom criteria"
+  - "CSV export"
+---
 
-## Overview
+## What it does
 
-The Journal Selector app converts any manuscript abstract into a structured list of target journals. It uses either the private local demo or your selected AI provider together with a configurable indicator system (loaded from `/app/journal-selector/journal-indicator-system.md`) to enforce consistent metadata such as impact metrics, review speed, OA policies, and compliance requirements. Output appears in the UI and as a downloadable CSV for portfolio tracking.
+AI Journal Selector compares a manuscript abstract and submission preferences with a configurable 26-field journal evaluation schema. It presents candidate cards, a full comparison table and a CSV export. The default **Local demo** demonstrates the interface; live recommendations use the AI provider and API key you choose.
 
-## Key Features
+:::caution Not a live journal database
+The app does not query JCR, CAS, Scopus, Crossref or publisher systems. Model-generated rankings, fees, acceptance rates and review times may be missing, outdated or fabricated. Verify every candidate on authoritative sources before submitting.
+:::
 
-- **Single-Input Workflow** – Paste an abstract plus optional metadata, no formatting required.
-- **Indicator-Locked Output** – AI is forced to fill the 24 required metrics (Serial Number → Warning Status) taken from `journal-indicator-system.md`.
-- **Preference Controls** – OA requirement, journal type (Chinese core vs SCI), desired review cycle, and quantity (3–8).
-- **CSV Export** – Exactly the same columns as the indicator schema, always in English.
-- **Raw AI Trace** – Inspect the exact JSON returned for debugging or audit.
-- **Shared AI Settings** – Use the no-network Local demo or bring your own key for OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, or a trusted OpenAI-compatible endpoint.
+## Before you start
 
-## Quick Start
+- Prepare an abstract with the objective, methods, data and novelty; 200–400 words is a practical starting point.
+- Gather optional keywords and constraints such as OA policy, journal type, review speed or page-charge limits.
+- Use **Local demo** to inspect the workflow without sending data.
+- Live analysis requires network access, a provider/model and your own API key.
+- Direct browser calls depend on the provider's CORS policy.
 
-1. Visit `/app/journal-selector`.
-2. Paste a 200–400 word abstract summarizing objective, method, data, and novelty.
-3. Provide optional keyword hints (semicolon-separated is fine).
-4. Adjust **OA requirement**, **Review speed**, **Journal type**, **Suggestion count**, and **Special notes** (e.g., “avoid page charges”).
-5. In **“Journal analysis model”**, keep **Local demo** for a no-network sample, or select a live provider, choose/enter its model ID, and paste your own API key.
-6. Click **Generate journal plan**. When complete you can preview the table, download CSV, or read the raw JSON.
+## Quick workflow
 
-## Workflow Details
+1. [Open AI Journal Selector](/app/journal-selector).
+2. Paste the manuscript **Abstract** under **Research abstract**.
+3. Complete any useful fields under **Submission profile**:
+   - **Keywords / Focus**
+   - **OA requirement**
+   - **Review speed**
+   - **Journal type**
+   - **Suggestions (3–8)**
+   - **Special notes**
+4. Under **Journal analysis model**, keep Local demo or select a live provider, model and API key.
+5. Review **Indicator reference** and expand **Review all required indicators** if needed.
+6. Select **Generate journal plan**.
+7. Review **AI summary**, candidate cards and the complete comparison table.
+8. Select **Download CSV** or expand **View raw AI response**.
 
-### Abstract & Hint Entry
-- Abstract textarea enforces no length limit but 200–400 words produces the most reliable ranking.
-- Keyword hints improve semantic alignment when the abstract is very general; leave blank to let the model infer topics.
+## Controls & outputs
 
-### Preference Controls
-- **OA requirement** toggles between “No preference”, “Open access required”, and “Subscription preferred”.
-- **Review speed** suggests typical turnaround windows.
-- **Journal type**: choose Chinese core journals or SCI/SCIE international titles to bias the list.
-- **Suggestion count**: between 3 and 8 results to balance depth vs. breadth.
-- **Special notes**: free text for constraints (e.g., “must support preprint citations”, “need double-blind review”).
+| Control or output         | Purpose                                                                                                                                   |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Abstract**              | Required manuscript text sent to the selected model in live mode.                                                                         |
+| **Keywords / Focus**      | Adds subject terms or target scope.                                                                                                       |
+| **OA requirement**        | Chooses no preference, OA required or subscription preferred.                                                                             |
+| **Review speed**          | Adds a preferred turnaround window to the prompt.                                                                                         |
+| **Journal type**          | Chooses no preference, Chinese core preference or SCI/international preference.                                                           |
+| **Suggestions (3–8)**     | Limits the number of model results processed by the app.                                                                                  |
+| **Special notes**         | Adds constraints such as compliance, fees or quartile preference.                                                                         |
+| **Indicator reference**   | Shows the schema loaded from the [journal evaluation file](https://smiler488.github.io/app/journal-selector/journal-indicator-system.md). |
+| Candidate cards           | Summarize journal name, publisher, IF field, JCR/CAS quartile and OA type.                                                                |
+| Complete comparison table | Shows all 26 normalized fields for every returned candidate.                                                                              |
+| **Download CSV**          | Exports the same schema and column order used by the table.                                                                               |
 
-### Indicator Reference
-- The indicator file at `static/app/journal-selector/journal-indicator-system.md` now lists the exact columns (Serial Number, Journal Name, ISSN, Publisher, Year Established, Publication Frequency, OA status, APC, Impact Factor 2024, Five-year IF, JCR Quartile, CAS Quartile, CiteScore, H-index, Self-citation Rate, Annual Publications, Acceptance Rate, Initial Review Cycle, Submission-to-Acceptance, Publication Timeline, Discipline Scope, Core Focus, Special Sections, Strengths, Submission Advice, Warning Status).
-- The app injects this table into the prompt (in Chinese for better model alignment) but demands English values in the JSON. Each column is required; missing values are normalized to `"-"` in both the UI and the CSV.
+## How it works
 
-### Output & CSV
-- The preview table renders exclusively the indicator columns listed above (no extra base fields). `serial_number` auto-increments, while any missing metric displays as `-`.
-- The CSV mirrors that exact column order; download via **Download CSV** for further analysis.
-- Click **View raw AI response** to review the unformatted JSON, helping you diagnose missing metrics or prompt adjustments.
+The app loads the journal evaluation file from the static site. If it cannot be loaded or parsed, it uses the same 26-field default schema built into the page.
 
-### AI Provider & Key Safety
-- **Local demo** is the default. It returns sample data locally, makes no network request, and requires no key; its journal metrics are illustrative and must not be treated as verified current facts.
-- Live options are OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, and **Custom compatible API**. Select the matching provider and model before entering its key.
-- A pasted key exists only in the current tab's memory and is cleared on refresh or exit. It is not built into or persisted by the site. However, this is still a static page: browser-entered credentials cannot be protected like server-side secrets. Use a restricted test key, and use your own authenticated backend proxy in production.
-- Direct browser requests work only when the selected provider allows CORS. A correct key does not guarantee that a provider accepts browser-origin requests.
+The prompt contains the full abstract, keywords, submission preferences, special notes and indicator schema. It asks the selected model for strict JSON containing an overview and journal array. The surrounding instructions are written in Chinese for model alignment, while the indicator file is included without translation and most output values are requested in English.
 
-## Troubleshooting & Tips
+Returned candidates are limited to the selected count and normalized to all schema fields. Missing values display as `-`; serial numbers are filled locally when absent. CSV column labels are English, but model-generated values are not guaranteed to be English. Values beginning with spreadsheet formula characters are neutralized during CSV export.
 
-- **Build failures**: keep the indicator system file outside `src/pages` (currently under `static/...`) so Docusaurus doesn’t try to compile it as MDX.
-- **Indicator updates**: edit `journal-indicator-system.md` whenever you need to rename/reorder/add columns; the app auto-detects them on load (remember to keep the `key | label | description` table format).
-- **Parsing errors**: if status shows “AI response could not be parsed”, reduce prompt length or regenerate—most often caused by models wrapping JSON with prose. The cleanup logic strips code-fences but not arbitrary commentary.
-- **Authentication or permission errors**: confirm that the key belongs to the selected provider and can access the chosen model, with valid billing/quota where required.
-- **CORS / network errors**: the provider may not allow direct browser requests. Switch to Local demo for UI testing or use an authenticated backend proxy that calls the provider server-side.
-- **Custom endpoint errors**: enter a full trusted HTTPS OpenAI-compatible endpoint and a model ID it supports. Check its expected response format if parsing fails.
+Local demo makes no network request and currently returns one illustrative candidate with deliberately unverified metrics.
 
-This tutorial, paired with the in-app guidance, should make it straightforward to maintain and extend the Journal Selector workflow. Update this doc whenever you add new indicator sections or modify the UI flow so users understand the latest capabilities.
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/journal-selector">App</a></div>
+## Data, privacy & external services
+
+In live mode, the full abstract, keywords, preferences, notes and indicator reference are sent to the endpoint shown in **Journal analysis model**. Do not submit confidential manuscript text unless the provider and its data policy are acceptable for your work.
+
+The API key remains only in the current tab's memory, is cleared on provider change, refresh or page exit, and is sent to the displayed endpoint. A static site cannot secure it like a backend. Use a restricted test key and an authenticated server-side proxy for production use.
+
+Provider CORS rules, regional endpoints, model access, billing and quota all affect whether a direct browser request succeeds.
+
+:::info Time-sensitive fields
+The current schema includes **Impact Factor (2024)** as a fixed field name. Treat it as a schema snapshot, not proof that a value is current. Verify IF, quartiles, APC, OA status and timelines on the publisher and relevant indexing services.
+:::
+
+## Limitations
+
+- The interface does not enforce an abstract length, but provider context limits still apply.
+- A requested count of 3–8 does not guarantee that the model returns that many valid candidates.
+- Local demo is illustrative and returns only one candidate.
+- The app cannot verify whether a journal is active, indexed, predatory or suitable for a specific institution.
+- AI output can be incomplete even though missing fields are normalized in the UI.
+- CSV is a planning aid, not evidence of current journal metrics.
+
+## Troubleshooting
+
+- **Please paste the abstract first:** the Abstract field is empty.
+- **AI response could not be parsed:** regenerate or choose a model that reliably returns strict JSON.
+- **Only one candidate appears in Local demo:** this is expected; switch to a live provider for an actual model request.
+- **Many fields show a dash:** the model omitted those values; do not infer that the metric is zero.
+- **401, 403, 404 or 429:** verify provider, model ID, key permissions, billing and quota.
+- **CORS or network failure:** use Local demo or your authenticated backend proxy.
+- **Indicator file is unavailable:** the app automatically uses its built-in 26-field schema.
+- **CSV differs from a publisher page:** treat the publisher or indexing service as authoritative and correct your research record manually.
+
+[Open AI Journal Selector →](/app/journal-selector)
+
+[← Back to App Lab](/app)

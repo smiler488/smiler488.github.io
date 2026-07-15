@@ -5,14 +5,533 @@
 
 .docItemContainer {
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 5%);
   padding: 1.5rem;
   background-color: var(--ifm-background-surface-color);
   transition: all 0.3s ease;
 }
 
+.tutorialPage {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: 2rem;
+}
+
+.tutorialGlow {
+  position: absolute;
+  z-index: -1;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 999px;
+  filter: blur(68px);
+  opacity: 0.17;
+  pointer-events: none;
+}
+
+.tutorialGlowOne {
+  top: -4rem;
+  left: 5%;
+  background: #0071e3;
+}
+
+.tutorialGlowTwo {
+  top: 20rem;
+  right: 4%;
+  background: #34c759;
+}
+
+.tutorialBreadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tutorialBreadcrumbs :global(.breadcrumbs) {
+  margin-bottom: 0;
+}
+
+.tutorialHero,
+.tutorialArticle {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.tutorialHero {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border-radius: var(--radius-2xl);
+}
+
+.tutorialHero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glass-highlight),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.tutorialHeroTopline,
+.tutorialHeroFooter,
+.tutorialHeroBody {
+  display: flex;
+  align-items: center;
+}
+
+.tutorialHeroTopline {
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.4rem, 3vw, 2.25rem);
+}
+
+.tutorialBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.tutorialBackLink:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.tutorialRuntime {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.runtimeDot {
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #34c759;
+  box-shadow: 0 0 0 4px rgb(52 199 89 / 12%);
+}
+
+.tutorialHeroBody {
+  align-items: flex-start;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.tutorialIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: clamp(4rem, 8vw, 5.25rem);
+  height: clamp(4rem, 8vw, 5.25rem);
+  border: 1px solid rgb(255 255 255 / 44%);
+  border-radius: 1.45rem;
+  background: rgb(0 113 227 / 12%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 54%), 0 12px 30px rgb(0 0 0 / 8%);
+  color: #0068d1;
+  font-size: clamp(0.88rem, 1.8vw, 1.05rem);
+  font-weight: 780;
+  letter-spacing: -0.02em;
+}
+
+.tutorialIcon[data-tone="green"] {
+  background: rgb(52 199 89 / 14%);
+  color: #16843b;
+}
+
+.tutorialIcon[data-tone="cyan"] {
+  background: rgb(50 173 230 / 14%);
+  color: #087fae;
+}
+
+.tutorialIcon[data-tone="orange"] {
+  background: rgb(255 149 0 / 15%);
+  color: #a85c00;
+}
+
+.tutorialIcon[data-tone="violet"] {
+  background: rgb(175 82 222 / 14%);
+  color: #8d35b8;
+}
+
+.tutorialIcon[data-tone="rose"] {
+  background: rgb(255 45 85 / 13%);
+  color: #c51d43;
+}
+
+.tutorialEyebrow {
+  display: block;
+  margin: 0.15rem 0 0.55rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.74rem;
+  font-weight: 760;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.tutorialHeroCopy {
+  min-width: 0;
+}
+
+.tutorialHeroCopy h1 {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(2rem, 4.8vw, 3.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.tutorialHeroCopy p {
+  max-width: 48rem;
+  margin: 0.9rem 0 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: clamp(1rem, 1.7vw, 1.14rem);
+  line-height: 1.62;
+}
+
+.tutorialHeroFooter {
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(1.6rem, 3vw, 2.3rem);
+}
+
+.tutorialBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tutorialBadges li {
+  padding: 0.42rem 0.72rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 36%);
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.73rem;
+  font-weight: 640;
+  line-height: 1;
+}
+
+.openAppButton {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.8rem;
+  padding: 0.68rem 1rem;
+  border-radius: 999px;
+  background: #0071e3;
+  box-shadow: 0 10px 24px rgb(0 113 227 / 20%),
+    inset 0 1px 0 rgb(255 255 255 / 28%);
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 720;
+  transition: transform 180ms var(--ease-smooth),
+    box-shadow 180ms var(--ease-smooth), background 180ms var(--ease-smooth);
+}
+
+.openAppButton:hover {
+  background: #087be9;
+  box-shadow: 0 14px 28px rgb(0 113 227 / 27%),
+    inset 0 1px 0 rgb(255 255 255 / 34%);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.openAppButton:focus-visible,
+.tutorialBackLink:focus-visible {
+  outline: 3px solid rgb(0 113 227 / 28%);
+  outline-offset: 3px;
+}
+
+.tutorialArticle {
+  padding: clamp(1.25rem, 3.5vw, 2.6rem);
+  border-radius: var(--radius-xl);
+}
+
+.tutorialArticle article,
+.tutorialArticle :global(.theme-doc-markdown) {
+  min-width: 0;
+}
+
+.tutorialArticle :global(.theme-doc-markdown) {
+  max-width: 76ch;
+  margin-inline: auto;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.tutorialArticle :global(.theme-doc-markdown > header:first-child) {
+  display: none;
+}
+
+.tutorialArticle :global(.theme-doc-markdown > h2) {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--glass-border);
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.42rem, 2.6vw, 1.8rem);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
+.tutorialArticle :global(.theme-doc-markdown > h2:first-child) {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.tutorialArticle :global(.theme-doc-markdown h3) {
+  margin-top: 2rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.16rem;
+  letter-spacing: -0.012em;
+}
+
+.tutorialArticle :global(.theme-doc-markdown strong) {
+  color: var(--ifm-color-emphasis-900);
+}
+
+.tutorialArticle :global(.theme-doc-markdown li + li) {
+  margin-top: 0.42rem;
+}
+
+.tutorialArticle :global(.theme-doc-markdown table) {
+  display: table;
+  width: 100%;
+  margin: 1.25rem 0;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 24%);
+  font-size: 0.9rem;
+}
+
+.tutorialArticle :global(.theme-doc-markdown th) {
+  background: rgb(0 113 227 / 7%);
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 700;
+}
+
+.tutorialArticle :global(.theme-doc-markdown th),
+.tutorialArticle :global(.theme-doc-markdown td) {
+  padding: 0.75rem 0.85rem;
+  border-color: var(--glass-border);
+  vertical-align: top;
+}
+
+.tutorialArticle :global(.theme-admonition) {
+  margin: 1.5rem 0;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 30%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 36%);
+}
+
+.tutorialArticle :global(pre) {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+.tutorialArticle :global(.pagination-nav) {
+  gap: 0.75rem;
+}
+
+.tutorialArticle :global(.pagination-nav__link) {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 24%);
+  transition: border-color 180ms var(--ease-smooth),
+    background 180ms var(--ease-smooth), transform 180ms var(--ease-smooth);
+}
+
+.tutorialArticle :global(.pagination-nav__link:hover) {
+  border-color: rgb(0 113 227 / 28%);
+  background: rgb(255 255 255 / 44%);
+  transform: translateY(-1px);
+}
+
+.tutorialToc > div {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  padding: 1rem 0.9rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  backdrop-filter: var(--glass-blur-medium);
+}
+
+.tutorialToc :global(.table-of-contents) {
+  font-size: 0.82rem;
+}
+
+:global(html[data-theme="dark"]) .tutorialBadges li,
+:global(html[data-theme="dark"]) .tutorialArticle :global(.theme-admonition),
+:global(html[data-theme="dark"])
+  .tutorialArticle
+  :global(.pagination-nav__link),
+:global(html[data-theme="dark"])
+  .tutorialArticle
+  :global(.theme-doc-markdown table) {
+  background: rgb(255 255 255 / 5%);
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="green"] {
+  color: #56d477;
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="cyan"] {
+  color: #57c8f2;
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="orange"] {
+  color: #ffb44a;
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="violet"] {
+  color: #d691f4;
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="rose"] {
+  color: #ff6d89;
+}
+
+:global(html[data-theme="dark"]) .tutorialIcon[data-tone="blue"] {
+  color: #5cb3ff;
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .tutorialHero,
+  .tutorialArticle,
+  .tutorialToc > div {
+    background: var(--ifm-background-surface-color);
+  }
+}
+
 @media (min-width: 997px) {
-  .docItemCol {
+  .docItemCol,
+  .tutorialDocItemCol {
     max-width: 75% !important;
+  }
+}
+
+@media (max-width: 996px) {
+  .tutorialPage {
+    padding-bottom: 1rem;
+  }
+
+  .tutorialBreadcrumbs {
+    margin-bottom: 0.5rem;
+  }
+
+  .tutorialArticle :global(.theme-doc-markdown) {
+    max-width: none;
+  }
+
+  .tutorialArticle :global(.theme-doc-markdown table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: normal;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .tutorialHero,
+  .tutorialArticle {
+    border-radius: 1.35rem;
+  }
+
+  .tutorialHeroTopline,
+  .tutorialHeroFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tutorialRuntime {
+    text-align: left;
+  }
+
+  .tutorialHeroBody {
+    flex-direction: column;
+  }
+
+  .tutorialIcon {
+    width: 3.7rem;
+    height: 3.7rem;
+    border-radius: 1.15rem;
+  }
+
+  .tutorialHeroCopy h1 {
+    font-size: clamp(2rem, 11vw, 2.7rem);
+  }
+
+  .openAppButton {
+    width: 100%;
+  }
+
+  .tutorialArticle {
+    padding: 1.1rem;
+  }
+
+  .tutorialArticle :global(.theme-doc-markdown) {
+    font-size: 0.98rem;
+    line-height: 1.68;
+  }
+
+  .tutorialArticle :global(.theme-doc-markdown > h2) {
+    margin-top: 2.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .openAppButton,
+  .tutorialArticle :global(.pagination-nav__link) {
+    transition: none;
+  }
+
+  .openAppButton:hover,
+  .tutorialArticle :global(.pagination-nav__link:hover) {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tutorialHero,
+  .tutorialArticle,
+  .tutorialToc > div {
+    background: var(--ifm-background-surface-color);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

@@ -1,93 +1,114 @@
-# AI Data Visualizer Tutorial
+---
+title: "AI Data Visualizer"
+description: "Load a table, create deterministic local charts and optionally use your chosen AI provider to help interpret patterns."
+sidebar_label: "AI Data Visualizer"
+sidebar_position: 10
+hide_title: true
+keywords:
+  - "ai"
+  - "chart"
+  - "data"
+  - "csv"
+  - "xlsx"
+  - "echarts"
+app_route: "/app/ai-data-visualizer"
+app_icon: "CSV"
+app_category: "AI & research"
+app_runtime: "Local charts · optional external AI"
+app_tone: "blue"
+app_badges:
+  - "Local chart data"
+  - "BYOK AI"
+  - "CSV / XLSX / JSON"
+---
 
-## Overview
+## What it does
 
-The **AI Data Visualizer** transforms raw CSV/TSV spreadsheets into AI-generated insights and interactive ECharts graphics. You upload a table, describe the analytical goal, and either the private local demo or your selected AI provider returns a summary, action-oriented insights, and a browser-rendered chart you can share or download as PNG.
+AI Data Visualizer loads a table in your browser, profiles its columns and creates an interactive ECharts visualization. The default **Local demo** builds deterministic charts from the uploaded rows without a network request. You can optionally send a compact dataset summary and analysis goal to an AI provider that you configure.
 
-Visit the app at: `/app/ai-data-visualizer`
+:::info Local-first workflow
+Your original file is parsed locally. Use **Local demo** or **Apply field mapping** when you need a chart derived directly from the rows rather than a model-generated chart specification.
+:::
 
-## Key Features
+## Before you start
 
-- **Local CSV/TSV parsing**: Works entirely in the browser; no data leaves the device until you call an API.
-- **Automatic dataset summarization**: Detects delimiters, infers numeric columns, and previews sample rows.
-- **Promptable analysis goals**: Tell the AI what story to highlight; the prompt snippet is visible for auditing.
-- **ECharts option generator**: Requests a structured `chart_option` JSON (title/axes/series/visualMap) and renders it client-side.
-- **Interactive visualizations**: Charts support tooltips, legends, and responsive layouts with dynamic color palettes.
-- **PNG export**: Download the rendered canvas for reports or slides in one click.
-- **Shared AI settings**: Start with the no-network Local demo, or bring your own key for OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, or a trusted OpenAI-compatible endpoint.
+- Use a recent browser with File API, Canvas and JavaScript support.
+- Accepted files are CSV, TSV, XLSX, XLS and JSON, up to 20 MB.
+- A useful local chart normally needs at least one numeric column.
+- Live AI analysis requires network access, a provider/model and your own API key.
+- Direct browser calls work only when that provider permits cross-origin requests (CORS).
 
-## Requirements
+## Quick workflow
 
-- Modern browser (Chrome, Edge, Firefox, Safari) with File API support
-- CSV/TSV file under ~5 MB for best performance
-- Network connectivity for live AI requests (not required for Local demo)
-- An API key for the provider you select, or access to a trusted OpenAI-compatible endpoint (optional)
+1. [Open AI Data Visualizer](/app/ai-data-visualizer).
+2. In **Upload data**, choose a CSV, TSV, Excel or JSON file. If an Excel workbook contains several sheets, choose an **Excel sheet**.
+3. Review the preview and **Dataset summary sent to AI** before continuing.
+4. Enter an **Analysis goal**.
+5. Optionally set **X Field**, **Y Field**, **Group**, **Aggregation**, **Error Bars** and **Side-by-side multi charts**.
+6. Keep **Local demo** selected for a no-network result, or configure a live provider under **Analysis model**.
+7. Choose one action:
+   - **Apply field mapping** immediately rebuilds a local chart from the selected fields.
+   - **Generate visualization** uses the selected model; with Local demo it also produces a deterministic local chart.
+8. Review **AI Insights**, **Interactive chart** and **Raw AI response**, then use **Download PNG** after the chart finishes rendering.
 
-## Step-by-Step Guide
+## Controls & outputs
 
-### 1. Upload Your Dataset
+| Control or output              | Purpose                                                                                |
+| ------------------------------ | -------------------------------------------------------------------------------------- |
+| **Analysis goal**              | Describes the comparison, trend, anomaly or chart you want.                            |
+| **X Field / Y Field**          | Selects category and value columns; **Auto** lets local heuristics choose.             |
+| **Group**                      | Splits values into multiple series.                                                    |
+| **Aggregation**                | Calculates mean, median, sum or count for mapped fields.                               |
+| **Error Bars**                 | Adds standard deviation or standard error whiskers when the mapped data supports them. |
+| **Side-by-side multi charts**  | Combines a primary chart with a second local view.                                     |
+| **Preview**                    | Shows a compact sample of the parsed table.                                            |
+| **Dataset summary sent to AI** | Shows the exact compact text included in a live-provider prompt.                       |
+| **AI Insights**                | Displays a returned or locally generated summary and insight list.                     |
+| **Interactive chart**          | Renders the normalized ECharts option.                                                 |
+| **Raw AI response**            | Shows live model JSON or a local-mode chart payload.                                   |
 
-1. Open `/app/ai-data-visualizer`.
-2. Click **“Upload data”** and select a `.csv` or `.tsv`.
-3. The left panel shows filename + size, while the right panel lists the first 10 rows for verification.
-4. The textarea titled **“Dataset summary sent to AI”** displays the JSON payload that will be embedded in the prompt (columns, numeric hints, sample rows, row-count estimate). This is capped at ~8000 characters for token safety.
+## How it works
 
-### 2. Describe the Analytical Goal
+The browser reads at most 10,000 table rows and retains a smaller sample for profiling. The provider-facing summary contains file metadata, column names, inferred numeric columns, category examples, column profiles and at most the first eight sample rows. It is capped at approximately 8,000 characters.
 
-1. In **“Analysis goal”**, type what you want the AI to emphasize (trends, anomalies, comparisons, forecasts, etc.).
-2. In **“Analysis model”**, leave **Local demo** selected to test the workflow with a local sample response. This mode makes no network request and needs no key.
-3. For live analysis, select OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, or **Custom compatible API**. Choose or enter a model ID, then paste the corresponding API key. Only the custom provider allows you to edit the endpoint.
-4. The key is kept only in the current tab's memory and is cleared on refresh or exit. It is never bundled with the site, but a static page cannot protect a browser-entered key as securely as a backend can. Use a restricted test key here; for production, route requests through your own authenticated backend proxy.
+CSV and TSV files are parsed as delimited text. Excel workbooks are parsed by sheet. JSON supports common table shapes such as an array of objects, a `columns` plus `data` structure, or a `headers` plus `rows` structure.
 
-### 3. Generate the Visualization
+In Local demo, chart values are computed from the stored rows. In live mode, the app asks the selected model for strict JSON containing `summary`, `insights` and `chart_option`, then normalizes the option before rendering it. Tukey letters and low/high error bars are supported when the model returns the expected fields.
 
-1. Press **“Generate visualization”**.
-2. The app builds a structured prompt that instructs the AI to answer with:
-  ```json
-  {
-    "summary": "...",
-    "insights": ["..."],
-    "chart_option": { "title": {...}, "tooltip": {...}, "xAxis": {...}, "yAxis": {...}, "series": [...] }
-  }
-  ```
-3. If your goal mentions ANOVA/Tukey, the response may include an extra field `tukey_letters` (object mapping category → letter, e.g., `{"Treatment_A":"a","Treatment_B":"ab"}`). If uncertainty is needed, include `error_bars` as an array like `[{"name":"A","low":10,"high":12}]`; the app renders whiskers.
-4. Status messages appear under the upload card. If a live request fails, the app labels the result clearly and tries a local sample/offline visualization so you can continue testing; it does not silently switch providers or use a built-in credential.
-5. When the response arrives, the parsed summary and bullet insights display in the **“AI Insights”** card.
+If a live request fails and the table can still be charted locally, the app displays a local fallback. The raw payload can contain modes such as `local-deterministic`, `offline-mapping`, `local-fallback` or `offline`.
 
-### 4. Interact with the Chart
+## Data, privacy & external services
 
-1. The **“Interactive chart”** section renders an ECharts visualization using the AI-provided option. Colors are harmonized automatically and tooltips/legends/visualMap behave just like native ECharts demos.
-2. If ECharts throws an error (e.g., the AI produced malformed option data), the runtime error banner explains what failed so you can tweak your goal prompt.
-3. Click **“Download PNG”** to export the current canvas (`ai-chart-<timestamp>.png`). The button enables only after the chart instance finishes rendering.
+The complete source file is not uploaded by this page. Local parsing, field mapping and chart rendering happen in browser memory.
 
-### 5. Inspect the Raw Response
+When you select a live provider, the analysis goal, field mapping and visible compact dataset summary are sent to the API endpoint shown in **Analysis model**. That summary can include sample values, so inspect it before sending sensitive or unpublished data.
 
-1. Scroll to **“Raw AI response”** for the exact text returned by the API. This helps debug schema issues or log the model output for reproducibility.
-2. Because the model output is stored locally, you can copy this block into notebooks or re-run the chart with manual tweaks if needed.
+The API key is held only in the current tab's React state, is cleared on provider change, refresh or page exit, and is sent to the displayed endpoint. A static website cannot protect a browser-entered key like a server-side proxy can. Use a restricted test key; for production, use your own authenticated backend.
 
-## Tips for Better Results
+:::caution Verify model-generated charts
+An external model can omit rows, invent values or return a misleading chart option. Validate axes, values, aggregation and uncertainty against the source table before using a result in research or reporting.
+:::
 
-- Keep column names human-readable before uploading; the AI references them verbatim.
-- Add units or context in the analysis goal, e.g., “Plot weekly irrigation volume (m³) vs. field ID.”
-- If the AI returns an irrelevant chart type, explicitly ask for “stacked bar” or “multi-axis line” in the goal.
-- For large files, pre-filter to the metrics you care about to stay under token limits.
-- For production, host an authenticated proxy that injects the real API key server-side and returns compatible JSON. Do not treat a key entered into a static browser page as secret.
- - Enforce strict JSON: add “Return ONLY strict JSON with fields summary, insights, chart_option; no extra text or Markdown fences.” in the goal.
- - For correlation matrices, explicitly request a rectangular heatmap using `[xIndex, yIndex, value]` tuples.
+## Limitations
+
+- Files larger than 20 MB are rejected, and only the first 10,000 parsed rows are stored.
+- The compact AI summary is not the full dataset.
+- Local chart selection is heuristic and may need explicit field mapping.
+- Live providers may reject browser requests because of CORS, account policy, quota or model access.
+- A model can return invalid JSON or an unsupported ECharts option.
+- PNG export becomes available only after ECharts has rendered successfully.
 
 ## Troubleshooting
 
-- **“Please upload a CSV or TSV file first.”** — No file detected; ensure the input field shows your filename.
-- **“AI response was not valid JSON.”** — The model returned plain text; ask it to strictly follow the schema or reduce creativity.
-- **“Chart rendering failed.”** — Usually caused by mismatched axis lengths or invalid ECharts option fields; adjust the prompt or edit the raw JSON manually before re-running.
-- **401/403 errors** — Check that the key belongs to the selected provider and has permission, quota, billing, and access to the chosen model.
-- **404 or model-not-found errors** — Verify the model ID and endpoint. Fixed provider endpoints are supplied by the app; custom endpoints must be full HTTPS OpenAI-compatible URLs.
-- **CORS / “Failed to fetch”** — Direct browser access depends on each provider's CORS policy and may be disabled even when the key is valid. Use Local demo, or put the provider call behind your authenticated backend proxy.
-- **A local fallback is displayed** — The live request failed and the app generated a clearly labeled sample/offline chart. Recheck the provider, model, key, endpoint, quota, and CORS support before relying on a live result.
+- **The file is rejected:** confirm its extension and reduce it below 20 MB.
+- **Excel parsing fails:** retry with a simpler workbook or export the required sheet as CSV.
+- **No usable numeric series:** clean numeric cells and choose explicit X and Y fields.
+- **The chart is not what you expected:** set field mapping, aggregation and error bars, then use **Apply field mapping**.
+- **401, 403, 404 or 429:** verify the selected provider, exact model ID, key permissions, billing and quota.
+- **CORS or Failed to fetch:** use Local demo or route the request through your authenticated backend.
+- **Chart rendering failed:** simplify the goal or regenerate; the returned ECharts option may be malformed.
+- **Download PNG is disabled:** wait for the chart to render and check for a runtime error above it.
 
-## Next Steps
+[Open AI Data Visualizer →](/app/ai-data-visualizer)
 
-- Extend the page to support multiple charts per response or allow the user to pin favorite prompts.
-- Fork the prompt template so different departments (finance, agronomy, marketing) receive domain-specific instructions.
-- Embed the PNG download button into your documentation workflow or automate exports via browser scripting.
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/ai-data-visualizer">App</a></div>
+[← Back to App Lab](/app)

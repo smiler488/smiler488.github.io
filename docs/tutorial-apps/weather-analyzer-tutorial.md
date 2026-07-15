@@ -1,182 +1,119 @@
-# Weather Analyzer Tutorial
-
-## Overview
-
-The Weather Analyzer downloads and prepares daily meteorological data from NASA's POWER (Prediction Of Worldwide Energy Resources) for agronomic workflows. You pick a location and date range, fetch daily records, preview cleaned data, and export CSV or PCSE‑format files for models such as WOFOST/PCSE. A built‑in map lets you click to select coordinates or search by place name.
-
-## Key Features
-
-- **NASA POWER fetch**: Daily point data via POWER API for a selected coordinate
-- **Map & search**: Leaflet map with click‑to‑select and Nominatim place search
-- **Fixed parameter set**: TOA_SW_DWN, ALLSKY_SFC_SW_DWN, T2M, T2M_MIN, T2M_MAX, T2MDEW, WS2M, PRECTOTCORR
-- **PCSE conversion**: Transform to `IRRAD/TMIN/TMAX/VAP/WIND/RAIN` and fill gaps with moving averages
-- **Data preview**: Render first rows in an HTML table for quick QA
-- **Export**: Download cleaned CSV and PCSE‑style CSV (with header block)
-
-## Quick Start
-
-### 1. Open the App
-
-Visit `/app/weather`.
-
-### 2. Pick Location
-
-- Click on the map to set latitude/longitude, or type them directly
-- Use the search box (top of the map) to find places and auto‑set coordinates
-- Optional: Click “Get Current Location” to use browser geolocation (HTTPS required)
-
-### 3. Set Date Range
-
-- Choose start and end dates (start must be before end)
-- POWER typically provides data from 1984 to present
-
-### 4. Download & Preview
-
-- Click “Download NASA Weather Data” to fetch and process records
-- The app converts to PCSE fields and fills missing values using local windows
-- A preview table shows the first rows; status indicates counts and missing fills
-- Use the “Download CSV” and “Download Excel (PCSE Format)” buttons to save files
-
-## Notes & Limits
-
-- Parameters are fixed to a daily agronomy set; custom selection is not available in this version
-- Charts are not included; use exported data for plotting in your tools (Excel, Python, R)
-- Geolocation requires HTTPS pages or localhost; otherwise browsers may block it
-
-## Troubleshooting
-
-- “Invalid coordinates” or “End date must be after start date”: correct inputs and retry
-- “No data returned” or empty preview: date range or coordinate may be out of coverage; try nearby land points
-- Slow responses: POWER API latency varies; larger date ranges take longer
-   - Zoom and pan capabilities for detailed examination
-
-3. **Statistical Summary**
-   - Basic statistics (mean, median, standard deviation)
-   - Seasonal patterns and trends
-   - Anomaly detection relative to long-term averages
-
-### Step 5: Data Export
-
-1. **CSV Format Export**
-   - Download complete dataset in CSV format
-   - Includes all requested parameters with timestamps
-   - Compatible with statistical software and spreadsheets
-
-2. **Chart Export**
-   - Export visualizations as PNG or SVG images
-   - High-resolution images for publications
-   - Customizable chart dimensions and styles
-
-## Technical Specifications
-
-### Data Sources
-- **NASA POWER Database**: Primary meteorological data source
-- **Satellite Observations**: Solar radiation and cloud cover data
-- **Global Weather Models**: Reanalysis data for comprehensive coverage
-- **Ground Station Integration**: Quality-controlled station data
-
-### Data Parameters
-
-#### Core Meteorological Parameters
-- **Temperature**: °C, with daily max/min/mean values
-- **Precipitation**: mm/day, liquid precipitation equivalent
-- **Solar Radiation**: W/m², daily total and hourly values
-- **Relative Humidity**: %, at standard measurement heights
-- **Wind Speed**: m/s, at 10m and 50m heights
-
-#### Agricultural Parameters
-- **Growing Degree Days**: Base temperature accumulation
-- **Reference ET**: mm/day, Penman-Monteith calculation
-- **Soil Temperature**: °C, at various depths
-- **Frost Probability**: % likelihood of frost occurrence
-
-### Spatial Resolution
-- **Global Coverage**: 1° × 1° grid resolution
-- **Interpolation**: Bilinear interpolation for specific coordinates
-- **Accuracy**: Typically within 10% of ground truth measurements
-
-### Temporal Resolution
-- **Daily Data**: Primary temporal resolution
-- **Monthly Aggregates**: Monthly averages and totals
-- **Historical Records**: 1984 to present for most parameters
-
-## Best Practices
-
-### Data Quality Assessment
-1. **Validation Checks**
-   - Compare with local weather station data when available
-   - Check for data gaps or anomalous values
-   - Verify spatial representativeness for specific locations
-
-2. **Parameter Selection**
-   - Choose parameters relevant to research objectives
-   - Consider parameter interdependencies
-   - Account for seasonal variations in data quality
-
-### Agricultural Applications
-1. **Crop Modeling**
-   - Use temperature data for phenology modeling
-   - Apply precipitation data for irrigation scheduling
-   - Utilize solar radiation for yield prediction
-
-2. **Climate Analysis**
-   - Analyze long-term climate trends
-   - Identify climate change impacts on agriculture
-   - Assess climate variability and extremes
-
-### Data Integration
-1. **Multi-source Integration**
-   - Combine with local observation data
-   - Integrate with soil and crop data
-   - Use for model calibration and validation
-
-2. **Statistical Analysis**
-   - Apply appropriate statistical methods
-   - Account for autocorrelation in time series
-   - Use robust methods for outlier detection
-
-## Troubleshooting
-
-### Common Issues
-
-**1. Data Retrieval Failure**
-- Verify internet connection stability
-- Check NASA POWER service status
-- Ensure coordinate values are within valid ranges
-
-**2. Missing Data**
-- Some parameters may not be available for all locations
-- Check date range against parameter availability
-- Verify location is over land (NASA POWER covers land areas only)
-
-**3. Chart Display Issues**
-- Ensure browser supports modern JavaScript features
-- Check for sufficient system memory for large datasets
-- Try refreshing page and re-downloading data
-
-### Performance Optimization
-
-**For Large Datasets**
-- Limit date ranges to necessary periods
-- Select only required parameters
-- Use monthly aggregates for long-term analysis
-
-**For Multiple Locations**
-- Process locations sequentially
-- Consider batch processing for efficiency
-- Use appropriate sampling strategies
-
-## Technical Support
-
-If you encounter technical issues:
-
-1. Check browser console for error messages
-2. Verify coordinate values and date ranges
-3. Ensure NASA POWER service is accessible
-4. Contact support with specific error details and parameters
-
 ---
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to Weather Analyzer v1.0*
-*Optimized for agricultural and environmental research applications*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/weather">App</a></div>
+title: NASA POWER Weather Downloader
+description: Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results.
+sidebar_label: Weather Downloader
+sidebar_position: 4
+hide_title: true
+keywords:
+  - weather
+  - climate
+  - nasa
+  - power
+  - pcse
+  - csv
+app_route: /app/weather
+app_icon: WX
+app_category: Field planning
+app_runtime: NASA POWER connection
+app_tone: cyan
+app_badges:
+  - NASA POWER
+  - Map selection
+  - CSV export
+---
+
+## What it does
+
+NASA POWER Weather Downloader requests fixed daily or hourly agrometeorological variables for one coordinate and date range. You can select the coordinate manually, on a map, through place search or with browser location, preview up to 100 returned rows and download the complete response as CSV.
+
+:::info Raw POWER records
+The current app exports the variables returned by NASA POWER. It does not convert them to PCSE/WOFOST fields, fill missing values, calculate ET₀ or generate charts.
+:::
+
+## Before you start
+
+- A network connection is required for NASA POWER and the external map services.
+- Choose one coordinate in the latitude range `-90…90` and longitude range `-180…180`.
+- Prepare an inclusive start and end date. Daily requests are limited to 3,660 days and hourly requests to 366 days.
+- If using **Get Current Location**, allow browser geolocation or verify the approximate IP-based fallback coordinate carefully.
+
+## Quick workflow
+
+1. Choose **Daily** or **Hourly** in **Time Scale**. For hourly data, choose **LST** or **UTC** in **Time Standard**.
+2. Enter latitude and longitude, click the map, use **Search**, or select **Get Current Location**.
+3. Select **Start Date** and **End Date**.
+4. Select **Download NASA Weather Data** and monitor **Status**.
+5. Inspect the first returned rows in **Data preview**.
+6. Select **Download CSV** to save the complete returned table.
+
+## Controls & outputs
+
+| Control or panel                         | Actual behavior                                                                                                                  |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Time Scale**                           | Chooses NASA POWER daily or hourly point data.                                                                                   |
+| **Time Standard**                        | Sends `LST` or `UTC` with hourly requests.                                                                                       |
+| **Latitude / Longitude**                 | Sets the request coordinate directly. Map clicks and location tools update these fields.                                         |
+| **Search place or address** / **Search** | Sends the query to Nominatim and uses the first result. Pressing Enter also starts a search.                                     |
+| **Get Current Location**                 | Requests browser geolocation; on unsupported, insecure, unavailable or timed-out cases it can try IP-based approximate location. |
+| **Download NASA Weather Data**           | Validates the inputs and requests the fixed parameter set. A later request cancels an active earlier request.                    |
+| **Data preview**                         | Displays at most the first 100 records.                                                                                          |
+| **Download CSV**                         | Downloads every parsed record, not just the preview.                                                                             |
+
+Daily parameters:
+
+```text
+TOA_SW_DWN, ALLSKY_SFC_SW_DWN, T2M, T2M_MIN,
+T2M_MAX, T2MDEW, WS2M, PRECTOTCORR
+```
+
+Hourly parameters:
+
+```text
+T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOT
+```
+
+## How it works
+
+The app calls the NASA POWER point API with community `AG`, the chosen coordinate, inclusive date range and one fixed parameter list. Daily requests use the daily endpoint. Hourly requests use the hourly endpoint and include the selected time standard.
+
+Returned parameter series are aligned by their date or hour keys and converted to rows. The preview renders the first 100 rows, while the CSV contains the full parsed response. Values are exported as returned; no statistical cleaning, interpolation or unit conversion is applied.
+
+## Data, privacy & external services
+
+This workflow connects to several third parties:
+
+| Service       | Data sent or requested                                                                        |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| NASA POWER    | Coordinate, date range, time scale, time standard where applicable and parameter identifiers. |
+| OpenStreetMap | Map tile requests for the visible area.                                                       |
+| Nominatim     | Text entered into place search.                                                               |
+| ipapi.co      | An IP-based approximate-location request after precise location cannot be used.               |
+| unpkg         | Leaflet JavaScript and CSS required by the map.                                               |
+
+The downloaded records remain in browser memory until replaced or the page is closed. A temporary local URL is created for CSV download and revoked during cleanup.
+
+## Limitations
+
+:::caution Model input quality
+
+- NASA POWER is a gridded data product, not an on-site weather station measurement.
+- Availability, units, missing-value flags and quality vary by variable, temporal product, place and period; check current POWER metadata before modelling.
+- The app does not remove sentinel values or validate agronomic consistency.
+- It provides one location per request and no monthly aggregation, batch processing, PCSE conversion, Excel export, charts or summary statistics.
+- Map, search, approximate location and data retrieval depend on external availability, rate limits and browser network policy.
+  :::
+
+## Troubleshooting
+
+| Problem                                    | What to check                                                                                                                  |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Map does not load                          | Confirm Leaflet and OpenStreetMap resources are reachable. Coordinates can still be entered manually if the form is available. |
+| Place search returns no result             | Use a more specific query or enter coordinates manually.                                                                       |
+| Location is inaccurate                     | IP fallback is approximate; verify the marker and coordinates before requesting data.                                          |
+| Date validation fails                      | Enter both dates, keep start on or before end, and stay within the daily or hourly duration limit.                             |
+| NASA POWER returns an error or no rows     | Recheck coordinates and dates, shorten the range and retry after confirming POWER service availability.                        |
+| The CSV contains missing or unusual values | Inspect the POWER metadata and clean or transform the exported data in your analysis workflow.                                 |
+
+[Open NASA POWER Weather Downloader](/app/weather)
+
+[Browse all apps](/app)

@@ -1,0 +1,579 @@
+.generatedIndexPage {
+  max-width: 75%;
+}
+
+.title {
+  --ifm-h1-font-size: 3rem;
+
+  margin-bottom: calc(1.25 * var(--ifm-leading));
+}
+
+.categoryFooter {
+  margin-top: 1.5rem;
+}
+
+.tutorialIndex {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: 2rem;
+}
+
+.ambientOrbOne,
+.ambientOrbTwo {
+  position: absolute;
+  z-index: -1;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 999px;
+  filter: blur(82px);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.ambientOrbOne {
+  top: -7rem;
+  right: 5%;
+  background: #0071e3;
+}
+
+.ambientOrbTwo {
+  top: 34rem;
+  left: 8%;
+  background: #34c759;
+}
+
+.breadcrumbRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumbRow :global(.breadcrumbs) {
+  margin-bottom: 0;
+}
+
+.tutorialHero,
+.tutorialCard,
+.collectionNote {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.tutorialHero {
+  display: grid;
+  overflow: hidden;
+  position: relative;
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: end;
+  padding: clamp(1.5rem, 4.5vw, 4.5rem);
+  border-radius: var(--radius-2xl);
+}
+
+.tutorialHero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glass-highlight),
+    transparent
+  );
+}
+
+.eyebrow,
+.sectionLabel {
+  display: block;
+  color: var(--ifm-color-primary);
+  font-size: 0.72rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
+}
+
+.heroCopy h1 {
+  max-width: 13ch;
+  margin: 0.8rem 0 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(2.5rem, 6vw, 5.3rem);
+  line-height: 0.98;
+  letter-spacing: -0.057em;
+}
+
+.heroCopy > p {
+  max-width: 49rem;
+  margin: 1.4rem 0 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: clamp(1rem, 1.8vw, 1.16rem);
+  line-height: 1.65;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.8rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.9rem;
+  padding: 0.72rem 1.05rem;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 720;
+  transition: transform 180ms var(--ease-smooth),
+    box-shadow 180ms var(--ease-smooth), background 180ms var(--ease-smooth);
+}
+
+.primaryAction {
+  background: #0071e3;
+  box-shadow: 0 12px 26px rgb(0 113 227 / 22%),
+    inset 0 1px 0 rgb(255 255 255 / 30%);
+  color: #fff;
+}
+
+.primaryAction:hover {
+  background: #087be9;
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.secondaryAction {
+  border: 1px solid var(--glass-border);
+  background: rgb(255 255 255 / 32%);
+  color: var(--ifm-color-emphasis-800);
+}
+
+.secondaryAction:hover {
+  border-color: rgb(0 113 227 / 25%);
+  background: rgb(255 255 255 / 54%);
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.heroStats > div {
+  display: grid;
+  grid-template-columns: 4.3rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 24%);
+}
+
+.heroStats dt {
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.6rem;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.heroStats dd {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.78rem;
+  font-weight: 620;
+}
+
+.guideDirectory {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);
+  margin-top: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.directoryIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1.2fr);
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+
+.directoryIntro h2,
+.collectionNote h2 {
+  margin: 0.55rem 0 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.directoryIntro p,
+.collectionNote > p {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
+  line-height: 1.65;
+}
+
+.guideGroup + .guideGroup {
+  margin-top: 3.5rem;
+}
+
+.groupHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0 0.2rem;
+}
+
+.groupHeading h2 {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  letter-spacing: -0.025em;
+}
+
+.groupHeading span {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.tutorialGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+}
+
+.tutorialCard {
+  display: flex;
+  min-width: 0;
+  min-height: 21rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-xl);
+  flex-direction: column;
+  transition: transform 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
+}
+
+.tutorialCard:hover {
+  border-color: rgb(0 113 227 / 23%);
+  box-shadow: var(--shadow-glass-hover);
+  transform: translateY(-3px);
+}
+
+.cardTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid rgb(255 255 255 / 44%);
+  border-radius: 1.05rem;
+  background: rgb(0 113 227 / 12%);
+  color: #0068d1;
+  font-size: 0.78rem;
+  font-weight: 780;
+  letter-spacing: -0.02em;
+}
+
+.tutorialCard[data-tone="green"] .cardIcon {
+  background: rgb(52 199 89 / 14%);
+  color: #16843b;
+}
+
+.tutorialCard[data-tone="cyan"] .cardIcon {
+  background: rgb(50 173 230 / 14%);
+  color: #087fae;
+}
+
+.tutorialCard[data-tone="orange"] .cardIcon {
+  background: rgb(255 149 0 / 15%);
+  color: #a85c00;
+}
+
+.tutorialCard[data-tone="violet"] .cardIcon {
+  background: rgb(175 82 222 / 14%);
+  color: #8d35b8;
+}
+
+.tutorialCard[data-tone="rose"] .cardIcon {
+  background: rgb(255 45 85 / 13%);
+  color: #c51d43;
+}
+
+.cardCategory {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cardCopy {
+  flex: 1 1 auto;
+}
+
+.cardCopy h3 {
+  margin: 1.2rem 0 0;
+  font-size: 1.22rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.cardCopy h3 a {
+  color: var(--ifm-color-emphasis-900);
+}
+
+.cardCopy h3 a:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.cardCopy p {
+  margin: 0.75rem 0 0;
+  color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
+  font-size: 0.88rem;
+  line-height: 1.58;
+}
+
+.cardBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.15rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cardBadges li {
+  padding: 0.36rem 0.58rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 28%);
+  color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
+  font-size: 0.65rem;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.cardFooter {
+  padding-top: 1rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.cardRuntime {
+  display: block;
+  min-height: 1.1rem;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.cardLinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.launchLink,
+.guideLink {
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.launchLink {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.launchLink:hover,
+.guideLink:hover {
+  text-decoration: none;
+}
+
+.collectionNote {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 1.1fr) auto;
+  gap: 2rem;
+  align-items: center;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding: clamp(1.4rem, 3.5vw, 2.5rem);
+  border-radius: var(--radius-xl);
+}
+
+.collectionNote h2 {
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+}
+
+:global(html[data-theme="dark"]) .heroStats > div,
+:global(html[data-theme="dark"]) .secondaryAction,
+:global(html[data-theme="dark"]) .cardBadges li {
+  background: rgb(255 255 255 / 5%);
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="green"] .cardIcon {
+  color: #56d477;
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="cyan"] .cardIcon {
+  color: #57c8f2;
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="orange"] .cardIcon {
+  color: #ffb44a;
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="violet"] .cardIcon {
+  color: #d691f4;
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="rose"] .cardIcon {
+  color: #ff6d89;
+}
+
+:global(html[data-theme="dark"]) .tutorialCard[data-tone="blue"] .cardIcon {
+  color: #5cb3ff;
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .tutorialHero,
+  .tutorialCard,
+  .collectionNote {
+    background: var(--ifm-background-surface-color);
+  }
+}
+
+@media (max-width: 1100px) {
+  .tutorialHero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroStats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .heroStats > div {
+    display: block;
+  }
+
+  .heroStats dd {
+    margin-top: 0.35rem;
+  }
+
+  .collectionNote {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .collectionNote .secondaryAction {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 996px) {
+  .generatedIndexPage {
+    max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .tutorialIndex {
+    padding-bottom: 1rem;
+  }
+
+  .ambientOrbOne,
+  .ambientOrbTwo {
+    width: 18rem;
+    height: 18rem;
+  }
+
+  .tutorialHero,
+  .tutorialCard,
+  .collectionNote {
+    border-radius: 1.35rem;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.5rem, 12.5vw, 3.8rem);
+  }
+
+  .heroStats,
+  .directoryIntro,
+  .collectionNote {
+    grid-template-columns: 1fr;
+  }
+
+  .directoryIntro {
+    gap: 1rem;
+  }
+
+  .tutorialCard {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .tutorialHero {
+    padding: 1.25rem;
+  }
+
+  .heroActions,
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+
+  .cardLinks {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryAction,
+  .secondaryAction,
+  .tutorialCard {
+    transition: none;
+  }
+
+  .primaryAction:hover,
+  .secondaryAction:hover,
+  .tutorialCard:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tutorialHero,
+  .tutorialCard,
+  .collectionNote {
+    background: var(--ifm-background-surface-color);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

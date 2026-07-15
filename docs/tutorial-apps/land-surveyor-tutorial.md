@@ -1,96 +1,96 @@
-# Land Surveyor Tutorial
+---
+title: Land Surveyor
+description: Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu.
+sidebar_label: Land Surveyor
+sidebar_position: 2
+hide_title: true
+keywords:
+  - gps
+  - polygon
+  - area
+  - hectare
+  - survey
+app_route: /app/land-survey
+app_icon: GPS
+app_category: Field planning
+app_runtime: Local browser workflow
+app_tone: green
+app_badges:
+  - Geolocation
+  - Area estimate
+  - SVG preview
+---
 
-## Overview
+## What it does
 
-The Land Surveyor app is a lightweight web workflow for quickly measuring irregular plot areas. By entering GPS coordinates manually or capturing your phone’s current location, the tool draws lines between points, allows you to close the polygon, and reports surface area in square meters, hectares, and traditional mu units. It is ideal for field agronomy, land consolidation assessments, or any scenario where rapid area estimation is required without desktop GIS software.
+Land Surveyor builds an ordered field boundary from coordinates entered manually or captured through browser geolocation. After three or more vertices are added, it closes the polygon and estimates horizontal area in square metres, hectares and mu.
 
-## Key Features
+:::info Estimate, not a cadastral survey
+The app is intended for rapid field screening. It does not replace a projected GIS workflow, a calibrated GNSS receiver or a legally valid boundary survey.
+:::
 
-- **Dual Coordinate Input**: Enter decimal latitude/longitude pairs or tap “Use phone GPS” to record the current GPS fix.
-- **Instant Sketch Preview**: Every point is rendered inside an SVG mini-map with the segments linked in the order you captured them.
-- **Polygon Closing Control**: Once you have at least three vertices, a single click seals the shape and activates area calculations.
-- **Area Conversions**: Automatic conversion among square meters, hectares, and 亩 for immediate agronomic interpretation.
-- **Editable Point List**: Each vertex displays precision up to six decimals plus the source (manual or GPS) and can be deleted individually.
-- **Session Reset**: “Reset” clears the entire capture when you need to start a new plot.
+## Before you start
 
-## Quick Start
+- Plan to add boundary vertices sequentially, clockwise or counterclockwise.
+- For manual entry, use decimal latitude and longitude in WGS84-style coordinates.
+- For device location, use HTTPS and allow geolocation when prompted.
+- Capture more vertices around curves, but avoid duplicate points and self-intersecting paths.
 
-1. **Open the App**  
-   Browse to `/app/land-survey`.
+## Quick workflow
 
-2. **Grant Permissions**  
-   - Allow location services if you plan to use the phone GPS button.  
-   - Make sure the browser you use on mobile (Chrome, Safari, Firefox) has permission to read geolocation.
+1. Optionally select **Check location access** to inspect permission availability without adding a point.
+2. Enter **Latitude (Lat)** and **Longitude (Lng)**, then select **Add Point**; or select **Add current location**.
+3. Continue around the field boundary in order.
+4. Review the **Live polyline preview** and delete any incorrect vertex from the **Coordinate list**.
+5. With at least three points, select **Close Polygon**.
+6. Read the area estimate or select **Reset** to begin again.
 
-3. **Choose Input Mode**  
-   - Manual: Type a decimal latitude and longitude and click “Add point”.  
-   - GPS: Tap “Use phone GPS” to append the current fix.
+## Controls & outputs
 
-4. **Close & Compute**  
-   After logging three or more points, tap “Close and compute” to see the filled polygon plus area readouts.
+| Control or panel                         | Actual behavior                                                                                                   |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Check location access**                | Reports whether browser geolocation appears granted, available for prompting or blocked. It does not add a point. |
+| **Latitude (Lat)** / **Longitude (Lng)** | Accept decimal values in `-90…90` and `-180…180`.                                                                 |
+| **Add Point**                            | Appends one manual coordinate and reopens a previously closed polygon.                                            |
+| **Add current location**                 | Requests a fresh high-accuracy browser position and stores the reported accuracy in the point source label.       |
+| **Close Polygon**                        | Enables the filled preview and area calculation when at least three points exist.                                 |
+| **Delete**                               | Removes one vertex; close the polygon again to update the result.                                                 |
+| **Reset**                                | Clears points, inputs, calculation and messages.                                                                  |
+| **Area estimate**                        | Shows `m²`, hectares (`m² / 10,000`) and mu (`m² / 666.6667`).                                                    |
 
-## Detailed Workflow
+## How it works
 
-### 1. Planning the Traverse
+The calculator uses the mean latitude and longitude as a local reference. Longitude differences are scaled by the cosine of the reference latitude, latitude differences are converted with an Earth radius of `6,378,137 m`, and the projected vertices are passed to the planar shoelace formula.
 
-- Walk the boundary and note the primary turning points you need to capture.
-- Decide whether you will rely mainly on GPS or prepare coordinates ahead of time from another system.
-- For best accuracy, use more vertices where the boundary curves instead of a single coarse segment.
+The SVG preview normalizes the latitude and longitude extents independently so every captured shape fits the frame. It is a schematic ordering aid, not a georeferenced or scale-preserving map.
 
-### 2. Capturing Points
+## Data, privacy & external services
 
-1. **Manual Entry Path**
-   - Type latitude first (−90 to 90) and longitude (−180 to 180).
-   - Use six decimal places for sub-meter precision when available.
-   - Press Enter or click “添加坐标点”; the form clears for the next vertex.
+Manual coordinates, device locations and results stay in the current browser tab. There is no server calculation, map provider or automatic upload. Browser geolocation is the only protected capability used.
 
-2. **Mobile GPS Path**
-   - Stand still for a few seconds to let the GPS settle; high-accuracy mode is requested automatically.
-   - Tap “使用手机定位”; the accuracy estimate (± meters) is stored with the point metadata.
-   - Repeat as you walk along the boundary.
+The current version does not persist a survey or export its coordinates. Copy any coordinates you need before refreshing or leaving the page.
 
-### 3. Reviewing the Sketch
+## Limitations
 
-- The left panel shows the simplified miniature plot; hover/tap to view per-point tooltips.
-- Unsatisfied with a vertex? Click “Delete” next to it in the coordinate list; the preview updates instantly.
-- Keep adding points until the outline matches the real boundary outline you intend to measure.
+:::caution Accuracy boundary
 
-### 4. Closing and Computing
-
-- Once you have ≥3 points, click “Close and compute”.  
-- The polyline becomes a filled polygon shaded in green, and the area card appears:
-  - **Square meters** (base calculation)
-  - **Hectares** (divide by 10,000)
-  - **mu** (divide by 666.6667)
-- To restart, hit “Reset” to clear the list, preview, and status.
-
-## Accuracy Tips
-
-- **GPS Quality**: On phones, toggle airplane mode off/on to refresh satellites; avoid tall structures or dense tree cover.
-- **Point Density**: More points produce better approximations, especially for curved edges or concave shapes.
-- **Order Matters**: Capture vertices in walking order around the perimeter (clockwise or counterclockwise) to avoid self-intersections.
-- **Baseline Validation**: If the parcel has known dimensions, compare the app result to known area values to gauge error margins.
-- **Units**: Use the square-meter output for downstream GIS imports; the conversions are convenient for agronomy reports but derived from the same value.
-
-## Common Use Cases
-
-- **Field Plot Allocation**: Quickly estimate the size of experimental plots before seeding.
-- **Land Leasing**: Validate acreage when negotiating temporary land use agreements.
-- **Irrigation Planning**: Determine pond or field sizes when computing required water volumes.
-- **Infrastructure Layout**: Sketch footprint areas for greenhouses, sheds, or solar panel arrays directly onsite.
+- The local planar approximation is most appropriate for relatively small field parcels away from the poles and date line.
+- The app does not detect self-intersection, duplicate vertices, holes or multiple polygons.
+- Browser-reported GPS accuracy can be much larger than the coordinate display precision.
+- The result represents a horizontal planar estimate, not terrain surface area.
+- Do not use the result as a legal, cadastral, construction or land-transaction measurement.
+  :::
 
 ## Troubleshooting
 
-| Issue | Resolution |
-| --- | --- |
-| GPS button disabled | Browser lacks geolocation support or permission. Enable location services under system settings and reload. |
-| “Please enter valid latitude/longitude” | Ensure both latitude and longitude are decimal numbers within the valid geographic ranges. |
-| Area won’t compute | You must add at least three points and click “完成并闭合”. Check that no points were deleted after closing. |
-| Points appear stacked | If coordinates are nearly identical, zooming the preview is limited. Verify you captured distinct vertices. |
-| Need to export | Currently the tool focuses on quick estimates. Copy the coordinate list manually if you require external GIS processing. |
+| Problem                                 | What to check                                                                                                                    |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Add current location** is unavailable | Use manual entry or enable geolocation support and permission in the browser and operating system.                               |
+| A coordinate is rejected                | Confirm that both values are decimal numbers within the displayed latitude and longitude ranges.                                 |
+| Area is not shown                       | Add at least three points and select **Close Polygon**.                                                                          |
+| The shape looks stretched               | The preview fits latitude and longitude independently; use the coordinate list and area result rather than treating it as a map. |
+| The area is implausible                 | Check point order, duplicate points, accidental outliers and device location accuracy.                                           |
 
-## Related Resources
+[Open Land Surveyor](/app/land-survey)
 
-- Explore other field-ready tools inside `/app` such as **Sensor App** (leaf angles) and **Weather Analyzer** (NASA POWER data).
-- For GIS-grade workflows, consider exporting coordinates to QGIS or ArcGIS for full projection support.
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/land-survey">App</a></div>
+[Browse all apps](/app)

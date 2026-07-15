@@ -1,8 +1,17 @@
 {
-  "label": "Tutorial - apps",
+  "label": "App Lab Tutorials",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "Learn how to use web apps in App Hub."
+    "slug": "/category/tutorial---apps",
+    "title": "App Lab Tutorials",
+    "description": "Verified guides for the 14 browser-based tools in App Lab, including workflows, outputs, privacy boundaries and scientific limitations.",
+    "keywords": [
+      "App Lab",
+      "research tools",
+      "agriculture",
+      "AI for science",
+      "tutorials"
+    ]
   }
 }

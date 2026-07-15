@@ -1,233 +1,115 @@
-# Calibration Targets Tutorial
+---
+title: Calibration Targets Generator
+description: "Generate printable checkerboard and coded circular calibration targets with live dimensions, validation and PDF export."
+sidebar_label: Calibration Targets
+sidebar_position: 9
+hide_title: true
+keywords: [calibration, checkerboard, agisoft, camera, pdf]
+app_route: /app/targets
+app_icon: "CAL"
+app_category: "Imaging & vision"
+app_runtime: "Local target generation"
+app_tone: violet
+app_badges: ["Live preview", "Print scale", "PDF export"]
+---
 
-## Overview
+## What it does
 
-The Calibration Targets Generator is a specialized tool for creating printable calibration patterns used in computer vision, photogrammetry, and camera calibration applications. This system generates high-precision targets including checkerboards, markers, and AprilTags in ready-to-use PDF format.
+Calibration Targets Generator creates an on-page SVG preview and a printable PDF for two target families: an OpenCV-style checkerboard and a grid of coded segmented circular markers for Agisoft-oriented workflows. Inputs use physical millimetre units and include fit and range validation.
 
-## Key Features
+:::caution Print scale is part of calibration
 
-- **Multiple Target Types**: Checkerboards, circular markers, AprilTags, and custom patterns
-- **High-Precision Generation**: Sub-pixel accuracy for calibration applications
-- **PDF Export**: Print-ready PDF files with precise dimensions
-- **Customizable Parameters**: Size, spacing, pattern density, and layout options
-- **Quality Assurance**: Built-in validation for calibration accuracy
-- **Industry Standards**: Compliance with computer vision calibration protocols
+Always print the exported PDF at **100% / Actual size** with **Fit to page** disabled, then measure the result. A correctly generated PDF cannot compensate for printer scaling, paper distortion, or inaccurate print settings.
 
-## Quick Start
+:::
 
-### 1. Access the Application
+## Before you start
 
-Visit in your browser: `/app/targets`
+- Choose A4 or Letter paper; the current generator uses portrait pages only.
+- Decide the target's physical size from camera resolution, field of view, and working distance.
+- Keep the target within the printable area after the selected margin.
+- Use high-contrast, dimensionally stable material and plan to mount the print on a flat, rigid surface.
+- Keep an internet connection available while the external jsPDF library loads.
+- Confirm the generated pattern is supported by the calibration software and version you plan to use.
 
-### 2. System Requirements
+## Quick workflow
 
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with PDF support
-- **PDF Reader**: For viewing and printing generated targets
-- **High-Quality Printer**: For accurate pattern reproduction
-- **Standard Paper Sizes**: A4, Letter, or custom dimensions
+1. Choose **Chessboard (OpenCV Standard)** or **Segmented Circular Marker (Agisoft)** under **Target type**.
+2. Select **Paper format** and enter **Margin (mm)**.
+3. Enter the target-specific dimensions and inspect the validation message.
+4. Select **Live Preview** or change a field to refresh the proportional SVG preview.
+5. For a chessboard, confirm the displayed printed-square count, board dimensions, and any auto-fit square size.
+6. Select **Download PDF**.
+7. Print at **100% / Actual size**, disable page fitting, and verify several dimensions with a ruler or calipers before collecting calibration images.
 
-## Detailed Usage Steps
+## Controls & outputs
 
-### Step 1: Target Type Selection
+### Shared controls
 
-1. **Pattern Type Selection**
-   - **Checkerboard**: Standard chessboard pattern for camera calibration
-   - **Circular Markers**: Circular targets for sub-pixel accuracy
-   - **AprilTags**: Fiducial markers for pose estimation
-   - **Custom Patterns**: User-defined target configurations
+| Control      | Range or output                                                                     |
+| ------------ | ----------------------------------------------------------------------------------- |
+| Target type  | Chessboard or segmented circular marker.                                            |
+| Paper format | A4 (210 × 297 mm) or Letter (215.9 × 279.4 mm).                                     |
+| Margin       | 5–50 mm.                                                                            |
+| Live Preview | Proportional SVG representation of the current page and target.                     |
+| Download PDF | Locally generates a vector PDF whose filename includes key parameters and the date. |
 
-2. **Pattern Parameters**
-   - **Grid Size**: Number of rows and columns
-   - **Element Size**: Physical dimensions of pattern elements
-   - **Spacing**: Distance between pattern elements
-   - **Border Margin**: White space around pattern
+### Chessboard controls
 
-### Step 2: Physical Dimensions Configuration
+| Control        | Range or meaning                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| Rows / Columns | 3–50 **inner corners**, not printed squares.                                                            |
+| Square size    | Requested 2–100 mm side length.                                                                         |
+| Printed grid   | `(inner rows + 1) × (inner columns + 1)` squares.                                                       |
+| Auto-fit       | If the board does not fit, the generator reduces the exported square size and reports the fitted value. |
 
-1. **Paper Size Selection**
-   - **Standard Sizes**: A4 (210×297mm), Letter (8.5×11in)
-   - **Custom Dimensions**: User-specified paper size
-   - **Orientation**: Portrait or landscape layout
+### Segmented circular marker controls
 
-2. **Target Scale**
-   - **Absolute Dimensions**: Specify exact physical sizes
-   - **Relative Scaling**: Percentage of paper area
-   - **Multiple Targets**: Arrange multiple patterns on single page
+| Control             | Range or meaning                                  |
+| ------------------- | ------------------------------------------------- |
+| Outer diameter      | 40–250 mm.                                        |
+| Ring width          | 5–60 mm and no more than half the outer diameter. |
+| Segment angle       | 20–120°.                                          |
+| Rotation step       | 0–60° between successive markers.                 |
+| Grid rows / columns | 1–10 in each direction.                           |
+| Center dot          | 1–10 mm input.                                    |
+| Label size          | 8–24 pt.                                          |
 
-### Step 3: Pattern Customization
+The preview and exported PDF use the same requested marker layout. Inspect the PDF before printing, especially when large markers or dense grids approach the available cell size.
 
-1. **Checkerboard Parameters**
-   - **Square Size**: Physical dimension of each square
-   - **Checker Count**: Number of squares per row/column
-   - **Border Width**: Margin around pattern
-   - **Color Scheme**: Black/white or custom colors
+## How it works
 
-2. **Circular Marker Parameters**
-   - **Circle Diameter**: Physical size of circular targets
-   - **Center Spacing**: Distance between circle centers
-   - **Pattern Layout**: Grid, circular, or custom arrangements
-   - **Fiducial Marks**: Additional reference markers
+The app represents the selected paper in millimetres and builds the live preview with SVG geometry. For checkerboards, it converts inner-corner counts to printed-square counts, centres the board, and proportionally reduces the square size if the requested board exceeds the available page after margins.
 
-3. **AprilTag Parameters**
-   - **Tag Family**: Selection of AprilTag families (16h5, 25h9, etc.)
-   - **Tag Size**: Physical dimensions of AprilTag
-   - **Encoding**: Custom data encoding options
-   - **Border Configuration**: White border around tags
+For segmented circular markers, it arranges labeled markers in the requested grid, varies segment widths and rotations, and reproduces that geometry in the PDF. The browser uses jsPDF with millimetre units and vector drawing operations; no image upload or server-side rendering is involved.
 
-### Step 4: Preview and Validation
+## Data, privacy & external services
 
-1. **Pattern Preview**
-   - Real-time visualization of target pattern
-   - Zoom and pan capabilities for detailed inspection
-   - Color and contrast adjustment preview
+- Parameters, preview rendering, and PDF creation stay in the browser.
+- The generator does not upload target settings or generated files.
+- jsPDF is loaded from jsDelivr. PDF export is unavailable if that external script cannot load.
+- Generated files are not stored by the site; retain the PDF and record the final measured dimensions with the calibration dataset.
 
-2. **Quality Validation**
-   - **Geometric Accuracy**: Verification of pattern dimensions
-   - **Print Quality**: Simulation of printed appearance
-   - **Calibration Suitability**: Assessment for intended use
+## Limitations
 
-### Step 5: PDF Generation and Download
-
-1. **PDF Export**
-   - Click "Generate PDF" to create print-ready file
-   - High-resolution vector graphics for sharp printing
-   - Embedded metadata for pattern specifications
-
-2. **File Management**
-   - Automatic file naming with parameters
-   - Multiple format options (PDF, SVG, PNG)
-   - Batch generation for multiple configurations
-
-## Technical Specifications
-
-### Pattern Types and Specifications
-
-#### Checkerboard Patterns
-- **Square Size Range**: 5mm to 100mm
-- **Grid Size**: 3×3 to 15×15 squares
-- **Aspect Ratio**: 1:1 (square) or customizable
-- **Accuracy**: ±0.1mm for printed dimensions
-- **Applications**: Camera calibration, lens distortion correction
-
-#### Circular Marker Patterns
-- **Diameter Range**: 2mm to 50mm
-- **Spacing Accuracy**: ±0.05mm
-- **Center Detection**: Sub-pixel accuracy support
-- **Pattern Variations**: Concentric circles, cross patterns
-- **Applications**: High-precision photogrammetry
-
-#### AprilTag Patterns
-- **Supported Families**: 16h5, 25h9, 36h11, and custom
-- **Tag Size**: 10mm to 200mm
-- **Data Encoding**: Up to 10 bits per tag
-- **Detection Robustness**: Partial occlusion tolerance
-- **Applications**: Robot navigation, augmented reality
-
-### Printing Specifications
-- **Resolution**: 600 DPI minimum for calibration accuracy
-- **Paper Quality**: Matte or semi-gloss recommended
-- **Color Accuracy**: High contrast black/white patterns
-- **Dimensional Stability**: Low paper expansion/contraction
-
-### File Formats
-- **PDF**: Primary format with vector graphics
-- **SVG**: Scalable vector graphics for editing
-- **PNG**: Raster format for digital applications
-- **DXF**: CAD-compatible format for engineering applications
-
-## Best Practices
-
-### Target Design Considerations
-
-1. **Pattern Size Selection**
-   - Choose pattern size appropriate for camera field of view
-   - Ensure sufficient pattern elements for calibration accuracy
-   - Consider working distance and camera resolution
-
-2. **Contrast Optimization**
-   - Use high-contrast colors (black/white recommended)
-   - Avoid mid-tone grays for better detection
-   - Ensure consistent illumination during use
-
-3. **Geometric Accuracy**
-   - Verify printer calibration before production
-   - Use high-quality paper to minimize dimensional changes
-   - Allow paper to acclimate to environment before printing
-
-### Calibration Procedure
-
-1. **Target Placement**
-   - Place target in multiple orientations for comprehensive calibration
-   - Ensure target fills significant portion of camera view
-   - Maintain consistent lighting conditions
-
-2. **Image Acquisition**
-   - Capture images from multiple angles and distances
-   - Ensure sharp focus and minimal motion blur
-   - Use appropriate exposure settings
-
-3. **Validation Methods**
-   - Measure reprojection error for calibration quality
-   - Verify consistency across multiple calibration sessions
-   - Compare with known ground truth measurements
-
-### Quality Control
-
-1. **Print Quality Assessment**
-   - Check for sharp edges and consistent colors
-   - Verify dimensional accuracy with calipers
-   - Ensure no smudging or bleeding
-
-2. **Pattern Integrity**
-   - Verify all pattern elements are correctly rendered
-   - Check for missing or distorted elements
-   - Validate fiducial marker placement
+- The current interface provides only checkerboard and segmented circular targets, A4/Letter portrait pages, and PDF export. It does not generate AprilTags, custom tags, SVG/PNG/DXF downloads, landscape pages, or batch files.
+- Chessboard auto-fit changes the physical square size from the requested value. Use the displayed fitted value and verify the print rather than assuming the input was preserved.
+- Segmented marker dimensions are not automatically reduced to fit each grid cell; large markers or dense grids can overlap.
+- “Agisoft” identifies the intended marker style, not guaranteed compatibility with every Metashape release or detector. Test recognition before a production campaign.
+- The app validates numeric ranges and page fit; it does not evaluate printer accuracy, target flatness, image quality, detector success, reprojection error, or calibration suitability.
+- No fixed dimensional tolerance or sub-pixel calibration accuracy is guaranteed.
 
 ## Troubleshooting
 
-### Common Issues
+| Problem                                       | What to check                                                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| The checkerboard is smaller than requested    | Read the auto-fit message; reduce rows, columns, square size, or margin to preserve the intended scale.                |
+| Inner-corner count appears off by one         | Remember that printed squares equal inner corners plus one in each direction.                                          |
+| Segmented markers overlap                     | Reduce outer diameter, reduce grid density, or increase usable page area.                                              |
+| **Download PDF** does nothing                 | Check the network, reload the page, and confirm jsPDF loaded from its CDN.                                             |
+| Printed dimensions are wrong                  | Print at Actual size, disable all fitting, check the printer driver, and measure the output.                           |
+| Calibration software cannot detect the target | Confirm its supported target type and count convention, improve focus and lighting, and validate the printed geometry. |
 
-**1. Poor Detection Accuracy**
-- Verify print quality and contrast
-- Check camera focus and exposure settings
-- Ensure appropriate pattern size for camera resolution
-- Consider using higher contrast materials
+[Open Calibration Targets Generator](/app/targets)
 
-**2. Dimensional Inaccuracies**
-- Calibrate printer for accurate scaling
-- Use dimensionally stable paper
-- Allow paper to acclimate to environment
-- Verify measurement tools are calibrated
-
-**3. PDF Generation Problems**
-- Check browser PDF support and permissions
-- Verify sufficient system memory for large patterns
-- Try alternative browser if generation fails
-- Reduce pattern complexity if necessary
-
-### Performance Optimization
-
-**For Large Patterns**
-- Use vector PDF format for scalability
-- Consider generating multiple smaller patterns
-- Optimize pattern density for intended application
-
-**For High-Precision Applications**
-- Use professional printing services for critical applications
-- Consider laser printing for superior edge definition
-- Validate printed dimensions with precision measurement tools
-
-## Technical Support
-
-If you encounter technical issues:
-
-1. Check browser console for error messages
-2. Verify pattern parameters are within valid ranges
-3. Ensure PDF viewer compatibility
-4. Contact support with specific error details and pattern requirements
-
----
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to Calibration Targets Generator v1.0*
-*Optimized for computer vision, photogrammetry, and camera calibration applications*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/targets">App</a></div>
+[Back to App Lab](/app)

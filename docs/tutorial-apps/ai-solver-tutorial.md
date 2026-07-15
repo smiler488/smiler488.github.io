@@ -1,425 +1,122 @@
-# AI Solver Tutorial
-
-## Overview
-
-The AI Solver is an advanced multimodal problem-solving tool that can use the private local demo or a user-selected AI provider across 18 professional domains. This application supports camera capture, screen capture with advanced selection tools, and direct text queries with specialized modes for academic, technical, and creative applications.
-
-## Key Features
-
-- **Multi-modal Input Support**: Camera capture, advanced screen capture with 8-directional selection, and text-based queries
-- **18 Professional Presets**: Intelligent analysis, math, physics, chemistry, plant identification, lab safety, translation, English learning, code analysis, text extraction, biology, history, medical, engineering, finance, art, legal, and education
-- **Advanced Selection Tools**: Free-form selection with corner and edge resizing for precise area capture
-- **Shared AI Configuration**: No-network Local demo plus bring-your-own-key options for major AI providers and trusted OpenAI-compatible endpoints
-- **Step-by-Step Solutions**: Detailed explanations with comprehensive reasoning
-- **Multi-provider AI Integration**: OpenAI, Anthropic, Gemini, DeepSeek, Qwen, Hunyuan, and custom OpenAI-compatible APIs
-- **Real-time Analysis**: Instant processing and response generation
-- **Cross-disciplinary Applications**: Comprehensive support for science, technology, engineering, mathematics, arts, and humanities
-
-## Quick Start
-
-### 1. Access the Application
-
-Visit in your browser: `/app/solver`
-
-### 2. System Requirements
-
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge with camera support
-- **Camera Access**: For image capture functionality (optional)
-- **Internet Connection**: Required for live AI processing, but not for Local demo
-- **Image Quality**: Clear, well-lit images for optimal analysis
-- **Vision-capable Model**: Required when sending camera or screen-capture images to a live provider
-
-## Detailed Usage Steps
-
-### Step 1: Input Method Selection
-
-1. **Camera Capture**
-   - Select "Camera Capture" mode
-   - Click **Enable camera**, then grant permission when prompted; the page never starts it automatically
-   - Capture clear, focused images of problems or objects
-   - Ensure adequate lighting and minimal shadows
-   - Click "Capture and Solve" to process the image
-
-2. **Screen Capture with Advanced Selection**
-   - Select "Screen Capture" mode
-   - Click "Capture Screen" to start screen sharing
-   - Grant screen sharing permissions
-   - **Advanced Selection Features**:
-     - **Free Movement**: Drag the selection box to move it anywhere
-     - **8-Directional Resizing**: Use corner handles (↖ ↗ ↙ ↘) for diagonal resizing
-     - **Edge Resizing**: Use side handles (↑ ↓ ← →) for proportional resizing
-     - **Minimum Size**: Selection maintains 50px minimum dimensions
-     - **Boundary Detection**: Automatic boundary constraints
-   - Click "Analyze Selected Area" to process the selected region
-
-3. **Text Input**
-   - Select "Text Question" mode
-   - Enter questions directly in the text area
-   - **Quick Preset Switching**: Type `/preset name` to switch modes (e.g., `/preset Math Problem Solver`)
-   - Use detailed descriptions for complex queries
-   - Include relevant context for accurate analysis
-   - Click "Ask and Get Answer" to submit
-
-### Step 2: Problem Type Selection (18 Professional Presets)
-
-1. **Intelligent Analysis Assistant** (Default)
-   - General multimodal analysis for any problem type
-   - Step-by-step reasoning with comprehensive explanations
-   - Suitable for undefined or mixed problem scenarios
-
-2. **Math Problem Solver**
-   - Mathematical equations, algebra, geometry, and calculus
-   - Rigorous derivations with elegant solution methods
-   - Multiple approach consideration with pros/cons analysis
-
-3. **Physics Problem Solver**
-   - Mechanics, electromagnetism, thermodynamics, and quantum physics
-   - Fundamental law applications with correct unit handling
-   - Experimental uncertainty estimation and boundary analysis
-
-4. **Chemistry Problem Solver**
-   - Chemical reactions, stoichiometry, and molecular structures
-   - Balanced equations and reaction mechanisms
-   - Laboratory procedure analysis and safety considerations
-
-5. **Plant Identification Analysis**
-   - Species identification from botanical images
-   - Scientific and common names with distinguishing features
-   - Growth conditions, native ranges, and care recommendations
-
-6. **Laboratory Safety Assessment**
-   - Comprehensive safety evaluation for laboratory environments
-   - Chemical, biological, physical, and electrical hazard identification
-   - Priority-based corrective measures and PPE recommendations
-
-7. **Academic Translation**
-   - Professional translation of academic literature
-   - Technical terminology preservation and glossary creation
-   - Scholarly style maintenance with structural integrity
-
-8. **English Learning Assistant**
-   - Grammar analysis, vocabulary explanations, and exercise solutions
-   - Natural example sentences and usage guidance
-   - Practice item generation for skill reinforcement
-
-9. **Code Review and Optimization**
-   - Code functionality explanation and bug identification
-   - Performance optimization and best practice recommendations
-   - Complexity analysis and testing suggestions
-
-10. **Text Extraction**
-    - Accurate OCR-based text recognition from images
-    - Paragraph, table, and mathematical notation preservation
-    - Uncertainty marking and reshoot recommendations
-
-11. **Biology Analysis**
-    - Biological structure and process identification
-    - Cellular, molecular, and ecological relationship analysis
-    - Observation and experiment suggestions
-
-12. **Historical Document Interpretation**
-    - Artifact and document historical context analysis
-    - Era identification and cultural significance interpretation
-    - Provenance and dating evidence requirements
-
-13. **Medical Image Analysis** (Informational Only)
-    - Anatomical structure identification in medical images
-    - Observable findings and general clinical significance
-    - **Disclaimer**: Not for diagnostic purposes - consult healthcare professionals
-
-14. **Engineering Drawing Interpretation**
-    - Mechanical, civil, electrical, and process engineering drawings
-    - Symbol decoding, dimension analysis, and tolerance interpretation
-    - Design intent and manufacturing considerations
-
-15. **Financial Statement Analysis** (Informational Only)
-    - Performance metrics, trends, and risk assessment
-    - Growth, margin, and liquidity analysis
-    - **Disclaimer**: For educational purposes only
-
-16. **Artwork Appreciation**
-    - Artistic style, technique, and composition analysis
-    - Color, texture, medium, and influence interpretation
-    - Aesthetic value and contextual meaning discussion
-
-17. **Legal Document Interpretation** (Informational Only)
-    - Rights, obligations, and risk point explanation
-    - Key clause analysis and ambiguity identification
-    - **Disclaimer**: Not legal advice - consult qualified attorneys
-
-18. **Educational Material Analysis**
-    - Learning objective and pedagogical approach evaluation
-    - Target audience assessment and improvement suggestions
-    - Teaching activity and assessment design recommendations
-
-19. **Custom Mode**
-    - Flexible handling of special or mixed requests
-    - General reasoning rules for unique problem types
-    - Alternative solution path consideration
-    - Enables manual editing of the question/prompt field (other presets apply their instructions automatically)
-
-### Step 3: API Configuration and Analysis
-
-1. **API Settings**
-   - **Local demo (default)**: Returns a local sample response, makes no network request, and needs no API key.
-   - **Live providers**: Select OpenAI, Anthropic, Gemini, DeepSeek, Qwen, or Hunyuan, then choose or enter a supported model ID and paste that provider's API key.
-   - **Custom compatible API**: Enter a full trusted HTTPS OpenAI-compatible endpoint, its model ID, and the matching key.
-   - **Model capability**: Camera and screen-capture modes need a vision-capable model. The UI warns when a selected preset is not marked for vision; custom model capability must be verified with its provider. Text-only providers/models can still be used in Text Question mode.
-   - **BYOK safety**: The key stays only in the current tab's memory and is cleared on refresh or exit. It is not bundled with or persisted by the site, but a static page cannot protect it like a backend can. Use a restricted test key; for production, use your own authenticated backend proxy.
-   - **Browser access**: Direct requests depend on each provider's CORS policy. If the provider blocks browser origins, use a backend proxy even when the endpoint and key are valid.
-
-2. **Preset Management**
-   - **Quick Selection**: Dropdown menu with 18 professional presets
-   - **Description Display**: Each preset shows a brief functional description; default prompts are applied automatically
-   - **Custom Mode**: Choose this mode if you need to edit the question/prompt text manually
-   - **Text Command**: Type `/preset name` in text mode for quick switching
-
-3. **AI Processing**
-   - Send image or text to the selected AI provider, or generate a local sample in Local demo
-   - Automatic problem type recognition based on selected preset
-   - Context-aware analysis and solution generation
-   - Real-time token usage tracking and performance metrics
-
-4. **Step-by-Step Solutions**
-   - Comprehensive reasoning process with structured output
-   - Detailed explanation of each step with alternative approaches
-   - Final answer verification and uncertainty identification
-   - Next action suggestions for further exploration
-
-### Step 4: Result Utilization
-
-1. **Solution Review**
-   - Carefully review generated solutions
-   - Verify accuracy and completeness
-   - Cross-reference with known methods
-
-2. **Learning Application**
-   - Use solutions for educational purposes
-   - Understand underlying principles and concepts
-   - Apply similar approaches to related problems
-
-3. **Documentation**
-   - Save important solutions for future reference
-   - Create personal knowledge base
-   - Share insights with colleagues or students
-
-## Technical Specifications
-
-### Input Requirements
-
-#### Image Quality Standards
-- **Resolution**: Minimum 640×480 pixels, recommended 1920×1080 or higher
-- **Format**: JPEG, PNG, WebP supported
-- **Lighting**: Even illumination with minimal shadows
-- **Focus**: Sharp, clear images for accurate analysis
-- **Contrast**: High contrast between text/objects and background
-
-#### Text Input Guidelines
-- **Clarity**: Clear, unambiguous problem statements
-- **Context**: Sufficient background information
-- **Specificity**: Well-defined problem parameters
-- **Completeness**: Include all necessary details
-
-### AI Processing Capabilities
-
-#### Problem Recognition
-- **18-Domain Expertise**: Science, technology, engineering, mathematics, arts, humanities, law, finance, medicine
-- **Context Understanding**: Semantic analysis with preset-specific optimization
-- **Pattern Recognition**: Intelligent identification across 18 professional domains
-- **Multimodal Integration**: Seamless image, text, and screen capture processing
-
-#### Solution Generation
-- **Structured Reasoning**: Logical progression with preset-specific frameworks
-- **Multiple Perspectives**: Alternative approaches with pros/cons analysis
-- **Error Checking**: Comprehensive validation with uncertainty identification
-- **Explanation Quality**: Clear, comprehensive explanations with next action suggestions
-
-#### Advanced Features
-- **8-Directional Selection**: Precise area selection with corner and edge resizing
-- **Real-time Token Tracking**: Usage metrics for performance optimization
-- **Flexible AI Configuration**: Local demo, supported provider presets, and a custom OpenAI-compatible endpoint
-- **Quick Preset Switching**: Text commands and dropdown selection
-
-### Specialized Application Areas
-
-#### Plant Science and Agriculture
-- **Species Identification**: Accurate plant classification
-- **Growth Analysis**: Developmental stage assessment
-- **Disease Diagnosis**: Symptom recognition and treatment suggestions
-- **Crop Management**: Agricultural best practices
-
-#### Educational Applications
-- **Homework Assistance**: Problem-solving support
-- **Concept Explanation**: Fundamental principle clarification
-- **Exam Preparation**: Practice problem analysis
-- **Learning Reinforcement**: Knowledge consolidation
-
-#### Professional Applications
-- **Research Support**: Literature analysis and interpretation
-- **Technical Documentation**: Code and specification analysis
-- **Safety Compliance**: Regulatory requirement verification
-- **Quality Assurance**: Process validation and improvement
-
-## Best Practices
-
-### Input Optimization
-
-1. **Image Preparation**
-   - Ensure clear, high-contrast images
-   - Crop to relevant problem area
-   - Remove unnecessary background elements
-   - Use consistent lighting conditions
-
-2. **Screen Capture Optimization**
-   - **Precise Selection**: Use corner handles for diagonal resizing, edge handles for proportional adjustment
-   - **Area Focus**: Select only relevant regions to reduce processing time
-   - **Minimum Size**: Maintain at least 50px dimensions for accurate analysis
-   - **Boundary Awareness**: Selection automatically constrains to screen boundaries
-
-3. **Problem Formulation**
-   - Provide complete problem statements
-   - Include all relevant parameters and constraints
-   - Specify desired solution format or approach
-   - Mention any specific requirements or preferences
-
-4. **Context Provision**
-   - Include relevant background information
-   - Specify academic level or complexity
-   - Mention previous attempts or known approaches
-   - Provide any additional constraints or preferences
-
-5. **API Configuration**
-   - **Local demo**: Use for immediate, no-network UI testing without credentials
-   - **Provider presets**: Match the provider, key, and model; use a vision-capable model for image input
-   - **Custom endpoints**: Enter a trusted full HTTPS OpenAI-compatible URL and a model it supports
-   - **Security**: Keys are temporary tab-memory values, not server-protected secrets; use restricted test keys and an authenticated backend proxy for production
-   - **Switching providers**: Re-enter the matching key after changing providers; provider changes clear the previous key
-
-### Solution Validation
-
-1. **Accuracy Verification**
-   - Cross-check with established methods
-   - Verify intermediate calculations
-   - Test boundary conditions and special cases
-   - Compare with known solutions or results
-
-2. **Completeness Assessment**
-   - Ensure all problem aspects are addressed
-   - Verify solution covers all required steps
-   - Check for missing assumptions or conditions
-   - Validate final answer against expectations
-
-3. **Learning Integration**
-   - Understand underlying principles and concepts
-   - Identify key learning points from solutions
-   - Apply similar approaches to related problems
-   - Document insights for future reference
-
-### Application-Specific Guidelines
-
-#### Plant Identification
-- **Image Quality**: Clear images showing key identification features
-- **Multiple Angles**: Different views for comprehensive analysis
-- **Scale Reference**: Include size reference when possible
-- **Habitat Information**: Environmental context for accurate identification
-
-#### Laboratory Safety
-- **Comprehensive Views**: Show entire laboratory setup
-- **Equipment Details**: Clear images of safety equipment and procedures
-- **Hazard Identification**: Focus on potential risk areas
-- **Regulatory Context**: Mention relevant safety standards
-
-#### Academic Translation
-- **Source Quality**: High-quality images of original text
-- **Context Preservation**: Maintain academic style and terminology
-- **Accuracy Verification**: Cross-check technical terms
-- **Cultural Considerations**: Account for disciplinary conventions
+---
+title: "Multimodal AI Solver"
+description: "Ask with text, camera or screen capture and send the prompt to the visual AI model and API provider you configure."
+sidebar_label: "AI Solver"
+sidebar_position: 12
+hide_title: true
+keywords:
+  - "ai"
+  - "solver"
+  - "camera"
+  - "screen"
+  - "vision"
+  - "text"
+app_route: "/app/solver"
+app_icon: "Σ"
+app_category: "AI & research"
+app_runtime: "Uses your selected AI provider"
+app_tone: "blue"
+app_badges:
+  - "BYOK AI"
+  - "Camera / screen"
+  - "Preset prompts"
+---
+
+## What it does
+
+Multimodal AI Solver sends a text question, camera frame or selected screen region to the AI provider and model you configure. It includes 18 predefined image-analysis prompt templates plus **Custom Mode**. The default **Local demo** exercises the interface without a network request.
+
+:::caution Local demo does not inspect pixels
+Local demo returns a sample response and does not identify or reason about the captured image. Use a live, vision-capable model for actual camera or screen analysis.
+:::
+
+## Before you start
+
+- Camera and screen capture require a recent browser, a secure HTTPS context and explicit permission.
+- Screen capture availability varies by browser and device and is often limited on mobile.
+- Live camera or screen analysis requires a model that accepts image input.
+- Live requests require your own provider key and network access.
+- Never capture passwords, private messages, unpublished data or regulated records unless sending them to the selected provider is authorized.
+
+## Quick workflow
+
+1. [Open Multimodal AI Solver](/app/solver).
+2. Under **Input Mode**, select one workflow:
+   - **Camera Capture:** select **Enable camera**, grant permission, then select **Capture and solve**.
+   - **Screen Capture:** select **Capture Screen**, choose a screen, window or tab, adjust the selection box, then select **Analyze Selected Area**.
+   - **Text Question:** enter text and select **Ask and Get Answer**.
+3. Under **Solver model**, keep Local demo or choose a provider, model and API key. Camera and screen modes display a warning when the selected preset is not marked as vision-capable.
+4. Under **Prompt Settings**, choose a **PromptPreset**. Select **Custom Mode** to edit **Question (for image mode)**.
+5. Read the result under **Response**. If the provider supplies usage metadata, token counts appear at the end.
+
+## Controls & outputs
+
+| Control or output                   | Purpose                                                                             |
+| ----------------------------------- | ----------------------------------------------------------------------------------- |
+| **Enable camera / Turn off camera** | Starts or stops the local video stream. The page never starts it automatically.     |
+| **Capture and solve**               | Captures one compressed camera frame and submits it with the current image prompt.  |
+| **Capture Screen**                  | Requests browser screen-sharing permission and captures one frame.                  |
+| Selection box                       | Moves or resizes the screen crop with four corner and four edge handles.            |
+| **Analyze Selected Area**           | Encodes and submits only the selected screen region.                                |
+| **Ask and Get Answer**              | Sends the text field exactly as entered.                                            |
+| **Solver model**                    | Selects Local demo or a configured external provider, endpoint, model and key.      |
+| **PromptPreset**                    | Selects one of 18 predefined prompts or Custom Mode for camera and screen requests. |
+| **Last image size**                 | Reports the encoded JPEG size after an image is prepared.                           |
+| **Response**                        | Displays provider text and final token usage when available.                        |
+
+The predefined prompts cover general analysis, mathematics, laboratory safety, plant identification, code review, academic literature translation, physics, chemistry, English learning, text extraction, biology, history, medical images, engineering drawings, financial statements, art, legal documents and educational material.
+
+### Current text-preset behavior
+
+PromptPreset instructions are currently attached to camera and screen requests only. A normal **Text Question** is sent without the selected preset prompt.
+
+Entering an exact command such as `/preset Math Problem Solver` changes the image-mode preset and returns a confirmation message. The command itself does not run an analysis, and the next ordinary text question is still sent without that preset prompt.
+
+## How it works
+
+Camera capture scales a frame so its longest side is no more than 1,280 pixels, then encodes it as JPEG at quality 0.85. The live preview remains on the device; the encoded still image is created only after **Capture and solve**.
+
+Screen mode asks the browser for a shared display stream, captures one frame and immediately stops the stream. The frame stays local while you move or resize the selection. **Analyze Selected Area** crops the selected source pixels and encodes them as JPEG at quality 0.85.
+
+For image modes, the app sends the JPEG as base64 together with the current image prompt. Text mode sends only the entered text. Starting a new request aborts any previous in-progress request managed by the page.
+
+The app displays returned text as-is. Token usage is appended only when the provider response includes recognizable usage fields.
+
+## Data, privacy & external services
+
+Camera video and an unsubmitted screen frame remain local. Selecting **Capture and solve** or **Analyze Selected Area** sends the resulting image and prompt to the endpoint shown in **Solver model**. Selecting **Ask and Get Answer** sends the entered text.
+
+The API key is held only in the current tab's memory, cleared on provider change, refresh or page exit, and sent to the displayed endpoint. Browser-entered credentials are not protected like server-side secrets. Use a restricted test key; use your own authenticated backend proxy for production.
+
+Direct requests can fail because of provider CORS policy, regional restrictions, model permissions, billing or quota even when the key is correct.
+
+:::caution Human verification is required
+Presets are prompt templates, not validated expert systems. Medical, legal, financial, laboratory-safety and identification outputs may be wrong and must not replace qualified professional review.
+:::
+
+## Limitations
+
+- There is no image-file upload, response history, copy button, download or share workflow.
+- Local demo does not analyze image content.
+- Text questions do not currently inherit PromptPreset instructions.
+- Presets guide a model but do not add specialist databases, deterministic OCR or verification.
+- Image quality and answer quality depend on the device, crop, provider and exact model.
+- Screen capture may be unavailable on mobile or restricted by browser policy.
+- A custom model ID may support vision even when the app cannot verify that capability.
+- Token counts appear only when returned by the provider.
 
 ## Troubleshooting
 
-### Common Issues
+- **Camera is off:** select **Enable camera** and grant permission; close other software using the camera.
+- **Camera access is not supported:** use a recent browser over HTTPS or switch to Text Question.
+- **Screen capture is unavailable or cancelled:** check browser/device support and grant the browser's share permission.
+- **The selection cannot shrink further:** its minimum dimension is 50 source pixels, or the source frame size when smaller.
+- **The model rejects an image:** choose a vision-capable model or use Text Question with a text-only model.
+- **A preset command is not found:** use lowercase `/preset ` followed by the exact preset ID or full displayed name.
+- **401, 403, 404 or 429:** verify provider, key, exact model ID, permissions, billing and quota.
+- **CORS or Failed to fetch:** the provider blocks direct browser access; use an authenticated backend proxy.
+- **The response is empty or inaccurate:** improve the crop and prompt, retry with a suitable model, and verify the result independently.
 
-**1. Poor Image Recognition**
-- Improve image quality and lighting
-- Ensure proper focus and contrast
-- Crop to relevant problem area
-- Try alternative camera angles
+[Open Multimodal AI Solver →](/app/solver)
 
-**2. Inaccurate Solutions**
-- Provide more detailed problem context
-- Select appropriate preset for problem type
-- Include all relevant parameters
-- Verify problem statement clarity
-
-**3. Processing Delays**
-- Check internet connection stability
-- Reduce image file size if necessary
-- Use text input for faster processing
-- Try during lower network usage periods
-
-**4. Camera Access Problems**
-- Grant camera permissions in browser settings
-- Check if other applications are using camera
-- Verify camera hardware functionality
-- Try different browser if issues persist
-
-**5. Screen Capture Issues**
-- **Selection Box Not Appearing**: Ensure screen sharing permissions are granted
-- **Cannot Resize Selection**: Use corner handles for diagonal resizing, edge handles for proportional adjustment
-- **Selection Stuck at Minimum Size**: Ensure selection area is at least 50px in both dimensions
-- **Cannot Move Selection**: Click and drag the selection box itself (not handles)
-
-**6. API Configuration Problems**
-- **Local demo selected**: This intentionally uses no network and returns a sample, not a live provider answer.
-- **Missing-key or authentication errors**: Paste a key for the selected provider and confirm its permissions, billing/quota, and model access.
-- **Model or input rejected**: Check the exact model ID. For camera or screen capture, switch to a model that supports vision; use Text Question mode for text-only models.
-- **Custom API connection failed**: Verify that the URL is a trusted full HTTPS OpenAI-compatible endpoint and that its response format is compatible.
-- **CORS / “Failed to fetch”**: The provider may block direct browser-origin requests. This cannot be fixed by changing the key; use your own authenticated backend proxy.
-- **Provider switching issues**: Provider changes clear the previous key by design. Enter the key that belongs to the newly selected provider.
-
-**7. Preset Selection Issues**
-- **Preset Not Available**: All 18 presets should be visible in dropdown menu
-- **Quick Command Not Working**: Type `/preset name` exactly as shown in preset list
-- **Custom Mode Confusion**: Modifying question field automatically switches to Custom Mode
-
-### Performance Optimization
-
-**For Complex Problems**
-- Break down complex problems into smaller components
-- Use multiple specialized modes for different aspects
-- Provide detailed context and constraints
-- Consider step-by-step approach for multi-part problems
-
-**For Educational Use**
-- Start with simpler problems to build understanding
-- Use multiple problem types for comprehensive learning
-- Compare AI solutions with traditional methods
-- Focus on understanding underlying principles
-
-## Technical Support
-
-If you encounter technical issues:
-
-1. Check browser console for error messages
-2. Verify image quality and input parameters
-3. Ensure a stable internet connection for live providers, or reproduce the UI flow with Local demo
-4. Contact support with specific error details and problem examples
-
-### Browser Compatibility
-- **Chrome 60+**: Full camera, screen capture, and AI processing support
-- **Firefox 55+**: Complete functionality with modern APIs including screen sharing
-- **Safari 11+**: Camera access and AI integration (screen capture may have limitations)
-- **Edge 79+**: Comprehensive support for all features including advanced selection
-
-### Advanced Features Support
-- **8-Directional Selection**: Chrome, Firefox, Edge (full support)
-- **Screen Capture**: Chrome, Firefox, Edge (full support)
-- **Local demo and shared AI settings**: All modern browsers; live provider calls additionally depend on provider CORS support
-- **Quick Preset Commands**: All modern browsers
-
----
-*Author: Liangchao Deng, Ph.D. Candidate, Shihezi University / CAS-CEMPS*  
-*This tutorial applies to AI Solver v2.0*
-*Enhanced with 18 professional presets, advanced selection tools, and flexible API configuration*
-*Supports local demonstration and user-selected AI providers for comprehensive problem-solving applications*
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/solver">App</a></div>
+[← Back to App Lab](/app)

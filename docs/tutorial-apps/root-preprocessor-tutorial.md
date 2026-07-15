@@ -1,88 +1,108 @@
-# Root Image Preprocessor Tutorial
+---
+title: Root Image Preprocessor
+description: "Prepare root scans with polygon regions, background cleanup, high-pass enhancement and precise manual corrections."
+sidebar_label: Root Preprocessor
+sidebar_position: 7
+hide_title: true
+keywords: [root, scan, roi, segmentation, image]
+app_route: /app/root-processor
+app_icon: "ROI"
+app_category: "Imaging & vision"
+app_runtime: "Local image processing"
+app_tone: green
+app_badges: ["Canvas workflow", "ROI editing", "PNG export"]
+---
 
-## Overview
+## What it does
 
-The Root Image Preprocessor recreates the functionality of the legacy desktop scripts (`0_tranbg.py` and `1_process.py`) directly in the browser. It lets you batch upload scanner images, isolate the region of interest (ROI) with polygons, run adaptive background removal + high-pass filtering, and finish with manual brush clean-up before exporting high-contrast masks.
+Root Image Preprocessor turns root scans into editable black-on-white masks in the browser. You can work through a small batch, trace a polygon region of interest, preview background cleanup, apply high-pass enhancement inside the region, correct the mask with a brush, and export a PNG.
 
-## Key Features
+:::info Local workflow
 
-- **Batch Uploads**: Drag multiple JPG/PNG scans into the left sidebar for sequential work.
-- **Polygon ROI Selection**: Click around the root system to define the specific area used for filtering.
-- **Adjustable Automation**: Threshold, morphology kernel, blur radius, and ROI threshold sliders reproduce the OpenCV pipeline without code.
-- **Manual Brush & Undo**: Touch up thin roots or remove artifacts with draw/erase brushes and a history stack.
-- **One-Click Export**: Download processed masks as PNG files ready for measurement packages such as WinRHIZO or ImageJ.
+Image decoding, processing, editing, and export happen in this browser tab. The app does not upload root scans to a server.
 
-## Quick Start
+:::
 
-1. **Open the App**: Navigate to `/app/root-processor`.
-2. **Upload Images**: Use “Upload Images” or drag files into the sidebar; oversized files auto-scale to 1800 px max.
-3. **Trace ROI**: Stay in *Polygon Mode* and click around the root network. Use “Close Polygon” when done.
-4. **Tune Automation**: Adjust threshold/morphology sliders as needed, then click “Run ROI Processing”.
-5. **Manual Cleanup**: Switch to *Manual Brush* to add dark strokes or erase noise; “Undo Brush Stroke” reverts the last edit.
-6. **Download**: Click “Download Processed PNG” once satisfied. Repeat for remaining images via the sidebar list.
+## Before you start
 
-## Detailed Workflow
+- Use JPG or PNG scans with even illumination and clear contrast between roots and background.
+- You can open up to 6 images at once. Each file must be no larger than 24 MB.
+- Images are scaled so their longest edge is at most 1800 pixels, and the open batch is limited to 9 million decoded pixels.
+- Save each result before closing or refreshing the tab; images and edit history exist only in memory.
+- Treat the output as a preprocessing mask that still requires visual quality control.
 
-### A. Polygon Stage
+## Quick workflow
 
-1. **Point Placement**
-   - Click sequentially along the outer boundary.
-   - “Undo Point” removes the last vertex; “Reset Polygon” clears everything.
-   - Close the polygon before running automation.
+1. Select **Upload images** and choose one or more scans.
+2. Select an image in **Batch**.
+3. In **Polygon Mode**, click around the root region on the right canvas, then select **Close Polygon**.
+4. Optionally tune **Background threshold** and **Noise kernel**, then select **Preview Background Cleanup** to inspect a separate cleanup preview.
+5. Tune **Blur radius** and **ROI threshold**, then select **Run ROI Processing**.
+6. In **Manual Brush**, choose **Draw (black)** to restore roots or **Erase (white)** to remove artifacts. Adjust **Brush size** as needed.
+7. Use **Undo Brush Stroke** for recent corrections and select **Download Processed PNG** when the mask is ready.
+8. Repeat for the remaining batch items, or use **Clear batch** to remove every open image from memory.
 
-2. **ROI Tips**
-   - Keep polygons tight to reduce processing time.
-   - Avoid self-intersecting shapes; the canvas overlay shows the current path.
+## Controls & outputs
 
-### B. Automation Settings
+| Control                            | Current behaviour                                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Upload images                      | Opens JPG/PNG scans within the file, batch, and decoded-pixel limits.                                  |
+| Batch                              | Switches between open images and shows `Pending` or `Processed`.                                       |
+| Background threshold               | Sets the grayscale cutoff for the background-cleanup preview.                                          |
+| Noise kernel                       | Applies morphological opening to the background-cleanup preview.                                       |
+| Preview Background Cleanup         | Updates the preview canvas; it does not replace the final ROI-processing input.                        |
+| Blur radius                        | Sets the local blur used by final high-pass enhancement.                                               |
+| ROI threshold                      | Converts normalized high-pass response into the final binary mask.                                     |
+| Close / Undo Point / Reset Polygon | Completes, shortens, or clears the polygon. A polygon needs at least 3 points and supports at most 60. |
+| Run ROI Processing                 | Creates a white-background, black-root mask inside the closed polygon.                                 |
+| Polygon Mode / Manual Brush        | Switches between ROI definition and mask editing. Manual mode requires a processed result.             |
+| Draw / Erase / Brush size          | Paints black or white strokes onto the processed mask.                                                 |
+| Undo Brush Stroke                  | Restores a recent mask snapshot; the in-memory history keeps up to 4 snapshots.                        |
+| Reset Processed Result             | Clears processing and brush history but retains the current polygon until **Reset Polygon** is used.   |
+| Download Processed PNG             | Exports the current processed mask as `original-name-processed.png`.                                   |
 
-| Control | Mirrors Script | Guidance |
-| --- | --- | --- |
-| Background threshold | `cv2.threshold` in `0_tranbg.py` | Increase for darker backgrounds; decrease if roots disappear |
-| Noise kernel | Morphological open/close | Larger values remove speckles but may thin roots |
-| Blur radius | `cv2.morphologyEx`/background modeling | Higher blur enhances large-scale illumination drift |
-| ROI threshold | `cv2.threshold` in `1_process.py` | Lower to keep faint fibers, higher to keep only bold roots |
+## How it works
 
-Click **Preview Background Cleanup** anytime to see the effect of the background parameters before the full ROI pass.
+The browser decodes each image and reduces oversized dimensions before placing pixel data in memory. **Preview Background Cleanup** converts the image to grayscale, thresholds it, and optionally applies a morphological opening; it is a diagnostic preview controlled by **Background threshold** and **Noise kernel**.
 
-### C. Manual Stage
+Final **Run ROI Processing** follows a separate path. It blurs the original image, compares blurred and original grayscale intensity, normalizes that high-pass response, applies **ROI threshold**, and writes black detections only inside the polygon. The manual brush then edits that binary result directly.
 
-1. Switch to *Manual Brush* after automation finishes.
-2. Choose **Draw (black)** to reinforce missing roots or **Erase (white)** for stray artifacts.
-3. Use `Brush size` slider for fine vs. broad edits.
-4. **Undo Brush Stroke** reverts to the previous history snapshot (up to 10 levels).
-5. “Reset Processed Result” clears automation + manual edits so you can retrace the ROI.
+This is a lightweight Canvas implementation inspired by a root-processing workflow, not an exact browser port of OpenCV scripts or a validated segmentation model.
 
-### D. Exporting
+## Data, privacy & external services
 
-- Processed outputs are 8-bit grayscale PNGs (white background, black roots).
-- Filenames follow `originalname-processed.png`.
-- Repeat for each entry in the sidebar list; status chips show “Processed” vs “Pending”.
+- Files remain in the current browser tab and are not transmitted by the app.
+- No account, cloud project, autosave, or recovery service is used.
+- **Clear batch**, refresh, navigation, or tab closure discards the in-memory images and edit history.
+- PNG downloads are created locally with the Canvas API.
 
-## Best Practices
+## Limitations
 
-- **Scanning**: Aim for even lighting and minimal soil residue to reduce threshold tweaking.
-- **Polygon Granularity**: More points help with complex shapes but keep under the 60-point limit.
-- **Parameter Iteration**: Start with default sliders, preview, then only adjust one control at a time.
-- **Manual Layering**: Perform big structural edits first with large brushes, then zoom (browser zoom) and refine with smaller sizes.
-- **Data Handling**: Download after each successful edit session; the browser keeps images in memory only for the active tab.
+:::caution Research use
+
+The generated PNG is a candidate mask, not a ground-truth root measurement. Inspect thin roots, crossings, scanner artifacts, and polygon edges before using it in ImageJ or another measurement workflow.
+
+:::
+
+- Drag-and-drop is not implemented; use **Upload images**.
+- Background-preview controls do not affect the final ROI high-pass mask.
+- Large images and blur radii can block the browser while pixel operations run on the main thread.
+- Automatic scaling reduces fine detail in high-resolution scans.
+- Undo is intentionally shallow to limit memory use.
+- There is no zoom tool, automatic root topology analysis, batch export, or direct WinRHIZO integration.
 
 ## Troubleshooting
 
-| Issue | Cause | Fix |
-| --- | --- | --- |
-| “Processed result detected” warning in polygon mode | Manual edits already exist | Use “Reset Processed Result” to re-enable polygon editing |
-| Thin roots missing after automation | Thresholds too high / kernel too large | Lower ROI threshold and noise kernel, then rerun |
-| Brush feels laggy on large canvases | Very high-resolution uploads | Crop or downscale before uploading, or accept automatic 1800 px limit |
-| Download button disabled | No processed image yet | Complete polygon + automation first |
+| Problem                             | What to check                                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| A file is rejected                  | Use JPG/PNG, keep it below 24 MB, and stay within the 6-file and 9-million-pixel batch limits.                      |
+| **Run ROI Processing** does nothing | Select an image, add at least 3 polygon points, and select **Close Polygon** first.                                 |
+| Thin roots disappear                | Reduce **ROI threshold** or **Blur radius**, rerun processing, then restore isolated details with **Draw (black)**. |
+| Noise remains                       | Increase **ROI threshold**, tighten the polygon, or remove artifacts with **Erase (white)**.                        |
+| Polygon editing is blocked          | Select **Reset Processed Result**; use **Reset Polygon** as well if you need a new boundary.                        |
+| Brush editing is unavailable        | Run ROI processing before switching to **Manual Brush**.                                                            |
+| The browser becomes slow            | Reduce the source dimensions, open fewer images, or use a smaller blur radius.                                      |
 
-## Keyboard & Mouse Shortcuts
+[Open Root Image Preprocessor](/app/root-processor)
 
-- **Canvas Click**: Add polygon point.
-- **Pointer drag (manual mode)**: Draw/erase with current brush.
-- **Browser zoom** (`Cmd/Ctrl +` / `-`): Helps with precise manual edits on high-density images.
-
----
-
-With this tutorial you can replicate the original Python preprocessing workflow entirely in the browser, keeping raw scans intact while producing consistent, high-contrast masks for downstream quantification.***
-<div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 8}}><a className="button button--secondary" href="/app/root-processor">App</a></div>
+[Back to App Lab](/app)
