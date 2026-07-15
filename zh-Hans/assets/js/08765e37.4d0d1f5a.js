@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkliangchao_website=globalThis.webpackChunkliangchao_website||[]).push([[6016],{90263(a){a.exports=JSON.parse('{"metadata":{"permalink":"/zh-Hans/blog","page":1,"postsPerPage":9,"totalPages":3,"totalCount":19,"nextPage":"/zh-Hans/blog/page/2","blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
