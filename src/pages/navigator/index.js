@@ -15,31 +15,25 @@ const pageCopy = {
     pageTitle: "Research Navigator",
     pageDescription:
       "A privacy-reviewed research web directory for AI, plant phenotyping, crop modeling, remote sensing, and scientific work.",
-    eyebrow: "SMILER RESEARCH NAVIGATOR",
+    eyebrow: "SMILER · RESEARCH NAVIGATOR",
     updated: `Curated ${navigatorUpdated.en}`,
-    title: "A calmer path through the research web.",
+    title: "Research Navigator",
     intro:
-      "A focused, public selection from a working research library—cleaned for duplicates, private accounts, and unsafe parameters, then organized around AI for Science and digital agriculture.",
+      "A compact, privacy-reviewed directory for AI for Science, crop modeling, plant phenotyping, remote sensing, and everyday research.",
     linkStat: "public links",
-    laneStat: "research lanes",
-    policyStat: "privacy first",
-    lanesEyebrow: "Browse by workflow",
-    lanesTitle: "Nine routes from an idea to evidence.",
-    lanesDescription:
-      "Start with a research lane or search across the complete collection. Each destination opens directly at its source.",
-    resources: "resources",
-    catalogEyebrow: "Link library",
-    catalogTitle: "Find the next useful destination.",
-    catalogDescription:
-      "Search by site, domain, topic, or discipline. Press / anywhere on this page to focus search.",
+    categoryStat: "categories",
+    policyStat: "privacy reviewed",
+    browseTitle: "Browse categories",
+    browseHint: "Jump directly to a section",
+    categoryNavLabel: "Research navigator categories",
+    resources: "sites",
     searchLabel: "Search the research navigator",
     searchPlaceholder: "Search sites, domains, or topics…",
     shortcut: "Press /",
-    all: "All",
     showing: "Showing",
     of: "of",
     links: "links",
-    clear: "Clear filters",
+    clear: "Clear search",
     noResultsTitle: "No destination matches that search.",
     noResultsBody:
       "Try a broader topic, another spelling, or return to the complete directory.",
@@ -53,31 +47,25 @@ const pageCopy = {
     pageTitle: "科研网址导航",
     pageDescription:
       "面向 AI、植物表型、作物模型、遥感与科研工作的隐私审查型网址导航。",
-    eyebrow: "SMILER 科研网址导航",
+    eyebrow: "SMILER · 科研网址导航",
     updated: `整理于 ${navigatorUpdated.zh}`,
-    title: "让科研网络，变得更清晰。",
+    title: "科研网址导航",
     intro:
-      "从真实科研收藏夹中筛选公开资源，去除重复项、私人账户与不安全参数，并围绕 AI for Science 和数字农业重新组织。",
-    linkStat: "个公开入口",
-    laneStat: "条科研路线",
-    policyStat: "隐私优先",
-    lanesEyebrow: "按工作流浏览",
-    lanesTitle: "从研究想法到可靠证据的九条路线。",
-    lanesDescription:
-      "选择一个科研方向，或在完整收藏中搜索；每个入口都直接指向资源来源。",
-    resources: "个资源",
-    catalogEyebrow: "网址库",
-    catalogTitle: "找到下一站有用的资源。",
-    catalogDescription:
-      "可按站点、域名、主题或学科搜索；在本页任意位置按 / 即可聚焦搜索框。",
+      "为 AI for Science、作物模型、植物表型、遥感与日常科研整理的紧凑型公开网址库，所有链接均经过隐私审查。",
+    linkStat: "个公开网址",
+    categoryStat: "个专业分类",
+    policyStat: "已做隐私审查",
+    browseTitle: "分类导航",
+    browseHint: "点击直达对应分区",
+    categoryNavLabel: "科研网址分类",
+    resources: "个站点",
     searchLabel: "搜索科研网址导航",
     searchPlaceholder: "搜索网站、域名或主题…",
     shortcut: "按 /",
-    all: "全部",
     showing: "当前显示",
     of: "/",
     links: "个网址",
-    clear: "清除筛选",
+    clear: "清除搜索",
     noResultsTitle: "没有找到匹配的网址。",
     noResultsBody: "请尝试更宽泛的主题、不同写法，或返回完整导航。",
     opensNewTab: "将在新标签页打开",
@@ -205,30 +193,45 @@ function LinkCard({ item, category, copy }) {
   const domain = getDomain(item.url);
 
   return (
-    <Link
-      className={`${styles.linkCard} no-external-icon`}
-      to={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${item.title} — ${copy.opensNewTab}`}
+    <li className={`${styles.linkItem} ${styles[category.id]}`}>
+      <Link
+        className={`${styles.linkCard} no-external-icon`}
+        to={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${item.title} — ${copy.opensNewTab}`}
+      >
+        <span className={styles.siteMark} aria-hidden="true">
+          {getSiteMark(domain)}
+        </span>
+        <span className={styles.linkIdentity}>
+          <span className={styles.linkTitle}>{item.title}</span>
+          <span className={styles.linkDomain}>{domain}</span>
+        </span>
+        <span className={styles.linkArrow} aria-hidden="true">
+          ↗
+        </span>
+      </Link>
+    </li>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
     >
-      <span className={styles.siteMark} aria-hidden="true">
-        {getSiteMark(domain)}
-      </span>
-      <span className={styles.linkIdentity}>
-        <Heading as="h3" className={styles.linkTitle}>
-          {item.title}
-        </Heading>
-        <span className={styles.linkDomain}>{domain}</span>
-      </span>
-      <span className={styles.linkArrow} aria-hidden="true">
-        ↗
-      </span>
-      <span
-        className={`${styles.cardAccent} ${styles[category.id]}`}
-        aria-hidden="true"
-      />
-    </Link>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
   );
 }
 
@@ -237,9 +240,10 @@ export default function NavigatorPage() {
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? pageCopy.zh : pageCopy.en;
   const [query, setQuery] = React.useState("");
-  const [category, setCategory] = React.useState("all");
+  const [activeCategory, setActiveCategory] = React.useState(
+    navigatorCategories[0].id
+  );
   const searchRef = React.useRef(null);
-  const catalogRef = React.useRef(null);
 
   const categoryCounts = React.useMemo(
     () =>
@@ -252,11 +256,9 @@ export default function NavigatorPage() {
 
   const filteredLinks = React.useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase();
+    if (!normalizedQuery) return navigatorLinks;
 
     return navigatorLinks.filter((item) => {
-      if (category !== "all" && item.category !== category) return false;
-      if (!normalizedQuery) return true;
-
       const categoryItem = navigatorCategories.find(
         (entry) => entry.id === item.category
       );
@@ -272,7 +274,7 @@ export default function NavigatorPage() {
 
       return searchText.includes(normalizedQuery);
     });
-  }, [category, isChinese, query]);
+  }, [isChinese, query]);
 
   const visibleGroups = React.useMemo(
     () =>
@@ -315,137 +317,95 @@ export default function NavigatorPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  function selectLane(categoryId) {
-    setCategory(categoryId);
+  React.useEffect(() => {
+    if (query.trim() || typeof IntersectionObserver === "undefined") return;
+
+    const sections = Array.from(
+      document.querySelectorAll("[data-navigator-category]")
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (first, second) =>
+              Math.abs(first.boundingClientRect.top) -
+              Math.abs(second.boundingClientRect.top)
+          );
+
+        if (visible[0]?.target.dataset.navigatorCategory) {
+          setActiveCategory(visible[0].target.dataset.navigatorCategory);
+        }
+      },
+      { rootMargin: "-14% 0px -72% 0px", threshold: 0.01 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [query]);
+
+  function scrollToCategory(categoryId) {
+    setQuery("");
+    setActiveCategory(categoryId);
+
     window.requestAnimationFrame(() => {
-      catalogRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+      window.requestAnimationFrame(() => {
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        document.getElementById(`navigator-${categoryId}`)?.scrollIntoView({
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+          block: "start",
+        });
       });
     });
   }
 
-  function clearFilters() {
+  function clearSearch() {
     setQuery("");
-    setCategory("all");
+    window.requestAnimationFrame(() => searchRef.current?.focus());
   }
-
-  const hasFilters = query.length > 0 || category !== "all";
 
   return (
     <Layout title={copy.pageTitle} description={copy.pageDescription}>
       <main className={styles.page}>
-        <div className={styles.ambientOne} aria-hidden="true" />
-        <div className={styles.ambientTwo} aria-hidden="true" />
-
         <div className={styles.shell}>
           <header className={styles.hero}>
-            <div className={styles.heroCopy}>
-              <div className={styles.eyebrowRow}>
-                <span className={styles.eyebrow}>{copy.eyebrow}</span>
-                <span className={styles.updatedPill}>{copy.updated}</span>
-              </div>
-              <Heading as="h1" className={styles.heroTitle}>
-                {copy.title}
-              </Heading>
-              <p className={styles.heroDescription}>{copy.intro}</p>
-            </div>
-
-            <dl className={styles.heroStats} aria-label={copy.pageTitle}>
-              <div>
-                <dt>{copy.linkStat}</dt>
-                <dd>{navigatorLinks.length}</dd>
-              </div>
-              <div>
-                <dt>{copy.laneStat}</dt>
-                <dd>{navigatorCategories.length}</dd>
-              </div>
-              <div className={styles.policyStat}>
-                <dt>{copy.policyStat}</dt>
-                <dd aria-hidden="true">✓</dd>
-              </div>
-            </dl>
-          </header>
-
-          <section
-            className={styles.lanesSection}
-            aria-labelledby="navigator-lanes-title"
-          >
-            <div className={styles.sectionHeading}>
-              <div>
-                <span className={styles.sectionEyebrow}>
-                  {copy.lanesEyebrow}
-                </span>
-                <Heading
-                  as="h2"
-                  id="navigator-lanes-title"
-                  className={styles.sectionTitle}
-                >
-                  {copy.lanesTitle}
+            <div className={styles.heroTop}>
+              <div className={styles.heroCopy}>
+                <div className={styles.eyebrowRow}>
+                  <span className={styles.eyebrow}>{copy.eyebrow}</span>
+                  <span className={styles.updatedPill}>{copy.updated}</span>
+                </div>
+                <Heading as="h1" className={styles.heroTitle}>
+                  {copy.title}
                 </Heading>
+                <p className={styles.heroDescription}>{copy.intro}</p>
               </div>
-              <p>{copy.lanesDescription}</p>
+
+              <dl className={styles.heroStats} aria-label={copy.pageTitle}>
+                <div>
+                  <dd>{navigatorLinks.length}</dd>
+                  <dt>{copy.linkStat}</dt>
+                </div>
+                <div>
+                  <dd>{navigatorCategories.length}</dd>
+                  <dt>{copy.categoryStat}</dt>
+                </div>
+                <div className={styles.policyStat}>
+                  <dd aria-hidden="true">✓</dd>
+                  <dt>{copy.policyStat}</dt>
+                </div>
+              </dl>
             </div>
 
-            <div className={styles.laneGrid}>
-              {navigatorCategories.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`${styles.laneCard} ${styles[item.id]}`}
-                  onClick={() => selectLane(item.id)}
-                  aria-pressed={category === item.id}
-                  aria-controls="navigator-catalog"
-                >
-                  <span className={styles.laneIcon}>
-                    <CategoryIcon categoryId={item.id} />
-                  </span>
-                  <span className={styles.laneCopy}>
-                    <span className={styles.laneTitle}>
-                      {localize(item.label, isChinese)}
-                    </span>
-                    <span className={styles.laneDescription}>
-                      {localize(item.description, isChinese)}
-                    </span>
-                  </span>
-                  <span className={styles.laneMeta}>
-                    {categoryCounts[item.id]} {copy.resources}
-                    <span aria-hidden="true">→</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section
-            ref={catalogRef}
-            className={styles.catalogSection}
-            id="navigator-catalog"
-            aria-labelledby="navigator-catalog-title"
-          >
-            <div className={styles.sectionHeading}>
-              <div>
-                <span className={styles.sectionEyebrow}>
-                  {copy.catalogEyebrow}
-                </span>
-                <Heading
-                  as="h2"
-                  id="navigator-catalog-title"
-                  className={styles.sectionTitle}
-                >
-                  {copy.catalogTitle}
-                </Heading>
-              </div>
-              <p>{copy.catalogDescription}</p>
-            </div>
-
-            <div className={styles.filterPanel}>
+            <div className={styles.searchRow} role="search">
               <label className={styles.searchField}>
-                <span className={styles.searchLabel}>{copy.searchLabel}</span>
+                <span className={styles.srOnly}>{copy.searchLabel}</span>
                 <span className={styles.searchBox}>
                   <svg
-                    width="20"
-                    height="20"
+                    width="19"
+                    height="19"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -467,7 +427,7 @@ export default function NavigatorPage() {
                     <button
                       type="button"
                       className={styles.searchClear}
-                      onClick={() => setQuery("")}
+                      onClick={clearSearch}
                       aria-label={copy.clear}
                     >
                       ×
@@ -478,129 +438,142 @@ export default function NavigatorPage() {
                 </span>
               </label>
 
-              <div
-                className={styles.categoryScroller}
-                aria-label={copy.lanesEyebrow}
-              >
-                <button
-                  type="button"
-                  className={
-                    category === "all"
-                      ? styles.filterChipActive
-                      : styles.filterChip
-                  }
-                  onClick={() => setCategory("all")}
-                  aria-pressed={category === "all"}
-                >
-                  {copy.all}
-                  <span>{navigatorLinks.length}</span>
-                </button>
-                {navigatorCategories.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={
-                      category === item.id
-                        ? styles.filterChipActive
-                        : styles.filterChip
-                    }
-                    onClick={() => setCategory(item.id)}
-                    aria-pressed={category === item.id}
-                  >
-                    {localize(item.label, isChinese)}
-                    <span>{categoryCounts[item.id]}</span>
-                  </button>
-                ))}
-              </div>
-
               <div className={styles.resultBar}>
                 <p aria-live="polite" aria-atomic="true">
                   {copy.showing} <strong>{filteredLinks.length}</strong>{" "}
                   {copy.of} {navigatorLinks.length} {copy.links}
                 </p>
-                {hasFilters ? (
-                  <button type="button" onClick={clearFilters}>
+                {query ? (
+                  <button type="button" onClick={clearSearch}>
                     {copy.clear}
                   </button>
                 ) : null}
               </div>
             </div>
+          </header>
 
-            {visibleGroups.length > 0 ? (
-              <div className={styles.groupList}>
-                {visibleGroups.map((group) => (
-                  <section
-                    key={group.category.id}
-                    className={`${styles.linkGroup} ${
-                      styles[group.category.id]
-                    }`}
-                    aria-labelledby={`navigator-${group.category.id}`}
-                  >
-                    <div className={styles.groupHeader}>
-                      <span className={styles.groupIcon}>
-                        <CategoryIcon categoryId={group.category.id} />
-                      </span>
-                      <div>
-                        <Heading
-                          as="h2"
-                          id={`navigator-${group.category.id}`}
-                          className={styles.groupTitle}
-                        >
-                          {localize(group.category.label, isChinese)}
-                        </Heading>
-                        <p>{localize(group.category.description, isChinese)}</p>
-                      </div>
-                      <span className={styles.groupCount}>
-                        {group.items.length}
-                      </span>
-                    </div>
-                    <div className={styles.linkGrid}>
-                      {group.items.map((item) => (
-                        <LinkCard
-                          key={item.url}
-                          item={item}
-                          category={group.category}
-                          copy={copy}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                ))}
+          <div className={styles.directoryLayout}>
+            <aside className={styles.categoryRail}>
+              <div className={styles.railHeading}>
+                <strong>{copy.browseTitle}</strong>
+                <span>{copy.browseHint}</span>
               </div>
-            ) : (
-              <div className={styles.emptyState}>
-                <span aria-hidden="true">⌕</span>
-                <Heading as="h2">{copy.noResultsTitle}</Heading>
-                <p>{copy.noResultsBody}</p>
-                <button type="button" onClick={clearFilters}>
-                  {copy.clear}
-                </button>
-              </div>
-            )}
-          </section>
-
-          <aside className={styles.curationNote}>
-            <span className={styles.noteIcon} aria-hidden="true">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <nav
+                className={styles.categoryList}
+                aria-label={copy.categoryNavLabel}
               >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-            </span>
-            <div>
-              <Heading as="h2">{copy.curationTitle}</Heading>
-              <p>{copy.curationBody}</p>
-              <Link to="/privacy">{copy.privacyLink} →</Link>
-            </div>
-          </aside>
+                {navigatorCategories.map((item) => {
+                  const isActive = activeCategory === item.id && !query;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`${styles.categoryButton} ${styles[item.id]} ${
+                        isActive ? styles.categoryButtonActive : ""
+                      }`}
+                      onClick={() => scrollToCategory(item.id)}
+                      aria-pressed={isActive}
+                      aria-controls={`navigator-${item.id}`}
+                    >
+                      <span className={styles.categoryIcon} aria-hidden="true">
+                        <CategoryIcon categoryId={item.id} />
+                      </span>
+                      <span className={styles.categoryText}>
+                        <strong>{localize(item.label, isChinese)}</strong>
+                        <small>
+                          {categoryCounts[item.id]} {copy.resources}
+                        </small>
+                      </span>
+                      <span
+                        className={styles.categoryChevron}
+                        aria-hidden="true"
+                      >
+                        ›
+                      </span>
+                    </button>
+                  );
+                })}
+              </nav>
+              <div className={styles.railPrivacy}>
+                <ShieldIcon />
+                <Link to="/privacy">{copy.privacyLink} →</Link>
+              </div>
+            </aside>
+
+            <section
+              className={styles.directoryPanel}
+              aria-label={copy.pageTitle}
+            >
+              {visibleGroups.length > 0 ? (
+                <div className={styles.groupList}>
+                  {visibleGroups.map((group) => (
+                    <section
+                      key={group.category.id}
+                      id={`navigator-${group.category.id}`}
+                      data-navigator-category={group.category.id}
+                      className={`${styles.linkGroup} ${
+                        styles[group.category.id]
+                      }`}
+                      aria-labelledby={`navigator-${group.category.id}-title`}
+                    >
+                      <div className={styles.groupHeader}>
+                        <span className={styles.groupIcon} aria-hidden="true">
+                          <CategoryIcon categoryId={group.category.id} />
+                        </span>
+                        <div className={styles.groupCopy}>
+                          <Heading
+                            as="h2"
+                            id={`navigator-${group.category.id}-title`}
+                            className={styles.groupTitle}
+                          >
+                            {localize(group.category.label, isChinese)}
+                          </Heading>
+                          <p>
+                            {localize(group.category.description, isChinese)}
+                          </p>
+                        </div>
+                        <span
+                          className={styles.groupCount}
+                          aria-label={`${group.items.length} ${copy.resources}`}
+                        >
+                          {group.items.length}
+                        </span>
+                      </div>
+                      <ul className={styles.linkGrid}>
+                        {group.items.map((item) => (
+                          <LinkCard
+                            key={item.url}
+                            item={item}
+                            category={group.category}
+                            copy={copy}
+                          />
+                        ))}
+                      </ul>
+                    </section>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.emptyState}>
+                  <span aria-hidden="true">⌕</span>
+                  <Heading as="h2">{copy.noResultsTitle}</Heading>
+                  <p>{copy.noResultsBody}</p>
+                  <button type="button" onClick={clearSearch}>
+                    {copy.clear}
+                  </button>
+                </div>
+              )}
+
+              <aside className={styles.curationNote}>
+                <span className={styles.noteIcon} aria-hidden="true">
+                  <ShieldIcon />
+                </span>
+                <p>
+                  <strong>{copy.curationTitle}</strong> {copy.curationBody}{" "}
+                  <Link to="/privacy">{copy.privacyLink} →</Link>
+                </p>
+              </aside>
+            </section>
+          </div>
         </div>
       </main>
     </Layout>

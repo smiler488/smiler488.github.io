@@ -2,15 +2,6 @@ const link = (title, url, category) => ({ title, url, category });
 
 export const navigatorCategories = [
   {
-    id: "ai-ecosystem",
-    label: { en: "AI & model ecosystem", zh: "AI 与模型生态" },
-    description: {
-      en: "Model hubs, developer platforms, local inference, and open-source serving tools.",
-      zh: "模型社区、开发平台、本地推理与开源模型服务工具。",
-    },
-    keywords: ["AI", "LLM", "models", "模型", "推理", "智能体"],
-  },
-  {
     id: "ai-science",
     label: { en: "AI for Science", zh: "AI for Science" },
     description: {
@@ -21,7 +12,10 @@ export const navigatorCategories = [
   },
   {
     id: "digital-crops",
-    label: { en: "Digital crops & modeling", zh: "数字作物与建模" },
+    label: {
+      en: "Crop models & digital plants",
+      zh: "作物模型与数字植株",
+    },
     description: {
       en: "Functional-structural plant models, crop simulation, ray tracing, and virtual plants.",
       zh: "功能结构植物模型、作物模拟、光线追踪与虚拟植物。",
@@ -36,24 +30,6 @@ export const navigatorCategories = [
       zh: "表型网络、开放数据集、育种接口与元数据标准。",
     },
     keywords: ["phenotyping", "breeding", "BrAPI", "表型", "育种", "标准"],
-  },
-  {
-    id: "geo-remote",
-    label: { en: "Remote sensing & 3D", zh: "遥感、地理与三维" },
-    description: {
-      en: "Earth observation, geospatial data, terrain, photogrammetry, and point-cloud workflows.",
-      zh: "地球观测、空间数据、地形、摄影测量与点云工作流。",
-    },
-    keywords: ["remote sensing", "GIS", "UAV", "3D", "遥感", "无人机", "点云"],
-  },
-  {
-    id: "data-orgs",
-    label: { en: "Research data & organizations", zh: "科研数据与机构" },
-    description: {
-      en: "Trusted agricultural, climate, soil, and institutional data gateways.",
-      zh: "农业、气候、土壤及权威科研机构的数据入口。",
-    },
-    keywords: ["data", "climate", "agriculture", "数据", "气候", "农业机构"],
   },
   {
     id: "physiology",
@@ -72,8 +48,41 @@ export const navigatorCategories = [
     ],
   },
   {
+    id: "geo-remote",
+    label: { en: "Remote sensing & 3D", zh: "遥感、地理与三维" },
+    description: {
+      en: "Earth observation, geospatial data, terrain, photogrammetry, and point-cloud workflows.",
+      zh: "地球观测、空间数据、地形、摄影测量与点云工作流。",
+    },
+    keywords: ["remote sensing", "GIS", "UAV", "3D", "遥感", "无人机", "点云"],
+  },
+  {
+    id: "data-orgs",
+    label: {
+      en: "Agricultural data & organizations",
+      zh: "农业科研数据与机构",
+    },
+    description: {
+      en: "Trusted agricultural, climate, soil, and institutional data gateways.",
+      zh: "农业、气候、土壤及权威科研机构的数据入口。",
+    },
+    keywords: ["data", "climate", "agriculture", "数据", "气候", "农业机构"],
+  },
+  {
+    id: "ai-ecosystem",
+    label: { en: "AI models & agents", zh: "AI 模型与智能体" },
+    description: {
+      en: "Model hubs, developer platforms, local inference, and open-source serving tools.",
+      zh: "模型社区、开发平台、本地推理与开源模型服务工具。",
+    },
+    keywords: ["AI", "LLM", "models", "模型", "推理", "智能体"],
+  },
+  {
     id: "writing-viz",
-    label: { en: "Papers, writing & visualization", zh: "论文、写作与可视化" },
+    label: {
+      en: "Scientific writing & visualization",
+      zh: "论文写作与科研可视化",
+    },
     description: {
       en: "Core journals, scientific writing aids, terminology, plots, and diagram tools.",
       zh: "核心期刊、科研写作、术语检索、统计绘图与图表工具。",
@@ -82,7 +91,7 @@ export const navigatorCategories = [
   },
   {
     id: "learning-code",
-    label: { en: "Courses & open tools", zh: "课程与开放工具" },
+    label: { en: "Courses, code & open tools", zh: "课程、代码与开放工具" },
     description: {
       en: "Computer vision, machine learning, statistics, scientific software, and open courses.",
       zh: "计算机视觉、机器学习、统计方法、科研软件与开放课程。",
