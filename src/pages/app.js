@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
@@ -45,6 +45,22 @@ function AppCard({ app }) {
 export default function AppHub() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [query, setQuery] = useState("");
+  const filtersRef = useRef(null);
+  const [sliderStyle, setSliderStyle] = useState({ left: 0, width: 0, opacity: 0 });
+
+  useEffect(() => {
+    if (!filtersRef.current) return;
+    const activeEl = filtersRef.current.querySelector(`.${styles.filterActive}`);
+    if (activeEl) {
+      setSliderStyle({
+        left: activeEl.offsetLeft,
+        width: activeEl.offsetWidth,
+        opacity: 1,
+      });
+    } else {
+      setSliderStyle((prev) => ({ ...prev, opacity: 0 }));
+    }
+  }, [activeCategory]);
 
   const visibleApps = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -176,8 +192,17 @@ export default function AppHub() {
           <div className={styles.filterRow}>
             <div
               className={styles.filters}
+              ref={filtersRef}
               aria-label="Filter tools by category"
             >
+              <div
+                className={styles.glassSlider}
+                style={{
+                  left: `${sliderStyle.left}px`,
+                  width: `${sliderStyle.width}px`,
+                  opacity: sliderStyle.opacity,
+                }}
+              />
               {APP_CATEGORIES.map((category) => (
                 <button
                   key={category.id}

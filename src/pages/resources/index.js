@@ -195,6 +195,22 @@ export default function ResourcesPage() {
   const [query, setQuery] = React.useState("");
   const [category, setCategory] = React.useState("all");
   const [level, setLevel] = React.useState("all");
+  const categoryScrollerRef = React.useRef(null);
+  const [sliderStyle, setSliderStyle] = React.useState({ left: 0, width: 0, opacity: 0 });
+
+  React.useEffect(() => {
+    if (!categoryScrollerRef.current) return;
+    const activeEl = categoryScrollerRef.current.querySelector(`.${styles.filterChipActive}`);
+    if (activeEl) {
+      setSliderStyle({
+        left: activeEl.offsetLeft,
+        width: activeEl.offsetWidth,
+        opacity: 1,
+      });
+    } else {
+      setSliderStyle((prev) => ({ ...prev, opacity: 0 }));
+    }
+  }, [category]);
 
   const categoryCounts = React.useMemo(() => {
     return learningResources.reduce((counts, resource) => {
@@ -401,8 +417,17 @@ export default function ResourcesPage() {
               <div className={styles.filterBottomRow}>
                 <div
                   className={styles.categoryScroller}
+                  ref={categoryScrollerRef}
                   aria-label={isChinese ? "按主题筛选" : "Filter by topic"}
                 >
+                  <div
+                    className={styles.glassSlider}
+                    style={{
+                      left: `${sliderStyle.left}px`,
+                      width: `${sliderStyle.width}px`,
+                      opacity: sliderStyle.opacity,
+                    }}
+                  />
                   <button
                     type="button"
                     className={clsx(
