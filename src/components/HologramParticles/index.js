@@ -74,6 +74,9 @@ export default function HologramParticles({
   cloudImage,
   obstacleSelector = "[data-particle-obstacle]",
 }) {
+  const { i18n } = useDocusaurusContext();
+  const isChinese = i18n.currentLocale === "zh-Hans";
+
   const canvasRef = React.useRef(null);
   const videoRef = React.useRef(null);
   const containerRef = React.useRef(null);
