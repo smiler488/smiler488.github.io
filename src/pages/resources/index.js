@@ -17,12 +17,12 @@ const pageCopy = {
   en: {
     pageTitle: "AI for Science & Agriculture Resources",
     pageDescription:
-      "A curated learning hub for scientific machine learning, crop models, plant phenotyping, GeoAI, and 3D vision.",
+      "A curated learning hub for scientific machine learning, AI agents & LLMs, crop models, plant phenotyping, GeoAI, and 3D vision.",
     eyebrow: "Research learning hub",
     updated: "Curated and verified · July 2026",
     heroTitle: "Learn AI for Science & digital agriculture.",
     heroDescription:
-      "A focused map of official courses, models, datasets, and tools for scientific machine learning, crop simulation, plant phenotyping, remote sensing, and 3D reconstruction.",
+      "A focused map of official courses, models, datasets, and tools for scientific machine learning, AI agents & LLMs, crop simulation, plant phenotyping, remote sensing, and 3D reconstruction.",
     statResources: "curated resources",
     statTopics: "focused topics",
     statSources: "official-first",
@@ -70,12 +70,12 @@ const pageCopy = {
   zh: {
     pageTitle: "AI for Science 与农业学习资源",
     pageDescription:
-      "面向科学机器学习、作物模型、植物表型、GeoAI 与三维视觉的精选学习资源中心。",
+      "面向科学机器学习、智能体与大模型、作物模型、植物表型、GeoAI 与三维视觉的精选学习资源中心。",
     eyebrow: "科研学习资源中心",
     updated: "精选并核验 · 2026 年 7 月",
     heroTitle: "学习 AI for Science 与数字农业。",
     heroDescription:
-      "围绕科学机器学习、作物模拟、植物表型、遥感与三维重建，精选官方课程、模型、数据集和工具。",
+      "围绕科学机器学习、智能体与大模型、作物模拟、植物表型、遥感与三维重建，精选官方课程、模型、数据集和工具。",
     statResources: "项精选资源",
     statTopics: "个聚焦主题",
     statSources: "官方优先",

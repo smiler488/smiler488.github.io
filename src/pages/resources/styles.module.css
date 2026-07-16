@@ -264,6 +264,10 @@
   --card-accent: #6e5bd8;
 }
 
+.agents {
+  --card-accent: #b23a7d;
+}
+
 .cropModels {
   --card-accent: #218358;
 }
@@ -570,6 +574,10 @@
 
 .chip_aiScience {
   --chip-accent: #7c66e8;
+}
+
+.chip_agents {
+  --chip-accent: #c74f92;
 }
 
 .chip_cropModels {
