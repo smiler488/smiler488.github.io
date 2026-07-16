@@ -1,4 +1,5 @@
 import React from "react";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import styles from "./styles.module.css";
 
 const DEFAULT_LABELS = {
@@ -92,6 +93,7 @@ export default function HologramParticles({
   const [statusKey, setStatusKey] = React.useState("pointerReady");
   const [reducedMotion, setReducedMotion] = React.useState(false);
   const [fieldMode, setFieldMode] = React.useState("disperse");
+  const [showLoveEasterEgg, setShowLoveEasterEgg] = React.useState(false);
   const copy = React.useMemo(
     () => ({ ...DEFAULT_LABELS, ...labels }),
     [labels]
@@ -471,6 +473,32 @@ export default function HologramParticles({
       if (!event.relatedTarget) clearPointer();
     };
 
+    const handleDblClick = (event) => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const interactiveTarget =
+        event.target instanceof Element &&
+        event.target.closest(
+          "a,button,input,textarea,select,summary,[role='button'],[contenteditable='true'],[data-particle-obstacle]"
+        );
+      if (interactiveTarget) return;
+
+      const rect = container.getBoundingClientRect();
+      const isInside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+
+      if (isInside) {
+        setShowLoveEasterEgg(true);
+        setTimeout(() => {
+          window.location.href = "https://tangbonnie.github.io";
+        }, 1600);
+      }
+    };
+
     window.addEventListener("pointermove", updatePointer, { passive: true });
     window.addEventListener("pointerdown", handlePointerDown, {
       passive: true,
@@ -480,6 +508,7 @@ export default function HologramParticles({
       passive: true,
     });
     window.addEventListener("pointerout", handlePointerOut, { passive: true });
+    window.addEventListener("dblclick", handleDblClick);
     window.addEventListener("scroll", clearPointer, { passive: true });
     window.addEventListener("resize", clearPointer, { passive: true });
     window.addEventListener("blur", clearPointer);
@@ -490,6 +519,7 @@ export default function HologramParticles({
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("pointercancel", handlePointerUp);
       window.removeEventListener("pointerout", handlePointerOut);
+      window.removeEventListener("dblclick", handleDblClick);
       window.removeEventListener("scroll", clearPointer);
       window.removeEventListener("resize", clearPointer);
       window.removeEventListener("blur", clearPointer);
@@ -1179,6 +1209,21 @@ export default function HologramParticles({
         >
           <span className={styles.pointerHintIcon} />
           {copy.pointerHint}
+        </div>
+      )}
+
+      {showLoveEasterEgg && (
+        <div className={styles.easterEggOverlay} data-particle-obstacle>
+          <div className={styles.easterEggCard}>
+            <div className={styles.easterEggHearts}>
+              ❤️ ✨ 💖 ✨ ❤️
+            </div>
+            <p className={styles.easterEggText}>
+              {isChinese
+                ? "正在穿梭前往 Bonnie 的空间..."
+                : "Traversing to Bonnie's Space..."}
+            </p>
+          </div>
         </div>
       )}
     </div>
