@@ -5,6 +5,7 @@ import Heading from "@theme/Heading";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import {
   navigatorCategories,
+  navigatorGroups,
   navigatorLinks,
   navigatorUpdated,
 } from "../../data/navigatorData";
@@ -12,22 +13,22 @@ import styles from "./styles.module.css";
 
 const pageCopy = {
   en: {
-    pageTitle: "Research Navigator",
+    pageTitle: "Workspace Navigator",
     pageDescription:
-      "A privacy-reviewed research web directory for AI, plant phenotyping, crop modeling, remote sensing, and scientific work.",
-    eyebrow: "SMILER · RESEARCH NAVIGATOR",
+      "A personal workspace of everyday entry points: campus and postdoc systems, literature and journals, research data, and downtime.",
+    eyebrow: "SMILER · WORKSPACE",
     updated: `Curated ${navigatorUpdated.en}`,
-    title: "Research Navigator",
+    title: "Workspace Navigator",
     intro:
-      "A compact, privacy-reviewed directory for AI for Science, crop modeling, plant phenotyping, remote sensing, and everyday research.",
+      "My daily desk in one page: university and postdoc systems for work, literature, journals and data platforms for research, and a short list of places to unwind.",
     linkStat: "public links",
     categoryStat: "categories",
     policyStat: "privacy reviewed",
-    browseTitle: "Browse categories",
-    browseHint: "Jump directly to a section",
-    categoryNavLabel: "Research navigator categories",
+    browseTitle: "Browse the desk",
+    browseHint: "Work · Research · Daily",
+    categoryNavLabel: "Workspace categories",
     resources: "sites",
-    searchLabel: "Search the research navigator",
+    searchLabel: "Search the workspace navigator",
     searchPlaceholder: "Search sites, domains, or topics…",
     shortcut: "Press /",
     showing: "Showing",
@@ -38,28 +39,29 @@ const pageCopy = {
     noResultsBody:
       "Try a broader topic, another spelling, or return to the complete directory.",
     opensNewTab: "opens in a new tab",
-    curationTitle: "Public by design.",
+    curationTitle: "Public entry points only.",
     curationBody:
-      "The original browser export stays local. This page only contains manually reviewed public links; login pages, dashboards, personal identifiers, session parameters, direct IPs, and uncertain download sources are excluded.",
+      "The original browser export stays local. This page lists only the public front doors of the systems I use—sign-in still happens on their side. Personal identifiers, session parameters, direct IPs, and uncertain download sources are excluded.",
     privacyLink: "Read the privacy policy",
+    resourcesLink: "Looking for study material? Visit Resources",
   },
   zh: {
-    pageTitle: "科研网址导航",
+    pageTitle: "个人工作台导航",
     pageDescription:
-      "面向 AI、植物表型、作物模型、遥感与科研工作的隐私审查型网址导航。",
-    eyebrow: "SMILER · 科研网址导航",
+      "个人日常入口工作台：校内与博士后系统、文献与期刊、科研数据平台，以及休闲站点。",
+    eyebrow: "SMILER · 个人工作台",
     updated: `整理于 ${navigatorUpdated.zh}`,
-    title: "科研网址导航",
+    title: "个人工作台导航",
     intro:
-      "为 AI for Science、作物模型、植物表型、遥感与日常科研整理的紧凑型公开网址库，所有链接均经过隐私审查。",
+      "把每天要用的入口收在一页：工作用的学校与博士后系统，科研用的文献、期刊与数据平台，以及少量放松用的站点。",
     linkStat: "个公开网址",
-    categoryStat: "个专业分类",
+    categoryStat: "个分类",
     policyStat: "已做隐私审查",
-    browseTitle: "分类导航",
-    browseHint: "点击直达对应分区",
-    categoryNavLabel: "科研网址分类",
+    browseTitle: "工作台分区",
+    browseHint: "工作 · 学习科研 · 日常",
+    categoryNavLabel: "工作台分类",
     resources: "个站点",
-    searchLabel: "搜索科研网址导航",
+    searchLabel: "搜索个人工作台",
     searchPlaceholder: "搜索网站、域名或主题…",
     shortcut: "按 /",
     showing: "当前显示",
@@ -69,10 +71,11 @@ const pageCopy = {
     noResultsTitle: "没有找到匹配的网址。",
     noResultsBody: "请尝试更宽泛的主题、不同写法，或返回完整导航。",
     opensNewTab: "将在新标签页打开",
-    curationTitle: "从一开始就保护隐私。",
+    curationTitle: "只收录公开入口。",
     curationBody:
-      "原始浏览器导出文件始终保留在本地。本页只收录人工审查后的公开网址；登录页、控制台、个人标识、会话参数、直接 IP 和来源不明的下载入口均已排除。",
+      "原始浏览器导出文件始终保留在本地。本页只列出这些系统的公开入口，登录仍在对方站点完成；个人标识、会话参数、直接 IP 和来源不明的下载入口均已排除。",
     privacyLink: "查看隐私政策",
+    resourcesLink: "想找学习资料？前往资源页",
   },
 };
 
@@ -107,77 +110,76 @@ function CategoryIcon({ categoryId }) {
   };
 
   switch (categoryId) {
-    case "ai-ecosystem":
+    case "shzu":
       return (
         <svg {...commonProps}>
-          <path d="M12 3.2 13.8 8l4.8 1.8-4.8 1.8-1.8 4.8-1.8-4.8-4.8-1.8L10.2 8 12 3.2Z" />
-          <path d="m18.2 15 .8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8.8-2.1Z" />
+          <path d="M3 10.5 12 5l9 5.5" />
+          <path d="M5 10.5V20h14v-9.5" />
+          <path d="M9.5 20v-5.5h5V20" />
         </svg>
       );
-    case "ai-science":
+    case "cau-postdoc":
       return (
         <svg {...commonProps}>
-          <circle cx="12" cy="12" r="1.8" />
-          <ellipse cx="12" cy="12" rx="9" ry="3.7" />
-          <ellipse
-            cx="12"
-            cy="12"
-            rx="3.7"
-            ry="9"
-            transform="rotate(40 12 12)"
-          />
-          <ellipse
-            cx="12"
-            cy="12"
-            rx="3.7"
-            ry="9"
-            transform="rotate(-40 12 12)"
-          />
+          <path d="M12 4 2.8 8.4 12 12.8l9.2-4.4L12 4Z" />
+          <path d="M6.5 10.6v4.6c0 1.6 2.6 2.9 5.5 2.9s5.5-1.3 5.5-2.9v-4.6" />
+          <path d="M21.2 8.4V14" />
         </svg>
       );
-    case "digital-crops":
+    case "funding-policy":
       return (
         <svg {...commonProps}>
-          <path d="M12 21V9" />
-          <path d="M12 13c-4.7 0-7.5-2.3-7.5-6.5 4.7 0 7.5 2.3 7.5 6.5Z" />
-          <path d="M12 9c4.7 0 7.5-2.3 7.5-6.5C14.8 2.5 12 4.8 12 9Z" />
-          <path d="M8.5 21h7" />
+          <path d="M4 20h16" />
+          <path d="M5.5 20V10m4.5 10V10m4 10V10m4.5 10V10" />
+          <path d="M12 3.2 21 8H3l9-4.8Z" />
         </svg>
       );
-    case "phenotyping":
+    case "literature":
       return (
         <svg {...commonProps}>
-          <path d="M8 3H4a1 1 0 0 0-1 1v4M16 3h4a1 1 0 0 1 1 1v4M8 21H4a1 1 0 0 1-1-1v-4M16 21h4a1 1 0 0 0 1-1v-4" />
-          <path d="M12 17V9" />
-          <path d="M12 12c-3.2 0-5-1.6-5-4.5 3.2 0 5 1.6 5 4.5ZM12 9c3.2 0 5-1.6 5-4.5-3.2 0-5 1.6-5 4.5Z" />
+          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v14H6.5A2.5 2.5 0 0 0 4 19.5v-14Z" />
+          <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v14h4.5a2.5 2.5 0 0 1 2.5 2.5v-14Z" />
+          <circle cx="17.5" cy="16.5" r="3.5" />
+          <path d="m20.2 19.2 1.8 1.8" />
         </svg>
       );
-    case "geo-remote":
+    case "journals":
       return (
         <svg {...commonProps}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3.5 9h17M3.5 15h17M12 3c2.4 2.5 3.5 5.5 3.5 9S14.4 18.5 12 21c-2.4-2.5-3.5-5.5-3.5-9S9.6 5.5 12 3Z" />
+          <path d="M5 3.8h11.5a2 2 0 0 1 2 2v14.4H7a2 2 0 0 1-2-2V3.8Z" />
+          <path d="M8.5 8h7M8.5 11.5h7M8.5 15h4" />
+          <path d="M18.5 8H21v12.2H7" />
         </svg>
       );
-    case "data-orgs":
+    case "data-platforms":
       return (
         <svg {...commonProps}>
           <ellipse cx="12" cy="5" rx="7.5" ry="3" />
           <path d="M4.5 5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V5M4.5 11v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6" />
         </svg>
       );
-    case "physiology":
+    case "toolbox":
       return (
         <svg {...commonProps}>
-          <path d="M3 12h4l2.2-5 4.2 10 2.2-5H21" />
-          <path d="M18.5 5.5c-3.5.1-5.3 1.8-5.3 5.1 3.5-.1 5.3-1.8 5.3-5.1Z" />
+          <path d="M3 9h18v10.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5V9Z" />
+          <path d="M8.5 9V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V9" />
+          <path d="M3 13.5h18" />
         </svg>
       );
-    case "writing-viz":
+    case "build-ship":
       return (
         <svg {...commonProps}>
-          <path d="M4 20h16M6 17V9M11 17V4M16 17v-6M21 17V7" />
-          <path d="m3.5 5.5 3-3 2 2-3 3-2.5.5.5-2.5Z" />
+          <path d="m8.5 8.5-4 3.5 4 3.5" />
+          <path d="m15.5 8.5 4 3.5-4 3.5" />
+          <path d="m13.5 5-3 14" />
+        </svg>
+      );
+    case "life":
+      return (
+        <svg {...commonProps}>
+          <rect x="2.8" y="5" width="18.4" height="14" rx="2.2" />
+          <path d="M2.8 9h18.4" />
+          <path d="m10.5 12.2 4 2.3-4 2.3v-4.6Z" />
         </svg>
       );
     default:
@@ -462,41 +464,57 @@ export default function NavigatorPage() {
                 className={styles.categoryList}
                 aria-label={copy.categoryNavLabel}
               >
-                {navigatorCategories.map((item) => {
-                  const isActive = activeCategory === item.id && !query;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`${styles.categoryButton} ${styles[item.id]} ${
-                        isActive ? styles.categoryButtonActive : ""
-                      }`}
-                      onClick={() => scrollToCategory(item.id)}
-                      aria-pressed={isActive}
-                      aria-controls={`navigator-${item.id}`}
-                    >
-                      <span className={styles.categoryIcon} aria-hidden="true">
-                        <CategoryIcon categoryId={item.id} />
-                      </span>
-                      <span className={styles.categoryText}>
-                        <strong>{localize(item.label, isChinese)}</strong>
-                        <small>
-                          {categoryCounts[item.id]} {copy.resources}
-                        </small>
-                      </span>
-                      <span
-                        className={styles.categoryChevron}
-                        aria-hidden="true"
-                      >
-                        ›
-                      </span>
-                    </button>
-                  );
-                })}
+                {navigatorGroups.map((group) => (
+                  <div key={group.id} className={styles.categoryGroup}>
+                    <p className={styles.categoryGroupLabel}>
+                      <strong>{localize(group.label, isChinese)}</strong>
+                      <small>{localize(group.hint, isChinese)}</small>
+                    </p>
+                    {navigatorCategories
+                      .filter((item) => item.group === group.id)
+                      .map((item) => {
+                        const isActive = activeCategory === item.id && !query;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            className={`${styles.categoryButton} ${
+                              styles[item.id]
+                            } ${isActive ? styles.categoryButtonActive : ""}`}
+                            onClick={() => scrollToCategory(item.id)}
+                            aria-pressed={isActive}
+                            aria-controls={`navigator-${item.id}`}
+                          >
+                            <span
+                              className={styles.categoryIcon}
+                              aria-hidden="true"
+                            >
+                              <CategoryIcon categoryId={item.id} />
+                            </span>
+                            <span className={styles.categoryText}>
+                              <strong>{localize(item.label, isChinese)}</strong>
+                              <small>
+                                {categoryCounts[item.id]} {copy.resources}
+                              </small>
+                            </span>
+                            <span
+                              className={styles.categoryChevron}
+                              aria-hidden="true"
+                            >
+                              ›
+                            </span>
+                          </button>
+                        );
+                      })}
+                  </div>
+                ))}
               </nav>
               <div className={styles.railPrivacy}>
                 <ShieldIcon />
                 <Link to="/privacy">{copy.privacyLink} →</Link>
+              </div>
+              <div className={styles.railCrossLink}>
+                <Link to="/resources">{copy.resourcesLink} →</Link>
               </div>
             </aside>
 

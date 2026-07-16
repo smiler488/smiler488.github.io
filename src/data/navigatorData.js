@@ -1,437 +1,369 @@
 const link = (title, url, category) => ({ title, url, category });
 
+export const navigatorGroups = [
+  {
+    id: "work",
+    label: { en: "Work", zh: "工作" },
+    hint: {
+      en: "Campus systems, postdoc applications, funding and policy",
+      zh: "校内系统、博士后申请、项目与政策",
+    },
+  },
+  {
+    id: "study",
+    label: { en: "Research", zh: "学习科研" },
+    hint: {
+      en: "Literature, journals, data platforms and daily research tools",
+      zh: "文献、期刊、数据平台与日常科研工具",
+    },
+  },
+  {
+    id: "daily",
+    label: { en: "Daily", zh: "日常" },
+    hint: {
+      en: "Site building, developer consoles and everyday downtime",
+      zh: "网站建设、开发后台与日常休闲",
+    },
+  },
+];
+
 export const navigatorCategories = [
   {
-    id: "ai-science",
-    label: { en: "AI for Science", zh: "AI for Science" },
+    id: "shzu",
+    group: "work",
+    label: { en: "Shihezi University", zh: "石河子大学" },
     description: {
-      en: "Scientific AI platforms, literature intelligence, datasets, and reproducible benchmarks.",
-      zh: "科研智能平台、文献发现、开放数据集与可复现实验基准。",
+      en: "Campus portals for graduate study, research administration, teaching, facilities, and finance.",
+      zh: "研究生、科研管理、教学、设备与财务等校内常用入口。",
     },
-    keywords: ["science", "papers", "datasets", "科研", "文献", "数据集"],
+    keywords: ["shzu", "campus", "graduate", "石河子", "研究生", "校内"],
   },
   {
-    id: "digital-crops",
-    label: {
-      en: "Crop models & digital plants",
-      zh: "作物模型与数字植株",
-    },
+    id: "cau-postdoc",
+    group: "work",
+    label: { en: "CAU & postdoc systems", zh: "中国农大与博士后" },
     description: {
-      en: "Functional-structural plant models, crop simulation, ray tracing, and virtual plants.",
-      zh: "功能结构植物模型、作物模拟、光线追踪与虚拟植物。",
+      en: "China Agricultural University entries plus the postdoc application, fellowship, and recruitment systems.",
+      zh: "中国农业大学相关入口，以及博士后进站、基金与招聘系统。",
     },
-    keywords: ["crop", "simulation", "FSPM", "作物", "模型", "虚拟植物"],
+    keywords: ["CAU", "postdoc", "中国农业大学", "博士后", "进站", "招聘"],
   },
   {
-    id: "phenotyping",
-    label: { en: "Phenotyping & standards", zh: "植物表型与标准" },
+    id: "funding-policy",
+    group: "work",
+    label: { en: "Funding, policy & IP", zh: "项目、政策与知识产权" },
     description: {
-      en: "Phenotyping networks, open datasets, breeding APIs, and metadata standards.",
-      zh: "表型网络、开放数据集、育种接口与元数据标准。",
+      en: "Grant systems, ministries, academies, standards, and patent offices used for applications and reporting.",
+      zh: "基金系统、部委机构、学会院所、标准与专利入口，用于申报与材料准备。",
     },
-    keywords: ["phenotyping", "breeding", "BrAPI", "表型", "育种", "标准"],
+    keywords: ["NSFC", "grant", "policy", "patent", "基金", "政策", "专利"],
   },
   {
-    id: "physiology",
-    label: { en: "Plant physiology & measurement", zh: "植物生理与测量" },
+    id: "literature",
+    group: "study",
+    label: { en: "Literature & discovery", zh: "文献与检索" },
     description: {
-      en: "Photosynthesis, fluorescence, canopy sensing, protocols, and analysis references.",
-      zh: "光合作用、荧光、冠层测量、实验协议与数据分析参考。",
+      en: "Search, request, organize, and follow papers—plus academic seminars and conference calendars.",
+      zh: "文献检索、求助、管理与追踪，以及学术会议和讲座入口。",
     },
     keywords: [
-      "photosynthesis",
-      "fluorescence",
-      "instruments",
-      "光合",
-      "荧光",
-      "仪器",
+      "papers",
+      "search",
+      "ablesci",
+      "文献",
+      "检索",
+      "科研通",
+      "会议",
     ],
   },
   {
-    id: "geo-remote",
-    label: { en: "Remote sensing & 3D", zh: "遥感、地理与三维" },
+    id: "journals",
+    group: "study",
+    label: { en: "Journals & submission", zh: "期刊与投稿" },
     description: {
-      en: "Earth observation, geospatial data, terrain, photogrammetry, and point-cloud workflows.",
-      zh: "地球观测、空间数据、地形、摄影测量与点云工作流。",
+      en: "Target journals across plant science, phenomics, agriculture, and remote sensing, with submission helpers.",
+      zh: "植物科学、表型组学、农业与遥感方向的目标期刊，以及投稿辅助工具。",
     },
-    keywords: ["remote sensing", "GIS", "UAV", "3D", "遥感", "无人机", "点云"],
+    keywords: ["journal", "submission", "期刊", "投稿", "分区", "影响因子"],
   },
   {
-    id: "data-orgs",
-    label: {
-      en: "Agricultural data & organizations",
-      zh: "农业科研数据与机构",
-    },
+    id: "data-platforms",
+    group: "study",
+    label: { en: "Data & compute platforms", zh: "科研数据与算力平台" },
     description: {
-      en: "Trusted agricultural, climate, soil, and institutional data gateways.",
-      zh: "农业、气候、土壤及权威科研机构的数据入口。",
+      en: "Agricultural, climate, soil, and satellite data gateways, model hubs, and hosted compute.",
+      zh: "农业、气象、土壤与卫星数据入口，模型社区与在线算力平台。",
     },
-    keywords: ["data", "climate", "agriculture", "数据", "气候", "农业机构"],
+    keywords: [
+      "data",
+      "climate",
+      "satellite",
+      "数据",
+      "气象",
+      "遥感",
+      "算力",
+    ],
   },
   {
-    id: "ai-ecosystem",
-    label: { en: "AI models & agents", zh: "AI 模型与智能体" },
+    id: "toolbox",
+    group: "study",
+    label: { en: "Writing & tool box", zh: "写作与工具箱" },
     description: {
-      en: "Model hubs, developer platforms, local inference, and open-source serving tools.",
-      zh: "模型社区、开发平台、本地推理与开源模型服务工具。",
+      en: "Manuscript writing, terminology, reference management, plotting, and small utilities used every week.",
+      zh: "论文写作、术语查询、文献管理、绘图与日常小工具。",
     },
-    keywords: ["AI", "LLM", "models", "模型", "推理", "智能体"],
+    keywords: ["writing", "plots", "zotero", "写作", "绘图", "工具"],
   },
   {
-    id: "writing-viz",
-    label: {
-      en: "Scientific writing & visualization",
-      zh: "论文写作与科研可视化",
-    },
+    id: "build-ship",
+    group: "daily",
+    label: { en: "Site & development", zh: "站点与开发" },
     description: {
-      en: "Core journals, scientific writing aids, terminology, plots, and diagram tools.",
-      zh: "核心期刊、科研写作、术语检索、统计绘图与图表工具。",
+      en: "The consoles and documentation behind this site, WeChat mini programs, and side projects.",
+      zh: "本站、微信小程序与个人项目所需的后台与开发文档。",
     },
-    keywords: ["journal", "writing", "visualization", "期刊", "写作", "绘图"],
+    keywords: ["docusaurus", "github", "wechat", "站点", "开发", "小程序"],
   },
   {
-    id: "learning-code",
-    label: { en: "Courses, code & open tools", zh: "课程、代码与开放工具" },
+    id: "life",
+    group: "daily",
+    label: { en: "Life & downtime", zh: "生活与娱乐" },
     description: {
-      en: "Computer vision, machine learning, statistics, scientific software, and open courses.",
-      zh: "计算机视觉、机器学习、统计方法、科研软件与开放课程。",
+      en: "Film, video, reading, and community stops for the end of a long working day.",
+      zh: "影视、视频、阅读与社区，用于一天工作之后的放松。",
     },
-    keywords: ["course", "code", "statistics", "课程", "代码", "统计"],
+    keywords: ["movies", "video", "community", "影视", "视频", "娱乐"],
   },
 ];
 
 export const navigatorLinks = [
-  link("Hugging Face", "https://huggingface.co/", "ai-ecosystem"),
-  link("ModelScope", "https://www.modelscope.cn/home", "ai-ecosystem"),
-  link("OpenXLab", "https://openxlab.org.cn/apps", "ai-ecosystem"),
-  link("Weights & Biases", "https://wandb.ai/site", "ai-ecosystem"),
-  link("Ollama", "https://ollama.com/", "ai-ecosystem"),
+  // 工作 · 石河子大学
+  link("石河子大学", "https://www.shzu.edu.cn/", "shzu"),
+  link("统一服务中心", "https://one.shzu.edu.cn/EIP/nonlogin/user/index.htm", "shzu"),
+  link("网上服务大厅", "https://serv.shzu.edu.cn/home", "shzu"),
+  link("研究生院", "http://yjsh.shzu.edu.cn/", "shzu"),
+  link("研究生管理系统", "http://gs.shzu.edu.cn/gmis5/home/login", "shzu"),
+  link("学位管理规定", "http://yjsh.shzu.edu.cn/glgd_9076/list.htm", "shzu"),
+  link("农学院", "http://nxy.shzu.edu.cn/", "shzu"),
+  link("绿洲生态农业重点实验室", "http://nxy.shzu.edu.cn/sys/main.htm", "shzu"),
+  link("科学技术处", "http://kyc.shzu.edu.cn/", "shzu"),
+  link("实验设备处", "http://sysbc.shzu.edu.cn/", "shzu"),
+  link("财务处", "https://jcc.shzu.edu.cn/", "shzu"),
+  link("教务处", "http://jwc.shzu.edu.cn/", "shzu"),
+  link("Blackboard", "https://bb.shzu.edu.cn/", "shzu"),
+  link("校园统一支付平台", "http://mxfjf.shzu.edu.cn/wsyh/main.aspx", "shzu"),
+  link("校园卡服务", "http://card.shzu.edu.cn/", "shzu"),
+  link("网络中心", "http://nc.shzu.edu.cn/", "shzu"),
+  link("智慧就业服务平台", "https://scc.shzu.edu.cn/", "shzu"),
+  link("石小智 AI 助手", "https://icss.shzu.edu.cn/p/index.html#/", "shzu"),
+
+  // 工作 · 中国农大与博士后
+  link("中国农业大学", "https://www.cau.edu.cn/", "cau-postdoc"),
+  link("中国农业大学农学院", "http://cab.cau.edu.cn/", "cau-postdoc"),
+  link("中国农业大学生物学院", "https://cbs.cau.edu.cn/", "cau-postdoc"),
+  link("中国农大人才工作办公室", "https://rcb.cau.edu.cn/", "cau-postdoc"),
   link(
-    "OpenAI Codex CLI Docs",
-    "https://developers.openai.com/codex/cli",
-    "ai-ecosystem"
+    "博士后进站材料清单",
+    "https://rcb.cau.edu.cn/art/2019/1/28/art_35799_645822.html",
+    "cau-postdoc"
   ),
-  link("Anthropic", "https://www.anthropic.com/", "ai-ecosystem"),
-  link("Google AI Studio", "https://aistudio.google.com/", "ai-ecosystem"),
-  link("OpenRouter", "https://openrouter.ai/", "ai-ecosystem"),
   link(
-    "Transformers",
-    "https://github.com/huggingface/transformers",
-    "ai-ecosystem"
+    "中国博士后科学基金会",
+    "https://www.chinapostdoctor.org.cn/home",
+    "cau-postdoc"
   ),
-  link("vLLM", "https://github.com/vllm-project/vllm", "ai-ecosystem"),
-  link("SGLang", "https://docs.sglang.io/", "ai-ecosystem"),
   link(
-    "Ultralytics YOLO Docs",
-    "https://docs.ultralytics.com/zh/",
-    "ai-ecosystem"
+    "中国博士后网上办公系统",
+    "https://www.chinapostdoctor.org.cn/auth/login.html",
+    "cau-postdoc"
+  ),
+  link("国家留学网", "https://www.csc.edu.cn/", "cau-postdoc"),
+  link("国家公派留学管理信息平台", "https://sa.csc.edu.cn/student/", "cau-postdoc"),
+  link("国家公派博士后项目指南", "https://www.csc.edu.cn/article/4051", "cau-postdoc"),
+  link(
+    "科学人才网 · 博士后招聘",
+    "https://www.sciencehr.net/html/bsh/hw/",
+    "cau-postdoc"
+  ),
+  link("高校人才网", "https://www.gaoxiaojob.com/", "cau-postdoc"),
+  link("EURAXESS", "https://euraxess.ec.europa.eu/", "cau-postdoc"),
+  link(
+    "全国科技小院服务管理平台",
+    "https://stb.mae.edu.cn/student/StudentAchievement/index.html",
+    "cau-postdoc"
   ),
 
-  link("AI4S-YB", "https://ai4s-yb.org/", "ai-science"),
-  link("ScienceOne", "https://scienceone.ia.ac.cn/", "ai-science"),
-  link("SciSpace", "https://typeset.io/", "ai-science"),
-  link("TXYZ", "https://www.txyz.ai/", "ai-science"),
-  link("Semantic Scholar", "https://www.semanticscholar.org/", "ai-science"),
-  link("Connected Papers", "https://www.connectedpapers.com/", "ai-science"),
-  link("alphaXiv", "https://www.alphaxiv.org/", "ai-science"),
-  link("bioRxiv", "https://www.biorxiv.org/", "ai-science"),
-  link("Kaggle Datasets", "https://www.kaggle.com/datasets", "ai-science"),
-  link("Codabench", "https://www.codabench.org/", "ai-science"),
+  // 工作 · 项目、政策与知识产权
+  link("国家自然科学基金委员会", "http://www.nsfc.gov.cn/", "funding-policy"),
+  link("科学基金网络信息系统", "https://grants.nsfc.gov.cn/pmpweb/login", "funding-policy"),
+  link("基金大数据知识管理服务门户", "https://kd.nsfc.cn/", "funding-policy"),
+  link("科学技术部", "http://www.most.gov.cn/index.html", "funding-policy"),
+  link("农业农村部", "http://www.moa.gov.cn/", "funding-policy"),
+  link("教育部", "http://www.moe.gov.cn/", "funding-policy"),
+  link("新疆维吾尔自治区教育厅", "http://jyt.xinjiang.gov.cn/edu/index.shtml", "funding-policy"),
+  link("中国科学技术协会", "https://www.cast.org.cn/", "funding-policy"),
+  link("中国科学院", "https://www.cas.cn/", "funding-policy"),
+  link("中国工程院", "https://www.cae.cn/", "funding-policy"),
+  link("中国农业科学院", "https://www.caas.cn/", "funding-policy"),
+  link("全球科研项目数据库", "http://project.llas.ac.cn/", "funding-policy"),
+  link("国家知识产权局", "https://www.cnipa.gov.cn/", "funding-policy"),
+  link("中国专利公布公告", "http://epub.cnipa.gov.cn/Index", "funding-policy"),
+  link("Google Patents", "https://patents.google.com/", "funding-policy"),
+  link("国家标准全文公开", "http://openstd.samr.gov.cn/bzgk/gb/index", "funding-policy"),
+  link("行业标准信息服务平台", "https://hbba.sacinfo.org.cn/", "funding-policy"),
 
-  link("Crops in Silico", "https://cropsinsilico.org/", "digital-crops"),
-  link(
-    "GreenLab",
-    "https://greenlab.ac.cn/index.php/%E9%A6%96%E9%A1%B5",
-    "digital-crops"
-  ),
-  link(
-    "GEMINI Breeding",
-    "https://gemini-breeding.github.io/",
-    "digital-crops"
-  ),
-  link("BioCro", "https://github.com/biocro/biocro", "digital-crops"),
-  link(
-    "OpenAlea Plant Biophysics",
-    "https://openalea.readthedocs.io/en/latest/packages/index.html#plant-biophysics",
-    "digital-crops"
-  ),
-  link(
-    "Helios",
-    "https://baileylab.ucdavis.edu/software/helios/index.html",
-    "digital-crops"
-  ),
-  link("LESS", "https://lessrt.org/", "digital-crops"),
-  link(
-    "Plant Simulation Lab",
-    "https://baileylab.ucdavis.edu/research/index.html",
-    "digital-crops"
-  ),
-  link("RIPE", "https://ripe.illinois.edu/", "digital-crops"),
-  link("Plant Moves", "https://plantmoves.nl/", "digital-crops"),
+  // 学习 · 文献与检索
+  link("科研通 AbleSci", "https://www.ablesci.com/", "literature"),
+  link("科研通 · 科研导航", "https://www.ablesci.com/daohang", "literature"),
+  link("中国知网", "https://www.cnki.net/", "literature"),
+  link("X-MOL", "https://www.x-mol.com/", "literature"),
+  link("Web of Science", "https://www.webofscience.com/", "literature"),
+  link("Semantic Scholar", "https://www.semanticscholar.org/", "literature"),
+  link("arXiv", "https://arxiv.org/", "literature"),
+  link("bioRxiv", "https://www.biorxiv.org/", "literature"),
+  link("alphaXiv", "https://www.alphaxiv.org/", "literature"),
+  link("Connected Papers", "https://www.connectedpapers.com/", "literature"),
+  link("SciSpace", "https://typeset.io/", "literature"),
+  link("TXYZ", "https://www.txyz.ai/", "literature"),
+  link("ResearchGate", "https://www.researchgate.net/", "literature"),
+  link("ORCID", "https://orcid.org/", "literature"),
+  link("中国科学院文献情报中心", "https://www.las.ac.cn/", "literature"),
+  link("中科院期刊分区表", "https://www.fenqubiao.com/Landing.html", "literature"),
+  link("新锐期刊分区表", "https://www.xr-scholar.com/", "literature"),
+  link("科塔学术导航", "https://site.sciping.com/cas.html", "literature"),
+  link("中国学术会议在线", "http://www.meeting.edu.cn/", "literature"),
+  link("科学网 · 会议", "https://meeting.sciencenet.cn/", "literature"),
+  link("蔻享学术", "https://www.koushare.com/", "literature"),
+  link("EasyChair", "https://www.easychair.org/", "literature"),
+  link("科学网", "http://www.sciencenet.cn/", "literature"),
+  link("小木虫论坛", "http://muchong.com/bbs/", "literature"),
 
-  link(
-    "International Plant Phenotyping Network",
-    "https://www.plant-phenotyping.org/",
-    "phenotyping"
-  ),
-  link("EMPHASIS", "https://emphasis.plant-phenotyping.eu/", "phenotyping"),
-  link("NPEC", "https://www.npec.nl/", "phenotyping"),
-  link("PhenoRob", "https://www.phenorob.de/index.html", "phenotyping"),
-  link(
-    "ORNL Advanced Plant Phenotyping Lab",
-    "https://www.ornl.gov/appl",
-    "phenotyping"
-  ),
-  link(
-    "Laboratory of Field Phenomics",
-    "https://lab.fieldphenomics.com/index.html",
-    "phenotyping"
-  ),
-  link("PhenoNet", "https://phenonet.org/", "phenotyping"),
-  link(
-    "Pheno4D Dataset",
-    "https://www.ipb.uni-bonn.de/data/pheno4d/",
-    "phenotyping"
-  ),
-  link("BrAPI", "https://brapi.org/", "phenotyping"),
-  link("MIAPPE", "https://www.miappe.org/support/", "phenotyping"),
-  link("BreedBase", "https://breedbase.org/", "phenotyping"),
-  link(
-    "Integrated Breeding Platform",
-    "https://www.integratedbreeding.net/",
-    "phenotyping"
-  ),
-  link(
-    "NARO Rootomics",
-    "https://www.naro.go.jp/phenotyping/rootomics_db/",
-    "phenotyping"
-  ),
-
-  link(
-    "Google Earth Engine Code Editor",
-    "https://code.earthengine.google.com/",
-    "geo-remote"
-  ),
-  link(
-    "NASA POWER",
-    "https://power.larc.nasa.gov/data-access-viewer/",
-    "geo-remote"
-  ),
-  link("OpenTopography", "https://opentopography.org/", "geo-remote"),
-  link(
-    "Copernicus FAPAR",
-    "https://land.copernicus.eu/global/products/fapar",
-    "geo-remote"
-  ),
-  link("LP DAAC", "https://lpdaac.usgs.gov/product_search/", "geo-remote"),
-  link("MODIS", "https://modis.gsfc.nasa.gov/data/", "geo-remote"),
-  link("Alaska Satellite Facility", "https://asf.alaska.edu/", "geo-remote"),
-  link(
-    "QGIS User Guide",
-    "https://docs.qgis.org/3.40/en/docs/user_manual/",
-    "geo-remote"
-  ),
-  link("OpenDroneMap Docs", "https://docs.opendronemap.org/", "geo-remote"),
-  link("RESDC", "https://www.resdc.cn/", "geo-remote"),
-  link("OpenGMS", "https://geomodeling.njnu.edu.cn/", "geo-remote"),
-  link("ECMWF", "https://www.ecmwf.int/", "geo-remote"),
-  link(
-    "LAADS DAAC",
-    "https://ladsweb.modaps.eosdis.nasa.gov/search/",
-    "geo-remote"
-  ),
-
-  link("FAOSTAT", "https://www.fao.org/faostat/en/#data/FBS", "data-orgs"),
-  link(
-    "Harmonized World Soil Database",
-    "https://www.fao.org/soils-portal/soil-survey/soil-maps-and-databases/harmonized-world-soil-database-v12/en/",
-    "data-orgs"
-  ),
-  link("NOAA", "https://www.noaa.gov/", "data-orgs"),
-  link(
-    "China Meteorological Data Service",
-    "https://data.cma.cn/",
-    "data-orgs"
-  ),
-  link(
-    "National Agricultural Science Data Center",
-    "https://www.agridata.cn/#/home",
-    "data-orgs"
-  ),
-  link(
-    "Agricultural Knowledge Service",
-    "https://agri.nais.net.cn/index.html",
-    "data-orgs"
-  ),
-  link(
-    "International Rice Research Institute",
-    "https://www.irri.org/",
-    "data-orgs"
-  ),
-  link("CIMMYT", "https://www.cimmyt.org/about/", "data-orgs"),
-  link("IPCC", "https://www.ipcc.ch/", "data-orgs"),
-  link("National Academies", "https://www.nationalacademies.org/", "data-orgs"),
-  link("ASABE", "https://asabe.org/About-Us", "data-orgs"),
-  link("U.S. AgLab", "https://aglab.ars.usda.gov/", "data-orgs"),
-  link(
-    "International Cotton Advisory Committee",
-    "https://icac.org/",
-    "data-orgs"
-  ),
-
-  link(
-    "LI-6800 Photosynthesis System",
-    "https://www.licor.com/env/products/photosynthesis/LI-6800/",
-    "physiology"
-  ),
-  link(
-    "Photosynthesis Data Analysis with R",
-    "https://bookdown.org/zhujiedong/photoanalysis/docs/",
-    "physiology"
-  ),
-  link("PhotosynQ", "https://www.photosynq.com/", "physiology"),
-  link(
-    "PhotosynQ Documentation",
-    "https://help.photosynq.com/#measurements",
-    "physiology"
-  ),
-  link(
-    "PROMETHEUS Protocols",
-    "https://prometheusprotocols.net/",
-    "physiology"
-  ),
-  link("Plants in Action", "https://rseco.org/index.html", "physiology"),
-  link(
-    "WUR Plant Physiology",
-    "https://www.wur.nl/en/Research-Results/Chair-groups/Plant-Sciences/Laboratory-of-Plant-Physiology.htm",
-    "physiology"
-  ),
-  link(
-    "Leaf Area Index Guide",
-    "https://www.metergroup.com/en/meter-environment/education-guides/researchers-complete-guide-leaf-area-index-lai",
-    "physiology"
-  ),
-  link(
-    "FloX SIF Monitoring",
-    "https://www.jb-hyperspectral.com/products/flox/",
-    "physiology"
-  ),
-  link("Stomata Overview", "https://stomata.uvm.edu/", "physiology"),
-
-  link(
-    "Manchester Academic Phrasebank",
-    "https://www.phrasebank.manchester.ac.uk/",
-    "writing-viz"
-  ),
-  link("Purdue OWL", "https://owl.purdue.edu/owl/index.html", "writing-viz"),
-  link(
-    "Overleaf Templates",
-    "https://www.overleaf.com/latex/templates/?nocdn=true",
-    "writing-viz"
-  ),
-  link("CAS Source Index", "https://cassi.cas.org/search.jsp", "writing-viz"),
-  link("Planteome", "https://planteome.org/", "writing-viz"),
+  // 学习 · 期刊与投稿
+  link("Nature", "https://www.nature.com/", "journals"),
+  link("Science", "https://www.science.org/", "journals"),
+  link("PNAS", "https://www.pnas.org/", "journals"),
   link(
     "Annual Review of Plant Biology",
     "https://www.annualreviews.org/content/journals/arplant",
-    "writing-viz"
+    "journals"
   ),
-  link(
-    "Plant Phenomics",
-    "https://spj.science.org/journal/plantphenomics",
-    "writing-viz"
-  ),
-  link(
-    "Plant Methods",
-    "https://plantmethods.biomedcentral.com/",
-    "writing-viz"
-  ),
-  link(
-    "in silico Plants",
-    "https://academic.oup.com/insilicoplants/",
-    "writing-viz"
-  ),
-  link(
-    "Journal of Experimental Botany",
-    "https://academic.oup.com/jxb",
-    "writing-viz"
-  ),
+  link("New Phytologist", "https://nph.onlinelibrary.wiley.com/journal/14698137", "journals"),
+  link("Plant Physiology", "https://academic.oup.com/plphys", "journals"),
+  link("Journal of Experimental Botany", "https://academic.oup.com/jxb", "journals"),
+  link("Plant Phenomics", "https://spj.science.org/journal/plantphenomics", "journals"),
+  link("Plant Methods", "https://plantmethods.biomedcentral.com/", "journals"),
+  link("in silico Plants", "https://academic.oup.com/insilicoplants/", "journals"),
+  link("Trends in Plant Science", "https://www.cell.com/trends/plant-science/home", "journals"),
   link(
     "Remote Sensing of Environment",
     "https://www.sciencedirect.com/journal/remote-sensing-of-environment",
-    "writing-viz"
-  ),
-  link("The R Graph Gallery", "https://r-graph-gallery.com/", "writing-viz"),
-  link(
-    "Seaborn Example Gallery",
-    "https://seaborn.pydata.org/examples/index.html",
-    "writing-viz"
+    "journals"
   ),
   link(
-    "From Data to Viz",
-    "https://www.data-to-viz.com/#density",
-    "writing-viz"
+    "Journal of Integrative Agriculture",
+    "https://www.chinaagrisci.com/Jwk_zgnykxen/EN/2095-3119/home.shtml",
+    "journals"
   ),
-  link(
-    "Apache ECharts Examples",
-    "https://echarts.apache.org/examples/zh/index.html",
-    "writing-viz"
-  ),
-  link("diagrams.net", "https://app.diagrams.net/", "writing-viz"),
+  link("Frontiers in Plant Science", "https://www.frontiersin.org/journals/plant-science", "journals"),
+  link("Bio-protocol", "https://bio-protocol.org/cn", "journals"),
+  link("智慧农业（中英文）", "http://www.smartag.net.cn/CN/2096-8094/home.shtml", "journals"),
+  link("中国农业科学", "https://www.chinaagrisci.com/CN/0578-1752/home.shtml", "journals"),
+  link("棉花学报", "http://journal.cricaas.com.cn/Jweb_mhxb/CN/1002-7807/home.shtml", "journals"),
+  link("植物生态学报", "https://www.plant-ecology.com/CN/1005-264X/home.shtml", "journals"),
+  link("植物生理学报", "http://www.plant-physiology.com/", "journals"),
+  link("Elsevier JournalFinder", "https://journalfinder.elsevier.com/", "journals"),
+  link("期刊投稿指南 DatAuthor", "https://datauthor.com/", "journals"),
 
+  // 学习 · 数据与算力
+  link("国家农业科学数据中心", "https://www.agridata.cn/#/home", "data-platforms"),
+  link("农业科技知识服务平台", "https://agri.nais.net.cn/index.html", "data-platforms"),
+  link("中国农业大数据", "http://www.agdata.cn/", "data-platforms"),
+  link("国家气象科学数据中心", "https://data.cma.cn/", "data-platforms"),
+  link("中国气象局", "http://www.cma.gov.cn/", "data-platforms"),
+  link("FAOSTAT", "https://www.fao.org/faostat/en/#data/FBS", "data-platforms"),
   link(
-    "Stanford CS231n",
-    "https://cs231n.stanford.edu/schedule.html",
-    "learning-code"
+    "Harmonized World Soil Database",
+    "https://www.fao.org/soils-portal/soil-survey/soil-maps-and-databases/harmonized-world-soil-database-v12/en/",
+    "data-platforms"
   ),
+  link("南京土壤所数据中心", "https://soildata.issas.ac.cn/", "data-platforms"),
+  link("NOAA", "https://www.noaa.gov/", "data-platforms"),
+  link("NASA POWER", "https://power.larc.nasa.gov/data-access-viewer/", "data-platforms"),
+  link("OpenTopography", "https://opentopography.org/", "data-platforms"),
+  link("Google Earth Engine Code Editor", "https://code.earthengine.google.com/", "data-platforms"),
+  link("LP DAAC", "https://lpdaac.usgs.gov/product_search/", "data-platforms"),
+  link("资源环境科学数据平台", "https://www.resdc.cn/", "data-platforms"),
+  link("Kaggle", "https://www.kaggle.com/", "data-platforms"),
+  link("Codabench", "https://www.codabench.org/", "data-platforms"),
+  link("Hugging Face", "https://huggingface.co/", "data-platforms"),
+  link("ModelScope", "https://www.modelscope.cn/home", "data-platforms"),
+  link("Google Colab", "https://colab.research.google.com/", "data-platforms"),
+  link("Zenodo", "https://zenodo.org/", "data-platforms"),
+
+  // 学习 · 写作与工具箱
+  link("Overleaf 模板库", "https://www.overleaf.com/latex/templates/?nocdn=true", "toolbox"),
+  link("Academic Phrasebank", "https://www.phrasebank.manchester.ac.uk/", "toolbox"),
+  link("Purdue OWL", "https://owl.purdue.edu/owl/index.html", "toolbox"),
+  link("QuillBot", "https://www.quillbot.com/", "toolbox"),
+  link("DeepL 翻译", "https://www.deepl.com/translator", "toolbox"),
+  link("CNKI 翻译助手", "https://dict.cnki.net/index", "toolbox"),
+  link("术语在线", "https://www.termonline.cn/index", "toolbox"),
+  link("Planteome", "https://planteome.org/", "toolbox"),
+  link("CAS Source Index", "https://cassi.cas.org/search.jsp", "toolbox"),
+  link("Zotero 中文社区", "https://zotero-chinese.com/", "toolbox"),
+  link("Zotero 插件商店", "https://zotero-chinese.github.io/zotero-plugins/#/", "toolbox"),
+  link("Mathpix", "https://mathpix.com/", "toolbox"),
+  link("diagrams.net", "https://app.diagrams.net/", "toolbox"),
+  link("Mermaid Live Editor", "https://mermaid.live/edit", "toolbox"),
+  link("ProcessOn", "https://www.processon.com/diagrams", "toolbox"),
+  link("Apache ECharts 示例", "https://echarts.apache.org/examples/zh/index.html", "toolbox"),
+  link("The R Graph Gallery", "https://r-graph-gallery.com/", "toolbox"),
+  link("From Data to Viz", "https://www.data-to-viz.com/", "toolbox"),
+  link("Seaborn 示例库", "https://seaborn.pydata.org/examples/index.html", "toolbox"),
+  link("图之典", "http://www.tuzhidian.com/", "toolbox"),
+  link("数据可视化工具目录", "https://datavizcatalogue.com/ZH/index.html", "toolbox"),
+  link("ChiPlot", "https://www.chiplot.online/", "toolbox"),
+  link("Figdraw 绘科研", "https://www.figdraw.com/#/", "toolbox"),
+  link("Coolors 配色", "https://coolors.co/", "toolbox"),
+  link("remove.bg 抠图", "https://www.remove.bg/zh", "toolbox"),
+  link("在线单位换算", "http://www.unitconversion.org/", "toolbox"),
+  link("清华大学开源镜像站", "https://mirrors.tuna.tsinghua.edu.cn/", "toolbox"),
+
+  // 日常 · 站点与开发
+  link("GitHub", "https://github.com/", "build-ship"),
+  link("GitHub Pages", "https://pages.github.com/", "build-ship"),
+  link("Docusaurus", "https://docusaurus.io/", "build-ship"),
+  link("Docusaurus 中文文档", "https://docusaurus.io/zh-CN/docs/", "build-ship"),
+  link("Algolia DocSearch", "https://docsearch.algolia.com/docs/what-is-docsearch", "build-ship"),
+  link("Google Analytics", "https://analytics.google.com/", "build-ship"),
+  link("Supabase", "https://supabase.com/dashboard", "build-ship"),
+  link("Vercel", "https://vercel.com/dashboard", "build-ship"),
+  link("微信公众平台", "https://mp.weixin.qq.com/", "build-ship"),
+  link("微信开发者平台", "https://developers.weixin.qq.com/platform", "build-ship"),
+  link("微信小程序开发文档", "https://developers.weixin.qq.com/miniprogram/dev/framework/", "build-ship"),
+  link("微信小程序设计指南", "https://developers.weixin.qq.com/miniprogram/design/", "build-ship"),
   link(
-    "Stanford CS109",
-    "https://web.stanford.edu/class/cs109/",
-    "learning-code"
+    "HarmonyOS 快速入门",
+    "https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/start-with-ets-stage",
+    "build-ship"
   ),
-  link("MIT OpenCourseWare", "https://ocw.mit.edu/", "learning-code"),
-  link(
-    "MIT Introduction to Machine Learning",
-    "https://introml.mit.edu/notes/",
-    "learning-code"
-  ),
-  link(
-    "MIT Deep Learning Lectures",
-    "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/video_galleries/lecture-videos/",
-    "learning-code"
-  ),
-  link("Stanford CS230", "https://cs230.stanford.edu/", "learning-code"),
-  link(
-    "Python NumPy Tutorial",
-    "https://cs231n.github.io/python-numpy-tutorial/",
-    "learning-code"
-  ),
-  link(
-    "Dive into CV with PyTorch",
-    "https://datawhalechina.github.io/dive-into-cv-pytorch/#/?id=dive-into-cv-pytorch",
-    "learning-code"
-  ),
-  link(
-    "Modern Statistical Graphics",
-    "https://bookdown.org/xiangyun/msg/#welcome",
-    "learning-code"
-  ),
-  link(
-    "Statistical Analysis with R",
-    "https://xueningzhu.github.io/Statistical-Analysis-with-R/index.html",
-    "learning-code"
-  ),
-  link("NeRF", "https://github.com/bmild/nerf", "learning-code"),
-  link(
-    "Zotero Chinese Community",
-    "https://zotero-chinese.com/",
-    "learning-code"
-  ),
-  link(
-    "Tsinghua Open Source Mirror",
-    "https://mirrors.tuna.tsinghua.edu.cn/",
-    "learning-code"
-  ),
+  link("ICP 备案管理系统", "https://beian.miit.gov.cn/", "build-ship"),
+  link("腾讯云控制台", "https://console.cloud.tencent.com/", "build-ship"),
+  link("Stack Overflow", "https://stackoverflow.com/", "build-ship"),
+  link("Markdown 官方教程", "https://markdown.com.cn/basic-syntax/", "build-ship"),
+  link("iconfont", "https://www.iconfont.cn/", "build-ship"),
+
+  // 日常 · 生活与娱乐
+  link("爱看机器人", "https://www1.ikanbot.com/", "life"),
+  link("豆瓣电影", "https://movie.douban.com/", "life"),
+  link("茶杯狐", "https://cupfox.app/", "life"),
+  link("哔哩哔哩", "https://www.bilibili.com/", "life"),
+  link("易搜网盘搜索", "https://yiso.fun/", "life"),
+  link("Kanopy", "https://lib.kanopy.com/", "life"),
+  link("Our World in Data", "https://ourworldindata.org/", "life"),
+  link("NGA 玩家社区", "https://ngabbs.com/", "life"),
+  link("DJI 大疆社区", "https://bbs.dji.com/", "life"),
+  link("知乎", "https://www.zhihu.com/", "life"),
 ];
 
 export const navigatorUpdated = {

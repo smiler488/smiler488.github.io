@@ -326,6 +326,35 @@
   display: grid;
 }
 
+.categoryGroup {
+  display: grid;
+}
+
+.categoryGroup + .categoryGroup {
+  margin-top: 0.5rem;
+}
+
+.categoryGroupLabel {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0.6rem 0.5rem 0.35rem;
+}
+
+.categoryGroupLabel strong {
+  color: var(--navigator-muted);
+  font-size: 0.62rem;
+  font-weight: 760;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.categoryGroupLabel small {
+  color: var(--navigator-subtle);
+  font-size: 0.6rem;
+  line-height: 1.35;
+}
+
 .categoryButton {
   --lane-accent: var(--navigator-accent);
 
@@ -440,6 +469,22 @@
   text-decoration: none;
 }
 
+.railCrossLink {
+  margin: 0.28rem 0.45rem 0.2rem;
+  padding: 0 0.2rem;
+}
+
+.railCrossLink a {
+  color: var(--navigator-subtle);
+  font-size: 0.65rem;
+  font-weight: 660;
+  text-decoration: none;
+}
+
+.railCrossLink a:hover {
+  color: var(--navigator-accent);
+}
+
 .directoryPanel {
   min-width: 0;
   padding: 0 0.8rem 0.8rem;
@@ -455,40 +500,40 @@
   --lane-accent: var(--navigator-accent);
 }
 
-.ai-ecosystem {
-  --lane-accent: #7c3aed;
-}
-
-.ai-science {
-  --lane-accent: #2563eb;
-}
-
-.digital-crops {
-  --lane-accent: #16a34a;
-}
-
-.phenotyping {
+.shzu {
   --lane-accent: #0d9488;
 }
 
-.geo-remote {
-  --lane-accent: #0284c7;
+.cau-postdoc {
+  --lane-accent: #7c3aed;
 }
 
-.data-orgs {
+.funding-policy {
   --lane-accent: #d97706;
 }
 
-.physiology {
-  --lane-accent: #65a30d;
+.literature {
+  --lane-accent: #2563eb;
 }
 
-.writing-viz {
+.journals {
   --lane-accent: #db2777;
 }
 
-.learning-code {
+.data-platforms {
+  --lane-accent: #0284c7;
+}
+
+.toolbox {
+  --lane-accent: #16a34a;
+}
+
+.build-ship {
   --lane-accent: #4f46e5;
+}
+
+.life {
+  --lane-accent: #e11d48;
 }
 
 .linkGroup {

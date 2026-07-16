@@ -9,9 +9,12 @@ import {
   learningPaths,
   learningResources,
   resourceCategories,
+  resourceGroups,
   resourceKinds,
   resourceLevels,
 } from "../../data/resourcesData";
+
+const levelOrder = ["beginner", "intermediate", "advanced"];
 
 const pageCopy = {
   en: {
@@ -37,7 +40,12 @@ const pageCopy = {
     catalogEyebrow: "Curated catalog",
     catalogTitle: "Find the right resource",
     catalogDescription:
-      "Search by name or topic, then narrow the catalog by field and experience level.",
+      "Pick a dimension on the left—foundations, domain, or publishing—then read each topic from beginner to advanced.",
+    browseTitle: "Browse by dimension",
+    browseHint: "Base · Domain · Publish",
+    categoryNavLabel: "Resource topics",
+    railCount: "resources",
+    navigatorLink: "My own daily workspace links",
     searchLabel: "Search resources",
     searchPlaceholder: "Search models, datasets, courses, or topics…",
     levelLabel: "Experience level",
@@ -88,7 +96,13 @@ const pageCopy = {
     openPath: "查看这条路径",
     catalogEyebrow: "精选目录",
     catalogTitle: "找到合适的学习资源",
-    catalogDescription: "按名称或主题搜索，再根据研究方向与经验水平缩小范围。",
+    catalogDescription:
+      "先在左侧选择维度——基础、领域或表达发表，再在每个主题内由入门读到高级。",
+    browseTitle: "按维度浏览",
+    browseHint: "基础 · 领域 · 表达",
+    categoryNavLabel: "资源主题",
+    railCount: "项资源",
+    navigatorLink: "查看我的日常工作台导航",
     searchLabel: "搜索资源",
     searchPlaceholder: "搜索模型、数据集、课程或主题…",
     levelLabel: "经验水平",
@@ -195,22 +209,6 @@ export default function ResourcesPage() {
   const [query, setQuery] = React.useState("");
   const [category, setCategory] = React.useState("all");
   const [level, setLevel] = React.useState("all");
-  const categoryScrollerRef = React.useRef(null);
-  const [sliderStyle, setSliderStyle] = React.useState({ left: 0, width: 0, opacity: 0 });
-
-  React.useEffect(() => {
-    if (!categoryScrollerRef.current) return;
-    const activeEl = categoryScrollerRef.current.querySelector(`.${styles.filterChipActive}`);
-    if (activeEl) {
-      setSliderStyle({
-        left: activeEl.offsetLeft,
-        width: activeEl.offsetWidth,
-        opacity: 1,
-      });
-    } else {
-      setSliderStyle((prev) => ({ ...prev, opacity: 0 }));
-    }
-  }, [category]);
 
   const categoryCounts = React.useMemo(() => {
     return learningResources.reduce((counts, resource) => {
@@ -248,6 +246,26 @@ export default function ResourcesPage() {
     });
   }, [category, isChinese, level, query]);
 
+  const visibleSections = React.useMemo(
+    () =>
+      resourceCategories
+        .filter((item) => category === "all" || category === item.id)
+        .map((item) => ({
+          category: item,
+          bands: levelOrder
+            .map((levelId) => ({
+              level: levelId,
+              items: visibleResources.filter(
+                (resource) =>
+                  resource.category === item.id && resource.level === levelId
+              ),
+            }))
+            .filter((band) => band.items.length > 0),
+        }))
+        .filter((section) => section.bands.length > 0),
+    [category, visibleResources]
+  );
+
   const hasFilters = query || category !== "all" || level !== "all";
 
   function clearFilters() {
@@ -256,15 +274,27 @@ export default function ResourcesPage() {
     setLevel("all");
   }
 
+  function scrollToCatalog(categoryId) {
+    window.requestAnimationFrame(() => {
+      const target =
+        (categoryId && categoryId !== "all"
+          ? document.getElementById(`resource-${categoryId}`)
+          : null) || document.getElementById("resource-catalog");
+      target?.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+  }
+
+  function selectCategory(categoryId) {
+    setCategory(categoryId);
+    setQuery("");
+    scrollToCatalog(categoryId);
+  }
+
   function openLearningPath(pathCategory) {
     setCategory(pathCategory);
     setLevel("all");
     setQuery("");
-    window.requestAnimationFrame(() => {
-      document.getElementById("resource-catalog")?.scrollIntoView({
-        block: "start",
-      });
-    });
+    scrollToCatalog(pathCategory);
   }
 
   return (
@@ -383,121 +413,185 @@ export default function ResourcesPage() {
               <p>{copy.catalogDescription}</p>
             </div>
 
-            <div className={styles.filterPanel} role="search">
-              <div className={styles.filterTopRow}>
-                <label className={styles.searchField}>
-                  <span className={styles.srOnly}>{copy.searchLabel}</span>
-                  <span className={styles.searchGlyph} aria-hidden="true">
-                    ⌕
-                  </span>
-                  <input
-                    type="search"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder={copy.searchPlaceholder}
-                  />
-                </label>
+            <div className={styles.catalogLayout}>
+              <aside className={styles.categoryRail}>
+                <div className={styles.railHeading}>
+                  <strong>{copy.browseTitle}</strong>
+                  <span>{copy.browseHint}</span>
+                </div>
 
-                <label className={styles.levelField}>
-                  <span>{copy.levelLabel}</span>
-                  <select
-                    value={level}
-                    onChange={(event) => setLevel(event.target.value)}
-                  >
-                    <option value="all">{copy.allLevels}</option>
-                    {Object.entries(resourceLevels).map(([id, label]) => (
-                      <option key={id} value={id}>
-                        {localize(label, isChinese)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <div className={styles.filterBottomRow}>
-                <div
-                  className={styles.categoryScroller}
-                  ref={categoryScrollerRef}
-                  aria-label={isChinese ? "按主题筛选" : "Filter by topic"}
+                <nav
+                  className={styles.categoryList}
+                  aria-label={copy.categoryNavLabel}
                 >
-                  <div
-                    className={styles.glassSlider}
-                    style={{
-                      left: `${sliderStyle.left}px`,
-                      width: `${sliderStyle.width}px`,
-                      opacity: sliderStyle.opacity,
-                    }}
-                  />
                   <button
                     type="button"
                     className={clsx(
-                      styles.filterChip,
-                      category === "all" && styles.filterChipActive
+                      styles.railButton,
+                      category === "all" && styles.railButtonActive
                     )}
                     aria-pressed={category === "all"}
-                    onClick={() => setCategory("all")}
+                    onClick={() => selectCategory("all")}
                   >
-                    {copy.allTopics}
-                    <span>{learningResources.length}</span>
+                    <span className={styles.railText}>
+                      <strong>{copy.allTopics}</strong>
+                    </span>
+                    <span className={styles.railCount}>
+                      {learningResources.length}
+                    </span>
                   </button>
-                  {resourceCategories.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={clsx(
-                        styles.filterChip,
-                        styles[`chip_${item.id}`],
-                        category === item.id && styles.filterChipActive
-                      )}
-                      aria-pressed={category === item.id}
-                      onClick={() => setCategory(item.id)}
-                    >
-                      {localize(item.label, isChinese)}
-                      <span>{categoryCounts[item.id]}</span>
-                    </button>
+
+                  {resourceGroups.map((group) => (
+                    <div key={group.id} className={styles.railGroup}>
+                      <p className={styles.railGroupLabel}>
+                        <strong>{localize(group.label, isChinese)}</strong>
+                        <small>{localize(group.hint, isChinese)}</small>
+                      </p>
+                      {resourceCategories
+                        .filter((item) => item.group === group.id)
+                        .map((item) => (
+                          <button
+                            key={item.id}
+                            type="button"
+                            className={clsx(
+                              styles.railButton,
+                              category === item.id && styles.railButtonActive
+                            )}
+                            aria-pressed={category === item.id}
+                            onClick={() => selectCategory(item.id)}
+                          >
+                            <span className={styles.railText}>
+                              <strong>{localize(item.label, isChinese)}</strong>
+                            </span>
+                            <span className={styles.railCount}>
+                              {categoryCounts[item.id] || 0}
+                            </span>
+                          </button>
+                        ))}
+                    </div>
                   ))}
+                </nav>
+
+                <div className={styles.railCrossLink}>
+                  <Link to="/navigator">{copy.navigatorLink} →</Link>
+                </div>
+              </aside>
+
+              <div className={styles.catalogPanel}>
+                <div className={styles.filterPanel} role="search">
+                  <div className={styles.filterTopRow}>
+                    <label className={styles.searchField}>
+                      <span className={styles.srOnly}>{copy.searchLabel}</span>
+                      <span className={styles.searchGlyph} aria-hidden="true">
+                        ⌕
+                      </span>
+                      <input
+                        type="search"
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder={copy.searchPlaceholder}
+                      />
+                    </label>
+
+                    <label className={styles.levelField}>
+                      <span>{copy.levelLabel}</span>
+                      <select
+                        value={level}
+                        onChange={(event) => setLevel(event.target.value)}
+                      >
+                        <option value="all">{copy.allLevels}</option>
+                        {Object.entries(resourceLevels).map(([id, label]) => (
+                          <option key={id} value={id}>
+                            {localize(label, isChinese)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <button
+                      type="button"
+                      className={styles.clearButton}
+                      onClick={clearFilters}
+                      disabled={!hasFilters}
+                    >
+                      {copy.clear}
+                    </button>
+                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  className={styles.clearButton}
-                  onClick={clearFilters}
-                  disabled={!hasFilters}
-                >
-                  {copy.clear}
-                </button>
+                <div className={styles.resultsBar} aria-live="polite">
+                  <span>
+                    {copy.showing} <strong>{visibleResources.length}</strong>{" "}
+                    {copy.of} {learningResources.length} {copy.resources}
+                  </span>
+                  <span className={styles.resultsLine} aria-hidden="true" />
+                </div>
+
+                {visibleSections.length ? (
+                  <div className={styles.sectionList}>
+                    {visibleSections.map(({ category: item, bands }) => (
+                      <section
+                        key={item.id}
+                        id={`resource-${item.id}`}
+                        className={clsx(
+                          styles.topicSection,
+                          styles[item.id]
+                        )}
+                        aria-labelledby={`resource-${item.id}-title`}
+                      >
+                        <div className={styles.topicHeader}>
+                          <div>
+                            <Heading
+                              as="h3"
+                              id={`resource-${item.id}-title`}
+                              className={styles.topicTitle}
+                            >
+                              {localize(item.label, isChinese)}
+                            </Heading>
+                            <p>{localize(item.description, isChinese)}</p>
+                          </div>
+                          <span className={styles.topicCount}>
+                            {bands.reduce(
+                              (total, band) => total + band.items.length,
+                              0
+                            )}
+                          </span>
+                        </div>
+
+                        {bands.map((band) => (
+                          <div key={band.level} className={styles.levelBand}>
+                            <p className={styles.levelBandLabel}>
+                              <span className={styles.levelDot} aria-hidden="true" />
+                              {localize(resourceLevels[band.level], isChinese)}
+                              <span className={styles.levelBandLine} aria-hidden="true" />
+                            </p>
+                            <div className={styles.resourceGrid}>
+                              {band.items.map((resource) => (
+                                <ResourceCard
+                                  key={resource.id}
+                                  resource={resource}
+                                  isChinese={isChinese}
+                                  copy={copy}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </section>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <span aria-hidden="true">⌕</span>
+                    <Heading as="h3">{copy.noResultsTitle}</Heading>
+                    <p>{copy.noResultsDescription}</p>
+                    <button type="button" onClick={clearFilters}>
+                      {copy.clear}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-
-            <div className={styles.resultsBar} aria-live="polite">
-              <span>
-                {copy.showing} <strong>{visibleResources.length}</strong>{" "}
-                {copy.of} {learningResources.length} {copy.resources}
-              </span>
-              <span className={styles.resultsLine} aria-hidden="true" />
-            </div>
-
-            {visibleResources.length ? (
-              <div className={styles.resourceGrid}>
-                {visibleResources.map((resource) => (
-                  <ResourceCard
-                    key={resource.id}
-                    resource={resource}
-                    isChinese={isChinese}
-                    copy={copy}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className={styles.emptyState}>
-                <span aria-hidden="true">⌕</span>
-                <Heading as="h3">{copy.noResultsTitle}</Heading>
-                <p>{copy.noResultsDescription}</p>
-                <button type="button" onClick={clearFilters}>
-                  {copy.clear}
-                </button>
-              </div>
-            )}
           </section>
 
           <aside className={styles.methodology}>
