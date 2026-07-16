@@ -52,7 +52,7 @@ function HomepageHeader() {
           cloudImage="/img/cloud.png"
           cameraControls={false}
           obstacleSelector="[data-particle-obstacle]"
-          style={{ height: "100%" }}
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
 
