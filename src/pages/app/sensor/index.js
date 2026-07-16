@@ -512,23 +512,59 @@ export default function SensorPage() {
           </div>
 
           <div className={styles.formulaContent}>
-            <p style={{ margin: '0 0 8px' }}>
+            <p style={{ margin: '0 0 14px', fontSize: '0.9rem' }}>
               Elevation (h) and Azimuth (A) computed in this app follow common remote-sensing approximations:
             </p>
 
-            <div className={styles.codeBlock}>
-{`h = asin( sin(φ)·sin(δ) + cos(φ)·cos(δ)·cos(H) )  [in radians]\nA = atan2( sin(H), cos(H)·sin(φ) − tan(δ)·cos(φ) )  [in radians]\n(degrees) = (radians) × 180/π\nAzimuth A is reported from North, clockwise (0..360).`}
+            {/* Formula rows */}
+            <div className={styles.formulaRow}>
+              <span className={styles.formulaLhs}>h</span>
+              <span className={styles.formulaEq}>=</span>
+              <span className={styles.formulaRhs}>
+                arcsin(&thinsp;<span className={styles.formulaFn}>sin</span>(φ)·<span className={styles.formulaFn}>sin</span>(δ)
+                &thinsp;+&thinsp;
+                <span className={styles.formulaFn}>cos</span>(φ)·<span className={styles.formulaFn}>cos</span>(δ)·<span className={styles.formulaFn}>cos</span>(H)&thinsp;)
+              </span>
+            </div>
+            <div className={styles.formulaRow}>
+              <span className={styles.formulaLhs}>A</span>
+              <span className={styles.formulaEq}>=</span>
+              <span className={styles.formulaRhs}>
+                atan2(&thinsp;<span className={styles.formulaFn}>sin</span>(H),&ensp;
+                <span className={styles.formulaFn}>cos</span>(H)·<span className={styles.formulaFn}>sin</span>(φ)
+                &thinsp;−&thinsp;
+                <span className={styles.formulaFn}>tan</span>(δ)·<span className={styles.formulaFn}>cos</span>(φ)&thinsp;)
+              </span>
+            </div>
+            <div className={styles.formulaRow} style={{ borderBottom: 'none' }}>
+              <span className={styles.formulaLhs} style={{ fontSize: '0.82rem', color: 'var(--ifm-color-emphasis-600)' }}>°</span>
+              <span className={styles.formulaEq}>=</span>
+              <span className={styles.formulaRhs} style={{ fontSize: '0.88rem' }}>
+                rad &times; (180 / π)&ensp;·&ensp;Azimuth reported from North, clockwise&thinsp;[0&thinsp;…&thinsp;360°]
+              </span>
             </div>
 
-            <p style={{ margin: '0 0 6px' }}><strong>Symbols:</strong></p>
-            <ul style={{ margin: 0, paddingLeft: 18 }}>
-              <li>φ: geographic latitude</li>
-              <li>δ: solar declination</li>
-              <li>H: hour angle (H = 15° × (solar time − 12))</li>
-            </ul>
+            {/* Symbols legend */}
+            <p style={{ margin: '16px 0 6px', fontWeight: 600, fontSize: '0.88rem' }}>Symbols</p>
+            <table className={styles.formulaLegend}>
+              <tbody>
+                <tr>
+                  <td className={styles.legendSym}>φ</td>
+                  <td>geographic latitude</td>
+                </tr>
+                <tr>
+                  <td className={styles.legendSym}>δ</td>
+                  <td>solar declination</td>
+                </tr>
+                <tr>
+                  <td className={styles.legendSym}>H</td>
+                  <td>hour angle — H&thinsp;=&thinsp;15°&thinsp;×&thinsp;(solar time − 12)</td>
+                </tr>
+              </tbody>
+            </table>
 
             <p className={styles.formulaNote}>
-              Note: The implementation also includes Equation of Time (EoT) and time-zone offset to estimate apparent solar time.
+              The implementation also includes Equation of Time (EoT) and time-zone offset to estimate apparent solar time.
             </p>
           </div>
         </div>

@@ -144,20 +144,21 @@ const NavbarIcons = {
 };
 
 function getIconForLabel(label) {
-  // Match label to icon
-  if (label === "Home" || label === "home") return NavbarIcons.Home;
-  if (label === "Tutorial" || label === "tutorial") return NavbarIcons.Tutorial;
-  if (label === "Blog" || label === "blog") return NavbarIcons.Blog;
-  if (label === "Research" || label === "research") return NavbarIcons.Research;
-  if (label === "CV" || label === "cv") return NavbarIcons.CV;
+  // Match label to icon — supports both English and Chinese locale labels
+  if (label === "Home" || label === "home" || label === "首页") return NavbarIcons.Home;
+  if (label === "Tutorial" || label === "tutorial" || label === "教程") return NavbarIcons.Tutorial;
+  if (label === "Blog" || label === "blog" || label === "博客") return NavbarIcons.Blog;
+  if (label === "Research" || label === "research" || label === "研究") return NavbarIcons.Research;
+  if (label === "CV" || label === "cv" || label === "简历") return NavbarIcons.CV;
   if (
     label === "Resource" ||
     label === "resource" ||
     label === "Resources" ||
-    label === "resources"
+    label === "resources" ||
+    label === "资源"
   )
     return NavbarIcons.Resources;
-  if (label === "App" || label === "app") return NavbarIcons.App;
+  if (label === "App" || label === "app" || label === "应用") return NavbarIcons.App;
   if (label === "mPicks" || label === "mpicks" || label === "好物推荐") return NavbarIcons.mPicks;
   if (label === "GitHub" || label === "github") return NavbarIcons.GitHub;
   return null;
