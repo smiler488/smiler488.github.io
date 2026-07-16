@@ -40,7 +40,7 @@ const config = {
     ],
   ],
   // No first-party analytics plugin is enabled. The footer's third-party
-  // visitor globe runs in an opaque sandbox and is disclosed at /privacy.
+  // visitor map image runs in an opaque sandbox and is disclosed at /privacy.
   plugins: [],
 
   organizationName: "smiler488",

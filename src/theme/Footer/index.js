@@ -123,15 +123,15 @@ const COPY = {
     collaboration: "Collaboration",
     assistant: "Assistant",
     newWindow: "opens in a new tab",
-    globeEyebrow: "Global visitors",
-    globeTitle: "A research network without borders.",
-    globeDescription:
-      "This live globe shows the approximate geographic distribution of visitors to this site.",
-    globeFrameTitle: "Interactive MapMyVisitors visitor globe",
-    globeLoading: "Loading live visitor globe…",
-    globeError: "The visitor globe could not be loaded.",
-    globeRetry: "Retry",
-    globeLink: "Visitor analytics & privacy",
+    visitorMapEyebrow: "Global visitors",
+    visitorMapTitle: "A research network without borders.",
+    visitorMapDescription:
+      "This live map shows the approximate geographic distribution of visitors to this site.",
+    visitorMapFrameTitle: "MapMyVisitors visitor map",
+    visitorMapLoading: "Loading live visitor map…",
+    visitorMapError: "The visitor map could not be loaded.",
+    visitorMapRetry: "Retry",
+    visitorMapLink: "Visitor analytics & privacy",
     privacy:
       "This footer automatically loads MapMyVisitors and processes network and device metadata.",
     privacyAction: "Privacy",
@@ -152,130 +152,111 @@ const COPY = {
     collaboration: "商业合作",
     assistant: "助理邮箱",
     newWindow: "在新标签页中打开",
-    globeEyebrow: "全球访客",
-    globeTitle: "让研究连接跨越边界。",
-    globeDescription: "实时地球展示访问本网站用户的大致地理分布。",
-    globeFrameTitle: "MapMyVisitors 交互式访客地球",
-    globeLoading: "正在加载实时访客地球…",
-    globeError: "访客地球暂时无法加载。",
-    globeRetry: "重新加载",
-    globeLink: "访客统计与隐私说明",
+    visitorMapEyebrow: "全球访客",
+    visitorMapTitle: "让研究连接跨越边界。",
+    visitorMapDescription: "实时地图展示访问本网站用户的大致地理分布。",
+    visitorMapFrameTitle: "MapMyVisitors 访客地图",
+    visitorMapLoading: "正在加载实时访客地图…",
+    visitorMapError: "访客地图暂时无法加载。",
+    visitorMapRetry: "重新加载",
+    visitorMapLink: "访客统计与隐私说明",
     privacy: "本页脚会自动加载 MapMyVisitors，并处理网络与设备元数据。",
     privacyAction: "隐私说明",
     rights: "保留所有权利。",
   },
 };
 
-const GLOBE_MESSAGE_SOURCE = "smiler488-mapmyvisitors-globe";
-const GLOBE_SCRIPT_SRC =
-  "https://mapmyvisitors.com/globe.js?d=q0eg2_fWgmNEh1nVyYkGP7OMwUA7DZIjlDAPMYt-gVI&w=236";
+const MAP_MESSAGE_SOURCE = "smiler488-mapmyvisitors-map";
+const MAP_PROFILE_URL = "https://mapmyvisitors.com/web/1c0ty";
+const MAP_IMAGE_SRC =
+  "https://mapmyvisitors.com/map.png?d=ccC5JZBvNNpRHfn94y3CRXzvvcSb99CMKXuy-7wzczI&cl=ffffff&w=360";
 
-function createGlobeDocument() {
+function createVisitorMapDocument() {
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=236, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="referrer" content="no-referrer" />
     <base target="_blank" />
     <style>
-      html, body { width: 236px; height: 256px; margin: 0; overflow: hidden; background: transparent; }
-      body { display: grid; place-items: start center; }
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { width: 100%; height: 212px; margin: 0; overflow: hidden; background: transparent; }
+      body { display: grid; place-items: center; }
+      #map-image-link {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 14px;
+      }
+      #map-image {
+        display: block;
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        max-height: 212px;
+        object-fit: contain;
+      }
     </style>
   </head>
   <body>
+    <a
+      id="map-image-link"
+      href="${MAP_PROFILE_URL}"
+      title="View visitor statistics"
+      aria-label="View MapMyVisitors visitor statistics"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        id="map-image"
+        src="${MAP_IMAGE_SRC}"
+        alt="Approximate locations of website visitors"
+        width="360"
+        height="199"
+      />
+    </a>
     <script>
       (function () {
-        var marker = ${JSON.stringify(GLOBE_MESSAGE_SOURCE)};
+        var marker = ${JSON.stringify(MAP_MESSAGE_SOURCE)};
+        var image = document.querySelector("#map-image");
         var currentStatus = "loading";
-        var parentVisible = false;
-        var motionReady = false;
-        var observer;
-        var poll;
-        var timeout;
 
         function notify(status) {
           currentStatus = status;
-          parent.postMessage({ source: marker, type: "status", status: status }, "*");
+          parent.postMessage(
+            { source: marker, type: "status", status: status, mode: "image" },
+            "*"
+          );
         }
 
-        function secureLink() {
-          var link = document.querySelector("#mmvst_a");
-          if (!link) return;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.title = "MapMyVisitors";
-          link.setAttribute("aria-label", "View the MapMyVisitors visitor globe");
-        }
-
-        function setMotion(visible) {
-          if (!motionReady || !window.globe_jq || currentStatus !== "ready") return;
-          var shouldMove = visible && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          var parts = window.globe_jq(".mmvst_globe, .mmvst_map_f, .mmvst_map_b, .mmvst_dots");
-          if (!parts.length) return;
-          parts.velocity(shouldMove ? "resume" : "pause", true);
-        }
-
-        function finish(status) {
+        function reportImageStatus() {
           if (currentStatus !== "loading") return;
-          window.clearInterval(poll);
-          window.clearTimeout(timeout);
-          if (observer) observer.disconnect();
-          secureLink();
-          notify(status);
-          if (status === "ready") {
-            window.setTimeout(function () {
-              motionReady = true;
-              setMotion(parentVisible);
-            }, 900);
-          }
-        }
-
-        function checkGlobe() {
-          secureLink();
-          var inner = document.querySelector(".mmvst_inner");
-          var map = document.querySelector(".mmvst_map");
-          if (
-            inner &&
-            map &&
-            window.getComputedStyle(inner).display !== "none" &&
-            map.offsetWidth > 0 &&
-            map.offsetHeight > 0
-          ) {
-            finish("ready");
-          }
+          notify(image && image.naturalWidth > 0 ? "ready" : "error");
         }
 
         window.addEventListener("message", function (event) {
           if (event.source !== parent || !event.data || event.data.source !== marker) return;
           if (event.data.type === "probe") notify(currentStatus);
-          if (event.data.type === "visibility") {
-            parentVisible = Boolean(event.data.visible);
-            setMotion(parentVisible);
-          }
         });
 
-        window.addEventListener("error", function (event) {
-          if (event.target && event.target.id === "mmvst_globe") finish("error");
-        }, true);
+        if (!image) {
+          notify("error");
+          return;
+        }
 
-        observer = new MutationObserver(checkGlobe);
-        observer.observe(document.documentElement, {
-          attributes: true,
-          childList: true,
-          subtree: true,
-        });
-        poll = window.setInterval(checkGlobe, 250);
-        timeout = window.setTimeout(function () { finish("error"); }, 20000);
-        window.addEventListener("load", checkGlobe);
+        image.addEventListener("load", reportImageStatus, { once: true });
+        image.addEventListener("error", reportImageStatus, { once: true });
+        if (image.complete) window.setTimeout(reportImageStatus, 0);
       })();
     </script>
-    <script type="text/javascript" id="mmvst_globe" src="${GLOBE_SCRIPT_SRC}" referrerpolicy="no-referrer"></script>
   </body>
 </html>`;
 }
 
-const GLOBE_DOCUMENT = createGlobeDocument();
+const MAP_DOCUMENT = createVisitorMapDocument();
 
 function SocialIcon({ social, newWindow }) {
   return (
@@ -300,16 +281,15 @@ function SocialIcon({ social, newWindow }) {
   );
 }
 
-function FooterGlobe({ copy }) {
+function FooterVisitorMap({ copy }) {
   const frameRef = React.useRef(null);
-  const stageRef = React.useRef(null);
-  const visibleRef = React.useRef(false);
   const [status, setStatus] = React.useState("loading");
+  const [renderMode, setRenderMode] = React.useState("pending");
   const [attempt, setAttempt] = React.useState(0);
 
   const postToFrame = React.useCallback((message) => {
     frameRef.current?.contentWindow?.postMessage(
-      { source: GLOBE_MESSAGE_SOURCE, ...message },
+      { source: MAP_MESSAGE_SOURCE, ...message },
       "*"
     );
   }, []);
@@ -318,7 +298,7 @@ function FooterGlobe({ copy }) {
     function handleMessage(event) {
       if (
         event.source !== frameRef.current?.contentWindow ||
-        event.data?.source !== GLOBE_MESSAGE_SOURCE ||
+        event.data?.source !== MAP_MESSAGE_SOURCE ||
         event.data?.type !== "status"
       ) {
         return;
@@ -326,6 +306,7 @@ function FooterGlobe({ copy }) {
 
       if (event.data.status === "ready" || event.data.status === "error") {
         setStatus(event.data.status);
+        setRenderMode(event.data.mode || "unknown");
       }
     }
 
@@ -334,57 +315,48 @@ function FooterGlobe({ copy }) {
   }, []);
 
   React.useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage || typeof IntersectionObserver === "undefined") {
-      visibleRef.current = true;
-      postToFrame({ type: "visibility", visible: true });
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        visibleRef.current = entry.isIntersecting;
-        postToFrame({ type: "visibility", visible: entry.isIntersecting });
-      },
-      { rootMargin: "240px 0px" }
-    );
-    observer.observe(stage);
-    return () => observer.disconnect();
-  }, [attempt, postToFrame]);
-
-  React.useEffect(() => {
     const timer = window.setTimeout(() => {
       postToFrame({ type: "probe" });
-      postToFrame({ type: "visibility", visible: visibleRef.current });
     }, 80);
     return () => window.clearTimeout(timer);
   }, [attempt, postToFrame]);
 
+  React.useEffect(() => {
+    if (status !== "loading") return undefined;
+
+    const watchdog = window.setTimeout(() => {
+      setStatus("error");
+    }, 18000);
+
+    return () => window.clearTimeout(watchdog);
+  }, [attempt, status]);
+
   function retry() {
     setStatus("loading");
+    setRenderMode("pending");
     setAttempt((current) => current + 1);
   }
 
   function syncFrame() {
     postToFrame({ type: "probe" });
-    postToFrame({ type: "visibility", visible: visibleRef.current });
   }
 
   return (
     <div
-      ref={stageRef}
       className={styles.globeStage}
       data-status={status}
+      data-mode={renderMode}
       aria-busy={status === "loading"}
     >
       <iframe
         key={attempt}
         ref={frameRef}
         className={styles.globeFrame}
-        title={copy.globeFrameTitle}
-        width="236"
-        height="256"
-        srcDoc={GLOBE_DOCUMENT}
+        title={copy.visitorMapFrameTitle}
+        width="360"
+        height="212"
+        loading="eager"
+        srcDoc={MAP_DOCUMENT}
         sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
         referrerPolicy="no-referrer"
         onLoad={syncFrame}
@@ -393,15 +365,15 @@ function FooterGlobe({ copy }) {
       {status === "loading" && (
         <div className={styles.globeLoading} role="status">
           <span aria-hidden="true" />
-          {copy.globeLoading}
+          {copy.visitorMapLoading}
         </div>
       )}
 
       {status === "error" && (
         <div className={styles.globeError} role="alert">
-          <span>{copy.globeError}</span>
+          <span>{copy.visitorMapError}</span>
           <button type="button" onClick={retry}>
-            {copy.globeRetry}
+            {copy.visitorMapRetry}
           </button>
         </div>
       )}
@@ -479,20 +451,22 @@ export default function SiteFooter() {
 
         <section
           className={styles.globeBand}
-          aria-labelledby="footer-globe-heading"
+          aria-labelledby="footer-visitor-map-heading"
         >
           <div className={styles.globeBandCopy}>
-            <span className={styles.globeEyebrow}>{copy.globeEyebrow}</span>
-            <Heading as="h3" id="footer-globe-heading">
-              {copy.globeTitle}
+            <span className={styles.globeEyebrow}>
+              {copy.visitorMapEyebrow}
+            </span>
+            <Heading as="h3" id="footer-visitor-map-heading">
+              {copy.visitorMapTitle}
             </Heading>
-            <p>{copy.globeDescription}</p>
+            <p>{copy.visitorMapDescription}</p>
             <Link className={styles.globePrivacyLink} to="/privacy">
-              {copy.globeLink}
+              {copy.visitorMapLink}
               <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <FooterGlobe copy={copy} />
+          <FooterVisitorMap copy={copy} />
         </section>
 
         <div className={styles.footerBottom}>
