@@ -142,6 +142,11 @@ const config = {
           label: "App",
           position: "left",
         },
+        {
+          to: "/mpicks",
+          label: "mPicks",
+          position: "left",
+        },
         { type: "localeDropdown", position: "right" },
         {
           href: "https://github.com/smiler488",

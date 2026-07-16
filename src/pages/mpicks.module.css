@@ -1,0 +1,209 @@
+.container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vh, 6rem) 1.5rem;
+}
+
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vh, 4.5rem);
+}
+
+.headerGlow {
+  position: absolute;
+  top: -6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--ifm-color-primary) 12%, transparent),
+    transparent 68%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  max-width: 60ch;
+  margin: 0 auto;
+  color: var(--ifm-color-emphasis-600);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  --card-glow: var(--ifm-color-primary);
+
+  position: relative;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card[data-tint="blue"] {
+  --card-glow: #0a84ff;
+}
+.card[data-tint="green"] {
+  --card-glow: #30d158;
+}
+.card[data-tint="violet"] {
+  --card-glow: #bf5af2;
+}
+.card[data-tint="orange"] {
+  --card-glow: #ff9f0a;
+}
+
+.card::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    color-mix(in srgb, var(--card-glow) 6%, transparent),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  content: "";
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--glass-border));
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--card-glow) 8%, rgba(0, 0, 0, 0.04)),
+    var(--shadow-glass);
+}
+
+.cardInner {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--card-glow) 10%, var(--ifm-background-surface-color));
+  color: var(--card-glow);
+  border: 1px solid color-mix(in srgb, var(--card-glow) 15%, transparent);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  margin: 0;
+}
+
+.cardDescription {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  flex-grow: 1;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.badge {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  background: color-mix(in srgb, var(--card-glow) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-glow) 12%, transparent);
+  color: color-mix(in srgb, var(--card-glow) 90%, var(--ifm-color-emphasis-800));
+  border-radius: 999px;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 650;
+  text-decoration: none !important;
+  border-radius: 999px;
+  color: #ffffff !important;
+  background: var(--card-glow);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--card-glow) 20%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--card-glow) 30%, transparent);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .cardInner {
+    padding: 1.5rem;
+  }
+}
