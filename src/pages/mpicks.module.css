@@ -207,3 +207,93 @@
     padding: 1.5rem;
   }
 }
+
+/* QR Code Tooltip Styling */
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.qrContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.qrButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.qrButton:hover {
+  background: color-mix(in srgb, var(--card-glow) 8%, var(--glass-bg));
+  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--glass-border));
+  color: var(--card-glow);
+}
+
+.qrTooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.85rem;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), var(--shadow-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 154px;
+}
+
+.qrTooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--glass-border) transparent transparent transparent;
+  content: "";
+}
+
+.qrContainer:hover .qrTooltip,
+.qrContainer:focus-within .qrTooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.qrTooltip img {
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 6px;
+  display: block;
+}
+
+.qrText {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1;
+}
+

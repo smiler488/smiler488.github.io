@@ -12,11 +12,12 @@ const PICKS_DATA = {
     title: "mPicks",
     subtitle: "Recommended tools, services, and hardware optimized for researchers and developers.",
     openBtn: "Visit Site",
+    qrScanHint: "Scan QR to visit",
     items: [
       {
         id: "wgetcloud",
         title: "WgetCloud Premium SLA VPN",
-        description: "High-availability SLA lines. SLA private line service for seamless, ultra-fast access to global AI assistants (Claude, ChatGPT, Gemini) and media. Professional and business first choice.",
+        description: "Premium SLA high-availability private line service for seamless, ultra-fast access to global streaming and AI assistants (Claude, ChatGPT, Gemini). The business and professional first choice.",
         link: "https://invite.wgetcloud.ltd/auth/register?code=Y0qXc0",
         badges: ["SLA Private Line", "Ultra Fast AI", "All Platforms"],
         tint: "blue",
@@ -24,7 +25,7 @@ const PICKS_DATA = {
       {
         id: "dgcloud",
         title: "DG Cloud Budget Any-Protocol VPN",
-        description: "Global exclusive Any protocol for high-performance and budget-friendly acceleration of dev workflows, academic downloads, and HD videos. Cross-platform support.",
+        description: "Global exclusive Any protocol for high-performance and budget-friendly acceleration of dev workflows, academic downloads, and HD videos. Cross-platform universal support.",
         link: "https://inv.dginv.click/#/register?code=BcP8L3n2",
         badges: ["Budget Choice", "Any Protocol", "Dev Workflow"],
         tint: "green",
@@ -32,7 +33,7 @@ const PICKS_DATA = {
       {
         id: "xiaomimimo",
         title: "Xiaomi MiMo Open Platform",
-        description: "Experience Xiaomi's top multimodal large-scale model MiMo V2.5. Use my link to sign up to get ¥10 API trial credit and 10% off your first order. High性价比 and top-tier capabilities.",
+        description: "Experience Xiaomi's top multimodal large-scale model MiMo V2.5. Get ¥10 API trial credit and 10% off your first order (invite code applied automatically, trial credit valid for 40 days). High-performance AI capabilities.",
         link: "https://platform.xiaomimimo.com?ref=E9434S",
         badges: ["Multimodal AI", "Xiaomi V2.5", "¥10 Trial Gift"],
         tint: "violet",
@@ -40,7 +41,7 @@ const PICKS_DATA = {
       {
         id: "tencentcloud",
         title: "Tencent Cloud Server & TokenHub",
-        description: "2C2G4M high-speed cloud servers from ¥99/year. Minutes deployment for OpenClaw, Hermes, DeepSeek. TokenHub integrates Hunyuan and third-party models, enabling speech, vision, and 3D generation.",
+        description: "2C2G4M servers from ¥99/year. Deployed on overseas servers, mainland China users can safely command their OpenClaw, Hermes, or DeepSeek-TUI agents via WeChat/Lark to safely retrieve overseas web resources and data. Features TokenHub for speech, reasoning, and 3D generation.",
         link: "https://curl.qcloud.com/M9Y6HIFv",
         badges: ["¥99 Server", "AI Host Ready", "TokenHub Hub"],
         tint: "orange",
@@ -53,11 +54,12 @@ const PICKS_DATA = {
     title: "好物推荐",
     subtitle: "精选学术加速、大模型计算与云服务好物，助力高效科研开发与数字工作流。",
     openBtn: "立即访问",
+    qrScanHint: "手机扫码访问",
     items: [
       {
         id: "wgetcloud",
         title: "WgetCloud 精品专线网络加速",
-        description: "极致体验，全平台通用，商务与专业首选。SLA 专线高可用，稳定支持全球流媒体 + AI（快速流畅访问 Claude、ChatGPT、Gemini 等）。",
+        description: "精品专线服务，极致体验，全平台通用，商务与专业首选。SLA 专线高可用，稳定支持全球流媒体与 AI 工作流，快速稳定访问 Claude、ChatGPT、Gemini 等主流智能体。",
         link: "https://invite.wgetcloud.ltd/auth/register?code=Y0qXc0",
         badges: ["精品专线", "AI 极速访问", "SLA 高可用"],
         tint: "blue",
@@ -65,7 +67,7 @@ const PICKS_DATA = {
       {
         id: "dgcloud",
         title: "DG Cloud 平价专线网络加速",
-        description: "全球独家 Any 协议，稳定加速全球工作流与超清视频，全平台通用。高性价比的科研加速之选。",
+        description: "全球独家 Any 协议网络加速，稳定加速全球工作流与超清视频，全平台通用。高性价比的平价专线加速首选。",
         link: "https://inv.dginv.click/#/register?code=BcP8L3n2",
         badges: ["平价首选", "Any 协议", "工作流加速"],
         tint: "green",
@@ -73,7 +75,7 @@ const PICKS_DATA = {
       {
         id: "xiaomimimo",
         title: "小米 MiMo 大模型开放平台",
-        description: "体验小米顶尖多模态大模型 MiMo V2.5。通过邀请链接注册，双方各得 ¥10 API 体验金（40天有效）+ 首单 9 折。体验无限 AI 智能可能。",
+        description: "体验小米顶尖多模态大模型 MiMo V2.5。通过邀请链接注册，双方各得 ¥10 API 体验金（首单 9 折，注册后自动填入邀请码，体验金 40 天有效），覆盖对话、逻辑与图像生成等多模态高性价比场景。",
         link: "https://platform.xiaomimimo.com?ref=E9434S",
         badges: ["多模态 AI", "小米顶尖模型", "送 10元 体验金"],
         tint: "violet",
@@ -81,7 +83,7 @@ const PICKS_DATA = {
       {
         id: "tencentcloud",
         title: "腾讯云轻量服务器 & TokenHub",
-        description: "新客特惠 2核2G4M 服务器 99元/年起。分钟级部署 OpenClaw、Hermes 或 DeepSeek-TUI。TokenHub 统一大模型入口，轻松实现多模态及图生三维。",
+        description: "新客特惠 2核2G4M 服务器 99元/年起，支持国内和境外的轻应用服务器。可分钟级部署 OpenClaw / Hermes / DeepSeek - TUI 等智能体，部署在境外服务器上，中国大陆用户即可安全地通过微信/飞书等 IM 软件，向智能体下发指令，从而无感安全地获取境外网络上的资料和信息。同时内置大模型服务 TokenHub 覆盖对话、推理、图生三维等场景。",
         link: "https://curl.qcloud.com/M9Y6HIFv",
         badges: ["99元/年起", "AI 智能体专属", "混元多模态"],
         tint: "orange",
@@ -152,18 +154,45 @@ export default function MPicksPage() {
                   ))}
                 </div>
 
-                <Link
-                  className={styles.cardLink}
-                  to={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>{copy.openBtn}</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7" />
-                    <polyline points="7 7 17 7 17 17" />
-                  </svg>
-                </Link>
+                <div className={styles.actionGroup}>
+                  <Link
+                    className={styles.cardLink}
+                    to={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>{copy.openBtn}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="7" y1="17" x2="17" y2="7" />
+                      <polyline points="7 7 17 7 17 17" />
+                    </svg>
+                  </Link>
+
+                  <div className={styles.qrContainer}>
+                    <button className={styles.qrButton} aria-label="Show QR Code">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <line x1="7" y1="7" x2="7.01" y2="7" />
+                        <line x1="17" y1="7" x2="17.01" y2="7" />
+                        <line x1="17" y1="17" x2="17.01" y2="17" />
+                        <line x1="7" y1="17" x2="7.01" y2="17" />
+                      </svg>
+                    </button>
+                    <div className={styles.qrTooltip} data-particle-obstacle>
+                      <img
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(item.link)}`}
+                        alt="QR Code"
+                        width="130"
+                        height="130"
+                        loading="lazy"
+                      />
+                      <span className={styles.qrText}>{copy.qrScanHint}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
