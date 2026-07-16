@@ -39,29 +39,6 @@ const HOME_COPY = {
   },
 };
 
-const ZH_HOLOGRAM_LABELS = {
-  pointerReady: "粒子互动已就绪",
-  reducedMotion: "静态粒子展示 · 已减少动态效果",
-  cameraStarting: "正在启动本地手势识别…",
-  cameraPreviewOnly: "摄像头背景已开启 · 指针互动仍可用",
-  cameraWaiting: "手势模式 · 请将一只手放入画面",
-  cameraOpen: "张开手掌 · 扩散粒子",
-  cameraClosed: "闭合手势 · 吸附并旋转粒子",
-  cameraError: "摄像头不可用 · 已保留指针模式",
-  cameraUnsupported: "浏览器不支持摄像头 · 指针模式可用",
-  enableCamera: "启用手势",
-  disableCamera: "关闭摄像头",
-  cancelCamera: "取消启动",
-  retryCamera: "重试手势",
-  unavailableCamera: "摄像头不可用",
-  privacy: "仅在本机处理 · 不会上传视频",
-  pointerHint: "移动或触摸扩散 · 按下或切换模式吸附",
-  fieldDisperse: "切换为粒子扩散模式",
-  fieldAttract: "切换为粒子吸附模式",
-  fieldModeDisperse: "扩散",
-  fieldModeAttract: "吸附",
-};
-
 function HomepageHeader() {
   const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
@@ -73,10 +50,9 @@ function HomepageHeader() {
         <HologramParticles
           text="SMILER488"
           cloudImage="/img/cloud.png"
-          showCameraPreview
+          cameraControls={false}
           obstacleSelector="[data-particle-obstacle]"
           style={{ height: "100%" }}
-          labels={isChinese ? ZH_HOLOGRAM_LABELS : undefined}
         />
       </div>
 

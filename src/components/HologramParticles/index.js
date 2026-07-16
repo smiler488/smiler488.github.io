@@ -69,6 +69,7 @@ export default function HologramParticles({
   className,
   labels,
   showCameraPreview = false,
+  cameraControls = true,
   cloudImage,
   obstacleSelector = "[data-particle-obstacle]",
 }) {
@@ -394,13 +395,13 @@ export default function HologramParticles({
   }, [releaseCameraResources, setIndicator]);
 
   React.useEffect(() => {
-    if (!navigator.mediaDevices?.getUserMedia) {
+    if (cameraControls && !navigator.mediaDevices?.getUserMedia) {
       setCameraState("unsupported");
       setStatusKey("cameraUnsupported");
     }
 
     return () => releaseCameraResources();
-  }, [releaseCameraResources]);
+  }, [cameraControls, releaseCameraResources]);
 
   React.useEffect(() => {
     const activeTouches = new Set();
@@ -1121,14 +1122,18 @@ export default function HologramParticles({
       data-preview={showCameraPreview ? "true" : "false"}
       data-motion={reducedMotion ? "reduced" : "full"}
     >
-      <video
-        ref={videoRef}
-        className={styles.processingVideo}
-        playsInline
-        muted
-        aria-hidden="true"
-      />
-      <div className={styles.cameraScrim} aria-hidden="true" />
+      {cameraControls && (
+        <video
+          ref={videoRef}
+          className={styles.processingVideo}
+          playsInline
+          muted
+          aria-hidden="true"
+        />
+      )}
+      {cameraControls && (
+        <div className={styles.cameraScrim} aria-hidden="true" />
+      )}
       <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
 
       <div
@@ -1142,67 +1147,72 @@ export default function HologramParticles({
         <span className={styles.indicatorGrip} />
       </div>
 
-      <div className={styles.controlDock} data-particle-obstacle>
-        <div
-          className={styles.statusLine}
-          role="status"
-          aria-live={cameraState === "active" ? "off" : "polite"}
-        >
-          <span className={styles.statusDot} data-state={cameraState} />
-          <span>{statusText}</span>
-        </div>
-        <button
-          type="button"
-          className={styles.cameraButton}
-          onClick={isCameraRunning ? stopCamera : enableCamera}
-          disabled={cameraState === "unsupported"}
-          aria-pressed={isCameraRunning}
-        >
-          <span className={styles.cameraGlyph} aria-hidden="true" />
-          {cameraButtonLabel}
-        </button>
-        <button
-          type="button"
-          className={styles.fieldButton}
-          data-mode={fieldMode}
-          aria-pressed={fieldMode === "attract"}
-          aria-label={
-            fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
-          }
-          title={
-            fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
-          }
-          onClick={() => {
-            const nextMode = fieldMode === "disperse" ? "attract" : "disperse";
-            setFieldMode(nextMode);
-            if (pointerDataRef.current) {
-              const interaction = {
-                ...pointerDataRef.current,
-                isClosed: nextMode === "attract",
-              };
-              pointerDataRef.current = interaction;
-              setIndicator(interaction);
+      {cameraControls && (
+        <div className={styles.controlDock} data-particle-obstacle>
+          <div
+            className={styles.statusLine}
+            role="status"
+            aria-live={cameraState === "active" ? "off" : "polite"}
+          >
+            <span className={styles.statusDot} data-state={cameraState} />
+            <span>{statusText}</span>
+          </div>
+          <button
+            type="button"
+            className={styles.cameraButton}
+            onClick={isCameraRunning ? stopCamera : enableCamera}
+            disabled={cameraState === "unsupported"}
+            aria-pressed={isCameraRunning}
+          >
+            <span className={styles.cameraGlyph} aria-hidden="true" />
+            {cameraButtonLabel}
+          </button>
+          <button
+            type="button"
+            className={styles.fieldButton}
+            data-mode={fieldMode}
+            aria-pressed={fieldMode === "attract"}
+            aria-label={
+              fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
             }
-          }}
-        >
-          <span className={styles.fieldGlyph} aria-hidden="true" />
-          <span className={styles.fieldLabel}>
-            {fieldMode === "attract"
-              ? copy.fieldModeAttract
-              : copy.fieldModeDisperse}
-          </span>
-        </button>
-        <span className={styles.privacyNote}>{copy.privacy}</span>
-      </div>
+            title={
+              fieldMode === "disperse" ? copy.fieldAttract : copy.fieldDisperse
+            }
+            onClick={() => {
+              const nextMode =
+                fieldMode === "disperse" ? "attract" : "disperse";
+              setFieldMode(nextMode);
+              if (pointerDataRef.current) {
+                const interaction = {
+                  ...pointerDataRef.current,
+                  isClosed: nextMode === "attract",
+                };
+                pointerDataRef.current = interaction;
+                setIndicator(interaction);
+              }
+            }}
+          >
+            <span className={styles.fieldGlyph} aria-hidden="true" />
+            <span className={styles.fieldLabel}>
+              {fieldMode === "attract"
+                ? copy.fieldModeAttract
+                : copy.fieldModeDisperse}
+            </span>
+          </button>
+          <span className={styles.privacyNote}>{copy.privacy}</span>
+        </div>
+      )}
 
-      <div
-        className={styles.pointerHint}
-        data-particle-obstacle
-        aria-hidden="true"
-      >
-        <span className={styles.pointerHintIcon} />
-        {copy.pointerHint}
-      </div>
+      {cameraControls && (
+        <div
+          className={styles.pointerHint}
+          data-particle-obstacle
+          aria-hidden="true"
+        >
+          <span className={styles.pointerHintIcon} />
+          {copy.pointerHint}
+        </div>
+      )}
     </div>
   );
 }
