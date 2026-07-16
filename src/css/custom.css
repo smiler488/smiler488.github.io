@@ -1043,7 +1043,7 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
 }
 
 /* 底部"收起侧栏"按钮 — 现代极简药丸式设计 */
-.theme-doc-sidebar-container [class*="collapseSidebarButton"] {
+button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1062,7 +1062,7 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   transition: all 0.2s ease;
 }
 
-.theme-doc-sidebar-container [class*="collapseSidebarButton"]:hover {
+button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
   color: var(--ifm-color-primary);
   background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
   border-color: color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
@@ -1070,27 +1070,57 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   box-shadow: 0 2px 8px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
 }
 
-/* 展开侧栏按钮（侧栏收起后出现） */
-[class*="expandButton"] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin: 0.75rem auto;
-  color: var(--ifm-color-emphasis-500);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* 确保收起按钮内部的图标不会被误伤 */
+button[class*="collapseSidebarButton"]:not([class*="expandButton"]) svg {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  transform: none !important;
 }
 
-[class*="expandButton"]:hover {
-  color: var(--ifm-color-primary);
-  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
-  border-color: color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+/* 展开侧栏按钮的点击区域（占满整个侧栏宽度和高度） */
+button[class*="collapseSidebarButton"][class*="expandButton"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+
+/* 展开侧栏按钮悬停时，整个窄栏有微弱的高亮 */
+button[class*="collapseSidebarButton"][class*="expandButton"]:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 2%, transparent) !important;
+}
+
+/* 展开按钮内真正的圆形浮动毛玻璃图标 */
+button[class*="collapseSidebarButton"][class*="expandButton"] svg {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 8px !important;
+  color: var(--ifm-color-emphasis-500) !important;
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 50% !important;
+  box-shadow: var(--shadow-glass) !important;
+  -webkit-backdrop-filter: var(--glass-blur-light) !important;
+  backdrop-filter: var(--glass-blur-light) !important;
+  transition: all 0.22s var(--ease-smooth) !important;
+}
+
+button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
+  color: var(--ifm-color-primary) !important;
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent) !important;
+  background: var(--glass-bg) !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--ifm-color-primary) 18%, transparent) !important;
 }
 
 /* 隐藏面包屑导航中的首页图标 — 与顶栏 logo 重复 */
