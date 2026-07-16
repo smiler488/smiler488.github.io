@@ -39,8 +39,8 @@ const config = {
       },
     ],
   ],
-  // Keep BYOK pages free of third-party analytics scripts. If analytics is
-  // restored later, isolate AI tools on a separate origin first.
+  // No first-party analytics plugin is enabled. The footer's third-party
+  // visitor globe runs in an opaque sandbox and is disclosed at /privacy.
   plugins: [],
 
   organizationName: "smiler488",

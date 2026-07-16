@@ -253,10 +253,255 @@
 .profileLink:focus-visible,
 .linkList a:focus-visible,
 .contactList a:focus-visible,
-.socialIcon:focus-visible {
+.socialIcon:focus-visible,
+.globePrivacyLink:focus-visible,
+.globeError button:focus-visible,
+.privacyDisclosure a:focus-visible {
   outline: 3px solid
     color-mix(in srgb, var(--ifm-color-primary) 44%, transparent);
   outline-offset: 3px;
+}
+
+.globeBand {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  align-items: center;
+  margin-top: clamp(2rem, 4vw, 3.25rem);
+  padding: clamp(1.4rem, 3vw, 2.5rem);
+  overflow: hidden;
+  background: radial-gradient(
+      circle at 86% 24%,
+      color-mix(in srgb, var(--ifm-color-primary) 16%, transparent),
+      transparent 20rem
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--glass-bg) 92%, transparent),
+      color-mix(in srgb, var(--ifm-background-color) 72%, transparent)
+    );
+  border: 1px solid
+    color-mix(in srgb, var(--glass-border) 78%, var(--glass-highlight));
+  border-radius: clamp(22px, 2.5vw, 30px);
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+    0 16px 42px rgba(15, 23, 42, 0.08);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+  backdrop-filter: blur(22px) saturate(155%);
+}
+
+.globeBand::before {
+  position: absolute;
+  top: 14%;
+  right: clamp(12rem, 25vw, 23rem);
+  width: 1px;
+  height: 72%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--glass-border) 90%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  content: "";
+}
+
+.globeBandCopy {
+  position: relative;
+  z-index: 1;
+  max-width: 46rem;
+}
+
+.globeEyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.7rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.globeEyebrow::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 0.55rem;
+  background: var(--ifm-color-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px
+    color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+  content: "";
+}
+
+.globeBandCopy h3 {
+  max-width: 19ch;
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+  font-weight: 740;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.globeBandCopy p {
+  max-width: 52ch;
+  margin: 0.9rem 0 1.1rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.globePrivacyLink {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.55rem 0.78rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
+  border-radius: 13px;
+  transition: transform 180ms ease, background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.globePrivacyLink:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: none;
+  background: color-mix(in srgb, var(--ifm-color-primary) 13%, transparent);
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 32%, transparent);
+  transform: translateY(-2px);
+}
+
+.globeStage {
+  position: relative;
+  display: grid;
+  width: 270px;
+  height: 282px;
+  overflow: hidden;
+  place-items: center;
+  isolation: isolate;
+  background: radial-gradient(
+      circle at 50% 45%,
+      color-mix(in srgb, var(--ifm-color-primary) 14%, transparent),
+      transparent 62%
+    ),
+    color-mix(in srgb, var(--glass-bg) 78%, transparent);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+    0 18px 44px rgba(15, 23, 42, 0.1);
+}
+
+.globeStage::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.42;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--ifm-color-emphasis-600) 44%, transparent) 0 1px,
+    transparent 1.4px
+  );
+  background-size: 28px 28px;
+  pointer-events: none;
+  content: "";
+  -webkit-mask-image: radial-gradient(circle, #000, transparent 76%);
+  mask-image: radial-gradient(circle, #000, transparent 76%);
+}
+
+.globeFrame {
+  display: block;
+  width: 236px;
+  height: 256px;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.globeStage[data-status="loading"] .globeFrame,
+.globeStage[data-status="error"] .globeFrame {
+  opacity: 0.08;
+}
+
+.globeLoading,
+.globeError {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ifm-color-emphasis-700);
+  background: color-mix(in srgb, var(--glass-bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.globeLoading {
+  gap: 0.65rem;
+  pointer-events: none;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.globeLoading > span {
+  width: 16px;
+  height: 16px;
+  border: 2px solid
+    color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
+  border-top-color: var(--ifm-color-primary);
+  border-radius: 50%;
+  animation: footerGlobeSpin 900ms linear infinite;
+}
+
+.globeError {
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.globeError button {
+  min-height: 40px;
+  padding: 0.45rem 0.85rem;
+  color: #fff;
+  cursor: pointer;
+  background: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary-dark);
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+}
+
+.privacyDisclosure {
+  max-width: 47rem;
+  text-align: right;
+}
+
+.privacyDisclosure a {
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.privacyDisclosure a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@keyframes footerGlobeSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .footerBottom {
@@ -295,6 +540,13 @@ html[data-theme="dark"] .footerSurface {
 html[data-theme="dark"] .socialIcon {
   background: rgba(255, 255, 255, 0.055);
   border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .globeBand,
+html[data-theme="dark"] .globeStage {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 20px 48px rgba(0, 0, 0, 0.24);
 }
 
 @media (max-width: 1100px) {
@@ -358,10 +610,34 @@ html[data-theme="dark"] .socialIcon {
     border-radius: 13px;
   }
 
+  .globeBand {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+    padding: 1.25rem;
+  }
+
+  .globeBand::before {
+    display: none;
+  }
+
+  .globeBandCopy h3 {
+    max-width: 18ch;
+    font-size: clamp(1.4rem, 7vw, 1.85rem);
+  }
+
+  .globeStage {
+    width: min(270px, 100%);
+    margin: 0 auto;
+  }
+
   .footerBottom {
     align-items: flex-start;
     flex-direction: column;
     margin-top: 1.75rem;
+  }
+
+  .privacyDisclosure {
+    text-align: left;
   }
 }
 
@@ -374,6 +650,7 @@ html[data-theme="dark"] .socialIcon {
 @media (hover: none) {
   .profileLink:hover,
   .linkList a:hover,
+  .globePrivacyLink:hover,
   .socialIcon:hover,
   .socialIcon:hover img {
     transform: none;
@@ -382,6 +659,8 @@ html[data-theme="dark"] .socialIcon {
 
 @supports not (backdrop-filter: blur(2px)) {
   .footerSurface,
+  .globeBand,
+  .globeStage,
   .socialIcon {
     background: var(--ifm-background-surface-color);
   }
@@ -389,6 +668,10 @@ html[data-theme="dark"] .socialIcon {
 
 @media (prefers-reduced-transparency: reduce) {
   .footerSurface,
+  .globeBand,
+  .globeStage,
+  .globeLoading,
+  .globeError,
   .socialIcon {
     background: var(--ifm-background-surface-color);
     -webkit-backdrop-filter: none;
@@ -399,6 +682,8 @@ html[data-theme="dark"] .socialIcon {
 @media (prefers-reduced-motion: reduce) {
   .profileLink,
   .linkList a,
+  .globePrivacyLink,
+  .globeFrame,
   .socialIcon,
   .socialIcon::after,
   .socialIcon img {
@@ -407,15 +692,23 @@ html[data-theme="dark"] .socialIcon {
 
   .profileLink:hover,
   .linkList a:hover,
+  .globePrivacyLink:hover,
   .socialIcon:hover,
   .socialIcon:hover img {
     transform: none;
+  }
+
+  .globeLoading > span {
+    animation: none;
   }
 }
 
 @media (forced-colors: active) {
   .footerSurface,
   .profileLink,
+  .globeBand,
+  .globeStage,
+  .globeError button,
   .socialIcon {
     color: CanvasText !important;
     background: Canvas;

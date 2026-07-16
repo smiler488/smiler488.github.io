@@ -123,7 +123,18 @@ const COPY = {
     collaboration: "Collaboration",
     assistant: "Assistant",
     newWindow: "opens in a new tab",
-    privacy: "Research tools are designed with local-first data handling.",
+    globeEyebrow: "Global visitors",
+    globeTitle: "A research network without borders.",
+    globeDescription:
+      "This live globe shows the approximate geographic distribution of visitors to this site.",
+    globeFrameTitle: "Interactive MapMyVisitors visitor globe",
+    globeLoading: "Loading live visitor globe…",
+    globeError: "The visitor globe could not be loaded.",
+    globeRetry: "Retry",
+    globeLink: "Visitor analytics & privacy",
+    privacy:
+      "This footer automatically loads MapMyVisitors and processes network and device metadata.",
+    privacyAction: "Privacy",
     rights: "All rights reserved.",
   },
   zh: {
@@ -141,10 +152,130 @@ const COPY = {
     collaboration: "商业合作",
     assistant: "助理邮箱",
     newWindow: "在新标签页中打开",
-    privacy: "研究工具优先采用本地数据处理。",
+    globeEyebrow: "全球访客",
+    globeTitle: "让研究连接跨越边界。",
+    globeDescription: "实时地球展示访问本网站用户的大致地理分布。",
+    globeFrameTitle: "MapMyVisitors 交互式访客地球",
+    globeLoading: "正在加载实时访客地球…",
+    globeError: "访客地球暂时无法加载。",
+    globeRetry: "重新加载",
+    globeLink: "访客统计与隐私说明",
+    privacy: "本页脚会自动加载 MapMyVisitors，并处理网络与设备元数据。",
+    privacyAction: "隐私说明",
     rights: "保留所有权利。",
   },
 };
+
+const GLOBE_MESSAGE_SOURCE = "smiler488-mapmyvisitors-globe";
+const GLOBE_SCRIPT_SRC =
+  "https://mapmyvisitors.com/globe.js?d=q0eg2_fWgmNEh1nVyYkGP7OMwUA7DZIjlDAPMYt-gVI&w=236";
+
+function createGlobeDocument() {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=236, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <base target="_blank" />
+    <style>
+      html, body { width: 236px; height: 256px; margin: 0; overflow: hidden; background: transparent; }
+      body { display: grid; place-items: start center; }
+    </style>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var marker = ${JSON.stringify(GLOBE_MESSAGE_SOURCE)};
+        var currentStatus = "loading";
+        var parentVisible = false;
+        var motionReady = false;
+        var observer;
+        var poll;
+        var timeout;
+
+        function notify(status) {
+          currentStatus = status;
+          parent.postMessage({ source: marker, type: "status", status: status }, "*");
+        }
+
+        function secureLink() {
+          var link = document.querySelector("#mmvst_a");
+          if (!link) return;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.title = "MapMyVisitors";
+          link.setAttribute("aria-label", "View the MapMyVisitors visitor globe");
+        }
+
+        function setMotion(visible) {
+          if (!motionReady || !window.globe_jq || currentStatus !== "ready") return;
+          var shouldMove = visible && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var parts = window.globe_jq(".mmvst_globe, .mmvst_map_f, .mmvst_map_b, .mmvst_dots");
+          if (!parts.length) return;
+          parts.velocity(shouldMove ? "resume" : "pause", true);
+        }
+
+        function finish(status) {
+          if (currentStatus !== "loading") return;
+          window.clearInterval(poll);
+          window.clearTimeout(timeout);
+          if (observer) observer.disconnect();
+          secureLink();
+          notify(status);
+          if (status === "ready") {
+            window.setTimeout(function () {
+              motionReady = true;
+              setMotion(parentVisible);
+            }, 900);
+          }
+        }
+
+        function checkGlobe() {
+          secureLink();
+          var inner = document.querySelector(".mmvst_inner");
+          var map = document.querySelector(".mmvst_map");
+          if (
+            inner &&
+            map &&
+            window.getComputedStyle(inner).display !== "none" &&
+            map.offsetWidth > 0 &&
+            map.offsetHeight > 0
+          ) {
+            finish("ready");
+          }
+        }
+
+        window.addEventListener("message", function (event) {
+          if (event.source !== parent || !event.data || event.data.source !== marker) return;
+          if (event.data.type === "probe") notify(currentStatus);
+          if (event.data.type === "visibility") {
+            parentVisible = Boolean(event.data.visible);
+            setMotion(parentVisible);
+          }
+        });
+
+        window.addEventListener("error", function (event) {
+          if (event.target && event.target.id === "mmvst_globe") finish("error");
+        }, true);
+
+        observer = new MutationObserver(checkGlobe);
+        observer.observe(document.documentElement, {
+          attributes: true,
+          childList: true,
+          subtree: true,
+        });
+        poll = window.setInterval(checkGlobe, 250);
+        timeout = window.setTimeout(function () { finish("error"); }, 20000);
+        window.addEventListener("load", checkGlobe);
+      })();
+    </script>
+    <script type="text/javascript" id="mmvst_globe" src="${GLOBE_SCRIPT_SRC}" referrerpolicy="no-referrer"></script>
+  </body>
+</html>`;
+}
+
+const GLOBE_DOCUMENT = createGlobeDocument();
 
 function SocialIcon({ social, newWindow }) {
   return (
@@ -166,6 +297,115 @@ function SocialIcon({ social, newWindow }) {
         decoding="async"
       />
     </Link>
+  );
+}
+
+function FooterGlobe({ copy }) {
+  const frameRef = React.useRef(null);
+  const stageRef = React.useRef(null);
+  const visibleRef = React.useRef(false);
+  const [status, setStatus] = React.useState("loading");
+  const [attempt, setAttempt] = React.useState(0);
+
+  const postToFrame = React.useCallback((message) => {
+    frameRef.current?.contentWindow?.postMessage(
+      { source: GLOBE_MESSAGE_SOURCE, ...message },
+      "*"
+    );
+  }, []);
+
+  React.useEffect(() => {
+    function handleMessage(event) {
+      if (
+        event.source !== frameRef.current?.contentWindow ||
+        event.data?.source !== GLOBE_MESSAGE_SOURCE ||
+        event.data?.type !== "status"
+      ) {
+        return;
+      }
+
+      if (event.data.status === "ready" || event.data.status === "error") {
+        setStatus(event.data.status);
+      }
+    }
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  React.useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || typeof IntersectionObserver === "undefined") {
+      visibleRef.current = true;
+      postToFrame({ type: "visibility", visible: true });
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+        postToFrame({ type: "visibility", visible: entry.isIntersecting });
+      },
+      { rootMargin: "240px 0px" }
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, [attempt, postToFrame]);
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      postToFrame({ type: "probe" });
+      postToFrame({ type: "visibility", visible: visibleRef.current });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [attempt, postToFrame]);
+
+  function retry() {
+    setStatus("loading");
+    setAttempt((current) => current + 1);
+  }
+
+  function syncFrame() {
+    postToFrame({ type: "probe" });
+    postToFrame({ type: "visibility", visible: visibleRef.current });
+  }
+
+  return (
+    <div
+      ref={stageRef}
+      className={styles.globeStage}
+      data-status={status}
+      aria-busy={status === "loading"}
+    >
+      <iframe
+        key={attempt}
+        ref={frameRef}
+        className={styles.globeFrame}
+        title={copy.globeFrameTitle}
+        width="236"
+        height="256"
+        srcDoc={GLOBE_DOCUMENT}
+        sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
+        referrerPolicy="no-referrer"
+        onLoad={syncFrame}
+      />
+
+      {status === "loading" && (
+        <div className={styles.globeLoading} role="status">
+          <span aria-hidden="true" />
+          {copy.globeLoading}
+        </div>
+      )}
+
+      {status === "error" && (
+        <div className={styles.globeError} role="alert">
+          <span>{copy.globeError}</span>
+          <button type="button" onClick={retry}>
+            {copy.globeRetry}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -237,11 +477,31 @@ export default function SiteFooter() {
           </section>
         </div>
 
+        <section
+          className={styles.globeBand}
+          aria-labelledby="footer-globe-heading"
+        >
+          <div className={styles.globeBandCopy}>
+            <span className={styles.globeEyebrow}>{copy.globeEyebrow}</span>
+            <Heading as="h3" id="footer-globe-heading">
+              {copy.globeTitle}
+            </Heading>
+            <p>{copy.globeDescription}</p>
+            <Link className={styles.globePrivacyLink} to="/privacy">
+              {copy.globeLink}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <FooterGlobe copy={copy} />
+        </section>
+
         <div className={styles.footerBottom}>
           <span>
             © {year} Liangchao Deng. {copy.rights}
           </span>
-          <span>{copy.privacy}</span>
+          <span className={styles.privacyDisclosure}>
+            {copy.privacy} <Link to="/privacy">{copy.privacyAction}</Link>
+          </span>
         </div>
       </div>
     </footer>
