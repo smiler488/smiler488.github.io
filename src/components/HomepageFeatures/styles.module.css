@@ -230,15 +230,15 @@
 
 .labGrid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 1.5rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.2vw, 1.65rem);
 }
 
 .labCard {
-  --lab-accent: #0071e3;
+  --lab-accent: var(--ifm-color-primary);
 
   display: flex;
-  grid-column: span 6;
+  grid-column: span 1;
   min-height: 16rem;
   flex-direction: column;
   justify-content: space-between;
@@ -246,24 +246,16 @@
   padding: clamp(1.4rem, 2.6vw, 2rem);
 }
 
-.labCard[data-size="wide"]:first-child {
-  grid-column: span 7;
-}
-
-.labCard[data-size="wide"]:nth-child(2) {
-  grid-column: span 5;
-}
-
 .labCard[data-accent="violet"] {
-  --lab-accent: #af52de;
+  --lab-accent: var(--ifm-color-primary);
 }
 
 .labCard[data-accent="green"] {
-  --lab-accent: #28a745;
+  --lab-accent: var(--ifm-color-primary);
 }
 
 .labCard[data-accent="orange"] {
-  --lab-accent: #e86f00;
+  --lab-accent: var(--ifm-color-primary);
 }
 
 .labCard::before {
@@ -539,6 +531,81 @@
     background: var(--ifm-background-surface-color);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+}
+.portalDockContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 3.5rem;
+  width: 100%;
+}
+
+.portalDock {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.portalDock:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--ifm-color-primary) 32%,
+    var(--glass-border)
+  );
+}
+
+.portalLabel {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-right: 1px solid var(--glass-border);
+  padding-right: 1.2rem;
+  margin-right: -0.2rem;
+}
+
+.portalLink {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ifm-color-emphasis-700);
+  text-decoration: none !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.portalLink:hover {
+  color: var(--ifm-color-primary);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .labGrid {
+    grid-template-columns: 1fr;
+  }
+  .portalDock {
+    flex-wrap: wrap;
+    border-radius: var(--card-radius);
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .portalLabel {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+    width: 100%;
+    text-align: center;
   }
 }
 

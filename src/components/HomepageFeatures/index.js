@@ -36,45 +36,36 @@ const CONTENT = {
         meta: "Model · Predict · Design",
       },
     ],
-    labEyebrow: "Explore the lab",
-    labTitle: "Research is more useful when you can interact with it.",
+    labEyebrow: "Featured tools",
+    labTitle: "Interactive computing, built to run in your browser.",
     labIntro:
-      "Open the tools, inspect the methods, follow a learning path, or review the complete academic profile.",
+      "Launch these crop analyses, field data capture, and scientific visualization tools directly.",
     lab: [
       {
         number: "01",
-        title: "App Lab",
+        title: "Sensor Recorder",
         description:
-          "Fourteen browser-based tools for imaging, phenotyping, scientific writing, data analysis, and local AI workflows.",
-        href: "/app",
-        action: "Launch apps",
-        accent: "blue",
-      },
-      {
-        number: "02",
-        title: "Research Notes",
-        description:
-          "Field-tested notes on computer vision, crop research, reproducible computing, and practical AI engineering.",
-        href: "/blog",
-        action: "Read notes",
-        accent: "violet",
-      },
-      {
-        number: "03",
-        title: "Learning Resources",
-        description:
-          "Curated paths for AI for Science, crop modeling, plant phenotyping, and research software.",
-        href: "/resources",
-        action: "Follow a path",
+          "Capture device orientation, solar geometry, and GPS coordinates for leaf field measurements.",
+        href: "/app/sensor",
+        action: "Open tool",
         accent: "green",
       },
       {
-        number: "04",
-        title: "Curriculum Vitae",
+        number: "02",
+        title: "AI Data Visualizer",
         description:
-          "Education, research experience, publications, projects, skills, and current contact channels.",
-        href: "/cv",
-        action: "Open CV",
+          "Upload and analyze crop datasets interactively with publication-ready scientific plotting.",
+        href: "/app/ai-data-visualizer",
+        action: "Open tool",
+        accent: "blue",
+      },
+      {
+        number: "03",
+        title: "Root Preprocessor",
+        description:
+          "Clean, segment, and preprocess root system imagery to extract morphology phenotypes.",
+        href: "/app/root-processor",
+        action: "Open tool",
         accent: "orange",
       },
     ],
@@ -116,43 +107,35 @@ const CONTENT = {
         meta: "建模 · 预测 · 设计",
       },
     ],
-    labEyebrow: "探索实验室",
-    labTitle: "科研成果，在可以交互时更有价值。",
-    labIntro: "使用工具、查看方法、跟随学习路径，或了解完整的学术经历。",
+    labEyebrow: "精选工具",
+    labTitle: "交互式计算，在浏览器中即点即用。",
+    labIntro: "直接启动以下作物分析、数据规划与科学可视化应用。",
     lab: [
       {
         number: "01",
-        title: "应用实验室",
+        title: "Sensor Recorder",
         description:
-          "十四个浏览器端工具，覆盖图像、表型、科研写作、数据分析与本地 AI 工作流。",
-        href: "/app",
-        action: "启动应用",
-        accent: "blue",
-      },
-      {
-        number: "02",
-        title: "研究笔记",
-        description:
-          "记录计算机视觉、作物研究、可复现计算与实用 AI 工程中的方法和经验。",
-        href: "/blog",
-        action: "阅读笔记",
-        accent: "violet",
-      },
-      {
-        number: "03",
-        title: "学习资源",
-        description:
-          "面向 AI for Science、作物模型、植物表型与科研软件的精选学习路径。",
-        href: "/resources",
-        action: "开始学习",
+          "获取手机姿态、太阳入射角与定位信息，辅助田间叶片测量与数据采集。",
+        href: "/app/sensor",
+        action: "打开工具",
         accent: "green",
       },
       {
-        number: "04",
-        title: "个人简历",
-        description: "教育、科研经历、论文、项目、技能与当前有效的联系渠道。",
-        href: "/cv",
-        action: "查看简历",
+        number: "02",
+        title: "AI Data Visualizer",
+        description:
+          "交互式上传分析作物科学数据集，快速生成可供发表的学术图表。",
+        href: "/app/ai-data-visualizer",
+        action: "打开工具",
+        accent: "blue",
+      },
+      {
+        number: "03",
+        title: "Root Preprocessor",
+        description:
+          "清理、分割与处理作物根系图像，快速提取和量化根系形态学特征。",
+        href: "/app/root-processor",
+        action: "打开工具",
         accent: "orange",
       },
     ],
@@ -204,12 +187,11 @@ function ResearchCard({ item }) {
   );
 }
 
-function LabCard({ item, index }) {
+function LabCard({ item }) {
   return (
     <Link
       className={styles.labCard}
       data-accent={item.accent}
-      data-size={index < 2 ? "wide" : "compact"}
       to={item.href}
     >
       <div className={styles.labCardTop}>
@@ -266,9 +248,26 @@ export default function HomepageFeatures() {
             <p>{copy.labIntro}</p>
           </div>
           <div className={styles.labGrid}>
-            {copy.lab.map((item, index) => (
-              <LabCard key={item.title} item={item} index={index} />
+            {copy.lab.map((item) => (
+              <LabCard key={item.title} item={item} />
             ))}
+          </div>
+
+          <div className={styles.portalDockContainer}>
+            <div className={styles.portalDock}>
+              <span className={styles.portalLabel}>
+                {isChinese ? "快捷入口" : "Portals"}
+              </span>
+              <Link className={styles.portalLink} to="/blog">
+                📝 {isChinese ? "研究笔记" : "Research Notes"}
+              </Link>
+              <Link className={styles.portalLink} to="/resources">
+                📚 {isChinese ? "学习资源" : "Resources"}
+              </Link>
+              <Link className={styles.portalLink} to="/cv">
+                💼 {isChinese ? "个人简历" : "Curriculum Vitae"}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
