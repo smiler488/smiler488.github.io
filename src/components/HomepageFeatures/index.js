@@ -259,13 +259,28 @@ export default function HomepageFeatures() {
                 {isChinese ? "快捷入口" : "Portals"}
               </span>
               <Link className={styles.portalLink} to="/blog">
-                📝 {isChinese ? "研究笔记" : "Research Notes"}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                {isChinese ? "研究笔记" : "Research Notes"}
               </Link>
               <Link className={styles.portalLink} to="/resources">
-                📚 {isChinese ? "学习资源" : "Resources"}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                {isChinese ? "学习资源" : "Resources"}
               </Link>
               <Link className={styles.portalLink} to="/cv">
-                💼 {isChinese ? "个人简历" : "Curriculum Vitae"}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                {isChinese ? "个人简历" : "Curriculum Vitae"}
               </Link>
             </div>
           </div>
