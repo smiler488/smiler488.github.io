@@ -137,6 +137,7 @@ const config = {
         { to: "/blog", label: "Research", position: "left" },
         { to: "/cv", label: "CV", position: "left" },
         { to: "/resources", label: "Resource", position: "left" },
+        { to: "/navigator", label: "Navigator", position: "left" },
         {
           to: "/app",
           label: "App",

@@ -23,6 +23,10 @@
     "message": "资源",
     "description": "Navbar item with label Resource"
   },
+  "item.label.Navigator": {
+    "message": "网址导航",
+    "description": "Navbar item with label Navigator"
+  },
   "item.label.App": {
     "message": "应用",
     "description": "Navbar item with label App"

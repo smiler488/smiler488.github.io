@@ -96,6 +96,22 @@ const NavbarIcons = {
       <line x1="12" y1="22.08" x2="12" y2="12" />
     </svg>
   ),
+  Navigator: (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" />
+      <circle cx="12" cy="12" r="1" />
+    </svg>
+  ),
   App: (
     <svg
       width="20"
@@ -146,11 +162,16 @@ const NavbarIcons = {
 
 function getIconForLabel(label) {
   // Match label to icon — supports both English and Chinese locale labels
-  if (label === "Home" || label === "home" || label === "首页") return NavbarIcons.Home;
-  if (label === "Tutorial" || label === "tutorial" || label === "教程") return NavbarIcons.Tutorial;
-  if (label === "Blog" || label === "blog" || label === "博客") return NavbarIcons.Blog;
-  if (label === "Research" || label === "research" || label === "研究") return NavbarIcons.Research;
-  if (label === "CV" || label === "cv" || label === "简历") return NavbarIcons.CV;
+  if (label === "Home" || label === "home" || label === "首页")
+    return NavbarIcons.Home;
+  if (label === "Tutorial" || label === "tutorial" || label === "教程")
+    return NavbarIcons.Tutorial;
+  if (label === "Blog" || label === "blog" || label === "博客")
+    return NavbarIcons.Blog;
+  if (label === "Research" || label === "research" || label === "研究")
+    return NavbarIcons.Research;
+  if (label === "CV" || label === "cv" || label === "简历")
+    return NavbarIcons.CV;
   if (
     label === "Resource" ||
     label === "resource" ||
@@ -159,8 +180,12 @@ function getIconForLabel(label) {
     label === "资源"
   )
     return NavbarIcons.Resources;
-  if (label === "App" || label === "app" || label === "应用") return NavbarIcons.App;
-  if (label === "mPicks" || label === "mpicks" || label === "好物推荐") return NavbarIcons.mPicks;
+  if (label === "Navigator" || label === "navigator" || label === "网址导航")
+    return NavbarIcons.Navigator;
+  if (label === "App" || label === "app" || label === "应用")
+    return NavbarIcons.App;
+  if (label === "mPicks" || label === "mpicks" || label === "好物推荐")
+    return NavbarIcons.mPicks;
   if (label === "GitHub" || label === "github") return NavbarIcons.GitHub;
   return null;
 }

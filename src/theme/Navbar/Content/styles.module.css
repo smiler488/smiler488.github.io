@@ -9,6 +9,7 @@
 }
 
 .navbarSurface {
+  flex-wrap: nowrap;
   width: min(100%, 1440px);
   height: 48px;
   min-height: 48px;
@@ -206,7 +207,7 @@
   border-radius: 12px;
 }
 
-@media (max-width: 1180px) and (min-width: 997px) {
+@media (max-width: 1380px) and (min-width: 997px) {
   .primaryNav > a,
   .rightItems > a,
   .rightItems > :global(.navbar__item) > :global(.navbar__link) {
