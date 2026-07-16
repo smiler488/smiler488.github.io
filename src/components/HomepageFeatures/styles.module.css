@@ -385,7 +385,8 @@
 }
 
 .academicAction,
-.commercialAction {
+.commercialAction,
+.botAction {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -405,14 +406,16 @@
   box-shadow: 0 8px 18px rgba(16, 163, 127, 0.15);
 }
 
-.commercialAction {
+.commercialAction,
+.botAction {
   color: var(--ifm-color-emphasis-800);
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
 }
 
 .academicAction:hover,
-.commercialAction:hover {
+.commercialAction:hover,
+.botAction:hover {
   text-decoration: none;
   transform: translateY(-2px);
 }
@@ -423,7 +426,8 @@
   box-shadow: 0 12px 22px rgba(16, 163, 127, 0.24);
 }
 
-.commercialAction:hover {
+.commercialAction:hover,
+.botAction:hover {
   color: var(--ifm-color-primary);
   background: color-mix(in srgb, var(--ifm-color-primary) 5%, var(--ifm-background-surface-color));
   border-color: rgba(16, 163, 127, 0.28);
@@ -527,7 +531,8 @@
   .researchCard,
   .labCard,
   .collaborationCard,
-  .commercialAction {
+  .commercialAction,
+  .botAction {
     background: var(--ifm-background-surface-color);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -616,7 +621,8 @@
   .cardArrow,
   .labAction span,
   .academicAction,
-  .commercialAction {
+  .commercialAction,
+  .botAction {
     transition: none;
   }
 
@@ -624,6 +630,7 @@
   .labCard:hover,
   .academicAction:hover,
   .commercialAction:hover,
+  .botAction:hover,
   .researchCard:hover .researchVisual img,
   .researchCard:hover .cardArrow,
   .labCard:hover .labAction span {

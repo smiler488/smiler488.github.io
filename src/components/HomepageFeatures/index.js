@@ -75,6 +75,7 @@ const CONTENT = {
       "I welcome research exchange, open-source collaboration, and carefully scoped commercial projects.",
     academicAction: "Academic contact",
     commercialAction: "Commercial cooperation",
+    botAction: "WeChat Consulting Bot",
   },
   zh: {
     researchEyebrow: "研究方向",
@@ -145,6 +146,7 @@ const CONTENT = {
       "欢迎科研交流、开源协作，以及范围清晰、目标明确的商业合作。",
     academicAction: "学术联系",
     commercialAction: "商业合作",
+    botAction: "微信咨询机器人",
   },
 };
 
@@ -312,6 +314,15 @@ export default function HomepageFeatures() {
               to="mailto:dengliangchao@smiler488.com"
             >
               {copy.commercialAction}
+              <span aria-hidden="true">↗</span>
+            </Link>
+            <Link
+              className={styles.botAction}
+              to="https://work.weixin.qq.com/kfid/kfc63941027aeefc636"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.botAction}
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
