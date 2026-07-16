@@ -58,9 +58,7 @@
 
 .orbitOne,
 .orbitTwo {
-  position: absolute;
-  border: 1px solid rgba(10, 132, 255, 0.1);
-  border-radius: 50%;
+  display: none;
 }
 
 .orbitOne {
@@ -83,7 +81,7 @@
 .gridGlow {
   position: absolute;
   inset: 0;
-  opacity: 0.3;
+  opacity: 0.15;
   background-image: linear-gradient(
       rgba(10, 132, 255, 0.042) 1px,
       transparent 1px
@@ -111,16 +109,9 @@
   padding: clamp(2rem, 6vw, 5.25rem);
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: clamp(1.75rem, 4vw, 3rem);
-  background: linear-gradient(
-      125deg,
-      rgba(255, 255, 255, 0.42),
-      transparent 48%
-    ),
-    var(--glass-bg);
-  -webkit-backdrop-filter: blur(34px) saturate(170%);
-  backdrop-filter: blur(34px) saturate(170%);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  border-radius: var(--radius-2xl);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
 }
 
 :global(html[data-theme="dark"]) .hero {
@@ -507,16 +498,10 @@
   padding: clamp(1.2rem, 2.2vw, 1.65rem);
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: clamp(1.25rem, 2vw, 1.7rem);
+  border-radius: var(--radius-xl);
   color: inherit;
-  background: linear-gradient(
-      145deg,
-      rgba(var(--card-accent-rgb), 0.075),
-      transparent 40%
-    ),
-    color-mix(in srgb, var(--ifm-background-surface-color) 72%, transparent);
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 8px 24px rgba(0, 0, 0, 0.035);
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--shadow-glass);
   text-decoration: none;
   transform: translateZ(0);
   transition: transform 220ms var(--ease-smooth), border-color 220ms ease,
@@ -549,25 +534,15 @@
 }
 
 .appCard::before {
-  content: "";
-  position: absolute;
-  top: -6rem;
-  right: -6rem;
-  width: 13rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(var(--card-accent-rgb), 0.12);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2rem rgba(var(--card-accent-rgb), 0.025);
-  pointer-events: none;
+  display: none;
 }
 
 .appCard:hover {
-  border-color: rgba(var(--card-accent-rgb), 0.24);
+  border-color: rgba(var(--card-accent-rgb), 0.35);
   color: inherit;
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 18px 40px rgba(var(--card-accent-rgb), 0.1);
+  box-shadow: var(--shadow-glass-hover);
   text-decoration: none;
-  transform: translateY(-4px);
+  transform: translateY(-2.5px);
 }
 
 .appCard:focus-visible {

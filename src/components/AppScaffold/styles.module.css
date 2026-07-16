@@ -54,32 +54,11 @@
 }
 
 .ambientOrb {
-  position: absolute;
-  top: 4.5rem;
-  right: -8rem;
-  width: 25rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--app-accent-rgb), 0.16);
-  box-shadow: 0 0 0 3rem rgba(var(--app-accent-rgb), 0.035),
-    0 0 0 7rem rgba(var(--app-accent-rgb), 0.025);
+  display: none;
 }
 
 .ambientGrid {
-  position: absolute;
-  inset: 0;
-  opacity: 0.32;
-  background-image: linear-gradient(
-      rgba(var(--app-accent-rgb), 0.045) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(var(--app-accent-rgb), 0.045) 1px,
-      transparent 1px
-    );
-  background-size: 42px 42px;
-  mask-image: linear-gradient(to bottom, black, transparent 62%);
+  display: none;
 }
 
 .container {
@@ -139,29 +118,13 @@
   padding: clamp(1.35rem, 4vw, 2.75rem);
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: clamp(1.45rem, 3vw, 2.25rem);
-  background: linear-gradient(
-      135deg,
-      rgba(var(--app-accent-rgb), 0.12),
-      transparent 42%
-    ),
-    var(--glass-bg);
-  -webkit-backdrop-filter: blur(30px) saturate(165%);
-  backdrop-filter: blur(30px) saturate(165%);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  border-radius: var(--radius-2xl);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
 }
 
 .hero::after {
-  content: "";
-  position: absolute;
-  right: -5rem;
-  bottom: -8rem;
-  width: 19rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(var(--app-accent-rgb), 0.16);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2.4rem rgba(var(--app-accent-rgb), 0.035);
-  pointer-events: none;
+  display: none;
 }
 
 .heroCopy {
@@ -180,16 +143,10 @@
   width: clamp(3.55rem, 7vw, 4.8rem);
   aspect-ratio: 1;
   border: 1px solid rgba(var(--app-accent-rgb), 0.22);
-  border-radius: clamp(1rem, 2vw, 1.4rem);
+  border-radius: var(--radius-md);
   color: var(--app-accent);
-  background: linear-gradient(
-      145deg,
-      rgba(var(--app-accent-rgb), 0.17),
-      rgba(var(--app-accent-rgb), 0.05)
-    ),
-    var(--glass-bg);
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 12px 28px rgba(var(--app-accent-rgb), 0.12);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
   font-size: clamp(0.88rem, 2vw, 1.05rem);
   font-weight: 820;
   letter-spacing: -0.035em;
@@ -304,11 +261,9 @@
 .workspace :global(.card),
 .workspace :global(.app-card) {
   border-color: var(--glass-border) !important;
-  border-radius: 1.35rem !important;
+  border-radius: var(--radius-xl) !important;
   background: var(--glass-bg) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(155%);
-  backdrop-filter: blur(22px) saturate(155%);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  box-shadow: var(--shadow-glass);
 }
 
 .workspace

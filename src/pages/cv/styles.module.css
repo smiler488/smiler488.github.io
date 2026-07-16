@@ -19,17 +19,7 @@
   overflow: clip;
   padding: clamp(2rem, 4vw, 4rem) 1.25rem 5rem;
   color: var(--cv-text);
-  background: radial-gradient(
-      circle at 9% 5%,
-      rgba(16, 163, 127, 0.08),
-      transparent 31rem
-    ),
-    radial-gradient(
-      circle at 94% 11%,
-      rgba(16, 163, 127, 0.03),
-      transparent 30rem
-    ),
-    linear-gradient(180deg, #f9f9f9 0%, #f5f5f5 48%, #f9f9f9 100%);
+  background: var(--ifm-background-color);
 }
 
 :global(html[data-theme="dark"]) .page {
@@ -47,41 +37,12 @@
   --cv-blue-soft: rgba(16, 163, 127, 0.12);
   --cv-shadow: var(--shadow-glass);
 
-  background: radial-gradient(
-      circle at 8% 4%,
-      rgba(16, 163, 127, 0.12),
-      transparent 32rem
-    ),
-    radial-gradient(
-      circle at 96% 10%,
-      rgba(16, 163, 127, 0.05),
-      transparent 32rem
-    ),
-    linear-gradient(180deg, #171717 0%, #111111 52%, #171717 100%);
+  background: var(--ifm-background-color);
 }
 
 .ambientOne,
 .ambientTwo {
-  position: absolute;
-  z-index: -1;
-  width: 24rem;
-  height: 24rem;
-  pointer-events: none;
-  border-radius: 999px;
-  filter: blur(90px);
-  opacity: 0.2;
-}
-
-.ambientOne {
-  top: 22rem;
-  left: -12rem;
-  background: #0071e3;
-}
-
-.ambientTwo {
-  top: 68rem;
-  right: -13rem;
-  background: #8f5bff;
+  display: none;
 }
 
 .shell {
@@ -97,10 +58,8 @@
   padding: clamp(1.5rem, 4vw, 3.5rem);
   background: var(--cv-glass);
   border: 1px solid var(--cv-line);
-  border-radius: clamp(2rem, 4vw, 3rem);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--cv-shadow);
-  -webkit-backdrop-filter: blur(30px) saturate(165%);
-  backdrop-filter: blur(30px) saturate(165%);
 }
 
 .heroIdentity {
@@ -571,8 +530,7 @@
   min-width: 0;
   background: var(--cv-card);
   border: 1px solid var(--cv-line);
-  box-shadow: inset 0 1px 0 var(--cv-highlight),
-    0 12px 34px rgba(24, 31, 44, 0.05);
+  box-shadow: var(--cv-shadow);
 }
 
 .researchCard {
@@ -582,7 +540,7 @@
   min-height: 13.2rem;
   overflow: hidden;
   padding: 1.25rem;
-  border-radius: 1.45rem;
+  border-radius: var(--radius-xl);
   transition: background 180ms ease, border-color 180ms ease,
     box-shadow 180ms ease, transform 180ms ease;
 }
@@ -657,7 +615,7 @@
   margin-top: 1.25rem;
   overflow: hidden;
   padding: clamp(1.25rem, 3vw, 1.75rem);
-  border-radius: 1.65rem;
+  border-radius: var(--radius-xl);
 }
 
 .timelineCard::before {
@@ -800,7 +758,7 @@
 
 .skillCard {
   padding: 1rem;
-  border-radius: 1.2rem;
+  border-radius: var(--radius-md);
 }
 
 .skillHeader {
@@ -850,7 +808,7 @@
 .languageCard {
   margin-top: 0.65rem;
   padding: 1rem;
-  border-radius: 1.2rem;
+  border-radius: var(--radius-md);
 }
 
 .experienceGrid,
@@ -864,7 +822,7 @@
 .experienceCard,
 .outputCard {
   padding: clamp(1.25rem, 3vw, 1.75rem);
-  border-radius: 1.65rem;
+  border-radius: var(--radius-xl);
 }
 
 .experienceCard > .datePill {

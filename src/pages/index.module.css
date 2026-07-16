@@ -8,8 +8,8 @@
   color: var(--ifm-color-emphasis-900);
   background: linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
-    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.07), transparent 45%),
-    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.03), transparent 45%),
+    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.035), transparent 45%),
+    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.015), transparent 45%),
     var(--ifm-background-color);
   background-size: 40px 40px, 40px 40px, auto, auto, auto;
   border-bottom: 1px solid var(--glass-border);
@@ -99,11 +99,9 @@
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--ifm-background-surface-color);
   border: 1px solid var(--glass-border);
   border-radius: 999px;
-  -webkit-backdrop-filter: blur(10px) saturate(150%);
-  backdrop-filter: blur(10px) saturate(150%);
 }
 
 .actionRow {
@@ -136,8 +134,7 @@
   padding: 0.8rem 1.6rem;
   color: #fff !important;
   background: var(--ifm-color-primary);
-  box-shadow: 0 8px 18px rgba(16, 163, 127, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 4px rgba(16, 163, 127, 0.15);
 }
 
 .secondaryAction {
@@ -164,8 +161,7 @@
 
 .primaryAction:hover {
   background: var(--ifm-color-primary-dark);
-  box-shadow: 0 12px 22px rgba(16, 163, 127, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(16, 163, 127, 0.25);
 }
 
 .secondaryAction:hover {
@@ -211,8 +207,8 @@
 :global(html[data-theme="dark"]) .heroBanner {
   background: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.12), transparent 45%),
-    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.05), transparent 45%),
+    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.05), transparent 45%),
+    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.02), transparent 45%),
     var(--ifm-background-color);
   background-size: 40px 40px, 40px 40px, auto, auto, auto;
 }

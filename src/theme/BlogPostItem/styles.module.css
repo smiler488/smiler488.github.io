@@ -5,12 +5,9 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: 26px;
-  background: linear-gradient(155deg, var(--glass-highlight), transparent 34%),
-    var(--glass-bg);
+  border-radius: var(--radius-xl);
+  background: var(--glass-bg);
   box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-medium);
-  backdrop-filter: var(--glass-blur-medium);
   transition: transform 220ms var(--ease-smooth),
     border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
 }
@@ -18,12 +15,7 @@
 :global(html[data-theme="dark"]) .card,
 :global(html[data-theme="dark"]) .postHero,
 :global(html[data-theme="dark"]) .contentSurface {
-  background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.04),
-      transparent 36%
-    ),
-    var(--glass-bg);
+  background: var(--glass-bg);
 }
 
 .visualLink {
@@ -36,18 +28,8 @@
   overflow: hidden;
   margin: 0.5rem;
   border: 1px solid color-mix(in srgb, var(--glass-border), transparent 20%);
-  border-radius: 20px;
-  background: radial-gradient(
-      circle at 78% 18%,
-      rgba(16, 163, 127, 0.12),
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 18% 82%,
-      rgba(16, 163, 127, 0.05),
-      transparent 42%
-    ),
-    color-mix(in srgb, var(--ifm-background-surface-color), transparent 10%);
+  border-radius: var(--radius-md);
+  background: var(--ifm-background-surface-color);
 }
 
 .visual::after {
@@ -95,22 +77,7 @@
 
 .orbitOne,
 .orbitTwo {
-  position: absolute;
-  border: 1px solid
-    color-mix(in srgb, var(--ifm-color-primary), transparent 40%);
-  border-radius: 999px;
-}
-
-.orbitOne {
-  width: 42%;
-  aspect-ratio: 1;
-  transform: translate(-36%, -20%);
-}
-
-.orbitTwo {
-  width: 28%;
-  aspect-ratio: 1;
-  transform: translate(68%, 52%);
+  display: none;
 }
 
 .visualLabel {
@@ -482,7 +449,7 @@
   .card:hover {
     border-color: color-mix(in srgb, var(--ifm-color-primary), transparent 62%);
     box-shadow: var(--shadow-glass-hover);
-    transform: translateY(-5px);
+    transform: translateY(-2.5px);
   }
 
   .card:hover .visual img {
@@ -494,9 +461,7 @@
   .card,
   .postHero,
   .contentSurface {
-    border-radius: 22px;
-    -webkit-backdrop-filter: var(--glass-blur-light);
-    backdrop-filter: var(--glass-blur-light);
+    border-radius: var(--radius-xl);
   }
 
   .cardDescription {
