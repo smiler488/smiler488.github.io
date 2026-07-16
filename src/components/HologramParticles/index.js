@@ -73,6 +73,7 @@ export default function HologramParticles({
   cameraControls = true,
   cloudImage,
   obstacleSelector = "[data-particle-obstacle]",
+  onEasterEggTrigger,
 }) {
   const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
@@ -92,11 +93,11 @@ export default function HologramParticles({
   const isInViewRef = React.useRef(true);
   const onStatusChangeRef = React.useRef(onStatusChange);
   const onHandDetectRef = React.useRef(onHandDetect);
+  const onEasterEggTriggerRef = React.useRef(onEasterEggTrigger);
   const [cameraState, setCameraState] = React.useState("idle");
   const [statusKey, setStatusKey] = React.useState("pointerReady");
   const [reducedMotion, setReducedMotion] = React.useState(false);
   const [fieldMode, setFieldMode] = React.useState("disperse");
-  const [showLoveEasterEgg, setShowLoveEasterEgg] = React.useState(false);
   const copy = React.useMemo(
     () => ({ ...DEFAULT_LABELS, ...labels }),
     [labels]
@@ -110,6 +111,10 @@ export default function HologramParticles({
   React.useEffect(() => {
     onHandDetectRef.current = onHandDetect;
   }, [onHandDetect]);
+
+  React.useEffect(() => {
+    onEasterEggTriggerRef.current = onEasterEggTrigger;
+  }, [onEasterEggTrigger]);
 
   React.useEffect(() => {
     mountedRef.current = true;
@@ -495,10 +500,11 @@ export default function HologramParticles({
         event.clientY <= rect.bottom;
 
       if (isInside) {
-        setShowLoveEasterEgg(true);
-        setTimeout(() => {
+        if (onEasterEggTriggerRef.current) {
+          onEasterEggTriggerRef.current();
+        } else {
           window.location.href = "https://tangbonnie.github.io";
-        }, 1600);
+        }
       }
     };
 
@@ -1212,21 +1218,6 @@ export default function HologramParticles({
         >
           <span className={styles.pointerHintIcon} />
           {copy.pointerHint}
-        </div>
-      )}
-
-      {showLoveEasterEgg && (
-        <div className={styles.easterEggOverlay} data-particle-obstacle>
-          <div className={styles.easterEggCard}>
-            <div className={styles.easterEggHearts}>
-              ❤️ ✨ 💖 ✨ ❤️
-            </div>
-            <p className={styles.easterEggText}>
-              {isChinese
-                ? "正在穿梭前往 Bonnie 的空间..."
-                : "Traversing to Bonnie's Space..."}
-            </p>
-          </div>
         </div>
       )}
     </div>

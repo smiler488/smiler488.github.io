@@ -43,6 +43,14 @@ function HomepageHeader() {
   const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? HOME_COPY.zh : HOME_COPY.en;
+  const [showLoveEasterEgg, setShowLoveEasterEgg] = React.useState(false);
+
+  const handleEasterEggTrigger = () => {
+    setShowLoveEasterEgg(true);
+    setTimeout(() => {
+      window.location.href = "https://tangbonnie.github.io";
+    }, 1600);
+  };
 
   return (
     <header className={styles.heroBanner} data-particle-stage>
@@ -53,6 +61,7 @@ function HomepageHeader() {
           cameraControls={false}
           obstacleSelector="[data-particle-obstacle]"
           style={{ width: "100%", height: "100%" }}
+          onEasterEggTrigger={handleEasterEggTrigger}
         />
       </div>
 
@@ -93,6 +102,21 @@ function HomepageHeader() {
           {copy.availability}
         </p>
       </div>
+
+      {showLoveEasterEgg && (
+        <div className={styles.easterEggOverlay} data-particle-obstacle>
+          <div className={styles.easterEggCard}>
+            <div className={styles.easterEggHearts}>
+              ❤️ ✨ 💖 ✨ ❤️
+            </div>
+            <p className={styles.easterEggText}>
+              {isChinese
+                ? "正在穿梭前往 Bonnie 的空间..."
+                : "Traversing to Bonnie's Space..."}
+            </p>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
