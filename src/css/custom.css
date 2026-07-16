@@ -4,36 +4,36 @@
 
 /* 基础变量设置 - 科技风格设计 */
 :root {
-  /* Apple blue is used sparingly for focus and primary actions. */
-  --ifm-color-primary: #0071e3;
-  --ifm-color-primary-dark: #0064c8;
-  --ifm-color-primary-darker: #005bb5;
-  --ifm-color-primary-darkest: #004785;
-  --ifm-color-primary-light: #1683ef;
-  --ifm-color-primary-lighter: #409cff;
-  --ifm-color-primary-lightest: #e8f3ff;
+  /* ChatGPT signature brand green & slate colors */
+  --ifm-color-primary: #10a37f;
+  --ifm-color-primary-dark: #0d8a6a;
+  --ifm-color-primary-darker: #0a6f55;
+  --ifm-color-primary-darkest: #085440;
+  --ifm-color-primary-light: #12be94;
+  --ifm-color-primary-lighter: #17dcae;
+  --ifm-color-primary-lightest: #e2f9f3;
 
   /* 背景颜色 */
-  --ifm-background-color: #f5f5f7;
+  --ifm-background-color: #f9f9f9;
   --ifm-background-surface-color: #ffffff;
 
   /* 文本颜色 */
-  --ifm-color-emphasis-900: #111111;
-  --ifm-color-emphasis-800: #222222;
-  --ifm-color-emphasis-700: #333333;
-  --ifm-color-emphasis-600: #444444;
-  --ifm-color-emphasis-500: #666666;
-  --ifm-color-emphasis-400: #888888;
-  --ifm-color-emphasis-300: #aaaaaa;
-  --ifm-color-emphasis-200: #cccccc;
-  --ifm-color-emphasis-100: #eeeeee;
+  --ifm-color-emphasis-900: #0f172a;
+  --ifm-color-emphasis-800: #1e293b;
+  --ifm-color-emphasis-700: #334155;
+  --ifm-color-emphasis-600: #475569;
+  --ifm-color-emphasis-500: #64748b;
+  --ifm-color-emphasis-400: #94a3b8;
+  --ifm-color-emphasis-300: #cbd5e1;
+  --ifm-color-emphasis-200: #e2e8f0;
+  --ifm-color-emphasis-100: #f1f5f9;
   --ifm-color-emphasis-0: #ffffff;
 
   /* 边框和阴影 */
-  --ifm-border-color: rgba(0, 0, 0, 0.1);
-  --ifm-global-shadow-lw: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --ifm-global-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --ifm-global-shadow-tl: 0 8px 30px rgba(0, 0, 0, 0.1);
+  --ifm-border-color: rgba(0, 0, 0, 0.08);
+  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.04);
 
   /* 字体设置 */
   --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -128,46 +128,46 @@
 
 /* 深色模式 - 科技风格深色主题 */
 html[data-theme='dark'] {
-  --ifm-color-primary: #2997ff;
-  --ifm-color-primary-dark: #1789f3;
-  --ifm-color-primary-darker: #087ee9;
-  --ifm-color-primary-darkest: #0066bd;
-  --ifm-color-primary-light: #55adff;
-  --ifm-color-primary-lighter: #79beff;
-  --ifm-color-primary-lightest: #d6ebff;
+  --ifm-color-primary: #10a37f;
+  --ifm-color-primary-dark: #0d8a6a;
+  --ifm-color-primary-darker: #0a6f55;
+  --ifm-color-primary-darkest: #085440;
+  --ifm-color-primary-light: #2ac09b;
+  --ifm-color-primary-lighter: #4ee2bd;
+  --ifm-color-primary-lightest: #a2eed9;
 
-  --ifm-background-color: #000000;
-  --ifm-background-surface-color: #1c1c1e;
+  --ifm-background-color: #171717;
+  --ifm-background-surface-color: #212121;
 
-  --ifm-color-emphasis-900: #f5f5f5;
-  --ifm-color-emphasis-800: #eeeeee;
-  --ifm-color-emphasis-700: #dddddd;
-  --ifm-color-emphasis-600: #cccccc;
-  --ifm-color-emphasis-500: #aaaaaa;
-  --ifm-color-emphasis-400: #888888;
-  --ifm-color-emphasis-300: #666666;
-  --ifm-color-emphasis-200: #444444;
-  --ifm-color-emphasis-100: #333333;
-  --ifm-color-emphasis-0: #222222;
+  --ifm-color-emphasis-900: #f8fafc;
+  --ifm-color-emphasis-800: #f1f5f9;
+  --ifm-color-emphasis-700: #e2e8f0;
+  --ifm-color-emphasis-600: #cbd5e1;
+  --ifm-color-emphasis-500: #94a3b8;
+  --ifm-color-emphasis-400: #64748b;
+  --ifm-color-emphasis-300: #475569;
+  --ifm-color-emphasis-200: #334155;
+  --ifm-color-emphasis-100: #1e293b;
+  --ifm-color-emphasis-0: #0f172a;
 
-  --ifm-border-color: #333333;
-  --ifm-global-shadow-lw: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --ifm-global-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --ifm-global-shadow-tl: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --ifm-border-color: rgba(255, 255, 255, 0.08);
+  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  --ifm-pre-background: #2a2a2a;
-  --ifm-pre-color: #eeeeee;
-  --docusaurus-highlighted-code-line-bg: rgba(170, 170, 170, 0.15);
+  --ifm-pre-background: #1e1e1e;
+  --ifm-pre-color: #f8fafc;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
 
-  --ifm-navbar-background-color: rgba(22, 22, 23, 0.72);
+  --ifm-navbar-background-color: rgba(23, 23, 23, 0.72);
   --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-  --ifm-navbar-link-color: #e2e8f0;
-  --ifm-navbar-link-hover-color: #8f8f93;
+  --ifm-navbar-link-color: #cbd5e1;
+  --ifm-navbar-link-hover-color: #f1f5f9;
 
-  --doc-sidebar-background: rgba(15, 23, 42, 0.94);
-  --doc-sidebar-border: rgba(148, 163, 184, 0.25);
-  --doc-sidebar-link-color: #e2e8f0;
-  --doc-sidebar-active-bg: rgba(148, 163, 184, 0.2);
+  --doc-sidebar-background: rgba(23, 23, 23, 0.72);
+  --doc-sidebar-border: rgba(255, 255, 255, 0.08);
+  --doc-sidebar-link-color: #cbd5e1;
+  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
 
   --ifm-footer-background-color: #101010;
   --ifm-footer-color: #cbd5e1;
@@ -253,19 +253,32 @@ html[data-theme='dark'] body {
 
 /* Navbar improvements with Glassmorphism */
 .navbar {
-  /* 玻璃态导航栏 - 由JS动态控制模糊 */
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
   border-bottom: 1px solid var(--glass-border);
-  background-color: var(--ifm-navbar-background-color) !important;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+  background-color: color-mix(in srgb, var(--ifm-background-color) 45%, transparent) !important;
+  box-shadow: none;
   transition: backdrop-filter 0.3s var(--ease-smooth),
+              background-color 0.3s var(--ease-smooth),
               box-shadow 0.3s var(--ease-smooth);
 }
 
-html[data-theme='dark'] .navbar {
+.navbar.navbar--scrolled {
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   background-color: var(--ifm-navbar-background-color) !important;
+  box-shadow: var(--ifm-global-shadow-md);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+html[data-theme='dark'] .navbar {
+  background-color: color-mix(in srgb, var(--ifm-background-color) 45%, transparent) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme='dark'] .navbar.navbar--scrolled {
+  background-color: var(--ifm-navbar-background-color) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .navbar__inner,
@@ -1482,59 +1495,68 @@ html {
 .alert {
   border-radius: 12px;
   box-shadow: var(--ifm-global-shadow-lw);
-  border: none;
+  border: 1px solid var(--glass-border);
   margin-bottom: 1.5rem;
+  padding: 1.1rem 1.25rem;
 }
 
 .alert--info {
-  background-color: var(--ifm-color-info-contrast-background);
-  border-left: 5px solid var(--ifm-color-info);
+  background-color: color-mix(in srgb, var(--ifm-color-primary) 7%, var(--ifm-background-surface-color));
+  border-left: 4px solid var(--ifm-color-primary);
 }
 
 .alert--success {
-  background-color: var(--ifm-color-success-contrast-background);
-  border-left: 5px solid var(--ifm-color-success);
+  background-color: color-mix(in srgb, #10a37f 7%, var(--ifm-background-surface-color));
+  border-left: 4px solid #10a37f;
 }
 
 .alert--warning {
-  background-color: var(--ifm-color-warning-contrast-background);
-  border-left: 5px solid var(--ifm-color-warning);
+  background-color: color-mix(in srgb, #f59e0b 7%, var(--ifm-background-surface-color));
+  border-left: 4px solid #f59e0b;
 }
 
 .alert--danger {
-  background-color: var(--ifm-color-danger-contrast-background);
-  border-left: 5px solid var(--ifm-color-danger);
+  background-color: color-mix(in srgb, #ef4444 7%, var(--ifm-background-surface-color));
+  border-left: 4px solid #ef4444;
 }
 
 /* 4. 代码块 */
-.theme-doc-markdown pre {
+.theme-doc-markdown pre,
+.markdown pre {
   border-radius: 12px;
+  border: 1px solid var(--glass-border) !important;
+  background-color: var(--ifm-pre-background) !important;
   box-shadow: var(--ifm-global-shadow-lw);
 }
 
 /* 5. 分页导航 (Next/Prev) */
 .pagination-nav__link {
-  border-radius: 12px;
-  border: 1px solid var(--ifm-border-color);
-  transition: all 0.2s ease;
-  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  backdrop-filter: var(--glass-blur-light);
+  box-shadow: var(--shadow-glass);
+  transition: all 0.25s var(--ease-smooth);
+  padding: 1.1rem;
 }
 
 .pagination-nav__link:hover {
-  border-color: var(--ifm-color-primary);
-  box-shadow: var(--ifm-global-shadow-md);
+  border-color: rgba(16, 163, 127, 0.28) !important;
+  box-shadow: var(--shadow-glass-hover);
   transform: translateY(-2px);
 }
 
 .pagination-nav__sublabel {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   opacity: 0.7;
   margin-bottom: 0.25rem;
 }
 
 .pagination-nav__label {
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   font-weight: 700;
+  color: var(--ifm-color-primary);
 }
 
 /* 6. 表格样式 */
@@ -1547,20 +1569,21 @@ html {
   overflow: hidden;
   box-shadow: var(--ifm-global-shadow-lw);
   margin: 1.5rem 0;
-  border: 1px solid var(--ifm-border-color);
+  border: 1px solid var(--glass-border) !important;
+  background: var(--ifm-background-surface-color);
 }
 
 .theme-doc-markdown th,
 .theme-doc-markdown td {
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: none;
-  border-bottom: 1px solid var(--ifm-border-color);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .theme-doc-markdown th {
-  background: var(--ifm-background-surface-color);
-  font-weight: 600;
-  color: var(--ifm-color-emphasis-800);
+  background: color-mix(in srgb, var(--ifm-color-primary) 3%, var(--ifm-background-surface-color));
+  font-weight: 680;
+  color: var(--ifm-color-emphasis-900);
 }
 
 .theme-doc-markdown tr:last-child td {

@@ -20,10 +20,10 @@
 :global(html[data-theme="dark"]) .contentSurface {
   background: linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.04),
       transparent 36%
     ),
-    rgba(28, 28, 30, 0.86);
+    var(--glass-bg);
 }
 
 .visualLink {
@@ -39,12 +39,12 @@
   border-radius: 20px;
   background: radial-gradient(
       circle at 78% 18%,
-      rgba(0, 113, 227, 0.24),
+      rgba(16, 163, 127, 0.12),
       transparent 38%
     ),
     radial-gradient(
       circle at 18% 82%,
-      rgba(175, 82, 222, 0.18),
+      rgba(16, 163, 127, 0.05),
       transparent 42%
     ),
     color-mix(in srgb, var(--ifm-background-surface-color), transparent 10%);
@@ -271,7 +271,7 @@
   width: 30rem;
   height: 30rem;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(0, 113, 227, 0.24), transparent 70%);
+  background: radial-gradient(circle, rgba(16, 163, 127, 0.14), transparent 70%);
   pointer-events: none;
 }
 

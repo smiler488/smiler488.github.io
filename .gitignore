@@ -21,3 +21,5 @@ yarn-error.log*
 build/
 
 .codeartsdoer
+.claude/
+.playwright-mcp/

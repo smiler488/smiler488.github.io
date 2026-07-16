@@ -44,7 +44,7 @@
 :global(html[data-theme="dark"]) .mobileToc,
 :global(html[data-theme="dark"]) .paginatorSurface,
 :global(html[data-theme="dark"]) .commentSurface {
-  background: rgba(28, 28, 30, 0.86);
+  background: var(--glass-bg);
 }
 
 .tocSurface {

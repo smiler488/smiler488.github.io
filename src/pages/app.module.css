@@ -1,8 +1,8 @@
 .page {
-  --lab-ink: #172033;
-  --lab-muted: #5f6c80;
-  --lab-blue: #0a84ff;
-  --lab-blue-rgb: 10, 132, 255;
+  --lab-ink: var(--ifm-color-emphasis-900);
+  --lab-muted: var(--ifm-color-emphasis-600);
+  --lab-blue: #10a37f;
+  --lab-blue-rgb: 16, 163, 127;
 
   position: relative;
   isolation: isolate;
@@ -11,39 +11,39 @@
   padding: clamp(1rem, 3vw, 2.5rem) clamp(0.65rem, 2.5vw, 1.5rem) 4.5rem;
   background: radial-gradient(
       circle at 14% 2%,
-      rgba(10, 132, 255, 0.13),
+      rgba(16, 163, 127, 0.12),
       transparent 31rem
     ),
     radial-gradient(
       circle at 88% 18%,
-      rgba(94, 92, 230, 0.1),
+      rgba(16, 163, 127, 0.05),
       transparent 30rem
     ),
     radial-gradient(
       circle at 50% 72%,
-      rgba(48, 209, 88, 0.055),
+      rgba(16, 163, 127, 0.03),
       transparent 34rem
     ),
     var(--ifm-background-color);
 }
 
 :global(html[data-theme="dark"]) .page {
-  --lab-ink: #f4f7fb;
-  --lab-muted: #a9b4c7;
+  --lab-ink: var(--ifm-color-emphasis-900);
+  --lab-muted: var(--ifm-color-emphasis-600);
 
   background: radial-gradient(
       circle at 14% 2%,
-      rgba(10, 132, 255, 0.18),
+      rgba(16, 163, 127, 0.15),
       transparent 32rem
     ),
     radial-gradient(
       circle at 88% 18%,
-      rgba(94, 92, 230, 0.14),
+      rgba(16, 163, 127, 0.06),
       transparent 30rem
     ),
     radial-gradient(
       circle at 50% 72%,
-      rgba(48, 209, 88, 0.065),
+      rgba(16, 163, 127, 0.04),
       transparent 34rem
     ),
     var(--ifm-background-color);

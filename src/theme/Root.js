@@ -15,18 +15,10 @@ export default function Root({children}) {
     const updateNavbar = () => {
       const scrollY = window.scrollY;
 
-      // 根据滚动距离动态调整模糊和透明度
-      if (scrollY > 50) {
-        // 滚动后增强玻璃效果
-        navbar.style.backdropFilter = 'blur(20px) saturate(180%)';
-        navbar.style.webkitBackdropFilter = 'blur(20px) saturate(180%)';
-        navbar.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.08)';
+      if (scrollY > 20) {
+        navbar.classList.add('navbar--scrolled');
       } else {
-        // 顶部时的轻微模糊
-        const blurAmount = Math.min(20, scrollY / 2.5);
-        navbar.style.backdropFilter = `blur(${blurAmount}px)`;
-        navbar.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
-        navbar.style.boxShadow = `0 1px ${scrollY / 10}px rgba(0, 0, 0, 0.05)`;
+        navbar.classList.remove('navbar--scrolled');
       }
 
       lastScrollY = scrollY;

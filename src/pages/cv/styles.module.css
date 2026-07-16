@@ -1,18 +1,17 @@
 .page {
-  --cv-text: #1d1d1f;
-  --cv-muted: #5d5d66;
-  --cv-subtle: #767680;
-  --cv-line: rgba(15, 23, 42, 0.1);
-  --cv-glass: rgba(255, 255, 255, 0.7);
-  --cv-glass-strong: rgba(255, 255, 255, 0.88);
-  --cv-card: rgba(255, 255, 255, 0.74);
-  --cv-card-hover: rgba(255, 255, 255, 0.9);
-  --cv-input: rgba(248, 248, 250, 0.82);
-  --cv-highlight: rgba(255, 255, 255, 0.92);
-  --cv-blue: #0071e3;
-  --cv-blue-soft: rgba(0, 113, 227, 0.1);
-  --cv-shadow: 0 28px 80px rgba(25, 31, 44, 0.1),
-    0 4px 18px rgba(25, 31, 44, 0.05), inset 0 1px 0 var(--cv-highlight);
+  --cv-text: var(--ifm-color-emphasis-900);
+  --cv-muted: var(--ifm-color-emphasis-600);
+  --cv-subtle: var(--ifm-color-emphasis-500);
+  --cv-line: var(--glass-border);
+  --cv-glass: var(--glass-bg);
+  --cv-glass-strong: var(--ifm-background-surface-color);
+  --cv-card: var(--glass-bg);
+  --cv-card-hover: var(--glass-highlight);
+  --cv-input: var(--ifm-background-surface-color);
+  --cv-highlight: var(--glass-highlight);
+  --cv-blue: #10a37f;
+  --cv-blue-soft: rgba(16, 163, 127, 0.08);
+  --cv-shadow: var(--shadow-glass);
 
   position: relative;
   isolation: isolate;
@@ -22,44 +21,43 @@
   color: var(--cv-text);
   background: radial-gradient(
       circle at 9% 5%,
-      rgba(78, 164, 255, 0.16),
+      rgba(16, 163, 127, 0.08),
       transparent 31rem
     ),
     radial-gradient(
       circle at 94% 11%,
-      rgba(166, 102, 255, 0.13),
+      rgba(16, 163, 127, 0.03),
       transparent 30rem
     ),
-    linear-gradient(180deg, #f7f8fb 0%, #f3f4f7 48%, #f7f7f9 100%);
+    linear-gradient(180deg, #f9f9f9 0%, #f5f5f5 48%, #f9f9f9 100%);
 }
 
 :global(html[data-theme="dark"]) .page {
-  --cv-text: #f5f5f7;
-  --cv-muted: #b8b8c1;
-  --cv-subtle: #9696a0;
-  --cv-line: rgba(255, 255, 255, 0.12);
-  --cv-glass: rgba(29, 29, 32, 0.67);
-  --cv-glass-strong: rgba(36, 36, 40, 0.9);
-  --cv-card: rgba(31, 31, 35, 0.78);
-  --cv-card-hover: rgba(39, 39, 44, 0.94);
-  --cv-input: rgba(44, 44, 48, 0.72);
-  --cv-highlight: rgba(255, 255, 255, 0.1);
-  --cv-blue: #64a9ff;
-  --cv-blue-soft: rgba(57, 143, 255, 0.15);
-  --cv-shadow: 0 30px 90px rgba(0, 0, 0, 0.34), 0 4px 20px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 var(--cv-highlight);
+  --cv-text: var(--ifm-color-emphasis-900);
+  --cv-muted: var(--ifm-color-emphasis-600);
+  --cv-subtle: var(--ifm-color-emphasis-500);
+  --cv-line: var(--glass-border);
+  --cv-glass: var(--glass-bg);
+  --cv-glass-strong: var(--ifm-background-surface-color);
+  --cv-card: var(--glass-bg);
+  --cv-card-hover: var(--glass-highlight);
+  --cv-input: var(--ifm-background-surface-color);
+  --cv-highlight: var(--glass-highlight);
+  --cv-blue: #10a37f;
+  --cv-blue-soft: rgba(16, 163, 127, 0.12);
+  --cv-shadow: var(--shadow-glass);
 
   background: radial-gradient(
       circle at 8% 4%,
-      rgba(0, 113, 227, 0.17),
+      rgba(16, 163, 127, 0.12),
       transparent 32rem
     ),
     radial-gradient(
       circle at 96% 10%,
-      rgba(128, 74, 255, 0.15),
+      rgba(16, 163, 127, 0.05),
       transparent 32rem
     ),
-    linear-gradient(180deg, #090a0d 0%, #050608 52%, #08090c 100%);
+    linear-gradient(180deg, #171717 0%, #111111 52%, #171717 100%);
 }
 
 .ambientOne,

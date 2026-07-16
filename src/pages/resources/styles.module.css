@@ -1,16 +1,15 @@
 .page {
-  --resource-text: #1d1d1f;
-  --resource-muted: #5c5c63;
-  --resource-subtle: #72727a;
-  --resource-line: rgba(15, 23, 42, 0.1);
-  --resource-glass: rgba(255, 255, 255, 0.68);
-  --resource-glass-strong: rgba(255, 255, 255, 0.84);
-  --resource-card: rgba(255, 255, 255, 0.76);
-  --resource-input: rgba(255, 255, 255, 0.78);
-  --resource-highlight: rgba(255, 255, 255, 0.9);
-  --resource-blue: #0071e3;
-  --resource-shadow: 0 24px 70px rgba(25, 31, 44, 0.09),
-    0 4px 18px rgba(25, 31, 44, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --resource-text: var(--ifm-color-emphasis-900);
+  --resource-muted: var(--ifm-color-emphasis-600);
+  --resource-subtle: var(--ifm-color-emphasis-500);
+  --resource-line: var(--glass-border);
+  --resource-glass: var(--glass-bg);
+  --resource-glass-strong: var(--ifm-background-surface-color);
+  --resource-card: var(--glass-bg);
+  --resource-input: var(--ifm-background-surface-color);
+  --resource-highlight: var(--glass-highlight);
+  --resource-blue: #10a37f;
+  --resource-shadow: var(--shadow-glass);
 
   position: relative;
   isolation: isolate;
@@ -21,18 +20,17 @@
 }
 
 :global(html[data-theme="dark"]) .page {
-  --resource-text: #f5f5f7;
-  --resource-muted: #b8b8c0;
-  --resource-subtle: #9898a2;
-  --resource-line: rgba(255, 255, 255, 0.12);
-  --resource-glass: rgba(28, 28, 30, 0.66);
-  --resource-glass-strong: rgba(36, 36, 39, 0.88);
-  --resource-card: rgba(31, 31, 35, 0.8);
-  --resource-input: rgba(44, 44, 48, 0.82);
-  --resource-highlight: rgba(255, 255, 255, 0.16);
-  --resource-blue: #64b5ff;
-  --resource-shadow: 0 24px 80px rgba(0, 0, 0, 0.42),
-    0 4px 18px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --resource-text: var(--ifm-color-emphasis-900);
+  --resource-muted: var(--ifm-color-emphasis-600);
+  --resource-subtle: var(--ifm-color-emphasis-500);
+  --resource-line: var(--glass-border);
+  --resource-glass: var(--glass-bg);
+  --resource-glass-strong: var(--ifm-background-surface-color);
+  --resource-card: var(--glass-bg);
+  --resource-input: var(--ifm-background-surface-color);
+  --resource-highlight: var(--glass-highlight);
+  --resource-blue: #10a37f;
+  --resource-shadow: var(--shadow-glass);
 }
 
 .ambientOne,
@@ -49,7 +47,7 @@
 .ambientOne {
   top: -15rem;
   left: -15rem;
-  background: radial-gradient(circle, rgba(0, 113, 227, 0.18), transparent 68%);
+  background: radial-gradient(circle, rgba(16, 163, 127, 0.12), transparent 68%);
 }
 
 .ambientTwo {
@@ -57,7 +55,7 @@
   right: -18rem;
   background: radial-gradient(
     circle,
-    rgba(175, 82, 222, 0.14),
+    rgba(16, 163, 127, 0.05),
     transparent 68%
   );
 }
