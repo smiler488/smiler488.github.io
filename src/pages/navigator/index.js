@@ -191,7 +191,8 @@ function CategoryIcon({ categoryId }) {
   }
 }
 
-function LinkCard({ item, category, copy }) {
+function LinkCard({ item, category, copy, isChinese }) {
+  const title = localize(item.title, isChinese);
   const domain = getDomain(item.url);
 
   return (
@@ -201,13 +202,13 @@ function LinkCard({ item, category, copy }) {
         to={item.url}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${item.title} — ${copy.opensNewTab}`}
+        aria-label={`${title} — ${copy.opensNewTab}`}
       >
         <span className={styles.siteMark} aria-hidden="true">
           {getSiteMark(domain)}
         </span>
         <span className={styles.linkIdentity}>
-          <span className={styles.linkTitle}>{item.title}</span>
+          <span className={styles.linkTitle}>{title}</span>
           <span className={styles.linkDomain}>{domain}</span>
         </span>
         <span className={styles.linkArrow} aria-hidden="true">
@@ -265,7 +266,8 @@ export default function NavigatorPage() {
         (entry) => entry.id === item.category
       );
       const searchText = [
-        item.title,
+        item.title.en,
+        item.title.zh,
         getDomain(item.url),
         localize(categoryItem.label, isChinese),
         localize(categoryItem.description, isChinese),
@@ -564,6 +566,7 @@ export default function NavigatorPage() {
                             item={item}
                             category={group.category}
                             copy={copy}
+                            isChinese={isChinese}
                           />
                         ))}
                       </ul>
