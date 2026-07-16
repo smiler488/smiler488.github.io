@@ -20,22 +20,15 @@ const NAV_LINKS = [
 const CONTACT_LINKS = [
   {
     type: "academic",
-    labelEn: "googalphdlc@gmail.com",
-    labelZh: "googalphdlc@gmail.com",
-    href: "mailto:googalphdlc@gmail.com",
+    email: "googalphdlc@gmail.com",
   },
   {
     type: "collaboration",
-    labelEn: "dengliangchao@smiler488.com",
-    labelZh: "dengliangchao@smiler488.com",
-    href: "mailto:dengliangchao@smiler488.com",
+    email: "dengliangchao@smiler488.com",
   },
   {
     type: "assistant",
-    labelEn: "WeChat Support Bot ↗",
-    labelZh: "微信咨询机器人 ↗",
-    href: "https://work.weixin.qq.com/kfid/kfc63941027aeefc636",
-    isExternal: true,
+    email: "smiler488@agent.qq.com",
   },
 ];
 
@@ -218,14 +211,10 @@ export default function SiteFooter() {
             </Heading>
             <ul className={styles.contactList}>
               {CONTACT_LINKS.map((contact) => (
-                <li key={contact.type}>
-                  <Link
-                    href={contact.href}
-                    target={contact.isExternal ? "_blank" : "_self"}
-                    rel={contact.isExternal ? "noopener noreferrer" : undefined}
-                  >
+                <li key={contact.email}>
+                  <Link href={`mailto:${contact.email}`} target="_self">
                     <span>{copy[contact.type]}</span>
-                    <strong>{isChinese ? contact.labelZh : contact.labelEn}</strong>
+                    <strong>{contact.email}</strong>
                   </Link>
                 </li>
               ))}

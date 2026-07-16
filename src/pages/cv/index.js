@@ -157,11 +157,11 @@ export default function CurriculumVitaePage() {
       href: `mailto:${cvIdentity.businessEmail}`,
     },
     {
-      mark: "WX",
+      mark: "AS",
       label: copy.contacts.assistant,
       hint: copy.contacts.assistantHint,
-      value: isChinese ? "微信咨询机器人 ↗" : "WeChat Support Bot ↗",
-      href: "https://work.weixin.qq.com/kfid/kfc63941027aeefc636",
+      value: cvIdentity.assistantEmail,
+      href: `mailto:${cvIdentity.assistantEmail}`,
     },
     {
       mark: "SZ",

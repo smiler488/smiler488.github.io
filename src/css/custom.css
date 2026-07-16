@@ -1680,3 +1680,71 @@ html {
 .breadcrumbs__item {
   font-size: 0.9rem;
 }
+
+/* WeChat Support Floating Button */
+.wechat-float-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none !important;
+}
+
+.wechat-float-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 35%, var(--glass-border));
+  color: var(--ifm-color-primary);
+  box-shadow: 0 10px 24px rgba(16, 163, 127, 0.15), var(--shadow-glass);
+}
+
+.wechat-float-btn-tooltip {
+  position: absolute;
+  right: 68px;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.wechat-float-btn:hover .wechat-float-btn-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .wechat-float-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 46px;
+    height: 46px;
+  }
+  .wechat-float-btn-tooltip {
+    display: none;
+  }
+}
+
