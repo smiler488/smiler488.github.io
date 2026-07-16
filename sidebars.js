@@ -39,7 +39,11 @@ const sidebars = {
     {
       type: "category",
       label: "Research Workflows",
-      items: ["tutorial-apps/custom-harvard-with-journal-abbr"],
+      items: [
+        "tutorial-apps/custom-harvard-with-journal-abbr",
+        "tutorial-apps/skill-creator-publish",
+        "tutorial-apps/pptx-zh2en",
+      ],
     },
   ],
 };
