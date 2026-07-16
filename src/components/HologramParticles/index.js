@@ -602,8 +602,8 @@ export default function HologramParticles({
 
       if (preferStatic) {
         candidates.push(
-          { x: canvasWidth * 0.82, y: canvasHeight * 0.35 },
-          { x: canvasWidth * 0.18, y: canvasHeight * 0.34 }
+          { x: canvasWidth * 0.15, y: canvasHeight * 0.55 },
+          { x: canvasWidth * 0.85, y: canvasHeight * 0.30 }
         );
       }
       for (let index = 0; index < 36; index += 1) {
@@ -796,7 +796,7 @@ export default function HologramParticles({
         sampleContext.font = `800 ${size}px "SF Pro Display", "Inter", system-ui, sans-serif`;
       };
 
-      // 让文字避开 hero 卡片等障碍物：在文字水平带内找最宽的空闲区间
+      // 让文字避开 hero 卡片等障碍物：优先放在障碍物上方的空白区域，居中显示
       const layoutText = () => {
         const obstacles = getObstacleRects();
         const fontCap = Math.min(canvasWidth * 0.18, 220);
@@ -804,58 +804,26 @@ export default function HologramParticles({
         const widthPerFontPx =
           sampleContext.measureText(displayText).width / 100;
 
-        const findWidestGap = (bandTop, bandBottom) => {
-          const margin = 30;
-          const blockers = obstacles
-            .filter((rect) => rect.bottom > bandTop && rect.top < bandBottom)
-            .map((rect) => [rect.left - margin, rect.right + margin])
-            .sort((a, b) => a[0] - b[0]);
-          let cursor = 0;
-          let best = null;
-          const consider = (start, end) => {
-            if (end - start > (best ? best[1] - best[0] : 0))
-              best = [start, end];
-          };
-          blockers.forEach(([start, end]) => {
-            if (start > cursor) consider(cursor, Math.min(start, canvasWidth));
-            cursor = Math.max(cursor, end);
-          });
-          if (cursor < canvasWidth) consider(cursor, canvasWidth);
-          return best || [0, canvasWidth];
-        };
+        // 找出最靠上的障碍物顶部边界，文字应放在其上方
+        const topMostObstacle = obstacles.length
+          ? Math.min(...obstacles.map((r) => r.top))
+          : canvasHeight;
 
-        // 在若干候选高度上扫描，选出能容纳最大字号的空闲区间
-        const preferredY = canvasHeight * 0.29;
-        let best = null;
-        for (let ratio = 0.16; ratio <= 0.62; ratio += 0.03) {
-          const candidateY = canvasHeight * ratio;
-          // 先用一个粗略字号估计文字带的厚度，再用区间宽度收敛
-          let size = fontCap;
-          for (let pass = 0; pass < 2; pass += 1) {
-            const band = findWidestGap(
-              candidateY - size * 0.55,
-              candidateY + size * 0.55
-            );
-            size = Math.min(
-              fontCap,
-              ((band[1] - band[0]) * 0.92) / widthPerFontPx
-            );
-          }
-          const band = findWidestGap(
-            candidateY - size * 0.55,
-            candidateY + size * 0.55
-          );
-          const score =
-            size -
-            (Math.abs(candidateY - preferredY) / canvasHeight) * fontCap * 0.35;
-          if (!best || score > best.score) {
-            best = { score, fontSize: size, band, textY: candidateY };
-          }
-        }
+        // 文字可用的垂直区域：从画布顶部到最靠上障碍物之间
+        const availableTop = 0;
+        const availableBottom = Math.max(topMostObstacle - 20, canvasHeight * 0.35);
 
-        const fontSize = Math.max(best.fontSize, 26);
-        const centerX = (best.band[0] + best.band[1]) / 2;
-        return { fontSize, centerX, textY: best.textY };
+        // 在可用区域内计算最大字号（使用全画布宽度）
+        const usableWidth = canvasWidth * 0.92;
+        const maxFontByWidth = usableWidth / widthPerFontPx;
+        const maxFontByHeight = (availableBottom - availableTop) * 0.7;
+        const fontSize = Math.max(Math.min(fontCap, maxFontByWidth, maxFontByHeight), 26);
+
+        // 将文字垂直居中放置在可用区域的中心偏上位置
+        const textY = availableTop + (availableBottom - availableTop) * 0.45;
+        const centerX = canvasWidth / 2;
+
+        return { fontSize, centerX, textY };
       };
 
       const { fontSize, centerX, textY } = layoutText();
