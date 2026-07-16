@@ -97,13 +97,12 @@
   overflow: hidden;
   color: var(--ifm-color-emphasis-900);
   text-decoration: none;
-  background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+  background: var(--glass-card-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 28px;
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08),
-    inset 0 1px 0 var(--glass-highlight);
-  -webkit-backdrop-filter: blur(22px) saturate(155%);
-  backdrop-filter: blur(22px) saturate(155%);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   transition: transform 260ms var(--ease-smooth),
     box-shadow 260ms ease, border-color 260ms ease;
 }
@@ -367,13 +366,12 @@
       rgba(16, 163, 127, 0.08),
       transparent 38%
     ),
-    color-mix(in srgb, var(--glass-bg) 90%, transparent);
+    var(--glass-card-bg);
   border: 1px solid var(--glass-border);
-  border-radius: clamp(28px, 4vw, 40px);
-  box-shadow: 0 28px 76px rgba(15, 23, 42, 0.11),
-    inset 0 1px 0 var(--glass-highlight);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  backdrop-filter: blur(28px) saturate(160%);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .collaborationCard .eyebrow {

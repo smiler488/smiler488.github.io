@@ -76,12 +76,12 @@
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: stretch;
   padding: clamp(1.5rem, 4vw, 3.5rem);
-  background: var(--cv-glass);
-  border: 1px solid var(--cv-line);
-  border-radius: clamp(2rem, 4vw, 3rem);
-  box-shadow: var(--cv-shadow);
-  -webkit-backdrop-filter: blur(30px) saturate(165%);
-  backdrop-filter: blur(30px) saturate(165%);
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .heroIdentity {
@@ -550,10 +550,11 @@
 .skillCard,
 .languageCard {
   min-width: 0;
-  background: var(--cv-card);
-  border: 1px solid var(--cv-line);
-  box-shadow: inset 0 1px 0 var(--cv-highlight),
-    0 12px 34px rgba(24, 31, 44, 0.05);
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .researchCard {
@@ -563,7 +564,7 @@
   min-height: 13.2rem;
   overflow: hidden;
   padding: 1.25rem;
-  border-radius: 1.45rem;
+  border-radius: var(--card-radius);
   transition: background 180ms ease, border-color 180ms ease,
     box-shadow 180ms ease, transform 180ms ease;
 }
@@ -638,7 +639,7 @@
   margin-top: 1.25rem;
   overflow: hidden;
   padding: clamp(1.25rem, 3vw, 1.75rem);
-  border-radius: 1.65rem;
+  border-radius: var(--card-radius);
 }
 
 .timelineCard::before {
@@ -781,7 +782,7 @@
 
 .skillCard {
   padding: 1rem;
-  border-radius: 1.2rem;
+  border-radius: var(--card-radius);
 }
 
 .skillHeader {
@@ -831,7 +832,7 @@
 .languageCard {
   margin-top: 0.65rem;
   padding: 1rem;
-  border-radius: 1.2rem;
+  border-radius: var(--card-radius);
 }
 
 .experienceGrid,
@@ -845,7 +846,7 @@
 .experienceCard,
 .outputCard {
   padding: clamp(1.25rem, 3vw, 1.75rem);
-  border-radius: 1.65rem;
+  border-radius: var(--card-radius);
 }
 
 .experienceCard > .datePill {

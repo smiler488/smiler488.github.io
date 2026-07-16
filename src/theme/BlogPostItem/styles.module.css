@@ -5,12 +5,11 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: 26px;
-  background: linear-gradient(155deg, var(--glass-highlight), transparent 34%),
-    var(--glass-bg);
+  border-radius: var(--card-radius);
+  background: var(--glass-card-bg);
   box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-medium);
-  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   transition: transform 220ms var(--ease-smooth),
     border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
 }
@@ -18,12 +17,7 @@
 :global(html[data-theme="dark"]) .card,
 :global(html[data-theme="dark"]) .postHero,
 :global(html[data-theme="dark"]) .contentSurface {
-  background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.04),
-      transparent 36%
-    ),
-    var(--glass-bg);
+  background: var(--glass-card-bg);
 }
 
 .visualLink {
@@ -494,7 +488,7 @@
   .card,
   .postHero,
   .contentSurface {
-    border-radius: 22px;
+    border-radius: var(--card-radius);
     -webkit-backdrop-filter: var(--glass-blur-light);
     backdrop-filter: var(--glass-blur-light);
   }

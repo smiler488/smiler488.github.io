@@ -100,6 +100,8 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-2xl: 32px;
+  --card-radius: 24px;
+  --glass-card-bg: linear-gradient(135deg, var(--glass-highlight), transparent 50%), var(--glass-bg);
 
   /* 增强阴影层次 */
   --shadow-glass:
