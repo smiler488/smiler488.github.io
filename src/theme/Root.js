@@ -1,33 +1,10 @@
 import React from "react";
 import Link from "@docusaurus/Link";
-import { useLocation } from "@docusaurus/router";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 export default function Root({ children }) {
-  const { i18n, siteConfig } = useDocusaurusContext();
+  const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
-  const baiduId = siteConfig.customFields?.baiduAnalyticsId;
-  const { pathname } = useLocation();
-
-  // Baidu Analytics: load once, then report each client-side route change.
-  // Without the manual push, an SPA only ever reports its first page.
-  React.useEffect(() => {
-    if (!baiduId) return;
-    window._hmt = window._hmt || [];
-    if (!document.getElementById("baidu-hm")) {
-      const script = document.createElement("script");
-      script.id = "baidu-hm";
-      script.async = true;
-      script.src = `https://hm.baidu.com/hm.js?${baiduId}`;
-      document.head.appendChild(script);
-    }
-  }, [baiduId]);
-
-  React.useEffect(() => {
-    if (!baiduId) return;
-    window._hmt = window._hmt || [];
-    window._hmt.push(["_trackPageview", pathname]);
-  }, [baiduId, pathname]);
 
   // 导航栏滚动动态模糊效果
   React.useEffect(() => {

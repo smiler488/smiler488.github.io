@@ -1,12 +1,5 @@
 import { themes as prismThemes } from "prism-react-renderer";
 
-// Analytics IDs are public identifiers — they are visible in page source, so
-// they are not secrets. Leave a value empty and that tracker is not injected
-// at all. GA4 covers international traffic; Baidu covers mainland China, where
-// the Google script is frequently unreachable.
-const GA4_ID = process.env.GA4_ID || ""; // e.g. "G-XXXXXXXXXX"
-const BAIDU_ID = process.env.BAIDU_ID || ""; // 32-char hash from 百度统计
-
 const config = {
   staticDirectories: ["static"],
   scripts: [],
@@ -15,8 +8,6 @@ const config = {
     // still be enforced with Row Level Security in Supabase.
     supabaseUrl: process.env.SUPABASE_URL || null,
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY || null,
-    baiduAnalyticsId: BAIDU_ID || null,
-    ga4Configured: Boolean(GA4_ID),
     svgConfig: {
       comic1: "compress_comic1",
       comic2: "compress_comic2",
@@ -48,9 +39,8 @@ const config = {
       },
     ],
   ],
-  // GA4 and Baidu Analytics load only when their IDs are set above. The
-  // footer's third-party visitor map image runs in an opaque sandbox. All
-  // active trackers are disclosed at /privacy.
+  // No first-party analytics plugin is enabled. The footer's third-party
+  // visitor map image runs in an opaque sandbox and is disclosed at /privacy.
   plugins: [],
 
   organizationName: "smiler488",
@@ -99,7 +89,6 @@ const config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
-        ...(GA4_ID ? { gtag: { trackingID: GA4_ID, anonymizeIP: true } } : {}),
         sitemap: {
           // Demo and utility routes should not be advertised to crawlers.
           ignorePatterns: [
