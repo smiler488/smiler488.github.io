@@ -1,14 +1,37 @@
-import React from 'react';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from "react";
+import Link from "@docusaurus/Link";
+import { useLocation } from "@docusaurus/router";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
-export default function Root({children}) {
-  const { i18n } = useDocusaurusContext();
-  const isChinese = i18n.currentLocale === 'zh-Hans';
+export default function Root({ children }) {
+  const { i18n, siteConfig } = useDocusaurusContext();
+  const isChinese = i18n.currentLocale === "zh-Hans";
+  const baiduId = siteConfig.customFields?.baiduAnalyticsId;
+  const { pathname } = useLocation();
+
+  // Baidu Analytics: load once, then report each client-side route change.
+  // Without the manual push, an SPA only ever reports its first page.
+  React.useEffect(() => {
+    if (!baiduId) return;
+    window._hmt = window._hmt || [];
+    if (!document.getElementById("baidu-hm")) {
+      const script = document.createElement("script");
+      script.id = "baidu-hm";
+      script.async = true;
+      script.src = `https://hm.baidu.com/hm.js?${baiduId}`;
+      document.head.appendChild(script);
+    }
+  }, [baiduId]);
+
+  React.useEffect(() => {
+    if (!baiduId) return;
+    window._hmt = window._hmt || [];
+    window._hmt.push(["_trackPageview", pathname]);
+  }, [baiduId, pathname]);
 
   // 导航栏滚动动态模糊效果
   React.useEffect(() => {
-    const navbar = document.querySelector('.navbar');
+    const navbar = document.querySelector(".navbar");
     if (!navbar) return;
 
     let lastScrollY = window.scrollY;
@@ -18,9 +41,9 @@ export default function Root({children}) {
       const scrollY = window.scrollY;
 
       if (scrollY > 20) {
-        navbar.classList.add('navbar--scrolled');
+        navbar.classList.add("navbar--scrolled");
       } else {
-        navbar.classList.remove('navbar--scrolled');
+        navbar.classList.remove("navbar--scrolled");
       }
 
       lastScrollY = scrollY;
@@ -37,11 +60,11 @@ export default function Root({children}) {
     // 初始设置
     updateNavbar();
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const WECHAT_URL = 'https://work.weixin.qq.com/kfid/kfc63941027aeefc636';
+  const WECHAT_URL = "https://work.weixin.qq.com/kfid/kfc63941027aeefc636";
 
   return (
     <>
@@ -51,13 +74,13 @@ export default function Root({children}) {
         <div className="wechat-float-qr" role="tooltip">
           <img
             src="/img/wechat-qr.png"
-            alt={isChinese ? '微信客服二维码' : 'WeChat QR Code'}
+            alt={isChinese ? "微信客服二维码" : "WeChat QR Code"}
             width="112"
             height="112"
             loading="lazy"
           />
           <p className="wechat-float-qr-hint">
-            {isChinese ? '微信扫码咨询' : 'Scan to chat on WeChat'}
+            {isChinese ? "微信扫码咨询" : "Scan to chat on WeChat"}
           </p>
           <Link
             className="wechat-float-qr-link"
@@ -65,7 +88,7 @@ export default function Root({children}) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {isChinese ? '或点击直接联系 →' : 'or click to contact →'}
+            {isChinese ? "或点击直接联系 →" : "or click to contact →"}
           </Link>
         </div>
 
@@ -75,7 +98,7 @@ export default function Root({children}) {
           to={WECHAT_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={isChinese ? '微信客服' : 'WeChat Support'}
+          aria-label={isChinese ? "微信客服" : "WeChat Support"}
         >
           <svg
             className="wechat-float-btn-icon"

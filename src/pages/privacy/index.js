@@ -54,6 +54,15 @@ const COPY = {
     localFirstTitle: "Local-first tools remain a separate boundary",
     localFirstText:
       "Many research tools process data locally in the browser, while optional AI features send data only to a provider chosen by the user. Those tool-specific boundaries are described in their interfaces and tutorials. “Local-first” does not mean that the surrounding page makes no third-party request: the footer visitor map is the disclosed exception.",
+    analyticsTitle: "Site analytics providers",
+    analyticsIntro:
+      "In addition to the visitor map, the following analytics scripts load on every page. Each is listed only while it is actually configured and running on this site.",
+    analyticsGa4:
+      "Google Analytics 4 — measures page views, referrers, and search terms for traffic outside mainland China. IP anonymisation is enabled, and the data is processed by Google under its own policy.",
+    analyticsBaidu:
+      "Baidu Analytics (百度统计) — measures the same signals for mainland China, where the Google script is often unreachable. The data is processed by Baidu under its own policy.",
+    analyticsNote:
+      "Both are aggregate traffic measurement, not advertising or cross-site profiling. Browser content blocking, tracker blocking, or DNS filtering prevents either script from loading, and the site works normally without them.",
     cookiesTitle: "Session identifiers and browser controls",
     cookiesText:
       "The provider states that it does not use cross-site tracking cookies, although service responses may attempt to set a technical session identifier. Whether it is accepted depends on browser and third-party cookie settings. Browser content blocking or DNS filtering can prevent the MapMyVisitors image request, in which case the map may show an error.",
@@ -113,6 +122,15 @@ const COPY = {
     localFirstTitle: "本地优先工具具有独立的数据边界",
     localFirstText:
       "许多科研工具会在浏览器本地处理数据；可选 AI 功能仅向用户自行选择的服务商发送数据，具体边界会在相应界面和教程中说明。“本地优先”并不代表页面完全没有第三方请求：底栏访客地图是这里明确披露的例外。",
+    analyticsTitle: "网站统计服务",
+    analyticsIntro:
+      "除访客地图外，以下统计脚本会在每个页面加载。此处仅列出本站当前确实已配置并运行的服务。",
+    analyticsGa4:
+      "Google Analytics 4 —— 统计页面浏览、来源与搜索词，主要覆盖中国大陆以外的访问。已启用 IP 匿名化，数据由 Google 依其自身政策处理。",
+    analyticsBaidu:
+      "百度统计 —— 统计相同指标，覆盖中国大陆访问（Google 脚本在境内常不可达）。数据由百度依其自身政策处理。",
+    analyticsNote:
+      "两者均用于聚合流量统计，不用于广告投放或跨站画像。浏览器的内容拦截、追踪拦截或 DNS 过滤会阻止脚本加载，本站在没有它们时功能不受影响。",
     cookiesTitle: "会话标识与浏览器控制",
     cookiesText:
       "服务方声明不会使用跨站跟踪 Cookie，但服务响应仍可能尝试设置技术性会话标识；是否接受取决于浏览器和第三方 Cookie 设置。浏览器内容拦截或 DNS 过滤可以阻止 MapMyVisitors 图片请求，此时地图可能显示加载失败。",
@@ -141,9 +159,13 @@ function SummaryItem({ item }) {
 }
 
 export default function PrivacyPage() {
-  const { i18n } = useDocusaurusContext();
+  const { i18n, siteConfig } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? COPY.zh : COPY.en;
+  // Only disclose a tracker while it is actually configured, so this notice
+  // always matches what the site really loads.
+  const hasGa4 = Boolean(siteConfig.customFields?.ga4Configured);
+  const hasBaidu = Boolean(siteConfig.customFields?.baiduAnalyticsId);
 
   return (
     <Layout title={copy.pageTitle} description={copy.pageDescription}>
@@ -192,6 +214,18 @@ export default function PrivacyPage() {
             <Heading as="h2">{copy.localFirstTitle}</Heading>
             <p>{copy.localFirstText}</p>
           </article>
+
+          {(hasGa4 || hasBaidu) && (
+            <article className={`${styles.contentCard} ${styles.dataCard}`}>
+              <Heading as="h2">{copy.analyticsTitle}</Heading>
+              <p>{copy.analyticsIntro}</p>
+              <ul>
+                {hasGa4 && <li>{copy.analyticsGa4}</li>}
+                {hasBaidu && <li>{copy.analyticsBaidu}</li>}
+              </ul>
+              <p className={styles.note}>{copy.analyticsNote}</p>
+            </article>
+          )}
 
           <article className={styles.contentCard}>
             <Heading as="h2">{copy.cookiesTitle}</Heading>
