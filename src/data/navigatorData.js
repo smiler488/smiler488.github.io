@@ -664,8 +664,23 @@ export const navigatorLinks = [
     "build-ship"
   ),
   link("Google Analytics", "https://analytics.google.com/", "build-ship"),
+  link(
+    t("Google Search Console", "Google 搜索控制台"),
+    "https://search.google.com/search-console",
+    "build-ship"
+  ),
   link("Supabase", "https://supabase.com/dashboard", "build-ship"),
   link("Vercel", "https://vercel.com/dashboard", "build-ship"),
+  link(
+    t("Alibaba Cloud Console", "阿里云控制台"),
+    "https://console.aliyun.com/",
+    "build-ship"
+  ),
+  link(
+    t("Oracle Cloud Console", "Oracle 云控制台"),
+    "https://cloud.oracle.com/",
+    "build-ship"
+  ),
   link(
     t("WeChat Official Accounts", "微信公众平台"),
     "https://mp.weixin.qq.com/",
