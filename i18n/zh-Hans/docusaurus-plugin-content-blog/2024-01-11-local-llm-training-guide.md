@@ -5,8 +5,8 @@ description: "一套可维护的工作流：选择本地模型、用 Ollama 测�
 authors: [liangchao]
 tags: [artificial-intelligence, machine-learning, local-ai, reproducible-research]
 image: /img/blog-default.jpg
-category: "AI & machine learning"
-article_type: Technical guide
+category: "人工智能与机器学习"
+article_type: 技术指南
 ---
 
 当数据必须留在受控硬件上、当离线运行很重要、或者当实验需要固定的模型与软件栈时，本地大语言模型就有了用武之地。但它们并不天然更便宜、更快或更私密：这些结果取决于模型大小、硬件、网络设置，以及服务对外暴露的方式。
