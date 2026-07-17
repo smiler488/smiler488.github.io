@@ -3,8 +3,30 @@ import clsx from "clsx";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
-import { getAppById } from "../../data/appManifest";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { getAppById, localizeApp } from "../../data/appManifest";
 import styles from "./styles.module.css";
+
+const FALLBACK = {
+  en: {
+    title: "Research tool",
+    eyebrow: "Browser research tool",
+    runtime: "Browser research workspace",
+    back: "App Lab",
+    nav: "App Lab navigation",
+    capabilities: "Tool capabilities",
+    guide: "Guide",
+  },
+  zh: {
+    title: "科研工具",
+    eyebrow: "浏览器科研工具",
+    runtime: "浏览器科研工作台",
+    back: "应用实验室",
+    nav: "应用实验室导航",
+    capabilities: "工具能力",
+    guide: "教程",
+  },
+};
 
 export default function AppScaffold({
   appId,
@@ -19,18 +41,24 @@ export default function AppScaffold({
   children,
   className,
 }) {
+  const { i18n } = useDocusaurusContext();
+  const isChinese = i18n.currentLocale === "zh-Hans";
+  const t = isChinese ? FALLBACK.zh : FALLBACK.en;
+
   const app = appId ? getAppById(appId) : null;
-  const title = titleProp || app?.name || "Research tool";
-  const eyebrow = eyebrowProp || app?.categoryLabel || "Browser research tool";
-  const description = descriptionProp || app?.description;
+  const title = titleProp || localizeApp(app?.name, isChinese) || t.title;
+  const eyebrow =
+    eyebrowProp || localizeApp(app?.categoryLabel, isChinese) || t.eyebrow;
+  const description =
+    descriptionProp || localizeApp(app?.description, isChinese);
   const icon = iconProp || app?.icon || "LAB";
   const tone = toneProp || app?.tone || "blue";
-  const badges = badgesProp || app?.badges || [];
+  const badges = badgesProp || localizeApp(app?.badges, isChinese) || [];
   const tutorialHref = tutorialHrefProp || app?.tutorial;
-  const runtime = app?.runtime || "Browser research workspace";
-  const titleId = `app-title-${title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")}`;
+  const runtime = localizeApp(app?.runtime, isChinese) || t.runtime;
+  // Derive the id from the stable app id — a localized title would collapse
+  // into a string of dashes once it is no longer Latin script.
+  const titleId = `app-title-${appId || "tool"}`;
 
   return (
     <Layout title={title} description={description}>
@@ -41,10 +69,10 @@ export default function AppScaffold({
         </div>
 
         <div className={styles.container}>
-          <nav className={styles.contextBar} aria-label="App Lab navigation">
+          <nav className={styles.contextBar} aria-label={t.nav}>
             <Link className={styles.backLink} to="/app">
               <span aria-hidden="true">←</span>
-              <span>App Lab</span>
+              <span>{t.back}</span>
             </Link>
             <span className={styles.contextMeta}>
               <span className={styles.statusDot} aria-hidden="true" />
@@ -66,7 +94,7 @@ export default function AppScaffold({
                   <p className={styles.description}>{description}</p>
                 )}
                 {badges.length > 0 && (
-                  <ul className={styles.badges} aria-label="Tool capabilities">
+                  <ul className={styles.badges} aria-label={t.capabilities}>
                     {badges.map((badge) => (
                       <li key={badge}>{badge}</li>
                     ))}
@@ -79,7 +107,7 @@ export default function AppScaffold({
               <div className={styles.heroActions}>
                 {tutorialHref && (
                   <Link className={styles.guideLink} to={tutorialHref}>
-                    Guide <span aria-hidden="true">↗</span>
+                    {t.guide} <span aria-hidden="true">↗</span>
                   </Link>
                 )}
                 {actions}
