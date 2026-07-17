@@ -60,21 +60,31 @@ for (const name of docs) {
   const flag = (msg) => problems.push(`${name}: ${msg}`);
 
   if (!b) {
-    flag("frontmatter block is missing or malformed");
-    continue;
-  }
-
-  for (const key of IDENTICAL) {
-    if (a[key] === undefined) continue;
-    if (a[key] !== b[key]) {
-      flag(`${key} must stay identical — EN "${a[key]}" vs ZH "${b[key]}"`);
+    // If the source also has no frontmatter, this is a simple doc page
+    // (e.g. starts with a "#" heading); skip frontmatter checks and fall
+    // through to the code-fence and body-CJK checks below.
+    if (!a) {
+      // neither has frontmatter — nothing to compare, continue to fence/body checks
+    } else {
+      flag("frontmatter block is missing or malformed");
+      continue;
     }
   }
 
-  for (const key of TRANSLATE) {
-    if (a[key] === undefined) continue;
-    if (b[key] === undefined) flag(`${key} is missing`);
-    else if (!CJK.test(b[key])) flag(`${key} was left untranslated: "${b[key]}"`);
+  // Only run field-level checks when both source and target have frontmatter
+  if (a && b) {
+    for (const key of IDENTICAL) {
+      if (a[key] === undefined) continue;
+      if (a[key] !== b[key]) {
+        flag(`${key} must stay identical — EN "${a[key]}" vs ZH "${b[key]}"`);
+      }
+    }
+
+    for (const key of TRANSLATE) {
+      if (a[key] === undefined) continue;
+      if (b[key] === undefined) flag(`${key} is missing`);
+      else if (!CJK.test(b[key])) flag(`${key} was left untranslated: "${b[key]}"`);
+    }
   }
 
   const fences = (t) => (t.match(/^```/gm) || []).length;
