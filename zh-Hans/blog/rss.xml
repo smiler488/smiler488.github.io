@@ -872,107 +872,107 @@
             <category>Plant Phenotyping</category>
         </item>
         <item>
-            <title><![CDATA[Local LLMs: A Reproducible Guide to Running, Fine-Tuning, and Serving Models]]></title>
+            <title><![CDATA[本地大模型：运行、微调与部署的可复现指南]]></title>
             <link>https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en</link>
             <guid>https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en</guid>
             <pubDate>Thu, 11 Jan 2024 00:00:00 GMT</pubDate>
-            <description><![CDATA[A maintainable workflow for choosing a local model, testing it with Ollama, planning parameter-efficient fine-tuning, evaluating results, and exposing a service safely.]]></description>
-            <content:encoded><![CDATA[<p>Local large language models are useful when data must stay on controlled hardware, when offline operation matters, or when an experiment needs a fixed model and software stack. They are not automatically cheaper, faster, or more private: those outcomes depend on model size, hardware, network settings, and how the service is exposed.</p>
-<p>This guide separates three jobs that are often mixed together: <strong>running a model</strong>, <strong>adapting a model</strong>, and <strong>serving a model</strong>. Start with the smallest job that answers your research question.</p>
-<div class="theme-admonition theme-admonition-caution admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>Version-sensitive workflow</div><div class="admonitionContent_BuS1"><p>Model names, package APIs, CUDA builds, and hardware requirements change quickly. Record the model revision, package lockfile, operating system, driver, accelerator, prompt template, and test date for every reproducible experiment. Commands below are starting points, not universal production recipes.</p></div></div>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="choose-the-right-path">Choose the right path<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#choose-the-right-path" class="hash-link" aria-label="Choose the right path的直接链接" title="Choose the right path的直接链接" translate="no">​</a></h2>
-<table><thead><tr><th>Goal</th><th>Recommended starting point</th><th>Main risk</th></tr></thead><tbody><tr><td>Private interactive use</td><td>Run an existing quantized model locally</td><td>A model may still call networked tools or log prompts if configured to do so</td></tr><tr><td>Domain adaptation</td><td>LoRA or QLoRA on a curated dataset</td><td>Data leakage, memorization, and weak evaluation</td></tr><tr><td>Shared API</td><td>A dedicated inference server behind authentication</td><td>Unbounded cost, prompt abuse, and accidental public exposure</td></tr><tr><td>Pre-training from scratch</td><td>A separately designed research project</td><td>Very high compute, data governance, and evaluation burden</td></tr></tbody></table>
-<p>For most individual researchers, local inference plus retrieval or a small LoRA experiment is more appropriate than full-parameter training.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-run-a-model-locally-with-ollama">1. Run a model locally with Ollama<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#1-run-a-model-locally-with-ollama" class="hash-link" aria-label="1. Run a model locally with Ollama的直接链接" title="1. Run a model locally with Ollama的直接链接" translate="no">​</a></h2>
-<p>Ollama provides a straightforward local runtime on macOS, Linux, and Windows. Use the current installer from the <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer" class="">official download page</a>; on systems where the shell installer is supported:</p>
+            <description><![CDATA[一套可维护的工作流：选择本地模型、用 Ollama 测试、规划参数高效微调、评估结果，并安全地对外提供服务。]]></description>
+            <content:encoded><![CDATA[<p>当数据必须留在受控硬件上、当离线运行很重要、或者当实验需要固定的模型与软件栈时，本地大语言模型就有了用武之地。但它们并不天然更便宜、更快或更私密：这些结果取决于模型大小、硬件、网络设置，以及服务对外暴露的方式。</p>
+<p>本指南把三件常被混为一谈的事分开：<strong>运行模型</strong>、<strong>适配模型</strong>和<strong>部署模型</strong>。请从能回答你研究问题的最小那件事开始。</p>
+<div class="theme-admonition theme-admonition-caution admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>本工作流对版本敏感</div><div class="admonitionContent_BuS1"><p>模型名称、软件包 API、CUDA 构建和硬件要求变化很快。对每个需要复现的实验，请记录模型修订版本、依赖锁定文件、操作系统、驱动、加速器、提示词模板和测试日期。下面的命令是起点，不是放之四海皆准的生产配方。</p></div></div>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="选择合适的路径">选择合适的路径<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E8%B7%AF%E5%BE%84" class="hash-link" aria-label="选择合适的路径的直接链接" title="选择合适的路径的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>目标</th><th>推荐起点</th><th>主要风险</th></tr></thead><tbody><tr><td>私密的交互式使用</td><td>在本地运行现成的量化模型</td><td>如果配置如此，模型仍可能调用联网工具或记录提示词</td></tr><tr><td>领域适配</td><td>在精选数据集上做 LoRA 或 QLoRA</td><td>数据泄漏、记忆化，以及评估不充分</td></tr><tr><td>共享 API</td><td>置于认证之后的专用推理服务器</td><td>成本失控、提示词滥用，以及意外公开暴露</td></tr><tr><td>从零预训练</td><td>单独立项的研究项目</td><td>极高的算力、数据治理与评估负担</td></tr></tbody></table>
+<p>对多数独立研究者而言，本地推理加检索、或一个小规模 LoRA 实验，都比全参数训练更合适。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-用-ollama-在本地运行模型">1. 用 Ollama 在本地运行模型<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#1-%E7%94%A8-ollama-%E5%9C%A8%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%9E%8B" class="hash-link" aria-label="1. 用 Ollama 在本地运行模型的直接链接" title="1. 用 Ollama 在本地运行模型的直接链接" translate="no">​</a></h2>
+<p>Ollama 在 macOS、Linux 和 Windows 上提供了直观的本地运行时。请使用<a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer" class="">官方下载页</a>的最新安装程序；在支持 shell 安装脚本的系统上：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">curl -fsSL https://ollama.com/install.sh | sh</span><br></div></code></pre></div></div>
-<p>Browse the current model library, select a model that fits your memory budget, and replace <code>&lt;model-name&gt;</code> below:</p>
+<p>浏览当前的模型库，挑选符合你内存预算的模型，并替换下面的 <code>&lt;model-name&gt;</code>：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">ollama pull &lt;model-name&gt;</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">ollama run &lt;model-name&gt;</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">ollama list</span><br></div></code></pre></div></div>
-<p>Do not select a model only by parameter count. Check its license, context length, supported languages, quantization, tool-calling format, and intended use.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="test-the-local-api">Test the local API<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#test-the-local-api" class="hash-link" aria-label="Test the local API的直接链接" title="Test the local API的直接链接" translate="no">​</a></h3>
-<p>Keep the service bound to the local machine during development. A minimal non-streaming request is:</p>
+<p>不要只按参数量选模型。请检查它的许可证、上下文长度、支持语言、量化方式、工具调用格式和预期用途。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="测试本地-api">测试本地 API<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0-api" class="hash-link" aria-label="测试本地 API的直接链接" title="测试本地 API的直接链接" translate="no">​</a></h3>
+<p>开发期间请让服务只绑定到本机。一个最简的非流式请求如下：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">curl http://localhost:11434/api/chat -d '{</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  "model": "&lt;model-name&gt;",</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  "messages": [</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    {"role": "user", "content": "Explain canopy photosynthesis in three sentences."}</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  ],</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  "stream": false</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">}'</span><br></div></code></pre></div></div>
-<p>Confirm that the process works offline if offline operation is a requirement. A downloaded model does not prove that every surrounding integration is offline.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-check-hardware-before-adapting-a-model">2. Check hardware before adapting a model<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#2-check-hardware-before-adapting-a-model" class="hash-link" aria-label="2. Check hardware before adapting a model的直接链接" title="2. Check hardware before adapting a model的直接链接" translate="no">​</a></h2>
-<p>Memory demand varies with model architecture, precision, optimizer, sequence length, batch size, and whether activations or optimizer states are offloaded. Avoid a single “minimum GPU” claim.</p>
-<p>Use a small environment report instead:</p>
+<p>如果离线运行是硬性要求，请确认整个流程在离线状态下确实能工作。模型下载到本地，并不证明它周边的每一处集成都是离线的。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-适配模型之前先核对硬件">2. 适配模型之前，先核对硬件<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#2-%E9%80%82%E9%85%8D%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%89%8D%E5%85%88%E6%A0%B8%E5%AF%B9%E7%A1%AC%E4%BB%B6" class="hash-link" aria-label="2. 适配模型之前，先核对硬件的直接链接" title="2. 适配模型之前，先核对硬件的直接链接" translate="no">​</a></h2>
+<p>内存需求随模型架构、精度、优化器、序列长度、批大小，以及激活值或优化器状态是否卸载而变化。请避免给出单一的「最低 GPU 要求」结论。</p>
+<p>不如生成一份简短的环境报告：</p>
 <div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> json</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> platform</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">report </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">"platform"</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> platform</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">platform</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">"python"</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> platform</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">python_version</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">try</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> torch</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    report</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"torch"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> torch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">__version__</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    report</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"cuda_available"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> torch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">cuda</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">is_available</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> torch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">cuda</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">is_available</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        report</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"gpu"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> torch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">cuda</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">get_device_name</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">0</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        report</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"gpu_memory_gb"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token builtin">round</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">            torch</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">cuda</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">get_device_properties</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">0</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">total_memory </span><span class="token operator" style="color:#393A34">/</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">1024</span><span class="token operator" style="color:#393A34">**</span><span class="token number" style="color:#36acaa">3</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">            </span><span class="token number" style="color:#36acaa">1</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">except</span><span class="token plain"> ImportError</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    report</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"torch"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">None</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">json</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">dumps</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">report</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> indent</span><span class="token operator" style="color:#393A34">=</span><span class="token number" style="color:#36acaa">2</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
-<p>Install PyTorch using the selector on the official site so the build matches the operating system and accelerator. Do not copy a fixed CUDA wheel command onto Apple Silicon, CPU-only, or differently versioned CUDA systems.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-prepare-data-before-fine-tuning">3. Prepare data before fine-tuning<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#3-prepare-data-before-fine-tuning" class="hash-link" aria-label="3. Prepare data before fine-tuning的直接链接" title="3. Prepare data before fine-tuning的直接链接" translate="no">​</a></h2>
-<p>A fine-tuning dataset should be traceable, licensed for the intended use, and split before experimentation.</p>
+<p>请使用官网的选择器来安装 PyTorch，以便构建版本与操作系统和加速器匹配。不要把某个固定的 CUDA wheel 命令照抄到 Apple Silicon、纯 CPU，或 CUDA 版本不同的系统上。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-微调之前先准备数据">3. 微调之前先准备数据<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#3-%E5%BE%AE%E8%B0%83%E4%B9%8B%E5%89%8D%E5%85%88%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE" class="hash-link" aria-label="3. 微调之前先准备数据的直接链接" title="3. 微调之前先准备数据的直接链接" translate="no">​</a></h2>
+<p>微调数据集应当可追溯、其许可允许该用途，并且在开始实验前就完成切分。</p>
 <ol>
-<li class="">Define the task and a measurable success criterion.</li>
-<li class="">Remove personal, confidential, copyrighted, and duplicated material that is not authorized for training.</li>
-<li class="">Create train, validation, and test splits that prevent near-duplicate leakage.</li>
-<li class="">Format examples using the selected model's chat template rather than inventing a generic prompt format.</li>
-<li class="">Keep a dataset card with provenance, exclusions, transformations, and known biases.</li>
-<li class="">Inspect a sample of rendered prompts and labels before starting a long run.</li>
+<li class="">定义任务，以及可度量的成功标准。</li>
+<li class="">移除未经授权用于训练的个人信息、机密、受版权保护和重复的内容。</li>
+<li class="">建立训练、验证和测试集，避免近重复样本造成泄漏。</li>
+<li class="">使用所选模型的对话模板来组织样本，而不是自创一套通用提示格式。</li>
+<li class="">保留一份数据集卡片，记录来源、排除项、变换和已知偏差。</li>
+<li class="">在启动长时间训练前，先抽样检查渲染后的提示词与标签。</li>
 </ol>
-<p>For scientific work, split by the true unit of generalization. For example, specimens from the same plant, plot, site, or acquisition session should not be scattered across train and test sets when that would inflate performance.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-prefer-parameter-efficient-adaptation">4. Prefer parameter-efficient adaptation<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#4-prefer-parameter-efficient-adaptation" class="hash-link" aria-label="4. Prefer parameter-efficient adaptation的直接链接" title="4. Prefer parameter-efficient adaptation的直接链接" translate="no">​</a></h2>
-<p>LoRA and QLoRA update a small set of adapter parameters while keeping most base-model weights fixed. They generally reduce memory and storage requirements, but they do not guarantee better factuality or domain performance.</p>
-<p>Use the current official instructions for a maintained training framework such as <a href="https://github.com/unslothai/unsloth" target="_blank" rel="noopener noreferrer" class="">Unsloth</a> or <a href="https://github.com/OpenAccess-AI-Collective/axolotl" target="_blank" rel="noopener noreferrer" class="">Axolotl</a>, and pin a known-working environment:</p>
+<p>对科研工作而言，请按真正的泛化单元来切分。例如，来自同一株植物、同一小区、同一站点或同一次采集的样本，如果分散到训练集和测试集中会虚高性能，就不应这样切分。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-优先选择参数高效适配">4. 优先选择参数高效适配<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#4-%E4%BC%98%E5%85%88%E9%80%89%E6%8B%A9%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E9%80%82%E9%85%8D" class="hash-link" aria-label="4. 优先选择参数高效适配的直接链接" title="4. 优先选择参数高效适配的直接链接" translate="no">​</a></h2>
+<p>LoRA 和 QLoRA 只更新少量适配器参数，同时保持大部分基座权重不变。它们通常能降低内存和存储需求，但并不保证带来更好的事实性或领域表现。</p>
+<p>请参照 <a href="https://github.com/unslothai/unsloth" target="_blank" rel="noopener noreferrer" class="">Unsloth</a> 或 <a href="https://github.com/OpenAccess-AI-Collective/axolotl" target="_blank" rel="noopener noreferrer" class="">Axolotl</a> 这类持续维护的训练框架的最新官方说明，并固定一个已验证可用的环境：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">python -m venv .venv</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">source .venv/bin/activate</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">python -m pip install --upgrade pip</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">python -m pip freeze &gt; requirements-lock.txt</span><br></div></code></pre></div></div>
-<p>Your training record should include:</p>
+<p>你的训练记录应包含：</p>
 <ul>
-<li class="">base model and immutable revision;</li>
-<li class="">tokenizer and chat template;</li>
-<li class="">LoRA target modules, rank, alpha, and dropout;</li>
-<li class="">sequence length, effective batch size, optimizer, and learning rate;</li>
-<li class="">random seed and data split identifiers;</li>
-<li class="">checkpoint selection rule and evaluation results;</li>
-<li class="">wall time, accelerator type, and peak memory.</li>
+<li class="">基座模型及其不可变的修订版本；</li>
+<li class="">分词器与对话模板；</li>
+<li class="">LoRA 的目标模块、rank、alpha 和 dropout；</li>
+<li class="">序列长度、有效批大小、优化器和学习率；</li>
+<li class="">随机种子与数据切分标识；</li>
+<li class="">检查点选择规则与评估结果；</li>
+<li class="">墙钟时间、加速器型号和峰值内存。</li>
 </ul>
-<p>Full-parameter fine-tuning and pre-training require a separate capacity plan, distributed-training validation, and substantially stronger data governance. They are intentionally outside this introductory workflow.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="5-evaluate-the-behavior-that-matters">5. Evaluate the behavior that matters<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#5-evaluate-the-behavior-that-matters" class="hash-link" aria-label="5. Evaluate the behavior that matters的直接链接" title="5. Evaluate the behavior that matters的直接链接" translate="no">​</a></h2>
-<p>Training loss alone is not evidence of a useful model. Build an evaluation set before training and keep it unchanged while selecting checkpoints.</p>
-<table><thead><tr><th>Evaluation layer</th><th>Examples</th></tr></thead><tbody><tr><td>Task quality</td><td>Exact match, structured-output validity, domain rubric, retrieval faithfulness</td></tr><tr><td>Robustness</td><td>Paraphrases, missing context, conflicting evidence, long inputs</td></tr><tr><td>Safety</td><td>Sensitive-data recall, prompt injection, unsafe tool requests</td></tr><tr><td>Operations</td><td>Latency, throughput, peak memory, failure rate</td></tr><tr><td>Human review</td><td>Blinded pairwise preference with written criteria</td></tr></tbody></table>
-<p>Report uncertainty and failure cases. BLEU or perplexity can be informative for specific tasks, but neither is a general measure of correctness or helpfulness.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-serve-locally-before-serving-a-network">6. Serve locally before serving a network<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#6-serve-locally-before-serving-a-network" class="hash-link" aria-label="6. Serve locally before serving a network的直接链接" title="6. Serve locally before serving a network的直接链接" translate="no">​</a></h2>
-<p>For a single workstation, the runtime's local API is often enough. For higher-throughput GPU serving, consult the current <a href="https://docs.vllm.ai/en/latest/models/supported_models.html" target="_blank" rel="noopener noreferrer" class="">vLLM supported-model documentation</a> and its deployment guide.</p>
-<p>Before accepting remote requests, add at least:</p>
+<p>全参数微调和预训练需要单独的算力规划、分布式训练验证，以及强得多的数据治理。它们被有意排除在这份入门工作流之外。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="5-评估真正重要的行为">5. 评估真正重要的行为<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#5-%E8%AF%84%E4%BC%B0%E7%9C%9F%E6%AD%A3%E9%87%8D%E8%A6%81%E7%9A%84%E8%A1%8C%E4%B8%BA" class="hash-link" aria-label="5. 评估真正重要的行为的直接链接" title="5. 评估真正重要的行为的直接链接" translate="no">​</a></h2>
+<p>仅有训练损失，不能证明模型有用。请在训练前就构建评估集，并在选择检查点的过程中保持它不变。</p>
+<table><thead><tr><th>评估层面</th><th>示例</th></tr></thead><tbody><tr><td>任务质量</td><td>精确匹配、结构化输出有效性、领域评分表、检索忠实度</td></tr><tr><td>稳健性</td><td>复述改写、缺失上下文、证据冲突、超长输入</td></tr><tr><td>安全性</td><td>敏感数据召回、提示注入、不安全的工具调用请求</td></tr><tr><td>运行</td><td>延迟、吞吐、峰值内存、失败率</td></tr><tr><td>人工评审</td><td>带书面标准的盲测成对偏好比较</td></tr></tbody></table>
+<p>请报告不确定性和失败案例。BLEU 或困惑度对特定任务可能有参考价值，但两者都不是正确性或有用性的通用度量。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-先本地部署再考虑对网络提供服务">6. 先本地部署，再考虑对网络提供服务<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#6-%E5%85%88%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E5%86%8D%E8%80%83%E8%99%91%E5%AF%B9%E7%BD%91%E7%BB%9C%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1" class="hash-link" aria-label="6. 先本地部署，再考虑对网络提供服务的直接链接" title="6. 先本地部署，再考虑对网络提供服务的直接链接" translate="no">​</a></h2>
+<p>对单台工作站而言，运行时自带的本地 API 通常就够了。若需要更高吞吐的 GPU 服务，请查阅最新的 <a href="https://docs.vllm.ai/en/latest/models/supported_models.html" target="_blank" rel="noopener noreferrer" class="">vLLM 支持模型文档</a>及其部署指南。</p>
+<p>在接受远程请求之前，至少要加上：</p>
 <ul>
-<li class="">authentication and authorization;</li>
-<li class="">request-size, token, concurrency, and rate limits;</li>
-<li class="">explicit network binding and firewall rules;</li>
-<li class="">timeouts, cancellation, and back-pressure;</li>
-<li class="">structured logs that exclude prompts by default;</li>
-<li class="">model and prompt-template version reporting;</li>
-<li class="">health checks that distinguish “process alive” from “model ready”;</li>
-<li class="">abuse testing and a rollback plan.</li>
+<li class="">认证与授权；</li>
+<li class="">请求体大小、token、并发和速率限制；</li>
+<li class="">明确的网络绑定与防火墙规则；</li>
+<li class="">超时、取消与背压机制；</li>
+<li class="">默认不记录提示词的结构化日志；</li>
+<li class="">模型与提示词模板的版本上报；</li>
+<li class="">能区分「进程存活」与「模型就绪」的健康检查；</li>
+<li class="">滥用测试与回滚方案。</li>
 </ul>
-<p>Never expose an unauthenticated development server or a model dashboard directly to the public internet. A Gradio <code>share=True</code> tunnel is also a public endpoint, not a private local interface.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="troubleshooting-principles">Troubleshooting principles<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#troubleshooting-principles" class="hash-link" aria-label="Troubleshooting principles的直接链接" title="Troubleshooting principles的直接链接" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="out-of-memory">Out of memory<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#out-of-memory" class="hash-link" aria-label="Out of memory的直接链接" title="Out of memory的直接链接" translate="no">​</a></h3>
-<p>Reduce sequence length and batch size first. Then consider gradient accumulation, checkpointing, quantization, adapter training, or a smaller model. Record every change because it can alter quality and speed.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="package-or-cuda-mismatch">Package or CUDA mismatch<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#package-or-cuda-mismatch" class="hash-link" aria-label="Package or CUDA mismatch的直接链接" title="Package or CUDA mismatch的直接链接" translate="no">​</a></h3>
-<p>Create a clean environment and verify the driver, CUDA runtime, PyTorch build, and optional attention kernels independently. Optional acceleration libraries should not be installed until the basic model can load.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="training-loss-does-not-improve">Training loss does not improve<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#training-loss-does-not-improve" class="hash-link" aria-label="Training loss does not improve的直接链接" title="Training loss does not improve的直接链接" translate="no">​</a></h3>
-<p>Inspect rendered examples and labels, compare against a small overfitting test, verify the learning rate, and confirm that adapter parameters receive gradients. More steps cannot repair malformed data.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="good-benchmark-poor-real-use">Good benchmark, poor real use<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#good-benchmark-poor-real-use" class="hash-link" aria-label="Good benchmark, poor real use的直接链接" title="Good benchmark, poor real use的直接链接" translate="no">​</a></h3>
-<p>Check leakage, prompt-template differences, retrieval quality, and whether the test set represents the actual deployment population. Add examples from observed failures only to a new development set, not retroactively to the held-out test set.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="reproducibility-checklist">Reproducibility checklist<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#reproducibility-checklist" class="hash-link" aria-label="Reproducibility checklist的直接链接" title="Reproducibility checklist的直接链接" translate="no">​</a></h2>
+<p>绝不要把未认证的开发服务器或模型面板直接暴露到公网。Gradio 的 <code>share=True</code> 隧道同样是一个公开端点，而不是私有的本地界面。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="排障原则">排障原则<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E6%8E%92%E9%9A%9C%E5%8E%9F%E5%88%99" class="hash-link" aria-label="排障原则的直接链接" title="排障原则的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="显存不足">显存不足<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E6%98%BE%E5%AD%98%E4%B8%8D%E8%B6%B3" class="hash-link" aria-label="显存不足的直接链接" title="显存不足的直接链接" translate="no">​</a></h3>
+<p>先降低序列长度和批大小。然后再考虑梯度累积、梯度检查点、量化、适配器训练，或换用更小的模型。每一处改动都要记录，因为它们会改变质量和速度。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="软件包或-cuda-不匹配">软件包或 CUDA 不匹配<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E8%BD%AF%E4%BB%B6%E5%8C%85%E6%88%96-cuda-%E4%B8%8D%E5%8C%B9%E9%85%8D" class="hash-link" aria-label="软件包或 CUDA 不匹配的直接链接" title="软件包或 CUDA 不匹配的直接链接" translate="no">​</a></h3>
+<p>新建一个干净环境，分别独立验证驱动、CUDA 运行时、PyTorch 构建和可选的注意力内核。在基础模型能加载之前，不要安装可选的加速库。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="训练损失不下降">训练损失不下降<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E8%AE%AD%E7%BB%83%E6%8D%9F%E5%A4%B1%E4%B8%8D%E4%B8%8B%E9%99%8D" class="hash-link" aria-label="训练损失不下降的直接链接" title="训练损失不下降的直接链接" translate="no">​</a></h3>
+<p>检查渲染后的样本与标签，与一个小规模的过拟合测试作对比，核实学习率，并确认适配器参数确实收到了梯度。步数再多也修不好格式错误的数据。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="基准分数好实际用起来差">基准分数好，实际用起来差<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E5%9F%BA%E5%87%86%E5%88%86%E6%95%B0%E5%A5%BD%E5%AE%9E%E9%99%85%E7%94%A8%E8%B5%B7%E6%9D%A5%E5%B7%AE" class="hash-link" aria-label="基准分数好，实际用起来差的直接链接" title="基准分数好，实际用起来差的直接链接" translate="no">​</a></h3>
+<p>检查数据泄漏、提示词模板差异、检索质量，以及测试集是否代表真实的部署人群。把观察到的失败案例只加入新的开发集，不要事后补进留出的测试集。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="可复现性清单">可复现性清单<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7%E6%B8%85%E5%8D%95" class="hash-link" aria-label="可复现性清单的直接链接" title="可复现性清单的直接链接" translate="no">​</a></h2>
 <ul class="contains-task-list containsTaskList_mC6p">
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Model license and revision recorded</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Dataset provenance and split strategy documented</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Dependencies locked</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Hardware and runtime recorded</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Prompts and generation settings versioned</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Baseline evaluated before adaptation</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Held-out test set preserved</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Security and privacy boundaries tested</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Limitations and failed cases reported</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已记录模型许可证与修订版本</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已记录数据集来源与切分策略</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已锁定依赖</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已记录硬件与运行时</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->提示词与生成参数已纳入版本管理</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->适配前已评估基线</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->留出测试集保持未被使用</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已测试安全与隐私边界</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已报告局限与失败案例</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="further-reading">Further reading<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#further-reading" class="hash-link" aria-label="Further reading的直接链接" title="Further reading的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="延伸阅读">延伸阅读<a href="https://smiler488.com/zh-Hans/blog/local-llm-training-guide-en#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB" class="hash-link" aria-label="延伸阅读的直接链接" title="延伸阅读的直接链接" translate="no">​</a></h2>
 <ul>
-<li class=""><a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer" class="">Ollama documentation</a></li>
-<li class=""><a href="https://docs.vllm.ai/en/latest/models/supported_models.html" target="_blank" rel="noopener noreferrer" class="">vLLM supported models</a></li>
+<li class=""><a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer" class="">Ollama 文档</a></li>
+<li class=""><a href="https://docs.vllm.ai/en/latest/models/supported_models.html" target="_blank" rel="noopener noreferrer" class="">vLLM 支持模型</a></li>
 <li class=""><a href="https://github.com/unslothai/unsloth" target="_blank" rel="noopener noreferrer" class="">Unsloth</a></li>
 <li class=""><a href="https://github.com/OpenAccess-AI-Collective/axolotl" target="_blank" rel="noopener noreferrer" class="">Axolotl</a></li>
 <li class=""><a href="https://github.com/oobabooga/text-generation-webui" target="_blank" rel="noopener noreferrer" class="">Text Generation WebUI</a></li>
-<li class=""><a href="https://huggingface.co/Qwen/Qwen2-7B" target="_blank" rel="noopener noreferrer" class="">Hugging Face model hub</a></li>
+<li class=""><a href="https://huggingface.co/Qwen/Qwen2-7B" target="_blank" rel="noopener noreferrer" class="">Hugging Face 模型库</a></li>
 </ul>
-<p><em>Workflow reviewed: July 2026. Re-check upstream documentation before reproducing the commands.</em></p>]]></content:encoded>
+<p><em>工作流核验时间：2026 年 7 月。复现命令前请重新查阅上游文档。</em></p>]]></content:encoded>
             <category>Artificial Intelligence</category>
             <category>Machine Learning</category>
             <category>Local AI</category>
@@ -1169,156 +1169,156 @@
             <category>Computer Vision</category>
         </item>
         <item>
-            <title><![CDATA[DJI P4 Multispectral to Plot-Level Traits with WebODM and QGIS]]></title>
+            <title><![CDATA[用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状]]></title>
             <link>https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow</link>
             <guid>https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow</guid>
             <pubDate>Sat, 22 Apr 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[A validation-first workflow for processing DJI P4 Multispectral imagery in WebODM, checking band metadata in QGIS, and extracting plot-level vegetation features.]]></description>
-            <content:encoded><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="project-overview">Project overview<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#project-overview" class="hash-link" aria-label="Project overview的直接链接" title="Project overview的直接链接" translate="no">​</a></h2>
-<p>This guide takes original DJI P4 Multispectral imagery through WebODM and QGIS to a plot-level feature table. It distinguishes digital numbers from calibrated reflectance, treats band order and coordinate reference systems as data to verify, and keeps NoData pixels out of vegetation and texture statistics.</p>
+            <description><![CDATA[一套以验证为先的工作流：在 WebODM 中处理大疆 P4 多光谱影像，在 QGIS 中核查波段元数据，并提取小区尺度的植被特征。]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="项目概述">项目概述<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0" class="hash-link" aria-label="项目概述的直接链接" title="项目概述的直接链接" translate="no">​</a></h2>
+<p>本指南把大疆 P4 多光谱的原始影像，经由 WebODM 和 QGIS，一路处理成小区尺度的特征表。过程中会区分数字量化值（DN）与经过定标的反射率，把波段顺序和坐标参考系当作必须核实的数据来对待，并确保 NoData 像元不会混入植被与纹理统计。</p>
 <ul>
-<li class=""><strong>Inputs:</strong> original RGB and multispectral captures, metadata, plot boundaries, and preferably calibration and accuracy controls</li>
-<li class=""><strong>Outputs:</strong> checked orthomosaic bands, vegetation indices, optional texture layers, and plot-level statistics</li>
-<li class=""><strong>Boundary:</strong> menu labels vary by WebODM and QGIS version; verify the installed interface and processing report</li>
+<li class=""><strong>输入：</strong> 原始 RGB 与多光谱影像、元数据、小区边界，最好还有定标与精度控制资料</li>
+<li class=""><strong>输出：</strong> 经核查的正射影像波段、植被指数、可选的纹理图层，以及小区尺度统计量</li>
+<li class=""><strong>边界：</strong> 菜单名称随 WebODM 与 QGIS 版本而变；请以你实际安装的界面和处理报告为准</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-preserve-the-source-data">1. Preserve the source data<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#1-preserve-the-source-data" class="hash-link" aria-label="1. Preserve the source data的直接链接" title="1. Preserve the source data的直接链接" translate="no">​</a></h2>
-<p>A P4 Multispectral capture normally contains one RGB image and five narrow bands: blue, green, red, red edge, and near infrared. Preserve the camera-generated files and metadata as a read-only source dataset.</p>
-<p>Before processing:</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-保全源数据">1. 保全源数据<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#1-%E4%BF%9D%E5%85%A8%E6%BA%90%E6%95%B0%E6%8D%AE" class="hash-link" aria-label="1. 保全源数据的直接链接" title="1. 保全源数据的直接链接" translate="no">​</a></h2>
+<p>一次 P4 多光谱采集通常包含一张 RGB 影像和五个窄波段：蓝、绿、红、红边、近红外。请把相机生成的文件和元数据作为只读的源数据集保全下来。</p>
+<p>处理之前：</p>
 <ul>
-<li class="">copy, rather than move, the original folders;</li>
-<li class="">keep all bands from each capture together;</li>
-<li class="">preserve EXIF/XMP metadata, exposure information, and camera filenames;</li>
-<li class="">check that every capture has the expected set of bands;</li>
-<li class="">record flight, illumination, calibration-panel, RTK/GNSS, and ground-control information;</li>
-<li class="">calculate checksums when data integrity matters.</li>
+<li class="">复制而不是移动原始文件夹；</li>
+<li class="">把同一次采集的所有波段放在一起；</li>
+<li class="">保留 EXIF/XMP 元数据、曝光信息和相机文件名；</li>
+<li class="">检查每次采集是否都包含预期的波段集合；</li>
+<li class="">记录航飞、光照、定标板、RTK/GNSS 与地面控制信息；</li>
+<li class="">当数据完整性重要时，计算校验和。</li>
 </ul>
-<p>Do not rely on the downwelling light sensor alone as proof of reflectance accuracy. Calibration-panel observations, stable acquisition conditions, and independent validation strengthen the radiometric record.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-install-and-start-webodm">2. Install and start WebODM<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#2-install-and-start-webodm" class="hash-link" aria-label="2. Install and start WebODM的直接链接" title="2. Install and start WebODM的直接链接" translate="no">​</a></h2>
-<p>WebODM uses Docker. Install Docker Desktop and Git, allocate sufficient memory and storage, then clone the official repository:</p>
+<p>不要仅凭下行光照传感器就认定反射率精度可靠。定标板观测、稳定的采集条件和独立验证，才能让辐射定标记录更有说服力。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-安装并启动-webodm">2. 安装并启动 WebODM<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#2-%E5%AE%89%E8%A3%85%E5%B9%B6%E5%90%AF%E5%8A%A8-webodm" class="hash-link" aria-label="2. 安装并启动 WebODM的直接链接" title="2. 安装并启动 WebODM的直接链接" translate="no">​</a></h2>
+<p>WebODM 基于 Docker。安装 Docker Desktop 和 Git，分配足够的内存与存储，然后克隆官方仓库：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">git clone https://github.com/OpenDroneMap/WebODM</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">cd WebODM</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">./webodm.sh start</span><br></div></code></pre></div></div>
-<p>Open <code>http://localhost:8000</code> and create the local administrator account on first use.</p>
-<p>Follow the current WebODM installation documentation for operating-system-specific prerequisites. Avoid copying unverified third-party registry mirrors into Docker configuration; availability and trust can change.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-create-a-multispectral-task">3. Create a multispectral task<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#3-create-a-multispectral-task" class="hash-link" aria-label="3. Create a multispectral task的直接链接" title="3. Create a multispectral task的直接链接" translate="no">​</a></h2>
+<p>打开 <code>http://localhost:8000</code>，首次使用时创建本地管理员账号。</p>
+<p>操作系统相关的前置条件请以 WebODM 当前的安装文档为准。不要把未经核实的第三方镜像源复制进 Docker 配置 —— 其可用性和可信度都可能变化。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-创建多光谱任务">3. 创建多光谱任务<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#3-%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%85%89%E8%B0%B1%E4%BB%BB%E5%8A%A1" class="hash-link" aria-label="3. 创建多光谱任务的直接链接" title="3. 创建多光谱任务的直接链接" translate="no">​</a></h2>
 <ol>
-<li class="">Create a project with a stable identifier, such as <code>maize-n-trial-2025</code>.</li>
-<li class="">Create a task and upload all bands together.</li>
-<li class="">Select the multispectral preset when it is available.</li>
-<li class="">Save the exact WebODM/ODM version and task options with the results.</li>
+<li class="">创建项目，使用稳定的标识，例如 <code>maize-n-trial-2025</code>。</li>
+<li class="">创建任务，把所有波段一起上传。</li>
+<li class="">如果有多光谱预设，选择它。</li>
+<li class="">把确切的 WebODM/ODM 版本和任务选项与结果一并保存。</li>
 </ol>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="radiometric-calibration">Radiometric calibration<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#radiometric-calibration" class="hash-link" aria-label="Radiometric calibration的直接链接" title="Radiometric calibration的直接链接" translate="no">​</a></h3>
-<p>OpenDroneMap exposes three radiometric modes:</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="辐射定标">辐射定标<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E8%BE%90%E5%B0%84%E5%AE%9A%E6%A0%87" class="hash-link" aria-label="辐射定标的直接链接" title="辐射定标的直接链接" translate="no">​</a></h3>
+<p>OpenDroneMap 提供三种辐射定标模式：</p>
 <ul>
-<li class=""><code>none</code> — output remains in sensor digital-number space;</li>
-<li class=""><code>camera</code> — applies supported camera corrections when the required metadata are present;</li>
-<li class=""><code>camera+sun</code> — additionally uses a downwelling-light-sensor signal and sun geometry; the ODM documentation labels this mode experimental.</li>
+<li class=""><code>none</code> —— 输出保持在传感器 DN 空间；</li>
+<li class=""><code>camera</code> —— 在所需元数据存在时，应用受支持的相机校正；</li>
+<li class=""><code>camera+sun</code> —— 额外使用下行光照传感器信号与太阳几何；ODM 文档标注该模式为实验性。</li>
 </ul>
-<p>Choose a mode deliberately and describe it in the methods. Do not label an output “reflectance” when calibration was <code>none</code>.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="band-alignment-and-reconstruction">Band alignment and reconstruction<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#band-alignment-and-reconstruction" class="hash-link" aria-label="Band alignment and reconstruction的直接链接" title="Band alignment and reconstruction的直接链接" translate="no">​</a></h3>
+<p>请有意识地选择模式，并在方法部分说明。当定标方式为 <code>none</code> 时，不要把输出称为「反射率」。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="波段对齐与重建">波段对齐与重建<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E6%B3%A2%E6%AE%B5%E5%AF%B9%E9%BD%90%E4%B8%8E%E9%87%8D%E5%BB%BA" class="hash-link" aria-label="波段对齐与重建的直接链接" title="波段对齐与重建的直接链接" translate="no">​</a></h3>
 <ul>
-<li class="">ODM aligns multispectral bands by default. Do <strong>not</strong> enable <code>skip-band-alignment</code> unless the input has already been aligned and that fact has been verified.</li>
-<li class="">Leave the primary band on automatic selection or choose a sharp, well-focused band after inspection.</li>
-<li class="">Use fixed camera parameters only when the calibration and camera model justify that constraint.</li>
-<li class="">The <code>use-exif</code> option is not a general “turn GPS on” switch. ODM already reads image metadata; <code>use-exif</code> is relevant when a GCP file is supplied but EXIF georeferencing should also be used.</li>
-<li class="">If only 2D products are required, <code>skip-3dmodel</code> can reduce unnecessary output. Do not assume that every intermediate point-cloud calculation can be skipped.</li>
+<li class="">ODM 默认会对齐多光谱波段。<strong>不要</strong>启用 <code>skip-band-alignment</code>，除非输入已经对齐且这一点已被核实。</li>
+<li class="">主波段保持自动选择，或在检查后选一个清晰、对焦良好的波段。</li>
+<li class="">只有当定标和相机模型足以支撑该约束时，才使用固定相机参数。</li>
+<li class=""><code>use-exif</code> 并不是一个通用的「打开 GPS」开关。ODM 本来就会读取影像元数据；该选项的适用场景是：提供了 GCP 文件，但同时也希望使用 EXIF 地理参考。</li>
+<li class="">如果只需要二维产品，<code>skip-3dmodel</code> 可以减少不必要的输出。但不要想当然地认为所有中间点云计算都能跳过。</li>
 </ul>
-<p>For survey accuracy, use well-distributed ground control and independent checkpoints when the research question requires them. RTK image positions do not remove the need to validate the final map.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-inspect-the-webodm-outputs">4. Inspect the WebODM outputs<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#4-inspect-the-webodm-outputs" class="hash-link" aria-label="4. Inspect the WebODM outputs的直接链接" title="4. Inspect the WebODM outputs的直接链接" translate="no">​</a></h2>
-<p>Download the orthophoto and processing report from the task assets. The displayed download name can vary; do not assume the file is always called <code>orthophoto.tif</code>.</p>
-<p>Before calculating an index, record:</p>
+<p>若要保证测量精度，在研究问题有此要求时，应使用分布良好的地面控制点和独立检查点。RTK 影像位置并不能免除对最终成果图进行验证的必要。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-检查-webodm-的输出">4. 检查 WebODM 的输出<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#4-%E6%A3%80%E6%9F%A5-webodm-%E7%9A%84%E8%BE%93%E5%87%BA" class="hash-link" aria-label="4. 检查 WebODM 的输出的直接链接" title="4. 检查 WebODM 的输出的直接链接" translate="no">​</a></h2>
+<p>从任务产出中下载正射影像和处理报告。显示的下载名称可能不同，不要想当然地认为文件一定叫 <code>orthophoto.tif</code>。</p>
+<p>在计算指数之前，请记录：</p>
 <ul>
-<li class="">raster dimensions, data type, and NoData value;</li>
-<li class="">CRS and pixel size;</li>
-<li class="">number of bands and each band description;</li>
-<li class="">whether values are digital numbers or reflectance-like calibrated values;</li>
-<li class="">processing warnings and geolocation/checkpoint errors.</li>
+<li class="">栅格尺寸、数据类型和 NoData 值；</li>
+<li class="">坐标参考系与像元大小；</li>
+<li class="">波段数量以及每个波段的描述；</li>
+<li class="">数值是 DN 还是类反射率的定标值；</li>
+<li class="">处理警告以及定位/检查点误差。</li>
 </ul>
-<p>Use <code>gdalinfo</code> or <strong>QGIS → Layer Properties → Information</strong>. Never infer red and NIR band numbers from an example on the internet.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="5-set-up-the-qgis-project">5. Set up the QGIS project<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#5-set-up-the-qgis-project" class="hash-link" aria-label="5. Set up the QGIS project的直接链接" title="5. Set up the QGIS project的直接链接" translate="no">​</a></h2>
-<p>Add the multiband orthomosaic and plot-boundary layer to QGIS.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="choose-the-crs-from-the-survey-location">Choose the CRS from the survey location<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#choose-the-crs-from-the-survey-location" class="hash-link" aria-label="Choose the CRS from the survey location的直接链接" title="Choose the CRS from the survey location的直接链接" translate="no">​</a></h3>
-<p>Spatial operations and plot areas should use an appropriate projected CRS with linear units. Determine the UTM zone or local projected CRS from the actual survey location. A copied example such as <code>EPSG:32645</code> is correct only for data located in that zone.</p>
-<p>Reproject the plot layer when necessary; assigning a new CRS without transforming coordinates does not reproject data.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="clip-without-losing-nodata">Clip without losing NoData<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#clip-without-losing-nodata" class="hash-link" aria-label="Clip without losing NoData的直接链接" title="Clip without losing NoData的直接链接" translate="no">​</a></h3>
-<p>Use <strong>Clip raster by mask layer</strong> with the field boundary:</p>
+<p>使用 <code>gdalinfo</code>，或 <strong>QGIS → 图层属性 → 信息</strong>。绝不要根据网上的某个示例来推断红光和近红外的波段编号。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="5-建立-qgis-工程">5. 建立 QGIS 工程<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#5-%E5%BB%BA%E7%AB%8B-qgis-%E5%B7%A5%E7%A8%8B" class="hash-link" aria-label="5. 建立 QGIS 工程的直接链接" title="5. 建立 QGIS 工程的直接链接" translate="no">​</a></h2>
+<p>把多波段正射影像和小区边界图层加入 QGIS。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="根据测区位置选择坐标系">根据测区位置选择坐标系<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E6%A0%B9%E6%8D%AE%E6%B5%8B%E5%8C%BA%E4%BD%8D%E7%BD%AE%E9%80%89%E6%8B%A9%E5%9D%90%E6%A0%87%E7%B3%BB" class="hash-link" aria-label="根据测区位置选择坐标系的直接链接" title="根据测区位置选择坐标系的直接链接" translate="no">​</a></h3>
+<p>空间运算和小区面积应使用具有线性单位的、合适的投影坐标系。请根据实际测区位置确定 UTM 带号或本地投影坐标系。像 <code>EPSG:32645</code> 这样照抄来的示例，只有当数据确实位于该带时才是正确的。</p>
+<p>必要时对小区图层做重投影；仅仅指定一个新坐标系而不做坐标变换，并不等于重投影。</p>
+<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="裁剪时不要丢掉-nodata">裁剪时不要丢掉 NoData<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E8%A3%81%E5%89%AA%E6%97%B6%E4%B8%8D%E8%A6%81%E4%B8%A2%E6%8E%89-nodata" class="hash-link" aria-label="裁剪时不要丢掉 NoData的直接链接" title="裁剪时不要丢掉 NoData的直接链接" translate="no">​</a></h3>
+<p>用田块边界执行 <strong>按掩膜图层裁剪栅格</strong>：</p>
 <ul>
-<li class="">enable crop to cutline;</li>
-<li class="">select a defined NoData value;</li>
-<li class="">preserve the original raster;</li>
-<li class="">confirm the clipped edge and pixel alignment visually.</li>
+<li class="">启用裁剪至掩膜范围；</li>
+<li class="">设定明确的 NoData 值；</li>
+<li class="">保留原始栅格；</li>
+<li class="">目视确认裁剪边缘与像元对齐情况。</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-calculate-ndvi-safely">6. Calculate NDVI safely<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#6-calculate-ndvi-safely" class="hash-link" aria-label="6. Calculate NDVI safely的直接链接" title="6. Calculate NDVI safely的直接链接" translate="no">​</a></h2>
-<p>NDVI is:</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-安全地计算-ndvi">6. 安全地计算 NDVI<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#6-%E5%AE%89%E5%85%A8%E5%9C%B0%E8%AE%A1%E7%AE%97-ndvi" class="hash-link" aria-label="6. 安全地计算 NDVI的直接链接" title="6. 安全地计算 NDVI的直接链接" translate="no">​</a></h2>
+<p>NDVI 的定义为：</p>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">NDVI = (NIR - Red) / (NIR + Red)</span><br></div></code></pre></div></div>
-<p>After verifying the band numbers, replace the placeholders in the QGIS Raster Calculator:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">("orthomosaic@&lt;NIR band&gt;" - "orthomosaic@&lt;Red band&gt;") /</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">("orthomosaic@&lt;NIR band&gt;" + "orthomosaic@&lt;Red band&gt;")</span><br></div></code></pre></div></div>
-<p>Also create a valid-data mask that excludes source NoData and zero denominators. Save the output as Float32 and inspect:</p>
+<p>在核实波段编号之后，在 QGIS 栅格计算器中替换占位符：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">("orthomosaic@&lt;NIR 波段&gt;" - "orthomosaic@&lt;Red 波段&gt;") /</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">("orthomosaic@&lt;NIR 波段&gt;" + "orthomosaic@&lt;Red 波段&gt;")</span><br></div></code></pre></div></div>
+<p>同时建立一个有效数据掩膜，排除源 NoData 和分母为零的情况。输出保存为 Float32，并检查：</p>
 <ul>
-<li class="">expected field patterns;</li>
-<li class="">values outside [-1, 1];</li>
-<li class="">seams, shadows, saturation, and uncalibrated exposure differences;</li>
-<li class="">consistency with known vegetation and bare-soil areas.</li>
+<li class="">是否呈现预期的田块图案；</li>
+<li class="">是否存在 [-1, 1] 之外的数值；</li>
+<li class="">拼接缝、阴影、饱和以及未定标的曝光差异；</li>
+<li class="">与已知植被区和裸土区是否一致。</li>
 </ul>
-<p>The valid NDVI range does not make every value biologically plausible. Interpretation depends on crop, growth stage, atmosphere, soil, viewing geometry, and calibration.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-build-a-vegetation-mask">7. Build a vegetation mask<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#7-build-a-vegetation-mask" class="hash-link" aria-label="7. Build a vegetation mask的直接链接" title="7. Build a vegetation mask的直接链接" translate="no">​</a></h2>
-<p>A threshold such as 0.2 is an experiment-specific starting point, not a universal vegetation boundary. Select it using representative labelled pixels or a documented sensitivity analysis.</p>
-<p>Keep two separate rasters:</p>
+<p>NDVI 落在有效区间，并不意味着每个数值在生物学上都合理。解释依赖于作物、生育期、大气、土壤、观测几何和定标情况。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-构建植被掩膜">7. 构建植被掩膜<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#7-%E6%9E%84%E5%BB%BA%E6%A4%8D%E8%A2%AB%E6%8E%A9%E8%86%9C" class="hash-link" aria-label="7. 构建植被掩膜的直接链接" title="7. 构建植被掩膜的直接链接" translate="no">​</a></h2>
+<p>诸如 0.2 这样的阈值，是针对具体试验的起点，而不是普适的植被边界。请通过有代表性的标注像元或有据可查的敏感性分析来选定。</p>
+<p>请保留两个独立的栅格：</p>
 <ol>
-<li class="">a binary vegetation mask;</li>
-<li class="">NDVI with non-vegetation pixels set to <strong>NoData</strong>, not zero.</li>
+<li class="">二值植被掩膜；</li>
+<li class="">把非植被像元设为 <strong>NoData</strong>（而非 0）的 NDVI。</li>
 </ol>
-<p>Multiplying NDVI by a binary mask sets the background to zero. Those zeros then enter means and, if the raster is shifted for quantization, can become mid-grey values. Use an explicit NoData mask before zonal statistics or texture calculation.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="8-quantize-only-when-a-texture-method-requires-it">8. Quantize only when a texture method requires it<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#8-quantize-only-when-a-texture-method-requires-it" class="hash-link" aria-label="8. Quantize only when a texture method requires it的直接链接" title="8. Quantize only when a texture method requires it的直接链接" translate="no">​</a></h2>
-<p>GRASS <code>r.texture</code> expects integer grey levels. Document the input layer, valid range, scale, offset, rounding, and NoData handling.</p>
-<p>If the complete NDVI interval ([-1, 1]) is intentionally mapped to UInt8, the conceptual transform is:</p>
+<p>把 NDVI 乘以二值掩膜会让背景变成 0。这些 0 随后会进入均值计算；而且如果栅格为量化而做了平移，它们还可能变成中灰值。在做分区统计或纹理计算之前，请使用显式的 NoData 掩膜。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="8-只在纹理方法确有需要时才做量化">8. 只在纹理方法确有需要时才做量化<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#8-%E5%8F%AA%E5%9C%A8%E7%BA%B9%E7%90%86%E6%96%B9%E6%B3%95%E7%A1%AE%E6%9C%89%E9%9C%80%E8%A6%81%E6%97%B6%E6%89%8D%E5%81%9A%E9%87%8F%E5%8C%96" class="hash-link" aria-label="8. 只在纹理方法确有需要时才做量化的直接链接" title="8. 只在纹理方法确有需要时才做量化的直接链接" translate="no">​</a></h2>
+<p>GRASS 的 <code>r.texture</code> 需要整数灰度级。请记录输入图层、有效范围、缩放、偏移、取整方式和 NoData 处理方式。</p>
+<p>如果有意把完整的 NDVI 区间（[-1, 1]）映射到 UInt8，其概念上的变换为：</p>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">UInt8 = round((NDVI + 1) × 127.5)</span><br></div></code></pre></div></div>
-<p>Clamp only valid vegetation pixels to 0–255 and leave background as NoData. A data-driven range can improve contrast, but it changes comparability between dates unless the same documented limits are used.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="9-calculate-glcm-texture-deliberately">9. Calculate GLCM texture deliberately<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#9-calculate-glcm-texture-deliberately" class="hash-link" aria-label="9. Calculate GLCM texture deliberately的直接链接" title="9. Calculate GLCM texture deliberately的直接链接" translate="no">​</a></h2>
-<p>Enable the GRASS processing provider before using <code>r.texture</code>. Common outputs include:</p>
+<p>只把有效植被像元钳制到 0–255，背景保持为 NoData。由数据驱动的范围可以改善对比度，但除非使用同一套有据可查的界限，否则会破坏不同日期之间的可比性。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="9-有意识地计算-glcm-纹理">9. 有意识地计算 GLCM 纹理<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#9-%E6%9C%89%E6%84%8F%E8%AF%86%E5%9C%B0%E8%AE%A1%E7%AE%97-glcm-%E7%BA%B9%E7%90%86" class="hash-link" aria-label="9. 有意识地计算 GLCM 纹理的直接链接" title="9. 有意识地计算 GLCM 纹理的直接链接" translate="no">​</a></h2>
+<p>使用 <code>r.texture</code> 之前，请先启用 GRASS 处理提供程序。常见输出包括：</p>
 <ul>
-<li class=""><code>asm</code> — angular second moment;</li>
-<li class=""><code>contrast</code> — local grey-level contrast;</li>
-<li class=""><code>corr</code> — correlation;</li>
-<li class=""><code>idm</code> — inverse difference moment;</li>
-<li class=""><code>entr</code> — entropy.</li>
+<li class=""><code>asm</code> —— 角二阶矩；</li>
+<li class=""><code>contrast</code> —— 局部灰度对比度；</li>
+<li class=""><code>corr</code> —— 相关性；</li>
+<li class=""><code>idm</code> —— 逆差矩；</li>
+<li class=""><code>entr</code> —— 熵。</li>
 </ul>
-<p><code>sa</code> is sum average, not another name for ASM, and <code>dv</code> is difference variance.</p>
-<p>Record:</p>
+<p><code>sa</code> 是和平均值（sum average），不是 ASM 的别名；<code>dv</code> 是差方差（difference variance）。</p>
+<p>请记录：</p>
 <ul>
-<li class="">window size in pixels and its footprint in metres;</li>
-<li class="">pixel distance;</li>
-<li class="">direction or directional aggregation;</li>
-<li class="">quantization rule;</li>
-<li class="">edge and NoData behavior.</li>
+<li class="">窗口大小（像元数）及其对应的实地尺寸（米）；</li>
+<li class="">像元距离；</li>
+<li class="">方向或方向聚合方式；</li>
+<li class="">量化规则；</li>
+<li class="">边缘与 NoData 的处理行为。</li>
 </ul>
-<p>Choose the window from ground sampling distance and the biological scale of interest. A 7-pixel window at 2 cm GSD represents a different canopy area than the same window at 10 cm GSD.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="10-extract-plot-level-statistics">10. Extract plot-level statistics<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#10-extract-plot-level-statistics" class="hash-link" aria-label="10. Extract plot-level statistics的直接链接" title="10. Extract plot-level statistics的直接链接" translate="no">​</a></h2>
-<p>Run <strong>Zonal statistics</strong> with the plot polygons and a stable <code>plot_id</code>.</p>
-<p>Useful summaries include:</p>
+<p>窗口大小应根据地面采样距离（GSD）和你关心的生物学尺度来选择。在 2 cm GSD 下的 7 像元窗口，与 10 cm GSD 下的同样窗口，代表的冠层面积完全不同。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="10-提取小区尺度统计量">10. 提取小区尺度统计量<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#10-%E6%8F%90%E5%8F%96%E5%B0%8F%E5%8C%BA%E5%B0%BA%E5%BA%A6%E7%BB%9F%E8%AE%A1%E9%87%8F" class="hash-link" aria-label="10. 提取小区尺度统计量的直接链接" title="10. 提取小区尺度统计量的直接链接" translate="no">​</a></h2>
+<p>用小区多边形和稳定的 <code>plot_id</code> 运行 <strong>分区统计</strong>。</p>
+<p>有用的汇总量包括：</p>
 <ul>
-<li class="">valid-pixel count and coverage fraction;</li>
-<li class="">mean, median, standard deviation, and selected quantiles;</li>
-<li class="">vegetation fraction;</li>
-<li class="">selected texture metrics.</li>
+<li class="">有效像元数与覆盖比例；</li>
+<li class="">均值、中位数、标准差和选定分位数；</li>
+<li class="">植被覆盖度；</li>
+<li class="">选定的纹理指标。</li>
 </ul>
-<p>Exclude NoData and flag plots with too little valid vegetation. Export the attribute table to CSV together with processing metadata, not as an unexplained standalone table.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="validation-checklist">Validation checklist<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#validation-checklist" class="hash-link" aria-label="Validation checklist的直接链接" title="Validation checklist的直接链接" translate="no">​</a></h2>
+<p>排除 NoData，并标记出有效植被过少的小区。把属性表连同处理元数据一起导出为 CSV，而不是作为一张无从解释的孤立表格。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="验证清单">验证清单<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95" class="hash-link" aria-label="验证清单的直接链接" title="验证清单的直接链接" translate="no">​</a></h2>
 <ul class="contains-task-list containsTaskList_mC6p">
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Every capture contains the expected bands and metadata.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->The radiometric mode and calibration evidence are recorded.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Band descriptions were checked before index calculation.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->CRS and ground sampling distance match the survey.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Ground-control and independent-check errors are reported when applicable.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Background pixels are NoData rather than numeric zeros in trait statistics.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Threshold and texture parameters were tested for sensitivity.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Plot coverage and valid-pixel counts accompany each summary.</li>
-<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Software versions, task options, and formulas are archived.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->每次采集都包含预期的波段和元数据。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已记录辐射定标模式与定标证据。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->计算指数前已核查波段描述。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->坐标系与地面采样距离与测区相符。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->在适用时，已报告地面控制与独立检查的误差。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->在性状统计中，背景像元是 NoData 而不是数值 0。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已对阈值与纹理参数做过敏感性测试。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->每份汇总都附有小区覆盖度与有效像元数。</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->已归档软件版本、任务选项和计算公式。</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="references">References<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#references" class="hash-link" aria-label="References的直接链接" title="References的直接链接" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="参考资料">参考资料<a href="https://smiler488.com/zh-Hans/blog/dji-p4m-webodm-qgis-workflow#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" class="hash-link" aria-label="参考资料的直接链接" title="参考资料的直接链接" translate="no">​</a></h2>
 <ul>
-<li class=""><a href="https://docs.opendronemap.org/multispectral/" target="_blank" rel="noopener noreferrer" class="">OpenDroneMap multispectral and thermal processing</a></li>
-<li class=""><a href="https://docs.opendronemap.org/arguments/radiometric-calibration/" target="_blank" rel="noopener noreferrer" class="">ODM radiometric calibration option</a></li>
-<li class=""><a href="https://docs.opendronemap.org/arguments/" target="_blank" rel="noopener noreferrer" class="">ODM options and flags</a></li>
-<li class=""><a href="https://docs.qgis.org/" target="_blank" rel="noopener noreferrer" class="">QGIS documentation</a></li>
+<li class=""><a href="https://docs.opendronemap.org/multispectral/" target="_blank" rel="noopener noreferrer" class="">OpenDroneMap 多光谱与热红外处理</a></li>
+<li class=""><a href="https://docs.opendronemap.org/arguments/radiometric-calibration/" target="_blank" rel="noopener noreferrer" class="">ODM 辐射定标选项</a></li>
+<li class=""><a href="https://docs.opendronemap.org/arguments/" target="_blank" rel="noopener noreferrer" class="">ODM 选项与参数</a></li>
+<li class=""><a href="https://docs.qgis.org/" target="_blank" rel="noopener noreferrer" class="">QGIS 文档</a></li>
 </ul>]]></content:encoded>
             <category>UAV</category>
             <category>Remote Sensing</category>
