@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkliangchao_website=globalThis.webpackChunkliangchao_website||[]).push([[1903],{1912(a){a.exports=JSON.parse('{"blogBasePath":"/zh-Hans/blog","blogTitle":"\u79d1\u7814\u4e0e\u5de5\u7a0b\u7b14\u8bb0","authorsListPath":"/zh-Hans/blog/authors"}')}}]);
