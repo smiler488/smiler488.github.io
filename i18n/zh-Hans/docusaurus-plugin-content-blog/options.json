@@ -1,14 +1,14 @@
 {
   "title": {
-    "message": "Blog",
+    "message": "科研与工程笔记",
     "description": "The title for the blog used in SEO"
   },
   "description": {
-    "message": "Blog",
+    "message": "关于人工智能、植物表型、成像与可复现科学计算的科研笔记。",
     "description": "The description for the blog used in SEO"
   },
   "sidebar.title": {
-    "message": "All posts",
+    "message": "全部文章",
     "description": "The label for the left sidebar"
   }
 }
