@@ -7,9 +7,11 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import HologramParticles from "@site/src/components/HologramParticles";
 import styles from "./index.module.css";
 
+// pageTitle renders as "<pageTitle> | Liangchao Deng". It carries the topical
+// keywords, since "Home" ranks for nothing.
 const HOME_COPY = {
   en: {
-    pageTitle: "Home",
+    pageTitle: "AI for Plant Phenotyping & Crop Modeling",
     eyebrow: "Liangchao Deng · SMILER488",
     title: "Intelligent systems for crops, built to be explored.",
     role: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
@@ -21,10 +23,10 @@ const HOME_COPY = {
     cvAction: "View CV",
     availability: "Research, open tools, and collaboration",
     description:
-      "Liangchao Deng's research, computational plant science projects, and interactive tools.",
+      "Postdoctoral research on AI for plant phenotyping, crop modeling, and computer vision — plus 14 free browser tools for field data, imaging, and analysis.",
   },
   zh: {
-    pageTitle: "首页",
+    pageTitle: "作物表型与作物模型的人工智能研究",
     eyebrow: "邓良超 · SMILER488",
     title: "把作物科学，构建成可以探索的智能系统。",
     role: "博士后研究人员 · 人工智能 × 作物表型 × 作物模型",
@@ -35,7 +37,8 @@ const HOME_COPY = {
     appAction: "进入应用实验室",
     cvAction: "查看简历",
     availability: "研究、开放工具与合作",
-    description: "邓良超的作物表型、作物模型、科学智能研究与交互工具。",
+    description:
+      "面向作物表型、作物模型与计算机视觉的博士后研究，并提供 14 个免费浏览器工具，用于田间数据、图像分析与科研工作流。",
   },
 };
 
@@ -106,9 +109,7 @@ function HomepageHeader() {
       {showLoveEasterEgg && (
         <div className={styles.easterEggOverlay} data-particle-obstacle>
           <div className={styles.easterEggCard}>
-            <div className={styles.easterEggHearts}>
-              ❤️ ✨ 💖 ✨ ❤️
-            </div>
+            <div className={styles.easterEggHearts}>❤️ ✨ 💖 ✨ ❤️</div>
             <p className={styles.easterEggText}>
               {isChinese
                 ? "正在穿梭前往 Bonnie 的空间..."

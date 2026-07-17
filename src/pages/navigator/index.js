@@ -13,9 +13,9 @@ import styles from "./styles.module.css";
 
 const pageCopy = {
   en: {
-    pageTitle: "Workspace Navigator",
+    pageTitle: "Agricultural Research Link Directory",
     pageDescription:
-      "A personal workspace of everyday entry points: campus and postdoc systems, literature and journals, research data, and downtime.",
+      "170 curated entry points for agricultural and plant science research: literature and journals, crop and climate data platforms, funding and postdoc systems, writing and plotting tools.",
     eyebrow: "SMILER · WORKSPACE",
     updated: `Curated ${navigatorUpdated.en}`,
     title: "Workspace Navigator",
@@ -46,9 +46,9 @@ const pageCopy = {
     resourcesLink: "Looking for study material? Visit Resources",
   },
   zh: {
-    pageTitle: "个人工作台导航",
+    pageTitle: "农业科研网址导航",
     pageDescription:
-      "个人日常入口工作台：校内与博士后系统、文献与期刊、科研数据平台，以及休闲站点。",
+      "农业与植物科学科研常用入口 170 条：文献检索与期刊投稿、作物与气象数据平台、基金与博士后系统、论文写作与绘图工具。",
     eyebrow: "SMILER · 个人工作台",
     updated: `整理于 ${navigatorUpdated.zh}`,
     title: "个人工作台导航",
