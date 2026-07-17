@@ -4,11 +4,11 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.Tutorial - apps": {
-    "message": "Tutorial - apps",
+    "message": "应用实验室教程",
     "description": "The label for category 'Tutorial - apps' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Tutorial - apps.link.generated-index.description": {
-    "message": "Learn how to use web apps in App Hub.",
+    "message": "了解如何使用 App Lab 中的各个网页工具。",
     "description": "The generated-index page description for category 'Tutorial - apps' in sidebar 'tutorialSidebar'"
   }
 }

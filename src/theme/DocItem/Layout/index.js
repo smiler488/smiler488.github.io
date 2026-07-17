@@ -3,6 +3,8 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import { useWindowSize } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { APP_MANIFEST, localizeApp } from "@site/src/data/appManifest";
 import Heading from "@theme/Heading";
 import DocItemPaginator from "@theme/DocItem/Paginator";
 import DocVersionBanner from "@theme/DocVersionBanner";
@@ -31,10 +33,38 @@ function useDocTOC() {
   return { hidden, mobile, desktop };
 }
 
+const HERO_COPY = {
+  en: {
+    back: "All App Lab guides",
+    guide: "practical guide",
+    capabilities: "Key capabilities",
+    open: "Open tool",
+  },
+  zh: {
+    back: "全部应用实验室指南",
+    guide: "实用指南",
+    capabilities: "核心能力",
+    open: "打开工具",
+  },
+};
+
 function AppTutorialHero({ metadata, frontMatter }) {
-  const badges = Array.isArray(frontMatter.app_badges)
-    ? frontMatter.app_badges
-    : [];
+  const { i18n } = useDocusaurusContext();
+  const isChinese = i18n.currentLocale === "zh-Hans";
+  const t = isChinese ? HERO_COPY.zh : HERO_COPY.en;
+
+  // Prefer the manifest so hero chips are bilingual from a single source; the
+  // frontmatter values are the English fallback if a tool is not in the manifest.
+  const app = APP_MANIFEST.find((item) => item.route === frontMatter.app_route);
+  const badges =
+    localizeApp(app?.badges, isChinese) ||
+    (Array.isArray(frontMatter.app_badges) ? frontMatter.app_badges : []);
+  const runtime =
+    localizeApp(app?.runtime, isChinese) || frontMatter.app_runtime;
+  const category =
+    localizeApp(app?.categoryLabel, isChinese) ||
+    frontMatter.app_category ||
+    "App Lab";
   const tone = frontMatter.app_tone || "blue";
 
   return (
@@ -44,12 +74,12 @@ function AppTutorialHero({ metadata, frontMatter }) {
           className={styles.tutorialBackLink}
           to="/docs/category/tutorial---apps"
         >
-          <span aria-hidden="true">←</span> All App Lab guides
+          <span aria-hidden="true">←</span> {t.back}
         </Link>
-        {frontMatter.app_runtime && (
+        {runtime && (
           <span className={styles.tutorialRuntime}>
             <span className={styles.runtimeDot} aria-hidden="true" />
-            {frontMatter.app_runtime}
+            {runtime}
           </span>
         )}
       </div>
@@ -64,7 +94,7 @@ function AppTutorialHero({ metadata, frontMatter }) {
         </div>
         <div className={styles.tutorialHeroCopy}>
           <span className={styles.tutorialEyebrow}>
-            {frontMatter.app_category || "App Lab"} · practical guide
+            {category} · {t.guide}
           </span>
           <Heading as="h1">{metadata.title}</Heading>
           <p>{metadata.description}</p>
@@ -73,14 +103,14 @@ function AppTutorialHero({ metadata, frontMatter }) {
 
       <div className={styles.tutorialHeroFooter}>
         {badges.length > 0 && (
-          <ul className={styles.tutorialBadges} aria-label="Key capabilities">
+          <ul className={styles.tutorialBadges} aria-label={t.capabilities}>
             {badges.map((badge) => (
               <li key={badge}>{badge}</li>
             ))}
           </ul>
         )}
         <Link className={styles.openAppButton} to={frontMatter.app_route}>
-          Open tool <span aria-hidden="true">↗</span>
+          {t.open} <span aria-hidden="true">↗</span>
         </Link>
       </div>
     </header>
