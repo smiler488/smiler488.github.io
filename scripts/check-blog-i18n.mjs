@@ -20,14 +20,35 @@ const IDENTICAL = ["slug", "tags", "authors", "image", "date"];
 // Must end up in Chinese: these are display-only text.
 const TRANSLATE = ["title", "description", "category", "article_type"];
 
+// A line-by-line parse silently skips block-style values, e.g. a `tags:` list
+// wrapped across several lines — which would leave those tags unchecked. Join
+// each key's continuation lines before reading the value.
 function frontmatter(text) {
   const m = text.match(/^---\n([\s\S]*?)\n---/);
   if (!m) return null;
   const out = {};
+  let key = null;
+  let buf = [];
+  const flush = () => {
+    if (!key) return;
+    out[key] = buf
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/^["']|["']$/g, "")
+      .replace(/,\s*\]/, "]");
+  };
   for (const line of m[1].split("\n")) {
     const kv = line.match(/^([a-z_]+):\s*(.*)$/);
-    if (kv) out[kv[1]] = kv[2].trim().replace(/^["']|["']$/g, "");
+    if (kv) {
+      flush();
+      key = kv[1];
+      buf = [kv[2]];
+    } else if (key && line.trim()) {
+      buf.push(line.trim());
+    }
   }
+  flush();
   return out;
 }
 
