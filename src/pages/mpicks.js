@@ -81,6 +81,15 @@ const PICKS_DATA = {
         badges: ["WeChat Native", "Remote Tasks", "All Platforms"],
         tint: "blue",
       },
+      {
+        id: "ima",
+        title: "ima Tencent AI Knowledge Assistant",
+        description:
+          "Tencent's ima builds a personal knowledge base from your own documents and lets you ask questions across it, with desktop and mobile clients. The link opens a limited-time invite campaign for compute credits.",
+        link: "https://ima.qq.com/copilot-invite-reward-token/assist/V_5sH_zUlOz6Vxsf86bOyw",
+        badges: ["Knowledge Base", "Tencent AI", "Desktop + Mobile"],
+        tint: "orange",
+      },
     ],
   },
   zh: {
@@ -156,6 +165,15 @@ const PICKS_DATA = {
         link: "https://qclaw.qq.com?channel=6070&share_type=invite-share&invite_code=nRtSmbOE8Bxrh6lg",
         badges: ["微信原生", "远程派活", "全平台"],
         tint: "blue",
+      },
+      {
+        id: "ima",
+        title: "ima 腾讯 AI 知识管家",
+        description:
+          "腾讯出品的 ima，可把自己的文档整理成个人知识库并跨库提问，桌面端与移动端均可使用。该链接为限时邀请活动，用于领取算力福利。",
+        link: "https://ima.qq.com/copilot-invite-reward-token/assist/V_5sH_zUlOz6Vxsf86bOyw",
+        badges: ["个人知识库", "腾讯出品", "桌面 + 移动"],
+        tint: "orange",
       },
     ],
   },
