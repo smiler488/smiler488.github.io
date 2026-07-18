@@ -15,6 +15,8 @@ const PICKS_DATA = {
       "Recommended tools, services, and hardware optimized for researchers and developers.",
     openBtn: "Visit Site",
     qrScanHint: "Scan QR to visit",
+    disclosure:
+      "Links on this page contain invite codes. Signing up through them may earn the author a referral reward.",
     items: [
       {
         id: "wgetcloud",
@@ -38,9 +40,9 @@ const PICKS_DATA = {
         id: "xiaomimimo",
         title: "Xiaomi MiMo Open Platform",
         description:
-          "Experience Xiaomi's top multimodal large-scale model MiMo V2.5. Get ¥10 API trial credit and 10% off your first order (invite code applied automatically, trial credit valid for 40 days). High-performance AI capabilities.",
+          "Experience Xiaomi's top multimodal large-scale model MiMo V2.5. New accounts get ¥10 API trial credit and 10% off the first order (code applied automatically, credit valid for 40 days). High-performance AI capabilities.",
         link: "https://platform.xiaomimimo.com?ref=E9434S",
-        badges: ["Multimodal AI", "Xiaomi V2.5", "¥10 Trial Gift"],
+        badges: ["Multimodal AI", "Xiaomi V2.5", "¥10 Trial Credit"],
         tint: "violet",
       },
       {
@@ -65,10 +67,19 @@ const PICKS_DATA = {
         id: "kimi",
         title: "Kimi AI Assistant (Moonshot AI)",
         description:
-          "Moonshot AI's Kimi assistant, built on the K-series long-context models for literature reading, long-form writing and agentic coding. Registering through the invite gives both sides a 7-day membership credit; log in to Kimi shortly after signing up to claim it.",
+          "Moonshot AI's Kimi assistant, built on the K-series long-context models for literature reading, long-form writing and agentic coding. New accounts get a 7-day membership credit; log in to Kimi shortly after signing up to claim it.",
         link: "https://kimi-bot.com/activities/viral-referral/share?scenario=invite&from=share_poster&invitation_code=SDZGYW",
-        badges: ["Long Context", "Agentic Coding", "Invite Bonus"],
+        badges: ["Long Context", "Agentic Coding", "7-Day Credit"],
         tint: "green",
+      },
+      {
+        id: "qclaw",
+        title: "QClaw WeChat AI Assistant",
+        description:
+          "Tencent's remote-work AI assistant for WeChat. Dispatch tasks to it from chat and pick the work back up on macOS, Windows, iOS or Android.",
+        link: "https://qclaw.qq.com?channel=6070&share_type=invite-share&invite_code=nRtSmbOE8Bxrh6lg",
+        badges: ["WeChat Native", "Remote Tasks", "All Platforms"],
+        tint: "blue",
       },
     ],
   },
@@ -81,6 +92,7 @@ const PICKS_DATA = {
       "精选学术加速、大模型计算与云服务好物，助力高效科研开发与数字工作流。",
     openBtn: "立即访问",
     qrScanHint: "手机扫码访问",
+    disclosure: "本页链接包含邀请码，通过它们注册作者可能获得推广奖励。",
     items: [
       {
         id: "wgetcloud",
@@ -104,7 +116,7 @@ const PICKS_DATA = {
         id: "xiaomimimo",
         title: "小米 MiMo 大模型开放平台",
         description:
-          "体验小米顶尖多模态大模型 MiMo V2.5。通过邀请链接注册，双方各得 ¥10 API 体验金（首单 9 折，注册后自动填入邀请码，体验金 40 天有效），覆盖对话、逻辑与图像生成等多模态高性价比场景。",
+          "体验小米顶尖多模态大模型 MiMo V2.5。新用户注册可得 ¥10 API 体验金（首单 9 折，注册后自动填入邀请码，体验金 40 天有效），覆盖对话、逻辑与图像生成等多模态高性价比场景。",
         link: "https://platform.xiaomimimo.com?ref=E9434S",
         badges: ["多模态 AI", "小米顶尖模型", "送 10元 体验金"],
         tint: "violet",
@@ -131,10 +143,19 @@ const PICKS_DATA = {
         id: "kimi",
         title: "Kimi 智能助手（月之暗面）",
         description:
-          "月之暗面 Kimi 智能助手，基于 K 系列长上下文模型，适合文献阅读、长文写作与智能体编程。通过邀请链接注册，双方均可获得 7 天会员额度，注册后请尽快登录 Kimi 领取。",
+          "月之暗面 Kimi 智能助手，基于 K 系列长上下文模型，适合文献阅读、长文写作与智能体编程。新用户注册可获得 7 天会员额度，注册后请尽快登录 Kimi 领取。",
         link: "https://kimi-bot.com/activities/viral-referral/share?scenario=invite&from=share_poster&invitation_code=SDZGYW",
-        badges: ["超长上下文", "智能体编程", "邀请双方得奖励"],
+        badges: ["超长上下文", "智能体编程", "7 天会员额度"],
         tint: "green",
+      },
+      {
+        id: "qclaw",
+        title: "QClaw 微信 AI 助手",
+        description:
+          "腾讯推出的微信远程办公 AI 助手。可直接在聊天中给它派活，并在 macOS、Windows、iOS 与 Android 上接续处理。",
+        link: "https://qclaw.qq.com?channel=6070&share_type=invite-share&invite_code=nRtSmbOE8Bxrh6lg",
+        badges: ["微信原生", "远程派活", "全平台"],
+        tint: "blue",
       },
     ],
   },
@@ -155,6 +176,7 @@ export default function MPicksPage() {
             {copy.title}
           </Heading>
           <p className={styles.subtitle}>{copy.subtitle}</p>
+          <p className={styles.disclosure}>{copy.disclosure}</p>
         </header>
 
         <div className={styles.grid}>
