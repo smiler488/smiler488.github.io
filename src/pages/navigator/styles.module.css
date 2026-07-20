@@ -524,6 +524,10 @@
   --lane-accent: #0284c7;
 }
 
+.ai-models {
+  --lane-accent: #a21caf;
+}
+
 .toolbox {
   --lane-accent: #16a34a;
 }

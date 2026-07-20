@@ -97,6 +97,16 @@ export const navigatorCategories = [
     keywords: ["data", "climate", "satellite", "数据", "气象", "遥感", "算力"],
   },
   {
+    id: "ai-models",
+    group: "study",
+    label: { en: "LLM & AI platforms", zh: "大模型与 AI 平台" },
+    description: {
+      en: "Official entry points for the large-model providers and scientific AI platforms used in day-to-day research.",
+      zh: "日常科研中常用的大模型服务与科学智能平台官方入口，覆盖国内外主要厂商。",
+    },
+    keywords: ["LLM", "AI", "model", "大模型", "智能体", "人工智能", "API"],
+  },
+  {
     id: "toolbox",
     group: "study",
     label: { en: "Writing & tool box", zh: "写作与工具箱" },
@@ -567,6 +577,21 @@ export const navigatorLinks = [
   link("ModelScope", "https://www.modelscope.cn/home", "data-platforms"),
   link("Google Colab", "https://colab.research.google.com/", "data-platforms"),
   link("Zenodo", "https://zenodo.org/", "data-platforms"),
+
+  // 学习 · 大模型与 AI 平台
+  link(t("Zhipu AI", "智谱 AI"), "https://www.zhipuai.cn/zh", "ai-models"),
+  link(t("Moonshot AI", "月之暗面"), "https://www.moonshot.cn", "ai-models"),
+  link("DeepSeek", "https://www.deepseek.com", "ai-models"),
+  link("MiniMax", "https://www.minimax.io", "ai-models"),
+  link(t("Xiaomi MiMo", "小米 MiMo"), "https://mimo.mi.com", "ai-models"),
+  link(
+    t("ScienceOne (CAS)", "磐石 ScienceOne"),
+    "https://www.scienceone.cn",
+    "ai-models"
+  ),
+  link("OpenAI", "https://openai.com", "ai-models"),
+  link("Anthropic", "https://www.anthropic.com", "ai-models"),
+  link("Google AI", "https://ai.google", "ai-models"),
 
   // 学习 · 写作与工具箱
   link(

@@ -158,6 +158,14 @@ function CategoryIcon({ categoryId }) {
           <path d="M4.5 5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V5M4.5 11v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6" />
         </svg>
       );
+    case "ai-models":
+      return (
+        <svg {...commonProps}>
+          <rect x="7.5" y="7.5" width="9" height="9" rx="1.5" />
+          <path d="M10 3.5v4M14 3.5v4M10 16.5v4M14 16.5v4" />
+          <path d="M3.5 10h4M3.5 14h4M16.5 10h4M16.5 14h4" />
+        </svg>
+      );
     case "toolbox":
       return (
         <svg {...commonProps}>
