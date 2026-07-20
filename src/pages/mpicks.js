@@ -90,6 +90,15 @@ const PICKS_DATA = {
         badges: ["Knowledge Base", "Tencent AI", "Desktop + Mobile"],
         tint: "orange",
       },
+      {
+        id: "aliyun",
+        title: "Alibaba Cloud Deals Mini-site",
+        description:
+          "Alibaba Cloud's discount mini-site, covering LLM token plans, cloud servers, storage and AI developer tools. A practical entry point when you need hosting or model API credits for a project.",
+        link: "https://www.aliyun.com/minisite/goods?userCode=f4o3ca77",
+        badges: ["Token Plans", "Cloud Servers", "New-user Offers"],
+        tint: "blue",
+      },
     ],
   },
   zh: {
@@ -174,6 +183,15 @@ const PICKS_DATA = {
         link: "https://ima.qq.com/copilot-invite-reward-token/assist/V_5sH_zUlOz6Vxsf86bOyw",
         badges: ["个人知识库", "腾讯出品", "桌面 + 移动"],
         tint: "orange",
+      },
+      {
+        id: "aliyun",
+        title: "阿里云云小站",
+        description:
+          "阿里云优惠专区，覆盖大模型 Token 计划、云服务器、存储与 AI 开发工具。当项目需要托管资源或模型 API 额度时，是一个实用的入口。",
+        link: "https://www.aliyun.com/minisite/goods?userCode=f4o3ca77",
+        badges: ["Token 计划", "云服务器", "新人优惠"],
+        tint: "blue",
       },
     ],
   },
