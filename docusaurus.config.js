@@ -139,9 +139,9 @@ const config = {
     },
     navbar: {
       hideOnScroll: true,
-      title: "AzureAxion",
+      title: "Liangchao Deng",
       logo: {
-        alt: "AzureAxion — Liangchao Deng",
+        alt: "Liangchao Deng · Personal site",
         src: "img/logo.svg",
       },
       items: [

@@ -12,7 +12,8 @@ import styles from "./index.module.css";
 const HOME_COPY = {
   en: {
     pageTitle: "AI for Plant Phenotyping & Crop Modeling",
-    eyebrow: "Liangchao Deng · SMILER488",
+    particleText: "Liangchao Deng",
+    eyebrow: "Liangchao Deng · Personal site",
     title: "Intelligent systems for crops, built to be explored.",
     role: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
     intro:
@@ -27,7 +28,8 @@ const HOME_COPY = {
   },
   zh: {
     pageTitle: "作物表型与作物模型的人工智能研究",
-    eyebrow: "邓良超 · SMILER488",
+    particleText: "邓良超",
+    eyebrow: "邓良超 · 个人主页",
     title: "把作物科学，构建成可以探索的智能系统。",
     role: "博士后研究人员 · 人工智能 × 作物表型 × 作物模型",
     intro:
@@ -59,7 +61,7 @@ function HomepageHeader() {
     <header className={styles.heroBanner} data-particle-stage>
       <div className={styles.particleLayer}>
         <HologramParticles
-          text="SMILER488"
+          text={copy.particleText}
           cloudImage="/img/cloud.png"
           cameraControls={false}
           obstacleSelector="[data-particle-obstacle]"
