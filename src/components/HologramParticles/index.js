@@ -830,7 +830,7 @@ export default function HologramParticles({
       });
       if (!sampleContext) return;
 
-      const displayText = text || "SMILER488";
+      const displayText = text || "AzureAxion";
       const setFont = (size) => {
         sampleContext.font = `800 ${size}px "SF Pro Display", "Inter", system-ui, sans-serif`;
       };
