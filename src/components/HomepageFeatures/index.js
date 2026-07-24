@@ -15,7 +15,7 @@ const CONTENT = {
         title: "Digital Crop Phenotyping",
         description:
           "Multi-view 3D reconstruction, UAV imaging, and computer vision for efficient, multi-scale measurement of crop structure and function.",
-        imageSrc: "/img/openai_art1.svg",
+        imageSrc: "/img/comic1.png",
         href: "/blog/tags/plant-phenotyping",
         meta: "Observe · Reconstruct · Quantify",
       },
@@ -23,7 +23,7 @@ const CONTENT = {
         title: "AI-powered Phenomic Analysis",
         description:
           "Computer vision and scientific AI that make phenotypic data processing more automatic, traceable, and reusable.",
-        imageSrc: "/img/openai_art2.svg",
+        imageSrc: "/img/comic2.png",
         href: "/blog/tags/artificial-intelligence",
         meta: "Vision · Language · Workflow",
       },
@@ -31,7 +31,7 @@ const CONTENT = {
         title: "Crop Modeling & Canopy Design",
         description:
           "Phenotypic and environmental data linked with crop and photosynthesis models for better canopy design and breeding decisions.",
-        imageSrc: "/img/openai_art3.svg",
+        imageSrc: "/img/comic3.png",
         href: "/blog/tags/crop-modeling",
         meta: "Model · Predict · Design",
       },
@@ -87,7 +87,7 @@ const CONTENT = {
         title: "数字作物表型",
         description:
           "融合多视角三维重建、无人机成像与计算机视觉，高效量化作物多尺度结构与功能。",
-        imageSrc: "/img/openai_art1.svg",
+        imageSrc: "/img/comic1.png",
         href: "/blog/tags/plant-phenotyping",
         meta: "观测 · 重建 · 量化",
       },
@@ -95,7 +95,7 @@ const CONTENT = {
         title: "AI 驱动的表型组分析",
         description:
           "以计算机视觉和科学智能提升表型数据处理的自动化、可追溯性与复用能力。",
-        imageSrc: "/img/openai_art2.svg",
+        imageSrc: "/img/comic2.png",
         href: "/blog/tags/artificial-intelligence",
         meta: "视觉 · 语言 · 工作流",
       },
@@ -103,7 +103,7 @@ const CONTENT = {
         title: "作物模型与冠层设计",
         description:
           "连接表型、环境数据与作物及光合模型，为高效冠层设计和育种决策提供依据。",
-        imageSrc: "/img/openai_art3.svg",
+        imageSrc: "/img/comic3.png",
         href: "/blog/tags/crop-modeling",
         meta: "建模 · 预测 · 设计",
       },
