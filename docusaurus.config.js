@@ -110,6 +110,10 @@ const config = {
     image: "img/docusaurus-social-card.jpg",
     metadata: [
       { name: "algolia-site-verification", content: "59BB444E51EBC712" },
+      {
+        name: "google-site-verification",
+        content: "1F_blYF74vUYiqjx5hRpaHBnAHqS5MMkVDRA_utuAxU",
+      },
     ],
     // Algolia Search Config Placeholder
     // algolia: {
