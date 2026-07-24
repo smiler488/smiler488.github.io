@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a3a5c"/>
+      <stop offset="40%" stop-color="#2d6a8f"/>
+      <stop offset="70%" stop-color="#4a9fb5"/>
+      <stop offset="100%" stop-color="#7ec8b8"/>
+    </linearGradient>
+    <!-- Field gradient -->
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d7a4a"/>
+      <stop offset="50%" stop-color="#5a9e5e"/>
+      <stop offset="100%" stop-color="#2d5a35"/>
+    </linearGradient>
+    <!-- Digital overlay gradient -->
+    <linearGradient id="digital" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0.1"/>
+    </linearGradient>
+    <!-- Grid pattern -->
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.15"/>
+    </pattern>
+    <!-- Scan line pattern -->
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="4" y2="0" stroke="#00d4ff" stroke-width="0.3" opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <!-- Background sky -->
+  <rect width="1200" height="800" fill="url(#sky)"/>
+
+  <!-- Distant horizon glow -->
+  <ellipse cx="600" cy="420" rx="700" ry="80" fill="#7ec8b8" opacity="0.3"/>
+
+  <!-- Field base - perspective trapezoid -->
+  <polygon points="0,420 1200,420 1200,800 0,800" fill="url(#field)"/>
+
+  <!-- Crop rows - perspective lines converging to vanishing point -->
+  <g opacity="0.6">
+    <!-- Row lines -->
+    <line x1="600" y1="420" x2="-200" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="0" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="200" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="400" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="600" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="800" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="1000" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="1200" y2="800" stroke="#2d5a35" stroke-width="3"/>
+    <line x1="600" y1="420" x2="1400" y2="800" stroke="#2d5a35" stroke-width="3"/>
+
+    <!-- Cross rows for field pattern -->
+    <line x1="0" y1="500" x2="1200" y2="500" stroke="#2d5a35" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="560" x2="1200" y2="560" stroke="#2d5a35" stroke-width="2" opacity="0.4"/>
+    <line x1="0" y1="630" x2="1200" y2="630" stroke="#2d5a35" stroke-width="2.5" opacity="0.4"/>
+    <line x1="0" y1="710" x2="1200" y2="710" stroke="#2d5a35" stroke-width="3" opacity="0.4"/>
+  </g>
+
+  <!-- Crop row highlights -->
+  <g opacity="0.3">
+    <polygon points="595,420 605,420 410,800 390,800" fill="#6ab86e"/>
+    <polygon points="595,420 605,420 610,800 590,800" fill="#6ab86e"/>
+    <polygon points="595,420 605,420 810,800 790,800" fill="#6ab86e"/>
+  </g>
+
+  <!-- Digital overlay - grid -->
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  <rect width="1200" height="800" fill="url(#scanlines)"/>
+
+  <!-- Data points / measurement markers -->
+  <g fill="#00d4ff" opacity="0.7">
+    <circle cx="300" cy="520" r="4"/>
+    <circle cx="450" cy="560" r="3"/>
+    <circle cx="600" cy="500" r="5"/>
+    <circle cx="750" cy="540" r="3"/>
+    <circle cx="900" cy="510" r="4"/>
+    <circle cx="350" cy="620" r="3"/>
+    <circle cx="500" cy="650" r="4"/>
+    <circle cx="700" cy="630" r="3"/>
+    <circle cx="850" cy="660" r="5"/>
+    <circle cx="200" cy="700" r="3"/>
+    <circle cx="400" cy="720" r="4"/>
+    <circle cx="600" cy="700" r="3"/>
+    <circle cx="800" cy="730" r="4"/>
+    <circle cx="1000" cy="710" r="3"/>
+  </g>
+
+  <!-- Connection lines between data points -->
+  <g stroke="#00d4ff" stroke-width="0.8" opacity="0.3">
+    <line x1="300" y1="520" x2="450" y2="560"/>
+    <line x1="450" y1="560" x2="600" y2="500"/>
+    <line x1="600" y1="500" x2="750" y2="540"/>
+    <line x1="750" y1="540" x2="900" y2="510"/>
+    <line x1="350" y1="620" x2="500" y2="650"/>
+    <line x1="500" y1="650" x2="700" y2="630"/>
+    <line x1="700" y1="630" x2="850" y2="660"/>
+    <line x1="200" y1="700" x2="400" y2="720"/>
+    <line x1="400" y1="720" x2="600" y2="700"/>
+    <line x1="600" y1="700" x2="800" y2="730"/>
+    <line x1="800" y1="730" x2="1000" y2="710"/>
+  </g>
+
+  <!-- Scanning arc / drone sweep indicator -->
+  <path d="M 200,350 Q 600,200 1000,350" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.4" stroke-dasharray="8,4"/>
+  <path d="M 300,380 Q 600,250 900,380" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.3" stroke-dasharray="4,6"/>
+
+  <!-- Drone silhouette (small, distant) -->
+  <g transform="translate(580, 280)" opacity="0.6">
+    <rect x="-15" y="-3" width="30" height="6" rx="3" fill="#1a3a5c"/>
+    <line x1="-20" y1="0" x2="-35" y2="-8" stroke="#1a3a5c" stroke-width="2"/>
+    <line x1="20" y1="0" x2="35" y2="-8" stroke="#1a3a5c" stroke-width="2"/>
+    <circle cx="-35" cy="-8" r="4" fill="none" stroke="#1a3a5c" stroke-width="1.5"/>
+    <circle cx="35" cy="-8" r="4" fill="none" stroke="#1a3a5c" stroke-width="1.5"/>
+    <!-- Signal waves -->
+    <path d="M 0,5 Q 0,20 -15,25" fill="none" stroke="#00d4ff" stroke-width="0.8" opacity="0.5"/>
+    <path d="M 0,5 Q 0,25 -20,32" fill="none" stroke="#00d4ff" stroke-width="0.6" opacity="0.3"/>
+  </g>
+
+  <!-- Subtle vignette -->
+  <rect width="1200" height="800" fill="url(#digital)" opacity="0.5"/>
+
+  <!-- Corner accent - top right data readout style -->
+  <g font-family="monospace" font-size="10" fill="#00d4ff" opacity="0.5">
+    <text x="1050" y="80">ALT: 120m</text>
+    <text x="1050" y="95">NDVI: 0.72</text>
+    <text x="1050" y="110">COV: 94.3%</text>
+  </g>
+</svg>
