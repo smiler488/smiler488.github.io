@@ -1,6 +1,6 @@
 export const cvIdentity = {
   academicEmail: "googalphdlc@gmail.com",
-  businessEmail: "dengliangchao@smiler488.com",
+  businessEmail: "dengliangchao@azureaxion.com",
   assistantEmail: "smiler488@agent.qq.com",
   website: "https://smiler488.github.io/",
   scholar:

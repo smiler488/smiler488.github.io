@@ -15,7 +15,7 @@ const CONTENT = {
         title: "Digital Crop Phenotyping",
         description:
           "Multi-view 3D reconstruction, UAV imaging, and computer vision for efficient, multi-scale measurement of crop structure and function.",
-        imageSrc: "/img/compress_comic1.png",
+        imageSrc: "/img/openai_art1.svg",
         href: "/blog/tags/plant-phenotyping",
         meta: "Observe · Reconstruct · Quantify",
       },
@@ -23,7 +23,7 @@ const CONTENT = {
         title: "AI-powered Phenomic Analysis",
         description:
           "Computer vision and scientific AI that make phenotypic data processing more automatic, traceable, and reusable.",
-        imageSrc: "/img/compress_comic2.png",
+        imageSrc: "/img/openai_art2.svg",
         href: "/blog/tags/artificial-intelligence",
         meta: "Vision · Language · Workflow",
       },
@@ -31,7 +31,7 @@ const CONTENT = {
         title: "Crop Modeling & Canopy Design",
         description:
           "Phenotypic and environmental data linked with crop and photosynthesis models for better canopy design and breeding decisions.",
-        imageSrc: "/img/compress_comic3.png",
+        imageSrc: "/img/openai_art3.svg",
         href: "/blog/tags/crop-modeling",
         meta: "Model · Predict · Design",
       },
@@ -87,7 +87,7 @@ const CONTENT = {
         title: "数字作物表型",
         description:
           "融合多视角三维重建、无人机成像与计算机视觉，高效量化作物多尺度结构与功能。",
-        imageSrc: "/img/compress_comic1.png",
+        imageSrc: "/img/openai_art1.svg",
         href: "/blog/tags/plant-phenotyping",
         meta: "观测 · 重建 · 量化",
       },
@@ -95,7 +95,7 @@ const CONTENT = {
         title: "AI 驱动的表型组分析",
         description:
           "以计算机视觉和科学智能提升表型数据处理的自动化、可追溯性与复用能力。",
-        imageSrc: "/img/compress_comic2.png",
+        imageSrc: "/img/openai_art2.svg",
         href: "/blog/tags/artificial-intelligence",
         meta: "视觉 · 语言 · 工作流",
       },
@@ -103,7 +103,7 @@ const CONTENT = {
         title: "作物模型与冠层设计",
         description:
           "连接表型、环境数据与作物及光合模型，为高效冠层设计和育种决策提供依据。",
-        imageSrc: "/img/compress_comic3.png",
+        imageSrc: "/img/openai_art3.svg",
         href: "/blog/tags/crop-modeling",
         meta: "建模 · 预测 · 设计",
       },
@@ -150,32 +150,29 @@ const CONTENT = {
   },
 };
 
-function ResearchCard({ item }) {
-  const imageNumber = item.imageSrc.match(/comic(\d)/)?.[1];
-  const responsiveSource = imageNumber
-    ? `/img/home-comic${imageNumber}-768.webp 768w, /img/home-comic${imageNumber}-1200.webp 1200w`
-    : undefined;
+function handleSpotlightMouseMove(e) {
+  const card = e.currentTarget;
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  card.style.setProperty("--mouse-x", `${x}px`);
+  card.style.setProperty("--mouse-y", `${y}px`);
+}
 
+function ResearchCard({ item }) {
   return (
-    <Link className={styles.researchCard} to={item.href}>
+    <Link
+      className={styles.researchCard}
+      to={item.href}
+      onMouseMove={handleSpotlightMouseMove}
+    >
       <div className={styles.researchVisual}>
-        <picture>
-          {responsiveSource && (
-            <source
-              type="image/webp"
-              srcSet={responsiveSource}
-              sizes="(max-width: 700px) calc(100vw - 2rem), (max-width: 996px) 42vw, 30vw"
-            />
-          )}
-          <img
-            src={item.imageSrc}
-            alt=""
-            width="2048"
-            height="2048"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+        <img
+          src={item.imageSrc}
+          alt={item.title}
+          loading="lazy"
+          decoding="async"
+        />
         <span className={styles.researchMeta}>{item.meta}</span>
       </div>
       <div className={styles.researchBody}>
@@ -195,19 +192,27 @@ function LabCard({ item }) {
       className={styles.labCard}
       data-accent={item.accent}
       to={item.href}
+      onMouseMove={handleSpotlightMouseMove}
     >
-      <div className={styles.labCardTop}>
-        <span className={styles.labNumber}>{item.number}</span>
-        <span className={styles.labGlyph} aria-hidden="true" />
+      <div className={styles.labVisual} data-accent={item.accent} aria-hidden="true">
+        <span className={styles.labBlobA} />
+        <span className={styles.labBlobB} />
+        <span className={styles.labIcon}>{item.number}</span>
       </div>
-      <div>
-        <Heading as="h3">{item.title}</Heading>
-        <p>{item.description}</p>
+      <div className={styles.labCardBody}>
+        <div className={styles.labCardTop}>
+          <span className={styles.labNumber}>{item.number}</span>
+          <span className={styles.labGlyph} aria-hidden="true" />
+        </div>
+        <div>
+          <Heading as="h3">{item.title}</Heading>
+          <p>{item.description}</p>
+        </div>
+        <span className={styles.labAction}>
+          {item.action}
+          <span aria-hidden="true">→</span>
+        </span>
       </div>
-      <span className={styles.labAction}>
-        {item.action}
-        <span aria-hidden="true">→</span>
-      </span>
     </Link>
   );
 }
@@ -311,7 +316,7 @@ export default function HomepageFeatures() {
             </Link>
             <Link
               className={styles.commercialAction}
-              to="mailto:dengliangchao@smiler488.com"
+              to="mailto:dengliangchao@azureaxion.com"
             >
               {copy.commercialAction}
               <span aria-hidden="true">↗</span>

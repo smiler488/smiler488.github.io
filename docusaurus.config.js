@@ -17,7 +17,7 @@ const config = {
   title: "Liangchao Deng",
   tagline: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
   favicon: "img/favicon.ico",
-  url: "https://smiler488.com",
+  url: "https://smiler488.github.io",
   baseUrl: "/",
   trailingSlash: false,
 
@@ -135,9 +135,9 @@ const config = {
     },
     navbar: {
       hideOnScroll: true,
-      title: "SMILER488",
+      title: "AzureAxion",
       logo: {
-        alt: "SMILER488 — Liangchao Deng",
+        alt: "AzureAxion — Liangchao Deng",
         src: "img/logo.svg",
       },
       items: [

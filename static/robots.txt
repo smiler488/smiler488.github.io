@@ -13,5 +13,5 @@ Disallow: /zh-Hans/app/maze
 
 # Docusaurus writes one sitemap per locale and does not link them together,
 # so both are declared here.
-Sitemap: https://smiler488.com/sitemap.xml
-Sitemap: https://smiler488.com/zh-Hans/sitemap.xml
+Sitemap: https://smiler488.github.io/sitemap.xml
+Sitemap: https://smiler488.github.io/zh-Hans/sitemap.xml

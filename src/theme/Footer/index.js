@@ -24,7 +24,7 @@ const CONTACT_LINKS = [
   },
   {
     type: "collaboration",
-    email: "dengliangchao@smiler488.com",
+    email: "dengliangchao@azureaxion.com",
   },
   {
     type: "assistant",
