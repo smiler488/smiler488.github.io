@@ -28,7 +28,7 @@ const CONTACT_LINKS = [
   },
   {
     type: "assistant",
-    email: "smiler488@agent.qq.com",
+    email: "liangchaodeng@agent.qq.com",
   },
 ];
 
