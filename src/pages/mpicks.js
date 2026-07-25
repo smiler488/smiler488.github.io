@@ -5,6 +5,15 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
 import styles from "./mpicks.module.css";
 
+function getFaviconUrl(url) {
+  try {
+    const hostname = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`;
+  } catch {
+    return null;
+  }
+}
+
 const PICKS_DATA = {
   en: {
     pageTitle: "mPicks",
@@ -73,15 +82,6 @@ const PICKS_DATA = {
         tint: "green",
       },
       {
-        id: "qclaw",
-        title: "QClaw WeChat AI Assistant",
-        description:
-          "Tencent's remote-work AI assistant for WeChat. Dispatch tasks to it from chat and pick the work back up on macOS, Windows, iOS or Android.",
-        link: "https://qclaw.qq.com?channel=6070&share_type=invite-share&invite_code=nRtSmbOE8Bxrh6lg",
-        badges: ["WeChat Native", "Remote Tasks", "All Platforms"],
-        tint: "blue",
-      },
-      {
         id: "ima",
         title: "ima Tencent AI Knowledge Assistant",
         description:
@@ -98,6 +98,15 @@ const PICKS_DATA = {
         link: "https://www.aliyun.com/minisite/goods?userCode=f4o3ca77",
         badges: ["Token Plans", "Cloud Servers", "New-user Offers"],
         tint: "blue",
+      },
+      {
+        id: "workbuddy",
+        title: "WorkBuddy AI Work Assistant",
+        description:
+          "An AI-powered work assistant that helps you manage tasks, schedule meetings, and boost productivity. Sign up via the invite link to get started with exclusive benefits.",
+        link: "https://www.workbuddy.cn/events/invite?inviteCode=uxw36fola8",
+        badges: ["AI Assistant", "Task Management", "Invite Benefits"],
+        tint: "green",
       },
     ],
   },
@@ -167,15 +176,6 @@ const PICKS_DATA = {
         tint: "green",
       },
       {
-        id: "qclaw",
-        title: "QClaw 微信 AI 助手",
-        description:
-          "腾讯推出的微信远程办公 AI 助手。可直接在聊天中给它派活，并在 macOS、Windows、iOS 与 Android 上接续处理。",
-        link: "https://qclaw.qq.com?channel=6070&share_type=invite-share&invite_code=nRtSmbOE8Bxrh6lg",
-        badges: ["微信原生", "远程派活", "全平台"],
-        tint: "blue",
-      },
-      {
         id: "ima",
         title: "ima 腾讯 AI 知识管家",
         description:
@@ -192,6 +192,15 @@ const PICKS_DATA = {
         link: "https://www.aliyun.com/minisite/goods?userCode=f4o3ca77",
         badges: ["Token 计划", "云服务器", "新人优惠"],
         tint: "blue",
+      },
+      {
+        id: "workbuddy",
+        title: "WorkBuddy AI 工作助手",
+        description:
+          "AI 驱动的工作助手，帮助你管理任务、安排会议、提升工作效率。通过邀请链接注册可享受专属福利。",
+        link: "https://www.workbuddy.cn/events/invite?inviteCode=uxw36fola8",
+        badges: ["AI 助手", "任务管理", "邀请福利"],
+        tint: "green",
       },
     ],
   },
@@ -216,77 +225,102 @@ export default function MPicksPage() {
         </header>
 
         <div className={styles.grid}>
-          {copy.items.map((item) => (
+          {copy.items.map((item) => {
+            const faviconUrl = getFaviconUrl(item.link);
+            return (
             <div key={item.id} className={styles.card} data-tint={item.tint}>
               <div className={styles.cardInner}>
                 <div className={styles.cardHeader}>
                   <div className={styles.iconWrapper}>
-                    {item.tint === "blue" && (
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    )}
-                    {item.tint === "green" && (
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                      </svg>
-                    )}
-                    {item.tint === "violet" && (
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                      </svg>
-                    )}
-                    {item.tint === "orange" && (
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-                        <rect
-                          x="2"
-                          y="14"
-                          width="20"
-                          height="8"
-                          rx="2"
-                          ry="2"
-                        />
-                        <line x1="6" y1="6" x2="6.01" y2="6" />
-                        <line x1="6" y1="18" x2="6.01" y2="18" />
-                      </svg>
-                    )}
+                    {faviconUrl ? (
+                      <img
+                        src={faviconUrl}
+                        alt=""
+                        width="28"
+                        height="28"
+                        loading="lazy"
+                        className={styles.cardFavicon}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          const parent = e.target.closest(".iconWrapper") || e.target.parentElement;
+                          if (parent) {
+                            const fallback = parent.querySelector(`.${styles.iconSvg}`);
+                            if (fallback) fallback.style.display = "block";
+                          }
+                        }}
+                      />
+                    ) : null}
+                    <span
+                      className={styles.iconSvg}
+                      style={faviconUrl ? { display: "none" } : undefined}
+                    >
+                      {item.tint === "blue" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      )}
+                      {item.tint === "green" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                      )}
+                      {item.tint === "violet" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        </svg>
+                      )}
+                      {item.tint === "orange" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                          <rect
+                            x="2"
+                            y="14"
+                            width="20"
+                            height="8"
+                            rx="2"
+                            ry="2"
+                          />
+                          <line x1="6" y1="6" x2="6.01" y2="6" />
+                          <line x1="6" y1="18" x2="6.01" y2="18" />
+                        </svg>
+                      )}
+                    </span>
                   </div>
                   <Heading as="h2" className={styles.cardTitle}>
                     {item.title}
@@ -367,7 +401,7 @@ export default function MPicksPage() {
                 </div>
               </div>
             </div>
-          ))}
+          );})}
         </div>
       </main>
     </Layout>
