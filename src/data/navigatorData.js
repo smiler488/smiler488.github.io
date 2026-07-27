@@ -577,6 +577,11 @@ export const navigatorLinks = [
   link("ModelScope", "https://www.modelscope.cn/home", "data-platforms"),
   link("Google Colab", "https://colab.research.google.com/", "data-platforms"),
   link("Zenodo", "https://zenodo.org/", "data-platforms"),
+  link(
+    t("China Science & Technology Cloud", "中国科技云"),
+    "https://www1.cstcloud.cn/workbench",
+    "data-platforms"
+  ),
 
   // 学习 · 大模型与 AI 平台
   link(t("Zhipu AI", "智谱 AI"), "https://www.zhipuai.cn/zh", "ai-models"),
