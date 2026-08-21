@@ -24,7 +24,7 @@ export const cvContent = {
       institution:
         "Shenzhen Institute of China Agricultural University · Shenzhen, China",
       summary:
-        "Research at the intersection of AI-driven plant phenotyping, 3D computer vision, remote sensing, and process-based crop simulation.",
+        "Toward high, stable, and resource-efficient crop production under climate change, my research turns satellite–UAV–ground 3D observations into interpretable crop physiological states and, by coupling structure–radiation–photosynthesis–growth processes with data assimilation, builds verifiable, predictive, and intervenable crop digital twins that provide a mechanistic basis for the coordinated design of genotype × environment × management (G×E×M).",
       degree: "Ph.D. in Crop Science · Shihezi University · 2026",
       appointment: "Appointment · 1 Aug 2026 – 31 Jul 2029",
       stats: [
@@ -350,7 +350,7 @@ export const cvContent = {
       institution:
         "深圳市中农大前沿技术研究院（中国农业大学深圳研究院）· 中国深圳",
       summary:
-        "聚焦 AI 驱动的植物表型、三维计算机视觉、遥感与过程机理作物模拟的交叉研究。",
+        "面向气候变化下的作物高产、稳产与资源高效，研究如何将卫星—无人机—地面三维观测转化为可解释的作物生理状态，并通过结构—辐射—光合—生长过程耦合和数据同化，构建可验证、可推演、可干预的作物数字孪生，为品种×环境×管理协同设计提供机制依据。",
       degree: "作物科学博士 · 石河子大学 · 2026年获授",
       appointment: "聘期 · 2026年8月1日 – 2029年7月31日",
       stats: [
