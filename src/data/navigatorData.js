@@ -582,6 +582,11 @@ export const navigatorLinks = [
     "https://www1.cstcloud.cn/workbench",
     "data-platforms"
   ),
+  link(
+    t("CSTCloud LaTeX", "科技云 LaTeX 在线编辑"),
+    "https://latex.cstcloud.cn/project",
+    "data-platforms"
+  ),
 
   // 学习 · 大模型与 AI 平台
   link(t("Zhipu AI", "智谱 AI"), "https://www.zhipuai.cn/zh", "ai-models"),
