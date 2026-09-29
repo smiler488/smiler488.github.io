@@ -6,34 +6,56 @@ import styles from "./styles.module.css";
 
 const CONTENT = {
   en: {
-    researchEyebrow: "Research directions",
-    researchTitle: "From plant structure to predictive intelligence.",
+    researchEyebrow: "Research architecture",
+    researchTitle: "From sensing crops to designing crops.",
     researchIntro:
-      "Three connected layers turn field observations into measurable traits, explainable models, and useful decisions.",
+      "A four-layer architecture for crop intelligence — digitize the physical crop, understand its mechanisms, predict its future, and design what it should become.",
+    researchLoop:
+      "Digitize → Understand → Predict → Design → Validate → back to Digitize",
     research: [
       {
-        title: "Digital Crop Phenotyping",
+        mark: "I",
+        verb: "Digitize",
+        transform: "Physical Crop → Digital Crop",
+        question: "What is the crop's state right now?",
         description:
-          "Multi-view 3D reconstruction, UAV imaging, and computer vision for efficient, multi-scale measurement of crop structure and function.",
-        imageSrc: "/img/comic1.png",
+          "Multi-view 3D reconstruction, UAV imaging, and computer vision turn a real crop into point clouds and quantified traits — a measurable digital twin.",
+        meta: "Sense · Reconstruct · Quantify",
         href: "/blog/tags/plant-phenotyping",
-        meta: "Observe · Reconstruct · Quantify",
+        accent: "green",
       },
       {
-        title: "AI-powered Phenomic Analysis",
+        mark: "II",
+        verb: "Understand",
+        transform: "Digital Crop → Explainable Crop",
+        question: "Why does the crop behave this way?",
         description:
-          "Computer vision and scientific AI that make phenotypic data processing more automatic, traceable, and reusable.",
-        imageSrc: "/img/comic2.png",
+          "Coupling structure–radiation–photosynthesis–growth processes with scientific AI turns the digital crop into an interpretable, mechanistic model.",
+        meta: "Model · Explain · Connect",
         href: "/blog/tags/artificial-intelligence",
-        meta: "Vision · Language · Workflow",
+        accent: "blue",
       },
       {
-        title: "Crop Modeling & Canopy Design",
+        mark: "III",
+        verb: "Predict",
+        transform: "Explainable Crop → Predictive Crop",
+        question: "What will happen next?",
         description:
-          "Phenotypic and environmental data linked with crop and photosynthesis models for better canopy design and breeding decisions.",
-        imageSrc: "/img/comic3.png",
+          "State-transition dynamics and data assimilation project growth under environment × management scenarios, with decision risk quantified.",
+        meta: "Simulate · Forecast · Quantify risk",
         href: "/blog/tags/crop-modeling",
-        meta: "Model · Predict · Design",
+        accent: "violet",
+      },
+      {
+        mark: "IV",
+        verb: "Design",
+        transform: "Predictive Crop → Designed Crop",
+        question: "What should the crop become?",
+        description:
+          "Inverse design and optimization over genotype × environment × management propose canopy and breeding targets — closing the loop back to the field.",
+        meta: "Optimize · Design · Decide",
+        href: "/blog/tags/crop-modeling",
+        accent: "orange",
       },
     ],
     labEyebrow: "Featured tools",
@@ -78,34 +100,55 @@ const CONTENT = {
     botAction: "WeChat Consulting Bot",
   },
   zh: {
-    researchEyebrow: "研究方向",
-    researchTitle: "从植物结构，走向可预测的智能。",
+    researchEyebrow: "研究架构",
+    researchTitle: "从感知作物，走向设计作物。",
     researchIntro:
-      "把田间观测连接为可测量的表型、可解释的模型与可执行的科研决策。",
+      "作物智能的四层架构——把物理作物数字化、理解其机理、预测其未来，并设计它应有的样子。",
+    researchLoop: "数字化 → 理解 → 预测 → 设计 → 验证 → 再数字化",
     research: [
       {
-        title: "数字作物表型",
+        mark: "I",
+        verb: "数字化",
+        transform: "物理作物 → 数字作物",
+        question: "作物此刻的状态是什么？",
         description:
-          "融合多视角三维重建、无人机成像与计算机视觉，高效量化作物多尺度结构与功能。",
-        imageSrc: "/img/comic1.png",
+          "融合多视角三维重建、无人机成像与计算机视觉，把真实作物转化为点云与可量化性状——构建可测量的数字孪生。",
+        meta: "感知 · 重建 · 量化",
         href: "/blog/tags/plant-phenotyping",
-        meta: "观测 · 重建 · 量化",
+        accent: "green",
       },
       {
-        title: "AI 驱动的表型组分析",
+        mark: "II",
+        verb: "理解",
+        transform: "数字作物 → 可解释作物",
+        question: "作物为何如此表现？",
         description:
-          "以计算机视觉和科学智能提升表型数据处理的自动化、可追溯性与复用能力。",
-        imageSrc: "/img/comic2.png",
+          "将结构—辐射—光合—生长过程与科学智能耦合，把数字作物转化为可解释的机理模型。",
+        meta: "建模 · 解释 · 关联",
         href: "/blog/tags/artificial-intelligence",
-        meta: "视觉 · 语言 · 工作流",
+        accent: "blue",
       },
       {
-        title: "作物模型与冠层设计",
+        mark: "III",
+        verb: "预测",
+        transform: "可解释作物 → 可预测作物",
+        question: "接下来会发生什么？",
         description:
-          "连接表型、环境数据与作物及光合模型，为高效冠层设计和育种决策提供依据。",
-        imageSrc: "/img/comic3.png",
+          "以状态转移动力学与数据同化，在环境 × 管理情景下推演作物生长，并量化决策风险。",
+        meta: "模拟 · 预测 · 量化风险",
         href: "/blog/tags/crop-modeling",
-        meta: "建模 · 预测 · 设计",
+        accent: "violet",
+      },
+      {
+        mark: "IV",
+        verb: "设计",
+        transform: "可预测作物 → 可设计作物",
+        question: "作物应该成为什么样？",
+        description:
+          "在基因型 × 环境 × 管理空间中进行逆向设计与优化，给出冠层与育种目标——让闭环回到田间。",
+        meta: "优化 · 设计 · 决策",
+        href: "/blog/tags/crop-modeling",
+        accent: "orange",
       },
     ],
     labEyebrow: "精选工具",
@@ -159,29 +202,29 @@ function handleSpotlightMouseMove(e) {
   card.style.setProperty("--mouse-y", `${y}px`);
 }
 
-function ResearchCard({ item }) {
+function LayerCard({ item }) {
   return (
     <Link
-      className={styles.researchCard}
+      className={styles.layerCard}
+      data-accent={item.accent}
       to={item.href}
       onMouseMove={handleSpotlightMouseMove}
     >
-      <div className={styles.researchVisual}>
-        <img
-          src={item.imageSrc}
-          alt={item.title}
-          loading="lazy"
-          decoding="async"
-        />
-        <span className={styles.researchMeta}>{item.meta}</span>
-      </div>
-      <div className={styles.researchBody}>
-        <Heading as="h3">{item.title}</Heading>
-        <p>{item.description}</p>
-        <span className={styles.cardArrow} aria-hidden="true">
-          ↗
+      <div className={styles.layerHead}>
+        <span className={styles.layerNumeral} aria-hidden="true">
+          {item.mark}
         </span>
+        <span className={styles.layerVerb}>{item.verb}</span>
       </div>
+      <span className={styles.layerTransform}>{item.transform}</span>
+      <Heading as="h3" className={styles.layerQuestion}>
+        {item.question}
+      </Heading>
+      <p className={styles.layerDesc}>{item.description}</p>
+      <span className={styles.layerMeta}>{item.meta}</span>
+      <span className={styles.cardArrow} aria-hidden="true">
+        ↗
+      </span>
     </Link>
   );
 }
@@ -237,11 +280,12 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <div className={styles.researchGrid}>
+          <div className={styles.layerGrid}>
             {copy.research.map((item) => (
-              <ResearchCard key={item.title} item={item} />
+              <LayerCard key={item.mark} item={item} />
             ))}
           </div>
+          <p className={styles.layerLoop}>{copy.researchLoop}</p>
         </div>
       </section>
 

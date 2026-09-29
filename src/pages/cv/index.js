@@ -128,7 +128,7 @@ const ICONS = {
 };
 
 const CONTACT_ICON = { "@": "mail", BI: "briefcase", AS: "calendar", SZ: "pin", WEB: "globe" };
-const RESEARCH_ICON = { "3D": "cube", AI: "brain", PAR: "sun", UAV: "satellite", DT: "layers" };
+const RESEARCH_ICON = { DIG: "cube", UND: "brain", PRE: "chart", DES: "package" };
 const SKILL_ICON = { PY: "code", "3D": "cube", RS: "satellite", AI: "brain", SIM: "chart", DEV: "terminal" };
 const OUTPUT_ICON = { PP: "doc", SW: "package" };
 

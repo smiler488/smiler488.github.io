@@ -28,7 +28,7 @@ export const cvContent = {
       degree: "Ph.D. in Crop Science · Shihezi University · 2026",
       appointment: "Appointment · 1 Aug 2026 – 31 Jul 2029",
       stats: [
-        { value: "5", label: "research themes" },
+        { value: "4", label: "architecture layers" },
         { value: "2026", label: "Ph.D. awarded" },
         { value: "2026–29", label: "postdoctoral term" },
       ],
@@ -70,40 +70,34 @@ export const cvContent = {
       ],
     },
     research: {
-      eyebrow: "Research profile",
-      title: "Five connected research themes",
+      eyebrow: "Research architecture",
+      title: "Four layers of crop intelligence",
       description:
-        "A research program connecting field sensing, scientific computing, and deployable agricultural systems.",
+        "A four-layer architecture — Digitize → Understand → Predict → Design — turning multi-source observations into a verifiable, predictive, and designable crop. My PhD built Layers I–II; my postdoc focuses on the Layer II→III jump: making crop state not only observable and explainable, but projectable.",
       items: [
         {
-          mark: "3D",
-          title: "Agricultural Robotics & Computer Vision",
+          mark: "DIG",
+          title: "Layer I · Digitize — Physical → Digital Crop",
           description:
-            "3D plant reconstruction, point-cloud structural analysis, robotic sensing, and autonomous data collection for high-throughput phenotyping.",
+            "Multi-view 3D reconstruction, UAV imaging, and computer vision turn a real crop into point clouds and quantified traits — a measurable digital twin of its current state.",
         },
         {
-          mark: "AI",
-          title: "AI-driven Plant Phenotyping",
+          mark: "UND",
+          title: "Layer II · Understand — Digital → Explainable Crop",
           description:
-            "Multimodal AI for image segmentation, object detection, phenotypic analysis, and structure–function modeling.",
+            "Coupling structure–radiation–photosynthesis–growth processes with scientific AI to turn the digital crop into an interpretable, mechanistic model.",
         },
         {
-          mark: "PAR",
-          title: "Canopy Light & Photosynthesis",
+          mark: "PRE",
+          title: "Layer III · Predict — Toward a Predictive Crop",
           description:
-            "Physics-based canopy light interception and photosynthesis modeling for efficient crop research.",
+            "State-transition dynamics and data assimilation project growth under environment × management scenarios, with decision risk quantified.",
         },
         {
-          mark: "UAV",
-          title: "Remote Sensing & Sensor Fusion",
+          mark: "DES",
+          title: "Layer IV · Design — Toward a Designed Crop",
           description:
-            "RGB, multispectral, hyperspectral, and LiDAR data fusion for smart agriculture.",
-        },
-        {
-          mark: "DT",
-          title: "Digital Twins & Process Models",
-          description:
-            "Coupling sensing data with crop growth models to build agricultural automation and simulation systems.",
+            "Inverse design and optimization over genotype × environment × management propose canopy and breeding targets — from sensing crops to designing crops.",
         },
       ],
     },
@@ -354,7 +348,7 @@ export const cvContent = {
       degree: "作物科学博士 · 石河子大学 · 2026年获授",
       appointment: "聘期 · 2026年8月1日 – 2029年7月31日",
       stats: [
-        { value: "5", label: "个研究主题" },
+        { value: "4", label: "层架构" },
         { value: "2026", label: "博士学位获授" },
         { value: "2026–29", label: "博士后聘期" },
       ],
@@ -396,39 +390,34 @@ export const cvContent = {
       ],
     },
     research: {
-      eyebrow: "研究概览",
-      title: "五个相互衔接的研究主题",
+      eyebrow: "研究架构",
+      title: "作物智能的四层架构",
       description:
-        "以田间感知、科学计算和可落地农业系统为主线构建完整研究体系。",
+        "以「数字化 → 理解 → 预测 → 设计」四层架构，把多源观测转化为可验证、可预测、可设计的作物。我的博士阶段构建了第一、二层；博士后聚焦第二层到第三层的跨越——让作物状态不仅可观测、可解释，更可推演。",
       items: [
         {
-          mark: "3D",
-          title: "农业机器人与计算机视觉",
+          mark: "DIG",
+          title: "第一层 · 数字化 — 物理作物 → 数字作物",
           description:
-            "3D 植物重建、点云结构分析，以及面向高通量表型的机器人感知与自主数据采集。",
+            "融合多视角三维重建、无人机成像与计算机视觉，把真实作物转化为点云与可量化性状——构建可测量的数字孪生。",
         },
         {
-          mark: "AI",
-          title: "AI 驱动的植物表型分析",
+          mark: "UND",
+          title: "第二层 · 理解 — 数字作物 → 可解释作物",
           description:
-            "多模态 AI 在图像分割、目标检测、植物表型分析与结构—功能建模中的应用。",
+            "将结构—辐射—光合—生长过程与科学智能耦合，把数字作物转化为可解释的机理模型。",
         },
         {
-          mark: "PAR",
-          title: "冠层光截获与光合作用",
-          description: "面向高效作物研究的物理机理冠层光截获与光合作用建模。",
+          mark: "PRE",
+          title: "第三层 · 预测 — 走向可预测作物",
+          description:
+            "以状态转移动力学与数据同化，在环境 × 管理情景下推演作物生长，并量化决策风险。",
         },
         {
-          mark: "UAV",
-          title: "遥感与多源传感器融合",
+          mark: "DES",
+          title: "第四层 · 设计 — 走向可设计作物",
           description:
-            "融合 RGB、多光谱、高光谱和 LiDAR 数据，服务智慧农业研究。",
-        },
-        {
-          mark: "DT",
-          title: "数字孪生与过程模型",
-          description:
-            "将感知数据与作物生长模型耦合，构建农业自动化与仿真系统。",
+            "在基因型 × 环境 × 管理空间中进行逆向设计与优化，给出冠层与育种目标——从感知作物，走向设计作物。",
         },
       ],
     },

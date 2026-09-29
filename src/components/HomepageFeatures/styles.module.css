@@ -90,6 +90,158 @@
   gap: clamp(1rem, 2vw, 1.5rem);
 }
 
+/* ── Four-layer architecture (Digitize → Understand → Predict → Design) ── */
+.layerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.6vw, 1.25rem);
+}
+
+.layerCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 1.6rem 1.35rem 1.4rem;
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+  background: var(--glass-card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius, 20px);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.layerCard::after {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--layer-accent, #10a37f);
+  opacity: 0.9;
+  content: "";
+}
+
+.layerCard[data-accent="green"] {
+  --layer-accent: #10a37f;
+}
+.layerCard[data-accent="blue"] {
+  --layer-accent: #3b82f6;
+}
+.layerCard[data-accent="violet"] {
+  --layer-accent: #8b5cf6;
+}
+.layerCard[data-accent="orange"] {
+  --layer-accent: #ef8f43;
+}
+
+.layerCard:hover {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 var(--glass-highlight);
+  transform: translateY(-4px);
+}
+
+.layerCard:focus-visible {
+  outline: 3px solid
+    color-mix(in srgb, var(--ifm-color-primary) 42%, transparent);
+  outline-offset: 4px;
+}
+
+.layerHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.layerNumeral {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--layer-accent, #10a37f);
+  font-variant-numeric: tabular-nums;
+}
+
+.layerVerb {
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.layerTransform {
+  margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--layer-accent, #10a37f);
+}
+
+.layerCard .layerQuestion {
+  margin: 0 0 0.5rem !important;
+  font-size: 0.98rem !important;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.layerDesc {
+  flex: 1;
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.layerMeta {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.layerCard .cardArrow {
+  position: absolute;
+  top: 1.35rem;
+  right: 1.2rem;
+  color: var(--layer-accent, #10a37f);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.layerCard:hover .cardArrow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.layerLoop {
+  margin: clamp(1.4rem, 3vw, 2.2rem) auto 0;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+@media (max-width: 900px) {
+  .layerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .layerGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .researchCard,
 .labCard {
   position: relative;
