@@ -63,7 +63,7 @@ export const APP_MANIFEST = [
     category: "field",
     categoryLabel: { en: "Field planning", zh: "田间规划" },
     icon: "H₂O",
-    tone: "cyan",
+    tone: "green",
     runtime: { en: "Local browser calculation", zh: "本地浏览器计算" },
     badges: {
       en: ["Hydraulics", "Scaled SVG", "Local calculation"],
@@ -87,7 +87,7 @@ export const APP_MANIFEST = [
     category: "field",
     categoryLabel: { en: "Field planning", zh: "田间规划" },
     icon: "WX",
-    tone: "cyan",
+    tone: "green",
     runtime: { en: "NASA POWER connection", zh: "连接 NASA POWER" },
     badges: {
       en: ["NASA POWER", "Map selection", "CSV export"],
@@ -108,7 +108,7 @@ export const APP_MANIFEST = [
     category: "field",
     categoryLabel: { en: "Field planning", zh: "田间规划" },
     icon: "UAV",
-    tone: "orange",
+    tone: "green",
     runtime: { en: "Local route generation", zh: "本地航线生成" },
     badges: {
       en: ["KML / KMZ", "Route preview", "DJI waylines"],
@@ -171,7 +171,7 @@ export const APP_MANIFEST = [
     category: "imaging",
     categoryLabel: { en: "Imaging & vision", zh: "成像与视觉" },
     icon: "3D",
-    tone: "violet",
+    tone: "green",
     runtime: { en: "Local camera processing", zh: "本地相机处理" },
     badges: {
       en: ["Camera input", "Stereo pair", "Depth preview"],
@@ -192,7 +192,7 @@ export const APP_MANIFEST = [
     category: "imaging",
     categoryLabel: { en: "Imaging & vision", zh: "成像与视觉" },
     icon: "CAL",
-    tone: "violet",
+    tone: "green",
     runtime: { en: "Local target generation", zh: "本地生成" },
     badges: {
       en: ["Live preview", "Print scale", "PDF export"],
@@ -213,7 +213,7 @@ export const APP_MANIFEST = [
     category: "research",
     categoryLabel: { en: "AI & research", zh: "AI 与科研" },
     icon: "CSV",
-    tone: "blue",
+    tone: "green",
     runtime: {
       en: "Local charts · optional external AI",
       zh: "本地绘图 · 可选外部 AI",
@@ -238,7 +238,7 @@ export const APP_MANIFEST = [
     category: "research",
     categoryLabel: { en: "AI & research", zh: "AI 与科研" },
     icon: "JCR",
-    tone: "blue",
+    tone: "green",
     runtime: {
       en: "Uses your selected AI provider",
       zh: "使用你选择的 AI 服务",
@@ -262,7 +262,7 @@ export const APP_MANIFEST = [
     category: "research",
     categoryLabel: { en: "AI & research", zh: "AI 与科研" },
     icon: "Σ",
-    tone: "blue",
+    tone: "green",
     runtime: {
       en: "Uses your selected AI provider",
       zh: "使用你选择的 AI 服务",
@@ -286,7 +286,7 @@ export const APP_MANIFEST = [
     category: "utility",
     categoryLabel: { en: "Utilities", zh: "实用工具" },
     icon: "TXT",
-    tone: "rose",
+    tone: "green",
     runtime: { en: "Local encryption and storage", zh: "本地加密与存储" },
     badges: {
       en: ["Web Crypto", "Local storage", "Text only"],
@@ -307,7 +307,7 @@ export const APP_MANIFEST = [
     category: "utility",
     categoryLabel: { en: "Utilities", zh: "实用工具" },
     icon: "2D",
-    tone: "orange",
+    tone: "green",
     runtime: { en: "Local canvas experiment", zh: "本地 canvas 实验" },
     badges: {
       en: ["Canvas", "Keyboard + touch", "Local scores"],

@@ -98,56 +98,39 @@ const COPY = {
   },
 };
 
-function AppCardVisual({ app }) {
-  return (
-    <div className={styles.cardVisual} data-tone={app.tone} aria-hidden="true">
-      <span className={styles.visualBlobA} />
-      <span className={styles.visualBlobB} />
-      <span className={styles.visualBlobC} />
-      <span className={styles.visualIcon}>{app.icon}</span>
-    </div>
-  );
-}
-
 function AppCard({ app, isChinese, copy }) {
-  const name = localizeApp(app.name, isChinese);
-  const badges = localizeApp(app.badges, isChinese);
+  const name = localizeApp(app.shortName, isChinese);
   return (
     <Link
       className={styles.appCard}
       to={app.route}
-      data-tone={app.tone}
       aria-label={`${copy.open} ${name}`}
     >
-      <AppCardVisual app={app} />
+      <div className={styles.cardShot}>
+        <img
+          src={`/img/app-shots/${app.id}.jpg`}
+          alt={`${name} interface`}
+          loading="lazy"
+          decoding="async"
+          width="800"
+          height="500"
+        />
+      </div>
 
-      <div className={styles.cardTopline}>
-        <span className={styles.appIcon} aria-hidden="true">
-          {app.icon}
-        </span>
+      <div className={styles.cardBody}>
         <span className={styles.categoryLabel}>
           {localizeApp(app.categoryLabel, isChinese)}
         </span>
-      </div>
-
-      <div className={styles.cardCopy}>
         <Heading as="h2" className={styles.cardTitle}>
-          {localizeApp(app.shortName, isChinese)}
+          {name}
         </Heading>
         <p className={styles.cardDescription}>
           {localizeApp(app.description, isChinese)}
         </p>
-      </div>
-
-      <ul className={styles.cardBadges} aria-label={copy.capabilities}>
-        {badges.slice(0, 3).map((badge) => (
-          <li key={badge}>{badge}</li>
-        ))}
-      </ul>
-
-      <div className={styles.cardAction} aria-hidden="true">
-        <span>{copy.openTool}</span>
-        <span className={styles.cardArrow}>↗</span>
+        <div className={styles.cardAction} aria-hidden="true">
+          <span>{copy.openTool}</span>
+          <span className={styles.cardArrow}>→</span>
+        </div>
       </div>
     </Link>
   );
