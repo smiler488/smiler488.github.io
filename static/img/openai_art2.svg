@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="50%" stop-color="#0f2035"/>
+      <stop offset="100%" stop-color="#0a1e30"/>
+    </linearGradient>
+    <!-- Leaf gradient -->
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2d8a4e"/>
+      <stop offset="40%" stop-color="#45b86a"/>
+      <stop offset="100%" stop-color="#1a6b35"/>
+    </linearGradient>
+    <!-- Neural glow -->
+    <radialGradient id="neuralGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Data stream gradient -->
+    <linearGradient id="dataStream" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7b2ff7" stop-opacity="0.3"/>
+    </linearGradient>
+    <!-- Leaf vein pattern -->
+    <linearGradient id="veinGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <!-- Subtle grid background -->
+  <g opacity="0.05" stroke="#00d4ff" stroke-width="0.5">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/>
+    <line x1="0" y1="700" x2="1200" y2="700"/>
+    <line x1="200" y1="0" x2="200" y2="800"/>
+    <line x1="400" y1="0" x2="400" y2="800"/>
+    <line x1="600" y1="0" x2="600" y2="800"/>
+    <line x1="800" y1="0" x2="800" y2="800"/>
+    <line x1="1000" y1="0" x2="1000" y2="800"/>
+  </g>
+
+  <!-- Main leaf shape - large, centered -->
+  <g transform="translate(600, 400) rotate(-15)">
+    <!-- Leaf body -->
+    <path d="M 0,-280 C 120,-200 180,-100 160,0 C 140,100 80,200 0,280 C -80,200 -140,100 -160,0 C -180,-100 -120,-200 0,-280 Z"
+          fill="url(#leafGrad)" opacity="0.9"/>
+
+    <!-- Leaf highlight -->
+    <path d="M 0,-260 C 80,-190 130,-100 115,0 C 100,80 55,170 0,250 C -20,170 -40,80 -50,0 C -60,-80 -40,-170 0,-260 Z"
+          fill="#45b86a" opacity="0.3"/>
+
+    <!-- Central vein -->
+    <line x1="0" y1="-260" x2="0" y2="260" stroke="#1a6b35" stroke-width="4" opacity="0.8"/>
+
+    <!-- Side veins - left -->
+    <g stroke="#1a6b35" stroke-width="2" opacity="0.6">
+      <line x1="0" y1="-180" x2="-100" y2="-130"/>
+      <line x1="0" y1="-120" x2="-120" y2="-60"/>
+      <line x1="0" y1="-60" x2="-130" y2="0"/>
+      <line x1="0" y1="0" x2="-120" y2="60"/>
+      <line x1="0" y1="60" x2="-100" y2="120"/>
+      <line x1="0" y1="120" x2="-70" y2="180"/>
+    </g>
+
+    <!-- Side veins - right -->
+    <g stroke="#1a6b35" stroke-width="2" opacity="0.6">
+      <line x1="0" y1="-180" x2="100" y2="-130"/>
+      <line x1="0" y1="-120" x2="120" y2="-60"/>
+      <line x1="0" y1="-60" x2="130" y2="0"/>
+      <line x1="0" y1="0" x2="120" y2="60"/>
+      <line x1="0" y1="60" x2="100" y2="120"/>
+      <line x1="0" y1="120" x2="70" y2="180"/>
+    </g>
+
+    <!-- Glowing neural network overlay on veins -->
+    <g stroke="#00ff88" stroke-width="1.5" opacity="0.7">
+      <line x1="0" y1="-180" x2="-100" y2="-130"/>
+      <line x1="0" y1="-60" x2="-130" y2="0"/>
+      <line x1="0" y1="60" x2="-100" y2="120"/>
+      <line x1="0" y1="-120" x2="120" y2="-60"/>
+      <line x1="0" y1="0" x2="120" y2="60"/>
+      <line x1="0" y1="120" x2="70" y2="180"/>
+    </g>
+
+    <!-- Neural nodes at vein intersections -->
+    <g fill="#00ff88">
+      <circle cx="0" cy="-180" r="5"/>
+      <circle cx="-100" cy="-130" r="4"/>
+      <circle cx="0" cy="-120" r="5"/>
+      <circle cx="120" cy="-60" r="4"/>
+      <circle cx="0" cy="-60" r="5"/>
+      <circle cx="-130" cy="0" r="4"/>
+      <circle cx="0" cy="0" r="6"/>
+      <circle cx="120" cy="60" r="4"/>
+      <circle cx="0" cy="60" r="5"/>
+      <circle cx="-100" cy="120" r="4"/>
+      <circle cx="0" cy="120" r="5"/>
+      <circle cx="70" cy="180" r="4"/>
+    </g>
+
+    <!-- Node glow effects -->
+    <g>
+      <circle cx="0" cy="0" r="20" fill="url(#neuralGlow)"/>
+      <circle cx="-130" cy="0" r="15" fill="url(#neuralGlow)" opacity="0.5"/>
+      <circle cx="120" cy="-60" r="15" fill="url(#neuralGlow)" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- Bounding box / AI detection overlay -->
+  <g stroke="#00d4ff" stroke-width="1.5" fill="none" opacity="0.6">
+    <rect x="380" y="160" width="440" height="480" rx="4"/>
+    <!-- Corner brackets -->
+    <path d="M 380,180 L 380,160 L 400,160" stroke-width="2.5"/>
+    <path d="M 800,160 L 820,160 L 820,180" stroke-width="2.5"/>
+    <path d="M 380,620 L 380,640 L 400,640" stroke-width="2.5"/>
+    <path d="M 800,640 L 820,640 L 820,620" stroke-width="2.5"/>
+  </g>
+
+  <!-- Classification label -->
+  <g font-family="monospace" font-size="13" fill="#00d4ff" opacity="0.8">
+    <rect x="385" y="148" width="160" height="18" rx="2" fill="#0a1628" opacity="0.8"/>
+    <text x="392" y="161">Leaf: 98.7%</text>
+  </g>
+
+  <!-- Data stream lines - right side -->
+  <g opacity="0.4">
+    <line x1="900" y1="200" x2="1100" y2="200" stroke="url(#dataStream)" stroke-width="2"/>
+    <line x1="900" y1="240" x2="1080" y2="240" stroke="url(#dataStream)" stroke-width="1.5"/>
+    <line x1="900" y1="280" x2="1120" y2="280" stroke="url(#dataStream)" stroke-width="1"/>
+    <line x1="900" y1="320" x2="1060" y2="320" stroke="url(#dataStream)" stroke-width="2"/>
+    <line x1="900" y1="360" x2="1100" y2="360" stroke="url(#dataStream)" stroke-width="1.5"/>
+    <line x1="900" y1="400" x2="1090" y2="400" stroke="url(#dataStream)" stroke-width="1"/>
+    <line x1="900" y1="440" x2="1070" y2="440" stroke="url(#dataStream)" stroke-width="2"/>
+    <line x1="900" y1="480" x2="1110" y2="480" stroke="url(#dataStream)" stroke-width="1.5"/>
+    <line x1="900" y1="520" x2="1050" y2="520" stroke="url(#dataStream)" stroke-width="1"/>
+    <line x1="900" y1="560" x2="1100" y2="560" stroke="url(#dataStream)" stroke-width="2"/>
+  </g>
+
+  <!-- Floating data points -->
+  <g fill="#7b2ff7" opacity="0.6">
+    <circle cx="920" cy="180" r="3"/>
+    <circle cx="960" cy="220" r="2"/>
+    <circle cx="940" cy="300" r="3"/>
+    <circle cx="980" cy="340" r="2"/>
+    <circle cx="930" cy="420" r="3"/>
+    <circle cx="970" cy="460" r="2"/>
+    <circle cx="950" cy="540" r="3"/>
+  </g>
+
+  <!-- Analysis metrics - bottom right -->
+  <g font-family="monospace" font-size="11" fill="#00d4ff" opacity="0.5">
+    <text x="920" y="650">CHL: 42.3 μg/cm²</text>
+    <text x="920" y="670">LAI: 3.8</text>
+    <text x="920" y="690">N-content: 2.1%</text>
+    <text x="920" y="710">Health: ✓</text>
+  </g>
+
+  <!-- Neural network mini visualization - top left -->
+  <g opacity="0.4">
+    <!-- Layer 1 -->
+    <circle cx="120" cy="180" r="6" fill="#00d4ff"/>
+    <circle cx="120" cy="220" r="6" fill="#00d4ff"/>
+    <circle cx="120" cy="260" r="6" fill="#00d4ff"/>
+    <!-- Layer 2 -->
+    <circle cx="200" cy="170" r="5" fill="#7b2ff7"/>
+    <circle cx="200" cy="210" r="5" fill="#7b2ff7"/>
+    <circle cx="200" cy="250" r="5" fill="#7b2ff7"/>
+    <circle cx="200" cy="290" r="5" fill="#7b2ff7"/>
+    <!-- Layer 3 -->
+    <circle cx="280" cy="190" r="5" fill="#00ff88"/>
+    <circle cx="280" cy="230" r="5" fill="#00ff88"/>
+    <circle cx="280" cy="270" r="5" fill="#00ff88"/>
+    <!-- Connections -->
+    <g stroke="#00d4ff" stroke-width="0.5" opacity="0.5">
+      <line x1="126" y1="180" x2="195" y2="170"/>
+      <line x1="126" y1="180" x2="195" y2="210"/>
+      <line x1="126" y1="220" x2="195" y2="170"/>
+      <line x1="126" y1="220" x2="195" y2="210"/>
+      <line x1="126" y1="220" x2="195" y2="250"/>
+      <line x1="126" y1="260" x2="195" y2="210"/>
+      <line x1="126" y1="260" x2="195" y2="250"/>
+      <line x1="126" y1="260" x2="195" y2="290"/>
+      <line x1="205" y1="170" x2="275" y2="190"/>
+      <line x1="205" y1="170" x2="275" y2="230"/>
+      <line x1="205" y1="210" x2="275" y2="190"/>
+      <line x1="205" y1="210" x2="275" y2="230"/>
+      <line x1="205" y1="210" x2="275" y2="270"/>
+      <line x1="205" y1="250" x2="275" y2="230"/>
+      <line x1="205" y1="250" x2="275" y2="270"/>
+      <line x1="205" y1="290" x2="275" y2="270"/>
+    </g>
+  </g>
+
+  <!-- Subtle vignette -->
+  <rect width="1200" height="800" fill="url(#bg)" opacity="0.3"/>
+</svg>
