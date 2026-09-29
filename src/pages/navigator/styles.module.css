@@ -18,7 +18,7 @@
     ),
     radial-gradient(
       circle at 94% 30%,
-      color-mix(in srgb, #5e5ce6 7%, transparent),
+      color-mix(in srgb, #10a37f 5%, transparent),
       transparent 32rem
     );
 }
@@ -500,45 +500,8 @@
   --lane-accent: var(--navigator-accent);
 }
 
-.shzu {
-  --lane-accent: #0d9488;
-}
-
-.cau-postdoc {
-  --lane-accent: #7c3aed;
-}
-
-.funding-policy {
-  --lane-accent: #d97706;
-}
-
-.literature {
-  --lane-accent: #2563eb;
-}
-
-.journals {
-  --lane-accent: #db2777;
-}
-
-.data-platforms {
-  --lane-accent: #0284c7;
-}
-
-.ai-models {
-  --lane-accent: #a21caf;
-}
-
-.toolbox {
-  --lane-accent: #16a34a;
-}
-
-.build-ship {
-  --lane-accent: #4f46e5;
-}
-
-.life {
-  --lane-accent: #e11d48;
-}
+/* Unified accent: all categories use the primary green (--navigator-accent).
+   Categories stay distinguishable by their icon glyphs and labels. */
 
 .linkGroup {
   scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);

@@ -314,15 +314,15 @@
 .heroActionPrimary {
   grid-column: 1 / -1;
   color: #fff;
-  background: linear-gradient(135deg, #0077ed, #0062c9);
-  border-color: rgba(0, 83, 172, 0.42);
-  box-shadow: 0 12px 24px rgba(0, 113, 227, 0.2),
+  background: linear-gradient(135deg, #13b892, #0d8f6f);
+  border-color: rgba(13, 143, 111, 0.42);
+  box-shadow: 0 12px 24px rgba(16, 163, 127, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 :global(html[data-theme="dark"]) .heroActionPrimary {
   color: #fff;
-  background: linear-gradient(135deg, #1684f8, #0067d5);
+  background: linear-gradient(135deg, #16c79e, #0f9b78);
 }
 
 .actionArrow {
@@ -644,24 +644,13 @@
   min-height: 11rem;
 }
 
-.accent_blue {
-  --accent: #0071e3;
-}
-
-.accent_violet {
-  --accent: #8e5ae8;
-}
-
-.accent_amber {
-  --accent: #d97706;
-}
-
-.accent_cyan {
-  --accent: #008ba3;
-}
-
+/* Unified accent: research cards all use the primary green (--cv-blue). */
+.accent_blue,
+.accent_violet,
+.accent_amber,
+.accent_cyan,
 .accent_green {
-  --accent: #168c53;
+  --accent: var(--cv-blue);
 }
 
 .researchMark {
@@ -1057,7 +1046,7 @@
 
   .heroActionPrimary:hover {
     color: #fff;
-    background: linear-gradient(135deg, #1684f8, #006bdc);
+    background: linear-gradient(135deg, #16c79e, #0c8163);
   }
 
   .contactCard:hover,

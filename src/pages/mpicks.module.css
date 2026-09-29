@@ -83,17 +83,12 @@
     border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.card[data-tint="blue"] {
-  --card-glow: #0a84ff;
-}
-.card[data-tint="green"] {
-  --card-glow: #30d158;
-}
-.card[data-tint="violet"] {
-  --card-glow: #bf5af2;
-}
+/* Unified accent: every card uses the primary green glow. */
+.card[data-tint="blue"],
+.card[data-tint="green"],
+.card[data-tint="violet"],
 .card[data-tint="orange"] {
-  --card-glow: #ff9f0a;
+  --card-glow: #10a37f;
 }
 
 .card::before {
