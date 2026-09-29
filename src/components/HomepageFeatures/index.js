@@ -233,29 +233,21 @@ function LabCard({ item }) {
   return (
     <Link
       className={styles.labCard}
-      data-accent={item.accent}
       to={item.href}
       onMouseMove={handleSpotlightMouseMove}
     >
-      <div className={styles.labVisual} data-accent={item.accent} aria-hidden="true">
-        <span className={styles.labBlobA} />
-        <span className={styles.labBlobB} />
-        <span className={styles.labIcon}>{item.number}</span>
+      <div className={styles.labCardTop}>
+        <span className={styles.labGlyph} aria-hidden="true" />
+        <span className={styles.labNumber}>{item.number}</span>
       </div>
       <div className={styles.labCardBody}>
-        <div className={styles.labCardTop}>
-          <span className={styles.labNumber}>{item.number}</span>
-          <span className={styles.labGlyph} aria-hidden="true" />
-        </div>
-        <div>
-          <Heading as="h3">{item.title}</Heading>
-          <p>{item.description}</p>
-        </div>
-        <span className={styles.labAction}>
-          {item.action}
-          <span aria-hidden="true">→</span>
-        </span>
+        <Heading as="h3">{item.title}</Heading>
+        <p>{item.description}</p>
       </div>
+      <span className={styles.labAction}>
+        {item.action}
+        <span aria-hidden="true">→</span>
+      </span>
     </Link>
   );
 }

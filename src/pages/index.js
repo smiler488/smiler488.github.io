@@ -4,7 +4,6 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
-import HologramParticles from "@site/src/components/HologramParticles";
 import styles from "./index.module.css";
 
 // pageTitle renders as "<pageTitle> | Liangchao Deng". It carries the topical
@@ -57,18 +56,28 @@ function HomepageHeader() {
     }, 1600);
   };
 
+  // Preserve the hidden double-click easter egg from the old particle hero:
+  // double-clicking empty hero space (not the content or a link) traverses
+  // to Bonnie's space.
+  const handleHeroDoubleClick = (event) => {
+    const target = event.target;
+    if (
+      target instanceof Element &&
+      target.closest(
+        "a,button,input,textarea,select,summary,[role='button'],[data-particle-obstacle]"
+      )
+    ) {
+      return;
+    }
+    handleEasterEggTrigger();
+  };
+
   return (
-    <header className={styles.heroBanner} data-particle-stage>
-      <div className={styles.particleLayer}>
-        <HologramParticles
-          text={copy.particleText}
-          cloudImage="/img/cloud.png"
-          cameraControls={false}
-          obstacleSelector="[data-particle-obstacle]"
-          style={{ width: "100%", height: "100%" }}
-          onEasterEggTrigger={handleEasterEggTrigger}
-        />
-      </div>
+    <header
+      className={styles.heroBanner}
+      onDoubleClick={handleHeroDoubleClick}
+    >
+      <div className={styles.heroBackdrop} aria-hidden="true" />
 
       <div
         className={styles.heroContent}
