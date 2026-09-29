@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import CustomCursor from "@site/src/components/CustomCursor";
 
 export default function Root({ children }) {
   const { i18n } = useDocusaurusContext();
@@ -45,6 +46,7 @@ export default function Root({ children }) {
 
   return (
     <>
+      <CustomCursor />
       {children}
       <div className="wechat-float-container">
         {/* Compact QR card revealed on hover / focus */}

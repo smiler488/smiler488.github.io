@@ -392,9 +392,22 @@
   box-shadow: inset 0 1px 0 var(--cv-highlight),
     0 10px 30px rgba(24, 31, 44, 0.05);
   text-decoration: none;
-  transition: color 180ms ease, background 180ms ease, border-color 180ms ease,
-    box-shadow 180ms ease, transform 180ms ease;
+  transition: transform 400ms var(--ease-openai), border-color 400ms var(--ease-openai),
+    box-shadow 400ms var(--ease-openai);
   grid-column: span 2;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactCard::before {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cv-blue), transparent 75%);
+  opacity: 0.5;
+  content: "";
+  transition: opacity 400ms var(--ease-openai);
 }
 
 .contactCard:nth-child(4),
@@ -422,6 +435,23 @@
   font-size: 0.67rem;
   font-weight: 850;
   letter-spacing: 0.035em;
+}
+
+.contactMark svg,
+.researchMark svg,
+.skillMark svg,
+.outputMark svg {
+  display: block;
+  width: 55%;
+  height: 55%;
+}
+
+.researchMark {
+  width: 2.35rem;
+  height: 2.35rem;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .contactMark {
@@ -502,7 +532,14 @@
   font-weight: 760;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 180ms ease, background 180ms ease;
+  transition: color 180ms ease, background 180ms ease, box-shadow 220ms ease;
+  position: relative;
+}
+
+.navLinkActive {
+  color: var(--cv-blue);
+  background: color-mix(in srgb, var(--cv-blue) 8%, transparent);
+  box-shadow: inset 0 -3px 0 var(--cv-blue);
 }
 
 .sectionNav a span {
@@ -550,11 +587,31 @@
 .skillCard,
 .languageCard {
   min-width: 0;
+  overflow: hidden;
   background: var(--glass-card-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
+  transition: transform 400ms var(--ease-openai), border-color 400ms var(--ease-openai),
+    box-shadow 400ms var(--ease-openai);
+  position: relative;
+}
+
+.researchCard::before,
+.timelineCard::before,
+.experienceCard::before,
+.outputCard::before,
+.skillCard::before,
+.languageCard::before {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cv-blue), transparent 75%);
+  opacity: 0.5;
+  content: "";
+  transition: opacity 400ms var(--ease-openai);
 }
 
 .researchCard {
@@ -565,8 +622,8 @@
   overflow: hidden;
   padding: 1.25rem;
   border-radius: var(--card-radius);
-  transition: background 180ms ease, border-color 180ms ease,
-    box-shadow 180ms ease, transform 180ms ease;
+  transition: transform 400ms var(--ease-openai), border-color 400ms var(--ease-openai),
+    box-shadow 400ms var(--ease-openai);
 }
 
 .researchCard::after {
@@ -579,6 +636,7 @@
   border-radius: 999px;
   content: "";
   filter: blur(2px);
+  transition: transform 700ms var(--ease-openai), opacity 400ms var(--ease-openai);
 }
 
 .researchCard:last-child {
@@ -1003,12 +1061,32 @@
   }
 
   .contactCard:hover,
-  .researchCard:hover {
-    background: var(--cv-card-hover);
-    border-color: color-mix(in srgb, var(--cv-blue) 25%, transparent);
+  .researchCard:hover,
+  .timelineCard:hover,
+  .experienceCard:hover,
+  .outputCard:hover,
+  .skillCard:hover,
+  .languageCard:hover {
+    border-color: color-mix(in srgb, var(--accent, var(--cv-blue)) 28%, transparent);
     box-shadow: inset 0 1px 0 var(--cv-highlight),
-      0 18px 42px rgba(24, 31, 44, 0.09);
-    transform: translateY(-2px);
+      0 20px 50px color-mix(in srgb, var(--accent, var(--cv-blue)) 10%, transparent);
+    transform: translateY(-4px);
+  }
+
+  .contactCard:hover::before,
+  .researchCard:hover::before,
+  .timelineCard:hover::before,
+  .experienceCard:hover::before,
+  .outputCard:hover::before,
+  .skillCard:hover::before,
+  .languageCard:hover::before {
+    opacity: 1;
+  }
+
+  .contactCard:hover::after,
+  .researchCard:hover::after {
+    transform: scale(1.08);
+    opacity: 0.8;
   }
 
   :global(html[data-theme="dark"]) .contactCard:hover,
@@ -1266,12 +1344,22 @@
   .contactCard,
   .sectionNav a,
   .researchCard,
+  .timelineCard,
+  .experienceCard,
+  .outputCard,
+  .skillCard,
+  .languageCard,
   .outputFooter > a {
     transition: none;
   }
 
   .contactCard:hover,
-  .researchCard:hover {
+  .researchCard:hover,
+  .timelineCard:hover,
+  .experienceCard:hover,
+  .outputCard:hover,
+  .skillCard:hover,
+  .languageCard:hover {
     transform: none;
   }
 }

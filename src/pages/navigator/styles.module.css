@@ -659,6 +659,38 @@
   letter-spacing: -0.02em;
 }
 
+.siteFavicon {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  place-items: center;
+  color: var(--lane-accent);
+  background: color-mix(in srgb, var(--lane-accent) 9%, var(--navigator-solid));
+  border: 1px solid
+    color-mix(in srgb, var(--lane-accent) 18%, var(--navigator-line));
+  border-radius: 0.76rem;
+  box-shadow: inset 0 1px 0 var(--navigator-highlight);
+  overflow: hidden;
+}
+
+.siteFavicon img {
+  width: 1.45rem;
+  height: 1.45rem;
+  object-fit: contain;
+  border-radius: 0.2rem;
+}
+
+.siteFallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 0.66rem;
+  font-weight: 790;
+  letter-spacing: -0.02em;
+  color: var(--lane-accent);
+}
+
 .linkIdentity {
   display: grid;
   min-width: 0;

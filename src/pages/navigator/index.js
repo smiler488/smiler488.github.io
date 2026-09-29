@@ -9,7 +9,10 @@ import {
   navigatorLinks,
   navigatorUpdated,
 } from "../../data/navigatorData";
+import localFavicons from "../../data/faviconManifest.json";
 import styles from "./styles.module.css";
+
+const localFaviconSet = new Set(localFavicons);
 
 const pageCopy = {
   en: {
@@ -94,6 +97,24 @@ function getDomain(url) {
 function getSiteMark(domain) {
   const root = domain.split(".")[0].replace(/[^a-z0-9]/gi, "");
   return root.slice(0, 2).toUpperCase() || "↗";
+}
+
+function getFaviconSources(url) {
+  try {
+    const hostname = new URL(url).hostname;
+    const safe = hostname.replace(/[^a-zA-Z0-9.-]/g, "-").toLowerCase();
+    const sources = [];
+    if (localFaviconSet.has(safe)) {
+      sources.push(`/img/favicons/${safe}.png`);
+    }
+    sources.push(
+      `https://favicon.im/${hostname}?larger`,
+      `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`,
+    );
+    return sources;
+  } catch {
+    return [];
+  }
 }
 
 function CategoryIcon({ categoryId }) {
@@ -202,6 +223,8 @@ function CategoryIcon({ categoryId }) {
 function LinkCard({ item, category, copy, isChinese }) {
   const title = localize(item.title, isChinese);
   const domain = getDomain(item.url);
+  const faviconSources = getFaviconSources(item.url);
+  const faviconUrl = faviconSources[0] || null;
 
   return (
     <li className={`${styles.linkItem} ${styles[category.id]}`}>
@@ -212,8 +235,35 @@ function LinkCard({ item, category, copy, isChinese }) {
         rel="noopener noreferrer"
         aria-label={`${title} — ${copy.opensNewTab}`}
       >
-        <span className={styles.siteMark} aria-hidden="true">
-          {getSiteMark(domain)}
+        <span className={styles.siteFavicon} aria-hidden="true">
+          {faviconUrl ? (
+            <img
+              src={faviconUrl}
+              alt=""
+              width="32"
+              height="32"
+              loading="lazy"
+              data-sources={JSON.stringify(faviconSources.slice(1))}
+              onError={(e) => {
+                const img = e.target;
+                const remaining = JSON.parse(img.dataset.sources || "[]");
+                if (remaining.length > 0) {
+                  img.src = remaining[0];
+                  img.dataset.sources = JSON.stringify(remaining.slice(1));
+                } else {
+                  img.style.display = "none";
+                  const fallback = img.nextElementSibling;
+                  if (fallback) fallback.style.display = "grid";
+                }
+              }}
+            />
+          ) : null}
+          <span
+            className={styles.siteFallback}
+            style={faviconUrl ? { display: "none" } : undefined}
+          >
+            {getSiteMark(domain)}
+          </span>
         </span>
         <span className={styles.linkIdentity}>
           <span className={styles.linkTitle}>{title}</span>

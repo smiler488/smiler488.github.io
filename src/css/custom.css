@@ -126,9 +126,10 @@
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-openai: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 深色模式 - 科技风格深色主题 */
+/* 深色模式 - OpenAI 风格科技深色主题 */
 html[data-theme='dark'] {
   --ifm-color-primary: #10a37f;
   --ifm-color-primary-dark: #0d8a6a;
@@ -138,8 +139,8 @@ html[data-theme='dark'] {
   --ifm-color-primary-lighter: #4ee2bd;
   --ifm-color-primary-lightest: #a2eed9;
 
-  --ifm-background-color: #171717;
-  --ifm-background-surface-color: #212121;
+  --ifm-background-color: #0d0d0d;
+  --ifm-background-surface-color: #171717;
 
   --ifm-color-emphasis-900: #f8fafc;
   --ifm-color-emphasis-800: #f1f5f9;
@@ -161,41 +162,43 @@ html[data-theme='dark'] {
   --ifm-pre-color: #f8fafc;
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
 
-  --ifm-navbar-background-color: rgba(23, 23, 23, 0.72);
-  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+  --ifm-navbar-background-color: rgba(13, 13, 13, 0.85);
+  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
   --ifm-navbar-link-color: #cbd5e1;
-  --ifm-navbar-link-hover-color: #f1f5f9;
+  --ifm-navbar-link-hover-color: #ffffff;
 
-  --doc-sidebar-background: rgba(23, 23, 23, 0.72);
+  --doc-sidebar-background: rgba(13, 13, 13, 0.85);
   --doc-sidebar-border: rgba(255, 255, 255, 0.08);
   --doc-sidebar-link-color: #cbd5e1;
   --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
 
-  --ifm-footer-background-color: #101010;
+  --ifm-footer-background-color: #080808;
   --ifm-footer-color: #cbd5e1;
   --ifm-footer-link-color: #94a3b8;
-  --ifm-footer-link-hover-color: #8f8f93;
+  --ifm-footer-link-hover-color: #ffffff;
 
-  --ifm-hero-background-color: #1a2234;
-  --ifm-hero-text-color: #f8fafc;
-  --home-grid-bg: #2a2a2e;
-  --home-grid-line: #5b5c60;
+  --ifm-hero-background-color: #0d0d0d;
+  --ifm-hero-text-color: #ffffff;
+  --home-grid-bg: #1e1e24;
+  --home-grid-line: #3f3f46;
   --home-grid-letter: #ffffff;
   --app-accent-blue: #38bdf8;
-  --app-accent-green: #22c55e;
+  --app-accent-green: #10a37f;
   --app-accent-muted: #cbd5e1;
   --app-overlay-stroke: #e5e7eb;
-  --app-previewer-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(16, 185, 129, 0.12));
-  --app-polygon-fill: rgba(34, 197, 94, 0.28);
-  --app-overlay-bg: rgba(0, 0, 0, 0.6);
+  --app-previewer-bg: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(14, 165, 233, 0.12));
+  --app-polygon-fill: rgba(16, 163, 127, 0.28);
+  --app-overlay-bg: rgba(0, 0, 0, 0.7);
 
-  /* 玻璃态效果 - 暗色模式 */
-  --glass-bg: rgba(28, 28, 30, 0.68);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-highlight: rgba(255, 255, 255, 0.18);
-  --glass-blur: blur(28px) saturate(155%);
-  --glass-blur-medium: blur(18px) saturate(145%);
-  --glass-blur-light: blur(12px) saturate(135%);
+  /* 玻璃态与卡片背景 - 暗色模式 */
+  --glass-bg: rgba(23, 23, 23, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --card-radius: 20px;
+  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 50%), #171717;
+  --glass-blur: blur(24px) saturate(160%);
+  --glass-blur-medium: blur(16px) saturate(150%);
+  --glass-blur-light: blur(10px) saturate(140%);
 
   /* 增强阴影层次 - 暗色模式 */
   --shadow-glass:
@@ -944,85 +947,98 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   background: rgba(2, 6, 23, 0.65);
 }
 
-/* 文档侧边栏 — 与全站毛玻璃语言一致 */
+/* ── 文档侧边栏 — resources 卡片导轨风格 ── */
 .theme-doc-sidebar-container {
-  background: color-mix(in srgb, var(--glass-bg) 62%, transparent);
-  border-right: 1px solid var(--glass-border);
-  box-shadow: none;
-  backdrop-filter: var(--glass-blur-light);
-  -webkit-backdrop-filter: var(--glass-blur-light);
+  padding: 0.5rem 0.5rem 0 !important;
+  background: transparent !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.theme-doc-sidebar-container > div {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.65rem;
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: blur(24px) saturate(165%);
+  backdrop-filter: blur(24px) saturate(165%);
+  overflow: hidden;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .theme-doc-sidebar-menu {
-  padding: 1.35rem 0.9rem 1rem;
+  padding: 0.5rem;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
-.theme-doc-sidebar-menu .menu__link {
-  padding: 0.46rem 0.75rem;
-  color: var(--ifm-color-emphasis-700);
-  font-size: 0.88rem;
-  font-weight: 500;
-  line-height: 1.4;
-  border-radius: 12px;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.theme-doc-sidebar-menu .menu__link:hover {
-  color: var(--ifm-color-primary);
-  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
-}
-
-.theme-doc-sidebar-menu .menu__link--active:not(.menu__link--sublist) {
-  color: var(--ifm-color-primary);
-  font-weight: 600;
-  background: color-mix(in srgb, var(--ifm-color-primary) 11%, transparent);
-  box-shadow: inset 0 0 0 1px
-    color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
-}
-
-/* 顶级分类：眉题式小标签，替代灰色块 */
+/* 顶级分类标签 — 眉题式 */
 .theme-doc-sidebar-menu
   > .menu__list-item
   > .menu__list-item-collapsible
-  > .menu__link--sublist,
-.theme-doc-sidebar-menu > .menu__list-item > .menu__link {
-  margin-bottom: 0.2rem;
+  > .menu__link--sublist {
+  padding: 0.55rem 0.65rem 0.3rem;
+  margin-top: 0.4rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  font-weight: 760;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   background: none;
+  border-radius: 0;
 }
 
 .theme-doc-sidebar-menu
   > .menu__list-item
   > .menu__list-item-collapsible:hover
-  > .menu__link--sublist,
-.theme-doc-sidebar-menu > .menu__list-item > .menu__link:hover {
+  > .menu__link--sublist {
   color: var(--ifm-color-primary);
-  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+  background: none;
 }
 
-/* 顶级分类之间留出呼吸空间 */
-.theme-doc-sidebar-menu > .menu__list-item {
-  margin-top: 0.35rem;
-}
-
-.theme-doc-sidebar-menu > .menu__list-item:first-child {
+.theme-doc-sidebar-menu > .menu__list-item:first-child
+  > .menu__list-item-collapsible
+  > .menu__link--sublist {
   margin-top: 0;
 }
 
-/* 嵌套列表：缩进导览线 */
-.theme-doc-sidebar-menu .menu__list {
-  margin-left: 0.85rem;
-  padding-left: 0.55rem;
-  border-left: 1px solid var(--glass-border);
+/* 子项 — 导轨按钮 */
+.theme-doc-sidebar-menu .menu__list .menu__link {
+  padding: 0.42rem 0.6rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.78rem;
+  font-weight: 560;
+  line-height: 1.3;
+  border-radius: 0.85rem;
+  border: 1px solid transparent;
+  transition: color 220ms ease, background-color 220ms ease,
+    border-color 220ms ease, box-shadow 220ms ease;
 }
 
-/* Caret / collapse arrow contrast */
+.theme-doc-sidebar-menu .menu__list .menu__link:hover {
+  color: var(--ifm-color-emphasis-900);
+  background: color-mix(in srgb, var(--ifm-color-emphasis-900) 4%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.theme-doc-sidebar-menu .menu__list .menu__link--active:not(.menu__link--sublist) {
+  color: var(--ifm-color-primary);
+  font-weight: 660;
+  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 24%, transparent);
+  box-shadow: inset 3px 0 0 var(--ifm-color-primary);
+}
+
+/* 子列表 — 无缩进无导览线 */
+.theme-doc-sidebar-menu .menu__list {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: none;
+}
+
+/* Caret 箭头 */
 .theme-doc-sidebar-menu .menu__caret {
   color: var(--ifm-color-emphasis-500);
   border-radius: 10px;
@@ -1135,8 +1151,8 @@ button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
   content: none;
 }
 
-html[data-theme="dark"] .theme-doc-sidebar-container {
-  background: color-mix(in srgb, var(--glass-bg) 55%, transparent);
+html[data-theme="dark"] .theme-doc-sidebar-container > div {
+  background: var(--glass-bg);
 }
 
 /* Scrollbar global styling */
@@ -1819,6 +1835,134 @@ html {
   .wechat-float-btn {
     width: 44px;
     height: 44px;
+  }
+}
+
+/* ─── Custom Cursor: frosted-glass dot + glow ring ─── */
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  border-radius: 50%;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--ifm-color-primary);
+  transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.custom-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.08), inset 0 0 8px rgba(255, 255, 255, 0.04);
+  transition: opacity 0.25s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover state — enlarge ring, brighten dot */
+.custom-cursor-dot.hovering {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px var(--ifm-color-primary), 0 0 20px color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+}
+
+.custom-cursor-ring.hovering {
+  width: 52px;
+  height: 52px;
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 50%, rgba(255, 255, 255, 0.5));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--ifm-color-primary) 25%, transparent), inset 0 0 12px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+}
+
+/* Hide default cursor on interactive elements */
+@media (pointer: fine) {
+  a, button, [role="button"], input, select, textarea, label, [tabindex]:not([tabindex="-1"]) {
+    cursor: none !important;
+  }
+}
+
+/* Glow effect on interactive elements when cursor hovers */
+a:hover,
+button:hover,
+[role="button"]:hover,
+.card:hover,
+.navbar__link:hover,
+.menu__link:hover,
+.pagination-nav__link:hover,
+[class*="card"]:hover {
+  position: relative;
+}
+
+/* Subtle glow halo on hovered links */
+a:not(.navbar__brand):not([class*="skip"]):hover {
+  text-shadow: 0 0 8px color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
+}
+
+/* Card glow on hover */
+[class*="card"]:hover,
+.card:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ifm-color-primary) 15%, transparent),
+    0 4px 24px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
+    var(--shadow-glass, 0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+/* Button glow on hover */
+button:hover,
+.button:hover,
+[class*="btn"]:hover {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
+}
+
+/* Navbar link glow */
+.navbar__link:hover {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+}
+
+/* Dark mode cursor adjustments */
+[data-theme="dark"] .custom-cursor-ring {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.05), inset 0 0 6px rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .custom-cursor-dot {
+  background: var(--ifm-color-primary);
+}
+
+[data-theme="dark"] .custom-cursor-dot.hovering {
+  background: #fff;
+  box-shadow: 0 0 14px var(--ifm-color-primary), 0 0 28px color-mix(in srgb, var(--ifm-color-primary) 50%, transparent);
+}
+
+[data-theme="dark"] .custom-cursor-ring.hovering {
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 60%, rgba(255, 255, 255, 0.4));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--ifm-color-primary) 35%, transparent), inset 0 0 16px color-mix(in srgb, var(--ifm-color-primary) 15%, transparent);
+}
+
+/* Hide custom cursor on touch devices */
+@media (pointer: coarse) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
   }
 }
 

@@ -13,6 +13,9 @@ import {
   resourceKinds,
   resourceLevels,
 } from "../../data/resourcesData";
+import localFavicons from "../../data/faviconManifest.json";
+
+const localFaviconSet = new Set(localFavicons);
 
 const levelOrder = ["beginner", "intermediate", "advanced"];
 
@@ -135,6 +138,24 @@ function localize(value, isChinese) {
   return isChinese ? value.zh : value.en;
 }
 
+function getFaviconSources(url) {
+  try {
+    const hostname = new URL(url).hostname;
+    const safe = hostname.replace(/[^a-zA-Z0-9.-]/g, "-").toLowerCase();
+    const sources = [];
+    if (localFaviconSet.has(safe)) {
+      sources.push(`/img/favicons/${safe}.png`);
+    }
+    sources.push(
+      `https://favicon.im/${hostname}?larger`,
+      `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`,
+    );
+    return sources;
+  } catch {
+    return [];
+  }
+}
+
 function ResourceCard({ resource, isChinese, copy }) {
   const category = resourceCategories.find(
     (item) => item.id === resource.category
@@ -145,12 +166,42 @@ function ResourceCard({ resource, isChinese, copy }) {
   const categoryLabel = localize(category.short, isChinese);
   const sourceLabel =
     resource.source === "community" ? copy.community : copy.official;
+  const faviconSources = getFaviconSources(resource.url);
+  const faviconUrl = faviconSources[0] || null;
 
   return (
     <article className={clsx(styles.resourceCard, styles[resource.category])}>
       <div className={styles.cardTopline}>
         <div className={styles.resourceMark} aria-hidden="true">
-          {resource.mark}
+          {faviconUrl ? (
+            <img
+              src={faviconUrl}
+              alt=""
+              width="32"
+              height="32"
+              loading="lazy"
+              className={styles.resourceFavicon}
+              data-sources={JSON.stringify(faviconSources.slice(1))}
+              onError={(e) => {
+                const img = e.target;
+                const remaining = JSON.parse(img.dataset.sources || "[]");
+                if (remaining.length > 0) {
+                  img.src = remaining[0];
+                  img.dataset.sources = JSON.stringify(remaining.slice(1));
+                } else {
+                  img.style.display = "none";
+                  const fallback = img.nextElementSibling;
+                  if (fallback) fallback.style.display = "grid";
+                }
+              }}
+            />
+          ) : null}
+          <span
+            className={styles.resourceFallback}
+            style={faviconUrl ? { display: "none" } : undefined}
+          >
+            {resource.mark}
+          </span>
         </div>
         <div className={styles.cardIdentity}>
           <span className={styles.organization}>{resource.organization}</span>
@@ -209,6 +260,9 @@ export default function ResourcesPage() {
   const [query, setQuery] = React.useState("");
   const [category, setCategory] = React.useState("all");
   const [level, setLevel] = React.useState("all");
+  const [visibleCategory, setVisibleCategory] = React.useState("all");
+  const sectionListRef = React.useRef(null);
+  const isUserScrollingRef = React.useRef(true);
 
   const categoryCounts = React.useMemo(() => {
     return learningResources.reduce((counts, resource) => {
@@ -265,6 +319,45 @@ export default function ResourcesPage() {
         .filter((section) => section.bands.length > 0),
     [category, visibleResources]
   );
+
+  React.useEffect(() => {
+    if (category !== "all") {
+      setVisibleCategory("all");
+      return undefined;
+    }
+    const container = sectionListRef.current;
+    if (!container) return undefined;
+
+    const sections = container.querySelectorAll(
+      `.${styles.topicSection}[id^="resource-"]`
+    );
+    if (!sections.length) {
+      setVisibleCategory("all");
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              a.boundingClientRect.top - b.boundingClientRect.top
+          );
+        if (!intersecting.length) return;
+        const target = intersecting[0].target;
+        const id = target.id.replace("resource-", "");
+        setVisibleCategory((prev) => (prev === id ? prev : id));
+      },
+      {
+        rootMargin: "-40% 0px -55% 0px",
+        threshold: [0, 0.25, 0.5],
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [category, visibleSections]);
 
   const hasFilters = query || category !== "all" || level !== "all";
 
@@ -428,9 +521,9 @@ export default function ResourcesPage() {
                     type="button"
                     className={clsx(
                       styles.railButton,
-                      category === "all" && styles.railButtonActive
+                      category === "all" && visibleCategory === "all" && styles.railButtonActive
                     )}
-                    aria-pressed={category === "all"}
+                    aria-pressed={category === "all" && visibleCategory === "all"}
                     onClick={() => selectCategory("all")}
                   >
                     <span className={styles.railText}>
@@ -455,9 +548,15 @@ export default function ResourcesPage() {
                             type="button"
                             className={clsx(
                               styles.railButton,
-                              category === item.id && styles.railButtonActive
+                              (category === "all"
+                                ? visibleCategory === item.id
+                                : category === item.id) && styles.railButtonActive
                             )}
-                            aria-pressed={category === item.id}
+                            aria-pressed={
+                              category === "all"
+                                ? visibleCategory === item.id
+                                : category === item.id
+                            }
                             onClick={() => selectCategory(item.id)}
                           >
                             <span className={styles.railText}>
@@ -528,7 +627,7 @@ export default function ResourcesPage() {
                 </div>
 
                 {visibleSections.length ? (
-                  <div className={styles.sectionList}>
+                  <div ref={sectionListRef} className={styles.sectionList}>
                     {visibleSections.map(({ category: item, bands }) => (
                       <section
                         key={item.id}

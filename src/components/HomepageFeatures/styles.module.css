@@ -99,32 +99,56 @@
   text-decoration: none;
   background: var(--glass-card-bg);
   border: 1px solid var(--glass-border);
-  border-radius: var(--card-radius);
+  border-radius: var(--card-radius, 20px);
   box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
-  transition: transform 260ms var(--ease-smooth),
-    box-shadow 260ms ease, border-color 260ms ease;
+  transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+/* OpenAI Spotlight Cursor Glow */
+.researchCard::before,
+.labCard::before {
+  position: absolute;
+  top: var(--mouse-y, -100px);
+  left: var(--mouse-x, -100px);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(16, 163, 127, 0.08) 40%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 300ms ease;
+  opacity: 0;
+  z-index: 2;
+  content: "";
+}
+
+.researchCard:hover::before,
+.labCard:hover::before {
+  opacity: 1;
 }
 
 .researchCard {
   display: flex;
   flex-direction: column;
-  padding: 0.65rem;
+  padding: 0;
 }
 
 .researchCard:hover,
 .labCard:hover {
   color: var(--ifm-color-emphasis-900);
   text-decoration: none;
-  border-color: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 32%,
-    var(--glass-border)
-  );
-  box-shadow: 0 28px 64px rgba(15, 23, 42, 0.13),
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 var(--glass-highlight);
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
 .researchCard:focus-visible,
@@ -141,14 +165,21 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: color-mix(in srgb, var(--ifm-background-color) 86%, #bdd6f3);
-  border-radius: 22px;
+  border-radius: var(--card-radius, 20px) var(--card-radius, 20px) 0 0;
+  border-bottom: 2px solid rgba(16, 163, 127, 0.18);
 }
 
 .researchVisual::after {
   position: absolute;
-  inset: 45% 0 0;
-  background: linear-gradient(180deg, transparent, rgba(7, 12, 24, 0.58));
+  inset: 35% 0 0;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(7, 12, 24, 0.35) 50%,
+    rgba(7, 12, 24, 0.72)
+  );
   content: "";
+  z-index: 1;
 }
 
 .researchVisual img {
@@ -188,7 +219,7 @@
   flex: 1;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 1.25rem 0.95rem 1rem;
+  padding: 1.25rem clamp(1rem, 2vw, 1.4rem) 1rem;
 }
 
 .researchBody h3,
@@ -236,26 +267,33 @@
 
 .labCard {
   --lab-accent: var(--ifm-color-primary);
+  --lab-accent-rgb: 16, 163, 127;
 
   display: flex;
   grid-column: span 1;
   min-height: 16rem;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: clamp(1.4rem, 2.6vw, 2rem);
-}
-
-.labCard[data-accent="violet"] {
-  --lab-accent: var(--ifm-color-primary);
+  padding: 0;
 }
 
 .labCard[data-accent="green"] {
-  --lab-accent: var(--ifm-color-primary);
+  --lab-accent: #10a37f;
+  --lab-accent-rgb: 16, 163, 127;
+}
+
+.labCard[data-accent="blue"] {
+  --lab-accent: #2563eb;
+  --lab-accent-rgb: 37, 99, 235;
 }
 
 .labCard[data-accent="orange"] {
-  --lab-accent: var(--ifm-color-primary);
+  --lab-accent: #ea580c;
+  --lab-accent-rgb: 234, 88, 12;
+}
+
+.labCard[data-accent="violet"] {
+  --lab-accent: #7c3aed;
+  --lab-accent-rgb: 124, 58, 237;
 }
 
 .labCard::before {
@@ -271,6 +309,108 @@
   );
   pointer-events: none;
   content: "";
+}
+
+/* ── Lab card visual panel ──────────────────────────────────────── */
+.labVisual {
+  position: relative;
+  height: 8.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--lab-accent-rgb), 0.14),
+    rgba(var(--lab-accent-rgb), 0.04) 60%,
+    transparent
+  );
+}
+
+.labVisual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    color-mix(in srgb, var(--glass-card-bg) 50%, transparent) 80%,
+    var(--glass-card-bg)
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+.labBlobA,
+.labBlobB {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(24px);
+  pointer-events: none;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 400ms ease;
+}
+
+.labBlobA {
+  top: -18%;
+  right: -8%;
+  width: 70%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(var(--lab-accent-rgb), 0.5),
+    transparent 70%
+  );
+  opacity: 0.7;
+}
+
+.labBlobB {
+  bottom: -22%;
+  left: -6%;
+  width: 55%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(var(--lab-accent-rgb), 0.3),
+    transparent 65%
+  );
+  opacity: 0.5;
+}
+
+.labIcon {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: rgba(var(--lab-accent-rgb), 0.2);
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  user-select: none;
+  font-family: var(--ifm-font-family-monospace);
+  transition: color 400ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.labCard:hover .labBlobA {
+  transform: translate(3%, -2%);
+  opacity: 0.82;
+}
+
+.labCard:hover .labBlobB {
+  transform: translate(-2%, 3%);
+  opacity: 0.6;
+}
+
+.labCard:hover .labIcon {
+  color: rgba(var(--lab-accent-rgb), 0.3);
+  transform: scale(1.06);
+}
+
+.labCardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.2rem, 2.2vw, 1.65rem);
 }
 
 .labCardTop {
@@ -475,6 +615,9 @@
   .researchVisual {
     aspect-ratio: auto;
     min-height: 15rem;
+    border-radius: var(--card-radius, 20px) 0 0 var(--card-radius, 20px);
+    border-bottom: none;
+    border-right: 2px solid rgba(16, 163, 127, 0.18);
   }
 
   .researchBody {
@@ -507,6 +650,9 @@
   .researchVisual {
     aspect-ratio: 3 / 2;
     min-height: 0;
+    border-radius: var(--card-radius, 20px) var(--card-radius, 20px) 0 0;
+    border-right: none;
+    border-bottom: 2px solid rgba(16, 163, 127, 0.18);
   }
 
   .labCard,

@@ -503,19 +503,19 @@
 }
 
 .appCard {
-  --card-accent: #0a84ff;
-  --card-accent-rgb: 10, 132, 255;
+  --card-accent: #10a37f;
+  --card-accent-rgb: 16, 163, 127;
 
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto auto 1fr auto auto;
   gap: 1.2rem;
   min-width: 0;
   min-height: 22rem;
-  padding: clamp(1.2rem, 2.2vw, 1.65rem);
+  padding: 0;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: var(--card-radius);
+  border-radius: var(--card-radius, 20px);
   color: inherit;
   background: var(--glass-card-bg);
   box-shadow: var(--shadow-glass);
@@ -523,44 +523,165 @@
   backdrop-filter: var(--glass-blur);
   text-decoration: none;
   transform: translateZ(0);
-  transition: transform 220ms var(--ease-smooth), border-color 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.appCard[data-tone="green"],
-.appCard[data-tone="cyan"],
-.appCard[data-tone="orange"],
-.appCard[data-tone="violet"],
-.appCard[data-tone="rose"] {
-  --card-accent: var(--ifm-color-primary);
-  --card-accent-rgb: 16, 163, 127;
-}
-
-.appCard::before {
-  content: "";
-  position: absolute;
-  top: -6rem;
-  right: -6rem;
-  width: 13rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(var(--card-accent-rgb), 0.12);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2rem rgba(var(--card-accent-rgb), 0.025);
-  pointer-events: none;
+  transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .appCard:hover {
-  border-color: rgba(var(--card-accent-rgb), 0.24);
+  border-color: rgba(255, 255, 255, 0.22);
   color: inherit;
   box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 18px 40px rgba(var(--card-accent-rgb), 0.1);
+    0 16px 40px rgba(0, 0, 0, 0.3);
   text-decoration: none;
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 
 .appCard:focus-visible {
   outline: 3px solid rgba(var(--card-accent-rgb), 0.35);
   outline-offset: 3px;
+}
+
+/* ── Card visual panel (abstract art) ─────────────────────────── */
+.cardVisual {
+  position: relative;
+  height: 10.5rem;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--card-accent-rgb), 0.12),
+    rgba(var(--card-accent-rgb), 0.04) 55%,
+    transparent
+  );
+}
+
+.cardVisual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    color-mix(in srgb, var(--glass-card-bg) 60%, transparent) 85%,
+    var(--glass-card-bg)
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+.visualBlobA,
+.visualBlobB,
+.visualBlobC {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(28px);
+  opacity: 0.72;
+  pointer-events: none;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 400ms ease;
+}
+
+.visualBlobA {
+  top: -20%;
+  right: -10%;
+  width: 75%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(var(--card-accent-rgb), 0.55),
+    transparent 70%
+  );
+}
+
+.visualBlobB {
+  bottom: -25%;
+  left: -8%;
+  width: 60%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(var(--card-accent-rgb), 0.35),
+    transparent 65%
+  );
+  opacity: 0.55;
+}
+
+.visualBlobC {
+  top: 20%;
+  left: 35%;
+  width: 45%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.18),
+    transparent 60%
+  );
+  opacity: 0.5;
+}
+
+.visualIcon {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: rgba(var(--card-accent-rgb), 0.22);
+  font-size: 3.8rem;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  user-select: none;
+  transition: color 400ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.appCard:hover .visualBlobA {
+  transform: translate(4%, -3%);
+  opacity: 0.85;
+}
+
+.appCard:hover .visualBlobB {
+  transform: translate(-3%, 4%);
+  opacity: 0.65;
+}
+
+.appCard:hover .visualBlobC {
+  transform: translate(2%, 2%);
+  opacity: 0.6;
+}
+
+.appCard:hover .visualIcon {
+  color: rgba(var(--card-accent-rgb), 0.32);
+  transform: scale(1.05);
+}
+
+/* Tone-specific accent colours */
+.appCard[data-tone="green"] {
+  --card-accent: #10a37f;
+  --card-accent-rgb: 16, 163, 127;
+}
+
+.appCard[data-tone="cyan"] {
+  --card-accent: #0891b2;
+  --card-accent-rgb: 8, 145, 178;
+}
+
+.appCard[data-tone="orange"] {
+  --card-accent: #ea580c;
+  --card-accent-rgb: 234, 88, 12;
+}
+
+.appCard[data-tone="violet"] {
+  --card-accent: #7c3aed;
+  --card-accent-rgb: 124, 58, 237;
+}
+
+.appCard[data-tone="blue"] {
+  --card-accent: #2563eb;
+  --card-accent-rgb: 37, 99, 235;
+}
+
+.appCard[data-tone="rose"] {
+  --card-accent: #e11d48;
+  --card-accent-rgb: 225, 29, 72;
 }
 
 .cardTopline,
@@ -571,6 +692,22 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  padding: clamp(1.2rem, 2.2vw, 1.65rem);
+  padding-bottom: 0;
+}
+
+.cardTopline {
+  padding-top: clamp(1.2rem, 2.2vw, 1.65rem);
+}
+
+.cardAction {
+  padding: clamp(1.2rem, 2.2vw, 1.65rem);
+  padding-top: 1rem;
+  min-height: 2.7rem;
+  border-top: 1px solid var(--glass-border);
+  color: var(--card-accent);
+  font-size: 0.78rem;
+  font-weight: 780;
 }
 
 .appIcon {
@@ -599,6 +736,7 @@
 .cardCopy {
   position: relative;
   z-index: 1;
+  padding: 0 clamp(1.2rem, 2.2vw, 1.65rem);
 }
 
 .cardTitle {
@@ -626,7 +764,7 @@
   gap: 0.4rem;
   align-self: end;
   margin: 0;
-  padding: 0;
+  padding: 0 clamp(1.2rem, 2.2vw, 1.65rem);
   list-style: none;
 }
 
@@ -639,15 +777,6 @@
   font-size: 0.65rem;
   font-weight: 670;
   line-height: 1;
-}
-
-.cardAction {
-  min-height: 2.7rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--glass-border);
-  color: var(--card-accent);
-  font-size: 0.78rem;
-  font-weight: 780;
 }
 
 .cardArrow {

@@ -98,6 +98,17 @@ const COPY = {
   },
 };
 
+function AppCardVisual({ app }) {
+  return (
+    <div className={styles.cardVisual} data-tone={app.tone} aria-hidden="true">
+      <span className={styles.visualBlobA} />
+      <span className={styles.visualBlobB} />
+      <span className={styles.visualBlobC} />
+      <span className={styles.visualIcon}>{app.icon}</span>
+    </div>
+  );
+}
+
 function AppCard({ app, isChinese, copy }) {
   const name = localizeApp(app.name, isChinese);
   const badges = localizeApp(app.badges, isChinese);
@@ -108,6 +119,8 @@ function AppCard({ app, isChinese, copy }) {
       data-tone={app.tone}
       aria-label={`${copy.open} ${name}`}
     >
+      <AppCardVisual app={app} />
+
       <div className={styles.cardTopline}>
         <span className={styles.appIcon} aria-hidden="true">
           {app.icon}
