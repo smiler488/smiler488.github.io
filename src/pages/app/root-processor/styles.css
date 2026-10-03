@@ -260,8 +260,8 @@
 }
 
 .root-button.primary {
-  background: var(--ifm-color-primary);
-  color: #fff;
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
 }
 
 .root-button.secondary {
@@ -281,7 +281,7 @@
 }
 
 .root-button.primary:not(:disabled):hover {
-  background: var(--ifm-color-primary-dark);
+  background: var(--ifm-color-emphasis-800);
 }
 
 .root-button.secondary:not(:disabled):hover {

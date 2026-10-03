@@ -1098,14 +1098,14 @@ OUTPUT:
                     <button 
                       onClick={handleConfirmSelection} 
                       disabled={busy} 
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: 'pointer' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-emphasis-900)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-emphasis-900)', borderRadius: 4, cursor: 'pointer' }}
 >
                       {busy ? 'Processing…' : 'Analyze Selected Area'}
                     </button>
                     <button 
                       onClick={handleCancelSelection} 
                       disabled={busy}
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-primary)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-primary)', borderRadius: 4, cursor: busy ? 'not-allowed' : 'pointer' }}
+                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-emphasis-900)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-emphasis-900)', borderRadius: 4, cursor: busy ? 'not-allowed' : 'pointer' }}
                     >
                        Cancel
                     </button>

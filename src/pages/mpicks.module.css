@@ -11,19 +11,7 @@
 }
 
 .headerGlow {
-  position: absolute;
-  top: -6rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24rem;
-  height: 24rem;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--ifm-color-primary) 12%, transparent),
-    transparent 68%
-  );
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 .eyebrow {

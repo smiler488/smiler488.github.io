@@ -288,9 +288,9 @@ const WeatherPage = () => {
                 id="searchBtn"
                 style={{
                   padding: '10px 16px',
-                  backgroundColor: 'var(--ifm-color-primary)',
-                  color: 'var(--ifm-color-white)',
-                  border: '1px solid var(--ifm-color-primary)',
+                  backgroundColor: 'var(--ifm-color-emphasis-900)',
+                  color: 'var(--ifm-color-emphasis-0)',
+                  border: '1px solid var(--ifm-color-emphasis-900)',
                   borderRadius: '6px',
                   cursor: 'pointer',
                   fontSize: '14px',
@@ -326,9 +326,9 @@ const WeatherPage = () => {
               id="getLocationBtn"
               style={{
                 padding: '12px 24px',
-                backgroundColor: 'var(--ifm-color-primary)',
-                color: 'var(--ifm-color-white)',
-                border: '1px solid var(--ifm-color-primary)',
+                backgroundColor: 'var(--ifm-color-emphasis-900)',
+                color: 'var(--ifm-color-emphasis-0)',
+                border: '1px solid var(--ifm-color-emphasis-900)',
                 borderRadius: '10px',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -343,9 +343,9 @@ const WeatherPage = () => {
               id="getDataBtn"
               style={{
                 padding: '12px 24px',
-                backgroundColor: 'var(--ifm-color-primary)',
-                color: 'var(--ifm-color-white)',
-                border: '1px solid var(--ifm-color-primary)',
+                backgroundColor: 'var(--ifm-color-emphasis-900)',
+                color: 'var(--ifm-color-emphasis-0)',
+                border: '1px solid var(--ifm-color-emphasis-900)',
                 borderRadius: '10px',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -409,7 +409,7 @@ const WeatherPage = () => {
                 style={{
                   width: '0%',
                   height: '100%',
-                  backgroundColor: 'var(--ifm-color-primary)',
+                  backgroundColor: 'var(--ifm-color-emphasis-900)',
                   transition: 'width 0.3s ease',
                 }}
               ></div>
@@ -463,8 +463,8 @@ const WeatherPage = () => {
                 style={{
                   display: 'none',
                   padding: '12px 24px',
-                  backgroundColor: 'var(--ifm-color-primary)',
-                  color: 'var(--ifm-color-white)',
+                  backgroundColor: 'var(--ifm-color-emphasis-900)',
+                  color: 'var(--ifm-color-emphasis-0)',
                   textDecoration: 'none',
                   borderRadius: '6px',
                   fontSize: '14px',

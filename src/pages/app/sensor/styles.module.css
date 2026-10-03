@@ -101,9 +101,9 @@
 }
 
 .buttonPrimary {
-  background-color: var(--ifm-color-primary);
-  color: var(--ifm-color-white);
-  border: 1px solid var(--ifm-color-primary);
+  background-color: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
+  border: 1px solid var(--ifm-color-emphasis-900);
 }
 
 .buttonPrimary:disabled {

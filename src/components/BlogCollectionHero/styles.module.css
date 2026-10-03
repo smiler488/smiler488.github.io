@@ -117,15 +117,14 @@
 }
 
 .primaryAction {
-  border: 1px solid var(--ifm-color-primary);
-  background: var(--ifm-color-primary);
-  box-shadow: 0 10px 24px
-    color-mix(in srgb, var(--ifm-color-primary), transparent 72%);
-  color: #fff;
+  border: 1px solid var(--ifm-color-emphasis-900);
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
 }
 
 .primaryAction:hover {
-  color: #fff;
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-800);
 }
 
 .secondaryAction {

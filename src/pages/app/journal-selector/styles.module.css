@@ -182,9 +182,9 @@
 }
 
 .primaryButton {
-  border: 1px solid var(--ifm-color-primary);
-  background: var(--ifm-color-primary);
-  color: white;
+  border: 1px solid var(--ifm-color-emphasis-900);
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
 }
 
 .secondaryButton {

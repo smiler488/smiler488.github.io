@@ -1954,3 +1954,17 @@ button:hover,
   }
 }
 
+
+/* ── Unified primary button — ink, not green (OpenAI-style) ───────────── */
+/* Auto-inverts per theme: ink on light, near-white on dark. */
+.button--primary {
+  --ifm-button-background-color: var(--ifm-color-emphasis-900);
+  --ifm-button-border-color: var(--ifm-color-emphasis-900);
+  --ifm-button-color: var(--ifm-color-emphasis-0);
+  --ifm-button-hover-background-color: var(--ifm-color-emphasis-800);
+  --ifm-button-hover-border-color: var(--ifm-color-emphasis-800);
+  color: var(--ifm-color-emphasis-0);
+}
+.button--primary:hover {
+  color: var(--ifm-color-emphasis-0);
+}
