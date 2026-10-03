@@ -1879,43 +1879,11 @@ html {
   }
 }
 
-/* Glow effect on interactive elements when cursor hovers */
-a:hover,
-button:hover,
-[role="button"]:hover,
-.card:hover,
-.navbar__link:hover,
-.menu__link:hover,
-.pagination-nav__link:hover,
-[class*="card"]:hover {
-  position: relative;
-}
-
-/* Subtle glow halo on hovered links */
-a:not(.navbar__brand):not([class*="skip"]):hover {
-  text-shadow: 0 0 8px color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
-}
-
-/* Card glow on hover */
-[class*="card"]:hover,
-.card:hover {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--ifm-color-primary) 15%, transparent),
-    0 4px 24px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
-    var(--shadow-glass, 0 2px 8px rgba(0, 0, 0, 0.08));
-}
-
-/* Button glow on hover */
-button:hover,
-.button:hover,
-[class*="btn"]:hover {
-  box-shadow: 0 0 16px color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
-}
-
-/* Navbar link glow */
-.navbar__link:hover {
-  text-shadow: 0 0 10px color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
-}
+/* NOTE: the global hover "glow" layer (green text-shadow on links, a
+   0 0 0 1px ring on every [class*="card"] element, and button glows) was
+   removed. The wildcard card selector matched nested card sub-elements
+   (.cardCopy, .cardFooter, …) and drew an ugly box around them on hover.
+   Each component now owns its own flat hover state (border + lift). */
 
 /* Dark mode cursor adjustments */
 [data-theme="dark"] .custom-cursor-ring {
