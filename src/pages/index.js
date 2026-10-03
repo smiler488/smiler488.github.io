@@ -100,14 +100,12 @@ function HomepageHeader() {
         <div className={styles.actionRow}>
           <Link className={styles.primaryAction} to="#research-heading">
             {copy.primaryAction}
-            <span aria-hidden="true">↘</span>
           </Link>
           <Link className={styles.secondaryAction} to="/app">
             {copy.appAction}
           </Link>
           <Link className={styles.textAction} to="/cv">
             {copy.cvAction}
-            <span aria-hidden="true">→</span>
           </Link>
         </div>
 

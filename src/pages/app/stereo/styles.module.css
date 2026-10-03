@@ -93,8 +93,8 @@
   color: var(--ifm-color-primary);
   font-size: 0.7rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .configGrid {

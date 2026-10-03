@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400..600&display=swap');
+
 /**
- * Apple-inspired glass system: calm surfaces, generous radii, and restrained motion.
+ * OpenAI-inspired system: light, flat, editorial. Solid surfaces, hairline
+ * borders, generous whitespace, one geometric-grotesk family, green used
+ * sparingly as an accent.
  */
 
 /* 基础变量设置 - 科技风格设计 */
@@ -13,21 +17,22 @@
   --ifm-color-primary-lighter: #17dcae;
   --ifm-color-primary-lightest: #e2f9f3;
 
-  /* 背景颜色 */
-  --ifm-background-color: #f9f9f9;
-  --ifm-background-surface-color: #ffffff;
+  /* 背景颜色 — OpenAI white base + warm-neutral surface */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #faf9f7;
 
-  /* 文本颜色 */
-  --ifm-color-emphasis-900: #0f172a;
-  --ifm-color-emphasis-800: #1e293b;
-  --ifm-color-emphasis-700: #334155;
-  --ifm-color-emphasis-600: #475569;
-  --ifm-color-emphasis-500: #64748b;
-  --ifm-color-emphasis-400: #94a3b8;
-  --ifm-color-emphasis-300: #cbd5e1;
-  --ifm-color-emphasis-200: #e2e8f0;
-  --ifm-color-emphasis-100: #f1f5f9;
+  /* 文本颜色 — neutral near-black ramp (no slate/blue tint) */
+  --ifm-color-emphasis-900: #0d0d0d;
+  --ifm-color-emphasis-800: #1a1a1a;
+  --ifm-color-emphasis-700: #333333;
+  --ifm-color-emphasis-600: #525252;
+  --ifm-color-emphasis-500: #737373;
+  --ifm-color-emphasis-400: #a3a3a3;
+  --ifm-color-emphasis-300: #d4d4d4;
+  --ifm-color-emphasis-200: #e8e7e3;
+  --ifm-color-emphasis-100: #f5f4f1;
   --ifm-color-emphasis-0: #ffffff;
+  --ifm-font-color-base: #1a1a1a;
 
   /* 边框和阴影 */
   --ifm-border-color: rgba(0, 0, 0, 0.08);
@@ -36,7 +41,7 @@
   --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.04);
 
   /* 字体设置 */
-  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ifm-font-family-base: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --ifm-font-size-base: 16px;
   --ifm-line-height-base: 1.65;
@@ -88,34 +93,25 @@
   --scrollbar-thumb: rgba(0, 0, 0, 0.25);
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
 
-  /* 玻璃态效果 - Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.68);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.82);
-  --glass-blur: blur(28px) saturate(165%);
-  --glass-blur-medium: blur(18px) saturate(155%);
-  --glass-blur-light: blur(12px) saturate(145%);
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
-  --card-radius: 24px;
-  --glass-card-bg: linear-gradient(135deg, var(--glass-highlight), transparent 50%), var(--glass-bg);
+  /* Flat surfaces — solid fills, hairline borders, no blur (de-glassed) */
+  --glass-bg: #ffffff;
+  --glass-border: #e8e7e3;
+  --glass-highlight: transparent;
+  --glass-blur: none;
+  --glass-blur-medium: none;
+  --glass-blur-light: none;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --card-radius: 16px;
+  --glass-card-bg: #ffffff;
 
-  /* 增强阴影层次 */
-  --shadow-glass:
-    0 18px 50px rgba(0, 0, 0, 0.08),
-    0 2px 10px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --shadow-glass-hover:
-    0 24px 64px rgba(0, 0, 0, 0.12),
-    0 6px 18px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  --shadow-glass-active:
-    0 4px 16px rgba(0, 0, 0, 0.06),
-    0 1px 4px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  /* Minimal shadows — OpenAI leans on hairline borders + whitespace */
+  --shadow-glass: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-glass-hover: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-glass-active: 0 1px 2px rgba(0, 0, 0, 0.04);
 
   /* 柔和发光效果 - 黑白灰色调 */
   --glow-light: rgba(255, 255, 255, 0.4);
@@ -142,16 +138,17 @@ html[data-theme='dark'] {
   --ifm-background-color: #0d0d0d;
   --ifm-background-surface-color: #171717;
 
-  --ifm-color-emphasis-900: #f8fafc;
-  --ifm-color-emphasis-800: #f1f5f9;
-  --ifm-color-emphasis-700: #e2e8f0;
-  --ifm-color-emphasis-600: #cbd5e1;
-  --ifm-color-emphasis-500: #94a3b8;
-  --ifm-color-emphasis-400: #64748b;
-  --ifm-color-emphasis-300: #475569;
-  --ifm-color-emphasis-200: #334155;
-  --ifm-color-emphasis-100: #1e293b;
-  --ifm-color-emphasis-0: #0f172a;
+  --ifm-color-emphasis-900: #f5f5f5;
+  --ifm-color-emphasis-800: #e5e5e5;
+  --ifm-color-emphasis-700: #d4d4d4;
+  --ifm-color-emphasis-600: #a3a3a3;
+  --ifm-color-emphasis-500: #737373;
+  --ifm-color-emphasis-400: #525252;
+  --ifm-color-emphasis-300: #404040;
+  --ifm-color-emphasis-200: #2a2a2a;
+  --ifm-color-emphasis-100: #1f1f1f;
+  --ifm-color-emphasis-0: #0d0d0d;
+  --ifm-font-color-base: #ededed;
 
   --ifm-border-color: rgba(255, 255, 255, 0.08);
   --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -190,29 +187,20 @@ html[data-theme='dark'] {
   --app-polygon-fill: rgba(16, 163, 127, 0.28);
   --app-overlay-bg: rgba(0, 0, 0, 0.7);
 
-  /* 玻璃态与卡片背景 - 暗色模式 */
-  --glass-bg: rgba(23, 23, 23, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.12);
-  --card-radius: 20px;
-  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 50%), #171717;
-  --glass-blur: blur(24px) saturate(160%);
-  --glass-blur-medium: blur(16px) saturate(150%);
-  --glass-blur-light: blur(10px) saturate(140%);
+  /* Flat surfaces — dark mode */
+  --glass-bg: #171717;
+  --glass-border: #2a2a2a;
+  --glass-highlight: transparent;
+  --card-radius: 16px;
+  --glass-card-bg: #171717;
+  --glass-blur: none;
+  --glass-blur-medium: none;
+  --glass-blur-light: none;
 
-  /* 增强阴影层次 - 暗色模式 */
-  --shadow-glass:
-    0 8px 32px rgba(0, 0, 0, 0.6),
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --shadow-glass-hover:
-    0 16px 48px rgba(0, 0, 0, 0.8),
-    0 4px 16px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  --shadow-glass-active:
-    0 4px 16px rgba(0, 0, 0, 0.5),
-    0 1px 4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* Minimal shadows — dark mode */
+  --shadow-glass: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-glass-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glass-active: 0 1px 2px rgba(0, 0, 0, 0.4);
 
   /* 柔和发光效果 - 暗色模式 */
   --glow-light: rgba(255, 255, 255, 0.15);
@@ -983,8 +971,8 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   color: var(--ifm-color-emphasis-600);
   font-size: 0.62rem;
   font-weight: 760;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   background: none;
   border-radius: 0;
 }

@@ -211,10 +211,7 @@ function LabCard({ item }) {
         <Heading as="h3">{item.title}</Heading>
         <p>{item.description}</p>
       </div>
-      <span className={styles.labAction}>
-        {item.action}
-        <span aria-hidden="true">→</span>
-      </span>
+      <span className={styles.labAction}>{item.action}</span>
     </Link>
   );
 }
@@ -315,14 +312,12 @@ export default function HomepageFeatures() {
               to="mailto:googalphdlc@gmail.com"
             >
               {copy.academicAction}
-              <span aria-hidden="true">↗</span>
             </Link>
             <Link
               className={styles.commercialAction}
               to="mailto:dengliangchao@azureaxion.com"
             >
               {copy.commercialAction}
-              <span aria-hidden="true">↗</span>
             </Link>
             <Link
               className={styles.botAction}
@@ -331,7 +326,6 @@ export default function HomepageFeatures() {
               rel="noopener noreferrer"
             >
               {copy.botAction}
-              <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>

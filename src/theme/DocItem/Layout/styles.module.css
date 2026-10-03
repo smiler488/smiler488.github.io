@@ -184,8 +184,8 @@
   color: var(--ifm-color-primary);
   font-size: 0.74rem;
   font-weight: 760;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .tutorialHeroCopy {

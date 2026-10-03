@@ -59,7 +59,7 @@
   color: var(--ifm-color-primary);
   font-size: 0.68rem;
   font-weight: 740;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
 }
 
 .tocSurface :global(.table-of-contents) {

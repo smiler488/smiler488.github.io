@@ -44,8 +44,8 @@
   color: var(--ifm-color-primary);
   font-size: 0.72rem;
   font-weight: 780;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .hero h1 {
@@ -113,8 +113,8 @@
   color: var(--ifm-color-emphasis-500);
   font-size: 0.68rem;
   font-weight: 760;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .summaryItem strong,

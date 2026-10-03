@@ -32,8 +32,8 @@
   color: var(--ifm-color-primary);
   font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .title {
@@ -213,15 +213,14 @@
   text-decoration: none !important;
   border-radius: 999px;
   color: #ffffff !important;
-  background: var(--card-glow);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--card-glow) 20%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  background: var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ifm-color-emphasis-900);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .cardLink:hover {
   transform: translateY(-1px);
-  opacity: 0.95;
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--card-glow) 30%, transparent);
+  background: var(--ifm-color-emphasis-800);
 }
 
 @media (max-width: 768px) {

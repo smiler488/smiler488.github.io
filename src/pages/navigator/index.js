@@ -571,10 +571,10 @@ export default function NavigatorPage() {
               </nav>
               <div className={styles.railPrivacy}>
                 <ShieldIcon />
-                <Link to="/privacy">{copy.privacyLink} →</Link>
+                <Link to="/privacy">{copy.privacyLink}</Link>
               </div>
               <div className={styles.railCrossLink}>
-                <Link to="/resources">{copy.resourcesLink} →</Link>
+                <Link to="/resources">{copy.resourcesLink}</Link>
               </div>
             </aside>
 
@@ -648,7 +648,7 @@ export default function NavigatorPage() {
                 </span>
                 <p>
                   <strong>{copy.curationTitle}</strong> {copy.curationBody}{" "}
-                  <Link to="/privacy">{copy.privacyLink} →</Link>
+                  <Link to="/privacy">{copy.privacyLink}</Link>
                 </p>
               </aside>
             </section>

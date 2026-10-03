@@ -129,7 +129,6 @@ function AppCard({ app, isChinese, copy }) {
         </p>
         <div className={styles.cardAction} aria-hidden="true">
           <span>{copy.openTool}</span>
-          <span className={styles.cardArrow}>→</span>
         </div>
       </div>
     </Link>

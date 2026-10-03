@@ -42,8 +42,8 @@
   color: var(--ifm-color-emphasis-500);
   font-size: 0.68rem;
   font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .year ol {
@@ -80,7 +80,7 @@
   font-size: 0.72rem;
   font-weight: 620;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .year a {

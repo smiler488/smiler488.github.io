@@ -195,8 +195,8 @@
   color: var(--app-accent);
   font-size: 0.72rem;
   font-weight: 820;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .title {

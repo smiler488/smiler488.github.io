@@ -152,8 +152,8 @@
   color: var(--lab-blue);
   font-size: 0.74rem;
   font-weight: 820;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .eyebrow {
@@ -270,7 +270,7 @@
   align-self: end;
   font-size: 0.65rem;
   font-weight: 760;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
 }
 
 .visualCore strong {
@@ -573,8 +573,8 @@
   color: var(--card-accent);
   font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .cardTitle {

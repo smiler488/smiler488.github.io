@@ -155,9 +155,9 @@
   border-radius: 999px;
   font-size: 0.71rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .heroTitle {
@@ -270,9 +270,9 @@
   color: var(--cv-subtle);
   font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 0.075em;
+  letter-spacing: 0;
   line-height: 1.35;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .heroActions {
@@ -314,15 +314,14 @@
 .heroActionPrimary {
   grid-column: 1 / -1;
   color: #fff;
-  background: linear-gradient(135deg, #13b892, #0d8f6f);
-  border-color: rgba(13, 143, 111, 0.42);
-  box-shadow: 0 12px 24px rgba(16, 163, 127, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  background: var(--ifm-color-emphasis-900);
+  border-color: var(--ifm-color-emphasis-900);
 }
 
 :global(html[data-theme="dark"]) .heroActionPrimary {
-  color: #fff;
-  background: linear-gradient(135deg, #16c79e, #0f9b78);
+  color: #0d0d0d;
+  background: #fafafa;
+  border-color: #fafafa;
 }
 
 .actionArrow {
@@ -469,9 +468,9 @@
   color: var(--cv-subtle);
   font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.07em;
+  letter-spacing: 0;
   line-height: 1.2;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .contactCopy strong {
@@ -937,8 +936,8 @@
   color: var(--cv-subtle);
   font-size: 0.64rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .outputTopline strong {
@@ -1045,8 +1044,7 @@
   }
 
   .heroActionPrimary:hover {
-    color: #fff;
-    background: linear-gradient(135deg, #16c79e, #0c8163);
+    background: var(--ifm-color-emphasis-800);
   }
 
   .contactCard:hover,

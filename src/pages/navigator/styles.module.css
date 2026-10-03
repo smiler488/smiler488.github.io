@@ -73,14 +73,14 @@
   border-radius: 999px;
   font-size: 0.66rem;
   font-weight: 760;
-  letter-spacing: 0.055em;
+  letter-spacing: 0;
   line-height: 1.1;
 }
 
 .eyebrow {
   color: var(--navigator-accent);
   background: color-mix(in srgb, var(--navigator-accent) 9%, transparent);
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .updatedPill {
@@ -136,7 +136,7 @@
   font-weight: 700;
   letter-spacing: 0.035em;
   line-height: 1.25;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .heroStats dd {
@@ -345,8 +345,8 @@
   color: var(--navigator-muted);
   font-size: 0.62rem;
   font-weight: 760;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .categoryGroupLabel small {

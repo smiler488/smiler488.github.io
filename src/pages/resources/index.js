@@ -572,7 +572,7 @@ export default function ResourcesPage() {
                 </nav>
 
                 <div className={styles.railCrossLink}>
-                  <Link to="/navigator">{copy.navigatorLink} →</Link>
+                  <Link to="/navigator">{copy.navigatorLink}</Link>
                 </div>
               </aside>
 

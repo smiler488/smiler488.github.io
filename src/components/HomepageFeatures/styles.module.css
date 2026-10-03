@@ -77,11 +77,11 @@
 
 .eyebrow {
   margin: 0;
-  color: var(--ifm-color-primary);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .researchGrid {
@@ -349,8 +349,8 @@
   color: rgba(255, 255, 255, 0.95);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .researchBody {
@@ -462,7 +462,7 @@
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 .labCardBody {
@@ -508,17 +508,9 @@
   align-items: center;
   padding: clamp(1.75rem, 4.5vw, 3.5rem);
   overflow: hidden;
-  background: radial-gradient(
-      circle at 88% 12%,
-      rgba(16, 163, 127, 0.08),
-      transparent 38%
-    ),
-    var(--glass-card-bg);
+  background: var(--ifm-background-surface-color);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
 }
 
 .collaborationCard .eyebrow {
@@ -557,36 +549,33 @@
 
 .academicAction {
   color: #fff;
-  background: var(--ifm-color-primary);
-  box-shadow: 0 8px 18px rgba(16, 163, 127, 0.15);
+  background: var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ifm-color-emphasis-900);
 }
 
 .commercialAction,
 .botAction {
   color: var(--ifm-color-emphasis-800);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
 }
 
 .academicAction:hover,
 .commercialAction:hover,
 .botAction:hover {
   text-decoration: none;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .academicAction:hover {
   color: #fff;
-  background: var(--ifm-color-primary-dark);
-  box-shadow: 0 12px 22px rgba(16, 163, 127, 0.24);
+  background: var(--ifm-color-emphasis-800);
 }
 
 .commercialAction:hover,
 .botAction:hover {
-  color: var(--ifm-color-primary);
-  background: color-mix(in srgb, var(--ifm-color-primary) 5%, var(--ifm-background-surface-color));
-  border-color: rgba(16, 163, 127, 0.28);
-  box-shadow: var(--shadow-glass-hover);
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 :global(html[data-theme="dark"]) .researchCard,
@@ -730,10 +719,10 @@
 
 .portalLabel {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
   border-right: 1px solid var(--glass-border);
   padding-right: 1.2rem;
   margin-right: -0.2rem;

@@ -54,7 +54,7 @@
   color: var(--ifm-color-primary);
   font-size: 0.73rem;
   font-weight: 750;
-  letter-spacing: 0.16em;
+  letter-spacing: 0;
 }
 
 .signal {
@@ -159,8 +159,8 @@
   color: var(--ifm-color-emphasis-600);
   font-size: 0.72rem;
   font-weight: 620;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .glowPrimary,
