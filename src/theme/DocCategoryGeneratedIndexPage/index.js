@@ -65,7 +65,7 @@ function DefaultCategoryPage({ categoryGeneratedIndex }) {
 
 const GUIDE_COPY = {
   en: {
-    eyebrow: "APP LAB DOCUMENTATION",
+    eyebrow: "App Lab documentation",
     title: "A practical guide for every App Lab workflow.",
     intro:
       "Learn what each tool really does, what data leaves your browser, and where scientific or engineering validation is still required. The names and descriptions below come from the same manifest as App Lab.",
@@ -75,13 +75,13 @@ const GUIDE_COPY = {
     statGuides: "tool guides",
     statAreas: "workflow areas",
     statSource: "shared source of truth",
-    directoryLabel: "GUIDE DIRECTORY",
+    directoryLabel: "Guide directory",
     directoryTitle: "Choose a workflow",
     directoryText:
       "Each guide includes a verified quick start, controls and outputs, privacy boundaries, limitations, and troubleshooting steps.",
     guide: "guide",
     guides: "guides",
-    noteLabel: "KEEP THE CONTEXT",
+    noteLabel: "Keep the context",
     noteTitle: "Use the guide and the tool side by side.",
     noteText:
       "App Lab tools are browser-first research utilities, not substitutes for calibrated instruments, official databases, or professional engineering review. Every guide calls out those boundaries explicitly.",
@@ -154,10 +154,10 @@ function TutorialCard({ app, isChinese, copy }) {
             to={app.route}
             aria-label={copy.openAria(name)}
           >
-            {copy.open} <span aria-hidden="true">↗</span>
+            {copy.open}
           </Link>
           <Link className={styles.guideLink} to={app.tutorial}>
-            {copy.readGuide} <span aria-hidden="true">→</span>
+            {copy.readGuide}
           </Link>
         </div>
       </div>
@@ -193,11 +193,10 @@ function AppTutorialCategoryPage({ categoryGeneratedIndex }) {
           <p>{copy.intro}</p>
           <div className={styles.heroActions}>
             <Link className={styles.primaryAction} to="/app">
-              {copy.openLab} <span aria-hidden="true">↗</span>
+              {copy.openLab}
             </Link>
             <Link className={styles.secondaryAction} to="#app-guides">
-              {copy.browse(APP_MANIFEST.length)}{" "}
-              <span aria-hidden="true">↓</span>
+              {copy.browse(APP_MANIFEST.length)}
             </Link>
           </div>
         </div>

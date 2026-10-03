@@ -20,26 +20,7 @@
 
 .ambientOrbOne,
 .ambientOrbTwo {
-  position: absolute;
-  z-index: -1;
-  width: 22rem;
-  height: 22rem;
-  border-radius: 999px;
-  filter: blur(82px);
-  opacity: 0.16;
-  pointer-events: none;
-}
-
-.ambientOrbOne {
-  top: -7rem;
-  right: 5%;
-  background: #0071e3;
-}
-
-.ambientOrbTwo {
-  top: 34rem;
-  left: 8%;
-  background: #34c759;
+  display: none;
 }
 
 .breadcrumbRow {
@@ -93,10 +74,11 @@
 .eyebrow,
 .sectionLabel {
   display: block;
-  color: var(--ifm-color-primary);
-  font-size: 0.72rem;
-  font-weight: 780;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.82rem;
+  font-weight: 500;
   letter-spacing: 0;
+  text-transform: none;
 }
 
 .heroCopy h1 {
@@ -139,29 +121,28 @@
 }
 
 .primaryAction {
-  background: #0071e3;
-  box-shadow: 0 12px 26px rgb(0 113 227 / 22%),
-    inset 0 1px 0 rgb(255 255 255 / 30%);
-  color: #fff;
+  background: var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
 }
 
 .primaryAction:hover {
-  background: #087be9;
-  color: #fff;
+  background: var(--ifm-color-emphasis-800);
+  color: var(--ifm-color-emphasis-0);
   text-decoration: none;
   transform: translateY(-1px);
 }
 
 .secondaryAction {
-  border: 1px solid var(--glass-border);
-  background: rgb(255 255 255 / 32%);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
   color: var(--ifm-color-emphasis-800);
 }
 
 .secondaryAction:hover {
-  border-color: rgb(0 113 227 / 25%);
-  background: rgb(255 255 255 / 54%);
-  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-emphasis-400);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-900);
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -273,7 +254,7 @@
 }
 
 .tutorialCard:hover {
-  border-color: rgb(0 113 227 / 23%);
+  border-color: var(--ifm-color-emphasis-400);
   box-shadow: var(--shadow-glass-hover);
   transform: translateY(-3px);
 }
@@ -290,38 +271,13 @@
   place-items: center;
   width: 3.25rem;
   height: 3.25rem;
-  border: 1px solid rgb(255 255 255 / 44%);
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 20%, transparent);
   border-radius: 1.05rem;
-  background: rgb(0 113 227 / 12%);
-  color: #0068d1;
+  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  color: var(--ifm-color-primary);
   font-size: 0.78rem;
-  font-weight: 780;
+  font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-.tutorialCard[data-tone="green"] .cardIcon {
-  background: rgb(52 199 89 / 14%);
-  color: #16843b;
-}
-
-.tutorialCard[data-tone="cyan"] .cardIcon {
-  background: rgb(50 173 230 / 14%);
-  color: #087fae;
-}
-
-.tutorialCard[data-tone="orange"] .cardIcon {
-  background: rgb(255 149 0 / 15%);
-  color: #a85c00;
-}
-
-.tutorialCard[data-tone="violet"] .cardIcon {
-  background: rgb(175 82 222 / 14%);
-  color: #8d35b8;
-}
-
-.tutorialCard[data-tone="rose"] .cardIcon {
-  background: rgb(255 45 85 / 13%);
-  color: #c51d43;
 }
 
 .cardCategory {
@@ -410,6 +366,10 @@
   color: var(--ifm-color-emphasis-600);
 }
 
+.guideLink {
+  color: var(--ifm-color-primary);
+}
+
 .launchLink:hover,
 .guideLink:hover {
   text-decoration: none;
@@ -435,28 +395,8 @@
   background: rgb(255 255 255 / 5%);
 }
 
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="green"] .cardIcon {
-  color: #56d477;
-}
-
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="cyan"] .cardIcon {
-  color: #57c8f2;
-}
-
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="orange"] .cardIcon {
-  color: #ffb44a;
-}
-
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="violet"] .cardIcon {
-  color: #d691f4;
-}
-
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="rose"] .cardIcon {
-  color: #ff6d89;
-}
-
-:global(html[data-theme="dark"]) .tutorialCard[data-tone="blue"] .cardIcon {
-  color: #5cb3ff;
+:global(html[data-theme="dark"]) .cardIcon {
+  color: var(--ifm-color-primary-light);
 }
 
 @supports not (

@@ -400,7 +400,6 @@ export default function SiteFooter() {
             <p className={styles.description}>{copy.description}</p>
             <Link className={styles.profileLink} to="/cv">
               <span>{copy.profile}</span>
-              <span aria-hidden="true">→</span>
             </Link>
           </section>
 
@@ -463,7 +462,6 @@ export default function SiteFooter() {
             <p>{copy.visitorMapDescription}</p>
             <Link className={styles.globePrivacyLink} to="/privacy">
               {copy.visitorMapLink}
-              <span aria-hidden="true">→</span>
             </Link>
           </div>
           <FooterVisitorMap copy={copy} />

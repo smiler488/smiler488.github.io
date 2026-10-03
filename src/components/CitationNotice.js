@@ -221,8 +221,18 @@ export default function CitationNotice({ containerStyle }) {
         }}
       />
       <Heading as="h3" style={subheadingStyle}>
-        BibTeX citation (Zotero → File → Import from Clipboard)
+        BibTeX citation
       </Heading>
+      <p
+        style={{
+          margin: "-8px 0 14px",
+          color: "var(--ifm-color-emphasis-500)",
+          fontSize: "0.82rem",
+          lineHeight: 1.5,
+        }}
+      >
+        In Zotero, open the File menu and choose Import from Clipboard.
+      </p>
       <div style={actionRowStyle}>
         <button
           type="button"

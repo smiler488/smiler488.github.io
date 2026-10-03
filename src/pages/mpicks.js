@@ -19,9 +19,9 @@ const PICKS_DATA = {
     pageTitle: "mPicks",
     pageDescription:
       "Curated tools, cloud resources, and AI services optimized for global academic research and productivity.",
-    title: "mPicks",
+    title: "Tools worth adding to your setup.",
     subtitle:
-      "Recommended tools, services, and hardware optimized for researchers and developers.",
+      "Cloud, AI services, and hardware I actually use and recommend for research and development.",
     openBtn: "Visit Site",
     qrScanHint: "Scan QR to visit",
     disclosure:
@@ -114,9 +114,9 @@ const PICKS_DATA = {
     pageTitle: "好物推荐",
     pageDescription:
       "精选学术加速、大模型计算与云服务好物，助力高效科研开发与数字工作流。",
-    title: "好物推荐",
+    title: "值得纳入工作流的好物。",
     subtitle:
-      "精选学术加速、大模型计算与云服务好物，助力高效科研开发与数字工作流。",
+      "我在科研与开发中实际使用并推荐的云服务、大模型与硬件。",
     openBtn: "立即访问",
     qrScanHint: "手机扫码访问",
     disclosure: "本页链接包含邀请码，通过它们注册作者可能获得推广奖励。",
