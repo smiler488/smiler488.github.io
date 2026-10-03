@@ -638,11 +638,6 @@
   transition: transform 700ms var(--ease-openai), opacity 400ms var(--ease-openai);
 }
 
-.researchCard:last-child {
-  grid-column: 1 / -1;
-  min-height: 11rem;
-}
-
 /* Unified accent: research cards all use the primary green (--cv-blue). */
 .accent_blue,
 .accent_violet,
