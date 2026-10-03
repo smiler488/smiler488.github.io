@@ -73,17 +73,17 @@ export const cvContent = {
       eyebrow: "Research architecture",
       title: "Four layers of crop intelligence",
       description:
-        "A four-layer architecture — Digitize → Understand → Predict → Design — turning multi-source observations into a verifiable, predictive, and designable crop. My PhD built Layers I–II; my postdoc focuses on the Layer II→III jump: making crop state not only observable and explainable, but projectable.",
+        "A four-layer architecture — Digitize, Understand, Predict, Design — turning multi-source observations into a verifiable, predictive, and designable crop. My PhD built Layers I–II; my postdoc focuses on the Layer II-to-III jump: making crop state not only observable and explainable, but projectable.",
       items: [
         {
           mark: "DIG",
-          title: "Layer I · Digitize — Physical → Digital Crop",
+          title: "Layer I · Digitize — Physical to Digital Crop",
           description:
             "Multi-view 3D reconstruction, UAV imaging, and computer vision turn a real crop into point clouds and quantified traits — a measurable digital twin of its current state.",
         },
         {
           mark: "UND",
-          title: "Layer II · Understand — Digital → Explainable Crop",
+          title: "Layer II · Understand — Digital to Explainable Crop",
           description:
             "Coupling structure–radiation–photosynthesis–growth processes with scientific AI to turn the digital crop into an interpretable, mechanistic model.",
         },
@@ -393,17 +393,17 @@ export const cvContent = {
       eyebrow: "研究架构",
       title: "作物智能的四层架构",
       description:
-        "以「数字化 → 理解 → 预测 → 设计」四层架构，把多源观测转化为可验证、可预测、可设计的作物。我的博士阶段构建了第一、二层；博士后聚焦第二层到第三层的跨越——让作物状态不仅可观测、可解释，更可推演。",
+        "以「数字化、理解、预测、设计」四层架构，把多源观测转化为可验证、可预测、可设计的作物。我的博士阶段构建了第一、二层；博士后聚焦第二层到第三层的跨越——让作物状态不仅可观测、可解释，更可推演。",
       items: [
         {
           mark: "DIG",
-          title: "第一层 · 数字化 — 物理作物 → 数字作物",
+          title: "第一层 · 数字化 — 物理作物到数字作物",
           description:
             "融合多视角三维重建、无人机成像与计算机视觉，把真实作物转化为点云与可量化性状——构建可测量的数字孪生。",
         },
         {
           mark: "UND",
-          title: "第二层 · 理解 — 数字作物 → 可解释作物",
+          title: "第二层 · 理解 — 数字作物到可解释作物",
           description:
             "将结构—辐射—光合—生长过程与科学智能耦合，把数字作物转化为可解释的机理模型。",
         },

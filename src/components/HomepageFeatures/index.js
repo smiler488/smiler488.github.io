@@ -10,52 +10,28 @@ const CONTENT = {
     researchTitle: "From sensing crops to designing crops.",
     researchIntro:
       "A four-layer architecture for crop intelligence — digitize the physical crop, understand its mechanisms, predict its future, and design what it should become.",
-    researchLoop:
-      "Digitize → Understand → Predict → Design → Validate → back to Digitize",
+    steps: ["Digitize", "Understand", "Predict", "Design"],
     research: [
       {
         mark: "I",
-        verb: "Digitize",
-        transform: "Physical Crop → Digital Crop",
-        question: "What is the crop's state right now?",
-        description:
-          "Multi-view 3D reconstruction, UAV imaging, and computer vision turn a real crop into point clouds and quantified traits — a measurable digital twin.",
-        meta: "Sense · Reconstruct · Quantify",
+        tag: "Digitize",
+        comic: "/img/comic1.png",
+        alt: "Digital crop phenotyping — multi-view 3D reconstruction and UAV imaging",
         href: "/blog/tags/plant-phenotyping",
-        accent: "green",
       },
       {
         mark: "II",
-        verb: "Understand",
-        transform: "Digital Crop → Explainable Crop",
-        question: "Why does the crop behave this way?",
-        description:
-          "Coupling structure–radiation–photosynthesis–growth processes with scientific AI turns the digital crop into an interpretable, mechanistic model.",
-        meta: "Model · Explain · Connect",
+        tag: "Understand",
+        comic: "/img/comic2.png",
+        alt: "AI-powered phenomic analysis — computer vision and scientific AI",
         href: "/blog/tags/artificial-intelligence",
-        accent: "blue",
       },
       {
-        mark: "III",
-        verb: "Predict",
-        transform: "Explainable Crop → Predictive Crop",
-        question: "What will happen next?",
-        description:
-          "State-transition dynamics and data assimilation project growth under environment × management scenarios, with decision risk quantified.",
-        meta: "Simulate · Forecast · Quantify risk",
+        mark: "III–IV",
+        tag: "Predict & Design",
+        comic: "/img/comic3.png",
+        alt: "Canopy photosynthesis and breeding — crop modeling and design",
         href: "/blog/tags/crop-modeling",
-        accent: "violet",
-      },
-      {
-        mark: "IV",
-        verb: "Design",
-        transform: "Predictive Crop → Designed Crop",
-        question: "What should the crop become?",
-        description:
-          "Inverse design and optimization over genotype × environment × management propose canopy and breeding targets — closing the loop back to the field.",
-        meta: "Optimize · Design · Decide",
-        href: "/blog/tags/crop-modeling",
-        accent: "orange",
       },
     ],
     labEyebrow: "Featured tools",
@@ -104,51 +80,28 @@ const CONTENT = {
     researchTitle: "从感知作物，走向设计作物。",
     researchIntro:
       "作物智能的四层架构——把物理作物数字化、理解其机理、预测其未来，并设计它应有的样子。",
-    researchLoop: "数字化 → 理解 → 预测 → 设计 → 验证 → 再数字化",
+    steps: ["数字化", "理解", "预测", "设计"],
     research: [
       {
         mark: "I",
-        verb: "数字化",
-        transform: "物理作物 → 数字作物",
-        question: "作物此刻的状态是什么？",
-        description:
-          "融合多视角三维重建、无人机成像与计算机视觉，把真实作物转化为点云与可量化性状——构建可测量的数字孪生。",
-        meta: "感知 · 重建 · 量化",
+        tag: "数字化",
+        comic: "/img/comic1.png",
+        alt: "数字作物表型——多视角三维重建与无人机成像",
         href: "/blog/tags/plant-phenotyping",
-        accent: "green",
       },
       {
         mark: "II",
-        verb: "理解",
-        transform: "数字作物 → 可解释作物",
-        question: "作物为何如此表现？",
-        description:
-          "将结构—辐射—光合—生长过程与科学智能耦合，把数字作物转化为可解释的机理模型。",
-        meta: "建模 · 解释 · 关联",
+        tag: "理解",
+        comic: "/img/comic2.png",
+        alt: "AI 驱动的表型组分析——计算机视觉与科学智能",
         href: "/blog/tags/artificial-intelligence",
-        accent: "blue",
       },
       {
-        mark: "III",
-        verb: "预测",
-        transform: "可解释作物 → 可预测作物",
-        question: "接下来会发生什么？",
-        description:
-          "以状态转移动力学与数据同化，在环境 × 管理情景下推演作物生长，并量化决策风险。",
-        meta: "模拟 · 预测 · 量化风险",
+        mark: "III–IV",
+        tag: "预测与设计",
+        comic: "/img/comic3.png",
+        alt: "冠层光合与育种——作物建模与设计",
         href: "/blog/tags/crop-modeling",
-        accent: "violet",
-      },
-      {
-        mark: "IV",
-        verb: "设计",
-        transform: "可预测作物 → 可设计作物",
-        question: "作物应该成为什么样？",
-        description:
-          "在基因型 × 环境 × 管理空间中进行逆向设计与优化，给出冠层与育种目标——让闭环回到田间。",
-        meta: "优化 · 设计 · 决策",
-        href: "/blog/tags/crop-modeling",
-        accent: "orange",
       },
     ],
     labEyebrow: "精选工具",
@@ -202,30 +155,44 @@ function handleSpotlightMouseMove(e) {
   card.style.setProperty("--mouse-y", `${y}px`);
 }
 
-function LayerCard({ item }) {
+const STEP_NUMERALS = ["I", "II", "III", "IV"];
+
+function ComicCard({ item }) {
   return (
     <Link
-      className={styles.layerCard}
-      data-accent={item.accent}
+      className={styles.comicCard}
       to={item.href}
       onMouseMove={handleSpotlightMouseMove}
     >
-      <div className={styles.layerHead}>
-        <span className={styles.layerNumeral} aria-hidden="true">
+      <img
+        className={styles.comicImg}
+        src={item.comic}
+        alt={item.alt}
+        loading="lazy"
+        decoding="async"
+      />
+      <span className={styles.comicTag}>
+        <span className={styles.comicTagMark} aria-hidden="true">
           {item.mark}
         </span>
-        <span className={styles.layerVerb}>{item.verb}</span>
-      </div>
-      <span className={styles.layerTransform}>{item.transform}</span>
-      <Heading as="h3" className={styles.layerQuestion}>
-        {item.question}
-      </Heading>
-      <p className={styles.layerDesc}>{item.description}</p>
-      <span className={styles.layerMeta}>{item.meta}</span>
-      <span className={styles.cardArrow} aria-hidden="true">
-        ↗
+        {item.tag}
       </span>
     </Link>
+  );
+}
+
+function LayerStepper({ steps, label }) {
+  return (
+    <ol className={styles.stepper} aria-label={label}>
+      {steps.map((step, index) => (
+        <li key={step} className={styles.step}>
+          <span className={styles.stepNode} aria-hidden="true">
+            {STEP_NUMERALS[index]}
+          </span>
+          <span className={styles.stepLabel}>{step}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -272,12 +239,12 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <div className={styles.layerGrid}>
+          <LayerStepper steps={copy.steps} label={copy.researchTitle} />
+          <div className={styles.comicGrid}>
             {copy.research.map((item) => (
-              <LayerCard key={item.mark} item={item} />
+              <ComicCard key={item.mark} item={item} />
             ))}
           </div>
-          <p className={styles.layerLoop}>{copy.researchLoop}</p>
         </div>
       </section>
 

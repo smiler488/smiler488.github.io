@@ -90,146 +90,143 @@
   gap: clamp(1rem, 2vw, 1.5rem);
 }
 
-/* ── Four-layer architecture (Digitize → Understand → Predict → Design) ── */
-.layerGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.85rem, 1.6vw, 1.25rem);
+/* ── Four-layer architecture: stepper + comic cards ───────────────── */
+.stepper {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  width: min(44rem, 100%);
+  margin: clamp(1.3rem, 2.8vw, 2rem) auto clamp(1.7rem, 3.4vw, 2.6rem);
+  padding: 0;
+  list-style: none;
 }
 
-.layerCard {
+.step {
   position: relative;
   display: flex;
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.step:not(:last-child)::after {
+  position: absolute;
+  top: 0.85rem;
+  left: 50%;
+  width: 100%;
+  height: 1.5px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 26%, transparent);
+  content: "";
+  z-index: 0;
+}
+
+.stepNode {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--ifm-background-color);
+  border: 1.5px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepLabel {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+  text-align: center;
+}
+
+.comicGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.8vw, 1.4rem);
+}
+
+.comicCard {
+  position: relative;
+  display: block;
   min-width: 0;
   overflow: hidden;
-  padding: 1.6rem 1.35rem 1.4rem;
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
-  background: var(--glass-card-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--card-radius, 20px);
   box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  background: var(--glass-card-bg);
   transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
     box-shadow 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
     border-color 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-.layerCard {
-  --layer-accent: var(--ifm-color-primary);
+.comicImg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.layerCard::after {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: var(--layer-accent);
-  opacity: 0.9;
-  content: "";
-}
-
-.layerCard:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+.comicCard:hover {
   border-color: rgba(255, 255, 255, 0.22);
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 var(--glass-highlight);
   transform: translateY(-4px);
 }
 
-.layerCard:focus-visible {
+.comicCard:hover .comicImg {
+  transform: scale(1.03);
+}
+
+.comicCard:focus-visible {
   outline: 3px solid
     color-mix(in srgb, var(--ifm-color-primary) 42%, transparent);
   outline-offset: 4px;
 }
 
-.layerHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  margin-bottom: 0.7rem;
+.comicTag {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.72rem 0.32rem 0.36rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, #0b1512 68%, transparent);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-.layerNumeral {
-  font-size: 0.9rem;
+.comicTagMark {
+  display: grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.32rem;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  font-size: 0.64rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--layer-accent, #10a37f);
   font-variant-numeric: tabular-nums;
 }
 
-.layerVerb {
-  font-size: 1.18rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ifm-color-emphasis-900);
-}
-
-.layerTransform {
-  margin-bottom: 0.6rem;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--layer-accent, #10a37f);
-}
-
-.layerCard .layerQuestion {
-  margin: 0 0 0.5rem !important;
-  font-size: 0.98rem !important;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--ifm-color-emphasis-800);
-}
-
-.layerDesc {
-  flex: 1;
-  margin: 0 0 1rem;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  color: var(--ifm-color-emphasis-700);
-}
-
-.layerMeta {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--ifm-color-emphasis-600);
-}
-
-.layerCard .cardArrow {
-  position: absolute;
-  top: 1.35rem;
-  right: 1.2rem;
-  color: var(--layer-accent, #10a37f);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.layerCard:hover .cardArrow {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.layerLoop {
-  margin: clamp(1.4rem, 3vw, 2.2rem) auto 0;
-  text-align: center;
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--ifm-color-emphasis-600);
-}
-
-@media (max-width: 900px) {
-  .layerGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .layerGrid {
+@media (max-width: 860px) {
+  .comicGrid {
     grid-template-columns: 1fr;
+    width: min(30rem, 100%);
+    margin-inline: auto;
   }
 }
 
