@@ -254,7 +254,7 @@
 }
 
 .tutorialCard:hover {
-  border-color: var(--ifm-color-emphasis-400);
+  border-color: var(--ifm-color-emphasis-300);
   box-shadow: var(--shadow-glass-hover);
   transform: translateY(-3px);
 }
@@ -336,8 +336,7 @@
 }
 
 .cardFooter {
-  padding-top: 1rem;
-  border-top: 1px solid var(--glass-border);
+  margin-top: 0.4rem;
 }
 
 .cardRuntime {
