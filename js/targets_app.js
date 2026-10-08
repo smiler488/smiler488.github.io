@@ -181,7 +181,10 @@
     if (!svg) return;
     svg.setAttribute("viewBox", `0 0 ${page.w} ${page.h}`);
     svg.setAttribute("width", "100%");
-    svg.setAttribute("height", "auto");
+    // "auto" is not a valid SVG length; let CSS size the height from the
+    // viewBox aspect ratio instead.
+    svg.removeAttribute("height");
+    svg.style.height = "auto";
   }
 
   function overlayError(svg, msg, details = []) {
