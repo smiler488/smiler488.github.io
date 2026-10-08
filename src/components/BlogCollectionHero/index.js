@@ -13,7 +13,7 @@ const defaultStats = [
 ];
 
 export default function BlogCollectionHero({
-  eyebrow = "RESEARCH NOTEBOOK",
+  eyebrow = "Research notebook",
   title = "Research notes for measurable, reproducible science.",
   description = "Practical field notes at the intersection of artificial intelligence, plant phenotyping, imaging, and scientific software.",
   stats = defaultStats,
@@ -21,11 +21,8 @@ export default function BlogCollectionHero({
 }) {
   return (
     <header className={`${styles.hero} ${compact ? styles.compact : ""}`}>
-      <div className={styles.glowPrimary} aria-hidden="true" />
-      <div className={styles.glowSecondary} aria-hidden="true" />
       <div className={styles.content}>
         <p className={styles.eyebrow}>
-          <span className={styles.signal} aria-hidden="true" />
           {eyebrow}
         </p>
         <Heading as="h1">{title}</Heading>
@@ -35,7 +32,6 @@ export default function BlogCollectionHero({
           <div className={styles.actions} aria-label="Blog shortcuts">
             <Link className={styles.primaryAction} to="#latest-notes">
               Browse latest notes
-              <span aria-hidden="true">↓</span>
             </Link>
             <Link className={styles.secondaryAction} to="/blog/archive">
               Explore archive

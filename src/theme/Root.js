@@ -67,7 +67,7 @@ export default function Root({ children }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {isChinese ? "或点击直接联系 →" : "or click to contact →"}
+            {isChinese ? "或点击直接联系" : "or click to contact"}
           </Link>
         </div>
 

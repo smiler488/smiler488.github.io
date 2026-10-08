@@ -7,6 +7,9 @@ import CitationNotice from "../components/CitationNotice";
 import { APP_CATEGORIES, APP_MANIFEST, localizeApp } from "../data/appManifest";
 import styles from "./app.module.css";
 
+// Four real tool screens stand in for an abstract hero graphic.
+const HERO_SHOTS = ["land-survey", "ai-data-visualizer", "stereo", "journal-selector"];
+
 const COPY = {
   en: {
     pageTitle: "App Lab — Free Browser Tools for Plant Science and AI",
@@ -203,18 +206,9 @@ export default function AppHub() {
   return (
     <Layout title={copy.pageTitle} description={copy.pageDescription}>
       <main className={styles.page}>
-        <div className={styles.ambient} aria-hidden="true">
-          <span className={styles.orbitOne} />
-          <span className={styles.orbitTwo} />
-          <span className={styles.gridGlow} />
-        </div>
-
         <section className={styles.hero} aria-labelledby="app-lab-title">
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>
-              <span className={styles.liveDot} aria-hidden="true" />
-              {copy.eyebrow}
-            </p>
+            <p className={styles.eyebrow}>{copy.eyebrow}</p>
             <Heading as="h1" className={styles.title} id="app-lab-title">
               {copy.title}
             </Heading>
@@ -237,22 +231,16 @@ export default function AppHub() {
           </div>
 
           <div className={styles.heroVisual} aria-hidden="true">
-            <div className={styles.visualCore}>
-              <span>APP</span>
-              <strong>LAB</strong>
-            </div>
-            <span className={styles.visualNode} data-node="field">
-              GPS
-            </span>
-            <span className={styles.visualNode} data-node="vision">
-              CV
-            </span>
-            <span className={styles.visualNode} data-node="ai">
-              AI
-            </span>
-            <span className={styles.visualNode} data-node="data">
-              CSV
-            </span>
+            {HERO_SHOTS.map((id) => (
+              <img
+                key={id}
+                src={`/img/app-shots/${id}.jpg`}
+                alt=""
+                width="800"
+                height="500"
+                decoding="async"
+              />
+            ))}
           </div>
         </section>
 

@@ -31,7 +31,7 @@ export default function BlogTagsPostsPage({ tag, items, listMetadata }) {
         <main className={styles.page}>
           <BlogCollectionHero
             compact
-            eyebrow="TOPIC COLLECTION"
+            eyebrow="Topic collection"
             title={tag.label}
             description={
               tag.description || `Research notes connected by ${tag.label}.`

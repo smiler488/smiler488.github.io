@@ -33,7 +33,7 @@ export default function BlogTagsListPage({ tags }) {
         <main className={styles.page}>
           <BlogCollectionHero
             compact
-            eyebrow="TOPIC INDEX"
+            eyebrow="Topics"
             title="Research topics"
             description="A focused map of the methods and domains that connect the notebook."
             stats={[
@@ -55,8 +55,7 @@ export default function BlogTagsListPage({ tags }) {
                 to={tag.permalink}
               >
                 <div>
-                  <span>{String(tag.count).padStart(2, "0")}</span>
-                  <span aria-hidden="true">↗</span>
+                  {tag.count} {tag.count === 1 ? "note" : "notes"}
                 </div>
                 <Heading as="h2">{tag.label}</Heading>
                 <p>

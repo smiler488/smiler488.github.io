@@ -216,7 +216,6 @@ export default function PrivacyPage() {
               rel="noopener noreferrer"
             >
               {copy.policyAction}
-              <span aria-hidden="true">↗</span>
             </Link>
             <Link
               href="https://mapmyvisitors.com/b/tos"
@@ -224,13 +223,11 @@ export default function PrivacyPage() {
               rel="noopener noreferrer"
             >
               {copy.termsAction}
-              <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </section>
 
         <Link className={styles.backLink} to="/">
-          <span aria-hidden="true">←</span>
           {copy.backAction}
         </Link>
       </main>

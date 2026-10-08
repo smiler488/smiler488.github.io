@@ -86,7 +86,7 @@ function BlogPostPageContent({ children }) {
           {showToc && (
             <aside className={styles.tocColumn} aria-label="Table of contents">
               <div className={styles.tocSurface}>
-                <p>ON THIS PAGE</p>
+                <p>On this page</p>
                 <ArticleToc
                   toc={toc}
                   minHeadingLevel={tocMinHeadingLevel}

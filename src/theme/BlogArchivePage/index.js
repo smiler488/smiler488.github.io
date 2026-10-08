@@ -40,7 +40,7 @@ export default function BlogArchivePage({ archive }) {
         <main className={styles.page}>
           <BlogCollectionHero
             compact
-            eyebrow="CHRONOLOGICAL INDEX"
+            eyebrow="Archive"
             title="Research archive"
             description="Every field note in one calm timeline—from developer workflows to AI-assisted plant phenotyping."
             stats={[
@@ -77,7 +77,6 @@ export default function BlogArchivePage({ archive }) {
                           <Link to={metadata.permalink}>{metadata.title}</Link>
                           <p>{metadata.description}</p>
                         </div>
-                        <span aria-hidden="true">↗</span>
                       </li>
                     );
                   })}

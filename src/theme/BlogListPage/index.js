@@ -52,7 +52,7 @@ function BlogListPageContent({ metadata, items }) {
         <section className={styles.collection} aria-labelledby="latest-notes">
           <div className={styles.collectionHeader}>
             <div>
-              <p className={styles.kicker}>LATEST NOTES</p>
+              <p className={styles.kicker}>Latest notes</p>
               <Heading as="h2" id="latest-notes">
                 Ideas, methods, and working systems
               </Heading>

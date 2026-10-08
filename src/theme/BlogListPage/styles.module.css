@@ -22,9 +22,9 @@
   padding: 0;
   border: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  font-weight: 680;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
   line-height: 1.08;
 }
 
@@ -37,21 +37,20 @@
 
 .kicker {
   margin: 0 0 0.65rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  font-weight: 560;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: stretch;
+  gap: clamp(2rem, 3vw, 2.75rem) clamp(1rem, 2vw, 1.5rem);
+  align-items: start;
 }
 
 .paginator {
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .paginator :global(.pagination-nav) {
@@ -59,23 +58,16 @@
 }
 
 .paginator :global(.pagination-nav__link) {
-  border: 1px solid var(--glass-border);
-  border-radius: 18px;
-  background: var(--glass-bg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  transition: transform 400ms var(--ease-openai),
-    border-color 400ms var(--ease-openai), box-shadow 400ms var(--ease-openai);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
+  box-shadow: none;
+  transition: border-color 160ms ease, background 160ms ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .paginator :global(.pagination-nav__link:hover) {
-    border-color: color-mix(in srgb, var(--ifm-color-primary), transparent 62%);
-    box-shadow: inset 0 1px 0 var(--glass-highlight),
-      0 12px 36px color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
-    transform: translateY(-2px);
-  }
+.paginator :global(.pagination-nav__link:hover) {
+  border-color: var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-surface-color);
 }
 
 @media (max-width: 900px) {
@@ -95,7 +87,7 @@
 
 @media (max-width: 600px) {
   .collection {
-    width: min(100% - 1rem, 1180px);
+    width: min(100% - 2rem, 1180px);
   }
 
   .grid {
@@ -103,10 +95,3 @@
   }
 }
 
-@supports not (
-  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
-) {
-  .paginator :global(.pagination-nav__link) {
-    background: var(--ifm-background-surface-color);
-  }
-}

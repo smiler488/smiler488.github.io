@@ -33,7 +33,7 @@
 
 @media (max-width: 600px) {
   .collection {
-    width: min(100% - 1rem, 1180px);
+    width: min(100% - 2rem, 1180px);
   }
 
   .grid {

@@ -6,21 +6,11 @@
 }
 
 .researchSection {
-  background: radial-gradient(
-      circle at 86% 8%,
-      rgba(16, 163, 127, 0.05),
-      transparent 32rem
-    ),
-    var(--ifm-background-color);
+  background: var(--ifm-background-color);
 }
 
 .labSection {
-  background: radial-gradient(
-      circle at 10% 16%,
-      rgba(16, 163, 127, 0.04),
-      transparent 32rem
-    ),
-    var(--ifm-background-color);
+  background: var(--ifm-background-color);
 }
 
 .collaborationSection {

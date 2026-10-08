@@ -36,7 +36,7 @@ const pageCopy = {
     statVerified: "July 2026",
     statVerifiedLabel: "last verified",
     pathsEyebrow: "Start with a goal",
-    pathsTitle: "Three practical learning paths",
+    pathsTitle: "Practical learning paths",
     pathsDescription:
       "Each path moves from a reliable starting point to a reproducible research workflow.",
     openPath: "Explore this path",
@@ -94,7 +94,7 @@ const pageCopy = {
     statVerified: "2026 年 7 月",
     statVerifiedLabel: "最近核验",
     pathsEyebrow: "从目标出发",
-    pathsTitle: "三条可执行的学习路径",
+    pathsTitle: "可执行的学习路径",
     pathsDescription: "每条路径都从可靠起点出发，逐步进入可复现的科研工作流。",
     openPath: "查看这条路径",
     catalogEyebrow: "精选目录",
@@ -247,7 +247,6 @@ function ResourceCard({ resource, isChinese, copy }) {
         aria-label={`${copy.openResource}: ${resource.title} (${copy.newTab})`}
       >
         <span>{copy.openResource}</span>
-        <span aria-hidden="true">↗</span>
       </Link>
     </article>
   );
@@ -456,7 +455,6 @@ export default function ResourcesPage() {
                   className={clsx(styles.pathCard, styles[path.category])}
                 >
                   <div className={styles.pathHeader}>
-                    <span className={styles.pathIndex}>{path.index}</span>
                     <span className={styles.pathEyebrow}>
                       {localize(path.eyebrow, isChinese)}
                     </span>
@@ -478,7 +476,6 @@ export default function ResourcesPage() {
                     onClick={() => openLearningPath(path.category)}
                   >
                     <span>{copy.openPath}</span>
-                    <span aria-hidden="true">↓</span>
                   </button>
                 </article>
               ))}

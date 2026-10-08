@@ -74,7 +74,7 @@ function AppTutorialHero({ metadata, frontMatter }) {
           className={styles.tutorialBackLink}
           to="/docs/category/tutorial---apps"
         >
-          <span aria-hidden="true">←</span> {t.back}
+          {t.back}
         </Link>
         {runtime && (
           <span className={styles.tutorialRuntime}>
@@ -110,7 +110,7 @@ function AppTutorialHero({ metadata, frontMatter }) {
           </ul>
         )}
         <Link className={styles.openAppButton} to={frontMatter.app_route}>
-          {t.open} <span aria-hidden="true">↗</span>
+          {t.open}
         </Link>
       </div>
     </header>
@@ -143,14 +143,6 @@ function StandardDocLayout({ children, docTOC, metadata }) {
 function AppTutorialLayout({ children, docTOC, metadata, frontMatter }) {
   return (
     <div className={styles.tutorialPage}>
-      <span
-        className={clsx(styles.tutorialGlow, styles.tutorialGlowOne)}
-        aria-hidden="true"
-      />
-      <span
-        className={clsx(styles.tutorialGlow, styles.tutorialGlowTwo)}
-        aria-hidden="true"
-      />
       <div className="row">
         <div
           className={clsx("col", !docTOC.hidden && styles.tutorialDocItemCol)}

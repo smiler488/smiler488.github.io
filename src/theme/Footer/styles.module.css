@@ -4,18 +4,8 @@
   overflow: hidden;
   padding: clamp(1rem, 2.5vw, 2.5rem) clamp(0.75rem, 2.5vw, 2rem);
   color: var(--ifm-color-emphasis-900);
-  background: radial-gradient(
-      circle at 10% 8%,
-      color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
-      transparent 34rem
-    ),
-    radial-gradient(
-      circle at 90% 90%,
-      rgba(175, 82, 222, 0.08),
-      transparent 28rem
-    ),
-    var(--ifm-background-color);
-  border-top: 1px solid var(--glass-border);
+  background: var(--ifm-background-color);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .footerSurface {
@@ -51,9 +41,9 @@
 .eyebrow {
   display: inline-flex;
   margin-bottom: 0.8rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.72rem;
-  font-weight: 760;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: 1.35;
   text-transform: none;
@@ -138,9 +128,8 @@
 }
 
 .linkList a:hover {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-900);
   text-decoration: none;
-  transform: translateX(3px);
 }
 
 .contactList {
@@ -172,7 +161,9 @@
 }
 
 .contactList a:hover strong {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .socialGrid {
@@ -265,23 +256,9 @@
   margin-top: clamp(2rem, 4vw, 3.25rem);
   padding: clamp(1.4rem, 3vw, 2.5rem);
   overflow: hidden;
-  background: radial-gradient(
-      circle at 86% 24%,
-      color-mix(in srgb, var(--ifm-color-primary) 16%, transparent),
-      transparent 20rem
-    ),
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--glass-bg) 92%, transparent),
-      color-mix(in srgb, var(--ifm-background-color) 72%, transparent)
-    );
-  border: 1px solid
-    color-mix(in srgb, var(--glass-border) 78%, var(--glass-highlight));
-  border-radius: clamp(22px, 2.5vw, 30px);
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 16px 42px rgba(15, 23, 42, 0.08);
-  -webkit-backdrop-filter: blur(22px) saturate(155%);
-  backdrop-filter: blur(22px) saturate(155%);
+  background: var(--ifm-background-surface-color);
+  border: 0;
+  border-radius: 16px;
 }
 
 .globeBand::before {
@@ -310,9 +287,9 @@
   display: inline-flex;
   align-items: center;
   margin-bottom: 0.7rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.7rem;
-  font-weight: 780;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+  font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -321,10 +298,8 @@
   width: 7px;
   height: 7px;
   margin-right: 0.55rem;
-  background: var(--ifm-color-primary);
+  background: #10a37f;
   border-radius: 50%;
-  box-shadow: 0 0 0 5px
-    color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
   content: "";
 }
 
@@ -351,25 +326,23 @@
   gap: 0.55rem;
   align-items: center;
   min-height: 42px;
-  padding: 0.55rem 0.78rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
+  padding: 0.55rem 1rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.86rem;
+  font-weight: 560;
   text-decoration: none;
-  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
-  border: 1px solid
-    color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
-  border-radius: 13px;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
   transition: transform 180ms ease, background-color 180ms ease,
     border-color 180ms ease;
 }
 
 .globePrivacyLink:hover {
-  color: var(--ifm-color-primary-dark);
+  color: var(--ifm-color-emphasis-900);
   text-decoration: none;
-  background: color-mix(in srgb, var(--ifm-color-primary) 13%, transparent);
-  border-color: color-mix(in srgb, var(--ifm-color-primary) 32%, transparent);
-  transform: translateY(-2px);
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 .globeStage {
@@ -381,33 +354,9 @@
   overflow: hidden;
   place-items: center;
   isolation: isolate;
-  background: radial-gradient(
-      circle at 50% 45%,
-      color-mix(in srgb, var(--ifm-color-primary) 14%, transparent),
-      transparent 62%
-    ),
-    color-mix(in srgb, var(--glass-bg) 78%, transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: 28px;
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
-    0 18px 44px rgba(15, 23, 42, 0.1);
-}
-
-.globeStage::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.42;
-  background-image: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--ifm-color-emphasis-600) 44%, transparent) 0 1px,
-    transparent 1.4px
-  );
-  background-size: 28px 28px;
-  pointer-events: none;
-  content: "";
-  -webkit-mask-image: radial-gradient(circle, #000, transparent 76%);
-  mask-image: radial-gradient(circle, #000, transparent 76%);
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 14px;
 }
 
 .globeFrame {
@@ -515,17 +464,7 @@
 }
 
 html[data-theme="dark"] .footer {
-  background: radial-gradient(
-      circle at 10% 8%,
-      color-mix(in srgb, var(--ifm-color-primary) 15%, transparent),
-      transparent 34rem
-    ),
-    radial-gradient(
-      circle at 90% 90%,
-      rgba(191, 90, 242, 0.1),
-      transparent 28rem
-    ),
-    var(--ifm-background-color);
+  background: var(--ifm-background-color);
 }
 
 html[data-theme="dark"] .footerSurface {

@@ -33,25 +33,16 @@ function ReadingMeta({ date, readingTime }) {
 
 function TopicVisual({ image, category }) {
   const useImage = image && !image.includes("blog-default");
-  const initials = (category || "Research note")
-    .split(/\s|&/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("");
 
   return (
     <div className={styles.visual} aria-hidden="true">
       {useImage ? (
         <img src={image} alt="" loading="lazy" />
       ) : (
-        <div className={styles.abstractVisual}>
-          <span className={styles.orbitOne} />
-          <span className={styles.orbitTwo} />
-          <strong>{initials}</strong>
+        <div className={styles.typeCover}>
+          <span>{category || "Research note"}</span>
         </div>
       )}
-      <span className={styles.visualLabel}>{category || "Research note"}</span>
     </div>
   );
 }
@@ -63,12 +54,10 @@ function ListCard() {
     description,
     permalink,
     date,
-    readingTime,
     tags,
     frontMatter,
   } = metadata;
   const category = frontMatter.category || "Research note";
-  const articleType = frontMatter.article_type || "Field note";
 
   return (
     <article className={styles.card}>
@@ -84,14 +73,15 @@ function ListCard() {
       </Link>
       <div className={styles.cardBody}>
         <div className={styles.cardTypeRow}>
-          <span>{articleType}</span>
-          <ReadingMeta date={date} readingTime={readingTime} />
+          <span>{category}</span>
+          <span aria-hidden="true">·</span>
+          <time dateTime={date}>{formatDate(date)}</time>
         </div>
         <Heading as="h2">
           <Link to={permalink}>{title}</Link>
         </Heading>
         <p className={styles.cardDescription}>{description}</p>
-        <footer className={styles.cardFooter}>
+        {tags.length > 0 && (
           <div className={styles.cardTags} aria-label="Topics">
             {tags.slice(0, 3).map((tag) => (
               <Link key={tag.permalink} to={tag.permalink}>
@@ -99,15 +89,7 @@ function ListCard() {
               </Link>
             ))}
           </div>
-          <Link
-            className={styles.readLink}
-            to={permalink}
-            aria-label={`Read ${title}`}
-          >
-            <span>Read</span>
-            <span aria-hidden="true">↗</span>
-          </Link>
-        </footer>
+        )}
       </div>
     </article>
   );
@@ -149,9 +131,8 @@ function PostArticle({ children }) {
   return (
     <article className={styles.postArticle}>
       <header className={styles.postHero}>
-        <div className={styles.postGlow} aria-hidden="true" />
         <Link className={styles.backLink} to="/blog">
-          <span aria-hidden="true">←</span> Research notebook
+          Research notebook
         </Link>
         <div className={styles.postLabels}>
           <span>{category}</span>

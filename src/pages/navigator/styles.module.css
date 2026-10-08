@@ -11,16 +11,7 @@
   min-height: 100vh;
   padding: clamp(1rem, 2.5vw, 2rem) clamp(0.85rem, 2vw, 1.5rem) 5rem;
   color: var(--navigator-text);
-  background: radial-gradient(
-      circle at 4% 4%,
-      color-mix(in srgb, #10a37f 9%, transparent),
-      transparent 28rem
-    ),
-    radial-gradient(
-      circle at 94% 30%,
-      color-mix(in srgb, #10a37f 5%, transparent),
-      transparent 32rem
-    );
+  background: var(--ifm-background-color);
 }
 
 .shell {

@@ -28,44 +28,31 @@
   max-height: calc(100vh - var(--ifm-navbar-height) - 2.5rem);
 }
 
-.tocSurface,
-.mobileToc,
-.paginatorSurface,
-.commentSurface {
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  background: var(--glass-bg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-medium);
-  backdrop-filter: var(--glass-blur-medium);
-}
-
-:global(html[data-theme="dark"]) .tocSurface,
-:global(html[data-theme="dark"]) .mobileToc,
-:global(html[data-theme="dark"]) .paginatorSurface,
-:global(html[data-theme="dark"]) .commentSurface {
-  background: var(--glass-bg);
+.mobileToc {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
 }
 
 .tocSurface {
   max-height: inherit;
   overflow: auto;
-  padding: 1.15rem 1rem;
+  padding: 0.25rem 0;
 }
 
 .tocSurface > p,
 .commentSurface > div > p {
   margin: 0 0 0.75rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.68rem;
-  font-weight: 740;
-  letter-spacing: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.84rem;
+  font-weight: 600;
 }
 
 .tocSurface :global(.table-of-contents) {
   padding: 0;
   border: 0;
-  font-size: 0.78rem;
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+  font-size: 0.84rem;
 }
 
 .tocSurface :global(.thin-scrollbar) {
@@ -74,21 +61,20 @@
   overflow: visible;
 }
 
-.tocSurface :global(.table-of-contents__link) {
-  display: block;
-  padding: 0.28rem 0;
-  color: var(--ifm-color-emphasis-600);
-  line-height: 1.4;
+
+
+.tocSurface :global(.table-of-contents__link:hover) {
+  color: var(--ifm-color-emphasis-900);
 }
 
 .tocSurface :global(.table-of-contents__link--active) {
-  color: var(--ifm-color-primary);
-  font-weight: 660;
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
 }
 
 .paginatorSurface {
-  margin-top: 1rem;
-  padding: 0.5rem;
+  max-width: 720px;
+  margin-top: 3rem;
 }
 
 .paginatorSurface :global(.pagination-nav) {
@@ -98,14 +84,26 @@
 
 .paginatorSurface :global(.pagination-nav__link) {
   min-width: 0;
-  border: 0;
-  border-radius: 18px;
-  background: color-mix(
-    in srgb,
-    var(--ifm-background-surface-color),
-    transparent 38%
-  );
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
   box-shadow: none;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.paginatorSurface :global(.pagination-nav__link:hover) {
+  border-color: var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-surface-color);
+}
+
+.paginatorSurface :global(.pagination-nav__sublabel) {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.paginatorSurface :global(.pagination-nav__label) {
+  font-weight: 600;
 }
 
 .paginatorSurface :global(.pagination-nav__label) {
@@ -115,16 +113,19 @@
 }
 
 .commentSurface {
-  margin-top: 1rem;
-  padding: clamp(1.25rem, 4vw, 2.25rem);
+  max-width: 720px;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .commentSurface h2 {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  letter-spacing: -0.035em;
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 .commentSurface > div + div {
@@ -157,7 +158,7 @@
 
 .mobileTocContent {
   padding: 0 1rem 1rem;
-  border-top: 1px solid var(--glass-border);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .mobileTocContent :global(.table-of-contents) {
@@ -188,16 +189,7 @@
 
 @media (max-width: 600px) {
   .page {
-    padding: 0.5rem 0.5rem 3rem;
-  }
-
-  .tocSurface,
-  .mobileToc,
-  .paginatorSurface,
-  .commentSurface {
-    border-radius: 20px;
-    -webkit-backdrop-filter: var(--glass-blur-light);
-    backdrop-filter: var(--glass-blur-light);
+    padding: 0.5rem 1rem 3rem;
   }
 
   .paginatorSurface :global(.pagination-nav) {
@@ -210,13 +202,3 @@
   }
 }
 
-@supports not (
-  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
-) {
-  .tocSurface,
-  .mobileToc,
-  .paginatorSurface,
-  .commentSurface {
-    background: var(--ifm-background-surface-color);
-  }
-}

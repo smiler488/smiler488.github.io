@@ -230,18 +230,7 @@ html[data-theme='dark'] {
 }
 
 body {
-  background:
-    radial-gradient(circle at 12% -8%, rgba(16, 163, 127, 0.04), transparent 30rem),
-    radial-gradient(circle at 88% 4%, rgba(100, 116, 139, 0.03), transparent 28rem),
-    var(--ifm-background-color);
-  background-attachment: fixed;
-}
-
-html[data-theme='dark'] body {
-  background:
-    radial-gradient(circle at 12% -8%, rgba(16, 163, 127, 0.08), transparent 32rem),
-    radial-gradient(circle at 88% 4%, rgba(100, 116, 139, 0.05), transparent 28rem),
-    var(--ifm-background-color);
+  background: var(--ifm-background-color);
 }
 
 /* Navbar improvements with Glassmorphism */
@@ -1321,45 +1310,28 @@ select:focus {
   margin-left: 0;
 }
 
-/* TOC 链接基础样式 */
+/* TOC links: a quiet rail; the current section gets an ink line, no fill or shift */
 .table-of-contents__link {
   display: block;
-  padding: 0.4rem 0.5rem 0.4rem 1rem;
+  padding: 0.3rem 0.5rem 0.3rem 1rem;
   font-size: 0.85rem;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--ifm-color-emphasis-600);
-  border-left: 3px solid transparent;
-  border-radius: 0 6px 6px 0;
-  transition: all 0.2s var(--ease-smooth);
+  border-left: 1px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
   margin-left: -1px; /* Overlap container border */
   position: relative;
 }
 
-/* 悬停效果 */
 .table-of-contents__link:hover {
-  color: var(--ifm-color-primary);
-  background: var(--ifm-background-surface-color);
-  border-left-color: var(--ifm-color-emphasis-400);
-  padding-left: 1.25rem;
+  color: var(--ifm-color-emphasis-900);
   text-decoration: none;
 }
 
-/* 激活状态（当前阅读章节） */
 .table-of-contents__link--active {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-900);
   font-weight: 600;
-  background: var(--ifm-background-surface-color);
-  border-left-color: var(--ifm-color-primary);
-  padding-left: 1.25rem;
-}
-
-/* 深色模式适配 */
-html[data-theme='dark'] .table-of-contents__link--active {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-html[data-theme='dark'] .table-of-contents__link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--ifm-color-emphasis-900);
 }
 
 /* ===== 统一 Back To Top 按钮样式 ===== */
@@ -1551,17 +1523,15 @@ html {
   }
 }
 
-/* ===== Docs/Tutorial 统一优化 ===== */
+/* ===== Docs, blog and tutorial markdown ===== */
 
-/* 1. 文档图片美化 */
+/* 1. Images: rounded, no frame or shadow */
 .theme-doc-markdown img {
   border-radius: 12px;
-  box-shadow: var(--ifm-global-shadow-md);
   margin: 1.5rem 0;
-  border: 1px solid var(--ifm-border-color);
 }
 
-/* 2. 标题排版 */
+/* 2. Headings: plain ink type, no gradient fill, no rules */
 .theme-doc-markdown h1,
 .theme-doc-markdown h2,
 .theme-doc-markdown h3 {
@@ -1569,112 +1539,145 @@ html {
 }
 
 .theme-doc-markdown h1 {
-  font-size: 2.25rem;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  width: fit-content;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.25rem;
 }
 
-/* 3. Admonitions 增强 (Alerts) */
-.alert {
-  border-radius: 12px;
-  box-shadow: var(--ifm-global-shadow-lw);
-  border: 1px solid var(--glass-border);
-  margin-bottom: 1.5rem;
-  padding: 1.1rem 1.25rem;
+.markdown h2 {
+  border-bottom: 0;
+  padding-bottom: 0;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
-.alert--info {
-  background-color: color-mix(in srgb, var(--ifm-color-primary) 7%, var(--ifm-background-surface-color));
-  border-left: 4px solid var(--ifm-color-primary);
+/* 3. Admonitions: the site's one notice pattern (2px bar, faint tint) */
+.theme-admonition.alert {
+  --ifm-alert-border-width: 0;
+  --ifm-alert-border-left-width: 2px;
+  --ifm-alert-border-radius: 0 10px 10px 0;
+  --ifm-alert-padding-vertical: 0.85rem;
+  --ifm-alert-padding-horizontal: 1.1rem;
+  --ifm-alert-shadow: none;
+  --ifm-alert-foreground-color: var(--ifm-color-emphasis-800);
+  --ifm-alert-background-color: var(--ifm-background-surface-color);
+  --ifm-alert-background-color-highlight: var(--ifm-color-emphasis-200);
+  --ifm-alert-border-color: var(--ifm-color-emphasis-300);
+  margin: 1.5rem 0;
+  border: 0;
+  border-left: 2px solid var(--ifm-alert-border-color);
+  border-radius: 0 10px 10px 0;
+  box-shadow: none;
 }
 
-.alert--success {
-  background-color: color-mix(in srgb, #10a37f 7%, var(--ifm-background-surface-color));
-  border-left: 4px solid #10a37f;
+.theme-admonition.alert--success {
+  --ifm-alert-border-color: #10a37f;
+  --ifm-alert-background-color: color-mix(in srgb, #10a37f 6%, var(--ifm-background-color));
 }
 
-.alert--warning {
-  background-color: color-mix(in srgb, #f59e0b 7%, var(--ifm-background-surface-color));
-  border-left: 4px solid #f59e0b;
+.theme-admonition.alert--warning {
+  --ifm-alert-border-color: #c98a12;
+  --ifm-alert-background-color: color-mix(in srgb, #c98a12 7%, var(--ifm-background-color));
 }
 
-.alert--danger {
-  background-color: color-mix(in srgb, #ef4444 7%, var(--ifm-background-surface-color));
-  border-left: 4px solid #ef4444;
+.theme-admonition.alert--danger {
+  --ifm-alert-border-color: #d14343;
+  --ifm-alert-background-color: color-mix(in srgb, #d14343 6%, var(--ifm-background-color));
 }
 
-/* 4. 代码块 */
+.theme-admonition [class*="admonitionHeading"] {
+  margin-bottom: 0.3rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.theme-admonition [class*="admonitionIcon"] svg {
+  fill: var(--ifm-alert-border-color);
+}
+
+.theme-admonition.alert--info [class*="admonitionIcon"] svg,
+.theme-admonition.alert--secondary [class*="admonitionIcon"] svg {
+  fill: var(--ifm-color-emphasis-600);
+}
+
+.theme-admonition a {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration-color: var(--ifm-color-emphasis-400);
+}
+
+/* 4. Code blocks: hairline, no shadow */
 .theme-doc-markdown pre,
 .markdown pre {
   border-radius: 12px;
-  border: 1px solid var(--glass-border) !important;
+  border: 1px solid var(--ifm-color-emphasis-200) !important;
   background-color: var(--ifm-pre-background) !important;
-  box-shadow: var(--ifm-global-shadow-lw);
+  box-shadow: none;
 }
 
-/* 5. 分页导航 (Next/Prev) */
+/* 5. Prev/next pager: quiet outline cards */
 .pagination-nav__link {
-  border-radius: 14px;
-  border: 1px solid var(--glass-border) !important;
-  background: var(--glass-bg) !important;
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  box-shadow: var(--shadow-glass);
-  transition: all 0.25s var(--ease-smooth);
-  padding: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-200) !important;
+  background: var(--ifm-background-color) !important;
+  box-shadow: none;
+  transition: border-color 160ms ease, background 160ms ease;
+  padding: 1rem 1.1rem;
 }
 
 .pagination-nav__link:hover {
-  border-color: rgba(16, 163, 127, 0.28) !important;
-  box-shadow: var(--shadow-glass-hover);
-  transform: translateY(-2px);
+  border-color: var(--ifm-color-emphasis-300) !important;
+  background: var(--ifm-background-surface-color) !important;
 }
 
 .pagination-nav__sublabel {
-  font-size: 0.82rem;
-  opacity: 0.7;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .pagination-nav__label {
-  font-size: 1.08rem;
-  font-weight: 700;
-  color: var(--ifm-color-primary);
-}
-
-/* 6. 表格样式 */
-.theme-doc-markdown table {
-  display: table;
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--ifm-global-shadow-lw);
-  margin: 1.5rem 0;
-  border: 1px solid var(--glass-border) !important;
-  background: var(--ifm-background-surface-color);
-}
-
-.theme-doc-markdown th,
-.theme-doc-markdown td {
-  padding: 14px 18px;
-  border: none;
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.theme-doc-markdown th {
-  background: color-mix(in srgb, var(--ifm-color-primary) 3%, var(--ifm-background-surface-color));
-  font-weight: 680;
   color: var(--ifm-color-emphasis-900);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.theme-doc-markdown tr:last-child td {
-  border-bottom: none;
+/* 6. Tables: horizontal hairlines only, no stripes or tinted header */
+:root {
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-head-background: transparent;
+  --ifm-table-border-color: var(--ifm-color-emphasis-200);
+}
+
+.markdown table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+
+.markdown tr,
+.markdown thead {
+  border: 0;
+  background: transparent;
+}
+
+.markdown th,
+.markdown td {
+  padding: 0.7rem 1rem 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown th {
+  border-bottom-color: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.86rem;
+  font-weight: 600;
 }
 
 /* 7. 面包屑导航 */
@@ -1703,12 +1706,11 @@ html {
   justify-content: center;
   width: 48px;
   height: 48px;
-  color: #fff;
-  background: var(--ifm-color-primary);
-  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 62%, #000 8%);
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-900);
+  border: 0;
   border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(16, 163, 127, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
   cursor: pointer;
   transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s ease,
     background 0.2s ease;
@@ -1716,15 +1718,13 @@ html {
 }
 
 .wechat-float-btn:hover {
-  color: #fff;
-  background: var(--ifm-color-primary-dark);
-  box-shadow: 0 12px 28px rgba(16, 163, 127, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-800);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 .wechat-float-btn:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+  outline: 2px solid var(--ifm-color-emphasis-900);
   outline-offset: 3px;
 }
 

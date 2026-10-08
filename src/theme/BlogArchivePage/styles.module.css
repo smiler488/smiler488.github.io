@@ -5,7 +5,7 @@
 
 .timeline {
   display: grid;
-  width: min(100% - 2rem, 980px);
+  width: min(100% - 2rem, 1180px);
   margin: 0 auto;
   gap: 1rem;
 }
@@ -14,17 +14,8 @@
   display: grid;
   grid-template-columns: 150px minmax(0, 1fr);
   gap: 1.5rem;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--glass-border);
-  border-radius: 26px;
-  background: var(--glass-bg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-medium);
-  backdrop-filter: var(--glass-blur-medium);
-}
-
-:global(html[data-theme="dark"]) .year {
-  background: rgba(28, 28, 30, 0.86);
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .yearHeading h2 {
@@ -32,16 +23,18 @@
   padding: 0;
   border: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(2rem, 4vw, 3rem);
-  letter-spacing: -0.05em;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 
 .yearHeading span {
   display: block;
   margin-top: 0.35rem;
-  color: var(--ifm-color-emphasis-500);
-  font-size: 0.68rem;
-  font-weight: 650;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.82rem;
+  font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -58,11 +51,11 @@
   position: relative;
   display: grid;
   min-width: 0;
-  grid-template-columns: 72px minmax(0, 1fr) 24px;
+  grid-template-columns: 72px minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
   padding: 1rem 0;
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .year li:first-child {
@@ -77,19 +70,24 @@
 .year time {
   padding-top: 0.15rem;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.72rem;
-  font-weight: 620;
-  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
   text-transform: none;
 }
 
 .year a {
   color: var(--ifm-color-emphasis-900);
-  font-size: 1rem;
-  font-weight: 660;
+  font-size: 1.02rem;
+  font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.35;
   text-decoration: none;
+}
+
+.year li:hover a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .year a::after {
@@ -103,25 +101,21 @@
   overflow: hidden;
   margin: 0.35rem 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   line-height: 1.5;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
-.year li > span {
-  color: var(--ifm-color-primary);
-}
 
 @media (max-width: 700px) {
   .timeline {
-    width: min(100% - 1rem, 980px);
+    width: min(100% - 2rem, 1180px);
   }
 
   .year {
     grid-template-columns: 1fr;
     gap: 1rem;
-    border-radius: 22px;
   }
 
   .yearHeading {
@@ -135,14 +129,14 @@
   }
 
   .year li {
-    grid-template-columns: 60px minmax(0, 1fr) 18px;
+    grid-template-columns: 60px minmax(0, 1fr);
     gap: 0.65rem;
   }
 }
 
 @media (max-width: 430px) {
   .year li {
-    grid-template-columns: minmax(0, 1fr) 18px;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .year time {
@@ -151,10 +145,3 @@
   }
 }
 
-@supports not (
-  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
-) {
-  .year {
-    background: var(--ifm-background-surface-color);
-  }
-}
