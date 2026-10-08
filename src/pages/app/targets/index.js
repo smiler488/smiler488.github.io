@@ -568,29 +568,31 @@ export default function TargetsPage() {
                   }} 
                 />
               </div>
-              <div style={{ 
-                padding: 12, 
-                backgroundColor: "var(--ifm-color-primary-lightest)", 
-                borderRadius: 8, 
-                fontSize: 12, 
-                color: "var(--ifm-color-primary-darker)",
+              <div style={{
+                padding: "10px 12px",
+                borderLeft: "2px solid var(--ifm-color-emphasis-300)",
+                borderRadius: "0 8px 8px 0",
+                backgroundColor: "var(--ifm-background-surface-color)",
+                fontSize: 13,
+                lineHeight: 1.55,
+                color: "var(--ifm-color-emphasis-700)",
                 marginBottom: 8
               }}>
-                <strong>Note:</strong> OpenCV detects <em>inner corners</em> (intersection points). 
-                Printed squares = <code>(rows + 1) × (cols + 1)</code>
+                OpenCV detects <em>inner corners</em> (intersection points), so
+                printed squares = <code>(rows + 1) × (cols + 1)</code>.
               </div>
-              <div 
-                id="cbComputed" 
+              <div
+                id="cbComputed"
                 role="status"
                 aria-live="polite"
-                style={{ 
-                  fontSize: 13, 
-                  fontWeight: "bold",
-                  padding: 8,
-                  backgroundColor: "var(--ifm-background-color)",
-                  border: "1px solid var(--ifm-border-color)",
-                  borderRadius: 6
-                }} 
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  padding: "8px 12px",
+                  backgroundColor: "var(--ifm-background-surface-color)",
+                  borderRadius: 8,
+                  fontVariantNumeric: "tabular-nums"
+                }}
               />
               <div 
                 id="cbValidation" 
@@ -826,36 +828,17 @@ export default function TargetsPage() {
             <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid var(--ifm-border-color)" }} />
 
             <div className={styles.actionGrid}>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 id="btnPreview"
-                style={{
-                  padding: "12px 16px",
-                  border: "2px solid var(--ifm-color-primary)",
-                  borderRadius: 8,
-                  backgroundColor: "var(--ifm-background-color)",
-                  color: "var(--ifm-color-primary)",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  fontSize: 14
-                }}
+                className="button button--secondary"
               >
-                Live Preview
+                Live preview
               </button>
-              <button 
-                type="button" 
-                id="btnDownload" 
-                style={{
-                  padding: "12px 16px",
-                  border: "none",
-                  borderRadius: 8,
-                  backgroundColor: "var(--ifm-color-success)",
-                  color: "var(--ifm-background-color)",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  fontSize: 14
-                }}
-                disabled={false}
+              <button
+                type="button"
+                id="btnDownload"
+                className="button button--primary"
               >
                 Download PDF
               </button>

@@ -9,7 +9,7 @@
 .leaderboard {
   min-width: 0;
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
+  border-radius: 16px;
   background: var(--glass-bg);
   box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: var(--glass-blur-light);
@@ -109,8 +109,8 @@
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, white 22%, transparent);
-  border-radius: 20px;
-  background: #2d3748;
+  border-radius: 16px;
+  background: #1f1f1f;
   box-shadow: 0 22px 50px rgba(15, 23, 42, 0.2);
 }
 
@@ -151,13 +151,16 @@
   width: 54px;
   height: 48px;
   padding: 0;
-  border: 1px solid var(--glass-border);
-  border-radius: 15px;
-  background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
-  color: var(--ifm-color-primary);
-  font-size: 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.dpad button:hover {
+  background: var(--ifm-color-emphasis-100);
 }
 
 .dpad button:active {
@@ -248,7 +251,7 @@
 @media (max-width: 520px) {
   .gameCard,
   .leaderboard {
-    border-radius: 19px;
+    border-radius: 16px;
   }
 
   .toolbar {

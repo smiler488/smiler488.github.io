@@ -63,11 +63,6 @@ export default function AppScaffold({
   return (
     <Layout title={title} description={description}>
       <main className={styles.page} data-tone={tone} aria-labelledby={titleId}>
-        <div className={styles.ambient} aria-hidden="true">
-          <span className={styles.ambientOrb} />
-          <span className={styles.ambientGrid} />
-        </div>
-
         <div className={styles.container}>
           <nav className={styles.contextBar} aria-label={t.nav}>
             <Link className={styles.backLink} to="/app">
@@ -107,7 +102,7 @@ export default function AppScaffold({
               <div className={styles.heroActions}>
                 {tutorialHref && (
                   <Link className={styles.guideLink} to={tutorialHref}>
-                    {t.guide} <span aria-hidden="true">↗</span>
+                    {t.guide}
                   </Link>
                 )}
                 {actions}

@@ -1726,6 +1726,14 @@ export default function AiDataVisualizerPage() {
                 <p className={styles.errorText}>{chartRuntimeError}</p>
               )}
               <div className={styles.chartShell}>
+                {!chartOption && (
+                  <div className={styles.chartEmpty} aria-hidden="true">
+                    <span className={styles.chartEmptyTitle}>No chart yet</span>
+                    <span>
+                      Upload a table and generate a visualization to see it here.
+                    </span>
+                  </div>
+                )}
                 <div
                   ref={chartContainerRef}
                   className={styles.chartContainer}

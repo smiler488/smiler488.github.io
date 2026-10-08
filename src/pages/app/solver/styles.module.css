@@ -1,0 +1,229 @@
+.solver {
+  display: grid;
+  gap: 1rem;
+}
+
+.lead {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.panel {
+  min-width: 0;
+  padding: clamp(1.1rem, 2.4vw, 1.4rem);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background: var(--ifm-background-color);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.panelTitle {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Segmented mode control (real radios, visually a pill switch) */
+.modeGroup {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.srOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: inset 0 0 0 1px var(--ifm-color-emphasis-200);
+}
+
+.segment,
+.segmentActive {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 0.85rem;
+  border-radius: 8px;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.segmentActive {
+  color: var(--ifm-color-emphasis-900);
+  background: var(--ifm-background-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06),
+    0 0 0 1px var(--ifm-color-emphasis-200);
+}
+
+.segment input,
+.segmentActive input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segment:has(input:focus-visible),
+.segmentActive:has(input:focus-visible) {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 1px;
+}
+
+/* Capture stage: neutral when idle, video fills it when live */
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 22rem;
+  overflow: hidden;
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+}
+
+.stage[data-live="true"] {
+  border-style: solid;
+  border-color: var(--glass-border);
+  background: #000;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stage:not([data-live="true"]) .video {
+  opacity: 0;
+}
+
+.stageHint {
+  position: relative;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.86rem;
+}
+
+.note {
+  margin-top: 0.6rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.note code {
+  font-size: 0.8rem;
+}
+
+.meta {
+  margin-top: 0.5rem;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.question,
+.questionSmall,
+.select {
+  width: 100%;
+}
+
+.question {
+  min-height: 11rem;
+}
+
+.promptBlock {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.responsePanel {
+  margin: 0;
+}
+
+.response {
+  min-height: 7rem;
+  max-height: 28rem;
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 12px;
+  color: var(--ifm-color-emphasis-900);
+  background: var(--ifm-background-surface-color);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.response:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.empty {
+  color: var(--ifm-color-emphasis-500);
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segment,
+  .segmentActive {
+    transition: none;
+  }
+}

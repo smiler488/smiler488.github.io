@@ -33,35 +33,34 @@
 }
 
 .root-status {
-  padding: 12px 16px;
-  border-radius: 12px;
   margin-bottom: 24px;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: 0 10px 10px 0;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.9rem;
   font-weight: 500;
-  border: 1px solid transparent;
 }
 
 .root-status--info {
-  background: var(--ifm-color-emphasis-100);
-  color: var(--ifm-color-primary);
-  border-color: var(--ifm-border-color);
+  border-left-color: var(--ifm-color-emphasis-300);
 }
 
 .root-status--success {
-  background: rgba(16, 185, 129, 0.08);
-  color: #10b981;
-  border-color: rgba(16, 185, 129, 0.3);
+  border-left-color: #10a37f;
+  background: color-mix(in srgb, #10a37f 7%, transparent);
 }
 
 .root-status--warning {
-  background: rgba(245, 158, 11, 0.12);
-  color: #92400e;
-  border-color: rgba(245, 158, 11, 0.35);
+  border-left-color: #c98a12;
+  background: color-mix(in srgb, #c98a12 7%, transparent);
 }
 
 .root-status--danger {
-  background: rgba(239, 68, 68, 0.12);
-  color: #b91c1c;
-  border-color: rgba(239, 68, 68, 0.35);
+  border-left-color: #d14343;
+  background: color-mix(in srgb, #d14343 7%, transparent);
 }
 
 .root-app__grid {
@@ -76,7 +75,7 @@
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
   border: 1px solid var(--glass-border);
-  border-radius: 22px;
+  border-radius: 16px;
   padding: 20px;
   box-shadow: var(--ifm-global-shadow-md);
   position: sticky;
@@ -216,7 +215,7 @@
 
 .root-controls__group {
   border: 1px solid var(--glass-border);
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 16px 20px;
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur-light);
@@ -352,6 +351,6 @@
   .root-sidebar,
   .root-controls__group {
     padding: 15px;
-    border-radius: 18px;
+    border-radius: 16px;
   }
 }

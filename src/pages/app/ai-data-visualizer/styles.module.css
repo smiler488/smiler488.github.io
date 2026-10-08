@@ -34,7 +34,7 @@
   overflow: hidden;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 20px;
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
@@ -69,11 +69,13 @@
   align-items: center;
   justify-content: center;
   padding: 2px 10px;
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 999px;
-  background: rgba(var(--app-accent-rgb), 0.12);
-  color: var(--app-accent);
-  font-size: 0.75rem;
-  font-weight: 600;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.76rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .fileInputWrapper {
@@ -170,12 +172,10 @@
 
 .statusBadge {
   margin-top: 12px;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 10px 14px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  border: 1px solid currentColor;
-  border-color: color-mix(in srgb, currentColor 18%, transparent);
 }
 
 .status--muted {
@@ -252,15 +252,32 @@
 }
 
 .chartShell {
+  position: relative;
   min-height: 360px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  border-radius: 18px;
-  background: color-mix(
-    in srgb,
-    var(--ifm-background-surface-color) 78%,
-    transparent
-  );
+  border-radius: 12px;
+  background: var(--ifm-background-color);
+}
+
+.chartEmpty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  color: var(--ifm-color-emphasis-500);
+  background: var(--ifm-background-surface-color);
+  font-size: 0.86rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.chartEmptyTitle {
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .chartContainer {
@@ -301,7 +318,7 @@
 
   .card {
     padding: 16px;
-    border-radius: 20px;
+    border-radius: 16px;
   }
 
   .cardHeading {

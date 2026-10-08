@@ -30,7 +30,7 @@
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
-  border-radius: 20px;
+  border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
 }
@@ -131,7 +131,7 @@
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
-  border-radius: 20px;
+  border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
 }
@@ -186,7 +186,7 @@
 .formulaBox {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 20px;
+  border-radius: 16px;
   box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
@@ -311,7 +311,7 @@
   .permissionCard,
   .card,
   .formulaBox {
-    border-radius: 18px;
+    border-radius: 16px;
   }
 
   .input {

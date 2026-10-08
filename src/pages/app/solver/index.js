@@ -5,6 +5,13 @@ import Heading from '@theme/Heading';
 import CitationNotice from '../../../components/CitationNotice';
 import AIProviderSettings from '../../../components/AIProviderSettings';
 import { createDefaultAIConfig, requestAI } from '../../../lib/api';
+import styles from './styles.module.css';
+
+const INPUT_MODES = [
+  { id: 'camera', label: 'Camera' },
+  { id: 'screenshot', label: 'Screen' },
+  { id: 'text', label: 'Text' },
+];
 
 function useCamera() {
   const videoRef = useRef(null);
@@ -796,58 +803,58 @@ OUTPUT:
 
   return (
     <AppScaffold appId="solver">
-    <div className="app-container" style={{ maxWidth: 1040 }}>
-      <p>Supports camera capture, screen capture, and text questions. Use the private local demo or connect your own AI provider for this page session.</p>
-      <p style={{ fontSize: 14, color: 'var(--ifm-color-emphasis-600)' }}>Tip: In text mode, type <code>/preset name</code> to quickly switch presets, e.g. <code>/preset Math Problem Solver</code></p>
+    <div className={`app-container ${styles.solver}`}>
+      <p className={styles.lead}>
+        Ask with your camera, a screen capture, or plain text. Use the private
+        local demo, or connect your own AI provider for this page session.
+      </p>
 
-      <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap', width: '100%', minWidth: 0 }}>
-        <div style={{ flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }}>
-          {/* Input Mode Selection */}
-          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginBottom: 16 }}>
-            <legend>Input Mode</legend>
-            <label style={{ display: 'block', marginBottom: 8 }}>
-              <input 
-                type="radio" 
-                value="camera" 
-                checked={captureMode === 'camera'} 
-                onChange={e => setCaptureMode(e.target.value)} 
-              />
-              <span style={{ marginLeft: 8 }}> Camera Capture</span>
-            </label>
-            <label style={{ display: 'block', marginBottom: 8 }}>
-              <input 
-                type="radio" 
-                value="screenshot" 
-                checked={captureMode === 'screenshot'} 
-                onChange={e => setCaptureMode(e.target.value)} 
-              />
-              <span style={{ marginLeft: 8 }}> Screen Capture</span>
-            </label>
-            <label style={{ display: 'block' }}>
-              <input 
-                type="radio" 
-                value="text" 
-                checked={captureMode === 'text'} 
-                onChange={e => setCaptureMode(e.target.value)} 
-              />
-              <span style={{ marginLeft: 8 }}> Text Question</span>
-            </label>
-          </fieldset>
+      <div className={styles.grid}>
+        <section className={styles.panel} aria-labelledby="solver-input-title">
+          <div className={styles.panelHead}>
+            <Heading as="h2" id="solver-input-title" className={styles.panelTitle}>
+              Input
+            </Heading>
+            <fieldset className={styles.modeGroup}>
+              <legend className={styles.srOnly}>Input mode</legend>
+              <div className={styles.segmented}>
+                {INPUT_MODES.map((mode) => (
+                  <label
+                    key={mode.id}
+                    className={captureMode === mode.id ? styles.segmentActive : styles.segment}
+                  >
+                    <input
+                      type="radio"
+                      name="solver-input-mode"
+                      value={mode.id}
+                      checked={captureMode === mode.id}
+                      onChange={(e) => setCaptureMode(e.target.value)}
+                    />
+                    <span>{mode.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </div>
 
           {/* Camera Preview */}
           {captureMode === 'camera' && (
             <div>
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                playsInline
-                style={{ width: 320, maxWidth: '100%', background: '#000', borderRadius: 18 }}
-              />
-              <div
-                role="status"
-                style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}
-              >
+              <div className={styles.stage} data-live={ready ? 'true' : 'false'}>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                  className={styles.video}
+                />
+                {!ready && (
+                  <span className={styles.stageHint}>
+                    {starting ? 'Waiting for camera permission…' : 'Camera off'}
+                  </span>
+                )}
+              </div>
+              <div role="status" className={styles.note}>
                 {ready
                   ? 'Camera ready — video stays on this device.'
                   : starting
@@ -856,7 +863,7 @@ OUTPUT:
                       ? `Camera error: ${error}`
                       : 'Camera is off. It starts only after you choose Enable camera.'}
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+              <div className={styles.actions}>
                 {!ready ? (
                   <button
                     type="button"
@@ -893,18 +900,22 @@ OUTPUT:
               {!isSelecting ? (
                 // 初始状态 - 显示截图按钮
                 <>
-                  <div style={{ width: 'min(320px, 100%)', aspectRatio: '4 / 3', background: 'var(--ifm-background-surface-color)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed var(--ifm-border-color)' }}>
-                    <div style={{ textAlign: 'center', color: 'var(--ifm-color-emphasis-600)' }}>
-                      <div style={{ fontSize: 48, marginBottom: 8 }}> </div>
-                      <div>Click the button below to start screenshot</div>
-                    </div>
+                  <div className={styles.stage}>
+                    <span className={styles.stageHint}>No screen captured yet</span>
                   </div>
-                  <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
-                    Screenshot mode: You can select a specific area after capturing
+                  <div className={styles.note}>
+                    Capture your screen, then drag to select the area to analyze.
                   </div>
-                  <button onClick={handleScreenshot} disabled={busy || (false)} style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}>
-                    {busy ? 'Processing…' : ' Capture Screen'}
-                  </button>
+                  <div className={styles.actions}>
+                    <button
+                      type="button"
+                      className="button button--primary"
+                      onClick={handleScreenshot}
+                      disabled={busy}
+                    >
+                      {busy ? 'Processing…' : 'Capture screen'}
+                    </button>
+                  </div>
                 </>
               ) : (
                 // 选择状态 - 显示截图和选择框
@@ -1091,23 +1102,25 @@ OUTPUT:
                       </div>
                     )}
                   </div>
-                  <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)', fontSize: 12 }}>
-                     Selection box shows selected area. Drag to move, drag corner to resize.
+                  <div className={styles.note}>
+                    Drag the box to move it, or drag a corner to resize the selection.
                   </div>
-                  <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                    <button 
-                      onClick={handleConfirmSelection} 
-                      disabled={busy} 
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-emphasis-900)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-emphasis-900)', borderRadius: 4, cursor: 'pointer' }}
->
-                      {busy ? 'Processing…' : 'Analyze Selected Area'}
-                    </button>
-                    <button 
-                      onClick={handleCancelSelection} 
+                  <div className={styles.actions}>
+                    <button
+                      type="button"
+                      className="button button--primary"
+                      onClick={handleConfirmSelection}
                       disabled={busy}
-                      style={{ padding: '8px 16px', fontSize: 14, backgroundColor: 'var(--ifm-color-emphasis-900)', color: 'var(--ifm-color-emphasis-0)', border: '1px solid var(--ifm-color-emphasis-900)', borderRadius: 4, cursor: busy ? 'not-allowed' : 'pointer' }}
                     >
-                       Cancel
+                      {busy ? 'Processing…' : 'Analyze selection'}
+                    </button>
+                    <button
+                      type="button"
+                      className="button button--secondary"
+                      onClick={handleCancelSelection}
+                      disabled={busy}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </>
@@ -1118,47 +1131,44 @@ OUTPUT:
           {/* Text Question Mode */}
           {captureMode === 'text' && (
             <div>
-              <div style={{ width: 'min(320px, 100%)', minHeight: 240, background: 'var(--ifm-background-surface-color)', borderRadius: 8, padding: 16, border: '1px solid var(--ifm-border-color)' }}>
-                <div style={{ marginBottom: 12, color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}> Text Question Mode</div>
-                <label htmlFor="solver-text-question" style={{ display: 'block', marginBottom: 8, fontWeight: 700 }}>
-                  Your question
-                </label>
-                <textarea
-                  id="solver-text-question"
-                  value={textInput}
-                  onChange={e => setTextInput(e.target.value)}
-                  placeholder="Please enter your question, for example:&#10;• Explain the basic principles of quantum mechanics&#10;• Write a Python sorting algorithm&#10;• Type /preset to see available presets"
-                  style={{ 
-                    width: '100%', 
-                    height: 160, 
-                    border: '1px solid var(--ifm-border-color)', 
-                    borderRadius: 4, 
-                    padding: 8, 
-                    fontSize: 14,
-                    resize: 'vertical',
-                    fontFamily: 'inherit'
-                  }}
-                />
+              <label htmlFor="solver-text-question" className={styles.fieldLabel}>
+                Your question
+              </label>
+              <textarea
+                id="solver-text-question"
+                className={styles.question}
+                value={textInput}
+                onChange={e => setTextInput(e.target.value)}
+                placeholder={'For example:\n• Explain the basic principles of quantum mechanics\n• Write a Python sorting algorithm\n• Type /preset to see available presets'}
+              />
+              <div className={styles.note}>
+                Tip: type <code>/preset name</code> to switch presets, e.g.{' '}
+                <code>/preset Math Problem Solver</code>.
               </div>
-              <div style={{ marginTop: 8, color: 'var(--ifm-color-emphasis-600)' }}>
-                Enter your question directly and the AI will provide a detailed answer
+              <div className={styles.actions}>
+                <button
+                  type="button"
+                  className="button button--primary"
+                  onClick={handleTextQuestion}
+                  disabled={busy || !textInput.trim()}
+                >
+                  {busy ? 'Thinking…' : 'Ask'}
+                </button>
               </div>
-              <button 
-                onClick={handleTextQuestion} 
-                disabled={busy || !textInput.trim() || (false)} 
-                style={{ marginTop: 12, padding: '8px 16px', fontSize: 14 }}
-              >
-                {busy ? 'Thinking…' : ' Ask and Get Answer'}
-              </button>
             </div>
           )}
 
           {lastSizeKB != null && (
-            <div style={{ marginTop: 6, fontSize: 12, color: 'var(--ifm-color-emphasis-500)' }}>Last image size: {lastSizeKB} KB</div>
+            <div className={styles.meta}>Last image size: {lastSizeKB} KB</div>
           )}
-        </div>
+        </section>
 
-        <div style={{ flex: '1 1 360px', minWidth: 0, maxWidth: '100%' }}>
+        <section className={styles.panel} aria-labelledby="solver-model-title">
+          <div className={styles.panelHead}>
+            <Heading as="h2" id="solver-model-title" className={styles.panelTitle}>
+              Model &amp; prompt
+            </Heading>
+          </div>
           <AIProviderSettings
             value={aiConfig}
             onChange={setAiConfig}
@@ -1166,12 +1176,10 @@ OUTPUT:
             requireVision={captureMode !== 'text'}
           />
 
-          <fieldset style={{ border: '1px solid var(--ifm-border-color)', borderRadius: 8, padding: 12, marginTop: 16 }}>
-            <legend>Prompt Settings</legend>
-            {/* Prompt预设选择 */}
+          <div className={styles.promptBlock}>
             <div>
-              <label>PromptPreset<br />
-                <select 
+              <label className={styles.fieldLabel}>Prompt preset
+                <select
                   value={selectedPreset} 
                   onChange={(e) => {
                     setSelectedPreset(e.target.value);
@@ -1184,61 +1192,58 @@ OUTPUT:
                       }
                     }
                   }}
-                  style={{ width: '100%', padding: '4px 8px', borderRadius: 4, border: '1px solid var(--ifm-border-color)' }}
+                  className={styles.select}
                 >
                   {promptPresets.map(preset => (
                     <option key={preset.id} value={preset.id}>{preset.name}</option>
                   ))}
                 </select>
               </label>
-              <div style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)', marginTop: 4 }}>
+              <div className={styles.note}>
                 {promptPresets.find(p => p.id === selectedPreset)?.description || ''}
               </div>
             </div>
-            
+
             {selectedPreset === 'custom' ? (
-              <label style={{ display: 'block', marginTop: 8 }}>Question (for image mode)<br />
-                <textarea 
-                  value={question} 
+              <label className={styles.fieldLabel}>Question for image mode
+                <textarea
+                  className={styles.questionSmall}
+                  value={question}
                   onChange={e => {
                     setQuestion(e.target.value);
-                  }} 
-                  rows={3} 
-                  style={{ width: '100%' }} 
+                  }}
+                  rows={3}
                 />
               </label>
             ) : (
-              <div style={{ marginTop: 12, fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
-                Preset instructions are applied automatically based on the selected mode.
+              <div className={styles.note}>
+                Preset instructions are applied automatically for the selected mode.
               </div>
             )}
-          </fieldset>
-        </div>
+          </div>
+        </section>
       </div>
 
-      <div style={{ marginTop: 16 }}>
-        <Heading as="h2">Response</Heading>
+      <section className={`${styles.panel} ${styles.responsePanel}`} aria-labelledby="solver-response-title">
+        <div className={styles.panelHead}>
+          <Heading as="h2" id="solver-response-title" className={styles.panelTitle}>
+            Response
+          </Heading>
+        </div>
         <div
           role="status"
           aria-live="polite"
           aria-busy={busy}
           tabIndex={0}
-          style={{
-          whiteSpace: 'pre-wrap', 
-          background: 'var(--ifm-background-surface-color)', 
-          color: 'var(--ifm-color-emphasis-900)', 
-          padding: 16, 
-          borderRadius: 8, 
-          maxHeight: 400, 
-          overflow: 'auto',
-          border: '1px solid var(--ifm-border-color)',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-          fontSize: '16px',
-          lineHeight: 1.5
-        }}>
-          {respText}
+          className={styles.response}
+        >
+          {respText || (
+            <span className={styles.empty}>
+              The answer appears here after you capture or ask.
+            </span>
+          )}
         </div>
-      </div>
+      </section>
       <CitationNotice />
     </div>
     </AppScaffold>

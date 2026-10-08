@@ -8,13 +8,10 @@
 .resultsSection,
 .rawPanel {
   min-width: 0;
-  padding: clamp(18px, 3vw, 26px);
+  padding: clamp(18px, 3vw, 24px);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  background: var(--glass-bg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  border-radius: 16px;
+  background: var(--ifm-background-color);
 }
 
 .panelHeading,
@@ -36,11 +33,10 @@
 }
 
 .step {
-  color: var(--ifm-color-primary);
-  font-size: 0.74rem;
-  font-weight: 750;
-  letter-spacing: 0;
-  text-transform: none;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .hint,
@@ -63,10 +59,7 @@
 .fieldGrid input,
 .fieldGrid select {
   width: 100%;
-  min-height: 44px;
-  border: 1px solid var(--glass-border);
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--ifm-background-color) 78%, transparent);
+  min-height: 42px;
   color: var(--ifm-font-color-base);
   font: inherit;
 }
@@ -109,23 +102,45 @@
   margin-top: 18px;
 }
 
-.referencePreview {
-  margin: 0 0 10px;
+.referenceIntro {
+  max-width: 70ch;
+  margin: 0 0 14px;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.metricChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metricChips li {
+  padding: 6px 11px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 999px;
   color: var(--ifm-color-emphasis-800);
-  line-height: 1.65;
-  white-space: pre-wrap;
+  background: var(--ifm-background-surface-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 .metricCount,
 .rank {
   flex: 0 0 auto;
-  padding: 6px 10px;
-  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
+  padding: 5px 10px;
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
-  color: var(--ifm-color-primary);
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .metricDetails,
@@ -225,7 +240,7 @@
 .resultCard {
   padding: 16px;
   border: 1px solid var(--glass-border);
-  border-radius: 18px;
+  border-radius: 12px;
   background: color-mix(in srgb, var(--ifm-background-color) 68%, transparent);
 }
 
@@ -342,7 +357,7 @@
   .resultsSection,
   .rawPanel {
     padding: 16px;
-    border-radius: 19px;
+    border-radius: 14px;
   }
 
   .fieldGrid,

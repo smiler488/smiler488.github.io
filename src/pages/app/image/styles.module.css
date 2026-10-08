@@ -13,13 +13,9 @@
 }
 
 .serviceBar,
-.privacyNotice,
 .frameCard {
   border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  background: var(--ifm-background-color);
 }
 
 .serviceBar {
@@ -28,7 +24,7 @@
   gap: 12px;
   align-items: center;
   padding: 14px 16px;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 .serviceBar strong,
@@ -81,10 +77,12 @@
 }
 
 .privacyNotice {
-  padding: 13px 16px;
-  border-radius: 18px;
+  padding: 0.7rem 1rem;
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: 0 10px 10px 0;
+  background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   line-height: 1.6;
 }
 
@@ -93,7 +91,7 @@
   min-width: 0;
   min-height: 640px;
   overflow: hidden;
-  border-radius: 26px;
+  border-radius: 16px;
 }
 
 .frame {
@@ -112,23 +110,18 @@
   place-content: center;
   gap: 12px;
   color: var(--ifm-color-emphasis-600);
-  background: radial-gradient(
-      circle at center,
-      rgba(var(--app-accent-rgb), 0.08),
-      transparent 22rem
-    ),
-    var(--glass-bg);
+  background: var(--ifm-background-surface-color);
   font-size: 0.9rem;
   text-align: center;
   pointer-events: none;
 }
 
 .spinner {
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
   margin: 0 auto;
-  border: 3px solid rgba(var(--app-accent-rgb), 0.15);
-  border-top-color: var(--app-accent);
+  border: 2px solid var(--ifm-color-emphasis-200);
+  border-top-color: var(--ifm-color-emphasis-800);
   border-radius: 50%;
   animation: spin 900ms linear infinite;
 }
@@ -155,7 +148,7 @@
 
   .frameCard {
     min-height: 580px;
-    border-radius: 20px;
+    border-radius: 16px;
   }
 
   .frame {

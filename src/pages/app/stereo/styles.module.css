@@ -13,14 +13,10 @@
 }
 
 .panel,
-.statusPanel,
-.calibrationNotice {
+.statusPanel {
   border: 1px solid var(--glass-border);
-  border-radius: 1.4rem;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(22px) saturate(155%);
-  backdrop-filter: blur(22px) saturate(155%);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+  border-radius: 16px;
+  background: var(--ifm-background-color);
 }
 
 .panel {
@@ -52,14 +48,13 @@
 }
 
 .calibrationNotice {
-  padding: 1rem 1.1rem;
-  border-color: color-mix(
-    in srgb,
-    var(--ifm-color-warning) 32%,
-    var(--glass-border)
-  );
+  padding: 0.75rem 1rem;
+  border-left: 2px solid #c98a12;
+  border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, #c98a12 7%, transparent);
   color: var(--ifm-color-emphasis-700);
-  line-height: 1.65;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .sectionHeading {
@@ -90,11 +85,9 @@
 
 .kicker {
   margin-bottom: 0.25rem !important;
-  color: var(--ifm-color-primary);
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0;
-  text-transform: none;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .configGrid {
@@ -146,8 +139,8 @@
   width: 100%;
   height: auto;
   border: 1px solid var(--glass-border);
-  border-radius: 1rem;
-  background: #050608;
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
 }
 
 .eyeGrid {

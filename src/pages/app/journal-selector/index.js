@@ -278,9 +278,6 @@ export default function JournalSelectorPage() {
     [activeIndicatorFields],
   );
 
-  const indicatorPreview = indicatorText && indicatorText.trim()
-    ? indicatorText.trim().slice(0, 320)
-    : 'Indicator file missing; the default journal evaluation schema will be used.';
 
   async function callAi(prompt) {
     const result = await requestAI(
@@ -504,18 +501,18 @@ export default function JournalSelectorPage() {
             </div>
             <span className={styles.metricCount}>{activeIndicatorFields.length} metrics</span>
           </div>
-          <p className={styles.referencePreview}>{indicatorPreview}</p>
-          {indicatorText.length > indicatorPreview.length && (
-            <small className={styles.hint}>
-              Preview shows the first 300 characters; the full content is sent to the AI.
-            </small>
-          )}
-          <details className={styles.metricDetails}>
-            <summary>Review all required indicators</summary>
-            <p>
-            Required indicators: {activeIndicatorFields.map((field) => field.label).join(', ')}
-            </p>
-          </details>
+          <p className={styles.referenceIntro}>
+            {indicatorText.trim()
+              ? 'Each suggested journal is scored against these fields. The full indicator schema is sent with your request.'
+              : 'The indicator file is missing, so the default journal evaluation schema is used.'}
+          </p>
+          <ul className={styles.metricChips} aria-label="Evaluation fields">
+            {activeIndicatorFields.map((field) => (
+              <li key={field.key} title={field.description || undefined}>
+                {field.label}
+              </li>
+            ))}
+          </ul>
       </section>
 
       <section className={`${styles.glassPanel} ${styles.actionPanel}`}>

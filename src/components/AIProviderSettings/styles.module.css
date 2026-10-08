@@ -2,18 +2,10 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl, 24px);
-  padding: clamp(1rem, 2vw, 1.4rem);
-  background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.22),
-      transparent 55%
-    ),
-    var(--glass-bg);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  backdrop-filter: blur(24px) saturate(160%);
-  box-shadow: var(--shadow-glass);
+  border: 0;
+  border-radius: 12px;
+  padding: clamp(0.9rem, 2vw, 1.15rem);
+  background: var(--ifm-background-surface-color);
 }
 
 .headingRow {
@@ -27,9 +19,9 @@
 .eyebrow {
   display: block;
   margin-bottom: 0.2rem;
-  color: var(--ifm-color-primary);
-  font-size: 0.72rem;
-  font-weight: 750;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.78rem;
+  font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -43,12 +35,12 @@
 .status {
   flex: 0 0 auto;
   padding: 0.35rem 0.65rem;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 999px;
-  background: rgba(52, 199, 89, 0.12);
-  color: var(--ifm-color-emphasis-800);
-  font-size: 0.72rem;
-  font-weight: 700;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.74rem;
+  font-weight: 500;
 }
 
 .grid {
@@ -144,10 +136,11 @@
 
 .warning {
   margin: 0.75rem 0 0;
-  padding: 0.7rem 0.8rem;
-  border: 1px solid color-mix(in srgb, #ff9f0a 36%, transparent);
-  border-radius: var(--radius-md, 14px);
-  background: color-mix(in srgb, #ff9f0a 10%, transparent);
+  padding: 0.6rem 0.8rem;
+  border: 0;
+  border-left: 2px solid #c98a12;
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, #c98a12 7%, transparent);
   color: var(--ifm-color-emphasis-800);
   font-size: 0.78rem;
   line-height: 1.5;

@@ -1,62 +1,59 @@
 .container {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
   width: 100%;
-  max-width: 980px;
   min-width: 0;
-  margin: 0 auto;
 }
 
+/* Everything spans the full row except the Create / Open cards, which sit
+   side by side on wide screens. */
 .container > * {
+  grid-column: 1 / -1;
   min-width: 0;
   max-width: 100%;
 }
 
-.boundaryNotice,
-.status,
-.card {
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight);
+.container > .card:not(.openedCard) {
+  grid-column: auto;
 }
 
 .boundaryNotice {
-  padding: 14px 16px;
-  border-radius: 18px;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: 0 10px 10px 0;
+  background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-700);
   font-size: 0.88rem;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 .status {
-  padding: 12px 15px;
-  border-radius: 16px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-900);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .card {
   position: relative;
   min-width: 0;
-  padding: clamp(18px, 3vw, 26px);
-  overflow: hidden;
-  border-radius: 24px;
-}
-
-.card::before {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: var(--glass-highlight);
-  content: "";
-  pointer-events: none;
+  padding: clamp(18px, 3vw, 24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background: var(--ifm-background-color);
 }
 
 .openedCard {
-  border-color: color-mix(in srgb, var(--app-accent) 48%, var(--glass-border));
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .cardTitle {
@@ -165,42 +162,44 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 10px 18px;
+  min-height: 2.5rem;
+  padding: 0 1rem;
   border: 1px solid transparent;
-  border-radius: 14px;
-  font-weight: 680;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 160ms ease, background-color 160ms ease,
-    border-color 160ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
 .btn:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.btn:not(:disabled):hover {
-  transform: translateY(-1px);
+  opacity: 0.45;
 }
 
 .btnPrimary {
-  color: #fff;
-  background: var(--app-accent);
+  border-color: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-900);
+}
+
+.btnPrimary:not(:disabled):hover {
+  background: var(--ifm-color-emphasis-800);
 }
 
 .btnSecondary {
-  border-color: var(--glass-border);
+  border-color: var(--ifm-color-emphasis-300);
   color: var(--ifm-color-emphasis-900);
-  background: color-mix(
-    in srgb,
-    var(--ifm-background-surface-color) 78%,
-    transparent
-  );
+  background: var(--ifm-background-color);
+}
+
+.btnSecondary:not(:disabled):hover,
+.btnGhost:not(:disabled):hover {
+  background: var(--ifm-color-emphasis-100);
 }
 
 .btnGhost {
-  border-color: var(--glass-border);
+  border-color: transparent;
   color: var(--ifm-color-emphasis-700);
   background: transparent;
 }
@@ -222,12 +221,9 @@
 
 .noteDisplay {
   padding: clamp(18px, 3vw, 24px);
-  border: 1px solid color-mix(in srgb, #d2a63c 34%, var(--glass-border));
-  border-radius: 18px;
+  border-radius: 12px;
   color: var(--ifm-color-emphasis-900);
-  background: linear-gradient(145deg, rgba(255, 204, 77, 0.11), transparent 58%),
-    color-mix(in srgb, var(--ifm-background-surface-color) 90%, transparent);
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  background: var(--ifm-background-surface-color);
   line-height: 1.65;
 }
 
@@ -246,7 +242,7 @@
 
   .card {
     padding: 16px;
-    border-radius: 20px;
+    border-radius: 14px;
   }
 
   .unlockRow {

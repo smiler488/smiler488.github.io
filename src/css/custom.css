@@ -80,7 +80,7 @@
   --app-accent-green: #4caf50;
   --app-accent-muted: #94a3b8;
   --app-overlay-stroke: #0f172a;
-  --app-previewer-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(16, 185, 129, 0.08));
+  --app-previewer-bg: var(--ifm-background-surface-color);
   --app-polygon-fill: rgba(67, 160, 71, 0.28);
   --app-overlay-bg: rgba(255, 255, 255, 0.75);
   /* Docs sidebar (desktop) */
@@ -183,7 +183,7 @@ html[data-theme='dark'] {
   --app-accent-green: #10a37f;
   --app-accent-muted: #cbd5e1;
   --app-overlay-stroke: #e5e7eb;
-  --app-previewer-bg: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(14, 165, 233, 0.12));
+  --app-previewer-bg: var(--ifm-background-surface-color);
   --app-polygon-fill: rgba(16, 163, 127, 0.28);
   --app-overlay-bg: rgba(0, 0, 0, 0.7);
 
@@ -743,7 +743,9 @@ h6 {
   margin-bottom: 1rem;
 }
 
-h2 {
+/* Rule under h2 only in long-form article content (docs/blog), not in
+   app panels or page sections, where it read as stray underlines. */
+.markdown h2 {
   border-bottom: 1px solid var(--ifm-border-color);
   padding-bottom: 0.5rem;
 }
@@ -1935,4 +1937,17 @@ html {
 }
 .button--primary:hover {
   color: var(--ifm-color-emphasis-0);
+}
+
+/* Unified secondary button — quiet outline, pairs with the ink primary. */
+.button--secondary {
+  --ifm-button-background-color: var(--ifm-background-color);
+  --ifm-button-border-color: var(--ifm-color-emphasis-300);
+  --ifm-button-color: var(--ifm-color-emphasis-900);
+  --ifm-button-hover-background-color: var(--ifm-color-emphasis-100);
+  --ifm-button-hover-border-color: var(--ifm-color-emphasis-400);
+  color: var(--ifm-color-emphasis-900);
+}
+.button--secondary:hover {
+  color: var(--ifm-color-emphasis-900);
 }

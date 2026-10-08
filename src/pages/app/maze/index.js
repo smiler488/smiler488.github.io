@@ -175,7 +175,7 @@ export default function MazePage() {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (maze[r][c] === 1) {
-          ctx.fillStyle = "#2d3748";
+          ctx.fillStyle = "#1f1f1f";
           ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
         } else if (maze[r][c] === 2) {
           // Draw Hamburger image for exit
@@ -188,7 +188,7 @@ export default function MazePage() {
               cellSize
             );
           } else {
-            ctx.fillStyle = "#48bb78";
+            ctx.fillStyle = "#10a37f";
             ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
           }
         } else {
@@ -199,7 +199,7 @@ export default function MazePage() {
     }
 
     // Draw Trail
-    ctx.fillStyle = "#feb2b2"; // Trail color
+    ctx.fillStyle = "#d3efe5"; // Trail color
     for (let t of trail) {
       ctx.fillRect(t.c * cellSize, t.r * cellSize, cellSize, cellSize);
     }
@@ -230,7 +230,7 @@ export default function MazePage() {
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
       ctx.stroke();
     } else {
-      ctx.fillStyle = "#f5c542";
+      ctx.fillStyle = "#0d0d0d";
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
       ctx.fill();
