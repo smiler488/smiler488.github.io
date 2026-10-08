@@ -2,6 +2,7 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
+import LayerMorph from "@site/src/components/LayerMorph";
 import styles from "./styles.module.css";
 
 const CONTENT = {
@@ -155,8 +156,6 @@ function handleSpotlightMouseMove(e) {
   card.style.setProperty("--mouse-y", `${y}px`);
 }
 
-const STEP_NUMERALS = ["I", "II", "III", "IV"];
-
 function ComicCard({ item }) {
   return (
     <Link
@@ -178,21 +177,6 @@ function ComicCard({ item }) {
         {item.tag}
       </span>
     </Link>
-  );
-}
-
-function LayerStepper({ steps, label }) {
-  return (
-    <ol className={styles.stepper} aria-label={label}>
-      {steps.map((step, index) => (
-        <li key={step} className={styles.step}>
-          <span className={styles.stepNode} aria-hidden="true">
-            {STEP_NUMERALS[index]}
-          </span>
-          <span className={styles.stepLabel}>{step}</span>
-        </li>
-      ))}
-    </ol>
   );
 }
 
@@ -236,7 +220,7 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <LayerStepper steps={copy.steps} label={copy.researchTitle} />
+          <LayerMorph steps={copy.steps} label={copy.researchTitle} />
           <div className={styles.comicGrid}>
             {copy.research.map((item) => (
               <ComicCard key={item.mark} item={item} />

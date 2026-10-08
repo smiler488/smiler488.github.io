@@ -1,0 +1,115 @@
+.morph {
+  --morph-ease: cubic-bezier(0.45, 0, 0.15, 1);
+
+  width: min(52rem, 100%);
+  margin: clamp(1.2rem, 2.6vw, 1.8rem) auto clamp(1.7rem, 3.4vw, 2.6rem);
+}
+
+.canvasWrap {
+  width: 100%;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: clamp(190px, 30vw, 300px);
+}
+
+.stepper {
+  display: flex;
+  width: min(44rem, 100%);
+  margin: 0.9rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+}
+
+.step:not(:last-child)::after {
+  position: absolute;
+  top: 0.85rem;
+  left: 50%;
+  width: 100%;
+  height: 1.5px;
+  background: var(--ifm-color-emphasis-200);
+  content: "";
+  transition: background-color 400ms var(--morph-ease);
+}
+
+.stepDone:not(:last-child)::after {
+  background: color-mix(in srgb, var(--ifm-color-primary) 55%, transparent);
+}
+
+.stepButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.stepButton:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.stepNode {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: var(--ifm-background-color);
+  border: 1.5px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  transition: background-color 400ms var(--morph-ease),
+    border-color 400ms var(--morph-ease), color 400ms var(--morph-ease);
+}
+
+.stepDone .stepNode {
+  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.stepActive .stepNode {
+  color: #fff;
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.stepLabel {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: center;
+  transition: color 400ms var(--morph-ease);
+}
+
+.stepActive .stepLabel {
+  color: var(--ifm-color-emphasis-900);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step::after,
+  .stepNode,
+  .stepLabel {
+    transition: none;
+  }
+}
