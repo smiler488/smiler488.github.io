@@ -4,24 +4,36 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
 import styles from "./styles.module.css";
 
-const NAV_LINKS = [
-  { to: "/research", en: "Research", zh: "研究" },
-  { to: "/publications", en: "Publications", zh: "论文" },
-  { to: "/app", en: "App Lab", zh: "小程序实验室" },
+// Footer navigation in three parallel categories (DESIGN_SPEC §4.1): the
+// research identity, the Lab, and utility pages kept out of the top bar.
+const NAV_GROUPS = [
   {
-    to: "/docs/category/tutorial---apps",
-    en: "App tutorials",
-    zh: "小程序教程",
+    id: "research",
+    title: { en: "Research", zh: "研究" },
+    links: [
+      { to: "/research", en: "Overview", zh: "研究概览" },
+      { to: "/publications", en: "Publications", zh: "论文" },
+      { to: "/blog", en: "Research notes", zh: "研究笔记" },
+      { to: "/cv", en: "Curriculum vitae", zh: "个人简历" },
+    ],
   },
-  { to: "/blog", en: "Research notes", zh: "研究笔记" },
-  { to: "/cv", en: "Curriculum vitae", zh: "个人简历" },
-];
-
-// Utility pages kept out of the primary navigation (DESIGN_SPEC §4.1).
-const TOOLBOX_LINKS = [
-  { to: "/resources", en: "Learning resources", zh: "学习资源" },
-  { to: "/navigator", en: "Navigator", zh: "网址导航" },
-  { to: "/mpicks", en: "mPicks", zh: "好物推荐" },
+  {
+    id: "lab",
+    title: { en: "Lab", zh: "实验室" },
+    links: [
+      { to: "/app", en: "All tools", zh: "全部工具" },
+      { to: "/docs/category/tutorial---apps", en: "Tutorials", zh: "工具教程" },
+    ],
+  },
+  {
+    id: "toolbox",
+    title: { en: "Toolbox", zh: "工具箱" },
+    links: [
+      { to: "/resources", en: "Learning resources", zh: "学习资源" },
+      { to: "/navigator", en: "Navigator", zh: "网址导航" },
+      { to: "/mpicks", en: "mPicks", zh: "好物推荐" },
+    ],
+  },
 ];
 
 const CONTACT_LINKS = [
@@ -109,8 +121,29 @@ const SOCIAL_LINKS = [
   {
     name: "GitHub",
     icon: "/img/Github.png",
+    // Single-colour black mark: inverted in dark mode so it stays visible.
+    mono: true,
     href: "https://github.com/smiler488",
     color: "#6366f1",
+  },
+];
+
+// Platforms grouped by what a visitor would go there for.
+const SOCIAL_GROUPS = [
+  {
+    id: "code",
+    title: { en: "Code & research", zh: "代码与学术" },
+    names: ["GitHub", "Hugging Face", "LinkedIn"],
+  },
+  {
+    id: "social",
+    title: { en: "Social", zh: "社交" },
+    names: ["WeChat", "Weibo", "X", "Bluesky", "Reddit"],
+  },
+  {
+    id: "video",
+    title: { en: "Video", zh: "视频" },
+    names: ["Bilibili", "Douyin", "YouTube", "TikTok"],
   },
 ];
 
@@ -121,12 +154,9 @@ const COPY = {
     description:
       "Postdoctoral research across plant phenotyping, computer vision, remote sensing, and process-based crop modeling.",
     profile: "View research profile",
-    navigation: "Explore",
-    toolbox: "Toolbox",
-    navigationLabel: "Footer navigation",
+    elsewhere: "Elsewhere",
     footerLabel: "Liangchao Deng site footer",
     contact: "Contact",
-    community: "Community",
     academic: "Academic",
     collaboration: "Collaboration",
     assistant: "Assistant",
@@ -151,12 +181,9 @@ const COPY = {
     description:
       "围绕作物表型、计算机视觉、遥感与过程驱动作物模型开展博士后研究。",
     profile: "查看研究履历",
-    navigation: "站内导航",
-    toolbox: "工具箱",
-    navigationLabel: "页脚导航",
+    elsewhere: "其他平台",
     footerLabel: "邓良超个人网站页脚",
     contact: "联系",
-    community: "社区平台",
     academic: "学术邮箱",
     collaboration: "商业合作",
     assistant: "助理邮箱",
@@ -274,9 +301,9 @@ function SocialIcon({ social, newWindow }) {
       target="_blank"
       rel="noopener noreferrer"
       className={styles.socialIcon}
+      data-mono={social.mono || undefined}
       aria-label={`${social.name} · ${newWindow}`}
       title={social.name}
-      style={{ "--social-accent": social.color }}
     >
       <img
         src={social.icon}
@@ -412,29 +439,31 @@ export default function SiteFooter() {
             </Link>
           </section>
 
-          <nav className={styles.navColumn} aria-label={copy.navigationLabel}>
-            <Heading as="h3" className={styles.columnTitle}>
-              {copy.navigation}
-            </Heading>
-            <ul className={styles.linkList}>
-              {NAV_LINKS.map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to}>{link[languageKey]}</Link>
-                </li>
-              ))}
-            </ul>
-            <Heading as="h3" className={`${styles.columnTitle} ${styles.subColumnTitle}`}>
-              {copy.toolbox}
-            </Heading>
-            <ul className={styles.linkList}>
-              {TOOLBOX_LINKS.map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to}>{link[languageKey]}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {NAV_GROUPS.map((group) => (
+            <nav
+              key={group.id}
+              className={styles.navGroup}
+              aria-labelledby={`footer-${group.id}`}
+            >
+              <Heading
+                as="h3"
+                id={`footer-${group.id}`}
+                className={styles.columnTitle}
+              >
+                {group.title[languageKey]}
+              </Heading>
+              <ul className={styles.linkList}>
+                {group.links.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to}>{link[languageKey]}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
 
+        <div className={styles.reachGrid}>
           <section className={styles.contactColumn}>
             <Heading as="h3" className={styles.columnTitle}>
               {copy.contact}
@@ -453,15 +482,32 @@ export default function SiteFooter() {
 
           <section className={styles.communityColumn}>
             <Heading as="h3" className={styles.columnTitle}>
-              {copy.community}
+              {copy.elsewhere}
             </Heading>
-            <div className={styles.socialGrid}>
-              {SOCIAL_LINKS.map((social) => (
-                <SocialIcon
-                  key={social.name}
-                  social={social}
-                  newWindow={copy.newWindow}
-                />
+            <div className={styles.socialGroups}>
+              {SOCIAL_GROUPS.map((group) => (
+                <div
+                  key={group.id}
+                  className={styles.socialGroup}
+                  role="group"
+                  aria-label={group.title[languageKey]}
+                >
+                  <span className={styles.socialGroupTitle}>
+                    {group.title[languageKey]}
+                  </span>
+                  <div className={styles.socialRow}>
+                    {group.names.map((name) => {
+                      const social = SOCIAL_LINKS.find((s) => s.name === name);
+                      return (
+                        <SocialIcon
+                          key={name}
+                          social={social}
+                          newWindow={copy.newWindow}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
