@@ -7,10 +7,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.875rem;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -19,7 +17,7 @@
   transition: all 0.3s var(--ease-smooth);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -33,7 +31,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--glass-highlight);
+  background: transparent;
   opacity: 0.6;
   transition: opacity 0.3s var(--ease-smooth);
 }
@@ -68,11 +66,9 @@
   transform: translateY(-2px);
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
   border-color: var(--ifm-color-emphasis-400);
   color: var(--ifm-navbar-link-hover-color);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
 }
 
 .navbarNavLink:hover::before {
@@ -90,7 +86,7 @@
   color: var(--ifm-navbar-link-active-color);
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
 }
 
 .navbarNavLinkActive .navbarNavIcon {
@@ -102,7 +98,7 @@
   transform: translateY(-2px);
   box-shadow:
     0 6px 16px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
 }
 
 /* Click effect */
@@ -110,7 +106,7 @@
   transform: translateY(0);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
 }
 
 /* Dark mode adjustments */

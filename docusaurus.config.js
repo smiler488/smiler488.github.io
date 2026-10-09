@@ -87,7 +87,7 @@ const config = {
           onUntruncatedBlogPosts: "warn",
         },
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: ["./src/css/tokens.css", "./src/css/custom.css"],
         },
         sitemap: {
           // Demo and utility routes should not be advertised to crawlers.

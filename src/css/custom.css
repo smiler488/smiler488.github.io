@@ -6,217 +6,6 @@
  * sparingly as an accent.
  */
 
-/* 基础变量设置 - 科技风格设计 */
-:root {
-  /* ChatGPT signature brand green & slate colors */
-  --ifm-color-primary: #10a37f;
-  --ifm-color-primary-dark: #0d8a6a;
-  --ifm-color-primary-darker: #0a6f55;
-  --ifm-color-primary-darkest: #085440;
-  --ifm-color-primary-light: #12be94;
-  --ifm-color-primary-lighter: #17dcae;
-  --ifm-color-primary-lightest: #e2f9f3;
-
-  /* 背景颜色 — OpenAI white base + warm-neutral surface */
-  --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #faf9f7;
-
-  /* 文本颜色 — neutral near-black ramp (no slate/blue tint) */
-  --ifm-color-emphasis-900: #0d0d0d;
-  --ifm-color-emphasis-800: #1a1a1a;
-  --ifm-color-emphasis-700: #333333;
-  --ifm-color-emphasis-600: #525252;
-  --ifm-color-emphasis-500: #737373;
-  --ifm-color-emphasis-400: #a3a3a3;
-  --ifm-color-emphasis-300: #d4d4d4;
-  --ifm-color-emphasis-200: #e8e7e3;
-  --ifm-color-emphasis-100: #f5f4f1;
-  --ifm-color-emphasis-0: #ffffff;
-  --ifm-font-color-base: #1a1a1a;
-
-  /* 边框和阴影 */
-  --ifm-border-color: rgba(0, 0, 0, 0.08);
-  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.04);
-
-  /* 字体设置 */
-  --ifm-font-family-base: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --ifm-font-size-base: 16px;
-  --ifm-line-height-base: 1.65;
-
-  /* 代码块 */
-  --ifm-code-font-size: 90%;
-  --ifm-pre-background: #f5f5f5;
-  --ifm-pre-color: #111111;
-  --docusaurus-highlighted-code-line-bg: rgba(68, 68, 68, 0.08);
-
-  /* 导航栏 */
-  --ifm-navbar-background-color: rgba(250, 250, 252, 0.72);
-  --ifm-navbar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-  --ifm-navbar-link-color: #111111;
-  --ifm-navbar-link-hover-color: #444444;
-
-  /* 文档侧边栏 */
-  --doc-sidebar-background: rgba(255, 255, 255, 0.95);
-  --doc-sidebar-border: rgba(15, 23, 42, 0.08);
-  --doc-sidebar-link-color: #1f2937;
-  --doc-sidebar-active-bg: rgba(15, 23, 42, 0.06);
-
-  /* 页脚 */
-  --ifm-footer-background-color: #f5f5f7;
-  --ifm-footer-color: #444444;
-  --ifm-footer-link-color: #666666;
-  --ifm-footer-link-hover-color: #444444;
-
-  /* 英雄部分 */
-  --ifm-hero-background-color: #f5f5f5;
-  --ifm-hero-text-color: #111111;
-  --home-grid-bg: #e6e7ea;
-  --home-grid-line: #c8c9cc;
-  --home-grid-letter: #000000;
-  --app-accent-blue: #0ea5e9;
-  --app-accent-green: #4caf50;
-  --app-accent-muted: #94a3b8;
-  --app-overlay-stroke: #0f172a;
-  --app-previewer-bg: var(--ifm-background-surface-color);
-  --app-polygon-fill: rgba(67, 160, 71, 0.28);
-  --app-overlay-bg: rgba(255, 255, 255, 0.75);
-  /* Docs sidebar (desktop) */
-  --doc-sidebar-background: var(--ifm-navbar-background-color);
-  --doc-sidebar-border: var(--ifm-border-color);
-  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
-  --doc-sidebar-active-bg: var(--ifm-background-surface-color);
-  /* Scrollbar */
-  --scrollbar-bg: rgba(0, 0, 0, 0.08);
-  --scrollbar-thumb: rgba(0, 0, 0, 0.25);
-  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
-
-  /* Flat surfaces — solid fills, hairline borders, no blur (de-glassed) */
-  --glass-bg: #ffffff;
-  --glass-border: #e8e7e3;
-  --glass-highlight: transparent;
-  --glass-blur: none;
-  --glass-blur-medium: none;
-  --glass-blur-light: none;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
-  --card-radius: 16px;
-  --glass-card-bg: #ffffff;
-
-  /* Minimal shadows — OpenAI leans on hairline borders + whitespace */
-  --shadow-glass: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-glass-hover: 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-glass-active: 0 1px 2px rgba(0, 0, 0, 0.04);
-
-  /* 柔和发光效果 - 黑白灰色调 */
-  --glow-light: rgba(255, 255, 255, 0.4);
-  --glow-medium: rgba(200, 200, 200, 0.3);
-  --glow-subtle: rgba(150, 150, 150, 0.2);
-
-  /* 动画缓动函数 */
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --ease-openai: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* 深色模式 - OpenAI 风格科技深色主题 */
-html[data-theme='dark'] {
-  --ifm-color-primary: #10a37f;
-  --ifm-color-primary-dark: #0d8a6a;
-  --ifm-color-primary-darker: #0a6f55;
-  --ifm-color-primary-darkest: #085440;
-  --ifm-color-primary-light: #2ac09b;
-  --ifm-color-primary-lighter: #4ee2bd;
-  --ifm-color-primary-lightest: #a2eed9;
-
-  --ifm-background-color: #0d0d0d;
-  --ifm-background-surface-color: #171717;
-
-  --ifm-color-emphasis-900: #f5f5f5;
-  --ifm-color-emphasis-800: #e5e5e5;
-  --ifm-color-emphasis-700: #d4d4d4;
-  --ifm-color-emphasis-600: #a3a3a3;
-  --ifm-color-emphasis-500: #737373;
-  --ifm-color-emphasis-400: #525252;
-  --ifm-color-emphasis-300: #404040;
-  --ifm-color-emphasis-200: #2a2a2a;
-  --ifm-color-emphasis-100: #1f1f1f;
-  --ifm-color-emphasis-0: #0d0d0d;
-  --ifm-font-color-base: #ededed;
-
-  --ifm-border-color: rgba(255, 255, 255, 0.08);
-  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
-  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
-
-  --ifm-pre-background: #1e1e1e;
-  --ifm-pre-color: #f8fafc;
-  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
-
-  --ifm-navbar-background-color: rgba(13, 13, 13, 0.85);
-  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-  --ifm-navbar-link-color: #cbd5e1;
-  --ifm-navbar-link-hover-color: #ffffff;
-
-  --doc-sidebar-background: rgba(13, 13, 13, 0.85);
-  --doc-sidebar-border: rgba(255, 255, 255, 0.08);
-  --doc-sidebar-link-color: #cbd5e1;
-  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
-
-  --ifm-footer-background-color: #080808;
-  --ifm-footer-color: #cbd5e1;
-  --ifm-footer-link-color: #94a3b8;
-  --ifm-footer-link-hover-color: #ffffff;
-
-  --ifm-hero-background-color: #0d0d0d;
-  --ifm-hero-text-color: #ffffff;
-  --home-grid-bg: #1e1e24;
-  --home-grid-line: #3f3f46;
-  --home-grid-letter: #ffffff;
-  --app-accent-blue: #38bdf8;
-  --app-accent-green: #10a37f;
-  --app-accent-muted: #cbd5e1;
-  --app-overlay-stroke: #e5e7eb;
-  --app-previewer-bg: var(--ifm-background-surface-color);
-  --app-polygon-fill: rgba(16, 163, 127, 0.28);
-  --app-overlay-bg: rgba(0, 0, 0, 0.7);
-
-  /* Flat surfaces — dark mode */
-  --glass-bg: #171717;
-  --glass-border: #2a2a2a;
-  --glass-highlight: transparent;
-  --card-radius: 16px;
-  --glass-card-bg: #171717;
-  --glass-blur: none;
-  --glass-blur-medium: none;
-  --glass-blur-light: none;
-
-  /* Minimal shadows — dark mode */
-  --shadow-glass: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-glass-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-glass-active: 0 1px 2px rgba(0, 0, 0, 0.4);
-
-  /* 柔和发光效果 - 暗色模式 */
-  --glow-light: rgba(255, 255, 255, 0.15);
-  --glow-medium: rgba(200, 200, 200, 0.12);
-  --glow-subtle: rgba(150, 150, 150, 0.08);
-  /* Docs sidebar (desktop) */
-  --doc-sidebar-background: var(--ifm-navbar-background-color);
-  --doc-sidebar-border: var(--ifm-border-color);
-  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
-  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
-  /* Scrollbar */
-  --scrollbar-bg: rgba(255, 255, 255, 0.06);
-  --scrollbar-thumb: rgba(255, 255, 255, 0.22);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
-}
-
 /* Tech-style component enhancements */
 
 html {
@@ -237,7 +26,7 @@ body {
 .navbar {
   -webkit-backdrop-filter: blur(10px) saturate(140%);
   backdrop-filter: blur(10px) saturate(140%);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--ds-line);
   background-color: color-mix(in srgb, var(--ifm-background-color) 45%, transparent) !important;
   box-shadow: none;
   transition: backdrop-filter 0.3s var(--ease-smooth),
@@ -246,11 +35,9 @@ body {
 }
 
 .navbar.navbar--scrolled {
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
   background-color: var(--ifm-navbar-background-color) !important;
   box-shadow: var(--ifm-global-shadow-md);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--ds-line);
 }
 
 html[data-theme='dark'] .navbar {
@@ -315,30 +102,26 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 
 /* DocSearch 搜索框样式优化 */
 .DocSearch-Button {
-  background: var(--glass-bg) !important;
-  -webkit-backdrop-filter: var(--glass-blur-light) !important;
-  backdrop-filter: var(--glass-blur-light) !important;
-  border: 1px solid var(--glass-border) !important;
+  background: var(--ds-card) !important;
+  border: 1px solid var(--ds-line) !important;
   border-radius: 8px !important;
   transition: all 0.3s var(--ease-smooth) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 var(--glass-highlight) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 transparent !important;
   padding: 0 12px !important;
   height: 36px !important;
   margin: 0 !important;
 }
 
 .DocSearch-Button:hover {
-  background: var(--glass-bg) !important;
+  background: var(--ds-card) !important;
   border-color: var(--ifm-color-emphasis-400) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 var(--glass-highlight) !important;
-  -webkit-backdrop-filter: var(--glass-blur) !important;
-  backdrop-filter: var(--glass-blur) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 transparent !important;
   transform: translateY(-1px);
 }
 
 .DocSearch-Button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 var(--glass-highlight) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 transparent !important;
 }
 
 .DocSearch-Search-Icon {
@@ -362,7 +145,7 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 .DocSearch-Button-Key {
   background: var(--ifm-color-emphasis-200) !important;
   color: var(--ifm-navbar-link-color) !important;
-  border: 1px solid var(--glass-border) !important;
+  border: 1px solid var(--ds-line) !important;
   border-radius: 4px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
   padding: 2px 6px !important;
@@ -426,16 +209,14 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 
 /* Card improvements with hover animation */
 .card {
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: var(--radius-xl);
   /* 玻璃态卡片 */
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  background: var(--ds-card);
   transition: all 0.4s var(--ease-smooth);
   overflow: hidden;
   position: relative;
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--ds-shadow-xs);
 }
 
 /* 卡片内部高光 */
@@ -446,7 +227,7 @@ html[data-theme='dark'] .DocSearch-Button:hover {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--glass-highlight);
+  background: transparent;
   opacity: 0.6;
   pointer-events: none;
   z-index: 1;
@@ -454,10 +235,8 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 
 .card:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-glass-hover);
-  border-color: var(--glass-highlight);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--ds-shadow-float);
+  border-color: transparent;
 }
 
 .card:hover::before {
@@ -550,13 +329,11 @@ pre {
 
 .app-card {
   /* 玻璃态应用卡片 */
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: var(--radius-xl);
   padding: 20px;
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--ds-shadow-xs);
   transition: all 0.4s var(--ease-smooth);
   position: relative;
 }
@@ -569,17 +346,15 @@ pre {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--glass-highlight);
+  background: transparent;
   opacity: 0.6;
   pointer-events: none;
 }
 
 .app-card:hover {
-  box-shadow: var(--shadow-glass-hover);
+  box-shadow: var(--ds-shadow-float);
   transform: translateY(-4px);
-  border-color: var(--glass-highlight);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  border-color: transparent;
 }
 
 .app-card:hover::before {
@@ -937,10 +712,10 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
 }
 
 .theme-doc-sidebar-container > div {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 1.65rem;
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--ds-shadow-xs);
   -webkit-backdrop-filter: blur(24px) saturate(165%);
   backdrop-filter: blur(24px) saturate(165%);
   overflow: hidden;
@@ -1053,7 +828,7 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
   font-weight: 600;
   letter-spacing: 0.02em;
   background: color-mix(in srgb, var(--ifm-color-primary) 4%, transparent);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1103,19 +878,17 @@ button[class*="collapseSidebarButton"][class*="expandButton"] svg {
   height: 32px !important;
   padding: 8px !important;
   color: var(--ifm-color-emphasis-500) !important;
-  background: var(--glass-bg) !important;
-  border: 1px solid var(--glass-border) !important;
+  background: var(--ds-card) !important;
+  border: 1px solid var(--ds-line) !important;
   border-radius: 50% !important;
-  box-shadow: var(--shadow-glass) !important;
-  -webkit-backdrop-filter: var(--glass-blur-light) !important;
-  backdrop-filter: var(--glass-blur-light) !important;
+  box-shadow: var(--ds-shadow-xs) !important;
   transition: all 0.22s var(--ease-smooth) !important;
 }
 
 button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
   color: var(--ifm-color-primary) !important;
   border-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent) !important;
-  background: var(--glass-bg) !important;
+  background: var(--ds-card) !important;
   transform: scale(1.15) !important;
   box-shadow: 0 4px 16px color-mix(in srgb, var(--ifm-color-primary) 18%, transparent) !important;
 }
@@ -1131,7 +904,7 @@ button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
 }
 
 html[data-theme="dark"] .theme-doc-sidebar-container > div {
-  background: var(--glass-bg);
+  background: var(--ds-card);
 }
 
 /* Scrollbar global styling */
@@ -1208,9 +981,7 @@ table {
 }
 
 table thead tr {
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  background: var(--ds-card);
 }
 
 table tbody tr {
@@ -1280,16 +1051,14 @@ select:focus {
 /* 分页按钮增强 */
 .pagination-nav__link {
   transition: all 0.3s var(--ease-smooth);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--ds-line);
+  background: var(--ds-card);
 }
 
 .pagination-nav__link:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glass);
-  border-color: var(--glass-highlight);
+  box-shadow: var(--ds-shadow-xs);
+  border-color: transparent;
 }
 
 /* 面包屑悬停 */
@@ -1572,18 +1341,18 @@ html {
 }
 
 .theme-admonition.alert--success {
-  --ifm-alert-border-color: #10a37f;
-  --ifm-alert-background-color: color-mix(in srgb, #10a37f 6%, var(--ifm-background-color));
+  --ifm-alert-border-color: var(--ds-accent);
+  --ifm-alert-background-color: color-mix(in srgb, var(--ds-accent) 6%, var(--ifm-background-color));
 }
 
 .theme-admonition.alert--warning {
-  --ifm-alert-border-color: #c98a12;
-  --ifm-alert-background-color: color-mix(in srgb, #c98a12 7%, var(--ifm-background-color));
+  --ifm-alert-border-color: var(--ds-warn);
+  --ifm-alert-background-color: color-mix(in srgb, var(--ds-warn) 7%, var(--ifm-background-color));
 }
 
 .theme-admonition.alert--danger {
-  --ifm-alert-border-color: #d14343;
-  --ifm-alert-background-color: color-mix(in srgb, #d14343 6%, var(--ifm-background-color));
+  --ifm-alert-border-color: var(--ds-danger);
+  --ifm-alert-background-color: color-mix(in srgb, var(--ds-danger) 6%, var(--ifm-background-color));
 }
 
 .theme-admonition [class*="admonitionHeading"] {
@@ -1746,12 +1515,10 @@ html {
   align-items: center;
   width: 168px;
   padding: 0.85rem 0.85rem 0.7rem;
-  background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  box-shadow: var(--ds-shadow-xs);
   opacity: 0;
   transform: translateY(8px) scale(0.96);
   transform-origin: bottom right;
@@ -1773,9 +1540,9 @@ html {
   bottom: -6px;
   width: 12px;
   height: 12px;
-  background: var(--glass-bg);
-  border-right: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border-right: 1px solid var(--ds-line);
+  border-bottom: 1px solid var(--ds-line);
   content: "";
   transform: rotate(45deg);
 }

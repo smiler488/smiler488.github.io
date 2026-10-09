@@ -41,7 +41,7 @@
   position: relative;
   min-width: 0;
   padding: clamp(18px, 3vw, 24px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 16px;
   background: var(--ifm-background-color);
 }
@@ -94,7 +94,7 @@
 .shareArea {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 14px;
   color: var(--ifm-color-emphasis-900);
   background: color-mix(
@@ -230,7 +230,7 @@
 .noteMeta {
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--ds-line);
   color: var(--ifm-color-emphasis-600);
   font-size: 0.82rem;
 }

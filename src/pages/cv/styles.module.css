@@ -2,16 +2,16 @@
   --cv-text: var(--ifm-color-emphasis-900);
   --cv-muted: var(--ifm-color-emphasis-600);
   --cv-subtle: var(--ifm-color-emphasis-500);
-  --cv-line: var(--glass-border);
-  --cv-glass: var(--glass-bg);
+  --cv-line: var(--ds-line);
+  --cv-glass: var(--ds-card);
   --cv-glass-strong: var(--ifm-background-surface-color);
-  --cv-card: var(--glass-bg);
-  --cv-card-hover: var(--glass-highlight);
+  --cv-card: var(--ds-card);
+  --cv-card-hover: transparent;
   --cv-input: var(--ifm-background-surface-color);
-  --cv-highlight: var(--glass-highlight);
-  --cv-blue: #10a37f;
+  --cv-highlight: transparent;
+  --cv-blue: var(--ds-accent);
   --cv-blue-soft: rgba(16, 163, 127, 0.08);
-  --cv-shadow: var(--shadow-glass);
+  --cv-shadow: var(--ds-shadow-xs);
 
   position: relative;
   isolation: isolate;
@@ -26,16 +26,16 @@
   --cv-text: var(--ifm-color-emphasis-900);
   --cv-muted: var(--ifm-color-emphasis-600);
   --cv-subtle: var(--ifm-color-emphasis-500);
-  --cv-line: var(--glass-border);
-  --cv-glass: var(--glass-bg);
+  --cv-line: var(--ds-line);
+  --cv-glass: var(--ds-card);
   --cv-glass-strong: var(--ifm-background-surface-color);
-  --cv-card: var(--glass-bg);
-  --cv-card-hover: var(--glass-highlight);
+  --cv-card: var(--ds-card);
+  --cv-card-hover: transparent;
   --cv-input: var(--ifm-background-surface-color);
-  --cv-highlight: var(--glass-highlight);
-  --cv-blue: #10a37f;
+  --cv-highlight: transparent;
+  --cv-blue: var(--ds-accent);
   --cv-blue-soft: rgba(16, 163, 127, 0.12);
-  --cv-shadow: var(--shadow-glass);
+  --cv-shadow: var(--ds-shadow-xs);
 
   background: var(--ifm-background-color);
 }
@@ -76,12 +76,10 @@
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: stretch;
   padding: clamp(1.5rem, 4vw, 3.5rem);
-  background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: var(--card-radius);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--ds-shadow-xs);
 }
 
 .heroIdentity {
@@ -587,11 +585,9 @@
 .languageCard {
   min-width: 0;
   overflow: hidden;
-  background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
+  box-shadow: var(--ds-shadow-xs);
   transition: transform 400ms var(--ease-openai), border-color 400ms var(--ease-openai),
     box-shadow 400ms var(--ease-openai);
   position: relative;

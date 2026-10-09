@@ -1,7 +1,7 @@
 .page {
   --lab-ink: var(--ifm-color-emphasis-900);
   --lab-muted: var(--ifm-color-emphasis-600);
-  --lab-blue: #10a37f;
+  --lab-blue: var(--ds-accent);
   --lab-blue-rgb: 16, 163, 127;
 
   min-height: calc(100vh - var(--ifm-navbar-height));
@@ -235,12 +235,10 @@
   top: 0;
   bottom: 0;
   z-index: 0;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 0.82rem;
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
+  box-shadow: var(--ds-shadow-xs);
   pointer-events: none;
   transition: left 0.28s cubic-bezier(0.25, 1, 0.5, 1),
     width 0.28s cubic-bezier(0.25, 1, 0.5, 1),
@@ -288,7 +286,7 @@
 }
 
 .appCard {
-  --card-accent: #10a37f;
+  --card-accent: var(--ds-accent);
   --card-accent-rgb: 16, 163, 127;
 
   position: relative;
@@ -296,13 +294,11 @@
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: var(--card-radius, 20px);
   color: inherit;
-  background: var(--glass-card-bg);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  background: var(--ds-card);
+  box-shadow: var(--ds-shadow-xs);
   text-decoration: none;
   transform: translateZ(0);
   transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
@@ -313,7 +309,7 @@
 .appCard:hover {
   border-color: rgba(255, 255, 255, 0.22);
   color: inherit;
-  box-shadow: inset 0 1px 0 var(--glass-highlight),
+  box-shadow: inset 0 1px 0 transparent,
     0 16px 40px rgba(0, 0, 0, 0.3);
   text-decoration: none;
   transform: translateY(-3px);
@@ -329,8 +325,8 @@
   position: relative;
   aspect-ratio: 8 / 5;
   overflow: hidden;
-  border-bottom: 1px solid var(--glass-border);
-  background: color-mix(in srgb, var(--glass-card-bg) 80%, #000);
+  border-bottom: 1px solid var(--ds-line);
+  background: color-mix(in srgb, var(--ds-card) 80%, #000);
 }
 
 .cardShot img {
@@ -445,12 +441,12 @@
 .trustStrip > div {
   min-width: 0;
   padding: 1.2rem 1.35rem;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 1.25rem;
-  background: color-mix(in srgb, var(--glass-bg) 82%, transparent);
+  background: color-mix(in srgb, var(--ds-card) 82%, transparent);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   backdrop-filter: blur(18px) saturate(150%);
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  box-shadow: inset 0 1px 0 transparent;
 }
 
 .trustStrip strong,

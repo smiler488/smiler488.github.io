@@ -7,10 +7,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem !important;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  backdrop-filter: var(--glass-blur-light);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 8px;
   margin: 0.25rem 0;
   font-size: 1rem;
@@ -20,7 +18,7 @@
   transition: all 0.3s var(--ease-smooth);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
   position: relative;
   overflow: hidden;
 }
@@ -33,7 +31,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--glass-highlight);
+  background: transparent;
   opacity: 0.6;
   transition: opacity 0.3s var(--ease-smooth);
 }
@@ -73,9 +71,7 @@
   color: var(--ifm-menu-color-active) !important;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 var(--glass-highlight);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+    inset 0 1px 0 transparent;
 }
 
 .mobileNavbarLink:hover::before,
@@ -96,7 +92,7 @@
   color: var(--ifm-menu-color-active) !important;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
 }
 
 .mobileNavbarLink.menu__link--active .mobileNavbarIcon {

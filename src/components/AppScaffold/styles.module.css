@@ -6,7 +6,7 @@
   --app-accent-rgb: 16, 163, 127;
   --app-radius: 16px;
   --app-control-radius: 10px;
-  --app-border: var(--glass-border);
+  --app-border: var(--ds-line);
   --app-surface: var(--ifm-background-color);
   --app-subtle: var(--ifm-background-surface-color);
 

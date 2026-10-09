@@ -12,7 +12,7 @@
     radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.015), transparent 45%),
     var(--ifm-background-color);
   background-size: 40px 40px, 40px 40px, auto, auto, auto;
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--ds-line);
   isolation: isolate;
 }
 
@@ -100,7 +100,7 @@
   font-weight: 600;
   line-height: 1;
   background: var(--ifm-background-surface-color);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 999px;
 }
 
@@ -230,8 +230,8 @@
 
 :global(html[data-theme="dark"]) .chipList li,
 :global(html[data-theme="dark"]) .secondaryAction {
-  background: var(--glass-bg);
-  border-color: var(--glass-border);
+  background: var(--ds-card);
+  border-color: var(--ds-line);
 }
 
 :global(html[data-theme="dark"]) .secondaryAction:hover {
@@ -336,12 +336,12 @@
 }
 
 .easterEggCard {
-  background: var(--glass-card-bg);
+  background: var(--ds-card);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 28px;
   padding: 2.25rem 3rem;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), var(--shadow-glass);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), var(--ds-shadow-xs);
   transform: scale(0.9) translateY(10px);
   animation: scaleUpEasterEgg 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards;
   max-width: 90%;

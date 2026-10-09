@@ -2,14 +2,14 @@
   --resource-text: var(--ifm-color-emphasis-900);
   --resource-muted: var(--ifm-color-emphasis-600);
   --resource-subtle: var(--ifm-color-emphasis-500);
-  --resource-line: var(--glass-border);
-  --resource-glass: var(--glass-bg);
+  --resource-line: var(--ds-line);
+  --resource-glass: var(--ds-card);
   --resource-glass-strong: var(--ifm-background-surface-color);
-  --resource-card: var(--glass-bg);
+  --resource-card: var(--ds-card);
   --resource-input: var(--ifm-background-surface-color);
-  --resource-highlight: var(--glass-highlight);
-  --resource-blue: #10a37f;
-  --resource-shadow: var(--shadow-glass);
+  --resource-highlight: transparent;
+  --resource-blue: var(--ds-accent);
+  --resource-shadow: var(--ds-shadow-xs);
 
   position: relative;
   isolation: isolate;
@@ -23,14 +23,14 @@
   --resource-text: var(--ifm-color-emphasis-900);
   --resource-muted: var(--ifm-color-emphasis-600);
   --resource-subtle: var(--ifm-color-emphasis-500);
-  --resource-line: var(--glass-border);
-  --resource-glass: var(--glass-bg);
+  --resource-line: var(--ds-line);
+  --resource-glass: var(--ds-card);
   --resource-glass-strong: var(--ifm-background-surface-color);
-  --resource-card: var(--glass-bg);
+  --resource-card: var(--ds-card);
   --resource-input: var(--ifm-background-surface-color);
-  --resource-highlight: var(--glass-highlight);
-  --resource-blue: #10a37f;
-  --resource-shadow: var(--shadow-glass);
+  --resource-highlight: transparent;
+  --resource-blue: var(--ds-accent);
+  --resource-shadow: var(--ds-shadow-xs);
 }
 
 .ambientOne,

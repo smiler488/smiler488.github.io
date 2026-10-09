@@ -170,9 +170,9 @@
   gap: 0.4rem;
   margin: clamp(1.75rem, 3.5vw, 2.5rem) 0;
   padding: 1rem 1.2rem;
-  border-left: 2px solid #c98a12;
+  border-left: 2px solid var(--ds-warn);
   border-radius: 0 10px 10px 0;
-  background: color-mix(in srgb, #c98a12 7%, var(--ifm-background-color));
+  background: color-mix(in srgb, var(--ds-warn) 7%, var(--ifm-background-color));
 }
 
 .consentNotice h2 {

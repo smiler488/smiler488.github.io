@@ -21,7 +21,7 @@
 .panel {
   min-width: 0;
   padding: clamp(1.1rem, 2.4vw, 1.4rem);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 16px;
   background: var(--ifm-background-color);
 }
@@ -118,7 +118,7 @@
 
 .stage[data-live="true"] {
   border-style: solid;
-  border-color: var(--glass-border);
+  border-color: var(--ds-line);
   background: #000;
 }
 

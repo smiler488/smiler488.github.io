@@ -61,12 +61,10 @@
   --card-glow: var(--ifm-color-primary);
 
   position: relative;
-  background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: var(--card-radius);
-  box-shadow: var(--shadow-glass);
-  backdrop-filter: var(--glass-blur-light);
-  -webkit-backdrop-filter: var(--glass-blur-light);
+  box-shadow: var(--ds-shadow-xs);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -76,7 +74,7 @@
 .card[data-tint="green"],
 .card[data-tint="violet"],
 .card[data-tint="orange"] {
-  --card-glow: #10a37f;
+  --card-glow: var(--ds-accent);
 }
 
 .card::before {
@@ -97,10 +95,10 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--glass-border));
+  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--ds-line));
   box-shadow: 0 16px 36px
       color-mix(in srgb, var(--card-glow) 8%, rgba(0, 0, 0, 0.04)),
-    var(--shadow-glass);
+    var(--ds-shadow-xs);
 }
 
 .cardInner {
@@ -244,16 +242,16 @@
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   color: var(--ifm-color-emphasis-700);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .qrButton:hover {
-  background: color-mix(in srgb, var(--card-glow) 8%, var(--glass-bg));
-  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--glass-border));
+  background: color-mix(in srgb, var(--card-glow) 8%, var(--ds-card));
+  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--ds-line));
   color: var(--card-glow);
 }
 
@@ -267,10 +265,10 @@
   flex-direction: column;
   align-items: center;
   padding: 0.85rem;
-  background: var(--glass-card-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 20px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), var(--shadow-glass);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), var(--ds-shadow-xs);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   pointer-events: none;
@@ -287,7 +285,7 @@
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: var(--glass-border) transparent transparent transparent;
+  border-color: var(--ds-line) transparent transparent transparent;
   content: "";
 }
 

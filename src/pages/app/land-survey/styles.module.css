@@ -5,7 +5,7 @@
 .introCard,
 .glassPanel {
   min-width: 0;
-  border: 1px solid var(--glass-border) !important;
+  border: 1px solid var(--ds-line) !important;
   border-radius: 16px !important;
   background: var(--ifm-background-color) !important;
 }
@@ -55,7 +55,7 @@
 .emptyState {
   margin: 0;
   padding: 20px;
-  border: 1px dashed var(--glass-border);
+  border: 1px dashed var(--ds-line);
   border-radius: 14px;
   background: color-mix(in srgb, var(--ifm-background-color) 60%, transparent);
   color: var(--ifm-color-emphasis-600);

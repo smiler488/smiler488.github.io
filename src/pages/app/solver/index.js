@@ -926,7 +926,7 @@ OUTPUT:
                       position: 'relative',
                       width: 'min(560px, 100%)',
                       aspectRatio: screenshotData ? `${screenshotData.width} / ${screenshotData.height}` : '4 / 3',
-                      border: '1px solid var(--glass-border)',
+                      border: '1px solid var(--ds-line)',
                       borderRadius: 18,
                       overflow: 'hidden',
                       touchAction: 'none',

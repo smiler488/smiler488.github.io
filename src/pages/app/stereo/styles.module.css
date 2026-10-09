@@ -14,7 +14,7 @@
 
 .panel,
 .statusPanel {
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 16px;
   background: var(--ifm-background-color);
 }
@@ -138,7 +138,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 12px;
   background: var(--ifm-background-surface-color);
 }
@@ -176,7 +176,7 @@
 .captureList {
   min-height: 4rem;
   padding: 0.9rem;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 1rem;
   color: var(--ifm-color-emphasis-700);
   background: color-mix(
@@ -188,7 +188,7 @@
 }
 
 .captureList > div {
-  border-color: var(--glass-border) !important;
+  border-color: var(--ds-line) !important;
   color: var(--ifm-color-emphasis-800) !important;
   background: color-mix(
     in srgb,

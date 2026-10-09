@@ -1,12 +1,12 @@
 .panel {
   margin-bottom: 1rem !important;
   padding: clamp(1rem, 2.5vw, 1.5rem) !important;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 16px !important;
-  background: var(--glass-bg) !important;
+  background: var(--ds-card) !important;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: var(--shadow-glass), inset 0 1px 0 var(--glass-highlight) !important;
+  box-shadow: var(--ds-shadow-xs), inset 0 1px 0 transparent !important;
 }
 
 .searchLabel {
@@ -20,7 +20,7 @@
 .map {
   height: clamp(20rem, 48vw, 31rem) !important;
   margin-bottom: 1rem;
-  border-color: var(--glass-border) !important;
+  border-color: var(--ds-line) !important;
   border-radius: 16px !important;
   overflow: hidden;
 }

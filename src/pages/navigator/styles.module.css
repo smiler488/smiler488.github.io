@@ -2,11 +2,11 @@
   --navigator-text: var(--ifm-color-emphasis-900);
   --navigator-muted: var(--ifm-color-emphasis-600);
   --navigator-subtle: var(--ifm-color-emphasis-500);
-  --navigator-surface: var(--glass-card-bg);
+  --navigator-surface: var(--ds-card);
   --navigator-solid: var(--ifm-background-surface-color);
-  --navigator-line: var(--glass-border);
-  --navigator-highlight: var(--glass-highlight);
-  --navigator-accent: #10a37f;
+  --navigator-line: var(--ds-line);
+  --navigator-highlight: transparent;
+  --navigator-accent: var(--ds-accent);
 
   min-height: 100vh;
   padding: clamp(1rem, 2.5vw, 2rem) clamp(0.85rem, 2vw, 1.5rem) 5rem;
@@ -24,9 +24,7 @@
 .directoryPanel {
   background: var(--navigator-surface);
   border: 1px solid var(--navigator-line);
-  box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: var(--glass-blur-medium);
-  backdrop-filter: var(--glass-blur-medium);
+  box-shadow: var(--ds-shadow-xs);
 }
 
 .hero {

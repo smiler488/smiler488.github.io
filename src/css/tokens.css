@@ -1,0 +1,220 @@
+/**
+ * Design tokens: the single source of colour, radius, shadow and motion values.
+ * See design/DESIGN_SPEC.md §5.1. Raw colour values belong here and nowhere else
+ * (stylelint enforces this); everything else references --ds-* or --ifm-* vars.
+ */
+
+:root {
+  /* Semantic design tokens (design/DESIGN_SPEC.md §5.1). Components use these. */
+  --ds-bg: #ffffff;
+  --ds-surface: #faf9f7;
+  --ds-surface-warm: #f1f0ec;
+  --ds-card: #ffffff;
+  --ds-line: #e8e7e3;
+  --ds-accent: #10a37f;
+  --ds-accent-rgb: 16, 163, 127;
+  --ds-warn: #c98a12;
+  --ds-danger: #d14343;
+  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ds-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --ds-radius-xs: 6px;
+  --ds-radius-sm: 10px;
+  --ds-radius-md: 12px;
+  --ds-radius-lg: 16px;
+  --ds-radius-pill: 999px;
+  --ds-dur-fast: 160ms;
+  --ds-ease-glide: cubic-bezier(0.45, 0, 0.15, 1);
+
+  /* ChatGPT signature brand green & slate colors */
+  --ifm-color-primary: var(--ds-accent);
+  --ifm-color-primary-dark: #0d8a6a;
+  --ifm-color-primary-darker: #0a6f55;
+  --ifm-color-primary-darkest: #085440;
+  --ifm-color-primary-light: #12be94;
+  --ifm-color-primary-lighter: #17dcae;
+  --ifm-color-primary-lightest: #e2f9f3;
+
+  /* 背景颜色 — OpenAI white base + warm-neutral surface */
+  --ifm-background-color: var(--ds-bg);
+  --ifm-background-surface-color: var(--ds-surface);
+
+  /* 文本颜色 — neutral near-black ramp (no slate/blue tint) */
+  --ifm-color-emphasis-900: #0d0d0d;
+  --ifm-color-emphasis-800: #1a1a1a;
+  --ifm-color-emphasis-700: #333333;
+  --ifm-color-emphasis-600: #525252;
+  --ifm-color-emphasis-500: #737373;
+  --ifm-color-emphasis-400: #a3a3a3;
+  --ifm-color-emphasis-300: #d4d4d4;
+  --ifm-color-emphasis-200: var(--ds-line);
+  --ifm-color-emphasis-100: #f5f4f1;
+  --ifm-color-emphasis-0: #ffffff;
+  --ifm-font-color-base: #1a1a1a;
+
+  /* 边框和阴影 */
+  --ifm-border-color: rgba(0, 0, 0, 0.08);
+  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.04);
+
+  /* 字体设置 */
+  --ifm-font-family-base: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.65;
+
+  /* 代码块 */
+  --ifm-code-font-size: 90%;
+  --ifm-pre-background: #f5f5f5;
+  --ifm-pre-color: #111111;
+  --docusaurus-highlighted-code-line-bg: rgba(68, 68, 68, 0.08);
+
+  /* 导航栏 */
+  --ifm-navbar-background-color: rgba(250, 250, 252, 0.72);
+  --ifm-navbar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  --ifm-navbar-link-color: #111111;
+  --ifm-navbar-link-hover-color: #444444;
+
+  /* 文档侧边栏 */
+  --doc-sidebar-background: rgba(255, 255, 255, 0.95);
+  --doc-sidebar-border: rgba(15, 23, 42, 0.08);
+  --doc-sidebar-link-color: #1f2937;
+  --doc-sidebar-active-bg: rgba(15, 23, 42, 0.06);
+
+  /* 页脚 */
+  --ifm-footer-background-color: #f5f5f7;
+  --ifm-footer-color: #444444;
+  --ifm-footer-link-color: #666666;
+  --ifm-footer-link-hover-color: #444444;
+
+  /* 英雄部分 */
+  --ifm-hero-background-color: #f5f5f5;
+  --ifm-hero-text-color: #111111;
+  --home-grid-bg: #e6e7ea;
+  --home-grid-line: #c8c9cc;
+  --home-grid-letter: #000000;
+  --app-accent-blue: #0ea5e9;
+  --app-accent-green: #4caf50;
+  --app-accent-muted: #94a3b8;
+  --app-overlay-stroke: #0f172a;
+  --app-previewer-bg: var(--ifm-background-surface-color);
+  --app-polygon-fill: rgba(67, 160, 71, 0.28);
+  --app-overlay-bg: rgba(255, 255, 255, 0.75);
+  /* Docs sidebar (desktop) */
+  --doc-sidebar-background: var(--ifm-navbar-background-color);
+  --doc-sidebar-border: var(--ifm-border-color);
+  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
+  --doc-sidebar-active-bg: var(--ifm-background-surface-color);
+  /* Scrollbar */
+  --scrollbar-bg: rgba(0, 0, 0, 0.08);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.25);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --card-radius: 16px;
+
+
+  /* 柔和发光效果 - 黑白灰色调 */
+  --glow-light: rgba(255, 255, 255, 0.4);
+  --glow-medium: rgba(200, 200, 200, 0.3);
+  --glow-subtle: rgba(150, 150, 150, 0.2);
+
+  /* 动画缓动函数 */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-openai: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 深色模式 - OpenAI 风格科技深色主题 */
+html[data-theme='dark'] {
+  --ds-bg: #0d0d0d;
+  --ds-surface: #171717;
+  --ds-surface-warm: #1d1d1c;
+  --ds-card: #171717;
+  --ds-line: #2a2a2a;
+  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ds-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --ifm-color-primary: var(--ds-accent);
+  --ifm-color-primary-dark: #0d8a6a;
+  --ifm-color-primary-darker: #0a6f55;
+  --ifm-color-primary-darkest: #085440;
+  --ifm-color-primary-light: #2ac09b;
+  --ifm-color-primary-lighter: #4ee2bd;
+  --ifm-color-primary-lightest: #a2eed9;
+
+  --ifm-background-color: var(--ds-bg);
+  --ifm-background-surface-color: var(--ds-surface);
+
+  --ifm-color-emphasis-900: #f5f5f5;
+  --ifm-color-emphasis-800: #e5e5e5;
+  --ifm-color-emphasis-700: #d4d4d4;
+  --ifm-color-emphasis-600: #a3a3a3;
+  --ifm-color-emphasis-500: #737373;
+  --ifm-color-emphasis-400: #525252;
+  --ifm-color-emphasis-300: #404040;
+  --ifm-color-emphasis-200: var(--ds-line);
+  --ifm-color-emphasis-100: #1f1f1f;
+  --ifm-color-emphasis-0: #0d0d0d;
+  --ifm-font-color-base: #ededed;
+
+  --ifm-border-color: rgba(255, 255, 255, 0.08);
+  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  --ifm-pre-background: #1e1e1e;
+  --ifm-pre-color: #f8fafc;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
+
+  --ifm-navbar-background-color: rgba(13, 13, 13, 0.85);
+  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  --ifm-navbar-link-color: #cbd5e1;
+  --ifm-navbar-link-hover-color: #ffffff;
+
+  --doc-sidebar-background: rgba(13, 13, 13, 0.85);
+  --doc-sidebar-border: rgba(255, 255, 255, 0.08);
+  --doc-sidebar-link-color: #cbd5e1;
+  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
+
+  --ifm-footer-background-color: #080808;
+  --ifm-footer-color: #cbd5e1;
+  --ifm-footer-link-color: #94a3b8;
+  --ifm-footer-link-hover-color: #ffffff;
+
+  --ifm-hero-background-color: #0d0d0d;
+  --ifm-hero-text-color: #ffffff;
+  --home-grid-bg: #1e1e24;
+  --home-grid-line: #3f3f46;
+  --home-grid-letter: #ffffff;
+  --app-accent-blue: #38bdf8;
+  --app-accent-green: #10a37f;
+  --app-accent-muted: #cbd5e1;
+  --app-overlay-stroke: #e5e7eb;
+  --app-previewer-bg: var(--ifm-background-surface-color);
+  --app-polygon-fill: rgba(16, 163, 127, 0.28);
+  --app-overlay-bg: rgba(0, 0, 0, 0.7);
+
+  --card-radius: 16px;
+
+
+  /* 柔和发光效果 - 暗色模式 */
+  --glow-light: rgba(255, 255, 255, 0.15);
+  --glow-medium: rgba(200, 200, 200, 0.12);
+  --glow-subtle: rgba(150, 150, 150, 0.08);
+  /* Docs sidebar (desktop) */
+  --doc-sidebar-background: var(--ifm-navbar-background-color);
+  --doc-sidebar-border: var(--ifm-border-color);
+  --doc-sidebar-link-color: var(--ifm-navbar-link-color);
+  --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
+  /* Scrollbar */
+  --scrollbar-bg: rgba(255, 255, 255, 0.06);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.22);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
+}
+

@@ -708,7 +708,7 @@
         }
         
         const captureDiv = document.createElement("div");
-        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass-bg);';
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--ds-line); border-radius: 12px; background: var(--ds-card);';
         captureDiv.innerHTML = `
           <div style="margin-bottom: 8px;">
             <a href="${leftDataURL}" download="${baseName}_left_rectified.png" style="margin-right: 10px;">${baseName}_left_rectified.png</a>
@@ -753,7 +753,7 @@
       const capturesList = document.getElementById("capturesList");
       if (capturesList) {
         const captureDiv = document.createElement("div");
-        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass-bg);';
+        captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--ds-line); border-radius: 12px; background: var(--ds-card);';
         captureDiv.innerHTML = `
           <a href="${depthDataURL}" download="${baseName}_depth_precision.png">${baseName}_depth_precision.png</a>
           <br><small style="color: var(--ifm-color-emphasis-600);">Precision depth map (grayscale)</small>

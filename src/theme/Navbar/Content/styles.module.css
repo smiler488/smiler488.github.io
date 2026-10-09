@@ -15,12 +15,12 @@
   min-height: 48px;
   margin: 0 auto;
   padding: 0 0.5rem;
-  background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
+  background: color-mix(in srgb, var(--ds-card) 92%, transparent);
   border: 1px solid
-    color-mix(in srgb, var(--glass-border) 78%, var(--glass-highlight));
+    color-mix(in srgb, var(--ds-line) 78%, transparent);
   border-radius: 18px;
   box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1),
-    0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 var(--glass-highlight);
+    0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 transparent;
   -webkit-backdrop-filter: blur(24px) saturate(165%);
   backdrop-filter: blur(24px) saturate(165%);
   transition: border-color 180ms ease, box-shadow 180ms ease,
@@ -31,11 +31,11 @@
   border-color: color-mix(
     in srgb,
     var(--ifm-color-primary) 34%,
-    var(--glass-border)
+    var(--ds-line)
   );
   box-shadow: 0 14px 38px rgba(15, 23, 42, 0.12),
     0 0 0 3px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
 }
 
 .leftRail,
@@ -140,14 +140,14 @@
   background: color-mix(
     in srgb,
     var(--ifm-color-primary) 12%,
-    var(--glass-bg)
+    var(--ds-card)
   ) !important;
   border-color: color-mix(
     in srgb,
     var(--ifm-color-primary) 18%,
     transparent
   ) !important;
-  box-shadow: inset 0 1px 0 var(--glass-highlight) !important;
+  box-shadow: inset 0 1px 0 transparent !important;
 }
 
 .primaryNav :global([class*="navbarNavIcon"]),
@@ -173,25 +173,25 @@
   width: clamp(8.5rem, 13vw, 12rem);
   height: 36px;
   color: var(--ifm-navbar-link-color);
-  background-color: color-mix(in srgb, var(--glass-bg) 82%, transparent);
-  border: 1px solid var(--glass-border);
+  background-color: color-mix(in srgb, var(--ds-card) 82%, transparent);
+  border: 1px solid var(--ds-line);
   border-radius: 12px;
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  box-shadow: inset 0 1px 0 transparent;
   transition: width 180ms ease, border-color 180ms ease,
     background-color 180ms ease, box-shadow 180ms ease;
 }
 
 .searchSlot :global(.navbar__search-input):focus {
   width: clamp(10rem, 16vw, 14rem);
-  background-color: color-mix(in srgb, var(--glass-bg) 96%, transparent);
+  background-color: color-mix(in srgb, var(--ds-card) 96%, transparent);
   border-color: color-mix(
     in srgb,
     var(--ifm-color-primary) 44%,
-    var(--glass-border)
+    var(--ds-line)
   );
   box-shadow: 0 0 0 3px
       color-mix(in srgb, var(--ifm-color-primary) 12%, transparent),
-    inset 0 1px 0 var(--glass-highlight);
+    inset 0 1px 0 transparent;
   outline: 0;
 }
 
@@ -298,7 +298,7 @@
     border-color: color-mix(
       in srgb,
       var(--ifm-color-primary) 44%,
-      var(--glass-border)
+      var(--ds-line)
     );
   }
 }

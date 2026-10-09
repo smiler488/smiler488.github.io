@@ -13,7 +13,7 @@
 }
 
 .panel {
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   background: var(--ifm-background-color);
 }
 
@@ -86,7 +86,7 @@
 
 .canvasFrame {
   overflow: hidden;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 16px;
   background: color-mix(
     in srgb,
@@ -111,7 +111,7 @@
 .metricCard {
   min-width: 0;
   padding: 12px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--ds-line);
   border-radius: 14px;
   background: color-mix(
     in srgb,
@@ -121,12 +121,12 @@
 }
 
 .noticeSuccess {
-  border-color: color-mix(in srgb, #178a58 34%, var(--glass-border));
+  border-color: color-mix(in srgb, #178a58 34%, var(--ds-line));
   color: color-mix(in srgb, #178a58 76%, var(--ifm-font-color-base));
 }
 
 .noticeWarning {
-  border-color: color-mix(in srgb, #c75c00 38%, var(--glass-border));
+  border-color: color-mix(in srgb, #c75c00 38%, var(--ds-line));
   color: var(--ifm-color-emphasis-800);
 }
 

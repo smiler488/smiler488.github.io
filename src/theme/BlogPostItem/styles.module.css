@@ -35,7 +35,7 @@
   display: flex;
   align-items: flex-end;
   padding: clamp(1rem, 2.4vw, 1.5rem);
-  background: #f1f0ec;
+  background: var(--ds-surface-warm);
 }
 
 .typeCover span {
@@ -48,7 +48,7 @@
 }
 
 :global(html[data-theme="dark"]) .typeCover {
-  background: #1d1d1c;
+  background: var(--ds-surface-warm);
 }
 
 .cardBody {
