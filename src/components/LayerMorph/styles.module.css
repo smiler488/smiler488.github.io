@@ -74,7 +74,7 @@
   height: 1.7rem;
   color: var(--ifm-color-emphasis-500);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   background: var(--ifm-background-color);
   border: 1.5px solid var(--ifm-color-emphasis-300);
@@ -89,7 +89,7 @@
 }
 
 .stepActive .stepNode {
-  color: #fff;
+  color: var(--ds-white);
   background: var(--ifm-color-primary);
   border-color: var(--ifm-color-primary);
 }

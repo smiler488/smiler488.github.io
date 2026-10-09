@@ -8,10 +8,8 @@
   color: var(--ifm-color-emphasis-900);
   background: linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
-    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.035), transparent 45%),
-    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.015), transparent 45%),
     var(--ifm-background-color);
-  background-size: 40px 40px, 40px 40px, auto, auto, auto;
+  background-size: 40px 40px, 40px 40px, auto;
   border-bottom: 1px solid var(--ds-line);
   isolation: isolate;
 }
@@ -56,7 +54,7 @@
   max-width: 18ch;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(2.3rem, 5vw, 4.1rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.06;
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -122,7 +120,7 @@
   justify-content: center;
   min-height: 46px;
   font-size: 0.88rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1;
   text-decoration: none;
   border-radius: 999px;
@@ -132,7 +130,7 @@
 
 .primaryAction {
   padding: 0.8rem 1.6rem;
-  color: #fff !important;
+  color: var(--ifm-color-emphasis-0) !important;
   background: var(--ifm-color-emphasis-900);
   border: 1px solid var(--ifm-color-emphasis-900);
 }
@@ -191,9 +189,9 @@
 .availability span {
   width: 7px;
   height: 7px;
-  background: #30d158;
+  background: var(--ds-accent);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(48, 209, 88, 0.12);
+  box-shadow: 0 0 0 4px rgba(var(--ds-accent-rgb), 0.12);
 }
 
 .homeMain {
@@ -205,27 +203,12 @@
 :global(html[data-theme="dark"]) .heroBanner {
   background: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    radial-gradient(circle at 14% 8%, rgba(16, 163, 127, 0.05), transparent 45%),
-    radial-gradient(circle at 88% 28%, rgba(16, 163, 127, 0.02), transparent 45%),
     var(--ifm-background-color);
-  background-size: 40px 40px, 40px 40px, auto, auto, auto;
+  background-size: 40px 40px, 40px 40px, auto;
 }
 
 :global(html[data-theme="dark"]) .heroBanner::after {
   background: linear-gradient(180deg, transparent, rgba(23, 23, 23, 0.7));
-}
-
-:global(html[data-theme="dark"]) .heroBackdrop {
-  background: radial-gradient(
-      66% 50% at 50% 12%,
-      rgba(16, 163, 127, 0.13),
-      transparent 70%
-    ),
-    radial-gradient(
-      42% 42% at 82% 80%,
-      rgba(59, 130, 246, 0.06),
-      transparent 70%
-    );
 }
 
 :global(html[data-theme="dark"]) .chipList li,
@@ -329,8 +312,10 @@
   align-items: center;
   justify-content: center;
   background: rgba(15, 23, 42, 0.25);
+  /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  /* stylelint-enable declaration-property-value-disallowed-list */
   animation: fadeInEasterEgg 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: auto;
 }

@@ -51,7 +51,7 @@
   margin-bottom: 6px;
   color: var(--ifm-color-emphasis-800);
   font-size: 0.86rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .abstractInput,
@@ -154,7 +154,7 @@
   padding: 11px 0;
   color: var(--ifm-color-primary);
   cursor: pointer;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .metricDetails p {
@@ -174,7 +174,7 @@
 .status {
   margin: 10px 0 6px;
   color: var(--ifm-color-emphasis-900);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .disclaimer {
@@ -192,7 +192,7 @@
   padding: 10px 16px;
   border-radius: 14px;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -288,7 +288,7 @@
   margin: 4px 0 0;
   overflow-wrap: anywhere;
   font-size: 0.88rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .tableScroll {

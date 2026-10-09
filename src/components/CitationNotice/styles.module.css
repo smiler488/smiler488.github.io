@@ -61,14 +61,10 @@
 .doiLabel {
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
-  color: #fff;
+  color: var(--ifm-color-emphasis-0);
   background: var(--ifm-color-emphasis-900);
   font-size: 0.68rem;
-  font-weight: 700;
-}
-
-:global(html[data-theme="dark"]) .doiLabel {
-  color: var(--ifm-color-emphasis-0);
+  font-weight: 600;
 }
 
 .columns {

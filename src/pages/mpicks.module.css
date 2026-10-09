@@ -26,7 +26,7 @@
 
 .title {
   font-size: clamp(2rem, 4.5vw, 3rem);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--ifm-color-emphasis-900);
   margin-bottom: 1rem;
@@ -75,22 +75,6 @@
 .card[data-tint="violet"],
 .card[data-tint="orange"] {
   --card-glow: var(--ds-accent);
-}
-
-.card::before {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
-    color-mix(in srgb, var(--card-glow) 6%, transparent),
-    transparent 40%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  content: "";
-  pointer-events: none;
-  z-index: 1;
 }
 
 .card:hover {
@@ -152,7 +136,7 @@
 
 .cardTitle {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ifm-color-emphasis-900);
   margin: 0;
 }
@@ -195,10 +179,10 @@
   min-height: 44px;
   padding: 0.65rem 1.25rem;
   font-size: 0.88rem;
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none !important;
   border-radius: 999px;
-  color: #ffffff !important;
+  color: var(--ifm-color-emphasis-0) !important;
   background: var(--ifm-color-emphasis-900);
   border: 1px solid var(--ifm-color-emphasis-900);
   transition: transform 0.2s ease, background-color 0.2s ease;
@@ -269,8 +253,6 @@
   border: 1px solid var(--ds-line);
   border-radius: 20px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), var(--ds-shadow-xs);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -298,7 +280,7 @@
 
 .qrTooltip img {
   border-radius: 12px;
-  background: #ffffff;
+  background: var(--ds-white);
   padding: 6px;
   display: block;
 }

@@ -113,7 +113,7 @@
   padding: 0.72rem 1.05rem;
   border-radius: 999px;
   font-size: 0.84rem;
-  font-weight: 720;
+  font-weight: 600;
   transition: transform 180ms var(--ease-smooth),
     box-shadow 180ms var(--ease-smooth), background 180ms var(--ease-smooth);
 }
@@ -166,7 +166,7 @@
 .heroStats dt {
   color: var(--ifm-color-emphasis-900);
   font-size: 1.6rem;
-  font-weight: 760;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.04em;
 }
@@ -175,7 +175,7 @@
   margin: 0;
   color: var(--ifm-color-emphasis-600);
   font-size: 0.78rem;
-  font-weight: 620;
+  font-weight: 600;
 }
 
 .guideDirectory {
@@ -231,7 +231,7 @@
 .groupHeading span {
   color: var(--ifm-color-emphasis-500);
   font-size: 0.78rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .tutorialGrid {
@@ -274,14 +274,14 @@
   background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
   color: var(--ifm-color-primary);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .cardCategory {
   color: var(--ifm-color-emphasis-500);
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -329,7 +329,7 @@
   background: rgb(255 255 255 / 28%);
   color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
   font-size: 0.65rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -356,7 +356,7 @@
 .launchLink,
 .guideLink {
   font-size: 0.78rem;
-  font-weight: 720;
+  font-weight: 600;
 }
 
 .launchLink {

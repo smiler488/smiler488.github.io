@@ -73,7 +73,7 @@
 .leafField label {
   color: var(--ifm-color-emphasis-700);
   font-size: 0.82rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .input {
@@ -232,7 +232,7 @@
 
 .formulaLhs {
   min-width: 20px;
-  font-weight: 700;
+  font-weight: 600;
   font-style: italic;
   color: var(--ifm-color-emphasis-900);
   text-align: right;
@@ -280,7 +280,7 @@
 
 .legendSym {
   min-width: 36px;
-  font-weight: 700;
+  font-weight: 600;
   font-style: italic;
   font-family: 'Georgia', 'Times New Roman', serif;
   color: var(--ifm-color-primary);

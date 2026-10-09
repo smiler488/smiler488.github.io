@@ -21,8 +21,10 @@
   border-radius: 18px;
   box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1),
     0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 transparent;
+  /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
   -webkit-backdrop-filter: blur(24px) saturate(165%);
   backdrop-filter: blur(24px) saturate(165%);
+  /* stylelint-enable declaration-property-value-disallowed-list */
   transition: border-color 180ms ease, box-shadow 180ms ease,
     background-color 180ms ease;
 }
@@ -87,7 +89,7 @@
   overflow: hidden;
   color: var(--ifm-navbar-link-color);
   font-size: 0.88rem;
-  font-weight: 720;
+  font-weight: 600;
   letter-spacing: -0.02em;
   text-overflow: ellipsis;
   white-space: nowrap;

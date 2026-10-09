@@ -45,7 +45,7 @@
   color: var(--ifm-color-emphasis-900);
   border-bottom: none;
   font-size: clamp(1.85rem, 3.4vw, 2.9rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;
   text-wrap: balance;
@@ -135,13 +135,11 @@
   gap: 0.4rem;
   padding: 0.32rem 0.72rem 0.32rem 0.36rem;
   border-radius: 999px;
-  background: color-mix(in srgb, #0b1512 68%, transparent);
-  color: #fff;
+  background: var(--ds-scrim);
+  color: var(--ds-white);
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
 }
 
 .comicTagMark {
@@ -152,9 +150,9 @@
   padding: 0 0.32rem;
   border-radius: 999px;
   background: var(--ifm-color-primary);
-  color: #fff;
+  color: var(--ds-white);
   font-size: 0.64rem;
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -183,32 +181,6 @@
 }
 
 /* OpenAI Spotlight Cursor Glow */
-.researchCard::before,
-.labCard::before {
-  position: absolute;
-  top: var(--mouse-y, -100px);
-  left: var(--mouse-x, -100px);
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(16, 163, 127, 0.08) 40%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: opacity 300ms ease;
-  opacity: 0;
-  z-index: 2;
-  content: "";
-}
-
-.researchCard:hover::before,
-.labCard:hover::before {
-  opacity: 1;
-}
-
 .researchCard {
   display: flex;
   flex-direction: column;
@@ -238,7 +210,7 @@
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: color-mix(in srgb, var(--ifm-background-color) 86%, #bdd6f3);
+  background: var(--ds-surface);
   border-radius: var(--card-radius, 20px) var(--card-radius, 20px) 0 0;
   border-bottom: 2px solid rgba(16, 163, 127, 0.18);
 }
@@ -301,7 +273,7 @@
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.2rem, 1.7vw, 1.4rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
@@ -395,7 +367,7 @@
   color: var(--ifm-color-emphasis-500);
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0;
 }
 
@@ -409,7 +381,7 @@
   max-width: 20ch;
   margin: 0;
   font-size: clamp(1.15rem, 1.7vw, 1.35rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -475,14 +447,14 @@
   min-height: 52px;
   padding: 0.85rem 1.25rem;
   font-size: 0.88rem;
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none;
   border-radius: 999px;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .academicAction {
-  color: #fff;
+  color: var(--ifm-color-emphasis-0);
   background: var(--ifm-color-emphasis-900);
   border: 1px solid var(--ifm-color-emphasis-900);
 }
@@ -502,7 +474,7 @@
 }
 
 .academicAction:hover {
-  color: #fff;
+  color: var(--ifm-color-emphasis-0);
   background: var(--ifm-color-emphasis-800);
 }
 

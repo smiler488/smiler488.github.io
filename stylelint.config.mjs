@@ -29,5 +29,48 @@ export default {
     ],
     "shorthand-property-no-redundant-values": null,
     "value-keyword-case": null,
+
+    // Design-system guardrails (design/DESIGN_SPEC.md §5.6, §5.8).
+    // Colours come from src/css/tokens.css; no frosted glass, no all-caps labels,
+    // no decorative radial glows.
+    "color-no-hex": true,
+    "declaration-property-value-disallowed-list": [
+      {
+        "text-transform": ["uppercase"],
+        background: ["/radial-gradient/"],
+        "background-image": ["/radial-gradient/"],
+        "backdrop-filter": ["/blur/"],
+        "-webkit-backdrop-filter": ["/blur/"],
+      },
+      {
+        message:
+          "Sentence case, no decorative glows, no frosted glass (DESIGN_SPEC §5.6). Floating layers opt out with a commented stylelint-disable.",
+      },
+    ],
+    "declaration-property-value-allowed-list": [
+      { "font-weight": ["400", "500", "600", "normal", "inherit"] },
+      { message: "Use font weights 400 / 500 / 600 only (DESIGN_SPEC §5.2)." },
+    ],
   },
+  overrides: [
+    {
+      // The token file is the one place raw colour values live.
+      files: ["src/css/tokens.css"],
+      rules: { "color-no-hex": null },
+    },
+    {
+      // Tool-local canvas and chart colours; converged in P3.
+      files: ["src/pages/app/**/*.css"],
+      rules: { "color-no-hex": null },
+    },
+    {
+      // Standalone visual-experiment page; exempt from the quiet-UI rules.
+      files: ["src/components/HologramParticles/**/*.css"],
+      rules: {
+        "color-no-hex": null,
+        "declaration-property-value-disallowed-list": null,
+        "declaration-property-value-allowed-list": null,
+      },
+    },
+  ],
 };

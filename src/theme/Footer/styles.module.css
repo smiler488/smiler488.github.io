@@ -12,14 +12,9 @@
   width: min(100%, 1320px);
   margin: 0 auto;
   padding: clamp(1.5rem, 3vw, 3rem);
-  background: color-mix(in srgb, var(--ds-card) 90%, transparent);
-  border: 1px solid
-    color-mix(in srgb, var(--ds-line) 78%, transparent);
-  border-radius: clamp(24px, 3vw, 34px);
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.1),
-    0 3px 12px rgba(15, 23, 42, 0.05), inset 0 1px 0 transparent;
-  -webkit-backdrop-filter: blur(26px) saturate(160%);
-  backdrop-filter: blur(26px) saturate(160%);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
 }
 
 .footerGrid {
@@ -55,7 +50,7 @@
   padding: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.75rem, 3vw, 2.75rem);
-  font-weight: 740;
+  font-weight: 600;
   letter-spacing: -0.045em;
   line-height: 1.04;
   border: 0;
@@ -86,7 +81,7 @@
 }
 
 .profileLink:hover {
-  color: #fff !important;
+  color: var(--ifm-color-emphasis-0) !important;
   background: var(--ifm-color-emphasis-800);
   text-decoration: none;
   transform: translateY(-2px);
@@ -100,7 +95,7 @@
   margin: 0 0 0.9rem;
   color: var(--ifm-color-emphasis-900);
   font-size: 0.76rem;
-  font-weight: 780;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.4;
   text-transform: none;
@@ -122,7 +117,7 @@
   padding: 0.3rem 0;
   color: var(--ifm-color-emphasis-700);
   font-size: 0.9rem;
-  font-weight: 580;
+  font-weight: 500;
   line-height: 1.4;
   transition: color 160ms ease, transform 160ms ease;
 }
@@ -149,7 +144,7 @@
 .contactList a span {
   color: var(--ifm-color-emphasis-600);
   font-size: 0.7rem;
-  font-weight: 680;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: none;
 }
@@ -157,7 +152,7 @@
 .contactList a strong {
   overflow-wrap: anywhere;
   font-size: 0.82rem;
-  font-weight: 620;
+  font-weight: 600;
 }
 
 .contactList a:hover strong {
@@ -180,13 +175,9 @@
   width: 46px;
   height: 46px;
   color: var(--ifm-color-emphasis-900);
-  background: color-mix(in srgb, var(--ds-card) 82%, transparent);
+  background: var(--ds-card);
   border: 1px solid var(--ds-line);
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07),
-    inset 0 1px 0 transparent;
-  -webkit-backdrop-filter: blur(12px) saturate(145%);
-  backdrop-filter: blur(12px) saturate(145%);
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
@@ -308,7 +299,7 @@
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.45rem, 2.5vw, 2.15rem);
-  font-weight: 740;
+  font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.08;
 }
@@ -329,7 +320,7 @@
   padding: 0.55rem 1rem;
   color: var(--ifm-color-emphasis-900);
   font-size: 0.86rem;
-  font-weight: 560;
+  font-weight: 500;
   text-decoration: none;
   background: var(--ifm-background-color);
   border: 1px solid var(--ifm-color-emphasis-300);
@@ -385,16 +376,14 @@
   align-items: center;
   justify-content: center;
   color: var(--ifm-color-emphasis-700);
-  background: color-mix(in srgb, var(--ds-card) 72%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: var(--ds-surface);
 }
 
 .globeLoading {
   gap: 0.65rem;
   pointer-events: none;
   font-size: 0.78rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .globeLoading > span {
@@ -425,7 +414,7 @@
   border: 1px solid var(--ifm-color-emphasis-900);
   border-radius: 12px;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .privacyDisclosure {
@@ -435,7 +424,7 @@
 
 .privacyDisclosure a {
   color: var(--ifm-color-primary);
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 

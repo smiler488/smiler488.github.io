@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.1 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.2 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -311,9 +311,12 @@ updated: 2026-10-09
 
 基于现有 `stylelint.config.mjs` 追加规则，用现有脚本 `npm run stylelint` 运行（`npm run check` 已包含它）：
 
-- `color-no-hex`：禁止十六进制颜色。例外：`src/css/tokens.css`，以及 `src/pages/app/**`（工具专属的画布与图表色，P3 再收敛）、`src/components/HologramParticles/**`。
-- `property-disallowed-list`：禁止 `backdrop-filter`。例外：导航栏相关文件、`custom.css` 中的移动端菜单与遮罩层，以及 Hologram 特效页（以文件级 override 或行内 `stylelint-disable` 注明理由）。
-- `declaration-property-value-disallowed-list`：禁止 `text-transform: uppercase`，禁止在 `background` 中使用 `radial-gradient`（数据可视化组件例外）。
+已在 `stylelint.config.mjs` 中落地（P0）：
+
+- `color-no-hex`：禁止十六进制颜色。例外：`src/css/tokens.css`、`src/pages/app/**`（工具专属的画布与图表色，P3 再收敛）、`src/components/HologramParticles/**`、CV 页的打印样式（行内注明）。
+- `declaration-property-value-disallowed-list`：禁止 `text-transform: uppercase`；禁止 `background` / `background-image` 使用 `radial-gradient`；禁止 `backdrop-filter` 使用 `blur`（`none` 允许）。
+- `declaration-property-value-allowed-list`：`font-weight` 只允许 400 / 500 / 600。
+- 例外一律用带理由的行内注释：`/* stylelint-disable … -- 理由 */`。现有例外：导航栏、移动端菜单与遮罩、CV 吸顶导航、Bonnie 彩蛋遮罩、自定义光标。
 
 ---
 
@@ -621,6 +624,12 @@ flowchart LR
   - stylelint 防退化规则。
   - 博客外框中文化（独立任务进行中；P0 期间不改动 `src/theme/Blog*` 和 `BlogCollectionHero`，避免冲突）。
 - `src/components/ds/` 组件库移到 P1 开头建立，与第一批新页面一起落地，避免出现没人使用的组件。
+- **状态：已完成（2026-10-09）**
+  - 令牌迁移（提交 `f096c983`）：用逐元素计算样式指纹对比验证零视觉变化，覆盖 19 个英文路由 + 4 个中文路由 × 深浅色 × 1280/375，两侧均用防缓存 URL 加载新鲜页面。
+  - `--glass-*` 引用 300 → 0；`tokens.css` 之外的品牌色 41 → 0；字重 22 种 → 3 种（Hologram 页除外）；stylelint 全部通过。
+  - 顺带修复：深色模式下 4 个墨色按钮（首页"Explore the research""Academic contact"、mPicks"Visit Site"、页脚资料按钮悬停）是白字配近白底（对比度 1.1–2.1:1），现为 17.8:1。
+  - 去除：首页首屏绿/蓝光晕、首页与 mPicks 卡片的鼠标跟随光斑、页脚与卡片的毛玻璃。
+  - 遗留：页脚访客地图在本地预览中加载失败，线上旧版本在同一浏览器中同样未加载，判断为外部服务波动，非本次改动所致；需在部署后复查。
 - **验收**：
   - `--glass-*` 引用为 0。
   - `tokens.css` 之外的硬编码品牌色为 0。

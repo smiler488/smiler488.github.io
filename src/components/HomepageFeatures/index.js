@@ -147,21 +147,11 @@ const CONTENT = {
   },
 };
 
-function handleSpotlightMouseMove(e) {
-  const card = e.currentTarget;
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  card.style.setProperty("--mouse-x", `${x}px`);
-  card.style.setProperty("--mouse-y", `${y}px`);
-}
-
 function ComicCard({ item }) {
   return (
     <Link
       className={styles.comicCard}
       to={item.href}
-      onMouseMove={handleSpotlightMouseMove}
     >
       <img
         className={styles.comicImg}
@@ -185,7 +175,6 @@ function LabCard({ item }) {
     <Link
       className={styles.labCard}
       to={item.href}
-      onMouseMove={handleSpotlightMouseMove}
     >
       <div className={styles.labCardTop}>
         <span className={styles.labGlyph} aria-hidden="true" />

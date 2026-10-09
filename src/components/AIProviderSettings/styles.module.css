@@ -55,7 +55,7 @@
   min-width: 0;
   color: var(--ifm-color-emphasis-700);
   font-size: 0.82rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .field input,
@@ -103,7 +103,7 @@
   background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
   color: var(--ifm-color-emphasis-800);
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 

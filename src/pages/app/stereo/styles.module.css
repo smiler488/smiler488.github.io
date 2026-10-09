@@ -30,7 +30,7 @@
   gap: 0.75rem;
   padding: 0.9rem 1.05rem;
   color: var(--ifm-color-emphasis-800);
-  font-weight: 680;
+  font-weight: 600;
 }
 
 .statusPanel [data-state="error"] {
@@ -104,7 +104,7 @@
   min-width: 0;
   color: var(--ifm-color-emphasis-800);
   font-size: 0.82rem;
-  font-weight: 720;
+  font-weight: 600;
 }
 
 .fieldCompact {
@@ -160,7 +160,7 @@
   margin-bottom: 0.4rem;
   color: var(--ifm-color-emphasis-600);
   font-size: 0.76rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .depthFigure {

@@ -128,7 +128,7 @@
   margin: 0;
   color: var(--lab-ink);
   font-size: clamp(1.85rem, 4vw, 3rem);
-  font-weight: 770;
+  font-weight: 600;
   letter-spacing: -0.052em;
   line-height: 1;
 }
@@ -256,7 +256,7 @@
   color: var(--lab-muted);
   background: transparent;
   font-size: 0.78rem;
-  font-weight: 720;
+  font-weight: 600;
   cursor: pointer;
   touch-action: manipulation;
   transition: color 0.2s ease;
@@ -268,14 +268,14 @@
 
 .filters .filterActive {
   color: var(--ifm-color-primary) !important;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .resultCount {
   margin: 0;
   color: var(--lab-muted);
   font-size: 0.76rem;
-  font-weight: 720;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -326,7 +326,7 @@
   aspect-ratio: 8 / 5;
   overflow: hidden;
   border-bottom: 1px solid var(--ds-line);
-  background: color-mix(in srgb, var(--ds-card) 80%, #000);
+  background: color-mix(in srgb, var(--ds-card) 80%, var(--ds-black));
 }
 
 .cardShot img {
@@ -353,7 +353,7 @@
 .categoryLabel {
   color: var(--card-accent);
   font-size: 0.66rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -362,7 +362,7 @@
   margin: 0.55rem 0 0;
   color: var(--lab-ink);
   font-size: clamp(1.15rem, 2vw, 1.4rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.12;
 }
@@ -426,9 +426,9 @@
 }
 
 .emptyState button {
-  border-color: rgba(10, 132, 255, 0.25);
-  color: #fff;
-  background: var(--lab-blue);
+  border-color: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
+  background: var(--ifm-color-emphasis-900);
 }
 
 .trustStrip {
@@ -443,10 +443,7 @@
   padding: 1.2rem 1.35rem;
   border: 1px solid var(--ds-line);
   border-radius: 1.25rem;
-  background: color-mix(in srgb, var(--ds-card) 82%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  backdrop-filter: blur(18px) saturate(150%);
-  box-shadow: inset 0 1px 0 transparent;
+  background: var(--ds-card);
 }
 
 .trustStrip strong,

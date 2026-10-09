@@ -292,7 +292,7 @@
   border-radius: 999px;
   font: inherit;
   font-size: 0.88rem;
-  font-weight: 560;
+  font-weight: 500;
   cursor: pointer;
   transition: background 160ms ease, border-color 160ms ease;
 }
@@ -375,7 +375,7 @@
 .railGroupLabel strong {
   color: var(--resource-muted);
   font-size: 0.62rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -428,7 +428,7 @@
   overflow: hidden;
   color: currentColor;
   font-size: 0.78rem;
-  font-weight: 720;
+  font-weight: 600;
   letter-spacing: -0.014em;
   line-height: 1.25;
   text-overflow: ellipsis;
@@ -445,7 +445,7 @@
   background: color-mix(in srgb, var(--resource-text) 6%, transparent);
   border-radius: 999px;
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .railButtonActive .railCount {
@@ -462,7 +462,7 @@
 .railCrossLink a {
   color: var(--resource-subtle);
   font-size: 0.65rem;
-  font-weight: 660;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -531,7 +531,7 @@
   margin: 0 0 0.75rem;
   color: var(--resource-muted);
   font-size: 0.68rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -604,7 +604,7 @@
   border-radius: 1rem;
   box-shadow: inset 0 1px 0 var(--resource-highlight);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -641,7 +641,7 @@
   border-radius: 0.9rem;
   font: inherit;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   padding: 0.55rem 0.9rem;
@@ -708,7 +708,7 @@
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 1rem;
   font-size: 0.78rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.02em;
   overflow: hidden;
 }
@@ -740,7 +740,7 @@
   overflow: hidden;
   color: var(--resource-muted);
   font-size: 0.72rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -751,7 +751,7 @@
   width: fit-content;
   color: var(--resource-subtle);
   font-size: 0.64rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: none;
 }
@@ -806,7 +806,7 @@
   padding: 0.28rem 0.5rem;
   border-radius: 0.55rem;
   font-size: 0.66rem;
-  font-weight: 680;
+  font-weight: 600;
   line-height: 1.1;
 }
 
@@ -840,7 +840,7 @@
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 999px;
   font-size: 0.88rem;
-  font-weight: 560;
+  font-weight: 500;
   text-decoration: none;
   transition: background 160ms ease, border-color 160ms ease;
 }
@@ -889,7 +889,7 @@
   border: 0;
   border-radius: 0.9rem;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -952,7 +952,7 @@
   border-radius: 999px;
   content: "✓";
   font-size: 0.67rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .srOnly {

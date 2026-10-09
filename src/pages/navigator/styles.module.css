@@ -61,7 +61,7 @@
   border: 1px solid var(--navigator-line);
   border-radius: 999px;
   font-size: 0.66rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.1;
 }
@@ -82,7 +82,7 @@
   margin: 0;
   color: var(--navigator-text);
   font-size: clamp(2rem, 4vw, 3.4rem);
-  font-weight: 780;
+  font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 1;
 }
@@ -122,7 +122,7 @@
 .heroStats dt {
   color: var(--navigator-subtle);
   font-size: 0.62rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.035em;
   line-height: 1.25;
   text-transform: none;
@@ -132,7 +132,7 @@
   margin: 0;
   color: var(--navigator-text);
   font-size: 1.12rem;
-  font-weight: 780;
+  font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1;
 }
@@ -219,7 +219,7 @@
   box-shadow: inset 0 -1px 0 var(--navigator-line);
   font-family: var(--ifm-font-family-base);
   font-size: 0.64rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .searchClear {
@@ -268,7 +268,7 @@
   border-radius: 0.8rem;
   cursor: pointer;
   font-size: 0.72rem;
-  font-weight: 730;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -333,7 +333,7 @@
 .categoryGroupLabel strong {
   color: var(--navigator-muted);
   font-size: 0.62rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -416,7 +416,7 @@
   overflow: hidden;
   color: currentColor;
   font-size: 0.78rem;
-  font-weight: 720;
+  font-weight: 600;
   letter-spacing: -0.014em;
   line-height: 1.25;
   text-overflow: ellipsis;
@@ -426,7 +426,7 @@
 .categoryText small {
   color: var(--navigator-subtle);
   font-size: 0.61rem;
-  font-weight: 620;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -454,7 +454,7 @@
 .railPrivacy a {
   color: currentColor;
   font-size: 0.67rem;
-  font-weight: 720;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -466,7 +466,7 @@
 .railCrossLink a {
   color: var(--navigator-subtle);
   font-size: 0.65rem;
-  font-weight: 660;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -532,7 +532,7 @@
   margin: 0;
   color: var(--navigator-text);
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: -0.026em;
   line-height: 1.2;
 }
@@ -559,7 +559,7 @@
     color-mix(in srgb, var(--lane-accent) 19%, var(--navigator-line));
   border-radius: 999px;
   font-size: 0.68rem;
-  font-weight: 760;
+  font-weight: 600;
 }
 
 .linkGrid {
@@ -607,7 +607,7 @@
   border-radius: 0.76rem;
   box-shadow: inset 0 1px 0 var(--navigator-highlight);
   font-size: 0.66rem;
-  font-weight: 790;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -638,7 +638,7 @@
   width: 100%;
   height: 100%;
   font-size: 0.66rem;
-  font-weight: 790;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--lane-accent);
 }
@@ -655,7 +655,7 @@
   color: var(--navigator-text);
   -webkit-box-orient: vertical;
   font-size: 0.82rem;
-  font-weight: 720;
+  font-weight: 600;
   letter-spacing: -0.014em;
   line-height: 1.28;
   -webkit-line-clamp: 2;
@@ -745,7 +745,7 @@
 
 .curationNote a {
   color: var(--navigator-accent);
-  font-weight: 730;
+  font-weight: 600;
   text-decoration: none;
 }
 
