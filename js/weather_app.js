@@ -324,7 +324,10 @@
       }
 
       renderTable(records);
-      prepareDownloads(records, lat, lon, startDate, endDate, timeScale);
+      prepareDownloads(records, lat, lon, startDate, endDate, timeScale, {
+        url,
+        timeStandard,
+      });
       setProgress(100);
       showProgress(false, "Done.");
       updateStatus("NASA POWER data downloaded successfully.");
@@ -423,7 +426,7 @@
     return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
   }
 
-  function prepareDownloads(records, lat, lon, startDate, endDate, timeScale) {
+  function prepareDownloads(records, lat, lon, startDate, endDate, timeScale, meta = {}) {
     const csvBtn = $("downloadCsvBtn");
     if (!csvBtn) return;
 
@@ -449,6 +452,29 @@
     csvBtn.href = url;
     csvBtn.download = `${fileBase}.csv`;
     csvBtn.style.display = "inline-block";
+
+    // Parameter record for the App Lab workbench (DESIGN_SPEC §8.2).
+    csvBtn.onclick = () => {
+      window.dispatchEvent(
+        new CustomEvent("lab:export", {
+          detail: {
+            files: [{ name: `${fileBase}.csv`, blob }],
+            parameters: {
+              source: "NASA POWER (power.larc.nasa.gov), community AG",
+              request: meta.url || null,
+              latitude: lat,
+              longitude: lon,
+              startDate,
+              endDate,
+              timeScale,
+              ...(timeScale === "hourly" ? { timeStandard: meta.timeStandard } : {}),
+              records: records.length,
+              fields: headers,
+            },
+          },
+        })
+      );
+    };
 
   }
 
@@ -487,6 +513,21 @@
     if (initialized) return true;
     initialized = true;
     bindEvents();
+
+    // A location handed over from another tool, e.g. Land Surveyor's
+    // "Weather for this field" link: /app/weather?lat=..&lon=..
+    const query = new URLSearchParams(window.location.search);
+    const qLat = parseFloat(query.get("lat"));
+    const qLon = parseFloat(query.get("lon"));
+    if (
+      Number.isFinite(qLat) &&
+      Number.isFinite(qLon) &&
+      Math.abs(qLat) <= 90 &&
+      Math.abs(qLon) <= 180
+    ) {
+      updateCoordinates(qLat, qLon, 14);
+      updateStatus("Location set from the linked field. Choose dates, then get data.");
+    }
 
     waitForLeaflet()
       .then(() => {

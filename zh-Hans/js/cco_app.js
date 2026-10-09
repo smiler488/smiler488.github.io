@@ -871,6 +871,29 @@ window.CCO_INIT = function CCO_INIT() {
 
       $("downloads").style.display = "block";
       setStatus("Files ready. Click links to download.");
+
+      // Parameter record for the App Lab workbench (DESIGN_SPEC §8.2).
+      window.dispatchEvent(
+        new CustomEvent("lab:export", {
+          detail: {
+            files: [
+              { name: "template.kml", blob: blobTpl },
+              { name: "waylines.wpml", blob: blobWpml },
+              ...(blobKmz ? [{ name: "cco_full.kmz", blob: blobKmz }] : []),
+            ],
+            parameters: {
+              altitude_m: alt,
+              speed_mps: speed,
+              gimbalPitch_deg: gimbal,
+              fileSuffix: suffix,
+              maxPointsPerPart: maxPts,
+              device,
+              boundaryVertices: polygonCoords.length,
+              waypoints: routePoints.length,
+            },
+          },
+        })
+      );
     } catch (err) {
       console.error(err);
       setStatus(`Generate error: ${err.message}`);

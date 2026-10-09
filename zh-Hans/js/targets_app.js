@@ -591,6 +591,23 @@
     return ok;
   }
 
+  // Parameter record for the App Lab workbench (DESIGN_SPEC §8.2).
+  function recordTargetsExport(filename, doc, kind, params) {
+    try {
+      window.dispatchEvent(
+        new CustomEvent("lab:export", {
+          detail: {
+            files: [{ name: filename, blob: doc.output("blob") }],
+            parameters: { target: kind, ...params },
+          },
+        })
+      );
+    } catch (error) {
+      // The PDF itself has been saved; a missing record must not break that.
+      console.warn("Parameter record failed", error);
+    }
+  }
+
   function generateFilename(type, params) {
     const timestamp = new Date().toISOString().slice(0, 10);
     
@@ -698,6 +715,7 @@
 
       const filename = generateFilename("chessboard", params);
       doc.save(filename);
+      recordTargetsExport(filename, doc, "chessboard", params);
       log(`Chessboard PDF saved: ${filename}`);
       
     } catch (error) {
@@ -798,6 +816,7 @@
 
       const filename = generateFilename("bullseye", params);
       doc.save(filename);
+      recordTargetsExport(filename, doc, "bullseye", params);
       log(`Bullseye PDF saved: ${filename}`);
       
     } catch (error) {
@@ -893,6 +912,7 @@
 
       const filename = generateFilename("ringArcs", params);
       doc.save(filename);
+      recordTargetsExport(filename, doc, "ringArcs", params);
       log(`Ring arcs PDF saved: ${filename}`);
       
     } catch (error) {
@@ -1221,6 +1241,7 @@
       }
       const filename = generateFilename("agisoft", params);
       doc.save(filename);
+      recordTargetsExport(filename, doc, "agisoft", params);
       log(`Agisoft markers PDF saved: ${filename}`);
     } catch (error) {
       log(`PDF generation failed: ${error.message}`, 'error');

@@ -792,6 +792,16 @@
       link.href = url;
       link.download = "stereo_captures.zip";
       link.click();
+
+      // Parameter record for the App Lab workbench (DESIGN_SPEC §8.2).
+      window.dispatchEvent(
+        new CustomEvent("lab:export", {
+          detail: {
+            files: [{ name: "stereo_captures.zip", blob }],
+            parameters: { archiveEntries: Object.keys(zip.files).length },
+          },
+        })
+      );
       
       URL.revokeObjectURL(url);
       setStatus("ZIP file downloaded successfully");
