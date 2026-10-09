@@ -101,6 +101,10 @@
   text-transform: none;
 }
 
+.subColumnTitle {
+  margin-top: 1.25rem;
+}
+
 .linkList,
 .contactList {
   display: grid;

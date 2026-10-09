@@ -4,6 +4,7 @@ import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import CitationNotice from "../components/CitationNotice";
+import { ToolboxLinks } from "../components/ds";
 import { APP_CATEGORIES, APP_MANIFEST, localizeApp } from "../data/appManifest";
 import styles from "./app.module.css";
 
@@ -343,6 +344,18 @@ export default function AppHub() {
             </div>
           ))}
         </section>
+
+        <div className={styles.citationWrap}>
+          <ToolboxLinks
+            extra={[
+              {
+                to: "/docs/category/tutorial---apps",
+                title: { en: "App tutorials", zh: "小程序教程" },
+                hint: { en: "Step-by-step guides for every tool", zh: "每个工具的分步教程" },
+              },
+            ]}
+          />
+        </div>
 
         <div className={styles.citationWrap}>
           <CitationNotice />

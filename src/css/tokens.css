@@ -26,6 +26,11 @@
   --ds-black: #000000;
   --ds-scrim: rgba(13, 13, 13, 0.68);
   --ds-dur-fast: 160ms;
+
+  /* Tables: horizontal hairlines only, no stripes or tinted header */
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-head-background: transparent;
+  --ifm-table-border-color: var(--ds-line);
   --ds-ease-glide: cubic-bezier(0.45, 0, 0.15, 1);
 
   /* ChatGPT signature brand green & slate colors */
@@ -142,6 +147,11 @@ html[data-theme='dark'] {
   --ds-line: #2a2a2a;
   --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
   --ds-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* Infima re-declares these for dark mode, so they must be repeated here. */
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-head-background: transparent;
+  --ifm-table-border-color: var(--ds-line);
 
   --ifm-color-primary: var(--ds-accent);
   --ifm-color-primary-dark: #0d8a6a;

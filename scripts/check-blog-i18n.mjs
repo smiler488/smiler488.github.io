@@ -16,7 +16,7 @@ const DST = "i18n/zh-Hans/docusaurus-plugin-content-blog";
 const CJK = /[一-鿿]/;
 
 // Must be byte-identical between locales: these drive routing and identity.
-const IDENTICAL = ["slug", "tags", "authors", "image", "date"];
+const IDENTICAL = ["slug", "tags", "layers", "authors", "image", "date"];
 // Must end up in Chinese: these are display-only text.
 const TRANSLATE = ["title", "description", "category", "article_type"];
 

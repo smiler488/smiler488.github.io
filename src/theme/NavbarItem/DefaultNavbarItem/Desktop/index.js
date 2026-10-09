@@ -165,11 +165,23 @@ function getIconForLabel(label) {
     return NavbarIcons.Home;
   if (label === "Tutorial" || label === "tutorial" || label === "教程")
     return NavbarIcons.Tutorial;
-  if (label === "Blog" || label === "blog" || label === "博客")
+  if (
+    label === "Blog" ||
+    label === "blog" ||
+    label === "博客" ||
+    label === "Notes" ||
+    label === "笔记"
+  )
     return NavbarIcons.Blog;
   if (label === "Research" || label === "research" || label === "研究")
     return NavbarIcons.Research;
-  if (label === "CV" || label === "cv" || label === "简历")
+  if (
+    label === "CV" ||
+    label === "cv" ||
+    label === "简历" ||
+    label === "About" ||
+    label === "关于"
+  )
     return NavbarIcons.CV;
   if (
     label === "Resource" ||
@@ -181,7 +193,13 @@ function getIconForLabel(label) {
     return NavbarIcons.Resources;
   if (label === "Navigator" || label === "navigator" || label === "网址导航")
     return NavbarIcons.Navigator;
-  if (label === "App" || label === "app" || label === "应用")
+  if (
+    label === "App" ||
+    label === "app" ||
+    label === "应用" ||
+    label === "Lab" ||
+    label === "实验室"
+  )
     return NavbarIcons.App;
   if (label === "mPicks" || label === "mpicks" || label === "好物推荐")
     return NavbarIcons.mPicks;

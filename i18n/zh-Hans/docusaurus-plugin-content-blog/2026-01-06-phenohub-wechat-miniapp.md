@@ -5,6 +5,7 @@ authors: [liangchao]
 category: 植物表型
 article_type: 研究项目
 tags: [plant-phenotyping, artificial-intelligence, data-analysis]
+layers: [DIG]
 image: /img/phenohub.png
 description: 2026 年 1 月的一个微信小程序快照，整合田间工具、天气查询、图像工具和实验性 AI 助手。
 ---

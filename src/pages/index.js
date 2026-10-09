@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import styles from "./index.module.css";
+import { PersonJsonLd } from "@site/src/components/ds";
 
 // pageTitle renders as "<pageTitle> | Liangchao Deng". It carries the topical
 // keywords, since "Home" ranks for nothing.
@@ -138,6 +139,7 @@ export default function Home() {
 
   return (
     <Layout title={copy.pageTitle} description={copy.description}>
+      <PersonJsonLd />
       <HomepageHeader />
       <main className={styles.homeMain}>
         <HomepageFeatures />

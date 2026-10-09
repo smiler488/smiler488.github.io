@@ -4,6 +4,7 @@ title: "用 Python 做本地图像量化：一套可审计的实验工作流"
 description: "一套紧凑的 OpenCV 工作流：分割分离的生物样本，导出像素和定标后的尺寸描述符，并记录科学使用前所需的验证。"
 authors: [liangchao]
 tags: [python, computer-vision, image-analysis, plant-phenotyping]
+layers: [DIG]
 image: /img/blog-default.jpg
 category: 植物表型
 article_type: 技术指南

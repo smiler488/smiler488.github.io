@@ -41,7 +41,10 @@ const config = {
   ],
   // No first-party analytics plugin is enabled. The footer's third-party
   // visitor map image runs in an opaque sandbox and is disclosed at /privacy.
-  plugins: [],
+  plugins: [
+    // Blog index for the /research hub + llms.txt generation (DESIGN_SPEC §9.2).
+    "./plugins/site-index",
+  ],
 
   organizationName: "smiler488",
   projectName: "smiler488.github.io",
@@ -145,26 +148,13 @@ const config = {
         src: "img/logo.svg",
       },
       items: [
-        {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
-          position: "left",
-          label: "Tutorial",
-        },
-        { to: "/blog", label: "Research", position: "left" },
-        { to: "/cv", label: "CV", position: "left" },
-        { to: "/resources", label: "Resource", position: "left" },
-        { to: "/navigator", label: "Navigator", position: "left" },
-        {
-          to: "/app",
-          label: "App",
-          position: "left",
-        },
-        {
-          to: "/mpicks",
-          label: "mPicks",
-          position: "left",
-        },
+        // Primary navigation: research identity only (DESIGN_SPEC §4.1).
+        // Tutorials, Resources, Navigator and mPicks stay reachable from the
+        // footer, the Lab hub and the About page.
+        { to: "/research", label: "Research", position: "left" },
+        { to: "/app", label: "Lab", position: "left" },
+        { to: "/blog", label: "Notes", position: "left" },
+        { to: "/cv", label: "About", position: "left" },
         { type: "localeDropdown", position: "right" },
         {
           href: "https://github.com/smiler488",

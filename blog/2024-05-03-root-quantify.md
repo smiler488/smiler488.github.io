@@ -4,6 +4,7 @@ title: "Root Quantify: Interactive Root Image Preprocessing in Python"
 description: "A practical guide to using Root Quantify for polygon ROI selection, background correction, binary-mask cleanup, and organized export before downstream root analysis."
 authors: [liangchao]
 tags: [python, image-analysis, plant-phenotyping]
+layers: [DIG]
 category: Plant phenotyping
 article_type: Technical guide
 ---

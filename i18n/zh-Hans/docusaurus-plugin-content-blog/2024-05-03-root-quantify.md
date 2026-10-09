@@ -4,6 +4,7 @@ title: "Root Quantify：用 Python 交互式预处理根系图像"
 description: "一份实用指南：用 Root Quantify 进行多边形 ROI 选择、背景校正、二值掩膜清理，并在下游根系分析前有序导出。"
 authors: [liangchao]
 tags: [python, image-analysis, plant-phenotyping]
+layers: [DIG]
 category: 植物表型
 article_type: 技术指南
 ---

@@ -3,6 +3,11 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
 import LayerMorph from "@site/src/components/LayerMorph";
+
+// Each animation step links to the research hub filtered to that layer.
+const LAYER_EVIDENCE = ["DIG", "UND", "PRE", "DES"].map(
+  (id) => `/research?layer=${id}`
+);
 import styles from "./styles.module.css";
 
 const CONTENT = {
@@ -12,27 +17,28 @@ const CONTENT = {
     researchIntro:
       "A four-layer architecture for crop intelligence — digitize the physical crop, understand its mechanisms, predict its future, and design what it should become.",
     steps: ["Digitize", "Understand", "Predict", "Design"],
+    stepEvidence: (step) => `Evidence for ${step}`,
     research: [
       {
         mark: "I",
         tag: "Digitize",
         comic: "/img/comic1.png",
         alt: "Digital crop phenotyping — multi-view 3D reconstruction and UAV imaging",
-        href: "/blog/tags/plant-phenotyping",
+        href: "/research?layer=DIG",
       },
       {
         mark: "II",
         tag: "Understand",
         comic: "/img/comic2.png",
         alt: "AI-powered phenomic analysis — computer vision and scientific AI",
-        href: "/blog/tags/artificial-intelligence",
+        href: "/research?layer=UND",
       },
       {
         mark: "III–IV",
         tag: "Predict & Design",
         comic: "/img/comic3.png",
         alt: "Canopy photosynthesis and breeding — crop modeling and design",
-        href: "/blog/tags/crop-modeling",
+        href: "/research?layer=PRE",
       },
     ],
     labEyebrow: "Featured tools",
@@ -82,27 +88,28 @@ const CONTENT = {
     researchIntro:
       "作物智能的四层架构——把物理作物数字化、理解其机理、预测其未来，并设计它应有的样子。",
     steps: ["数字化", "理解", "预测", "设计"],
+    stepEvidence: (step) => `查看「${step}」层的证据`,
     research: [
       {
         mark: "I",
         tag: "数字化",
         comic: "/img/comic1.png",
         alt: "数字作物表型——多视角三维重建与无人机成像",
-        href: "/blog/tags/plant-phenotyping",
+        href: "/research?layer=DIG",
       },
       {
         mark: "II",
         tag: "理解",
         comic: "/img/comic2.png",
         alt: "AI 驱动的表型组分析——计算机视觉与科学智能",
-        href: "/blog/tags/artificial-intelligence",
+        href: "/research?layer=UND",
       },
       {
         mark: "III–IV",
         tag: "预测与设计",
         comic: "/img/comic3.png",
         alt: "冠层光合与育种——作物建模与设计",
-        href: "/blog/tags/crop-modeling",
+        href: "/research?layer=PRE",
       },
     ],
     labEyebrow: "精选工具",
@@ -209,7 +216,12 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <LayerMorph steps={copy.steps} label={copy.researchTitle} />
+          <LayerMorph
+            steps={copy.steps}
+            label={copy.researchTitle}
+            evidenceHrefs={LAYER_EVIDENCE}
+            evidenceLabel={copy.stepEvidence}
+          />
           <div className={styles.comicGrid}>
             {copy.research.map((item) => (
               <ComicCard key={item.mark} item={item} />

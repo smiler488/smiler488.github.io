@@ -1,0 +1,41 @@
+---
+title: Open problems
+description: Questions my own results leave open, and where I would start on them.
+layout: reading
+eyebrow: Open problems
+updated: Updated October 2026
+unlisted: true
+---
+import { Notice } from '@site/src/components/ds';
+
+<Notice tone="warning" title="Draft">
+Each problem below is taken from the limitations stated in the author's own papers and notes. The list is waiting for the author's review before it is listed.
+</Notice>
+
+## Making crop state projectable
+
+**Question.** How do we move from a crop that is observable and explainable (Layers I–II) to one whose growth can be projected under environment and management scenarios, with decision risk quantified (Layer III)?
+
+**Starting point.** Coupling structure–radiation–photosynthesis–growth processes with data assimilation. This is the focus of the current postdoc.
+
+## Leaf optics beyond the measured domain
+
+**Question.** Can trait-based BRDF prediction hold across genotypes, environments, developmental stages and water status?
+
+**Why it is open.** The [BRDF model](/research/brdf-traits) was built from 270 data entries across four species. Predictions outside the measured trait and wavelength ranges need new validation.
+
+## From simulated light fields to field outcomes
+
+**Question.** When leaf optical diversity changes the simulated light field inside a canopy, does that translate into measurable differences in the field?
+
+**Why it is open.** The ray-tracing results show changes in simulated light distribution; on their own they do not demonstrate yield gains.
+
+## Cross-modal registration over time
+
+**Question.** How should hyperspectral, LiDAR, RGB and thermal observations of the same plants be registered and analysed over time?
+
+**Why it is open.** In the [MCTP workspace](/research/mctp-workspace), cross-modal registration and temporal analysis are not yet automatic capabilities.
+
+---
+
+If you work on any of these, the academic email is on the [CV page](/cv).

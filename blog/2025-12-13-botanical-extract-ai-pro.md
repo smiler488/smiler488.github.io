@@ -5,6 +5,7 @@ authors: [liangchao]
 category: AI & machine learning
 article_type: Workflow
 tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
+layers: [DIG]
 image: /img/botanical-extract-ai-pro.png
 description: An experimental web and batch workflow for placing plants on white backgrounds with multimodal image models, including scientific and privacy limitations.
 ---

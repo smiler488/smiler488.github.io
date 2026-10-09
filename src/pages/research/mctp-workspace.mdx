@@ -1,0 +1,52 @@
+---
+title: "MCTP: a multi-modal crop phenotyping workspace"
+description: One desktop workspace gives hyperspectral, LiDAR, RGB and thermal processing a shared entry point and export convention, while keeping each modality's processing transparent and tunable.
+project: mctp-workspace
+image: /img/mctp.png
+---
+
+## Problem
+
+Field phenotyping produces hyperspectral cubes, LiDAR point clouds, RGB images and thermal matrices, usually processed in separate tools with different conventions. That fragmentation slows analysis and makes results hard to reproduce.
+
+MCTP (Multi-Modal Crop Phenotyping Platform) was developed alongside a field phenotyping collaboration with Shufeng Bio. My contribution focused on system optimization and the data-processing and analysis workflows.
+
+## Approach
+
+One launcher brings four modality modules together. Here "unified" means a consistent entry point, interaction pattern and export convention. It does **not** mean the four modalities are automatically registered, fused or interpreted by one model.
+
+### Hyperspectral
+
+ENVI HDR/SPE ingestion and wavelength parsing; RGB quicklooks and vegetation-index views; threshold-based plant masks and glare filtering; mean-spectrum and summary export as CSV/JSON; directory-level processing.
+
+### LiDAR
+
+PLY, LAS, LAZ and text input; ground rebasing, voxel downsampling, cropping and height colouring; DBSCAN clustering with interactive tuning; coverage, height percentiles, occupancy and convex-hull summaries; cropped point-cloud and JSON report export.
+
+### RGB
+
+Colour-index thresholding (ExG, CIVE, VDI) combined with morphology and connected components, then cleanup and instance labelling for group-level and per-plant summaries.
+
+### Thermal
+
+Paired image and temperature-matrix inputs with threshold and morphology controls, plus overlay, heatmap and plant-only previews.
+
+## Results
+
+The workspace standardizes the path from raw files to structured exports that hand off cleanly to R, Python or other statistics tools. The recommended workflow keeps every step inspectable:
+
+1. Archive raw data first, keeping original files and acquisition metadata unchanged.
+2. Open one representative sample to confirm file pairing, orientation, units and coordinates.
+3. Tune parameters visibly, using previews to find failure cases.
+4. Process a small batch and check outputs against raw data before scaling up.
+5. Record thresholds, voxel sizes, clustering settings and software version with the results.
+
+## Limitations
+
+This page describes a project snapshot represented by the available interface and module screenshots. Exact input formats and outputs should be confirmed in the build used for a specific experiment.
+
+- Cross-modal registration and temporal analysis are not current automatic capabilities.
+- Batch behaviour differs by module; interactive tuning remains important for LiDAR and thermal data.
+- Outputs are algorithmic estimates: ground selection, point density, occlusion, thresholds and calibration can materially change results.
+- Structured exports improve handoff but do not replace quality control.
+- Reproducibility requires raw data, module version, parameters, calibration information and exported results to be stored together.

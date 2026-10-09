@@ -1,0 +1,267 @@
+/* Project template and reading layout (design/DESIGN_SPEC.md §6.3, §6.7). */
+
+.projectPage,
+.readingPage {
+  padding: 0 1rem clamp(4rem, 8vw, 6rem);
+}
+
+.shell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.readingShell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.projectHeader,
+.readingHeader {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.readingHeader {
+  padding-top: clamp(2.5rem, 7vw, 5rem);
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.backLink {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.metaText,
+.eyebrow {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+.projectTitle {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+:global(html[lang="zh-Hans"]) .projectTitle {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.finding {
+  max-width: 60ch;
+  margin: 0 0 0.6rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ---------- Cover figure ---------- */
+.cover {
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  object-fit: contain;
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-surface);
+}
+
+.cover figcaption {
+  max-width: 72ch;
+  margin-top: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.cover figcaption strong {
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
+}
+
+/* ---------- Body + TOC ---------- */
+.bodyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(180px, 220px);
+  justify-content: space-between;
+  gap: 3rem;
+  align-items: start;
+}
+
+.body {
+  min-width: 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: clamp(1rem, 1.3vw, 1.06rem);
+  line-height: 1.75;
+}
+
+.body h2 {
+  margin: 2.75rem 0 1rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.body h2:first-child {
+  margin-top: 0;
+}
+
+.body h3 {
+  margin: 2rem 0 0.75rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.body strong {
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
+}
+
+.body li + li {
+  margin-top: 0.35rem;
+}
+
+.body table {
+  display: table;
+  width: 100%;
+}
+
+.toc {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
+}
+
+.toc > p {
+  margin: 0 0 0.75rem;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.toc :global(.table-of-contents) {
+  font-size: 0.84rem;
+}
+
+.toc :global(.thin-scrollbar) {
+  position: static;
+  max-height: none;
+}
+
+/* ---------- Related ---------- */
+.related {
+  display: grid;
+  gap: 1rem;
+  max-width: 720px;
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--ds-line);
+}
+
+.relatedTitle {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.noteLink {
+  justify-self: start;
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-emphasis-300);
+  text-underline-offset: 3px;
+}
+
+.noteLink:hover {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration-color: currentColor;
+}
+
+.relatedRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.relatedLabel {
+  margin-right: 0.35rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+}
+
+.relatedLink {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--ds-radius-pill);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.relatedLink:hover {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+}
+
+/* ---------- Reading layout body spacing ---------- */
+.readingShell .body {
+  padding-top: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+@media (max-width: 600px) {
+  .body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 996px) {
+  .bodyGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .toc {
+    display: none;
+  }
+}

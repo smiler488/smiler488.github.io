@@ -4,6 +4,7 @@ title: "Local Image Quantification in Python: An Experimental, Auditable Workflo
 description: "A compact OpenCV workflow for segmenting isolated biological samples, exporting pixel and calibrated size descriptors, and documenting the validation required before scientific use."
 authors: [liangchao]
 tags: [python, computer-vision, image-analysis, plant-phenotyping]
+layers: [DIG]
 image: /img/blog-default.jpg
 category: Plant phenotyping
 article_type: Technical guide

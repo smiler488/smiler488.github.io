@@ -5,6 +5,7 @@ authors: [liangchao]
 category: Plant phenotyping
 article_type: Research project
 tags: [plant-phenotyping, image-analysis, data-analysis, remote-sensing]
+layers: [DIG]
 image: /img/mctp.png
 description: A desktop workspace for hyperspectral, LiDAR, RGB, and thermal crop-phenotyping workflows, with clear boundaries between shared UI and cross-modal fusion.
 ---

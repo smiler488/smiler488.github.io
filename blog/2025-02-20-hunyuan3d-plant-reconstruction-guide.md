@@ -4,6 +4,7 @@ title: "Hunyuan3D-1 for Plant Images: A Reproducible Exploration Guide"
 description: "A version-specific, evidence-aware workflow for generating exploratory plant meshes with Hunyuan3D-1 and validating why generative 3D output is not automatically a phenotype measurement."
 authors: [liangchao]
 tags: [artificial-intelligence, computer-vision, three-dimensional-reconstruction, plant-phenotyping]
+layers: [DIG]
 image: /img/blog-default.jpg
 category: "Imaging & 3D"
 article_type: Technical guide

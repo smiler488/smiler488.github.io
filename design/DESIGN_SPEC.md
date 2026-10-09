@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.2 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.3 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -172,7 +172,7 @@ erDiagram
 
 | 实体 | 唯一数据源 | 位置 | 中文化方式 |
 |---|---|---|---|
-| Project 项目 | MDX 文件 | 新增 docs 实例 `research`（目录 `research/`） | `i18n/zh-Hans/docusaurus-plugin-content-docs-research/current/` |
+| Project 项目 | 元数据：`src/data/projects.js`；正文：MDX 页面 | `src/pages/research/<id>.mdx`（front matter `project: <id>`，由 `src/theme/MDXPage` 选择项目模板） | `i18n/zh-Hans/docusaurus-plugin-content-pages/research/<id>.mdx` |
 | Publication 论文 | JS 数据 | `src/data/publications.js`（从 `cvData.js` 抽出合并） | 字段级 `{ en, zh }` |
 | Tool 工具 | JS 数据 | `src/data/appManifest.js` v2（见 §10.1） | 字段级 `{ en, zh }`（已有） |
 | Dataset 数据集 | JS 数据 | `src/data/datasets.js`（新增） | 字段级 `{ en, zh }` |
@@ -180,7 +180,7 @@ erDiagram
 
 ### 4.4 项目页 front matter 规范
 
-项目页由 `DocItem/Layout` 根据 `project: true` 选择模板，做法与现有 `app_route` 选择教程模板一致。
+项目页是 `src/pages/research/` 下的 MDX 页面（见 D-010），由自定义的 `src/theme/MDXPage` 根据 `project: <id>` 选择项目模板；页头信息（标题、结论、层、状态、封面、论文、代码）来自 `src/data/projects.js`，正文写在 MDX 中。下面是早期设想的 front matter，实际实现以 `projects.js` 为准：
 
 ```yaml
 ---
@@ -649,6 +649,13 @@ flowchart LR
   - JSON-LD（Person、ScholarlyArticle、SoftwareApplication）。
   - `llms.txt` 中英文版。
   - `/now`、`/open-problems` 的页面框架（内容由作者撰写）。
+- **状态：已完成（2026-10-09），以下内容待作者确认**
+  - 已上线：`src/components/ds/`（PageHero、SectionHeader、Stats、Chip、Notice、LayerBadge、EvidenceBar、ToolboxLinks、JsonLd、PersonJsonLd）；导航 v2（研究 / 实验室 / 笔记 / 关于）；页脚“工具箱”分组；About（CV）与 Lab 页底部的工具箱入口；`/research` Hub（按层筛选，URL 参数 `?layer=`）；两个项目页（BRDF、MCTP，内容取自已发表的笔记）；`/publications`；首页四层动画与漫画卡片链接到对应层的证据；JSON-LD（Person、ResearchProject、ItemList、SoftwareApplication、CollectionPage）；`llms.txt` / `llms-full.txt`（中英文）。
+  - 待作者确认：
+    1. 博客与工具的层标注（见 `blog/*.md` 的 `layers` 与 `appManifest.js` 的 `layers`）。
+    2. MCTP 是否就是 Zenodo 上的 Digital Plant Phenotyping Platform v25.0；若是，在 `projects.js` 中给 MCTP 加上该 DOI。
+    3. `/now` 与 `/open-problems` 两个草稿；确认后去掉 `unlisted` 并加入页脚。
+  - 已知问题：站点未启用数学公式插件，博客中的 `$\sigma(\lambda)$` 等以原文显示（§6.6 计划按需引入 KaTeX）。
 - **验收**：
   - 主导航 4 项。
   - 旧 URL 全部可以访问（直接访问或经跳转）。
@@ -716,6 +723,9 @@ flowchart LR
 | D-007 | 2026-10 | 四层架构（DIG/UND/PRE/DES）作为全站分类主干 | 让叙事落到证据上 |
 | D-008 | 2026-10 | 托管约束：静态站（GitHub Pages） | 不运行服务器；需要服务端能力时改为本地包或第三方服务 |
 | D-009 | 2026-10 | 现有功能一律保留，只重新设计与布局（§3.3） | 作者要求：已开发的功能都不移除 |
+| D-010 | 2026-10 | 项目页用 pages 插件的 MDX 页面，不用独立 docs 实例 | `/research` Hub 是自定义 React 页面，与 docs 实例的根路由冲突；pages 插件同样支持中文翻译目录 |
+| D-011 | 2026-10 | 本地插件 `plugins/site-index` 同时提供博客索引（全局数据）与 `llms.txt` 生成 | 一个数据源，两种输出；机器可读内容不会与页面内容不一致 |
+| D-012 | 2026-10 | Now 与 Open problems 先以 `unlisted` 草稿上线 | 内容来自简历和已发表笔记，但需作者确认后才进入导航和 sitemap |
 
 ---
 

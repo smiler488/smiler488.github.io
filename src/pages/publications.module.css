@@ -1,0 +1,123 @@
+.page {
+  padding: 0 1rem clamp(4rem, 8vw, 6rem);
+}
+
+.shell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.year {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.yearTitle {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.list {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 780px;
+}
+
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+.itemTitle {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.itemTitle a {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+}
+
+.itemTitle a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.authors {
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.authors strong {
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
+}
+
+.description {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.projectLink {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-900);
+  border-radius: var(--ds-radius-pill);
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.projectLink:hover {
+  border-color: var(--ifm-color-emphasis-800);
+  background: var(--ifm-color-emphasis-800);
+  color: var(--ifm-color-emphasis-0);
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  .year {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}

@@ -7,36 +7,24 @@
     "message": "邓良超 · 个人主页",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Tutorial": {
-    "message": "教程",
-    "description": "Navbar item with label Tutorial"
-  },
   "item.label.Research": {
     "message": "研究",
-    "description": "Navbar item with label Blog"
-  },
-  "item.label.CV": {
-    "message": "简历",
-    "description": "Navbar item with label CV"
-  },
-  "item.label.Resource": {
-    "message": "资源",
-    "description": "Navbar item with label Resource"
-  },
-  "item.label.Navigator": {
-    "message": "网址导航",
-    "description": "Navbar item with label Navigator"
-  },
-  "item.label.App": {
-    "message": "应用",
-    "description": "Navbar item with label App"
+    "description": "Navbar item with label Research"
   },
   "item.label.GitHub": {
     "message": "GitHub",
     "description": "Navbar item with label GitHub"
   },
-  "item.label.mPicks": {
-    "message": "好物推荐",
-    "description": "Navbar item with label mPicks"
+  "item.label.Lab": {
+    "message": "实验室",
+    "description": "Navbar item with label Lab"
+  },
+  "item.label.Notes": {
+    "message": "笔记",
+    "description": "Navbar item with label Notes"
+  },
+  "item.label.About": {
+    "message": "关于",
+    "description": "Navbar item with label About"
   }
 }

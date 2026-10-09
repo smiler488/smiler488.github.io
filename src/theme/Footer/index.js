@@ -5,16 +5,23 @@ import Heading from "@theme/Heading";
 import styles from "./styles.module.css";
 
 const NAV_LINKS = [
-  { to: "/", en: "Home", zh: "首页" },
-  { to: "/blog", en: "Research notes", zh: "研究笔记" },
+  { to: "/research", en: "Research", zh: "研究" },
+  { to: "/publications", en: "Publications", zh: "论文" },
   { to: "/app", en: "App Lab", zh: "小程序实验室" },
-  { to: "/resources", en: "Learning resources", zh: "学习资源" },
   {
     to: "/docs/category/tutorial---apps",
     en: "App tutorials",
     zh: "小程序教程",
   },
+  { to: "/blog", en: "Research notes", zh: "研究笔记" },
   { to: "/cv", en: "Curriculum vitae", zh: "个人简历" },
+];
+
+// Utility pages kept out of the primary navigation (DESIGN_SPEC §4.1).
+const TOOLBOX_LINKS = [
+  { to: "/resources", en: "Learning resources", zh: "学习资源" },
+  { to: "/navigator", en: "Navigator", zh: "网址导航" },
+  { to: "/mpicks", en: "mPicks", zh: "好物推荐" },
 ];
 
 const CONTACT_LINKS = [
@@ -115,6 +122,7 @@ const COPY = {
       "Postdoctoral research across plant phenotyping, computer vision, remote sensing, and process-based crop modeling.",
     profile: "View research profile",
     navigation: "Explore",
+    toolbox: "Toolbox",
     navigationLabel: "Footer navigation",
     footerLabel: "Liangchao Deng site footer",
     contact: "Contact",
@@ -144,6 +152,7 @@ const COPY = {
       "围绕作物表型、计算机视觉、遥感与过程驱动作物模型开展博士后研究。",
     profile: "查看研究履历",
     navigation: "站内导航",
+    toolbox: "工具箱",
     navigationLabel: "页脚导航",
     footerLabel: "邓良超个人网站页脚",
     contact: "联系",
@@ -409,6 +418,16 @@ export default function SiteFooter() {
             </Heading>
             <ul className={styles.linkList}>
               {NAV_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to}>{link[languageKey]}</Link>
+                </li>
+              ))}
+            </ul>
+            <Heading as="h3" className={`${styles.columnTitle} ${styles.subColumnTitle}`}>
+              {copy.toolbox}
+            </Heading>
+            <ul className={styles.linkList}>
+              {TOOLBOX_LINKS.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to}>{link[languageKey]}</Link>
                 </li>

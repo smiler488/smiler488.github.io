@@ -4,6 +4,7 @@ title: "UAV 3D Crop Phenotyping: From CCO Acquisition to Validated Traits"
 description: "A field-to-analysis workflow for Cross-Circular Oblique UAV acquisition, SfM reconstruction, spatial referencing, point-cloud phenotyping, and honest model validation."
 authors: [liangchao]
 tags: [uav, remote-sensing, three-dimensional-reconstruction, plant-phenotyping]
+layers: [DIG]
 category: Plant phenotyping
 article_type: Workflow
 ---

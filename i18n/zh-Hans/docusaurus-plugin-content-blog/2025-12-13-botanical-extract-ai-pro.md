@@ -5,6 +5,7 @@ authors: [liangchao]
 category: 人工智能与机器学习
 article_type: 工作流
 tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
+layers: [DIG]
 image: /img/botanical-extract-ai-pro.png
 description: 一套实验性的网页与批处理工作流，用多模态图像模型把植株置于白色背景上，并说明其科学和隐私局限。
 ---

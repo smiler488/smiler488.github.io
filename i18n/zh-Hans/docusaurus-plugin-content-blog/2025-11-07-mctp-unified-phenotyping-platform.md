@@ -5,6 +5,7 @@ authors: [liangchao]
 category: 植物表型
 article_type: 研究项目
 tags: [plant-phenotyping, image-analysis, data-analysis, remote-sensing]
+layers: [DIG]
 image: /img/mctp.png
 description: 一个用于高光谱、LiDAR、RGB 和热红外作物表型工作流的桌面工作台，在共享 UI 与跨模态融合之间有清晰边界。
 ---

@@ -5,6 +5,7 @@ authors: [liangchao]
 category: Plant phenotyping
 article_type: Research project
 tags: [plant-phenotyping, remote-sensing, machine-learning, crop-modeling]
+layers: [UND]
 image: /img/brdf_cover.jpg
 description: A peer-reviewed framework combining directional spectroscopy, BRDF fitting, phenotypic traits, ensemble learning, and canopy ray tracing in four species.
 ---

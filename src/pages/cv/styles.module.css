@@ -1367,6 +1367,10 @@
   margin: 12mm;
 }
 
+.toolboxWrap {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+
 /* stylelint-disable color-no-hex -- print output uses absolute ink colours */
 @media print {
   :global(.navbar),

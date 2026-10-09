@@ -5,6 +5,7 @@ authors: [liangchao]
 category: Plant phenotyping
 article_type: Research project
 tags: [plant-phenotyping, artificial-intelligence, data-analysis]
+layers: [DIG]
 image: /img/phenohub.png
 description: A January 2026 snapshot of a WeChat Mini Program combining field utilities, weather queries, image tools, and experimental AI assistants.
 ---

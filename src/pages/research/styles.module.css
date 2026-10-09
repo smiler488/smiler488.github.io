@@ -1,0 +1,275 @@
+.page {
+  padding: 0 1rem clamp(4rem, 8vw, 6rem);
+}
+
+.shell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.filterBar {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 0.5rem);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.5rem 0 0;
+  padding: 0.5rem 0;
+  background: var(--ds-bg);
+}
+
+.section {
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+/* ---------- Layer overview ---------- */
+.layerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.layerCard {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  min-height: 220px;
+  padding: 1.25rem;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--ds-dur-fast) ease,
+    background var(--ds-dur-fast) ease, opacity var(--ds-dur-fast) ease;
+}
+
+.layerCard:hover {
+  border-color: var(--ifm-color-emphasis-300);
+  background: var(--ds-surface);
+}
+
+.layerCard[data-active] {
+  border-color: var(--ifm-color-emphasis-900);
+}
+
+.layerCard[data-dim] {
+  opacity: 0.55;
+}
+
+.layerCard:focus-visible {
+  outline: 2px solid var(--ifm-color-emphasis-900);
+  outline-offset: 3px;
+}
+
+.layerIndex {
+  color: var(--ds-accent);
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.layerCard strong {
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.layerSummary {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.layerCounts {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Projects ---------- */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.75rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem);
+}
+
+.projectCard {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.projectCard:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.projectCover {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-surface);
+}
+
+.projectCover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.projectMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.35rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+}
+
+.projectTitle {
+  margin: 0;
+  color: var(--ifm-color-emphasis-900);
+  font-size: clamp(1.15rem, 1.8vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.projectFinding {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .projectCard:hover .projectCover img {
+    transform: scale(1.03);
+  }
+
+  .projectCard:hover .projectTitle {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+}
+
+/* ---------- Notes ---------- */
+.noteList {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.noteList li {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem 0;
+  border-top: 1px solid var(--ds-line);
+}
+
+.noteList li:last-child {
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.noteList time {
+  padding-top: 0.1rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.noteList a {
+  color: var(--ifm-color-emphasis-900);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.noteList a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.noteList p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0.3rem 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* ---------- Tools + footers ---------- */
+.toolRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.moreRow {
+  margin-top: 1.25rem;
+}
+
+.moreLink {
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-emphasis-300);
+  text-underline-offset: 3px;
+}
+
+.moreLink:hover {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration-color: currentColor;
+}
+
+.empty {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+}
+
+@media (max-width: 996px) {
+  .layerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projectGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .layerGrid,
+  .projectGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .layerCard {
+    min-height: 0;
+  }
+
+  .noteList li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem;
+  }
+}

@@ -6,6 +6,7 @@ authors: [liangchao]
 category: Plant phenotyping
 article_type: Technical guide
 tags: [uav, remote-sensing, plant-phenotyping, data-analysis]
+layers: [DIG]
 image: /img/blog-default.jpg
 date: 2023-04-22
 ---

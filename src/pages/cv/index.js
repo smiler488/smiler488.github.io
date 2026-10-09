@@ -6,6 +6,7 @@ import Layout from "@theme/Layout";
 import AltmetricBadge from "@site/src/components/AltmetricBadge";
 import { cvContent, cvIdentity } from "../../data/cvData";
 import styles from "./styles.module.css";
+import { PersonJsonLd, ToolboxLinks } from "@site/src/components/ds";
 
 /* ── SVG icon library for card mark badges ── */
 const ICONS = {
@@ -354,6 +355,7 @@ export default function CurriculumVitaePage() {
 
   return (
     <Layout title={copy.meta.title} description={copy.meta.description}>
+      <PersonJsonLd />
       <main className={styles.page}>
         <div className={styles.ambientOne} aria-hidden="true" />
         <div className={styles.ambientTwo} aria-hidden="true" />
@@ -649,6 +651,10 @@ export default function CurriculumVitaePage() {
               ))}
             </div>
           </section>
+
+          <div className={styles.toolboxWrap}>
+            <ToolboxLinks />
+          </div>
 
           <footer className={styles.cvFooter}>
             <span>{copy.footer.updated}</span>

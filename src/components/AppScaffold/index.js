@@ -4,7 +4,9 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import { getAppById, localizeApp } from "../../data/appManifest";
+import { JsonLd } from "../ds";
 import styles from "./styles.module.css";
 
 const FALLBACK = {
@@ -59,14 +61,31 @@ export default function AppScaffold({
   // Derive the id from the stable app id — a localized title would collapse
   // into a string of dashes once it is no longer Latin script.
   const titleId = `app-title-${appId || "tool"}`;
+  const appUrl = useBaseUrl(app?.route ?? "/app", { absolute: true });
 
   return (
     <Layout title={title} description={description}>
+      {app && (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: title,
+            description,
+            url: appUrl,
+            applicationCategory: "UtilitiesApplication",
+            applicationSubCategory: eyebrow,
+            operatingSystem: "Web browser",
+            isAccessibleForFree: true,
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            author: { "@type": "Person", name: "Liangchao Deng" },
+          }}
+        />
+      )}
       <main className={styles.page} data-tone={tone} aria-labelledby={titleId}>
         <div className={styles.container}>
           <nav className={styles.contextBar} aria-label={t.nav}>
             <Link className={styles.backLink} to="/app">
-              <span aria-hidden="true">←</span>
               <span>{t.back}</span>
             </Link>
             <span className={styles.contextMeta}>

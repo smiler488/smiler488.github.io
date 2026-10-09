@@ -1,3 +1,20 @@
+import { PUBLICATIONS, PUBLICATION_KIND, doiUrl } from "./publications";
+
+// CV output cards are derived from the single publications source.
+function cvOutputs(locale) {
+  return PUBLICATIONS.map((pub) => ({
+    mark: PUBLICATION_KIND[pub.type].mark,
+    kind: PUBLICATION_KIND[pub.type][locale],
+    year: String(pub.year),
+    title: pub.title,
+    venue: pub.venue,
+    authors: pub.authors.join("; "),
+    doi: pub.doi,
+    url: doiUrl(pub.doi),
+    ...(pub.description ? { description: pub.description[locale] } : {}),
+  }));
+}
+
 export const cvIdentity = {
   academicEmail: "googalphdlc@gmail.com",
   businessEmail: "dengliangchao@azureaxion.com",
@@ -298,32 +315,7 @@ export const cvContent = {
       title: "Publications & software",
       description:
         "Peer-reviewed research and reusable software supporting plant phenotyping workflows.",
-      items: [
-        {
-          mark: "PP",
-          kind: "Peer-reviewed article",
-          year: "2025",
-          title:
-            "Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework",
-          venue: "Plant Phenomics",
-          authors:
-            "Deng, L.; Yu, L. X.; Mao, L.; Wang, Y.; Guo, X.; Wang, M.; Zhang, Y.; Song, Q.; Zhu, X.-G.",
-          doi: "10.1016/j.plaphe.2025.100135",
-          url: "https://doi.org/10.1016/j.plaphe.2025.100135",
-        },
-        {
-          mark: "SW",
-          kind: "Research software",
-          year: "2025",
-          title: "Digital Plant Phenotyping Platform (v25.0)",
-          venue: "Zenodo",
-          authors: "Deng, L.",
-          doi: "10.5281/zenodo.17544584",
-          url: "https://doi.org/10.5281/zenodo.17544584",
-          description:
-            "An integrated platform for plant phenotyping, data processing, and analysis. Core modules have been transferred through Shufeng Bio for applied phenotyping and intelligent-agriculture services.",
-        },
-      ],
+      items: cvOutputs("en"),
     },
     footer: {
       updated: "Last updated · July 2026",
@@ -588,32 +580,7 @@ export const cvContent = {
       eyebrow: "研究成果",
       title: "论文与软件",
       description: "服务植物表型工作流的同行评议研究与可复用科研软件。",
-      items: [
-        {
-          mark: "PP",
-          kind: "同行评议论文",
-          year: "2025",
-          title:
-            "Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework",
-          venue: "Plant Phenomics",
-          authors:
-            "Deng, L.; Yu, L. X.; Mao, L.; Wang, Y.; Guo, X.; Wang, M.; Zhang, Y.; Song, Q.; Zhu, X.-G.",
-          doi: "10.1016/j.plaphe.2025.100135",
-          url: "https://doi.org/10.1016/j.plaphe.2025.100135",
-        },
-        {
-          mark: "SW",
-          kind: "科研软件",
-          year: "2025",
-          title: "Digital Plant Phenotyping Platform (v25.0)",
-          venue: "Zenodo",
-          authors: "Deng, L.",
-          doi: "10.5281/zenodo.17544584",
-          url: "https://doi.org/10.5281/zenodo.17544584",
-          description:
-            "集成植物表型分析、数据处理与分析的软件平台。核心模块已通过舒丰生物完成转让和商业化，用于植物表型与智慧农业服务。",
-        },
-      ],
+      items: cvOutputs("zh"),
     },
     footer: {
       updated: "最后更新 · 2026年7月",

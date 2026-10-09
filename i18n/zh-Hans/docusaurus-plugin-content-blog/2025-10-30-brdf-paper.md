@@ -5,6 +5,7 @@ authors: [liangchao]
 category: 植物表型
 article_type: 研究项目
 tags: [plant-phenotyping, remote-sensing, machine-learning, crop-modeling]
+layers: [UND]
 image: /img/brdf_cover.jpg
 description: 一个经过同行评审的框架，结合方向光谱测量、BRDF 拟合、表型性状、集成学习和冠层光线追踪，覆盖四个物种。
 ---

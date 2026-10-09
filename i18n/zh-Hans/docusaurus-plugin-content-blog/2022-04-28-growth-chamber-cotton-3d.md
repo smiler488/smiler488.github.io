@@ -12,6 +12,7 @@ tags:
     image-analysis,
     computer-vision,
   ]
+layers: [DIG]
 image: /img/blog-default.jpg
 ---
 

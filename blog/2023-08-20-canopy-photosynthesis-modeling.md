@@ -12,6 +12,7 @@ tags:
     three-dimensional-reconstruction,
     computer-vision,
   ]
+layers: [UND, PRE]
 image: /img/blog-default.jpg
 ---
 

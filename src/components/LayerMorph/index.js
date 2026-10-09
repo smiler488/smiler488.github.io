@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "@docusaurus/Link";
 import styles from "./styles.module.css";
 
 /**
@@ -312,7 +313,7 @@ function draw(ctx, size, geo, st, now) {
   ctx.fill();
 }
 
-export default function LayerMorph({ steps, label }) {
+export default function LayerMorph({ steps, label, evidenceHrefs, evidenceLabel }) {
   const wrapRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const [active, setActive] = React.useState(0);
@@ -491,6 +492,11 @@ export default function LayerMorph({ steps, label }) {
           </li>
         ))}
       </ol>
+      {evidenceHrefs?.[active] && (
+        <Link className={styles.evidenceLink} to={evidenceHrefs[active]}>
+          {evidenceLabel ? evidenceLabel(steps[active]) : steps[active]}
+        </Link>
+      )}
     </div>
   );
 }

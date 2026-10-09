@@ -4,6 +4,7 @@ title: "无人机三维作物表型：从 CCO 采集到经验证的性状"
 description: "一套从田间到分析的工作流：涵盖交叉环绕倾斜（CCO）无人机采集、SfM 重建、空间配准、点云表型和诚实的模型验证。"
 authors: [liangchao]
 tags: [uav, remote-sensing, three-dimensional-reconstruction, plant-phenotyping]
+layers: [DIG]
 category: 植物表型
 article_type: 工作流
 ---

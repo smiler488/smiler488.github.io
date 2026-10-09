@@ -1424,12 +1424,6 @@ html {
 }
 
 /* 6. Tables: horizontal hairlines only, no stripes or tinted header */
-:root {
-  --ifm-table-stripe-background: transparent;
-  --ifm-table-head-background: transparent;
-  --ifm-table-border-color: var(--ifm-color-emphasis-200);
-}
-
 .markdown table {
   border-collapse: collapse;
   margin: 1.5rem 0;

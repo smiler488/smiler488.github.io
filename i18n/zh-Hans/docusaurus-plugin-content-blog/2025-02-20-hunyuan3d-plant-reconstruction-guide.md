@@ -4,6 +4,7 @@ title: "面向植物图像的 Hunyuan3D-1：一份可复现的探索指南"
 description: "一套针对特定版本、注重证据的工作流：用 Hunyuan3D-1 生成探索性植株网格，并验证为何生成式三维输出不自动等同于表型测量。"
 authors: [liangchao]
 tags: [artificial-intelligence, computer-vision, three-dimensional-reconstruction, plant-phenotyping]
+layers: [DIG]
 image: /img/blog-default.jpg
 category: 成像与三维
 article_type: 技术指南
