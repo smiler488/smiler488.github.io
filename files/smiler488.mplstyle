@@ -1,0 +1,53 @@
+# smiler488 figure style for Matplotlib (design/DESIGN_SPEC.md §7.4)
+# Matches the website: Hanken Grotesk, ink text, hairline grid, open axes,
+# Okabe–Ito colour-blind-safe series colours, viridis for continuous data.
+#
+# Usage:
+#   import matplotlib.pyplot as plt
+#   plt.style.use("https://smiler488.github.io/files/smiler488.mplstyle")
+# Hanken Grotesk is free on Google Fonts; Matplotlib falls back to
+# Helvetica / Arial when it is not installed.
+
+font.family:        sans-serif
+font.sans-serif:    Hanken Grotesk, Helvetica, Arial, DejaVu Sans
+font.size:          9
+text.color:         0d0d0d
+
+figure.facecolor:   white
+figure.dpi:         150
+savefig.dpi:        300
+savefig.bbox:       tight
+savefig.facecolor:  white
+
+axes.facecolor:     white
+axes.edgecolor:     525252
+axes.linewidth:     0.8
+axes.labelcolor:    333333
+axes.labelsize:     9
+axes.titlesize:     10
+axes.titleweight:   semibold
+axes.titlelocation: left
+axes.spines.top:    False
+axes.spines.right:  False
+axes.grid:          True
+axes.axisbelow:     True
+axes.prop_cycle:    cycler('color', ['0072B2', 'E69F00', '009E73', 'D55E00', '56B4E9', 'CC79A7', 'F0E442'])
+
+grid.color:         e8e7e3
+grid.linewidth:     0.6
+
+xtick.color:        525252
+ytick.color:        525252
+xtick.labelsize:    8
+ytick.labelsize:    8
+xtick.major.width:  0.8
+ytick.major.width:  0.8
+xtick.direction:    out
+ytick.direction:    out
+
+lines.linewidth:    1.5
+lines.markersize:   4
+legend.frameon:     False
+legend.fontsize:    8
+
+image.cmap:         viridis
