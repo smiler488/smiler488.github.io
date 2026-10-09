@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Heading from '@theme/Heading';
-import CitationNotice from '../../../components/CitationNotice';
-import AppScaffold from '../../../components/AppScaffold';
-import './styles.css';
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import Heading from "@theme/Heading";
+import CitationNotice from "../../../components/CitationNotice";
+import AppScaffold from "../../../components/AppScaffold";
+import { recordExport } from "../../../lib/workbench/provenance";
+import "./styles.css";
 
 const MAX_CANVAS_SIZE = 1800;
 const MAX_BATCH_FILES = 6;
@@ -19,24 +20,24 @@ const defaultSettings = {
 };
 
 const statusToneClass = {
-  info: 'root-status--info',
-  success: 'root-status--success',
-  warning: 'root-status--warning',
-  danger: 'root-status--danger',
+  info: "root-status--info",
+  success: "root-status--success",
+  warning: "root-status--warning",
+  danger: "root-status--danger",
 };
 
 export default function RootProcessorApp() {
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [interactionMode, setInteractionMode] = useState('polygon');
-  const [brushMode, setBrushMode] = useState('draw');
+  const [interactionMode, setInteractionMode] = useState("polygon");
+  const [brushMode, setBrushMode] = useState("draw");
   const [brushSize, setBrushSize] = useState(14);
   const [settings, setSettings] = useState(defaultSettings);
   const [processing, setProcessing] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [status, setStatus] = useState({
-    text: 'Upload JPG/PNG scans of root systems to begin.',
-    tone: 'info',
+    text: "Upload JPG/PNG scans of root systems to begin.",
+    tone: "info",
   });
 
   const originalCanvasRef = useRef(null);
@@ -52,7 +53,10 @@ export default function RootProcessorApp() {
 
   const currentImage = images[activeIndex] || null;
 
-  const updateStatus = useCallback((text, tone = 'info') => setStatus({ text, tone }), []);
+  const updateStatus = useCallback(
+    (text, tone = "info") => setStatus({ text, tone }),
+    []
+  );
 
   const updateImageEntry = useCallback((id, updater) => {
     setImages((prev) =>
@@ -60,40 +64,53 @@ export default function RootProcessorApp() {
         if (img.id !== id) {
           return img;
         }
-        const updates = typeof updater === 'function' ? updater(img) : updater;
+        const updates = typeof updater === "function" ? updater(img) : updater;
         return { ...img, ...updates };
-      }),
+      })
     );
   }, []);
 
   const handleFileChange = async (event) => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
     const selectedFiles = Array.from(event.target.files || []);
     const availableSlots = Math.max(0, MAX_BATCH_FILES - images.length);
     const files = selectedFiles.slice(0, availableSlots);
     if (!files.length) {
-      if (selectedFiles.length) updateStatus(`A maximum of ${MAX_BATCH_FILES} images can be open at once.`, 'warning');
-      event.target.value = '';
+      if (selectedFiles.length)
+        updateStatus(
+          `A maximum of ${MAX_BATCH_FILES} images can be open at once.`,
+          "warning"
+        );
+      event.target.value = "";
       return;
     }
     const previousCount = images.length;
-    let totalPixels = images.reduce((sum, image) => sum + image.width * image.height, 0);
+    let totalPixels = images.reduce(
+      (sum, image) => sum + image.width * image.height,
+      0
+    );
     setLoadingFiles(true);
-    updateStatus(`Loading ${files.length} image(s)...`, 'info');
+    updateStatus(`Loading ${files.length} image(s)...`, "info");
     const newEntries = [];
 
     for (const file of files) {
       try {
-        if (!file.type.startsWith('image/')) throw new Error('Unsupported file type');
-        if (file.size > MAX_FILE_BYTES) throw new Error('File is larger than 24 MB');
+        if (!file.type.startsWith("image/"))
+          throw new Error("Unsupported file type");
+        if (file.size > MAX_FILE_BYTES)
+          throw new Error("File is larger than 24 MB");
         const { imageData, width, height } = await loadFileAsImageData(file);
         if (totalPixels + width * height > MAX_TOTAL_PIXELS) {
-          throw new Error('Combined image dimensions exceed the safe browser limit');
+          throw new Error(
+            "Combined image dimensions exceed the safe browser limit"
+          );
         }
         totalPixels += width * height;
-        const id = `${file.name}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        const id = `${file.name}-${Date.now()}-${Math.random()
+          .toString(16)
+          .slice(2)}`;
         imageDataRef.current[id] = imageData;
         previewDataRef.current[id] = cloneImageData(imageData);
         newEntries.push({
@@ -109,7 +126,12 @@ export default function RootProcessorApp() {
         });
       } catch (error) {
         console.error(error);
-        updateStatus(`Unable to add ${file.name}: ${error?.message || 'image decode failed'}`, 'warning');
+        updateStatus(
+          `Unable to add ${file.name}: ${
+            error?.message || "image decode failed"
+          }`,
+          "warning"
+        );
       }
     }
 
@@ -120,19 +142,28 @@ export default function RootProcessorApp() {
       } else {
         setActiveIndex(previousCount);
       }
-      updateStatus('Images loaded. Select ROI points on the right canvas.', 'success');
+      updateStatus(
+        "Images loaded. Select ROI points on the right canvas.",
+        "success"
+      );
     }
     if (selectedFiles.length > files.length) {
-      updateStatus(`Loaded the safe batch limit of ${MAX_BATCH_FILES} images.`, 'warning');
+      updateStatus(
+        `Loaded the safe batch limit of ${MAX_BATCH_FILES} images.`,
+        "warning"
+      );
     }
     setLoadingFiles(false);
-    event.target.value = '';
+    event.target.value = "";
   };
 
   const handleSelectImage = (index) => {
     setActiveIndex(index);
-    setInteractionMode('polygon');
-    updateStatus('Polygon mode active. Click along the root area to define ROI.', 'info');
+    setInteractionMode("polygon");
+    updateStatus(
+      "Polygon mode active. Click along the root area to define ROI.",
+      "info"
+    );
   };
 
   const handleSettingsChange = (key, value) => {
@@ -140,11 +171,14 @@ export default function RootProcessorApp() {
   };
 
   const handleCanvasClick = (event) => {
-    if (!currentImage || interactionMode !== 'polygon') {
+    if (!currentImage || interactionMode !== "polygon") {
       return;
     }
     if (processedDataRef.current[currentImage.id]) {
-      updateStatus('Processed result detected. Reset to original to redefine ROI.', 'warning');
+      updateStatus(
+        "Processed result detected. Reset to original to redefine ROI.",
+        "warning"
+      );
       return;
     }
     const canvas = workingCanvasRef.current;
@@ -156,11 +190,17 @@ export default function RootProcessorApp() {
       return;
     }
     if (currentImage.isPolygonClosed) {
-      updateStatus('Polygon already closed. Reset ROI to add more points.', 'warning');
+      updateStatus(
+        "Polygon already closed. Reset ROI to add more points.",
+        "warning"
+      );
       return;
     }
     if (currentImage.polygonPoints.length >= MAX_POINTS) {
-      updateStatus(`Point limit (${MAX_POINTS}) reached. Close or reset the polygon.`, 'warning');
+      updateStatus(
+        `Point limit (${MAX_POINTS}) reached. Close or reset the polygon.`,
+        "warning"
+      );
       return;
     }
     updateImageEntry(currentImage.id, (img) => ({
@@ -174,11 +214,11 @@ export default function RootProcessorApp() {
       return;
     }
     if (currentImage.polygonPoints.length < 3) {
-      updateStatus('Need at least 3 points to close the polygon.', 'warning');
+      updateStatus("Need at least 3 points to close the polygon.", "warning");
       return;
     }
     updateImageEntry(currentImage.id, { isPolygonClosed: true });
-    updateStatus('Polygon closed. You can still reset if needed.', 'success');
+    updateStatus("Polygon closed. You can still reset if needed.", "success");
   };
 
   const handleUndoPoint = () => {
@@ -195,8 +235,11 @@ export default function RootProcessorApp() {
     if (!currentImage) {
       return;
     }
-    updateImageEntry(currentImage.id, { polygonPoints: [], isPolygonClosed: false });
-    updateStatus('ROI polygon reset.', 'info');
+    updateImageEntry(currentImage.id, {
+      polygonPoints: [],
+      isPolygonClosed: false,
+    });
+    updateStatus("ROI polygon reset.", "info");
   };
 
   const handlePreviewBackground = async () => {
@@ -207,36 +250,53 @@ export default function RootProcessorApp() {
     if (!original) {
       return;
     }
-    updateStatus('Running fast background cleanup preview...', 'info');
+    updateStatus("Running fast background cleanup preview...", "info");
     await Promise.resolve();
-    const preview = removeBackground(original, settings.bgThreshold, settings.noiseKernel);
+    const preview = removeBackground(
+      original,
+      settings.bgThreshold,
+      settings.noiseKernel
+    );
     previewDataRef.current[currentImage.id] = preview;
     updateImageEntry(currentImage.id, { previewVersion: Date.now() });
-    updateStatus('Background preview updated.', 'success');
+    updateStatus("Background preview updated.", "success");
   };
 
   const handleProcessImage = async () => {
     if (!currentImage) {
-      updateStatus('Upload an image first.', 'warning');
+      updateStatus("Upload an image first.", "warning");
       return;
     }
     if (!currentImage.isPolygonClosed) {
-      updateStatus('Close the ROI polygon before processing.', 'warning');
+      updateStatus("Close the ROI polygon before processing.", "warning");
       return;
     }
     const original = imageDataRef.current[currentImage.id];
     if (!original) {
-      updateStatus('Original image data unavailable.', 'danger');
+      updateStatus("Original image data unavailable.", "danger");
       return;
     }
     setProcessing(true);
-    updateStatus('Processing ROI ... this may take a few seconds.', 'info');
+    updateStatus("Processing ROI ... this may take a few seconds.", "info");
     await Promise.resolve();
     try {
-      const polygonMask = createPolygonMask(original.width, original.height, currentImage.polygonPoints);
-      const backgroundClean = removeBackground(original, settings.bgThreshold, settings.noiseKernel);
+      const polygonMask = createPolygonMask(
+        original.width,
+        original.height,
+        currentImage.polygonPoints
+      );
+      const backgroundClean = removeBackground(
+        original,
+        settings.bgThreshold,
+        settings.noiseKernel
+      );
       previewDataRef.current[currentImage.id] = backgroundClean;
-      const processed = emphasizeRoots(original, polygonMask, settings.blurRadius, settings.roiThreshold);
+      const processed = emphasizeRoots(
+        original,
+        polygonMask,
+        settings.blurRadius,
+        settings.roiThreshold
+      );
       processedDataRef.current[currentImage.id] = processed;
       historyRef.current[currentImage.id] = [cloneImageData(processed)];
       updateImageEntry(currentImage.id, {
@@ -244,11 +304,17 @@ export default function RootProcessorApp() {
         previewVersion: Date.now(),
         historySize: 1,
       });
-      setInteractionMode('manual');
-      updateStatus('Processing complete. Switch to manual mode to clean up.', 'success');
+      setInteractionMode("manual");
+      updateStatus(
+        "Processing complete. Switch to manual mode to clean up.",
+        "success"
+      );
     } catch (error) {
       console.error(error);
-      updateStatus('Processing failed. Try lowering the blur radius or image size.', 'danger');
+      updateStatus(
+        "Processing failed. Try lowering the blur radius or image size.",
+        "danger"
+      );
     } finally {
       setProcessing(false);
     }
@@ -260,11 +326,22 @@ export default function RootProcessorApp() {
     }
     const processed = processedDataRef.current[currentImage.id];
     if (!processed) {
-      updateStatus('Run processing before downloading.', 'warning');
+      updateStatus("Run processing before downloading.", "warning");
       return;
     }
-    downloadImageData(processed, `${stripExtension(currentImage.name)}-processed.png`);
-    updateStatus('Download triggered.', 'success');
+    const filename = `${stripExtension(currentImage.name)}-processed.png`;
+    downloadImageData(processed, filename, (blob) =>
+      recordExport({
+        files: [{ name: filename, blob }],
+        inputs: [{ name: currentImage.name }],
+        parameters: {
+          settings,
+          width: processed.width,
+          height: processed.height,
+        },
+      })
+    );
+    updateStatus("Download triggered.", "success");
   };
 
   const handleResetProcessed = () => {
@@ -277,8 +354,8 @@ export default function RootProcessorApp() {
       processedVersion: Date.now(),
       historySize: 0,
     });
-    setInteractionMode('polygon');
-    updateStatus('Processed result cleared. You can redefine the ROI.', 'info');
+    setInteractionMode("polygon");
+    updateStatus("Processed result cleared. You can redefine the ROI.", "info");
   };
 
   const handleClearImages = () => {
@@ -288,8 +365,8 @@ export default function RootProcessorApp() {
     processedDataRef.current = {};
     previewDataRef.current = {};
     historyRef.current = {};
-    setInteractionMode('polygon');
-    updateStatus('Images and in-memory edit history cleared.', 'info');
+    setInteractionMode("polygon");
+    updateStatus("Images and in-memory edit history cleared.", "info");
   };
 
   const handleUndoBrush = () => {
@@ -298,7 +375,7 @@ export default function RootProcessorApp() {
     }
     const history = historyRef.current[currentImage.id];
     if (!history || history.length < 2) {
-      updateStatus('Nothing to undo.', 'warning');
+      updateStatus("Nothing to undo.", "warning");
       return;
     }
     history.pop();
@@ -319,7 +396,7 @@ export default function RootProcessorApp() {
     if (!canvas) {
       return;
     }
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
     processedDataRef.current[currentImage.id] = snapshot;
     const history = historyRef.current[currentImage.id] || [];
@@ -336,12 +413,12 @@ export default function RootProcessorApp() {
 
   const manualBrushHandler = useCallback(
     (event) => {
-      if (!currentImage || interactionMode !== 'manual') {
+      if (!currentImage || interactionMode !== "manual") {
         return;
       }
       const processed = processedDataRef.current[currentImage.id];
       if (!processed) {
-        updateStatus('Run auto-processing before manual editing.', 'warning');
+        updateStatus("Run auto-processing before manual editing.", "warning");
         isDrawingRef.current = false;
         return;
       }
@@ -349,10 +426,10 @@ export default function RootProcessorApp() {
       if (!canvas) {
         return;
       }
-      const ctx = canvas.getContext('2d');
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.strokeStyle = brushMode === 'draw' ? '#000000' : '#ffffff';
+      const ctx = canvas.getContext("2d");
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = brushMode === "draw" ? "#000000" : "#ffffff";
       ctx.lineWidth = brushSize;
 
       const point = getCanvasCoordinates(event, canvas);
@@ -376,11 +453,11 @@ export default function RootProcessorApp() {
         lastPointRef.current = point;
       }
     },
-    [currentImage, interactionMode, brushMode, brushSize, updateStatus],
+    [currentImage, interactionMode, brushMode, brushSize, updateStatus]
   );
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
     const canvas = workingCanvasRef.current;
@@ -389,13 +466,13 @@ export default function RootProcessorApp() {
     }
 
     const handlePointerDown = (event) => {
-      if (interactionMode === 'manual') {
+      if (interactionMode === "manual") {
         manualBrushHandler(event);
       }
     };
 
     const handlePointerMove = (event) => {
-      if (interactionMode === 'manual' && isDrawingRef.current) {
+      if (interactionMode === "manual" && isDrawingRef.current) {
         event.preventDefault();
         manualBrushHandler(event);
       }
@@ -409,16 +486,16 @@ export default function RootProcessorApp() {
       }
     };
 
-    canvas.addEventListener('pointerdown', handlePointerDown);
-    canvas.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', finishStroke);
-    canvas.addEventListener('pointerleave', finishStroke);
+    canvas.addEventListener("pointerdown", handlePointerDown);
+    canvas.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", finishStroke);
+    canvas.addEventListener("pointerleave", finishStroke);
 
     return () => {
-      canvas.removeEventListener('pointerdown', handlePointerDown);
-      canvas.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', finishStroke);
-      canvas.removeEventListener('pointerleave', finishStroke);
+      canvas.removeEventListener("pointerdown", handlePointerDown);
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", finishStroke);
+      canvas.removeEventListener("pointerleave", finishStroke);
     };
   }, [interactionMode, manualBrushHandler, commitManualStroke]);
 
@@ -440,18 +517,28 @@ export default function RootProcessorApp() {
       return;
     }
     const processed = processedDataRef.current[currentImage.id];
-    if (processed && interactionMode === 'manual') {
+    if (processed && interactionMode === "manual") {
       drawOnCanvas(workingCanvasRef.current, processed);
       return;
     }
     const preview = previewDataRef.current[currentImage.id];
     if (preview) {
-      drawOnCanvas(workingCanvasRef.current, preview, currentImage.polygonPoints, currentImage.isPolygonClosed);
+      drawOnCanvas(
+        workingCanvasRef.current,
+        preview,
+        currentImage.polygonPoints,
+        currentImage.isPolygonClosed
+      );
       return;
     }
     const original = imageDataRef.current[currentImage.id];
     if (original) {
-      drawOnCanvas(workingCanvasRef.current, original, currentImage.polygonPoints, currentImage.isPolygonClosed);
+      drawOnCanvas(
+        workingCanvasRef.current,
+        original,
+        currentImage.polygonPoints,
+        currentImage.isPolygonClosed
+      );
     }
   }, [
     currentImage,
@@ -469,9 +556,14 @@ export default function RootProcessorApp() {
           <div>
             <Heading as="h2">Processing workspace</Heading>
           </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {images.length > 0 && (
-              <button type="button" className="root-button ghost" onClick={handleClearImages} disabled={processing || loadingFiles}>
+              <button
+                type="button"
+                className="root-button ghost"
+                onClick={handleClearImages}
+                disabled={processing || loadingFiles}
+              >
                 Clear batch
               </button>
             )}
@@ -481,15 +573,20 @@ export default function RootProcessorApp() {
               onClick={() => fileInputRef.current?.click()}
               disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
             >
-              {loadingFiles ? 'Loading…' : 'Upload images'}
+              {loadingFiles ? "Loading…" : "Upload images"}
             </button>
           </div>
         </div>
-        <p style={{ margin: '12px 0 24px' }}>
-          Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser.
+        <p style={{ margin: "12px 0 24px" }}>
+          Combine automated background removal with ROI high-pass filtering and
+          manual cleanup directly in the browser.
         </p>
 
-        <div className={`root-status ${statusToneClass[status.tone] || ''}`} role={status.tone === 'danger' ? 'alert' : 'status'} aria-live="polite">
+        <div
+          className={`root-status ${statusToneClass[status.tone] || ""}`}
+          role={status.tone === "danger" ? "alert" : "status"}
+          aria-live="polite"
+        >
           {status.text}
         </div>
 
@@ -504,7 +601,10 @@ export default function RootProcessorApp() {
                 onChange={handleFileChange}
                 disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
               />
-              <p>Choose up to {MAX_BATCH_FILES} JPG/PNG files. Images larger than {MAX_CANVAS_SIZE}px on the longest edge are scaled.</p>
+              <p>
+                Choose up to {MAX_BATCH_FILES} JPG/PNG files. Images larger than{" "}
+                {MAX_CANVAS_SIZE}px on the longest edge are scaled.
+              </p>
             </div>
 
             <div className="root-filelist">
@@ -512,11 +612,15 @@ export default function RootProcessorApp() {
                 <Heading as="h3">Batch</Heading>
                 <span>{images.length} file(s)</span>
               </div>
-              {images.length === 0 && <p className="root-muted">No uploads yet.</p>}
+              {images.length === 0 && (
+                <p className="root-muted">No uploads yet.</p>
+              )}
               {images.map((img, index) => (
                 <button
                   key={img.id}
-                  className={`root-file ${index === activeIndex ? 'root-file--active' : ''}`}
+                  className={`root-file ${
+                    index === activeIndex ? "root-file--active" : ""
+                  }`}
                   onClick={() => handleSelectImage(index)}
                 >
                   <div>
@@ -526,7 +630,7 @@ export default function RootProcessorApp() {
                     </div>
                   </div>
                   <div className="root-file__status">
-                    {processedDataRef.current[img.id] ? 'Processed' : 'Pending'}
+                    {processedDataRef.current[img.id] ? "Processed" : "Pending"}
                   </div>
                 </button>
               ))}
@@ -541,7 +645,9 @@ export default function RootProcessorApp() {
                   min="5"
                   max="120"
                   value={settings.bgThreshold}
-                  onChange={(e) => handleSettingsChange('bgThreshold', Number(e.target.value))}
+                  onChange={(e) =>
+                    handleSettingsChange("bgThreshold", Number(e.target.value))
+                  }
                 />
               </label>
               <label>
@@ -552,7 +658,12 @@ export default function RootProcessorApp() {
                   max="9"
                   step="2"
                   value={settings.noiseKernel}
-                  onChange={(e) => handleSettingsChange('noiseKernel', Number(e.target.value) || 1)}
+                  onChange={(e) =>
+                    handleSettingsChange(
+                      "noiseKernel",
+                      Number(e.target.value) || 1
+                    )
+                  }
                 />
               </label>
               <label>
@@ -562,7 +673,9 @@ export default function RootProcessorApp() {
                   min="5"
                   max="50"
                   value={settings.blurRadius}
-                  onChange={(e) => handleSettingsChange('blurRadius', Number(e.target.value))}
+                  onChange={(e) =>
+                    handleSettingsChange("blurRadius", Number(e.target.value))
+                  }
                 />
               </label>
               <label>
@@ -572,10 +685,17 @@ export default function RootProcessorApp() {
                   min="10"
                   max="80"
                   value={settings.roiThreshold}
-                  onChange={(e) => handleSettingsChange('roiThreshold', Number(e.target.value))}
+                  onChange={(e) =>
+                    handleSettingsChange("roiThreshold", Number(e.target.value))
+                  }
                 />
               </label>
-              <button type="button" className="root-button ghost" onClick={handlePreviewBackground} disabled={!currentImage}>
+              <button
+                type="button"
+                className="root-button ghost"
+                onClick={handlePreviewBackground}
+                disabled={!currentImage}
+              >
                 Preview Background Cleanup
               </button>
             </div>
@@ -595,12 +715,18 @@ export default function RootProcessorApp() {
                 <div className="root-panel-heading">
                   <Heading as="h3">ROI / Processing Canvas</Heading>
                   <span className="root-muted">
-                    {interactionMode === 'polygon' ? 'Click to add polygon points' : 'Brush to refine'}
+                    {interactionMode === "polygon"
+                      ? "Click to add polygon points"
+                      : "Brush to refine"}
                   </span>
                 </div>
                 <canvas
                   ref={workingCanvasRef}
-                  className={`root-canvas ${interactionMode === 'manual' ? 'root-canvas--draw' : 'root-canvas--polygon'}`}
+                  className={`root-canvas ${
+                    interactionMode === "manual"
+                      ? "root-canvas--draw"
+                      : "root-canvas--polygon"
+                  }`}
                   onClick={handleCanvasClick}
                 />
               </div>
@@ -609,19 +735,41 @@ export default function RootProcessorApp() {
             <div className="root-controls">
               <div className="root-controls__group">
                 <Heading as="h4">ROI Polygon</Heading>
-                <p>Click on the right canvas to trace the region containing the root system.</p>
+                <p>
+                  Click on the right canvas to trace the region containing the
+                  root system.
+                </p>
                 <div className="root-chip-row">
-                  <span className="root-chip">Points: {currentImage?.polygonPoints.length || 0}</span>
-                  <span className="root-chip">{currentImage?.isPolygonClosed ? 'Closed' : 'Open'}</span>
+                  <span className="root-chip">
+                    Points: {currentImage?.polygonPoints.length || 0}
+                  </span>
+                  <span className="root-chip">
+                    {currentImage?.isPolygonClosed ? "Closed" : "Open"}
+                  </span>
                 </div>
                 <div className="root-button-row">
-                  <button type="button" className="root-button" onClick={handleClosePolygon} disabled={!currentImage}>
+                  <button
+                    type="button"
+                    className="root-button"
+                    onClick={handleClosePolygon}
+                    disabled={!currentImage}
+                  >
                     Close Polygon
                   </button>
-                  <button type="button" className="root-button ghost" onClick={handleUndoPoint} disabled={!currentImage}>
+                  <button
+                    type="button"
+                    className="root-button ghost"
+                    onClick={handleUndoPoint}
+                    disabled={!currentImage}
+                  >
                     Undo Point
                   </button>
-                  <button type="button" className="root-button ghost" onClick={handleResetPolygon} disabled={!currentImage}>
+                  <button
+                    type="button"
+                    className="root-button ghost"
+                    onClick={handleResetPolygon}
+                    disabled={!currentImage}
+                  >
                     Reset Polygon
                   </button>
                 </div>
@@ -630,8 +778,9 @@ export default function RootProcessorApp() {
               <div className="root-controls__group">
                 <Heading as="h4">Automation</Heading>
                 <p>
-                  Background removal (0_tranbg) and ROI enhancement (1_process) are combined. Use the sliders to tune the
-                  binary mask before running.
+                  Background removal (0_tranbg) and ROI enhancement (1_process)
+                  are combined. Use the sliders to tune the binary mask before
+                  running.
                 </p>
                 <button
                   type="button"
@@ -639,32 +788,42 @@ export default function RootProcessorApp() {
                   onClick={handleProcessImage}
                   disabled={processing || !currentImage}
                 >
-                  {processing ? 'Processing...' : 'Run ROI Processing'}
+                  {processing ? "Processing..." : "Run ROI Processing"}
                 </button>
               </div>
 
               <div className="root-controls__group">
                 <Heading as="h4">Manual Cleanup</Heading>
-                <p>After automation, switch to manual mode to adjust fine details with brush + undo.</p>
+                <p>
+                  After automation, switch to manual mode to adjust fine details
+                  with brush + undo.
+                </p>
                 <div className="root-button-row">
                   <button
                     type="button"
-                    className={`root-button ${interactionMode === 'polygon' ? 'primary' : 'ghost'}`}
-                    onClick={() => setInteractionMode('polygon')}
+                    className={`root-button ${
+                      interactionMode === "polygon" ? "primary" : "ghost"
+                    }`}
+                    onClick={() => setInteractionMode("polygon")}
                     disabled={!currentImage}
                   >
                     Polygon Mode
                   </button>
                   <button
                     type="button"
-                    className={`root-button ${interactionMode === 'manual' ? 'primary' : 'ghost'}`}
+                    className={`root-button ${
+                      interactionMode === "manual" ? "primary" : "ghost"
+                    }`}
                     onClick={() => {
                       if (!currentImage) return;
                       if (!processedDataRef.current[currentImage.id]) {
-                        updateStatus('Process the ROI before switching to manual mode.', 'warning');
+                        updateStatus(
+                          "Process the ROI before switching to manual mode.",
+                          "warning"
+                        );
                         return;
                       }
-                      setInteractionMode('manual');
+                      setInteractionMode("manual");
                     }}
                     disabled={!currentImage}
                   >
@@ -674,7 +833,10 @@ export default function RootProcessorApp() {
                 <div className="root-manual-controls">
                   <label>
                     Brush mode
-                    <select value={brushMode} onChange={(e) => setBrushMode(e.target.value)}>
+                    <select
+                      value={brushMode}
+                      onChange={(e) => setBrushMode(e.target.value)}
+                    >
                       <option value="draw">Draw (black)</option>
                       <option value="erase">Erase (white)</option>
                     </select>
@@ -693,7 +855,10 @@ export default function RootProcessorApp() {
                     type="button"
                     className="root-button ghost"
                     onClick={handleUndoBrush}
-                    disabled={!currentImage || !processedDataRef.current[currentImage?.id]}
+                    disabled={
+                      !currentImage ||
+                      !processedDataRef.current[currentImage?.id]
+                    }
                   >
                     Undo Brush Stroke
                   </button>
@@ -734,34 +899,34 @@ function paintPlaceholder(canvas) {
   if (!canvas) {
     return;
   }
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   canvas.width = 640;
   canvas.height = 360;
-  ctx.fillStyle = '#f5f5f7';
+  ctx.fillStyle = "#f5f5f7";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.setLineDash([6, 6]);
-  ctx.strokeStyle = '#d2d2d7';
+  ctx.strokeStyle = "#d2d2d7";
   ctx.strokeRect(16, 16, canvas.width - 32, canvas.height - 32);
   ctx.setLineDash([]);
-  ctx.fillStyle = '#a1a1a6';
-  ctx.font = '16px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Awaiting image...', canvas.width / 2, canvas.height / 2);
+  ctx.fillStyle = "#a1a1a6";
+  ctx.font = "16px Inter, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Awaiting image...", canvas.width / 2, canvas.height / 2);
 }
 
 function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
   if (!canvas || !imageData) {
     return;
   }
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   canvas.width = imageData.width;
   canvas.height = imageData.height;
   ctx.putImageData(imageData, 0, 0);
 
   if (polygonPoints.length) {
     ctx.save();
-    ctx.strokeStyle = '#2188ff';
-    ctx.fillStyle = 'rgba(33,136,255,0.12)';
+    ctx.strokeStyle = "#2188ff";
+    ctx.fillStyle = "rgba(33,136,255,0.12)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(polygonPoints[0].x, polygonPoints[0].y);
@@ -775,9 +940,9 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
     polygonPoints.forEach((pt) => {
       ctx.beginPath();
       ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = "#ffffff";
       ctx.fill();
-      ctx.strokeStyle = '#2188ff';
+      ctx.strokeStyle = "#2188ff";
       ctx.stroke();
     });
     ctx.restore();
@@ -787,14 +952,17 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
 async function loadFileAsImageData(file) {
   const resource = await createImageResource(file);
   try {
-    const scale = Math.min(1, MAX_CANVAS_SIZE / Math.max(resource.width, resource.height));
+    const scale = Math.min(
+      1,
+      MAX_CANVAS_SIZE / Math.max(resource.width, resource.height)
+    );
     const width = Math.max(1, Math.round(resource.width * scale));
     const height = Math.max(1, Math.round(resource.height * scale));
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Canvas is unavailable');
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Canvas is unavailable");
     ctx.drawImage(resource.element, 0, 0, width, height);
     const imageData = ctx.getImageData(0, 0, width, height);
     return { imageData, width, height };
@@ -805,7 +973,7 @@ async function loadFileAsImageData(file) {
 
 function createImageResource(file) {
   return new Promise((resolve, reject) => {
-    if ('createImageBitmap' in window) {
+    if ("createImageBitmap" in window) {
       createImageBitmap(file)
         .then((bitmap) => {
           resolve({
@@ -847,12 +1015,16 @@ function getCanvasCoordinates(event, canvas) {
 }
 
 function stripExtension(name) {
-  const index = name.lastIndexOf('.');
+  const index = name.lastIndexOf(".");
   return index > 0 ? name.slice(0, index) : name;
 }
 
 function cloneImageData(imageData) {
-  return new ImageData(new Uint8ClampedArray(imageData.data), imageData.width, imageData.height);
+  return new ImageData(
+    new Uint8ClampedArray(imageData.data),
+    imageData.width,
+    imageData.height
+  );
 }
 
 function removeBackground(imageData, threshold, kernelSize) {
@@ -862,7 +1034,8 @@ function removeBackground(imageData, threshold, kernelSize) {
   for (let i = 0; i < gray.length; i += 1) {
     binary[i] = gray[i] > threshold ? 255 : 0;
   }
-  const cleaned = kernelSize > 1 ? openBinaryMask(binary, width, height, kernelSize) : binary;
+  const cleaned =
+    kernelSize > 1 ? openBinaryMask(binary, width, height, kernelSize) : binary;
   const result = new ImageData(width, height);
   const out = result.data;
 
@@ -949,11 +1122,11 @@ function dilateMask(mask, width, height, kernelSize) {
 }
 
 function createPolygonMask(width, height, points) {
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#ffffff';
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#ffffff";
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);
   points.forEach((pt) => ctx.lineTo(pt.x, pt.y));
@@ -1006,25 +1179,25 @@ function blurImageData(imageData, blurRadius) {
     return cloneImageData(imageData);
   }
   const { width, height } = imageData;
-  const sourceCanvas = document.createElement('canvas');
+  const sourceCanvas = document.createElement("canvas");
   sourceCanvas.width = width;
   sourceCanvas.height = height;
-  sourceCanvas.getContext('2d').putImageData(imageData, 0, 0);
+  sourceCanvas.getContext("2d").putImageData(imageData, 0, 0);
 
-  const blurCanvas = document.createElement('canvas');
+  const blurCanvas = document.createElement("canvas");
   blurCanvas.width = width;
   blurCanvas.height = height;
-  const blurCtx = blurCanvas.getContext('2d');
+  const blurCtx = blurCanvas.getContext("2d");
   blurCtx.filter = `blur(${blurRadius}px)`;
   blurCtx.drawImage(sourceCanvas, 0, 0);
   return blurCtx.getImageData(0, 0, width, height);
 }
 
-function downloadImageData(imageData, filename) {
-  const canvas = document.createElement('canvas');
+function downloadImageData(imageData, filename, onBlob) {
+  const canvas = document.createElement("canvas");
   canvas.width = imageData.width;
   canvas.height = imageData.height;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.putImageData(imageData, 0, 0);
   if (canvas.toBlob) {
     canvas.toBlob((blob) => {
@@ -1032,16 +1205,17 @@ function downloadImageData(imageData, filename) {
         return;
       }
       const url = URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
+      const anchor = document.createElement("a");
       anchor.href = url;
       anchor.download = filename;
       anchor.click();
       URL.revokeObjectURL(url);
-    }, 'image/png');
+      onBlob?.(blob);
+    }, "image/png");
     return;
   }
-  const url = canvas.toDataURL('image/png');
-  const anchor = document.createElement('a');
+  const url = canvas.toDataURL("image/png");
+  const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
   anchor.click();

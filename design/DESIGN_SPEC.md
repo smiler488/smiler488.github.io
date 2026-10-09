@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.4 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.5 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -689,6 +689,13 @@ flowchart LR
   - `src/lib/provenance.js`，并接入所有支持导出的工具。
   - IndexedDB 本地工作区。
   - 按标准数据类型推荐和串联工具。
+- **状态：已完成（2026-10-09），成熟度待作者确认**
+  - Manifest v2：14 个工具都有 `layers`、`maturity`、`validatedAt`、`version`（2026.10.0）、`inputs`、`outputs`、`provenance`。成熟度为草稿：稳定（Weather、Calibration Targets）、实验性（Irrigation、Stereo、Journal Selector、Solver、Maze）、其余为测试中；`validatedAt` 全部为 `null`，界面显示“尚未记录验证日期”，不编造日期。
+  - 参数记录：`src/lib/workbench/provenance.js` 定义 `lab:export` 事件；React 工具调用 `recordExport()`，静态脚本直接派发事件。工具外壳（`src/components/Workbench`）计算 SHA-256 并提供“下载记录 / 复制 JSON”。已接入 10 个有文件导出的工具：Sensor、Land Surveyor（新增 GeoJSON / KML 导出）、Irrigation、Weather、CCO、Root、Stereo、Targets、AI Data Visualizer、Journal Selector。AI 工具只记录供应商与模型名，从不记录 API 密钥；Journal Selector 的摘要只记录校验值。Image Quantifier（外部托管）、Solver、Encrypted Note、Maze 不产生本站可见的文件，`provenance: false`。
+  - 本地工作区：`src/lib/workbench/workspace.js`（IndexedDB），工具外壳底部列出工作区内容，可移除或清空。
+  - 串联：Sensor →（GPS 点集）→ Land Surveyor →（田块边界，取顶点均值）→ Weather，以及 Land Surveyor → KML → CCO。已端到端验证：4 点测试田块面积 10,252 m²（手算约 102 m × 100 m），NASA POWER 返回 7 天真实数据，CCO 由该 KML 生成 1,962 个航点；各步参数记录齐全。
+  - 工具外壳的“下一步可以用”根据 `outputs` / `inputs` 自动推荐。
+  - 测试注意：内置浏览器面板隐藏时 `requestAnimationFrame` 不触发，react-helmet 不会在站内跳转后插入脚本；直接加载页面或在可见浏览器中一切正常。
 - **验收**：
   - 14 个工具都声明了成熟度与验证日期。
   - 所有导出操作都可以附带参数记录。
@@ -735,6 +742,7 @@ flowchart LR
 | D-011 | 2026-10 | 本地插件 `plugins/site-index` 同时提供博客索引（全局数据）与 `llms.txt` 生成 | 一个数据源，两种输出；机器可读内容不会与页面内容不一致 |
 | D-012 | 2026-10 | Now 与 Open problems 先以 `unlisted` 草稿上线 | 内容来自简历和已发表笔记，但需作者确认后才进入导航和 sitemap |
 | D-013 | 2026-10 | 交互图优先用服务端可渲染的 SVG；数据配色用共享常量而非 ECharts 主题注册 | SSR 输出即 poster，无需额外图片；共享常量对 ECharts、SVG、Canvas 都适用 |
+| D-014 | 2026-10 | 参数记录用“导出事件 + 外壳面板”，不自动触发第二次下载 | 浏览器会拦截或提示多文件下载；事件机制让 React 工具与静态脚本共用一套接口 |
 
 ---
 

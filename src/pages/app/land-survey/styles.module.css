@@ -87,3 +87,30 @@
     padding: 15px !important;
   }
 }
+
+/* Workbench hand-off (DESIGN_SPEC §10.3) */
+.handoff {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.importRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.importRow label {
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
+}
+
+.importRow select {
+  min-width: 0;
+  max-width: 100%;
+}

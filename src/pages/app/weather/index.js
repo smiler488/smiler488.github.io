@@ -43,7 +43,10 @@ const WeatherPage = () => {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then((result) => {
-          if (result.state === 'denied') {
+          // A location handed over by link (e.g. from Land Surveyor) makes the
+          // device-location warning irrelevant, so keep the script's message.
+          const linked = new URLSearchParams(window.location.search).has('lat');
+          if (result.state === 'denied' && !linked) {
             setStatus(
               'Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.'
             );

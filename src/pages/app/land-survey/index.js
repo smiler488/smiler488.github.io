@@ -1,8 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Heading from '@theme/Heading';
-import CitationNotice from '../../../components/CitationNotice';
-import AppScaffold from '../../../components/AppScaffold';
-import pageStyles from './styles.module.css';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import Heading from "@theme/Heading";
+import CitationNotice from "../../../components/CitationNotice";
+import AppScaffold from "../../../components/AppScaffold";
+import Link from "@docusaurus/Link";
+import { useLocation } from "@docusaurus/router";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { recordExport } from "../../../lib/workbench/provenance";
+import {
+  getArtifact,
+  listArtifacts,
+  saveArtifact,
+} from "../../../lib/workbench/workspace";
+import { polygonCentroid } from "../../../lib/workbench/types";
+import pageStyles from "./styles.module.css";
 
 const EARTH_RADIUS = 6378137; // meters
 
@@ -35,176 +45,232 @@ function calculatePolygonArea(points) {
   return Math.abs(area) / 2;
 }
 
-  const styles = {
-    page: {
-      padding: '3rem 1rem',
-    background: 'linear-gradient(180deg, var(--ifm-background-surface-color) 0%, var(--ifm-background-color) 100%)',
-      minHeight: '100vh',
-    },
-    card: {
-    backgroundColor: 'var(--ifm-background-color)',
-      borderRadius: '20px',
-      padding: '2.5rem',
-      maxWidth: '1100px',
-      margin: '0 auto',
-    boxShadow: 'var(--ifm-global-shadow-md)',
-    border: '1px solid var(--ifm-border-color)',
-    },
-    sectionTitle: {
-      margin: 0,
-      fontSize: '2rem',
-      fontWeight: 700,
-    color: 'var(--ifm-color-emphasis-900)',
-    },
-    sectionLead: {
-      marginTop: '0.75rem',
-      marginBottom: '1.5rem',
-    color: 'var(--ifm-color-emphasis-700)',
-      lineHeight: 1.7,
-    },
+const styles = {
+  page: {
+    padding: "3rem 1rem",
+    background:
+      "linear-gradient(180deg, var(--ifm-background-surface-color) 0%, var(--ifm-background-color) 100%)",
+    minHeight: "100vh",
+  },
+  card: {
+    backgroundColor: "var(--ifm-background-color)",
+    borderRadius: "20px",
+    padding: "2.5rem",
+    maxWidth: "1100px",
+    margin: "0 auto",
+    boxShadow: "var(--ifm-global-shadow-md)",
+    border: "1px solid var(--ifm-border-color)",
+  },
+  sectionTitle: {
+    margin: 0,
+    fontSize: "2rem",
+    fontWeight: 700,
+    color: "var(--ifm-color-emphasis-900)",
+  },
+  sectionLead: {
+    marginTop: "0.75rem",
+    marginBottom: "1.5rem",
+    color: "var(--ifm-color-emphasis-700)",
+    lineHeight: 1.7,
+  },
   form: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '1rem',
-    alignItems: 'end',
-    marginBottom: '1.5rem',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+    gap: "1rem",
+    alignItems: "end",
+    marginBottom: "1.5rem",
   },
   formGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.35rem',
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.35rem",
   },
-    label: {
-      fontWeight: 600,
-      fontSize: '0.95rem',
-    color: 'var(--ifm-color-emphasis-800)',
-    },
-    input: {
-      borderRadius: '10px',
-    border: '1px solid var(--ifm-border-color)',
-      padding: '0.65rem 0.9rem',
-      fontSize: '0.95rem',
-    },
+  label: {
+    fontWeight: 600,
+    fontSize: "0.95rem",
+    color: "var(--ifm-color-emphasis-800)",
+  },
+  input: {
+    borderRadius: "10px",
+    border: "1px solid var(--ifm-border-color)",
+    padding: "0.65rem 0.9rem",
+    fontSize: "0.95rem",
+  },
   grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: '1.5rem',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "1.5rem",
   },
-    panel: {
-    border: '1px solid var(--ifm-border-color)',
-      borderRadius: '16px',
-      padding: '1.5rem',
-    background: 'var(--ifm-background-surface-color)',
-    },
-    panelHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '1rem',
-    color: 'var(--ifm-color-emphasis-700)',
-      fontSize: '0.92rem',
-    },
+  panel: {
+    border: "1px solid var(--ifm-border-color)",
+    borderRadius: "16px",
+    padding: "1.5rem",
+    background: "var(--ifm-background-surface-color)",
+  },
+  panelHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "1rem",
+    color: "var(--ifm-color-emphasis-700)",
+    fontSize: "0.92rem",
+  },
   previewCanvas: {
-    borderRadius: '14px',
-    border: '1px dashed var(--app-accent-muted)',
-    background: 'var(--app-previewer-bg)',
-    padding: '0.5rem',
-    minHeight: '280px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: "14px",
+    border: "1px dashed var(--app-accent-muted)",
+    background: "var(--app-previewer-bg)",
+    padding: "0.5rem",
+    minHeight: "280px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   list: {
-    listStyle: 'none',
+    listStyle: "none",
     margin: 0,
     padding: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
   },
   listItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    gap: '1rem',
-    border: '1px solid rgba(148, 163, 184, 0.6)',
-    borderRadius: '12px',
-    padding: '1rem',
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "1rem",
+    border: "1px solid rgba(148, 163, 184, 0.6)",
+    borderRadius: "12px",
+    padding: "1rem",
   },
-    areaCard: {
-      marginTop: '1rem',
-      padding: '1rem',
-      borderRadius: '12px',
-    background: 'var(--ifm-background-surface-color)',
-    border: '1px solid var(--ifm-border-color)',
-    color: 'var(--ifm-color-emphasis-800)',
-    },
-    feedback: {
-      marginBottom: '1.5rem',
-      padding: '0.85rem 1rem',
-      borderRadius: '10px',
-      fontWeight: 600,
-    },
-    feedbackOk: {
-    background: 'var(--ifm-background-surface-color)',
-    border: '1px solid var(--ifm-border-color)',
-    color: 'var(--ifm-color-emphasis-800)',
-    },
-    feedbackError: {
-    background: 'var(--ifm-background-surface-color)',
-    border: '1px solid var(--ifm-border-color)',
-    color: 'var(--ifm-color-emphasis-800)',
-    },
-  };
+  areaCard: {
+    marginTop: "1rem",
+    padding: "1rem",
+    borderRadius: "12px",
+    background: "var(--ifm-background-surface-color)",
+    border: "1px solid var(--ifm-border-color)",
+    color: "var(--ifm-color-emphasis-800)",
+  },
+  feedback: {
+    marginBottom: "1.5rem",
+    padding: "0.85rem 1rem",
+    borderRadius: "10px",
+    fontWeight: 600,
+  },
+  feedbackOk: {
+    background: "var(--ifm-background-surface-color)",
+    border: "1px solid var(--ifm-border-color)",
+    color: "var(--ifm-color-emphasis-800)",
+  },
+  feedbackError: {
+    background: "var(--ifm-background-surface-color)",
+    border: "1px solid var(--ifm-border-color)",
+    color: "var(--ifm-color-emphasis-800)",
+  },
+};
+
+const AREA_METHOD =
+  "Shoelace formula on a local equirectangular projection centred on the vertex mean (R = 6378137 m)";
+
+const WB_COPY = {
+  en: {
+    importTitle: "Import points from the workspace",
+    importButton: "Import",
+    imported: (n, label) => `Loaded ${n} points from the workspace (${label}).`,
+    save: "Save boundary to workspace",
+    saved: "Boundary saved to the local workspace.",
+    geojson: "Download GeoJSON",
+    kml: "Download KML",
+    weather: "Weather for this field",
+    failed: "Could not read the local workspace.",
+  },
+  zh: {
+    importTitle: "从工作区导入点位",
+    importButton: "导入",
+    imported: (n, label) => `已从工作区载入 ${n} 个点（${label}）。`,
+    save: "保存边界到工作区",
+    saved: "边界已保存到本地工作区。",
+    geojson: "下载 GeoJSON",
+    kml: "下载 KML",
+    weather: "查看该田块的气象数据",
+    failed: "无法读取本地工作区。",
+  },
+};
+
+function downloadText(filename, text, type) {
+  const blob = new Blob([text], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  return blob;
+}
 
 function LandSurveyApp() {
   const [points, setPoints] = useState([]);
-  const [latInput, setLatInput] = useState('');
-  const [lngInput, setLngInput] = useState('');
-  const [status, setStatus] = useState('');
-  const [error, setError] = useState('');
+  const [pointSets, setPointSets] = useState([]);
+  const [selectedSet, setSelectedSet] = useState("");
+  const location = useLocation();
+  const { i18n } = useDocusaurusContext();
+  const wb = i18n.currentLocale === "zh-Hans" ? WB_COPY.zh : WB_COPY.en;
+  const [latInput, setLatInput] = useState("");
+  const [lngInput, setLngInput] = useState("");
+  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
   const [isClosed, setIsClosed] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(false);
 
-  const canUseGeolocation = typeof window !== 'undefined' && 'geolocation' in navigator;
+  const canUseGeolocation =
+    typeof window !== "undefined" && "geolocation" in navigator;
 
   // Helper for user-friendly geolocation error messages
   const handleGeoError = (err) => {
     if (!err) {
-      setError('Unable to access location. Your browser or device may have blocked geolocation for this site.');
+      setError(
+        "Unable to access location. Your browser or device may have blocked geolocation for this site."
+      );
       return;
     }
-    let msg = 'Unable to access location. ';
-    if (typeof err.code === 'number') {
+    let msg = "Unable to access location. ";
+    if (typeof err.code === "number") {
       // 1: PERMISSION_DENIED, 2: POSITION_UNAVAILABLE, 3: TIMEOUT
       if (err.code === 1) {
-        msg += 'Permission was denied. Please allow location access for this site in your browser settings and try again.';
+        msg +=
+          "Permission was denied. Please allow location access for this site in your browser settings and try again.";
       } else if (err.code === 2) {
-        msg += 'Position is unavailable. Please check GPS or network connectivity.';
+        msg +=
+          "Position is unavailable. Please check GPS or network connectivity.";
       } else if (err.code === 3) {
-        msg += 'The location request timed out. Please try again.';
+        msg += "The location request timed out. Please try again.";
       } else {
-        msg += 'Your browser or device may have blocked geolocation.';
+        msg += "Your browser or device may have blocked geolocation.";
       }
     } else if (err.message) {
       msg += err.message;
     } else {
-      msg += 'Your browser or device may have blocked geolocation.';
+      msg += "Your browser or device may have blocked geolocation.";
     }
     setError(msg);
   };
 
   useEffect(() => {
     if (!canUseGeolocation) return;
-    if (typeof navigator === 'undefined' || typeof navigator.permissions === 'undefined') return;
+    if (
+      typeof navigator === "undefined" ||
+      typeof navigator.permissions === "undefined"
+    )
+      return;
     let cancelled = false;
 
     try {
       navigator.permissions
-        .query({ name: 'geolocation' })
+        .query({ name: "geolocation" })
         .then((result) => {
-          if (!cancelled && result.state === 'denied') {
+          if (!cancelled && result.state === "denied") {
             setError(
-              'Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.'
+              "Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again."
             );
           }
         })
@@ -219,7 +285,7 @@ function LandSurveyApp() {
     };
   }, [canUseGeolocation]);
 
-  const addPoint = useCallback((lat, lng, source = 'Manual entry') => {
+  const addPoint = useCallback((lat, lng, source = "Manual entry") => {
     setPoints((prev) => [
       ...prev,
       {
@@ -229,23 +295,65 @@ function LandSurveyApp() {
         source,
       },
     ]);
-    setLatInput('');
-    setLngInput('');
-    setError('');
+    setLatInput("");
+    setLngInput("");
+    setError("");
     setStatus(`Added ${source} point`);
     setIsClosed(false);
   }, []);
+
+  const loadPointSet = useCallback(
+    (artifact) => {
+      if (!artifact || artifact.type !== "geo.point[]") return;
+      setPoints(
+        artifact.data.map((p, index) => ({
+          id: `${artifact.id}-${index}`,
+          lat: p.lat,
+          lng: p.lng,
+          source: p.label ? `Workspace · ${p.label}` : "Workspace",
+        }))
+      );
+      setIsClosed(false);
+      setError("");
+      setStatus(wb.imported(artifact.data.length, artifact.label));
+    },
+    [wb]
+  );
+
+  useEffect(() => {
+    let alive = true;
+    listArtifacts(["geo.point[]"])
+      .then((sets) => {
+        if (!alive) return;
+        setPointSets(sets);
+        if (sets[0]) setSelectedSet(sets[0].id);
+      })
+      .catch(() => {});
+    const fromId = new URLSearchParams(location.search).get("from");
+    if (fromId) {
+      getArtifact(fromId)
+        .then((artifact) => alive && loadPointSet(artifact))
+        .catch(() => alive && setError(wb.failed));
+    }
+    return () => {
+      alive = false;
+    };
+    // Load once per arrival; location.search carries the hand-off id.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   const handleAddManualPoint = (event) => {
     event.preventDefault();
     const lat = parseFloat(latInput);
     const lng = parseFloat(lngInput);
     if (Number.isNaN(lat) || Number.isNaN(lng)) {
-      setError('Please enter valid decimal latitude and longitude.');
+      setError("Please enter valid decimal latitude and longitude.");
       return;
     }
     if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
-      setError('Latitude must be within -90 to 90 and longitude within -180 to 180.');
+      setError(
+        "Latitude must be within -90 to 90 and longitude within -180 to 180."
+      );
       return;
     }
     addPoint(lat, lng);
@@ -253,72 +361,87 @@ function LandSurveyApp() {
 
   const handleUseLocation = () => {
     if (!canUseGeolocation) {
-      setError('Geolocation is not supported in this browser, or it may be disabled. Please use a modern mobile browser and ensure location is enabled.');
+      setError(
+        "Geolocation is not supported in this browser, or it may be disabled. Please use a modern mobile browser and ensure location is enabled."
+      );
       return;
     }
     setLoadingLocation(true);
-    setStatus('Fetching location...');
+    setStatus("Fetching location...");
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude, accuracy } = position.coords;
-        addPoint(latitude, longitude, accuracy ? `Device GPS ±${Math.round(accuracy)}m` : 'Device GPS');
+        addPoint(
+          latitude,
+          longitude,
+          accuracy ? `Device GPS ±${Math.round(accuracy)}m` : "Device GPS"
+        );
         setLoadingLocation(false);
       },
       (geoError) => {
         handleGeoError(geoError);
         setLoadingLocation(false);
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
   };
 
   const handleCheckLocationAccess = async () => {
-    setError('');
+    setError("");
     if (!canUseGeolocation) {
-      setError('Geolocation is not supported in this browser. You can still enter coordinates manually.');
+      setError(
+        "Geolocation is not supported in this browser. You can still enter coordinates manually."
+      );
       return;
     }
-    if (typeof navigator.permissions?.query !== 'function') {
-      setStatus('Location is supported. Your browser will ask for permission when you choose “Add current location”.');
+    if (typeof navigator.permissions?.query !== "function") {
+      setStatus(
+        "Location is supported. Your browser will ask for permission when you choose “Add current location”."
+      );
       return;
     }
     try {
-      const result = await navigator.permissions.query({ name: 'geolocation' });
+      const result = await navigator.permissions.query({ name: "geolocation" });
       const messages = {
-        granted: 'Location access is already allowed. You can add your current location.',
-        prompt: 'Location is available. Your browser will ask for permission when you add your current location.',
-        denied: 'Location access is blocked. Enable it in browser or system settings, or enter coordinates manually.',
+        granted:
+          "Location access is already allowed. You can add your current location.",
+        prompt:
+          "Location is available. Your browser will ask for permission when you add your current location.",
+        denied:
+          "Location access is blocked. Enable it in browser or system settings, or enter coordinates manually.",
       };
-      setStatus(messages[result.state] || 'Location capability checked.');
-      if (result.state === 'denied') setError(messages.denied);
+      setStatus(messages[result.state] || "Location capability checked.");
+      if (result.state === "denied") setError(messages.denied);
     } catch {
-      setStatus('Location is supported. Permission will be checked when you add your current location.');
+      setStatus(
+        "Location is supported. Permission will be checked when you add your current location."
+      );
     }
   };
 
   const handleClosePolygon = () => {
     if (points.length < 3) {
-      setError('You need at least 3 points to close the polygon.');
+      setError("You need at least 3 points to close the polygon.");
       return;
     }
     setIsClosed(true);
-    setStatus('Polygon closed. Area is available below.');
+    setStatus("Polygon closed. Area is available below.");
   };
 
   const handleReset = () => {
     setPoints([]);
     setIsClosed(false);
-    setLatInput('');
-    setLngInput('');
-    setStatus('');
-    setError('');
+    setLatInput("");
+    setLngInput("");
+    setStatus("");
+    setError("");
   };
 
   const handleRemovePoint = (id) => {
     setPoints((prev) => prev.filter((point) => point.id !== id));
     setIsClosed(false);
-    setError('');
-    setStatus('Point removed. Close the polygon again to update the area.');
+    setError("");
+    setStatus("Point removed. Close the polygon again to update the area.");
   };
 
   const previewPoints = useMemo(() => {
@@ -342,7 +465,9 @@ function LandSurveyApp() {
     }));
   }, [points]);
 
-  const polygonPoints = previewPoints.map((point) => `${point.x},${point.y}`).join(' ');
+  const polygonPoints = previewPoints
+    .map((point) => `${point.x},${point.y}`)
+    .join(" ");
 
   const area = useMemo(() => {
     if (!isClosed) {
@@ -353,25 +478,114 @@ function LandSurveyApp() {
 
   const areaHectares = area / 10000;
   const areaMu = area / 666.6667;
+  const centroid = useMemo(() => polygonCentroid(points), [points]);
+
+  const boundaryParameters = () => ({
+    vertices: points.length,
+    areaMethod: AREA_METHOD,
+    area_m2: Number(area.toFixed(2)),
+    area_ha: Number(areaHectares.toFixed(4)),
+    area_mu: Number(areaMu.toFixed(2)),
+  });
+
+  async function saveBoundary() {
+    try {
+      await saveArtifact({
+        type: "geo.polygon",
+        appId: "land-survey",
+        label: `${points.length}-point boundary · ${areaHectares.toFixed(
+          2
+        )} ha`,
+        data: {
+          points: points.map(({ lat, lng }) => ({ lat, lng })),
+          ...boundaryParameters(),
+        },
+      });
+      setStatus(wb.saved);
+    } catch {
+      setError(wb.failed);
+    }
+  }
+
+  function exportBoundary(format) {
+    const ring = points.map(({ lat, lng }) => [lng, lat]);
+    ring.push(ring[0]);
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+    let filename;
+    let blob;
+    if (format === "geojson") {
+      filename = `field_boundary_${stamp}.geojson`;
+      const feature = {
+        type: "Feature",
+        geometry: { type: "Polygon", coordinates: [ring] },
+        properties: boundaryParameters(),
+      };
+      blob = downloadText(
+        filename,
+        JSON.stringify(feature, null, 2),
+        "application/geo+json"
+      );
+    } else {
+      filename = `field_boundary_${stamp}.kml`;
+      const coords = ring.map(([lng, lat]) => `${lng},${lat},0`).join(" ");
+      const kml = `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Placemark>
+      <name>Field boundary</name>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>${coords}</coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>
+`;
+      blob = downloadText(
+        filename,
+        kml,
+        "application/vnd.google-earth.kml+xml"
+      );
+    }
+    recordExport({
+      files: [{ name: filename, blob }],
+      parameters: boundaryParameters(),
+    });
+  }
 
   const statusClass =
     status && !error
       ? { ...styles.feedback, ...styles.feedbackOk }
       : error
-        ? { ...styles.feedback, ...styles.feedbackError }
-        : null;
+      ? { ...styles.feedback, ...styles.feedbackError }
+      : null;
 
   return (
     <div className={pageStyles.workspace}>
       <section className={pageStyles.introCard}>
         <Heading as="h2">Map a field boundary</Heading>
         <p style={styles.sectionLead}>
-          Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu.
+          Record parcel vertices sequentially via manual coordinates or phone
+          GPS. The tool draws each segment in real time, and once closed it
+          calculates the polygon area in square meters, hectares, and mu.
         </p>
 
         <div className={pageStyles.readinessCard}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <span className="app-muted">Check whether location is available without adding a survey point.</span>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "12px",
+              flexWrap: "wrap",
+            }}
+          >
+            <span className="app-muted">
+              Check whether location is available without adding a survey point.
+            </span>
             <button
               type="button"
               className="button button--secondary"
@@ -384,7 +598,9 @@ function LandSurveyApp() {
 
         <form style={styles.form} onSubmit={handleAddManualPoint}>
           <div style={styles.formGroup}>
-            <label htmlFor="latInput" style={styles.label}>Latitude (Lat)</label>
+            <label htmlFor="latInput" style={styles.label}>
+              Latitude (Lat)
+            </label>
             <input
               id="latInput"
               type="number"
@@ -400,7 +616,9 @@ function LandSurveyApp() {
             />
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor="lngInput" style={styles.label}>Longitude (Lng)</label>
+            <label htmlFor="lngInput" style={styles.label}>
+              Longitude (Lng)
+            </label>
             <input
               id="lngInput"
               type="number"
@@ -424,117 +642,212 @@ function LandSurveyApp() {
             onClick={handleUseLocation}
             disabled={!canUseGeolocation || loadingLocation}
           >
-            {loadingLocation ? 'Locating...' : 'Add current location'}
+            {loadingLocation ? "Locating..." : "Add current location"}
           </button>
-          <button type="button" className="button button--secondary" onClick={handleClosePolygon}>
+          <button
+            type="button"
+            className="button button--secondary"
+            onClick={handleClosePolygon}
+          >
             Close Polygon
           </button>
-          <button type="button" className="button button--outline" onClick={handleReset}>
+          <button
+            type="button"
+            className="button button--outline"
+            onClick={handleReset}
+          >
             Reset
           </button>
         </form>
 
+        {pointSets.length > 0 && (
+          <div className={pageStyles.importRow}>
+            <label htmlFor="workspace-points">{wb.importTitle}</label>
+            <select
+              id="workspace-points"
+              value={selectedSet}
+              onChange={(event) => setSelectedSet(event.target.value)}
+            >
+              {pointSets.map((set) => (
+                <option key={set.id} value={set.id}>
+                  {set.label}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={() =>
+                loadPointSet(pointSets.find((set) => set.id === selectedSet))
+              }
+            >
+              {wb.importButton}
+            </button>
+          </div>
+        )}
+
         {(status || error) && (
-          <div style={statusClass} role={error ? 'alert' : 'status'} aria-live="polite">
+          <div
+            style={statusClass}
+            role={error ? "alert" : "status"}
+            aria-live="polite"
+          >
             {error || status}
           </div>
         )}
       </section>
 
-        <div style={styles.grid} className={pageStyles.resultsGrid}>
-          <section style={styles.panel} className={pageStyles.glassPanel}>
-            <div style={styles.panelHeader}>
-              <Heading as="h2" className={pageStyles.panelTitle}>Live polyline preview</Heading>
+      <div style={styles.grid} className={pageStyles.resultsGrid}>
+        <section style={styles.panel} className={pageStyles.glassPanel}>
+          <div style={styles.panelHeader}>
+            <Heading as="h2" className={pageStyles.panelTitle}>
+              Live polyline preview
+            </Heading>
+            <span>
+              {points.length
+                ? `Captured ${points.length} point${
+                    points.length === 1 ? "" : "s"
+                  }`
+                : "Awaiting coordinates..."}
+            </span>
+          </div>
+          <div style={styles.previewCanvas}>
+            {previewPoints.length ? (
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid meet"
+                style={{ width: "100%", height: "260px" }}
+                role="img"
+                aria-label={`${points.length}-point ${
+                  isClosed ? "closed field boundary" : "open survey path"
+                } preview`}
+              >
+                {previewPoints.map((point, index) => (
+                  <circle
+                    key={`${point.x}-${point.y}-${index}`}
+                    cx={point.x}
+                    cy={point.y}
+                    r="1.8"
+                    fill="var(--app-accent-blue)"
+                    stroke="var(--app-overlay-stroke)"
+                    strokeWidth="0.3"
+                  >
+                    <title>{`Point ${index + 1}: ${points[index].lat.toFixed(
+                      6
+                    )}, ${points[index].lng.toFixed(6)}`}</title>
+                  </circle>
+                ))}
+                {previewPoints.length >= 2 &&
+                  (isClosed ? (
+                    <polygon
+                      points={polygonPoints}
+                      fill="var(--app-polygon-fill)"
+                      stroke="var(--app-accent-green)"
+                      strokeWidth="0.6"
+                    />
+                  ) : (
+                    <polyline
+                      points={polygonPoints}
+                      fill="none"
+                      stroke="var(--app-accent-green)"
+                      strokeWidth="0.6"
+                    />
+                  ))}
+              </svg>
+            ) : (
+              <p>Add at least two points to preview the live polyline.</p>
+            )}
+          </div>
+          {isClosed && (
+            <div style={styles.areaCard}>
+              <p style={{ margin: 0 }}>Area estimate:</p>
+              <strong style={{ fontSize: "1.4rem" }}>
+                {area.toFixed(2)} m²
+              </strong>
               <span>
-                {points.length
-                  ? `Captured ${points.length} point${points.length === 1 ? '' : 's'}`
-                  : 'Awaiting coordinates...'}
+                ≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu
               </span>
             </div>
-            <div style={styles.previewCanvas}>
-              {previewPoints.length ? (
-                <svg
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="xMidYMid meet"
-                  style={{ width: '100%', height: '260px' }}
-                  role="img"
-                  aria-label={`${points.length}-point ${isClosed ? 'closed field boundary' : 'open survey path'} preview`}
+          )}
+          {isClosed && points.length >= 3 && (
+            <div className={pageStyles.handoff}>
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={saveBoundary}
+              >
+                {wb.save}
+              </button>
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={() => exportBoundary("geojson")}
+              >
+                {wb.geojson}
+              </button>
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={() => exportBoundary("kml")}
+              >
+                {wb.kml}
+              </button>
+              {centroid && (
+                <Link
+                  className="button button--primary"
+                  to={`/app/weather?lat=${centroid.lat.toFixed(
+                    5
+                  )}&lon=${centroid.lng.toFixed(5)}`}
                 >
-                  {previewPoints.map((point, index) => (
-                    <circle
-                      key={`${point.x}-${point.y}-${index}`}
-                      cx={point.x}
-                      cy={point.y}
-                      r="1.8"
-                      fill="var(--app-accent-blue)"
-                      stroke="var(--app-overlay-stroke)"
-                      strokeWidth="0.3"
-                    >
-                      <title>{`Point ${index + 1}: ${points[index].lat.toFixed(6)}, ${points[index].lng.toFixed(6)}`}</title>
-                    </circle>
-                  ))}
-                  {previewPoints.length >= 2 &&
-                    (isClosed ? (
-                      <polygon
-                        points={polygonPoints}
-                        fill="var(--app-polygon-fill)"
-                        stroke="var(--app-accent-green)"
-                        strokeWidth="0.6"
-                      />
-                    ) : (
-                      <polyline
-                        points={polygonPoints}
-                        fill="none"
-                        stroke="var(--app-accent-green)"
-                        strokeWidth="0.6"
-                      />
-                    ))}
-                </svg>
-              ) : (
-                <p>Add at least two points to preview the live polyline.</p>
+                  {wb.weather}
+                </Link>
               )}
             </div>
-            {isClosed && (
-              <div style={styles.areaCard}>
-                <p style={{ margin: 0 }}>Area estimate:</p>
-                <strong style={{ fontSize: '1.4rem' }}>{area.toFixed(2)} m²</strong>
-                <span>≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu</span>
-              </div>
-            )}
-          </section>
+          )}
+        </section>
 
-          <section style={styles.panel} className={pageStyles.glassPanel}>
-            <div style={styles.panelHeader}>
-              <Heading as="h2" className={pageStyles.panelTitle}>Coordinate list</Heading>
-              {points.length >= 3 && !isClosed && <span>Click “Close Polygon” to compute area.</span>}
-            </div>
-            {points.length ? (
-              <ol style={styles.list}>
-                {points.map((point, index) => (
-                  <li key={point.id} style={styles.listItem}>
-                    <div>
-                      <strong>Point {index + 1}</strong>
-                      <p className={pageStyles.coordinateMeta}>Latitude: {point.lat.toFixed(6)}</p>
-                      <p className={pageStyles.coordinateMeta}>Longitude: {point.lng.toFixed(6)}</p>
-                      <p className={pageStyles.coordinateMeta}>Source: {point.source}</p>
-                    </div>
-                    <button
-                      type="button"
-                      className="button button--sm button--outline"
-                      onClick={() => handleRemovePoint(point.id)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className={pageStyles.emptyState}>
-                No coordinates yet. Add a point to get started.
-              </p>
+        <section style={styles.panel} className={pageStyles.glassPanel}>
+          <div style={styles.panelHeader}>
+            <Heading as="h2" className={pageStyles.panelTitle}>
+              Coordinate list
+            </Heading>
+            {points.length >= 3 && !isClosed && (
+              <span>Click “Close Polygon” to compute area.</span>
             )}
-          </section>
-        </div>
+          </div>
+          {points.length ? (
+            <ol style={styles.list}>
+              {points.map((point, index) => (
+                <li key={point.id} style={styles.listItem}>
+                  <div>
+                    <strong>Point {index + 1}</strong>
+                    <p className={pageStyles.coordinateMeta}>
+                      Latitude: {point.lat.toFixed(6)}
+                    </p>
+                    <p className={pageStyles.coordinateMeta}>
+                      Longitude: {point.lng.toFixed(6)}
+                    </p>
+                    <p className={pageStyles.coordinateMeta}>
+                      Source: {point.source}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="button button--sm button--outline"
+                    onClick={() => handleRemovePoint(point.id)}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className={pageStyles.emptyState}>
+              No coordinates yet. Add a point to get started.
+            </p>
+          )}
+        </section>
+      </div>
 
       <CitationNotice />
     </div>

@@ -7,6 +7,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import { getAppById, localizeApp } from "../../data/appManifest";
 import { JsonLd } from "../ds";
+import WorkbenchPanels, { ToolStatus } from "../Workbench";
 import styles from "./styles.module.css";
 
 const FALLBACK = {
@@ -114,6 +115,7 @@ export default function AppScaffold({
                     ))}
                   </ul>
                 )}
+                <ToolStatus app={app} />
               </div>
             </div>
 
@@ -130,6 +132,7 @@ export default function AppScaffold({
           </header>
 
           <div className={clsx(styles.workspace, className)}>{children}</div>
+          <WorkbenchPanels app={app} />
         </div>
       </main>
     </Layout>

@@ -6,6 +6,7 @@ import CitationNotice from "../../../components/CitationNotice";
 import AIProviderSettings from "../../../components/AIProviderSettings";
 import { createDefaultAIConfig, requestAI } from "../../../lib/api";
 import { CATEGORICAL } from "../../../lib/dataViz";
+import { recordExport } from "../../../lib/workbench/provenance";
 import styles from "./styles.module.css";
 
 const MAX_SAMPLE_ROWS = 40;
@@ -1402,8 +1403,30 @@ export default function AiDataVisualizerPage() {
     });
     const link = document.createElement("a");
     link.href = dataUrl;
-    link.download = `ai-chart-${Date.now()}.png`;
+    const filename = `ai-chart-${Date.now()}.png`;
+    link.download = filename;
     link.click();
+    // Parameter record: chart settings and the AI provider/model, never keys.
+    fetch(dataUrl)
+      .then((response) => response.blob())
+      .then((blob) =>
+        recordExport({
+          files: [{ name: filename, blob }],
+          parameters: {
+            dataset: fileInfo?.name ?? null,
+            sheet: selectedSheet || null,
+            chartTypes: [
+              ...new Set((chartOption?.series ?? []).map((s) => s.type)),
+            ],
+            seriesCount: chartOption?.series?.length ?? 0,
+            xField: xField || null,
+            yField: yField || null,
+            pixelRatio: 2,
+            ai: { provider: aiConfig.provider, model: aiConfig.model },
+          },
+        })
+      )
+      .catch(() => {});
   }
 
   const previewCount = Math.min(
@@ -1721,7 +1744,8 @@ export default function AiDataVisualizerPage() {
                   <div className={styles.chartEmpty} aria-hidden="true">
                     <span className={styles.chartEmptyTitle}>No chart yet</span>
                     <span>
-                      Upload a table and generate a visualization to see it here.
+                      Upload a table and generate a visualization to see it
+                      here.
                     </span>
                   </div>
                 )}

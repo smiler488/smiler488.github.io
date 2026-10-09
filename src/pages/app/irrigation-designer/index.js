@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from "react";
 import Heading from "@theme/Heading";
 import AppScaffold from "../../../components/AppScaffold";
+import { recordExport } from "../../../lib/workbench/provenance";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
 
@@ -689,6 +690,10 @@ export default function IrrigationDesigner() {
     anchor.href = url;
     anchor.download = "irrigation-layout.svg";
     anchor.click();
+    recordExport({
+      files: [{ name: "irrigation-layout.svg", blob }],
+      parameters: { design: config, note: "Preliminary screening estimate" },
+    });
     anchor.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };

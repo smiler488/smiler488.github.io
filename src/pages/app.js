@@ -5,6 +5,7 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import CitationNotice from "../components/CitationNotice";
 import { ToolboxLinks } from "../components/ds";
+import { MaturityBadge } from "../components/Workbench";
 import { APP_CATEGORIES, APP_MANIFEST, localizeApp } from "../data/appManifest";
 import styles from "./app.module.css";
 
@@ -122,9 +123,12 @@ function AppCard({ app, isChinese, copy }) {
       </div>
 
       <div className={styles.cardBody}>
-        <span className={styles.categoryLabel}>
-          {localizeApp(app.categoryLabel, isChinese)}
-        </span>
+        <div className={styles.cardMeta}>
+          <span className={styles.categoryLabel}>
+            {localizeApp(app.categoryLabel, isChinese)}
+          </span>
+          <MaturityBadge level={app.maturity} />
+        </div>
         <Heading as="h2" className={styles.cardTitle}>
           {name}
         </Heading>

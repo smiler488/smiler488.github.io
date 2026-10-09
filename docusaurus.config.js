@@ -1,9 +1,20 @@
+import { execSync } from "node:child_process";
 import { themes as prismThemes } from "prism-react-renderer";
+
+// Short commit hash, stamped into tool parameter records (DESIGN_SPEC §8.2).
+function buildStamp() {
+  try {
+    return execSync("git rev-parse --short HEAD").toString().trim();
+  } catch {
+    return null;
+  }
+}
 
 const config = {
   staticDirectories: ["static"],
   scripts: [],
   customFields: {
+    build: buildStamp(),
     // Supabase anon keys are public client identifiers. Real authorization must
     // still be enforced with Row Level Security in Supabase.
     supabaseUrl: process.env.SUPABASE_URL || null,
