@@ -1,0 +1,1765 @@
+# Liangchao Deng (邓良超)
+
+> Postdoctoral Researcher, Shenzhen Institute of China Agricultural University · Shenzhen, China. Research program: making plant science measurable with AI, from sensing crops to designing crops.
+
+Toward high, stable, and resource-efficient crop production under climate change, my research turns satellite–UAV–ground 3D observations into interpretable crop physiological states and, by coupling structure–radiation–photosynthesis–growth processes with data assimilation, builds verifiable, predictive, and intervenable crop digital twins that provide a mechanistic basis for the coordinated design of genotype × environment × management (G×E×M). With multi-source observation and AI, I make the state of the crop system observable, its mechanisms interpretable, its future projectable, and its decision risk quantifiable.
+
+Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works) · [GitHub](https://github.com/smiler488)
+
+## Research layers
+
+- Layer I · Digitize (DIG): Physical to digital crop: imaging, 3D reconstruction and sensing turn a real crop into quantified traits.
+- Layer II · Understand (UND): Digital to explainable crop: coupling structure, radiation and photosynthesis with scientific AI.
+- Layer III · Predict (PRE): Toward a predictive crop: projecting growth under environment and management scenarios.
+- Layer IV · Design (DES): Toward a designed crop: inverse design over genotype, environment and management.
+
+## Research projects
+
+- [Predicting leaf BRDF from phenotypic traits](https://smiler488.github.io/research/brdf-traits): Leaf directional reflectance can be predicted from measurable traits, and the optical diversity this reveals changes how light is distributed inside a simulated canopy. [UND]
+- [MCTP: a multi-modal crop phenotyping workspace](https://smiler488.github.io/research/mctp-workspace): One desktop workspace gives hyperspectral, LiDAR, RGB and thermal processing a shared entry point and export convention, while keeping each modality's processing transparent and tunable. [DIG]
+
+## Publications and software
+
+- [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. Peer-reviewed article. DOI 10.1016/j.plaphe.2025.100135. [UND]
+- [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. Research software. DOI 10.5281/zenodo.17544584. [DIG]
+
+## Browser tools (App Lab)
+
+Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
+
+- [Device Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
+- [Land Surveyor](https://smiler488.github.io/app/land-survey): Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu. [DIG]
+- [Irrigation Layout Designer](https://smiler488.github.io/app/irrigation-designer): Explore drip-line layouts, hydraulic constraints and pressure-loss estimates in an interactive preliminary design workspace. [DES]
+- [NASA POWER Weather Downloader](https://smiler488.github.io/app/weather): Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results. [PRE]
+- [CCO Waylines Builder](https://smiler488.github.io/app/cco): Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings. [DIG]
+- [Biological Sample Quantifier](https://smiler488.github.io/app/image): Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements. [DIG]
+- [Root Image Preprocessor](https://smiler488.github.io/app/root-processor): Prepare root scans with polygon regions, background cleanup, high-pass enhancement and precise manual corrections. [DIG]
+- [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Split and rectify a side-by-side camera stream, inspect stereo pairs and explore depth output with an explicit calibration profile. [DIG]
+- [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboard and coded circular calibration targets with live dimensions, validation and PDF export. [DIG]
+- [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table, create deterministic local charts and optionally use your chosen AI provider to help interpret patterns. [UND]
+- [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose.
+- [Multimodal AI Solver](https://smiler488.github.io/app/solver): Ask with text, camera or screen capture and send the prompt to the visual AI model and API provider you configure.
+- [Encrypted Note](https://smiler488.github.io/app/cloudnote): Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage.
+- [Research Maze](https://smiler488.github.io/app/maze): A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores.
+
+## Research notes
+
+- [PhenoHUB: A Mobile Toolkit for Digital Plant Phenotyping](https://smiler488.github.io/blog/phenohub-wechat-miniapp): A January 2026 snapshot of a WeChat Mini Program combining field utilities, weather queries, image tools, and experimental AI assistants. [DIG]
+- [Botanical Extract AI Pro: An Experimental Background-Isolation Workflow](https://smiler488.github.io/blog/botanical-extract-ai-pro): An experimental web and batch workflow for placing plants on white backgrounds with multimodal image models, including scientific and privacy limitations. [DIG]
+- [MCTP: A Multi-Modal Crop Phenotyping Workspace](https://smiler488.github.io/blog/mctp-unified-phenotyping-platform): A desktop workspace for hyperspectral, LiDAR, RGB, and thermal crop-phenotyping workflows, with clear boundaries between shared UI and cross-modal fusion. [DIG]
+- [Predicting Leaf BRDF from Phenotypic Traits](https://smiler488.github.io/blog/brdf-paper): A peer-reviewed framework combining directional spectroscopy, BRDF fitting, phenotypic traits, ensemble learning, and canopy ray tracing in four species. [UND]
+- [Local Image Quantification in Python: An Experimental, Auditable Workflow](https://smiler488.github.io/blog/local-image-quantification-tutorial): A compact OpenCV workflow for segmenting isolated biological samples, exporting pixel and calibrated size descriptors, and documenting the validation required before scientific use. [DIG]
+- [Hunyuan3D-1 for Plant Images: A Reproducible Exploration Guide](https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide): A version-specific, evidence-aware workflow for generating exploratory plant meshes with Hunyuan3D-1 and validating why generative 3D output is not automatically a phenotype measurement. [DIG]
+- [UAV 3D Crop Phenotyping: From CCO Acquisition to Validated Traits](https://smiler488.github.io/blog/uav-3d-crop-phenotyping): A field-to-analysis workflow for Cross-Circular Oblique UAV acquisition, SfM reconstruction, spatial referencing, point-cloud phenotyping, and honest model validation. [DIG]
+- [Root Quantify: Interactive Root Image Preprocessing in Python](https://smiler488.github.io/blog/root-quantify): A practical guide to using Root Quantify for polygon ROI selection, background correction, binary-mask cleanup, and organized export before downstream root analysis. [DIG]
+- [Canopy Photosynthesis from 3D Plant Models — A Conceptual Workflow](https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en): A validation-first research framework connecting multi-view reconstruction, plant geometry, radiative transfer, leaf physiology, and canopy-scale uncertainty. [UND, PRE]
+- [DJI P4 Multispectral to Plot-Level Traits with WebODM and QGIS](https://smiler488.github.io/blog/dji-p4m-webodm-qgis-workflow): A validation-first workflow for processing DJI P4 Multispectral imagery in WebODM, checking band metadata in QGIS, and extracting plot-level vegetation features. [DIG]
+- [Turntable Photogrammetry for Potted Cotton in a Growth Chamber](https://smiler488.github.io/blog/growth-chamber-cotton-3d): An experimental, validation-first protocol for acquiring and reconstructing multi-view images of potted cotton plants in a controlled environment. [DIG]
+
+## Optional
+
+- [Curriculum vitae](https://smiler488.github.io/cv)
+- [Privacy and visitor map](https://smiler488.github.io/privacy)
+
+
+---
+
+# PhenoHUB: A Mobile Toolkit for Digital Plant Phenotyping
+
+Source: https://smiler488.github.io/blog/phenohub-wechat-miniapp
+Layers: DIG
+
+## Overview
+
+![PhenoHUB prototype screens and WeChat Mini Program code](/img/phenohub.png)
+
+**PhenoHUB** is a WeChat Mini Program prototype that groups mobile utilities for plant-phenotyping work. The project explores how field measurements, weather queries, image analysis, and AI-assisted research tasks can be made easier to access from a phone.
+
+This article records the **January 2026 project snapshot** represented by the interface above. It is not a live completeness report, and the presence of a module in the launcher does not by itself establish measurement accuracy or production readiness.
+
+## Prototype modules
+
+### Device-orientation measurements
+
+The leaf-angle utility uses phone motion sensors to display and record device orientation. It can support rapid relative measurements when the phone is aligned consistently with a leaf.
+
+The result should not be described as a precise leaf angle without a defined mounting method, sensor calibration, reference plane, and validation against a trusted instrument. Device model, case geometry, operator alignment, and motion can all affect the reading.
+
+### Land-area estimation
+
+The area utility records a location track and estimates the enclosed polygon. It is useful for reconnaissance and rough field records, but consumer-phone positioning is not survey-grade.
+
+- Accuracy varies with the device, satellite visibility, buildings, trees, and sampling interval.
+- Altitude from a phone location service is especially uncertain.
+- Boundaries used for contracts, regulation, engineering, or precision operations require suitable survey equipment.
+
+### Weather and environmental context
+
+The agricultural-weather module is designed to query location-based weather information. Values obtained from a weather service describe the provider's grid or station estimate; they are not direct measurements from the phone.
+
+Soil moisture, canopy temperature, light intensity, or other local variables require an explicit data source or external sensor. The interface should always label the provider, observation or forecast time, units, and location.
+
+### Image analysis
+
+The image module provides an entry point for plant-image preprocessing and quantitative analysis. Any reported area, count, color, or shape trait depends on segmentation quality, scale calibration, and acquisition conditions.
+
+Image color alone should not be presented as chlorophyll content without a documented calibration model and independent validation.
+
+### Experimental AI assistants
+
+The prototype includes entries for chart generation and research assistance. These tools can help explore CSV data or draft analytical ideas, but AI output must remain reviewable:
+
+- Charts should be traced back to the exact input rows and transformations.
+- Statistical tests require their assumptions and sample structure to be checked.
+- Literature, journal, and writing suggestions can be incomplete or incorrect.
+- Research data sent to an external model are subject to that provider's privacy terms.
+
+## Architecture snapshot
+
+The mobile client uses the native WeChat Mini Program environment with reusable UI components and Canvas/ECharts-style visualization. Some analysis tasks can be local to the Mini Program, while network-dependent features can call an external API service.
+
+This split keeps lightweight interaction on the phone but creates clear boundaries:
+
+1. Sensor and location permissions should be requested only when the user starts the relevant tool.
+2. Local and remote processing must be identified in the interface.
+3. Uploaded files and API requests need size limits, failure states, and privacy guidance.
+4. Model-generated results should include the provider, model, and generation time when possible.
+
+## Appropriate use
+
+PhenoHUB is most suitable as a prototype for:
+
+- Field notes and rapid exploratory measurements
+- Teaching mobile phenotyping concepts
+- Testing interaction designs before instrument integration
+- Providing one launch point for small research utilities
+
+It should not be treated as a replacement for calibrated scientific instruments, validated statistical software, or a laboratory data-management system.
+
+## Access and reproducibility
+
+The project repository is hosted on WeChat Git and currently requires authenticated access. External readers cannot reliably clone it from a public URL, so this article does not present public installation or contribution steps.
+
+For an internal or authorized deployment, record at least:
+
+- Mini Program revision and backend revision
+- Device model and operating-system version
+- Permission and calibration procedure
+- Weather, map, or AI provider and request time
+- Input files, parameters, raw readings, and exported results
+
+Access questions can be directed through the contact channels on the [CV page](/cv).
+
+## Development priorities
+
+The next useful milestones are evidence-driven rather than percentage-based: validate each measurement against a reference method, label experimental modules clearly, add provenance to exports, document privacy boundaries, and test the complete workflow on both iOS and Android devices.
+
+
+---
+
+# Botanical Extract AI Pro: An Experimental Background-Isolation Workflow
+
+Source: https://smiler488.github.io/blog/botanical-extract-ai-pro
+Layers: DIG
+
+## Overview
+
+![Examples of source plant images and AI-generated white-background outputs](/img/botanical-extract-ai-pro.png)
+
+**Botanical Extract AI Pro** explores whether a multimodal image model can reduce background clutter in plant photographs without project-specific model training. It provides an interactive web workflow for individual images and a Node.js-oriented workflow for repeated processing.
+
+This is best described as **AI-assisted background isolation**, not validated scientific segmentation. A generative model may redraw leaves, remove thin structures, change colors, or invent boundaries even when the prompt asks it not to.
+
+:::warning Experimental output
+“Zero-shot” means that no task-specific training was performed. It does not imply zero error, pixel-perfect preservation, or suitability for quantitative phenotyping.
+:::
+
+## Workflow
+
+The two clients follow the same basic path:
+
+1. Load an image and decode it to confirm the format and dimensions.
+2. Select the closest aspect ratio supported by the chosen model API.
+3. Send the image and a constrained background-replacement instruction to the provider.
+4. Save the returned image beside the untouched original.
+5. Record the provider, model, prompt version, time, and processing outcome.
+
+The web interface supports visual comparison for a single sample. The batch workflow scans a directory, mirrors its structure in an output directory, and records successes and failures.
+
+## What the prompt can and cannot do
+
+A prompt can request a white background and ask the model to preserve the plant. It cannot force a generative system to retain the original pixels. Statements such as “pixel-perfect” are therefore **instructions to the model**, not guarantees about the result.
+
+Aspect-ratio matching is similarly limited. Choosing the nearest supported ratio can reduce avoidable cropping or stretching in the API request, but it does not guarantee identical geometry or resolution in the generated image.
+
+## Input validation
+
+File extensions alone are not sufficient validation. A safer client should:
+
+- Check the binary signature and successfully decode the image
+- Enforce file-size and pixel-dimension limits
+- Reject unsupported or malformed data
+- Normalize orientation without silently discarding the original
+- Keep provider payloads separate from local metadata
+
+The current Base64-style request pattern loads the image into memory. It should not be described as streaming, and large inputs need explicit limits.
+
+## Bounded batch processing
+
+`Promise.allSettled(files.map(processFile))` does **not** control concurrency; it schedules every task immediately. A production batch client should place a small limit around the provider call:
+
+```javascript
+
+const limit = pLimit(3);
+
+const results = await Promise.allSettled(
+  files.map((file) => limit(() => processOneImage(file))),
+);
+```
+
+The processing function should also use capped exponential backoff for retryable `429` and `5xx` responses, stop retrying permanent errors, and write a resumable manifest. Concurrency must be adjusted to the provider's documented limits and the available memory.
+
+## Scientific quality control
+
+Generated outputs should not be used directly for leaf area, shape, disease, growth, or time-series measurements without validation. A practical review should include:
+
+1. Overlay the source and output at the same scale.
+2. Inspect thin stems, leaf tips, holes, flowers, labels, and pot boundaries.
+3. Check whether colors, shadows, or plant geometry changed.
+4. Compare a manually annotated validation subset with appropriate mask and boundary metrics.
+5. Reject or manually correct failed samples before quantitative analysis.
+
+For measurements that require a reproducible binary mask, a conventional segmentation model or a validated interactive segmentation tool is usually more appropriate than image generation.
+
+## Privacy, cost, and reproducibility
+
+Unless a local model is used, uploaded images leave the device and are processed by an external provider. Before processing research data:
+
+- Review the provider's retention and training policies.
+- Remove sensitive labels, locations, and personal information.
+- Store API keys in server-side or environment configuration, never in public client code.
+- Estimate per-image cost and rate limits before starting a batch.
+- Preserve the original files and a machine-readable processing manifest.
+
+## Current limitations
+
+- No public benchmark currently establishes accuracy across species, organs, backgrounds, or imaging conditions.
+- Results may vary across model versions and repeated requests.
+- The workflow produces an edited image, not necessarily an alpha mask or class-labeled segmentation.
+- Large-scale processing requires bounded concurrency, recovery logs, and manual quality assurance.
+- The project should not be described as open source unless a public repository and license are provided.
+
+The project remains useful as a prototype for rapid visual cleanup and for studying how multimodal models behave on botanical imagery. Its outputs should be treated as generated derivatives, not as ground truth.
+
+
+---
+
+# MCTP: A Multi-Modal Crop Phenotyping Workspace
+
+Source: https://smiler488.github.io/blog/mctp-unified-phenotyping-platform
+Layers: DIG
+
+## Overview
+
+![MCTP desktop launcher with four modality modules](/img/mctp.png)
+
+**MCTP (Multi-Modal Crop Phenotyping Platform)** is a desktop data-processing workspace developed alongside a field phenotyping collaboration with Shufeng Bio. My contribution focused on system optimization and the data-processing and analysis workflows.
+
+The interface brings hyperspectral, LiDAR, RGB, and thermal tools into one launcher. In this project snapshot, “unified” means a consistent entry point, interaction pattern, and export convention. It does **not** mean that the four modalities are automatically registered, fused, or interpreted by one model.
+
+:::note Project snapshot
+This article describes the version represented by the available interface and module screenshots. Exact input formats and outputs should be confirmed in the build used for a specific experiment.
+:::
+
+## Current module scope
+
+### Hyperspectral processing
+
+![Hyperspectral module showing spectral-image analysis views](/img/hyper.png)
+
+The hyperspectral workflow is designed around paired ENVI files and wavelength metadata. Its project implementation includes:
+
+- HDR/SPE ingestion and wavelength parsing
+- RGB quicklooks and vegetation-index views
+- Threshold-based plant masks and glare filtering
+- Mean-spectrum and summary exports in CSV/JSON form
+- Directory-level processing for compatible datasets
+
+Index values and masks depend on valid radiometric metadata and suitable thresholds. They should be inspected before downstream statistical analysis.
+
+### LiDAR processing
+
+![LiDAR module for point-cloud loading and preprocessing](/img/lidar1.png)
+
+![LiDAR segmentation and trait-tuning interface](/img/lidar2.png)
+
+The LiDAR module groups common point-cloud preparation and trait-extraction operations:
+
+- PLY, LAS, LAZ, and text-file input
+- Ground rebasing, voxel downsampling, cropping, and height coloring
+- DBSCAN-based clustering with interactive parameter tuning
+- Coverage, height percentiles, occupancy, and convex-hull summaries
+- Cropped point-cloud and JSON report export
+
+These outputs are algorithmic estimates. Ground selection, point density, occlusion, and clustering parameters can materially change the result.
+
+### RGB processing
+
+The RGB workflow combines color-index thresholding with morphology and connected-component operations. The project implementation uses ExG, CIVE, and VDI features, then applies cleanup and instance-labeling steps for group-level and per-plant summaries.
+
+This classical computer-vision approach is transparent and tunable, but it is sensitive to illumination, reflections, labels, soil color, and overlapping plants. A representative subset should be checked before batch processing.
+
+### Thermal processing
+
+![Thermal module with threshold controls and heatmap preview](/img/thermal.png)
+
+The thermal workflow pairs image and temperature-matrix inputs, then provides threshold and morphology controls with overlay, heatmap, and plant-only previews. Depending on the module build, outputs can include images, arrays, tables, and JSON summaries.
+
+Temperature values are only meaningful when the camera export, orientation, calibration, and environmental assumptions are correct.
+
+## Recommended workflow
+
+1. **Archive raw data first.** Keep the original files and acquisition metadata unchanged.
+2. **Open one representative sample.** Confirm file pairing, orientation, units, and coordinate conventions.
+3. **Tune parameters visibly.** Use previews to identify failure cases instead of relying on defaults.
+4. **Process a small batch.** Check outputs against the raw data before scaling up.
+5. **Record the configuration.** Save thresholds, voxel sizes, clustering settings, and software version with the results.
+
+## Boundaries of the platform
+
+The available project snapshot should be treated as a collection of modality-specific processing tools, not as an autonomous scientific interpretation system.
+
+- Cross-modal registration and temporal analysis are not current automatic capabilities.
+- Batch behavior differs by module; interactive tuning remains important for LiDAR and thermal data.
+- Structured exports improve handoff to R, Python, or other statistics tools, but they do not replace quality control.
+- No cloud processing service is documented in this snapshot.
+- Reproducibility requires the raw data, module version, parameters, calibration information, and exported results to be stored together.
+
+## Next development priorities
+
+Potential future work includes shared project configuration files, explicit provenance records, cross-modal registration, and validated temporal analysis. These are development directions rather than claims about the current release.
+
+
+---
+
+# Predicting Leaf BRDF from Phenotypic Traits
+
+Source: https://smiler488.github.io/blog/brdf-paper
+Layers: UND
+
+## Overview
+
+![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.jpg)
+
+Leaf surfaces do not reflect light uniformly. Their anatomy, pigments, and microscopic roughness change how radiation is scattered through a canopy, yet many canopy models use simplified optical inputs.
+
+This study combines a custom **Directional Spectrum Detection Instrument (DSDI)**, Cook–Torrance **bidirectional reflectance distribution function (BRDF)** fitting, phenotypic measurements, and ensemble learning. The goal is to estimate leaf optical parameters from traits that are easier to measure and then examine how those parameters affect simulated canopy light distribution.
+
+## At a glance
+
+- **Plant material:** maize, rice, cotton, and poplar leaves from upper and lower canopy positions.
+- **Directional spectra:** 400–1000 nm, measured across a broad angular range with the DSDI.
+- **BRDF parameters:** roughness $\sigma(\lambda)$, diffuse reflection coefficient $k(\lambda)$, and refractive index $n(\lambda)$.
+- **Predictive model:** a stacking ensemble built from support vector, random forest, and gradient boosting regressors.
+- **Reported performance:** BRDF fitting $R^2 > 0.95$; ensemble prediction $R^2 = 0.83$–$0.99$, depending on the parameter.
+
+## Measurement and modeling workflow
+
+### 1. Measure directional reflectance
+
+The DSDI uses a xenon light source, a fiber spectrometer, and mechanically controlled illumination and viewing angles. A Lambertian white reference is used to calibrate reflectance before leaf measurements.
+
+Both adaxial and abaxial leaf surfaces were measured. This matters because the two surfaces differ in epidermal structure and optical response.
+
+### 2. Fit the BRDF model
+
+The Cook–Torrance formulation represents diffuse and specular reflection with three wavelength-dependent parameters:
+
+| Parameter | Physical interpretation | Related leaf properties |
+| --- | --- | --- |
+| $\sigma(\lambda)$ | Microfacet roughness | Epidermal texture and surface irregularity |
+| $k(\lambda)$ | Diffuse reflection coefficient | Internal scattering and the diffuse contribution to reflectance |
+| $n(\lambda)$ | Refractive index | Refraction and interface reflection, influenced by tissue composition |
+
+Adaptive grid search and least-squares optimization were used to fit these parameters to the measured directional spectra.
+
+### 3. Predict optical parameters from traits
+
+The input variables included leaf thickness, specific leaf weight, pigment measurements, microscopy-derived surface roughness, and wavelength. The stacking model combines:
+
+- Support Vector Regression (SVR)
+- Random Forest Regression (RFR)
+- Gradient Boosting Regression Trees (GBRT)
+- Linear regression as the meta-learner
+
+The resulting model provides a direct, data-driven link between measured phenotypic traits and BRDF parameters within the study domain.
+
+### 4. Test canopy-scale consequences
+
+Predicted BRDF parameters were introduced into a rice-canopy ray-tracing workflow based on **fastTracer**. The simulations show that changing roughness, diffuse reflection, or refractive behavior can alter the vertical and angular distribution of light inside a canopy.
+
+## What the results support
+
+The study supports three practical conclusions:
+
+1. Directional leaf reflectance can be represented accurately with a physically based BRDF model.
+2. Structural and biochemical leaf traits contain useful information for predicting BRDF parameters.
+3. Leaf optical diversity can materially change simulated canopy light fields and should not always be treated as uniform.
+
+These results provide a route for connecting leaf-scale phenotyping to radiative-transfer and canopy-photosynthesis models.
+
+## Scope and limitations
+
+The model was developed from **270 data entries** spanning four species, two canopy positions, and both leaf surfaces. It is therefore a research model, not a universal estimator for every crop, genotype, environment, or stress treatment.
+
+- Predictions outside the measured trait and wavelength ranges require new validation.
+- The ray-tracing results demonstrate changes in simulated light distribution; they do not by themselves demonstrate yield gains in the field.
+- Direct optical measurement remains important when working with new species or when high-accuracy optical parameters are required.
+- Future datasets should cover more genotypes, environments, developmental stages, and water-status conditions.
+
+## Code and data availability
+
+- [BRDF fitting scripts and Roughness Calculator](https://github.com/PlantSystemsBiology/brdf)
+- [fastTracer canopy ray-tracing software](https://github.com/PlantSystemsBiology/fastTracerPublic)
+- The study data are available from the corresponding author upon reasonable request, as stated in the published article.
+
+## Citation
+
+Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., & Zhu, X.-G. (2025). **Leaf bidirectional reflectance distribution function (BRDF) prediction with phenotypic traits in four species: Development of a novel measuring and analyzing framework.** *Plant Phenomics, 7*(4), 100135. [https://doi.org/10.1016/j.plaphe.2025.100135](https://doi.org/10.1016/j.plaphe.2025.100135)
+
+
+---
+
+# Local Image Quantification in Python: An Experimental, Auditable Workflow
+
+Source: https://smiler488.github.io/blog/local-image-quantification-tutorial
+Layers: DIG
+
+Simple thresholding and connected-component analysis can quantify isolated biological samples photographed on a uniform background. This is useful for prototypes, teaching, and controlled screening, but it is not a universal plant-phenotyping method.
+
+The workflow below deliberately requires an explicit image scale. If scale calibration fails, it is safer to report pixels than to invent millimetres.
+
+:::warning Experimental workflow
+
+The example has not been validated for every camera, crop, sample type, background, or lighting condition. Inspect every overlay and compare a representative set with independent manual measurements before using the output in a paper, breeding decision, or quality-control process.
+
+:::
+
+## Appropriate use
+
+This workflow assumes:
+
+- samples are physically separated;
+- the background is mostly uniform and visible in the image corners;
+- the camera is approximately perpendicular to the sample plane;
+- a known-length reference lies in the same plane as the samples;
+- lens distortion and perspective are negligible or corrected;
+- the intended traits can be approximated from a two-dimensional silhouette.
+
+It is not appropriate for tangled roots, dense canopies, overlapping leaves, uncontrolled field scenes, or organs whose three-dimensional curvature is central to the measurement.
+
+## Measurement plan
+
+Before writing code, define each output:
+
+| Output | Operational definition |
+| --- | --- |
+| Area | Foreground pixels inside one connected component, divided by scale squared |
+| Perimeter | Length of the extracted external contour |
+| Length and width | Long and short sides of the minimum-area rotated rectangle |
+| Aspect ratio | Rotated-rectangle length divided by width |
+| Circularity | `4π × area / perimeter²`; sensitive to contour noise |
+| Mean RGB | Mean source-image channel value inside the component mask |
+
+These are image descriptors. For example, minimum-rectangle length is not automatically equivalent to botanical leaf length along a curved midrib.
+
+## 1. Capture controlled images
+
+1. Use diffuse, stable illumination and a matte background with strong contrast.
+2. Keep camera distance, focal length, exposure, white balance, and orientation fixed.
+3. Place a calibrated reference in the sample plane, not above or below it.
+4. Avoid touching or overlapping samples.
+5. Preserve the original image and metadata.
+6. Photograph an empty background and known-size validation objects during each session.
+
+If color is an outcome, use a color target and a controlled color-management workflow. Camera RGB values are device- and illumination-dependent.
+
+## 2. Calculate scale explicitly
+
+Measure the visible reference span in pixels using a reviewed image or calibration tool:
+
+```text
+pixels_per_mm = reference_length_pixels / reference_length_mm
+```
+
+For example, a 25 mm marker spanning 310 pixels gives `12.4 px/mm`. Record how endpoints were selected. Do not fall back to an arbitrary constant when the marker is missing or ambiguous.
+
+For higher-accuracy work, calibrate lens distortion and estimate a planar transform from multiple reference points rather than relying on one length.
+
+## 3. Install a minimal environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install opencv-python numpy pandas
+python -m pip freeze > requirements-lock.txt
+```
+
+On Windows, activate with `.venv\Scripts\activate`.
+
+## 4. Run a compact reference implementation
+
+Save the following as `quantify_samples.py`. It estimates the background from the image corners, applies Otsu thresholding to color distance, filters small connected components, and exports both a CSV and an overlay.
+
+```python
+
+from pathlib import Path
+
+def foreground_mask(image_bgr: np.ndarray) -> np.ndarray:
+    height, width = image_bgr.shape[:2]
+    border = max(2, min(height, width) // 20)
+    lab = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2LAB)
+
+    corners = [
+        lab[:border, :border],
+        lab[:border, -border:],
+        lab[-border:, :border],
+        lab[-border:, -border:],
+    ]
+    corner_pixels = np.vstack([block.reshape(-1, 3) for block in corners])
+    background = np.median(corner_pixels, axis=0)
+
+    distance = np.linalg.norm(lab.astype(np.float32) - background, axis=2)
+    distance_8bit = cv2.normalize(
+        distance, None, 0, 255, cv2.NORM_MINMAX
+    ).astype(np.uint8)
+    _, mask = cv2.threshold(
+        distance_8bit, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    )
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    return cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
+def quantify(image_path: Path, px_per_mm: float, min_area: int) -> None:
+    if px_per_mm <= 0:
+        raise ValueError("--px-per-mm must be a measured positive value")
+
+    image = cv2.imread(str(image_path))
+    if image is None:
+        raise FileNotFoundError(f"Could not read {image_path}")
+
+    mask = foreground_mask(image)
+    count, labels, stats, _ = cv2.connectedComponentsWithStats(mask)
+    overlay = image.copy()
+    rows = []
+
+    for label in range(1, count):
+        area_px = int(stats[label, cv2.CC_STAT_AREA])
+        if area_px < min_area:
+            continue
+
+        component = np.where(labels == label, 255, 0).astype(np.uint8)
+        contours, _ = cv2.findContours(
+            component, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
+        if not contours:
+            continue
+
+        contour = max(contours, key=cv2.contourArea)
+        perimeter_px = float(cv2.arcLength(contour, True))
+        (_, _), (side_a, side_b), angle = cv2.minAreaRect(contour)
+        length_px, width_px = max(side_a, side_b), min(side_a, side_b)
+        mean_b, mean_g, mean_r, _ = cv2.mean(image, mask=component)
+
+        sample_id = f"S{len(rows) + 1}"
+        rows.append(
+            {
+                "id": sample_id,
+                "area_px": area_px,
+                "perimeter_px": round(perimeter_px, 2),
+                "length_mm": round(length_px / px_per_mm, 3),
+                "width_mm": round(width_px / px_per_mm, 3),
+                "area_mm2": round(area_px / px_per_mm**2, 3),
+                "circularity": round(
+                    4 * np.pi * area_px / max(perimeter_px**2, 1e-9), 4
+                ),
+                "angle_deg": round(float(angle), 2),
+                "mean_r": round(mean_r, 1),
+                "mean_g": round(mean_g, 1),
+                "mean_b": round(mean_b, 1),
+            }
+        )
+
+        box = np.intp(cv2.boxPoints(cv2.minAreaRect(contour)))
+        cv2.drawContours(overlay, [contour], -1, (255, 120, 0), 2)
+        cv2.drawContours(overlay, [box], -1, (0, 210, 255), 2)
+        x, y, _, _ = cv2.boundingRect(contour)
+        cv2.putText(
+            overlay,
+            sample_id,
+            (x, max(20, y - 8)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (20, 20, 20),
+            2,
+            cv2.LINE_AA,
+        )
+
+    result = pd.DataFrame(rows)
+    csv_path = image_path.with_name(f"{image_path.stem}_measurements.csv")
+    overlay_path = image_path.with_name(f"{image_path.stem}_overlay.png")
+    result.to_csv(csv_path, index=False)
+    cv2.imwrite(str(overlay_path), overlay)
+    print(f"Detected {len(result)} components")
+    print(f"Wrote {csv_path} and {overlay_path}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("image", type=Path)
+    parser.add_argument("--px-per-mm", type=float, required=True)
+    parser.add_argument("--min-area", type=int, default=500)
+    args = parser.parse_args()
+    quantify(args.image, args.px_per_mm, args.min_area)
+```
+
+Run it with the measured scale:
+
+```bash
+python quantify_samples.py samples.jpg --px-per-mm 12.4 --min-area 500
+```
+
+The script does not automatically identify or exclude the calibration object. Crop it out before analysis or remove its component only after checking the overlay and documenting the rule.
+
+## 5. Review before accepting numbers
+
+For every batch:
+
+1. Compare the overlay with the original at full resolution.
+2. Confirm the expected number of biological samples.
+3. Reject components formed by shadows, labels, marker objects, or merged samples.
+4. Repeat the scale measurement and report inter-operator variation.
+5. Measure a blinded validation subset manually.
+6. Report error and confidence intervals in physical units.
+7. Test a second acquisition session before claiming generalization.
+
+Save exclusions rather than silently deleting them.
+
+## Interpretation boundaries
+
+- Downsampling or image compression can change contours and small structures.
+- Otsu thresholding assumes separable foreground and background distributions.
+- A rotated rectangle overestimates or misrepresents strongly curved samples.
+- Perimeter and circularity are highly sensitive to boundary noise.
+- Two-dimensional projected area is not total leaf or organ surface area.
+- Mean RGB is not a calibrated spectral measurement or a validated vegetation index.
+- The same settings may fail after changes in lighting, camera, background, crop, or growth stage.
+
+## Related browser tool
+
+[Biological Sample Quantifier](/app/image) provides a browser entry point to a hosted image-analysis service. Review its [App Lab tutorial](/docs/tutorial-apps/image-quantifier-tutorial), service status, upload limits, and external-processing privacy boundary before sending research images.
+
+*Reference implementation reviewed: July 2026. Validate it with your own acquisition protocol before scientific use.*
+
+
+---
+
+# Hunyuan3D-1 for Plant Images: A Reproducible Exploration Guide
+
+Source: https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide
+Layers: DIG
+
+Hunyuan3D-1 is a generative image-to-3D and text-to-3D system released by Tencent. It can create a textured 3D asset from a single plant photograph, which makes it useful for visualization, hypothesis generation, and studying the behavior of generative 3D models.
+
+It is **not** a calibrated reconstruction system by default. A single image does not observe the back of a plant, an absolute scale, or structures hidden by leaves. The model must infer those regions, so its output cannot be treated as measured plant height, leaf area, branch count, or organ geometry without independent validation.
+
+![Hunyuan3D plant reconstruction](/img/i23d.png)
+
+:::warning Exploratory output, not ground truth
+
+Use generated meshes as model outputs. Do not present inferred, invisible geometry as an observation. For metric phenotyping, compare against multi-view photogrammetry, depth sensing, laser scanning, or manual measurements collected with a documented scale.
+
+:::
+
+## Scope and version
+
+This guide documents the public **Hunyuan3D-1** workflow so an older experiment can be reproduced. It deliberately does not invent a generic Transformers API: Hunyuan3D-1 uses its own repository, weight layout, environment scripts, and `main.py` entry point.
+
+Check the upstream [Hunyuan3D-1 repository](https://github.com/tencent/Hunyuan3D-1) and [Hugging Face model card](https://huggingface.co/tencent/Hunyuan3D-1) before installation. Newer Hunyuan3D releases have different code and hardware requirements; do not mix commands between generations.
+
+## 1. Decide whether the method fits the question
+
+| Question | Hunyuan3D-1 suitability |
+| --- | --- |
+| Can a generative model create a plausible plant-like asset? | Suitable for exploratory analysis |
+| Can it support an interactive visualization or synthetic scene? | Potentially suitable after mesh inspection |
+| What is the true height, leaf angle, or branch count of this plant? | Not suitable without calibrated reference data and validation |
+| How does plant structure change over time? | A single-image generative output is not a reliable longitudinal measurement |
+| Does the model generalize across species and growth stages? | Requires a pre-registered, independently labeled evaluation dataset |
+
+## 2. Prepare an auditable input set
+
+For each plant image, retain:
+
+- the untouched original and metadata;
+- species or genotype and growth stage, if authorized for release;
+- camera and lighting information;
+- a background-removal method and its version;
+- an image identifier that links generated assets to source data;
+- consent and license information for any non-original images.
+
+Use a simple background with the complete visible plant in frame. Background removal may improve conditioning, but it does not reveal occluded organs or create metric scale.
+
+Create a small pilot set first. Include easy examples, dense canopies, thin leaves, overlapping organs, and images from species not represented in the development set.
+
+## 3. Install the official Hunyuan3D-1 workflow
+
+The commands below mirror the upstream project structure. They assume Linux with a compatible NVIDIA environment; choose the PyTorch build that matches the installed driver and CUDA runtime.
+
+```bash
+git clone https://github.com/tencent/Hunyuan3D-1
+cd Hunyuan3D-1
+
+conda create -n hunyuan3d-1 python=3.10
+conda activate hunyuan3d-1
+which python
+which pip
+
+# Install the compatible PyTorch build first, following pytorch.org.
+bash env_install.sh
+python -m pip install "huggingface_hub[cli]"
+```
+
+Download the official weights into the layout expected by the repository:
+
+```bash
+mkdir -p weights
+huggingface-cli download tencent/Hunyuan3D-1 --local-dir ./weights
+
+mkdir -p weights/hunyuanDiT
+huggingface-cli download Tencent-Hunyuan/HunyuanDiT-v1.1-Diffusers-Distilled \
+  --local-dir ./weights/hunyuanDiT
+```
+
+Record the Git commit and downloaded model revisions:
+
+```bash
+git rev-parse HEAD
+huggingface-cli env
+python -m pip freeze > environment-lock.txt
+```
+
+The complete pipeline is GPU-intensive. Consult the upstream model card for the current standard, lite, split-pipeline, and memory-saving options. A successful Open3D installation or a random point-cloud visualization does not demonstrate that Hunyuan3D inference will run.
+
+## 4. Generate one image-conditioned asset
+
+Run the repository entry point instead of calling nonexistent methods such as `AutoModel.generate_point_cloud`:
+
+```bash
+python3 main.py \
+  --image_prompt "/absolute/path/to/plant.png" \
+  --save_folder ./outputs/plant-001/ \
+  --max_faces_num 90000 \
+  --do_texture_mapping \
+  --do_render
+```
+
+Start with one image and inspect the entire output directory before attempting a batch. Save the command, random seed, runtime, peak GPU memory, warnings, and failure status for every sample.
+
+The primary output is a generated mesh and render assets, not a measured point cloud. If a downstream application requires points, sample them from the mesh while preserving that provenance:
+
+```python
+
+mesh = o3d.io.read_triangle_mesh("generated_mesh.obj")
+if mesh.is_empty():
+    raise ValueError("The generated mesh could not be loaded")
+
+mesh.compute_vertex_normals()
+points = mesh.sample_points_poisson_disk(number_of_points=100_000)
+o3d.io.write_point_cloud("generated_mesh_sampled.ply", points)
+```
+
+Replace `generated_mesh.obj` with the actual output filename. Sampling a mesh creates a point representation of the same generated surface; it does not make the geometry more accurate.
+
+## 5. Evaluate plant outputs honestly
+
+### Visual quality review
+
+Score predefined criteria instead of selecting only attractive outputs:
+
+- silhouette consistency with the visible image;
+- missing, duplicated, fused, or disconnected organs;
+- stem and branch continuity;
+- texture leakage and background artifacts;
+- plausibility of the inferred back side;
+- stability across seeds and small image perturbations.
+
+### Geometric validation
+
+If the research claim concerns geometry, collect an independently scaled reference for the same specimen. Align only with a documented procedure, then report:
+
+- the number of successful and failed generations;
+- scale and registration method;
+- surface or point distance with units;
+- trait error for each biological unit;
+- performance by species, growth stage, and occlusion level;
+- sensitivity to seed, crop, background, and input view;
+- confidence intervals or repeated-run variability.
+
+Do not report benchmark numbers unless the dataset, split, baseline, code, and evaluation definition are available.
+
+## 6. Reproducibility record
+
+Save a manifest such as:
+
+```json
+{
+  "sample_id": "plant-001",
+  "source_image": "plant-001.png",
+  "repository_commit": "<git-commit>",
+  "model_revision": "<model-revision>",
+  "seed": 0,
+  "command": "python3 main.py ...",
+  "status": "success",
+  "intended_use": "exploratory visualization",
+  "metric_validation": false
+}
+```
+
+Store failed generations too. Excluding them after inspection produces a misleading estimate of robustness.
+
+## Known limitations
+
+- Invisible and occluded geometry is inferred rather than observed.
+- Generated assets do not contain an automatic physical scale.
+- Thin leaves, petioles, branching junctions, and repeated textures are difficult cases.
+- A visually plausible mesh can still be geometrically wrong.
+- Output quality may vary with segmentation, background, seed, and input view.
+- Training-data coverage and species-specific generalization are not established by a few examples.
+- Model and code licenses must be checked for the intended research or commercial use.
+
+## When to choose another method
+
+Use multi-view SfM for an image-based geometric reconstruction with camera calibration and scale. Use structured light, depth cameras, or laser scanning when reference geometry and repeatable measurements are the priority. Use Hunyuan3D when the research question is specifically about generative 3D behavior or when a clearly labeled synthetic visualization is appropriate.
+
+*Workflow reviewed: July 2026 for Hunyuan3D-1 documentation. Upstream commands and model availability may change.*
+
+
+---
+
+# UAV 3D Crop Phenotyping: From CCO Acquisition to Validated Traits
+
+Source: https://smiler488.github.io/blog/uav-3d-crop-phenotyping
+Layers: DIG
+
+UAV-based 3D phenotyping connects flight planning, photogrammetry, point-cloud processing, and biological validation. The reconstruction is only one part of the workflow: flight safety, scale, coordinate reference, canopy motion, occlusion, and ground truth all determine whether a derived trait is useful.
+
+This article presents a practical workflow built around **Cross-Circular Oblique (CCO)** acquisition and Structure from Motion (SfM). It distinguishes geometric measurements from visualization products and avoids treating every 3D representation as a calibrated phenotype.
+
+## Workflow at a glance
+
+```mermaid
+flowchart LR
+  A[Field design and permissions] --> B[CCO plus grid acquisition]
+  B --> C[Image quality control]
+  C --> D[SfM alignment and calibration]
+  D --> E[Orthomosaic, DSM, and point cloud]
+  E --> F[Plot or row segmentation]
+  F --> G[Candidate 3D traits]
+  G --> H[Ground-truth validation]
+  H --> I[Statistical or machine-learning model]
+```
+
+## 1. Design acquisition around the trait
+
+A **Cross-Circular Oblique** flight path collects oblique views around sampling locations or plots. The changing azimuth improves view diversity around complex canopies, while an additional grid or cross-hatch flight can provide more uniform coverage and strengthen the spatial frame.
+
+![Flight Path Design Diagram](/img/cco.png)
+
+Before defining waypoints, specify:
+
+- the biological unit: plant, row, plot, or field;
+- the smallest structure that must remain visible;
+- the required ground sampling distance;
+- the expected canopy height and safe clearance;
+- camera focal length, focus, shutter speed, and image interval;
+- overlap targets appropriate to the scene and software;
+- wind, illumination, battery, and legal operating limits;
+- ground control points (GCPs), RTK/PPK strategy, or another source of scale.
+
+There is no universal altitude, radius, camera pitch, or overlap setting. Validate a small pilot block before committing to a field campaign.
+
+:::caution Flight safety and compatibility
+
+Generated waylines are planning aids. Confirm local aviation rules, obstacle clearance, return-to-home behavior, battery reserve, aircraft and controller compatibility, and the imported mission in the manufacturer's software before flight.
+
+:::
+
+The browser-based [CCO Waylines Builder](/app/cco) can turn a KML boundary into previewable DJI-compatible KML, WPML, and KMZ planning files. Its [tutorial](/docs/tutorial-apps/cco-mission-planner-tutorial) explains the current export and compatibility boundaries.
+
+## 2. Control image quality in the field
+
+Photogrammetry cannot recover detail that is consistently blurred, saturated, occluded, or absent.
+
+1. Use manual or locked exposure where practical so brightness does not jump between adjacent frames.
+2. Prefer a shutter speed that limits motion blur from both aircraft motion and wind-driven leaves.
+3. Verify focus before each flight block.
+4. Avoid abrupt illumination changes when possible; record cloud and wind conditions.
+5. Check representative images at full resolution before leaving the site.
+6. Preserve original files and metadata. Do not resize, sharpen, or re-encode the only copy.
+
+Record the aircraft, payload, lens, image dimensions, mission geometry, timestamps, coordinate system, weather, and any interrupted flight.
+
+## 3. Build the spatial reference
+
+Multi-view images can be aligned and orthorectified to create an orthomosaic, digital surface model (DSM), camera poses, and dense point cloud. These products serve different purposes:
+
+| Product | Primary role | Important caveat |
+| --- | --- | --- |
+| Orthomosaic | Plot boundaries, labels, two-dimensional context, and spatial indexing | Relief displacement and canopy motion can affect seams |
+| DSM | Surface elevation relative to the chosen reference | Height requires a defensible ground or terrain estimate |
+| SfM point cloud | Geometric analysis and spatial sampling | Scale, noise, occlusion, and registration error must be checked |
+| Camera poses | Reprojection, view selection, and downstream neural rendering | Pose quality depends on successful alignment |
+
+Orthomosaics are not merely decorative baselines: they can support plot extraction and two-dimensional traits. They should not, however, be treated as the sole source of three-dimensional canopy structure.
+
+## 4. Reconstruct measurable geometry with SfM
+
+SfM estimates camera poses and sparse geometry from shared visual features; dense reconstruction then estimates additional surface points.
+
+![SfM Point Cloud Reconstruction Diagram](/img/f3dr.png)
+
+Before extracting traits, inspect:
+
+- aligned-camera coverage and rejected images;
+- reprojection error and tie-point distribution;
+- GCP/RTK residuals and independent checkpoints;
+- scale and coordinate-system consistency;
+- holes beneath dense upper foliage;
+- floating points, ground leakage, and duplicated surfaces;
+- registration consistency across dates.
+
+Canopy height is typically calculated relative to a ground model or local reference surface, not directly from maximum point elevation. Report the percentile or robust statistic used; a single highest point is sensitive to noise.
+
+## 5. Use 3D Gaussian Splatting for the right purpose
+
+3D Gaussian Splatting (3DGS) can provide high-quality interactive novel-view rendering from calibrated images and camera poses. It is valuable for visual inspection, communication, and research on appearance-aware scene representation.
+
+3DGS should not automatically replace the SfM point cloud for metric phenotyping. A rendered Gaussian representation is not inherently a watertight surface or a calibrated biological measurement. Any geometry extracted from a 3DGS pipeline requires its own scale, accuracy, repeatability, and ground-truth validation.
+
+## 6. Segment fields, plots, and rows
+
+Use the orthomosaic and experimental design to create plot polygons, then project or crop the corresponding point-cloud regions. A robust boundary workflow may combine:
+
+1. surveyed or design-derived plot geometry;
+2. vegetation or color cues from the orthomosaic;
+3. topology constraints such as expected row order and spacing;
+4. manual quality control for borders, missing stands, and mixed plots.
+
+The [Land Surveyor](/app/land-survey) can help capture and export field polygons, but browser GPS accuracy varies by device and environment. Survey-grade boundaries require appropriate positioning equipment and procedures.
+
+## 7. Derive candidate traits
+
+Candidate point-cloud descriptors can include:
+
+- height percentiles and vertical profiles;
+- projected canopy area;
+- convex or alpha-shape volume with fully reported parameters;
+- point density and spatial occupancy;
+- row width and gap statistics;
+- surface roughness or local height variation.
+
+These are algorithm outputs until they are linked to a biological definition and validated. Point density, for example, also reflects image geometry, texture, reconstruction settings, and occlusion.
+
+### CanopyPC research workflow
+
+CanopyPC refers here to a research workflow for canopy point-cloud processing, including statistical outlier removal, optional ground filtering, row segmentation, bounding geometry, and interactive inspection. It should not be interpreted as a publicly released, installable package unless a repository, version, license, and example dataset are provided with the analysis.
+
+## 8. Validate before modeling
+
+Select ground truth that matches the proposed claim. Examples include surveyed canopy height, manual organ measurements, destructive leaf-area measurements, or a higher-accuracy reference scan.
+
+Use grouped validation that keeps related plants, plots, flights, sites, or dates together. Randomly splitting individual points or repeated images can create severe leakage.
+
+Report at least:
+
+- sample counts at the biological-unit level;
+- train, validation, and test grouping;
+- error metrics with units and uncertainty;
+- calibration and residual plots when predicting continuous traits;
+- performance by crop, growth stage, site, and acquisition condition;
+- missing reconstructions and excluded cases;
+- a comparison with a simple baseline.
+
+Transfer to a new crop or environment must be measured; it should not be assumed from cross-validation in one field.
+
+## Limitations to state explicitly
+
+- Dense upper canopies hide lower organs, and no flight path can reconstruct surfaces that are never observed.
+- Wind violates the static-scene assumption of conventional photogrammetry.
+- Repeated-date comparisons require stable scale, ground reference, and registration.
+- 3D models may underestimate leaf area as occlusion increases.
+- Automatic segmentation can fail at plot borders, lodging, senescence, weeds, and missing stands.
+- Flight efficiency and geometric completeness trade off against battery, data volume, blur, and safety.
+
+## Reproducibility checklist
+
+- [ ] Raw images and metadata archived
+- [ ] Mission and camera settings recorded
+- [ ] Coordinate system and scale source documented
+- [ ] Software versions and reconstruction parameters saved
+- [ ] Plot geometry versioned
+- [ ] Point-cloud filters and thresholds reported
+- [ ] Independent ground truth retained
+- [ ] Failed cases included in the report
+
+*Workflow reviewed: July 2026. Parameters must be adapted and validated for each aircraft, crop, field, and research question.*
+
+
+---
+
+# Root Quantify: Interactive Root Image Preprocessing in Python
+
+Source: https://smiler488.github.io/blog/root-quantify
+Layers: DIG
+
+**Root Quantify** is a small OpenCV desktop utility for preparing root images. It guides a user through polygon selection, background correction, binarization, and manual cleanup, then saves the corrected region for analysis in another tool.
+
+It is important to describe that boundary precisely: the current program creates cleaned binary images; it does **not** calculate validated root length, density, diameter, or architecture traits by itself.
+
+## What the current tool does
+
+| Stage | Operation | Result |
+| --- | --- | --- |
+| Folder scan | Finds JPG, JPEG, PNG, BMP, TIF, and TIFF files | A batch queue of source images |
+| ROI selection | Records polygon vertices around the useful root region | A masked crop |
+| Preprocessing | Estimates background, reduces uneven illumination, thresholds, and inverts the crop | Dark roots on a light background |
+| Manual correction | Draws or erases pixels with an adjustable brush | A reviewed binary image |
+| Export | Saves the corrected image and moves the original into an archive folder | No accidental reprocessing in the next run |
+
+This workflow is most useful before skeletonization or measurement in software such as RhizoVision Explorer, WinRHIZO, ImageJ, or a validated laboratory pipeline.
+
+## Installation
+
+The source is available in the [Root Quantify GitHub repository](https://github.com/smiler488/RootQuantify).
+
+```bash
+git clone https://github.com/smiler488/RootQuantify.git
+cd RootQuantify
+
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+On Windows, activate the environment with:
+
+```powershell
+.venv\Scripts\activate
+```
+
+The interface requires a graphical desktop. A headless server or notebook session cannot display the OpenCV selection windows without additional display configuration.
+
+:::caution Configure the input directory
+
+The current `RootImager.py` revision contains a `folder_path` value in the script. Set it to the directory containing the images before running. Keep a backup of that directory because completed originals are moved into `processed_original`.
+
+:::
+
+## Run the workflow
+
+```bash
+python RootImager.py
+```
+
+Two windows are used: one keeps the original image visible, while the other handles ROI selection and correction.
+
+### Keyboard controls
+
+| Key | Context | Action |
+| --- | --- | --- |
+| `c` | ROI selection | Confirm a polygon with at least three vertices |
+| `r` | ROI selection | Reset the polygon |
+| `d` | Manual correction | Draw dark root pixels |
+| `e` | Manual correction | Erase to a light background |
+| `+` / `-` | Manual correction | Increase or decrease brush size |
+| `u` | Manual correction | Undo the last completed stroke |
+| `q` | Manual correction | Finish the current image |
+
+After confirming the polygon, inspect the automatic threshold carefully. Correct only obvious segmentation errors; excessive manual editing reduces repeatability and should be recorded in the experiment log.
+
+## Inputs and outputs
+
+The program writes corrected images to an `output` directory with a `processed-` filename prefix. It moves each completed source image into `processed_original`.
+
+For reproducible work, save the following alongside the outputs:
+
+- the unmodified original images in a separate read-only backup;
+- the Root Quantify commit hash;
+- the preprocessing parameters used in the script;
+- operator identity and correction date;
+- a note describing any difficult or excluded image.
+
+Do not use the moved copy as the only archive of raw data.
+
+## Quality-control checklist
+
+- [ ] Roots and background have visibly different intensities.
+- [ ] The ROI excludes labels, rulers, pot edges, and unrelated objects.
+- [ ] Fine lateral roots are retained after thresholding.
+- [ ] Shadows are not mistaken for roots.
+- [ ] Manual corrections are minimal and documented.
+- [ ] A second reviewer checks a sample when measurements will support a publication.
+- [ ] Downstream measurements are validated against known objects or manual reference data.
+
+## Known limitations
+
+- Threshold-based segmentation is sensitive to shadows, reflections, substrate, and overlapping roots.
+- A binary image discards color and intensity information from the original.
+- Manual correction introduces operator variability.
+- Moving source files is convenient for batching but requires a deliberate backup policy.
+- The desktop interaction is not designed for unattended or high-throughput server processing.
+- The output is a preprocessing result, not a biological conclusion or calibrated phenotype table.
+
+For a browser-based preprocessing workflow with different limits, see [Root Image Preprocessor](/app/root-processor) and its [App Lab tutorial](/docs/tutorial-apps/root-preprocessor-tutorial).
+
+*Workflow reviewed: July 2026. Check the repository README and source before use because the interface may change.*
+
+
+---
+
+# Canopy Photosynthesis from 3D Plant Models — A Conceptual Workflow
+
+Source: https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en
+Layers: UND, PRE
+
+## Project overview
+
+Canopy photosynthesis modeling links several distinct systems: image acquisition, 3D reconstruction, organ geometry, radiative transfer, leaf physiology, and environmental forcing. This article defines the interfaces and validation requirements between those stages.
+
+It is a **conceptual research workflow**, not a complete executable simulator. Each stage requires a tested implementation, calibrated parameters, units, uncertainty analysis, and comparison with independent measurements.
+
+## Workflow map
+
+```mermaid
+flowchart TD
+    A[Multi-view images and calibration] --> B[Camera poses and 3D reconstruction]
+    B --> C[Validated plant geometry]
+    C --> D[Organ labels and leaf area]
+    D --> E[Measured or synthetic canopy]
+    F[Sun, sky, weather, and optical properties] --> G[Radiative-transfer model]
+    E --> G
+    G --> H[Leaf-level absorbed PPFD]
+    I[Species-specific physiological parameters] --> J[Leaf photosynthesis and conductance]
+    H --> J
+    J --> K[Area- and time-integrated canopy exchange]
+    K --> L[Validation and uncertainty analysis]
+```
+
+The arrows are data contracts. For example, a radiative-transfer model needs geometry with known units and normals; a photosynthesis model needs absorbed radiation in physical units, not arbitrary ray-hit counts.
+
+## 1. Define the scientific question first
+
+Possible questions include:
+
+- How does leaf-angle distribution affect within-canopy light?
+- Which architectural traits explain differences in daily carbon gain?
+- Can reconstructed canopies reproduce measured light interception?
+- How sensitive is a crop-model parameter to 3D structural variation?
+
+The question determines the necessary spatial and temporal resolution. A visualization model does not automatically support quantitative carbon-flux claims.
+
+Pre-register or document:
+
+- target variable and unit;
+- spatial unit: leaf, plant, plot, or canopy;
+- temporal unit: instant, hour, or day;
+- experimental factors and replicates;
+- calibration and validation observations;
+- acceptable error or decision threshold.
+
+## 2. Acquire multi-view images
+
+Use a capture protocol appropriate to the plant scale:
+
+- stable illumination and minimal leaf motion;
+- locked or recorded focus, exposure, white balance, and focal length;
+- sufficient overlap and multiple elevations;
+- measured scale controls;
+- calibration images and camera metadata;
+- subject identifiers that connect images to field or chamber records.
+
+Turntable and field capture need different background strategies. In a turntable setup, static room features must be masked because the plant rotates relative to them. In field capture, wind and moving shadows can violate the static-scene assumption.
+
+### Acquisition validation
+
+Report image count, rejected images, angular or spatial coverage, blur screening, marker visibility, and missing views. Repeat a subset of plants to quantify capture repeatability.
+
+## 3. Reconstruct geometry
+
+### Structure from Motion and multi-view stereo
+
+SfM estimates camera poses and sparse scene structure; multi-view stereo creates a denser point cloud. Tools such as COLMAP can provide these stages, but command-line option names change across versions. Save the exact software version and configuration.
+
+The geometry pipeline should produce:
+
+- camera poses and intrinsics;
+- scaled point cloud or mesh;
+- per-vertex or per-face normals;
+- confidence or density information where available;
+- reconstruction diagnostics.
+
+### 3D Gaussian Splatting
+
+3D Gaussian Splatting is primarily a learned radiance-field representation for novel-view rendering. A set of optimized Gaussians is not automatically a watertight, metrically validated plant mesh. Geometry extraction requires an additional, documented method and its own validation.
+
+Do not replace an SfM-to-mesh pipeline with a few tensor parameters and call the result complete 3DGS. A practical implementation needs a differentiable rasterizer, constrained scale/rotation/opacity parameterization, densification and pruning, camera calibration, and a defined export path.
+
+## 4. Validate and process the mesh
+
+Thin leaves, self-occlusion, texture-poor surfaces, and motion produce holes and false surfaces. Surface reconstruction can also fill unsupported regions.
+
+Inspect:
+
+- scale error against independent distances;
+- completeness by organ and canopy depth;
+- false connections between overlapping leaves;
+- mesh normals and orientation;
+- non-manifold or degenerate geometry;
+- sensitivity to masking and reconstruction settings.
+
+Poisson reconstruction returns a smooth closed surface and can extrapolate into low-density areas. Use density information and measured evidence to crop unsupported surfaces rather than accepting the default mesh.
+
+## 5. Derive plant organs and leaf area
+
+A curvature threshold alone is not a robust leaf/stem segmentation method. Curvature depends on scale, mesh resolution, noise, and neighborhood definition.
+
+Use a validated combination of:
+
+- geometry and topology;
+- color or spectral information;
+- supervised organ labels;
+- plant-development constraints;
+- manual review on a representative subset.
+
+For each organ, preserve:
+
+- surface area and the method used to calculate it;
+- orientation and normal convention;
+- thickness or two-sided-leaf assumption;
+- segmentation confidence;
+- link to the original plant and treatment.
+
+Compare total reconstructed leaf area with destructive leaf-area measurements or another independent method.
+
+## 6. Build a measured or synthetic canopy
+
+There are two different scientific products:
+
+1. **Measured canopy:** positions and geometry are reconstructed from an observed stand.
+2. **Synthetic canopy:** plant instances and traits are generated to test hypotheses.
+
+Synthetic perturbations must be interpretable. Record the distribution, covariance, bounds, and random seed for plant spacing, height, azimuth, leaf angle, and size. Repeatedly cloning one plant and adding arbitrary vertex noise does not reproduce population-level architectural diversity.
+
+Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.
+
+## 7. Model the light environment in physical units
+
+A radiative-transfer stage needs:
+
+- canopy coordinates and units;
+- direct and diffuse sky radiation;
+- sun position calculated from date, time, and location;
+- leaf reflectance and transmittance by waveband;
+- soil/background optical properties;
+- an absorption and scattering model;
+- a mapping from intercepted energy to absorbed PPFD or another defined quantity.
+
+Angles provided in degrees must be converted before using NumPy trigonometric functions:
+
+```python
+
+elevation = np.deg2rad(elevation_degrees)
+azimuth = np.deg2rad(azimuth_degrees)
+```
+
+Counting first ray intersections produces a sampling density, not irradiance. Each ray needs a defined energy or probability weight, and the model must describe whether it includes transmission, reflection, multiple scattering, and diffuse radiation.
+
+### Light-model validation
+
+Compare predictions with independent observations such as:
+
+- above- and below-canopy PAR sensors;
+- vertical or horizontal light profiles;
+- intercepted-radiation measurements;
+- hemispherical images or ceptometers;
+- energy conservation and convergence checks.
+
+Increase ray count or spatial resolution until the output of interest converges within a predefined tolerance.
+
+## 8. Parameterize leaf photosynthesis
+
+The Farquhar–von Caemmerer–Berry model describes C3 leaf photosynthesis through biochemical limitations. A credible implementation needs more than a generic `Vcmax25` and `Jmax25`.
+
+Define and justify:
+
+- species, cultivar, leaf age, and nitrogen status;
+- leaf temperature rather than air temperature when they differ;
+- intercellular or chloroplastic CO₂ treatment;
+- Rubisco-, electron-transport-, and, when relevant, TPU-limited rates;
+- day respiration;
+- temperature-response functions;
+- stomatal and, when needed, mesophyll conductance;
+- absorbed light and spectral assumptions;
+- fitted parameter uncertainty.
+
+Ambient CO₂ concentration cannot simply replace intercellular CO₂ without a conductance model or an explicitly justified approximation.
+
+Fit physiological parameters from appropriate gas-exchange observations or cite a parameter source that matches the biological material and conditions. Generic literature constants are useful for sensitivity analysis, not automatically for quantitative prediction.
+
+## 9. Integrate leaf rates without losing units
+
+For leaf element `i` with net assimilation `A_i` in micromoles of CO₂ per square metre per second and one-sided area `a_i` in square metres:
+
+```text
+P_canopy = sum_i(A_i × a_i)
+```
+
+The result is micromoles of CO₂ per second. An area-weighted mean is:
+
+```text
+A_mean = sum_i(A_i × a_i) / sum_i(a_i)
+```
+
+Dividing total assimilation by the number of occupied voxels does not produce an area-based rate.
+
+For daily carbon gain, integrate over time using environmental forcing and consistent time units. Report whether the canopy domain represents one plant, one row segment, one square metre of ground, or a whole plot.
+
+## 10. Keep the implementation modular
+
+A reproducible project can expose explicit stage interfaces:
+
+```text
+images + calibration
+    -> camera poses + scaled geometry
+geometry + organ labels
+    -> leaf elements + area + normals
+leaf elements + environment + optics
+    -> absorbed PPFD by element and time
+absorbed PPFD + physiology
+    -> leaf assimilation by element and time
+leaf assimilation + area
+    -> canopy exchange + uncertainty
+```
+
+For every interface, validate:
+
+- file schema and coordinate convention;
+- shape, unit, range, and missing values;
+- provenance and software version;
+- stable identifiers across stages;
+- a small fixture with a known or manually checked result.
+
+## 11. Uncertainty and sensitivity
+
+Uncertainty enters through:
+
+- camera calibration and scale;
+- missing or falsely reconstructed leaf area;
+- organ segmentation;
+- leaf normals and optical properties;
+- sky and sun forcing;
+- physiological parameter fitting;
+- numerical sampling and time integration.
+
+Use perturbation, Monte Carlo, or a designed sensitivity analysis to determine which uncertainties control the final canopy result. Report distributions or intervals, not only a single simulated value.
+
+## Minimum evidence for a quantitative claim
+
+- independent geometric measurements;
+- measured or well-supported optical properties;
+- light-model validation;
+- physiological calibration or appropriate parameter provenance;
+- canopy-level gas-exchange or biomass/carbon evidence when available;
+- repeatability across plants or plots;
+- a fully versioned environment, configuration, and data manifest.
+
+Without this evidence, present the output as a hypothesis-generating simulation or visualization.
+
+## References and implementations
+
+- [COLMAP command-line interface](https://colmap.github.io/cli.html)
+- [3D Gaussian Splatting paper and reference implementation](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
+- [Open3D surface reconstruction guide](https://www.open3d.org/docs/latest/tutorial/Advanced/surface_reconstruction.html)
+- [Farquhar, von Caemmerer, and Berry (1980)](https://biocycle.atmos.colostate.edu/Documents/SiB/Farquhar_1980.pdf)
+
+These resources document individual stages. They do not remove the need to validate the integrated crop or canopy model for the intended experiment.
+
+
+---
+
+# DJI P4 Multispectral to Plot-Level Traits with WebODM and QGIS
+
+Source: https://smiler488.github.io/blog/dji-p4m-webodm-qgis-workflow
+Layers: DIG
+
+## Project overview
+
+This guide takes original DJI P4 Multispectral imagery through WebODM and QGIS to a plot-level feature table. It distinguishes digital numbers from calibrated reflectance, treats band order and coordinate reference systems as data to verify, and keeps NoData pixels out of vegetation and texture statistics.
+
+- **Inputs:** original RGB and multispectral captures, metadata, plot boundaries, and preferably calibration and accuracy controls
+- **Outputs:** checked orthomosaic bands, vegetation indices, optional texture layers, and plot-level statistics
+- **Boundary:** menu labels vary by WebODM and QGIS version; verify the installed interface and processing report
+
+## 1. Preserve the source data
+
+A P4 Multispectral capture normally contains one RGB image and five narrow bands: blue, green, red, red edge, and near infrared. Preserve the camera-generated files and metadata as a read-only source dataset.
+
+Before processing:
+
+- copy, rather than move, the original folders;
+- keep all bands from each capture together;
+- preserve EXIF/XMP metadata, exposure information, and camera filenames;
+- check that every capture has the expected set of bands;
+- record flight, illumination, calibration-panel, RTK/GNSS, and ground-control information;
+- calculate checksums when data integrity matters.
+
+Do not rely on the downwelling light sensor alone as proof of reflectance accuracy. Calibration-panel observations, stable acquisition conditions, and independent validation strengthen the radiometric record.
+
+## 2. Install and start WebODM
+
+WebODM uses Docker. Install Docker Desktop and Git, allocate sufficient memory and storage, then clone the official repository:
+
+```bash
+git clone https://github.com/OpenDroneMap/WebODM
+cd WebODM
+./webodm.sh start
+```
+
+Open `http://localhost:8000` and create the local administrator account on first use.
+
+Follow the current WebODM installation documentation for operating-system-specific prerequisites. Avoid copying unverified third-party registry mirrors into Docker configuration; availability and trust can change.
+
+## 3. Create a multispectral task
+
+1. Create a project with a stable identifier, such as `maize-n-trial-2025`.
+2. Create a task and upload all bands together.
+3. Select the multispectral preset when it is available.
+4. Save the exact WebODM/ODM version and task options with the results.
+
+### Radiometric calibration
+
+OpenDroneMap exposes three radiometric modes:
+
+- `none` — output remains in sensor digital-number space;
+- `camera` — applies supported camera corrections when the required metadata are present;
+- `camera+sun` — additionally uses a downwelling-light-sensor signal and sun geometry; the ODM documentation labels this mode experimental.
+
+Choose a mode deliberately and describe it in the methods. Do not label an output “reflectance” when calibration was `none`.
+
+### Band alignment and reconstruction
+
+- ODM aligns multispectral bands by default. Do **not** enable `skip-band-alignment` unless the input has already been aligned and that fact has been verified.
+- Leave the primary band on automatic selection or choose a sharp, well-focused band after inspection.
+- Use fixed camera parameters only when the calibration and camera model justify that constraint.
+- The `use-exif` option is not a general “turn GPS on” switch. ODM already reads image metadata; `use-exif` is relevant when a GCP file is supplied but EXIF georeferencing should also be used.
+- If only 2D products are required, `skip-3dmodel` can reduce unnecessary output. Do not assume that every intermediate point-cloud calculation can be skipped.
+
+For survey accuracy, use well-distributed ground control and independent checkpoints when the research question requires them. RTK image positions do not remove the need to validate the final map.
+
+## 4. Inspect the WebODM outputs
+
+Download the orthophoto and processing report from the task assets. The displayed download name can vary; do not assume the file is always called `orthophoto.tif`.
+
+Before calculating an index, record:
+
+- raster dimensions, data type, and NoData value;
+- CRS and pixel size;
+- number of bands and each band description;
+- whether values are digital numbers or reflectance-like calibrated values;
+- processing warnings and geolocation/checkpoint errors.
+
+Use `gdalinfo` or **QGIS → Layer Properties → Information**. Never infer red and NIR band numbers from an example on the internet.
+
+## 5. Set up the QGIS project
+
+Add the multiband orthomosaic and plot-boundary layer to QGIS.
+
+### Choose the CRS from the survey location
+
+Spatial operations and plot areas should use an appropriate projected CRS with linear units. Determine the UTM zone or local projected CRS from the actual survey location. A copied example such as `EPSG:32645` is correct only for data located in that zone.
+
+Reproject the plot layer when necessary; assigning a new CRS without transforming coordinates does not reproject data.
+
+### Clip without losing NoData
+
+Use **Clip raster by mask layer** with the field boundary:
+
+- enable crop to cutline;
+- select a defined NoData value;
+- preserve the original raster;
+- confirm the clipped edge and pixel alignment visually.
+
+## 6. Calculate NDVI safely
+
+NDVI is:
+
+```text
+NDVI = (NIR - Red) / (NIR + Red)
+```
+
+After verifying the band numbers, replace the placeholders in the QGIS Raster Calculator:
+
+```text
+("orthomosaic@<NIR band>" - "orthomosaic@<Red band>") /
+("orthomosaic@<NIR band>" + "orthomosaic@<Red band>")
+```
+
+Also create a valid-data mask that excludes source NoData and zero denominators. Save the output as Float32 and inspect:
+
+- expected field patterns;
+- values outside [-1, 1];
+- seams, shadows, saturation, and uncalibrated exposure differences;
+- consistency with known vegetation and bare-soil areas.
+
+The valid NDVI range does not make every value biologically plausible. Interpretation depends on crop, growth stage, atmosphere, soil, viewing geometry, and calibration.
+
+## 7. Build a vegetation mask
+
+A threshold such as 0.2 is an experiment-specific starting point, not a universal vegetation boundary. Select it using representative labelled pixels or a documented sensitivity analysis.
+
+Keep two separate rasters:
+
+1. a binary vegetation mask;
+2. NDVI with non-vegetation pixels set to **NoData**, not zero.
+
+Multiplying NDVI by a binary mask sets the background to zero. Those zeros then enter means and, if the raster is shifted for quantization, can become mid-grey values. Use an explicit NoData mask before zonal statistics or texture calculation.
+
+## 8. Quantize only when a texture method requires it
+
+GRASS `r.texture` expects integer grey levels. Document the input layer, valid range, scale, offset, rounding, and NoData handling.
+
+If the complete NDVI interval ([-1, 1]) is intentionally mapped to UInt8, the conceptual transform is:
+
+```text
+UInt8 = round((NDVI + 1) × 127.5)
+```
+
+Clamp only valid vegetation pixels to 0–255 and leave background as NoData. A data-driven range can improve contrast, but it changes comparability between dates unless the same documented limits are used.
+
+## 9. Calculate GLCM texture deliberately
+
+Enable the GRASS processing provider before using `r.texture`. Common outputs include:
+
+- `asm` — angular second moment;
+- `contrast` — local grey-level contrast;
+- `corr` — correlation;
+- `idm` — inverse difference moment;
+- `entr` — entropy.
+
+`sa` is sum average, not another name for ASM, and `dv` is difference variance.
+
+Record:
+
+- window size in pixels and its footprint in metres;
+- pixel distance;
+- direction or directional aggregation;
+- quantization rule;
+- edge and NoData behavior.
+
+Choose the window from ground sampling distance and the biological scale of interest. A 7-pixel window at 2 cm GSD represents a different canopy area than the same window at 10 cm GSD.
+
+## 10. Extract plot-level statistics
+
+Run **Zonal statistics** with the plot polygons and a stable `plot_id`.
+
+Useful summaries include:
+
+- valid-pixel count and coverage fraction;
+- mean, median, standard deviation, and selected quantiles;
+- vegetation fraction;
+- selected texture metrics.
+
+Exclude NoData and flag plots with too little valid vegetation. Export the attribute table to CSV together with processing metadata, not as an unexplained standalone table.
+
+## Validation checklist
+
+- [ ] Every capture contains the expected bands and metadata.
+- [ ] The radiometric mode and calibration evidence are recorded.
+- [ ] Band descriptions were checked before index calculation.
+- [ ] CRS and ground sampling distance match the survey.
+- [ ] Ground-control and independent-check errors are reported when applicable.
+- [ ] Background pixels are NoData rather than numeric zeros in trait statistics.
+- [ ] Threshold and texture parameters were tested for sensitivity.
+- [ ] Plot coverage and valid-pixel counts accompany each summary.
+- [ ] Software versions, task options, and formulas are archived.
+
+## References
+
+- [OpenDroneMap multispectral and thermal processing](https://docs.opendronemap.org/multispectral/)
+- [ODM radiometric calibration option](https://docs.opendronemap.org/arguments/radiometric-calibration/)
+- [ODM options and flags](https://docs.opendronemap.org/arguments/)
+- [QGIS documentation](https://docs.qgis.org/)
+
+
+---
+
+# Turntable Photogrammetry for Potted Cotton in a Growth Chamber
+
+Source: https://smiler488.github.io/blog/growth-chamber-cotton-3d
+Layers: DIG
+
+## Project overview
+
+This protocol uses a rotating plant and fixed cameras to create a multi-view image set for 3D reconstruction. It is intended as an experimental starting point, not a validated claim of high-precision phenotyping. Accuracy depends on plant motion, image sharpness, calibration, scale control, background masking, and independent validation.
+
+## Research objective
+
+The workflow can support:
+
+- visualization of plant architecture;
+- exploratory estimates of plant height, width, volume, and leaf orientation;
+- development of organ-segmentation and light-distribution methods;
+- comparison of reconstruction settings under controlled acquisition.
+
+Do not treat mesh-derived traits as ground truth until their errors have been quantified against independent measurements.
+
+## 1. Prepare the imaging area
+
+### Stable environment
+
+- Stop fans and minimize airflow during capture; small leaf motion can break feature matching.
+- Use diffuse, flicker-free light and keep it constant for the full sequence.
+- Measure and record illuminance or exposure conditions rather than adopting an arbitrary universal lux value.
+- Avoid specular highlights, deep shadows, and automatic lighting changes.
+
+### Background and turntable
+
+- Use a matte, visually uniform background that can be masked reliably.
+- Use a rigid, matte turntable large enough for the pot and plant.
+- Avoid transparent or reflective acrylic unless its reflections are controlled and validated.
+- Keep static background features, color charts, cables, and supports out of the reconstruction mask. In turntable photogrammetry, the plant moves relative to the room, so static background features violate the assumed scene geometry.
+
+### Scale and control
+
+Place measured scale bars and uniquely identifiable coded markers on the rotating platform so they move with the plant. Avoid symmetric, repeated marker layouts that can create ambiguous correspondences.
+
+Reserve at least one independent scale or distance as a check rather than using every measurement to define the model.
+
+## 2. Configure the cameras
+
+One well-controlled camera moved between height levels is often easier to calibrate than two unmatched phone cameras. If multiple cameras are used:
+
+- lock focus, shutter speed, ISO, white balance, and focal length;
+- disable automatic HDR or lens switching when possible;
+- record each device, lens, resolution, frame rate, and exposure setting;
+- acquire calibration data for each camera;
+- avoid digital zoom;
+- verify that all views are sharp and free from rolling-shutter or stabilization artifacts.
+
+Phone video is compressed and may apply computational processing between frames. Still images or high-quality intra-frame video are preferable when the workflow permits.
+
+Use at least two elevation bands to reduce top- and underside occlusion. Exact angles and distances depend on plant size and field of view; verify that the entire specimen and scale controls remain visible.
+
+## 3. Capture the sequence
+
+1. Center and secure the pot without deforming the plant.
+2. Record a sharp reference view and the experiment metadata.
+3. Start a slow, constant rotation.
+4. Capture enough angular views to maintain feature overlap around the full plant.
+5. Repeat at the second camera height or elevation.
+6. Inspect the sequence immediately for blur, exposure drift, leaf motion, missing regions, and marker visibility.
+
+Do not export every one or two video frames by default. At 30 frames per second, that produces thousands of highly redundant images. Sample by angular coverage and image quality. Document the final angular interval, number of retained frames, and rejection criteria.
+
+## 4. Manage color separately from geometry
+
+A color chart such as SpyderCheck24 can help monitor camera and lighting consistency, but it does not by itself make image values physically calibrated reflectance.
+
+- Capture the chart under the same camera and lighting settings.
+- Apply one documented correction consistently to the sequence.
+- Keep the static chart out of the geometry reconstruction mask.
+- Preserve the uncorrected source files and the correction parameters.
+
+If color is a scientific output, validate the corrected patch values and report the color space, white balance, exposure, and error metric.
+
+## 5. Organize and screen the images
+
+Use names that preserve plant, camera, elevation, and view order:
+
+```text
+Plant01/
+├── raw/
+│   ├── camera-a/
+│   └── camera-b/
+├── selected/
+│   ├── upper/
+│   └── horizontal/
+├── masks/
+├── calibration/
+├── reconstruction/
+└── validation/
+```
+
+For every selected image, check:
+
+- sharpness at leaf edges;
+- consistent exposure and white balance;
+- sufficient overlap with adjacent views;
+- no large leaf displacement;
+- no accidental crop of the plant or scale controls;
+- a mask that excludes the static room and color chart.
+
+## 6. Reconstruct in Metashape or comparable software
+
+Software labels vary by version, so the workflow is described by purpose:
+
+1. import the selected images;
+2. apply masks before or during feature matching;
+3. estimate camera poses and a sparse reconstruction;
+4. inspect and remove obvious outlier tie points cautiously;
+5. identify coded markers and enter measured scale constraints;
+6. optimize camera parameters only after checking that the control geometry is correct;
+7. generate depth maps and a dense point cloud;
+8. remove unsupported background geometry;
+9. build and, if required, texture a mesh;
+10. export the point cloud or mesh with units and coordinate metadata.
+
+Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.
+
+## 7. Validate before extracting traits
+
+At minimum, report:
+
+- number of input and aligned images;
+- camera reprojection error, with its definition and units;
+- marker and scale residuals;
+- error on an independent distance or object;
+- visibly missing or falsely filled plant regions;
+- repeatability across replicate captures;
+- sensitivity of traits to masking and reconstruction settings.
+
+For manual plant height or width measurements (m_i) and reconstructed values (r_i), summarize bias and RMSE:
+
+```text
+bias = mean(r_i - m_i)
+RMSE = sqrt(mean((r_i - m_i)^2))
+```
+
+A visually plausible mesh can still give biased traits, particularly for thin leaf margins, overlapping leaves, and reflective or texture-poor surfaces.
+
+## 8. Export research-ready outputs
+
+Preserve:
+
+- original images and metadata;
+- selected-frame manifest and rejection reasons;
+- masks and calibration records;
+- reconstruction project and software version;
+- scale constraints and independent validation measurements;
+- exported PLY/OBJ/GLB with units;
+- scripts, parameters, and trait tables linked to a code commit.
+
+This evidence makes the reconstruction auditable and allows future processing improvements without repeating the experiment.

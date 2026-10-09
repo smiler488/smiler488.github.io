@@ -1,0 +1,62 @@
+# Liangchao Deng (邓良超)
+
+> Postdoctoral Researcher, Shenzhen Institute of China Agricultural University · Shenzhen, China. Research program: making plant science measurable with AI, from sensing crops to designing crops.
+
+Toward high, stable, and resource-efficient crop production under climate change, my research turns satellite–UAV–ground 3D observations into interpretable crop physiological states and, by coupling structure–radiation–photosynthesis–growth processes with data assimilation, builds verifiable, predictive, and intervenable crop digital twins that provide a mechanistic basis for the coordinated design of genotype × environment × management (G×E×M). With multi-source observation and AI, I make the state of the crop system observable, its mechanisms interpretable, its future projectable, and its decision risk quantifiable.
+
+Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works) · [GitHub](https://github.com/smiler488)
+
+## Research layers
+
+- Layer I · Digitize (DIG): Physical to digital crop: imaging, 3D reconstruction and sensing turn a real crop into quantified traits.
+- Layer II · Understand (UND): Digital to explainable crop: coupling structure, radiation and photosynthesis with scientific AI.
+- Layer III · Predict (PRE): Toward a predictive crop: projecting growth under environment and management scenarios.
+- Layer IV · Design (DES): Toward a designed crop: inverse design over genotype, environment and management.
+
+## Research projects
+
+- [Predicting leaf BRDF from phenotypic traits](https://smiler488.github.io/research/brdf-traits): Leaf directional reflectance can be predicted from measurable traits, and the optical diversity this reveals changes how light is distributed inside a simulated canopy. [UND]
+- [MCTP: a multi-modal crop phenotyping workspace](https://smiler488.github.io/research/mctp-workspace): One desktop workspace gives hyperspectral, LiDAR, RGB and thermal processing a shared entry point and export convention, while keeping each modality's processing transparent and tunable. [DIG]
+
+## Publications and software
+
+- [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. Peer-reviewed article. DOI 10.1016/j.plaphe.2025.100135. [UND]
+- [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. Research software. DOI 10.5281/zenodo.17544584. [DIG]
+
+## Browser tools (App Lab)
+
+Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
+
+- [Device Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
+- [Land Surveyor](https://smiler488.github.io/app/land-survey): Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu. [DIG]
+- [Irrigation Layout Designer](https://smiler488.github.io/app/irrigation-designer): Explore drip-line layouts, hydraulic constraints and pressure-loss estimates in an interactive preliminary design workspace. [DES]
+- [NASA POWER Weather Downloader](https://smiler488.github.io/app/weather): Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results. [PRE]
+- [CCO Waylines Builder](https://smiler488.github.io/app/cco): Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings. [DIG]
+- [Biological Sample Quantifier](https://smiler488.github.io/app/image): Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements. [DIG]
+- [Root Image Preprocessor](https://smiler488.github.io/app/root-processor): Prepare root scans with polygon regions, background cleanup, high-pass enhancement and precise manual corrections. [DIG]
+- [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Split and rectify a side-by-side camera stream, inspect stereo pairs and explore depth output with an explicit calibration profile. [DIG]
+- [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboard and coded circular calibration targets with live dimensions, validation and PDF export. [DIG]
+- [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table, create deterministic local charts and optionally use your chosen AI provider to help interpret patterns. [UND]
+- [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose.
+- [Multimodal AI Solver](https://smiler488.github.io/app/solver): Ask with text, camera or screen capture and send the prompt to the visual AI model and API provider you configure.
+- [Encrypted Note](https://smiler488.github.io/app/cloudnote): Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage.
+- [Research Maze](https://smiler488.github.io/app/maze): A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores.
+
+## Research notes
+
+- [PhenoHUB: A Mobile Toolkit for Digital Plant Phenotyping](https://smiler488.github.io/blog/phenohub-wechat-miniapp): A January 2026 snapshot of a WeChat Mini Program combining field utilities, weather queries, image tools, and experimental AI assistants. [DIG]
+- [Botanical Extract AI Pro: An Experimental Background-Isolation Workflow](https://smiler488.github.io/blog/botanical-extract-ai-pro): An experimental web and batch workflow for placing plants on white backgrounds with multimodal image models, including scientific and privacy limitations. [DIG]
+- [MCTP: A Multi-Modal Crop Phenotyping Workspace](https://smiler488.github.io/blog/mctp-unified-phenotyping-platform): A desktop workspace for hyperspectral, LiDAR, RGB, and thermal crop-phenotyping workflows, with clear boundaries between shared UI and cross-modal fusion. [DIG]
+- [Predicting Leaf BRDF from Phenotypic Traits](https://smiler488.github.io/blog/brdf-paper): A peer-reviewed framework combining directional spectroscopy, BRDF fitting, phenotypic traits, ensemble learning, and canopy ray tracing in four species. [UND]
+- [Local Image Quantification in Python: An Experimental, Auditable Workflow](https://smiler488.github.io/blog/local-image-quantification-tutorial): A compact OpenCV workflow for segmenting isolated biological samples, exporting pixel and calibrated size descriptors, and documenting the validation required before scientific use. [DIG]
+- [Hunyuan3D-1 for Plant Images: A Reproducible Exploration Guide](https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide): A version-specific, evidence-aware workflow for generating exploratory plant meshes with Hunyuan3D-1 and validating why generative 3D output is not automatically a phenotype measurement. [DIG]
+- [UAV 3D Crop Phenotyping: From CCO Acquisition to Validated Traits](https://smiler488.github.io/blog/uav-3d-crop-phenotyping): A field-to-analysis workflow for Cross-Circular Oblique UAV acquisition, SfM reconstruction, spatial referencing, point-cloud phenotyping, and honest model validation. [DIG]
+- [Root Quantify: Interactive Root Image Preprocessing in Python](https://smiler488.github.io/blog/root-quantify): A practical guide to using Root Quantify for polygon ROI selection, background correction, binary-mask cleanup, and organized export before downstream root analysis. [DIG]
+- [Canopy Photosynthesis from 3D Plant Models — A Conceptual Workflow](https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en): A validation-first research framework connecting multi-view reconstruction, plant geometry, radiative transfer, leaf physiology, and canopy-scale uncertainty. [UND, PRE]
+- [DJI P4 Multispectral to Plot-Level Traits with WebODM and QGIS](https://smiler488.github.io/blog/dji-p4m-webodm-qgis-workflow): A validation-first workflow for processing DJI P4 Multispectral imagery in WebODM, checking band metadata in QGIS, and extracting plot-level vegetation features. [DIG]
+- [Turntable Photogrammetry for Potted Cotton in a Growth Chamber](https://smiler488.github.io/blog/growth-chamber-cotton-3d): An experimental, validation-first protocol for acquiring and reconstructing multi-view images of potted cotton plants in a controlled environment. [DIG]
+
+## Optional
+
+- [Curriculum vitae](https://smiler488.github.io/cv)
+- [Privacy and visitor map](https://smiler488.github.io/privacy)

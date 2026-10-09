@@ -15,3 +15,7 @@ Disallow: /zh-Hans/app/maze
 # so both are declared here.
 Sitemap: https://smiler488.github.io/sitemap.xml
 Sitemap: https://smiler488.github.io/zh-Hans/sitemap.xml
+
+# A plain-text summary for AI assistants (llmstxt.org): research layers,
+# projects, publications, tools and notes. Chinese: /zh-Hans/llms.txt
+# https://smiler488.github.io/llms.txt

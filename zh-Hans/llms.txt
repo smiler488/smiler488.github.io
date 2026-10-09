@@ -1,0 +1,62 @@
+# 邓良超 (Liangchao Deng)
+
+> 博士后研究人员，深圳市中农大前沿技术研究院（中国农业大学深圳研究院）· 中国深圳。研究主张：用 AI 让植物科学可度量——从感知作物，走向设计作物。
+
+面向气候变化下的作物高产、稳产与资源高效，研究如何将卫星—无人机—地面三维观测转化为可解释的作物生理状态，并通过结构—辐射—光合—生长过程耦合和数据同化，构建可验证、可推演、可干预的作物数字孪生，为品种×环境×管理协同设计提供机制依据。利用多源观测和 AI，让作物系统的状态可观测、机制可解释、未来可推演、决策风险可量化。
+
+学术主页: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=u3GFRMQAAAAJ&view_op=list_works) · [GitHub](https://github.com/smiler488)
+
+## 研究分层
+
+- 第 I 层 · 数字化 (DIG): 从物理作物到数字作物：成像、三维重建与传感，把真实作物变成可量化的性状。
+- 第 II 层 · 理解 (UND): 从数字作物到可解释作物：耦合结构、辐射与光合过程和科学 AI。
+- 第 III 层 · 预测 (PRE): 走向可预测作物：在环境与管理情景下预测生长，并量化决策风险。
+- 第 IV 层 · 设计 (DES): 走向可设计作物：在基因型、环境与管理空间中做逆向设计与优化。
+
+## 研究项目
+
+- [从表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/research/brdf-traits): 叶片的方向反射可以由可测量的表型性状预测，而由此揭示的叶片光学多样性会改变模拟冠层内部的光分布。 [UND]
+- [MCTP：多模态作物表型工作台](https://smiler488.github.io/zh-Hans/research/mctp-workspace): 一个桌面工作台为高光谱、激光雷达、RGB 与热红外处理提供统一入口和一致的导出约定，同时让每种模态的处理过程保持透明、可调。 [DIG]
+
+## 论文与软件
+
+- [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. 同行评议论文. DOI 10.1016/j.plaphe.2025.100135. [UND]
+- [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. 科研软件. DOI 10.5281/zenodo.17544584. [DIG]
+
+## 浏览器工具（App Lab）
+
+免费、在浏览器中运行的工具；除非访客主动用自己的密钥调用 AI 功能，数据都留在访客本机。
+
+- [设备传感器记录仪](https://smiler488.github.io/zh-Hans/app/sensor): 采集手机姿态、定位与太阳几何，生成带时间戳的田间记录，并导出可直接用于科研的 CSV。 [DIG]
+- [土地测量仪](https://smiler488.github.io/zh-Hans/app/land-survey): 用手动坐标或设备定位构建田块边界，估算面积（平方米、公顷与亩）。 [DIG]
+- [灌溉布局设计器](https://smiler488.github.io/zh-Hans/app/irrigation-designer): 在交互式初步设计工作台中探索滴灌管布局、水力约束与压力损失估算。 [DES]
+- [NASA POWER 气象数据下载器](https://smiler488.github.io/zh-Hans/app/weather): 选择地点与日期范围，获取 NASA POWER 农业气象数据，预览或下载整洁的 CSV 结果。 [PRE]
+- [CCO 航线生成器](https://smiler488.github.io/zh-Hans/app/cco): 把 KML 田块边界转成可预览的大疆 CCO 航线包，飞行与相机参数均可配置。 [DIG]
+- [生物样本图像量化](https://smiler488.github.io/zh-Hans/app/image): 打开在线分析工作台，对上传或拍摄的生物样本图像做量化，并导出测量结果。 [DIG]
+- [根系图像预处理器](https://smiler488.github.io/zh-Hans/app/root-processor): 用多边形区域、背景清理、高通增强与精细手动修正来准备根系扫描图像。 [DIG]
+- [双目视觉工作台](https://smiler488.github.io/zh-Hans/app/stereo): 拆分并校正左右并排的相机画面，检查立体像对，并在明确的标定配置下查看深度输出。 [DIG]
+- [标定板生成器](https://smiler488.github.io/zh-Hans/app/targets): 生成可打印的棋盘格与编码圆形标定板，带实时尺寸、校验与 PDF 导出。 [DIG]
+- [AI 数据可视化](https://smiler488.github.io/zh-Hans/app/ai-data-visualizer): 载入表格，生成确定性的本地图表，并可选择用你自己的 AI 服务来协助解读数据模式。 [UND]
+- [AI 期刊选择器](https://smiler488.github.io/zh-Hans/app/journal-selector): 用你自己选择的 AI 服务和 API 密钥，将论文摘要与可配置的期刊条件做比对。
+- [多模态 AI 解题器](https://smiler488.github.io/zh-Hans/app/solver): 用文字、相机或截屏提问，把提示词发送到你自行配置的视觉 AI 模型与 API 服务。
+- [加密便签](https://smiler488.github.io/zh-Hans/app/cloudnote): 在浏览器内加密文本便签，通过 URL 片段分享，或在本地存储中保留一份带密码的副本。
+- [迷宫实验](https://smiler488.github.io/zh-Hans/app/maze): 一个紧凑的 canvas 实验：程序化迷宫生成、键盘与触摸输入、移动轨迹与本地计分。
+
+## 研究笔记
+
+- [PhenoHUB：一个数字植物表型移动工具包](https://smiler488.github.io/zh-Hans/blog/phenohub-wechat-miniapp): 2026 年 1 月的一个微信小程序快照，整合田间工具、天气查询、图像工具和实验性 AI 助手。 [DIG]
+- [Botanical Extract AI Pro：一套实验性背景分离工作流](https://smiler488.github.io/zh-Hans/blog/botanical-extract-ai-pro): 一套实验性的网页与批处理工作流，用多模态图像模型把植株置于白色背景上，并说明其科学和隐私局限。 [DIG]
+- [MCTP：一个多模态作物表型工作台](https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform): 一个用于高光谱、LiDAR、RGB 和热红外作物表型工作流的桌面工作台，在共享 UI 与跨模态融合之间有清晰边界。 [DIG]
+- [从表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/blog/brdf-paper): 一个经过同行评审的框架，结合方向光谱测量、BRDF 拟合、表型性状、集成学习和冠层光线追踪，覆盖四个物种。 [UND]
+- [用 Python 做本地图像量化：一套可审计的实验工作流](https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial): 一套紧凑的 OpenCV 工作流：分割分离的生物样本，导出像素和定标后的尺寸描述符，并记录科学使用前所需的验证。 [DIG]
+- [面向植物图像的 Hunyuan3D-1：一份可复现的探索指南](https://smiler488.github.io/zh-Hans/blog/hunyuan3d-plant-reconstruction-guide): 一套针对特定版本、注重证据的工作流：用 Hunyuan3D-1 生成探索性植株网格，并验证为何生成式三维输出不自动等同于表型测量。 [DIG]
+- [无人机三维作物表型：从 CCO 采集到经验证的性状](https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping): 一套从田间到分析的工作流：涵盖交叉环绕倾斜（CCO）无人机采集、SfM 重建、空间配准、点云表型和诚实的模型验证。 [DIG]
+- [Root Quantify：用 Python 交互式预处理根系图像](https://smiler488.github.io/zh-Hans/blog/root-quantify): 一份实用指南：用 Root Quantify 进行多边形 ROI 选择、背景校正、二值掩膜清理，并在下游根系分析前有序导出。 [DIG]
+- [基于三维植株模型的冠层光合作用——一套概念性工作流](https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en): 一个以验证为先的科研框架，连接多视图重建、植株几何、辐射传输、叶片生理和冠层尺度不确定性。 [UND, PRE]
+- [用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状](https://smiler488.github.io/zh-Hans/blog/dji-p4m-webodm-qgis-workflow): 一套以验证为先的工作流：在 WebODM 中处理大疆 P4 多光谱影像，在 QGIS 中核查波段元数据，并提取小区尺度的植被特征。 [DIG]
+- [人工气候室内盆栽棉花的转台摄影测量](https://smiler488.github.io/zh-Hans/blog/growth-chamber-cotton-3d): 一套以验证为先的实验流程：在受控环境中采集并重建盆栽棉花植株的多视图图像。 [DIG]
+
+## 可选
+
+- [个人简历](https://smiler488.github.io/zh-Hans/cv)
+- [隐私与访客地图](https://smiler488.github.io/zh-Hans/privacy)
