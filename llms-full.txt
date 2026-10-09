@@ -59,6 +59,7 @@ Free tools that run in the browser; data stays on the visitor's device unless an
 ## Optional
 
 - [Curriculum vitae](https://smiler488.github.io/cv)
+- [Local MCP server: field area, solar position and leaf BRDF as tools, identical to the website](https://github.com/smiler488/smiler488.github.io/tree/master/packages/lab-mcp)
 - [Privacy and visitor map](https://smiler488.github.io/privacy)
 
 

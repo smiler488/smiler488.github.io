@@ -59,6 +59,7 @@
 ## 可选
 
 - [个人简历](https://smiler488.github.io/zh-Hans/cv)
+- [本地 MCP 服务器：田块面积、太阳位置与叶片 BRDF，结果与网站工具一致](https://github.com/smiler488/smiler488.github.io/tree/master/packages/lab-mcp)
 - [隐私与访客地图](https://smiler488.github.io/zh-Hans/privacy)
 
 
