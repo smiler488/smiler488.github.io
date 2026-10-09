@@ -5,6 +5,8 @@ project: brdf-traits
 image: /img/brdf_cover.jpg
 ---
 
+import BrdfExplorer from '@site/src/components/figures/BrdfExplorer';
+
 ## 问题
 
 叶片表面并不均匀反射光。其解剖结构、色素和微观粗糙度会改变辐射在冠层中的散射方式，然而许多冠层模型使用简化的光学输入。逐叶测量方向反射既慢又费力，因此问题在于：能否用更易测量的性状来替代它。
@@ -21,6 +23,10 @@ image: /img/brdf_cover.jpg
 | σ(λ) | 微面元粗糙度 | 表皮纹理与表面不规则性 |
 | k(λ) | 漫反射系数 | 内部散射 |
 | n(λ) | 折射率 | 折射与界面反射 |
+
+拖动滑块，看每个参数如何塑造反射分布：粗糙度越低，光越集中在镜面方向附近的尖锐波瓣中；漫反射系数则让整条曲线均匀抬升。
+
+<BrdfExplorer />
 
 ## 结果
 

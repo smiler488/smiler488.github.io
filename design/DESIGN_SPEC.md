@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.3 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.4 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -415,8 +415,9 @@ updated: 2026-10-09
 
 让论文图、博客图、网站图看起来出自同一实验室。
 
+- **已落地（P2）**：Matplotlib 样式 `static/files/smiler488.mplstyle`（可直接 `plt.style.use("https://smiler488.github.io/files/smiler488.mplstyle")`）；数据配色 `src/lib/dataViz.js`（AI Data Visualizer 已改用）。
 - **Matplotlib 样式**：`static/files/smiler488.mplstyle`。Hanken Grotesk（无此字体时回退到 Helvetica 或 Arial），只保留左轴和下轴，细网格，墨色文字。
-- **ECharts 主题**：`src/lib/echartsTheme.js`，全站注册一次，`ai-data-visualizer` 等工具统一使用。
+- **ECharts**：不单独注册主题，而是共用 `src/lib/dataViz.js` 中的配色与字体常量（见 D-013）。
 - **数据配色**（与界面配色分开）：
   - 分类数据：Okabe–Ito 色盲友好配色 `#E69F00 #56B4E9 #009E73 #F0E442 #0072B2 #D55E00 #CC79A7 #000000`。
   - 连续数据：viridis 或 cividis。
@@ -669,6 +670,13 @@ flowchart LR
   - 首个交互图：建议先做 BRDF 探索器，数据已发表、风险最低。
   - Matplotlib 样式与 ECharts 主题。
   - 首页真实数据视频（可选）。
+- **状态：已完成（2026-10-09）**
+  - `src/components/figure/`：`InteractiveFigure` 外壳（编号、交互标识、图注、DOI 与代码来源；重型图可用 `load` + `poster` 懒加载）与 `useReducedMotion`。
+  - 首个交互图 BRDF 探索器（`src/components/figures/BrdfExplorer`），已嵌入 BRDF 项目页（中英文）。模型移植自研究的开源拟合代码 `lsq_brdf_up.mlx`（github.com/PlantSystemsBiology/brdf），放在 `src/lib/science/brdf.js`；与按原始仪器几何直接移植的 MATLAB 函数对照，172 个配置的最大相对误差 5.8×10⁻¹⁵；回归脚本 `node scripts/verify-brdf.mjs`。滑块范围即拟合边界（ρ、k ∈ [0.01, 0.99]，n ∈ [1.1, 5]），默认值为代码中的拟合初值，图注中明确说明不是实测叶片。
+  - 采用 SVG 而非 Canvas / ECharts：服务端渲染的默认状态就是静态 poster（满足 §7.1 第 1 条），交互部分约几 KB。
+  - 科研图表风格套件：见 §7.4。
+  - 未做：首页真实数据循环视频（需作者提供素材，可选项）。
+  - 发现：仓库中的 Python 辅助脚本 `refine_grid.py` 把已经是弧度的角度再次转换为弧度（MATLAB 版本无此问题，论文结果不受影响），建议在源仓库修正。
 - **验收**：
   - 交互图满足 §7.1 的全部 6 条。
   - 页面 LCP 不因交互图变差。
@@ -726,6 +734,7 @@ flowchart LR
 | D-010 | 2026-10 | 项目页用 pages 插件的 MDX 页面，不用独立 docs 实例 | `/research` Hub 是自定义 React 页面，与 docs 实例的根路由冲突；pages 插件同样支持中文翻译目录 |
 | D-011 | 2026-10 | 本地插件 `plugins/site-index` 同时提供博客索引（全局数据）与 `llms.txt` 生成 | 一个数据源，两种输出；机器可读内容不会与页面内容不一致 |
 | D-012 | 2026-10 | Now 与 Open problems 先以 `unlisted` 草稿上线 | 内容来自简历和已发表笔记，但需作者确认后才进入导航和 sitemap |
+| D-013 | 2026-10 | 交互图优先用服务端可渲染的 SVG；数据配色用共享常量而非 ECharts 主题注册 | SSR 输出即 poster，无需额外图片；共享常量对 ECharts、SVG、Canvas 都适用 |
 
 ---
 

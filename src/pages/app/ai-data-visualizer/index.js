@@ -5,24 +5,15 @@ import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import AIProviderSettings from "../../../components/AIProviderSettings";
 import { createDefaultAIConfig, requestAI } from "../../../lib/api";
+import { CATEGORICAL } from "../../../lib/dataViz";
 import styles from "./styles.module.css";
 
 const MAX_SAMPLE_ROWS = 40;
 const MAX_ROWS_TO_STORE = 10000;
 const MAX_PROMPT_CHARS = 8000;
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
-const COLOR_PALETTE = [
-  "#4e79a7",
-  "#f28e2c",
-  "#e15759",
-  "#76b7b2",
-  "#59a14f",
-  "#edc948",
-  "#b07aa1",
-  "#ff9da7",
-  "#9c755f",
-  "#bab0ab",
-];
+// Shared colour-blind-safe data palette (DESIGN_SPEC §7.4).
+const COLOR_PALETTE = CATEGORICAL;
 
 const SERIES_SYNONYMS = {
   doughnut: "pie",

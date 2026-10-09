@@ -5,6 +5,8 @@ project: brdf-traits
 image: /img/brdf_cover.jpg
 ---
 
+import BrdfExplorer from '@site/src/components/figures/BrdfExplorer';
+
 ## Problem
 
 Leaf surfaces do not reflect light uniformly. Their anatomy, pigments and microscopic roughness change how radiation is scattered through a canopy, yet many canopy models use simplified optical inputs. Measuring directional reflectance leaf by leaf is slow, so the question is whether easier-to-measure traits can stand in for it.
@@ -21,6 +23,10 @@ Leaf surfaces do not reflect light uniformly. Their anatomy, pigments and micros
 | σ(λ)      | Microfacet roughness           | Epidermal texture and surface irregularity |
 | k(λ)      | Diffuse reflection coefficient | Internal scattering                        |
 | n(λ)      | Refractive index               | Refraction and interface reflection        |
+
+Move the sliders to see how each parameter shapes the reflectance pattern: lower roughness concentrates light in a sharp lobe around the mirror direction, while the diffuse coefficient lifts the whole curve evenly.
+
+<BrdfExplorer />
 
 ## Results
 

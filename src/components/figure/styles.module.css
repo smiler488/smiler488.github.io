@@ -1,0 +1,71 @@
+/* Figure shell (design/DESIGN_SPEC.md §7.1). */
+
+.figure {
+  margin: 2.25rem 0;
+}
+
+.frame {
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg);
+}
+
+.poster {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+}
+
+.poster img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.caption {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 72ch;
+  margin-top: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.caption p {
+  margin: 0;
+}
+
+.caption strong {
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.15rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: var(--ds-radius-pill);
+  background: color-mix(in srgb, var(--ds-accent) 12%, var(--ds-bg));
+  color: var(--ds-accent);
+  font-size: 0.74rem;
+  font-weight: 600;
+  vertical-align: 0.05em;
+}
+
+.captionText {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.source a {
+  color: var(--ifm-color-emphasis-800);
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-emphasis-300);
+  text-underline-offset: 3px;
+}
+
+.source a:hover {
+  text-decoration-color: currentColor;
+}
