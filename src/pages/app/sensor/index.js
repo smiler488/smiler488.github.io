@@ -6,6 +6,7 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { recordExport } from "../../../lib/workbench/provenance";
 import { saveArtifact } from "../../../lib/workbench/workspace";
+import { solarPosition } from "../../../lib/science/solar.js";
 import styles from "./styles.module.css";
 
 /**
@@ -157,50 +158,12 @@ function getCurrentGeo(onError) {
 }
 
 /**
- * Compute sun position (elevation & azimuth, degrees)
- * Simplified remote sensing approach similar to SPA-lite
+ * Sun elevation and azimuth (degrees) at the device's own local time.
+ * The calculation lives in the shared science layer so the MCP server
+ * returns the same numbers (DESIGN_SPEC §9.3).
  */
 function computeSunPosition(latitude, longitude, date) {
-  if (typeof latitude !== "number" || typeof longitude !== "number") {
-    return { elevation: null, azimuth: null };
-  }
-  const rad = Math.PI / 180;
-  const deg = 180 / Math.PI;
-
-  // Local calendar day expressed through UTC values, avoiding DST and timezone double-shifts.
-  const year = date.getFullYear();
-  const n = Math.floor(
-    (Date.UTC(year, date.getMonth(), date.getDate()) - Date.UTC(year, 0, 0)) /
-      86400000
-  );
-
-  const B = (2 * Math.PI * (n - 81)) / 364;
-  const EoT = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B); // minutes
-  const decl = 23.45 * Math.sin(((2 * Math.PI) / 365) * (284 + n)); // deg
-
-  const localMinutes =
-    date.getHours() * 60 + date.getMinutes() + date.getSeconds() / 60;
-  const tz = -date.getTimezoneOffset() / 60;
-  const solarMinutes = localMinutes + 4 * longitude + EoT - 60 * tz;
-  const HRA = 15 * (solarMinutes / 60 - 12); // deg
-
-  const latRad = latitude * rad;
-  const declRad = decl * rad;
-  const hraRad = HRA * rad;
-
-  const sinAlt =
-    Math.sin(latRad) * Math.sin(declRad) +
-    Math.cos(latRad) * Math.cos(declRad) * Math.cos(hraRad);
-  const elevation = Math.asin(Math.max(-1, Math.min(1, sinAlt))) * deg;
-
-  // azimuth: 0..360 from North, clockwise
-  const azRad = Math.atan2(
-    Math.sin(hraRad),
-    Math.cos(hraRad) * Math.sin(latRad) - Math.tan(declRad) * Math.cos(latRad)
-  );
-  const azimuth = (azRad * deg + 180 + 360) % 360;
-
-  return { elevation, azimuth };
+  return solarPosition(latitude, longitude, date, -date.getTimezoneOffset());
 }
 
 function toFixedMaybe(v, d = 6) {

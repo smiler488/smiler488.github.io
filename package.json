@@ -19,7 +19,8 @@
     "lint:fix": "npm run lint -- --fix",
     "stylelint": "stylelint \"src/**/*.css\"",
     "stylelint:fix": "npm run stylelint -- --fix",
-    "check": "npm run lint && npm run stylelint && npm run build"
+    "test:science": "node --test \"src/lib/science/*.test.js\" \"packages/lab-mcp/test/*.test.mjs\"",
+    "check": "npm run lint && npm run stylelint && npm run test:science && npm run build"
   },
   "dependencies": {
     "@docsearch/css": "^4.3.2",

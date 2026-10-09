@@ -1,0 +1,16 @@
+{
+  "name": "@smiler488/lab-mcp",
+  "version": "0.1.0",
+  "description": "Local MCP server exposing the App Lab science functions (field area, solar position, leaf BRDF) from smiler488.github.io.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "smiler488-lab-mcp": "./server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

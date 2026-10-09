@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.5 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.6 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -672,7 +672,7 @@ flowchart LR
   - 首页真实数据视频（可选）。
 - **状态：已完成（2026-10-09）**
   - `src/components/figure/`：`InteractiveFigure` 外壳（编号、交互标识、图注、DOI 与代码来源；重型图可用 `load` + `poster` 懒加载）与 `useReducedMotion`。
-  - 首个交互图 BRDF 探索器（`src/components/figures/BrdfExplorer`），已嵌入 BRDF 项目页（中英文）。模型移植自研究的开源拟合代码 `lsq_brdf_up.mlx`（github.com/PlantSystemsBiology/brdf），放在 `src/lib/science/brdf.js`；与按原始仪器几何直接移植的 MATLAB 函数对照，172 个配置的最大相对误差 5.8×10⁻¹⁵；回归脚本 `node scripts/verify-brdf.mjs`。滑块范围即拟合边界（ρ、k ∈ [0.01, 0.99]，n ∈ [1.1, 5]），默认值为代码中的拟合初值，图注中明确说明不是实测叶片。
+  - 首个交互图 BRDF 探索器（`src/components/figures/BrdfExplorer`），已嵌入 BRDF 项目页（中英文）。模型移植自研究的开源拟合代码 `lsq_brdf_up.mlx`（github.com/PlantSystemsBiology/brdf），放在 `src/lib/science/brdf.js`；与按原始仪器几何直接移植的 MATLAB 函数对照，172 个配置的最大相对误差 5.8×10⁻¹⁵；回归测试见 `npm run test:science`（P4 起并入科学层测试）。滑块范围即拟合边界（ρ、k ∈ [0.01, 0.99]，n ∈ [1.1, 5]），默认值为代码中的拟合初值，图注中明确说明不是实测叶片。
   - 采用 SVG 而非 Canvas / ECharts：服务端渲染的默认状态就是静态 poster（满足 §7.1 第 1 条），交互部分约几 KB。
   - 科研图表风格套件：见 §7.4。
   - 未做：首页真实数据循环视频（需作者提供素材，可选项）。
@@ -707,6 +707,14 @@ flowchart LR
   - `src/lib/science/*` 纯函数与单元测试。
   - `@smiler488/lab-mcp` 原型。
   - 基于 `llms-full.txt` 的站内问答，使用用户自己的 AI 密钥（BYOK），可选。
+- **状态：已完成（2026-10-09），待作者在自己的 Claude 中做一次实测**
+  - 科学层 `src/lib/science/`（`geo.js`、`solar.js`、`brdf.js`，`package.json` 声明 `"type": "module"`）：纯函数、无 DOM，网站与 MCP 服务器共用。Land Surveyor 与 Sensor Recorder 已改为调用它。
+  - 太阳位置函数把时区改为显式参数（原实现读取设备时钟）；网页工具传入设备时区，数学完全不变。
+  - 等价性证明：重构前用原函数生成参考值（太阳位置在 Asia/Shanghai、America/New_York、UTC、Australia/Sydney 四个 TZ 下各 25 组，含夏令时；面积 13 组；BRDF 12 组），存为 `src/lib/science/__fixtures__/reference.json`，新实现逐一相等。
+  - 测试：`npm run test:science`（已加入 `npm run check`），共 11 项：科学层 5 项 + MCP 协议 6 项（按 MCP 客户端方式经 stdio 驱动服务器）。
+  - MCP 服务器 `packages/lab-mcp/`（零依赖，`private: true`，未发布到 npm）：工具 `field_area`、`solar_position`、`leaf_brdf`；输入校验错误以 `isError` 返回给模型修正；支持协议版本 2025-06-18 / 2025-03-26 / 2024-11-05。`llms.txt` 已列出。
+  - 网页工具与 MCP 结果一致：测试田块均为 10,252.04 m²。
+  - 未完成：本机 `claude` CLI 未登录，无法在此做真实 agent 调用；作者可用 `claude mcp add smiler488-lab -- node <repo>/packages/lab-mcp/server.mjs` 自行验证。可选项“站内问答（BYOK）”未做。
 - **验收**：在 Claude 等 agent 中通过 MCP 调用面积或太阳几何计算，结果与网页工具一致。
 
 ---
@@ -743,6 +751,7 @@ flowchart LR
 | D-012 | 2026-10 | Now 与 Open problems 先以 `unlisted` 草稿上线 | 内容来自简历和已发表笔记，但需作者确认后才进入导航和 sitemap |
 | D-013 | 2026-10 | 交互图优先用服务端可渲染的 SVG；数据配色用共享常量而非 ECharts 主题注册 | SSR 输出即 poster，无需额外图片；共享常量对 ECharts、SVG、Canvas 都适用 |
 | D-014 | 2026-10 | 参数记录用“导出事件 + 外壳面板”，不自动触发第二次下载 | 浏览器会拦截或提示多文件下载；事件机制让 React 工具与静态脚本共用一套接口 |
+| D-015 | 2026-10 | MCP 服务器零依赖手写 stdio JSON-RPC，暂不发布 npm | 避免引入第三方依赖；发布到 npm 属对外公开行为，需作者决定 |
 
 ---
 

@@ -1,0 +1,1314 @@
+{
+  "_source": "Outputs of the original tool functions (Sensor Recorder computeSunPosition under TZ=Asia/Shanghai, America/New_York, UTC, Australia/Sydney; Land Surveyor calculatePolygonArea) and of a direct port of brdffunction from lsq_brdf_up.mlx. Recorded 2026-10-09 before the refactor.",
+  "solar": [
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": -240,
+      "elevation": 73.08946367158428,
+      "azimuth": 166.95363293801847,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": -240,
+      "elevation": 84.11656784456744,
+      "azimuth": 79.87958897213474,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": -240,
+      "elevation": 25.612154781774795,
+      "azimuth": 328.56884435320285,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": -240,
+      "elevation": 1.2858631846210267,
+      "azimuth": 52.34277275173639,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": -240,
+      "elevation": 55.101981807176884,
+      "azimuth": 115.28284850816476,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": -240,
+      "elevation": -24.36917274195418,
+      "azimuth": 291.0953177489921,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": -240,
+      "elevation": -27.473542317924455,
+      "azimuth": 281.4560843930873,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": -240,
+      "elevation": -49.01285987123304,
+      "azimuth": 217.0262257305185,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": -240,
+      "elevation": 37.50366562192706,
+      "azimuth": 186.96867383910399,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": -240,
+      "elevation": -1.6901030476135006,
+      "azimuth": 270.52149482069717,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": -300,
+      "elevation": -4.902358855721958,
+      "azimuth": 116.7067972122257,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": -300,
+      "elevation": 1.202281013166589,
+      "azimuth": 116.08234989588857,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": -300,
+      "elevation": 52.785557735114075,
+      "azimuth": 84.75742880567157,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": -300,
+      "elevation": -60.42452110765436,
+      "azimuth": 336.7871159235101,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": -300,
+      "elevation": -27.45370024175268,
+      "azimuth": 96.86868461577558,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": -240,
+      "elevation": 29.39132293847678,
+      "azimuth": 228.38320292920832,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": -240,
+      "elevation": 41.64285463611827,
+      "azimuth": 236.34477356075865,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": -240,
+      "elevation": 15.696638654448213,
+      "azimuth": 271.6473403047079,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": -240,
+      "elevation": 3.3030828989189684,
+      "azimuth": 106.14376433540201,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": -240,
+      "elevation": 37.43917073543121,
+      "azimuth": 193.577830360779,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": -300,
+      "elevation": 2.8582082703189022,
+      "azimuth": 123.67007007583436,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": -300,
+      "elevation": 10.59326342520976,
+      "azimuth": 120.63200580731944,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": -300,
+      "elevation": 61.891034253803646,
+      "azimuth": 75.27017309541395,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": -300,
+      "elevation": -61.59736371401475,
+      "azimuth": 358.25591268033486,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": -300,
+      "elevation": -19.240866452035952,
+      "azimuth": 103.86762085639299,
+      "tz": "America/New_York"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 480,
+      "elevation": 73.08946367158428,
+      "azimuth": 166.95363293801847,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 480,
+      "elevation": 84.11656784456744,
+      "azimuth": 79.87958897213474,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 480,
+      "elevation": 25.612154781774777,
+      "azimuth": 328.56884435320285,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 480,
+      "elevation": 1.2858631846210267,
+      "azimuth": 52.34277275173639,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 480,
+      "elevation": 55.101981807176884,
+      "azimuth": 115.28284850816476,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 480,
+      "elevation": -24.36917274195418,
+      "azimuth": 291.0953177489921,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 480,
+      "elevation": -27.473542317924455,
+      "azimuth": 281.4560843930873,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 480,
+      "elevation": -49.01285987123304,
+      "azimuth": 217.0262257305185,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 480,
+      "elevation": 37.50366562192706,
+      "azimuth": 186.96867383910399,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 480,
+      "elevation": -1.6901030476135006,
+      "azimuth": 270.52149482069717,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 480,
+      "elevation": -4.979471168148365,
+      "azimuth": 116.63072282178393,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 480,
+      "elevation": 1.106829749174978,
+      "azimuth": 116.031548375726,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 480,
+      "elevation": 52.685961760605316,
+      "azimuth": 84.82693796446694,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 480,
+      "elevation": -60.39048273948314,
+      "azimuth": 336.5792986792633,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 480,
+      "elevation": -27.534056559965045,
+      "azimuth": 96.78713061566725,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 480,
+      "elevation": 29.39132293847678,
+      "azimuth": 228.38320292920832,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 480,
+      "elevation": 41.64285463611827,
+      "azimuth": 236.34477356075865,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 480,
+      "elevation": 15.696638654448174,
+      "azimuth": 271.6473403047079,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 480,
+      "elevation": 3.3030828989189684,
+      "azimuth": 106.14376433540201,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 480,
+      "elevation": 37.43917073543121,
+      "azimuth": 193.577830360779,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 480,
+      "elevation": 2.9117528513915394,
+      "azimuth": 123.61853004143819,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 480,
+      "elevation": 10.630664277571384,
+      "azimuth": 120.56671876564724,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 480,
+      "elevation": 61.85473024449486,
+      "azimuth": 75.13272450076067,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 480,
+      "elevation": -61.52310516996445,
+      "azimuth": 358.2591224038433,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 480,
+      "elevation": -19.192180713021006,
+      "azimuth": 103.80821856265317,
+      "tz": "Asia/Shanghai"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 600,
+      "elevation": 73.08946367158428,
+      "azimuth": 166.95363293801847,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 600,
+      "elevation": 84.11656784456744,
+      "azimuth": 79.87958897213474,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 600,
+      "elevation": 25.612154781774777,
+      "azimuth": 328.56884435320285,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 600,
+      "elevation": 1.2858631846210267,
+      "azimuth": 52.34277275173639,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 600,
+      "elevation": 55.101981807176884,
+      "azimuth": 115.28284850816476,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 660,
+      "elevation": -24.36917274195418,
+      "azimuth": 291.0953177489921,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 660,
+      "elevation": -27.473542317924455,
+      "azimuth": 281.4560843930873,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 660,
+      "elevation": -49.01285987123304,
+      "azimuth": 217.0262257305185,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 660,
+      "elevation": 37.50366562192706,
+      "azimuth": 186.96867383910399,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 660,
+      "elevation": -1.6901030476135006,
+      "azimuth": 270.52149482069717,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 660,
+      "elevation": -4.979471168148365,
+      "azimuth": 116.63072282178393,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 660,
+      "elevation": 1.106829749174978,
+      "azimuth": 116.031548375726,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 660,
+      "elevation": 52.685961760605316,
+      "azimuth": 84.82693796446694,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 660,
+      "elevation": -60.39048273948314,
+      "azimuth": 336.5792986792633,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 660,
+      "elevation": -27.534056559965045,
+      "azimuth": 96.78713061566725,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 660,
+      "elevation": 29.39132293847678,
+      "azimuth": 228.38320292920832,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 660,
+      "elevation": 41.64285463611827,
+      "azimuth": 236.34477356075865,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 660,
+      "elevation": 15.696638654448174,
+      "azimuth": 271.6473403047079,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 660,
+      "elevation": 3.3030828989189684,
+      "azimuth": 106.14376433540201,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 660,
+      "elevation": 37.43917073543121,
+      "azimuth": 193.577830360779,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 660,
+      "elevation": 2.9117528513915394,
+      "azimuth": 123.61853004143819,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 660,
+      "elevation": 10.630664277571384,
+      "azimuth": 120.56671876564724,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 660,
+      "elevation": 61.85473024449486,
+      "azimuth": 75.13272450076067,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 660,
+      "elevation": -61.52310516996445,
+      "azimuth": 358.2591224038433,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 660,
+      "elevation": -19.192180713021006,
+      "azimuth": 103.80821856265317,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 0,
+      "elevation": 73.08946367158428,
+      "azimuth": 166.95363293801847,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 0,
+      "elevation": 84.11656784456744,
+      "azimuth": 79.87958897213474,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 0,
+      "elevation": 25.612154781774795,
+      "azimuth": 328.56884435320285,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 0,
+      "elevation": 1.2858631846210267,
+      "azimuth": 52.34277275173639,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-06-21T04:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 0,
+      "elevation": 55.101981807176884,
+      "azimuth": 115.28284850816476,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 0,
+      "elevation": -24.36917274195418,
+      "azimuth": 291.0953177489921,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 0,
+      "elevation": -27.473542317924455,
+      "azimuth": 281.4560843930873,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 0,
+      "elevation": -49.01285987123304,
+      "azimuth": 217.0262257305185,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 0,
+      "elevation": 37.50366562192706,
+      "azimuth": 186.96867383910399,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-03-20T12:30:15Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 0,
+      "elevation": -1.6901030476135006,
+      "azimuth": 270.52149482069717,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 0,
+      "elevation": -4.902358855721958,
+      "azimuth": 116.7067972122257,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 0,
+      "elevation": 1.202281013166589,
+      "azimuth": 116.08234989588857,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 0,
+      "elevation": 52.785557735114075,
+      "azimuth": 84.75742880567157,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 0,
+      "elevation": -60.42452110765436,
+      "azimuth": 336.7871159235101,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-12-21T23:10:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 0,
+      "elevation": -27.45370024175268,
+      "azimuth": 96.86868461577558,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 0,
+      "elevation": 29.39132293847678,
+      "azimuth": 228.38320292920832,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 0,
+      "elevation": 41.64285463611827,
+      "azimuth": 236.34477356075865,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 0,
+      "elevation": 15.696638654448213,
+      "azimuth": 271.6473403047079,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 0,
+      "elevation": 3.3030828989189684,
+      "azimuth": 106.14376433540201,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-10-09T06:45:30Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 0,
+      "elevation": 37.43917073543121,
+      "azimuth": 193.577830360779,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 40.0016,
+      "lon": 116.2706,
+      "utcOffsetMinutes": 0,
+      "elevation": 2.9117528513915296,
+      "azimuth": 123.61853004143819,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 22.54,
+      "lon": 114.06,
+      "utcOffsetMinutes": 0,
+      "elevation": 10.630664277571373,
+      "azimuth": 120.56671876564724,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": -33.87,
+      "lon": 151.21,
+      "utcOffsetMinutes": 0,
+      "elevation": 61.854730244494846,
+      "azimuth": 75.13272450076067,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 51.48,
+      "lon": 0,
+      "utcOffsetMinutes": 0,
+      "elevation": -61.52310516996445,
+      "azimuth": 358.2591224038433,
+      "tz": "UTC"
+    },
+    {
+      "iso": "2026-01-01T00:00:00Z",
+      "lat": 44.3,
+      "lon": 86.05,
+      "utcOffsetMinutes": 0,
+      "elevation": -19.192180713021024,
+      "azimuth": 103.80821856265311,
+      "tz": "UTC"
+    }
+  ],
+  "area": [
+    {
+      "points": [
+        {
+          "lat": 50.49174204025964,
+          "lng": -71.65036683548189
+        },
+        {
+          "lat": 50.498730112173305,
+          "lng": -71.6643000995492
+        },
+        {
+          "lat": 50.483127532478605,
+          "lng": -71.66383870095989
+        }
+      ],
+      "area": 844235.6022477974
+    },
+    {
+      "points": [
+        {
+          "lat": 16.309752537081835,
+          "lng": 107.70865178104765
+        },
+        {
+          "lat": 16.31841394780255,
+          "lng": 107.70240675767842
+        },
+        {
+          "lat": 16.32048367845135,
+          "lng": 107.69531669979904
+        },
+        {
+          "lat": 16.315049882858276,
+          "lng": 107.68704587449065
+        },
+        {
+          "lat": 16.306203693118842,
+          "lng": 107.6883825247489
+        },
+        {
+          "lat": 16.297845743225132,
+          "lng": 107.69506928451457
+        },
+        {
+          "lat": 16.30130506212122,
+          "lng": 107.70405197204323
+        }
+      ],
+      "area": 3846647.7345030783
+    },
+    {
+      "points": [
+        {
+          "lat": 49.00009933346888,
+          "lng": -43.423766743439145
+        },
+        {
+          "lat": 49.00817132653689,
+          "lng": -43.42764286482001
+        },
+        {
+          "lat": 49.01342067480057,
+          "lng": -43.436423434613474
+        },
+        {
+          "lat": 49.012004137220515,
+          "lng": -43.44647266091607
+        },
+        {
+          "lat": 49.00009933346888,
+          "lng": -43.45284898366635
+        },
+        {
+          "lat": 48.9924862410254,
+          "lng": -43.44508604990613
+        },
+        {
+          "lat": 48.98586506679572,
+          "lng": -43.436423434613474
+        },
+        {
+          "lat": 48.99071404580578,
+          "lng": -43.42815422153241
+        }
+      ],
+      "area": 4200665.582046125
+    },
+    {
+      "points": [
+        {
+          "lat": -53.41441925308407,
+          "lng": -45.72525833905615
+        },
+        {
+          "lat": -53.40432876653612,
+          "lng": -45.73408750103176
+        },
+        {
+          "lat": -53.40092278833392,
+          "lng": -45.74242865468487
+        },
+        {
+          "lat": -53.40508196741376,
+          "lng": -45.75206388696932
+        },
+        {
+          "lat": -53.41441925308407,
+          "lng": -45.756817781025546
+        },
+        {
+          "lat": -53.425006482194526,
+          "lng": -45.751108753844086
+        },
+        {
+          "lat": -53.43146312509064,
+          "lng": -45.74242865468487
+        },
+        {
+          "lat": -53.42625332450748,
+          "lng": -45.73173582331112
+        }
+      ],
+      "area": 4564253.356027671
+    },
+    {
+      "points": [
+        {
+          "lat": 1.9492231784151954,
+          "lng": 1.7094015885404632
+        },
+        {
+          "lat": 1.975958128035757,
+          "lng": 1.6951258492607866
+        },
+        {
+          "lat": 1.9744886824440069,
+          "lng": 1.6699500845062099
+        },
+        {
+          "lat": 1.9492231784151954,
+          "lng": 1.6564435727991378
+        },
+        {
+          "lat": 1.9214411066799775,
+          "lng": 1.666266592159174
+        },
+        {
+          "lat": 1.9297179884932316,
+          "lng": 1.6990966047352944
+        }
+      ],
+      "area": 25131387.042787142
+    },
+    {
+      "points": [
+        {
+          "lat": -11.183528970546796,
+          "lng": -117.7826327246918
+        },
+        {
+          "lat": -11.180283095768937,
+          "lng": -117.78710097854442
+        },
+        {
+          "lat": -11.186508069307015,
+          "lng": -117.78749528157267
+        }
+      ],
+      "area": 176847.57488000195
+    },
+    {
+      "points": [
+        {
+          "lat": 50.62451049248898,
+          "lng": 130.79560129539695
+        },
+        {
+          "lat": 50.65978048574592,
+          "lng": 130.73624491620401
+        },
+        {
+          "lat": 50.60094930699109,
+          "lng": 130.73648922091368
+        }
+      ],
+      "area": 13691198.491149614
+    },
+    {
+      "points": [
+        {
+          "lat": -59.809958897442534,
+          "lng": 39.73523395963439
+        },
+        {
+          "lat": -59.80081337948437,
+          "lng": 39.72143503229685
+        },
+        {
+          "lat": -59.81991783079543,
+          "lng": 39.721441998867256
+        }
+      ],
+      "area": 821181.7652467175
+    },
+    {
+      "points": [
+        {
+          "lat": 47.313274511747665,
+          "lng": -129.72920210338253
+        },
+        {
+          "lat": 47.33356789203749,
+          "lng": -129.74582264372842
+        },
+        {
+          "lat": 47.32220148832241,
+          "lng": -129.7726844505037
+        },
+        {
+          "lat": 47.30336658231493,
+          "lng": -129.77323929650237
+        },
+        {
+          "lat": 47.29366156772927,
+          "lng": -129.7465716466497
+        }
+      ],
+      "area": 9450095.201654622
+    },
+    {
+      "points": [
+        {
+          "lat": -33.26678930468242,
+          "lng": -98.93615246538067
+        },
+        {
+          "lat": -33.24150715403856,
+          "lng": -98.96222409278258
+        },
+        {
+          "lat": -33.26678930468242,
+          "lng": -98.979832437901
+        },
+        {
+          "lat": -33.28528885205476,
+          "lng": -98.96222409278258
+        }
+      ],
+      "area": 9907572.540635584
+    },
+    {
+      "points": [
+        {
+          "lat": 22.54341421767296,
+          "lng": 133.63003244649838
+        },
+        {
+          "lat": 22.54544609686742,
+          "lng": 133.62665487167013
+        },
+        {
+          "lat": 22.541568066309612,
+          "lng": 133.62690650127536
+        }
+      ],
+      "area": 72030.31906201743
+    },
+    {
+      "points": [
+        {
+          "lat": 27.319918241035154,
+          "lng": 129.9688736858371
+        },
+        {
+          "lat": 27.33941038034178,
+          "lng": 129.95331838724826
+        },
+        {
+          "lat": 27.319918241035154,
+          "lng": 129.93599411187523
+        },
+        {
+          "lat": 27.301668092767564,
+          "lng": 129.95331838724826
+        }
+      ],
+      "area": 6831284.680704522
+    },
+    {
+      "points": [
+        {
+          "lat": 40.002,
+          "lng": 116.27
+        },
+        {
+          "lat": 40.002,
+          "lng": 116.2712
+        },
+        {
+          "lat": 40.0011,
+          "lng": 116.2712
+        },
+        {
+          "lat": 40.0011,
+          "lng": 116.27
+        }
+      ],
+      "area": 10252.0398475281
+    }
+  ],
+  "brdf": [
+    {
+      "rho": 0.6,
+      "k": 0.3,
+      "n": 1.47,
+      "incidence": 30,
+      "view": -40,
+      "f": 0.111668268024
+    },
+    {
+      "rho": 0.6,
+      "k": 0.3,
+      "n": 1.47,
+      "incidence": 30,
+      "view": 10,
+      "f": 0.115147396091
+    },
+    {
+      "rho": 0.6,
+      "k": 0.3,
+      "n": 1.47,
+      "incidence": 30,
+      "view": 30,
+      "f": 0.116000079809
+    },
+    {
+      "rho": 0.15,
+      "k": 0.2,
+      "n": 1.5,
+      "incidence": 30,
+      "view": -40,
+      "f": 0.063661977618
+    },
+    {
+      "rho": 0.15,
+      "k": 0.2,
+      "n": 1.5,
+      "incidence": 30,
+      "view": 10,
+      "f": 0.158889725738
+    },
+    {
+      "rho": 0.15,
+      "k": 0.2,
+      "n": 1.5,
+      "incidence": 30,
+      "view": 30,
+      "f": 0.430031710806
+    },
+    {
+      "rho": 0.35,
+      "k": 0.05,
+      "n": 3.2,
+      "incidence": 30,
+      "view": -40,
+      "f": 0.0330067097269
+    },
+    {
+      "rho": 0.35,
+      "k": 0.05,
+      "n": 3.2,
+      "incidence": 30,
+      "view": 10,
+      "f": 0.284911782409
+    },
+    {
+      "rho": 0.35,
+      "k": 0.05,
+      "n": 3.2,
+      "incidence": 30,
+      "view": 30,
+      "f": 0.384144946452
+    },
+    {
+      "rho": 0.9,
+      "k": 0.6,
+      "n": 1.2,
+      "incidence": 30,
+      "view": -40,
+      "f": 0.194634683544
+    },
+    {
+      "rho": 0.9,
+      "k": 0.6,
+      "n": 1.2,
+      "incidence": 30,
+      "view": 10,
+      "f": 0.192800749457
+    },
+    {
+      "rho": 0.9,
+      "k": 0.6,
+      "n": 1.2,
+      "incidence": 30,
+      "view": 30,
+      "f": 0.192405873562
+    }
+  ]
+}

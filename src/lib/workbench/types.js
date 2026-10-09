@@ -41,11 +41,3 @@ export const MATURITY = {
     },
   },
 };
-
-/** Mean of the vertices of a lat/lng ring: a representative field location. */
-export function polygonCentroid(points) {
-  if (!points?.length) return null;
-  const lat = points.reduce((s, p) => s + p.lat, 0) / points.length;
-  const lng = points.reduce((s, p) => s + p.lng, 0) / points.length;
-  return { lat, lng };
-}

@@ -50,6 +50,7 @@ const COPY = {
     notes: "Research notes",
     optional: "Optional",
     cv: "Curriculum vitae",
+    mcp: "Local MCP server: field area, solar position and leaf BRDF as tools, identical to the website",
     privacy: "Privacy and visitor map",
     profiles: "Profiles",
   },
@@ -63,6 +64,7 @@ const COPY = {
     notes: "研究笔记",
     optional: "可选",
     cv: "个人简历",
+    mcp: "本地 MCP 服务器：田块面积、太阳位置与叶片 BRDF，结果与网站工具一致",
     privacy: "隐私与访客地图",
     profiles: "学术主页",
   },
@@ -190,6 +192,9 @@ export default function siteIndexPlugin(context) {
       lines.push(`## ${t.optional}`);
       lines.push("");
       lines.push(`- [${t.cv}](${abs("/cv")})`);
+      lines.push(
+        `- [${t.mcp}](https://github.com/smiler488/smiler488.github.io/tree/master/packages/lab-mcp)`
+      );
       lines.push(`- [${t.privacy}](${abs("/privacy")})`);
       lines.push("");
 

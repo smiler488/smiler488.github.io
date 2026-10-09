@@ -1,0 +1,5 @@
+{
+  "//": "Pure ES modules shared by the website and the local MCP server (DESIGN_SPEC §9.3).",
+  "type": "module",
+  "private": true
+}

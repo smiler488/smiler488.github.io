@@ -11,39 +11,12 @@ import {
   listArtifacts,
   saveArtifact,
 } from "../../../lib/workbench/workspace";
-import { polygonCentroid } from "../../../lib/workbench/types";
+import {
+  AREA_METHOD,
+  polygonArea,
+  polygonCentroid,
+} from "../../../lib/science/geo.js";
 import pageStyles from "./styles.module.css";
-
-const EARTH_RADIUS = 6378137; // meters
-
-const toRadians = (deg) => (deg * Math.PI) / 180;
-
-function calculatePolygonArea(points) {
-  if (points.length < 3) {
-    return 0;
-  }
-
-  const avgLat = points.reduce((sum, p) => sum + p.lat, 0) / points.length;
-  const avgLng = points.reduce((sum, p) => sum + p.lng, 0) / points.length;
-  const refLatRad = toRadians(avgLat);
-  const refLngRad = toRadians(avgLng);
-
-  const projected = points.map((point) => {
-    const latRad = toRadians(point.lat);
-    const lngRad = toRadians(point.lng);
-    return {
-      x: EARTH_RADIUS * (lngRad - refLngRad) * Math.cos(refLatRad),
-      y: EARTH_RADIUS * (latRad - refLatRad),
-    };
-  });
-
-  let area = 0;
-  for (let i = 0; i < projected.length; i += 1) {
-    const j = (i + 1) % projected.length;
-    area += projected[i].x * projected[j].y - projected[j].x * projected[i].y;
-  }
-  return Math.abs(area) / 2;
-}
 
 const styles = {
   page: {
@@ -166,9 +139,6 @@ const styles = {
     color: "var(--ifm-color-emphasis-800)",
   },
 };
-
-const AREA_METHOD =
-  "Shoelace formula on a local equirectangular projection centred on the vertex mean (R = 6378137 m)";
 
 const WB_COPY = {
   en: {
@@ -473,7 +443,7 @@ function LandSurveyApp() {
     if (!isClosed) {
       return 0;
     }
-    return calculatePolygonArea(points);
+    return polygonArea(points);
   }, [isClosed, points]);
 
   const areaHectares = area / 10000;
