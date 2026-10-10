@@ -15,8 +15,8 @@
 
 ## 研究项目
 
-- [从表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/research/brdf-traits): 叶片的方向反射可以由可测量的表型性状预测，而由此揭示的叶片光学多样性会改变模拟冠层内部的光分布。 [UND]
-- [MCTP：多模态作物表型工作台](https://smiler488.github.io/zh-Hans/research/mctp-workspace): 一个桌面工作台为高光谱、激光雷达、RGB 与热红外处理提供统一入口和一致的导出约定，同时让每种模态的处理过程保持透明、可调。 [DIG]
+- [基于表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/research/brdf-traits): 叶片的方向反射可以由易测的表型性状预测，叶片光学特性的差异会改变模拟冠层内的光分布。 [UND]
+- [MCTP：多模态作物表型数据处理平台](https://smiler488.github.io/zh-Hans/research/mctp-workspace): 一个桌面平台以统一界面、交互式调参、批量处理和结构化导出，处理高光谱、LiDAR、RGB 和热红外表型数据。 [DIG]
 
 ## 论文与软件
 
@@ -44,17 +44,17 @@
 
 ## 研究笔记
 
-- [PhenoHUB：一个数字植物表型移动工具包](https://smiler488.github.io/zh-Hans/blog/phenohub-wechat-miniapp): 2026 年 1 月的一个微信小程序快照，整合田间工具、天气查询、图像工具和实验性 AI 助手。 [DIG]
-- [Botanical Extract AI Pro：一套实验性背景分离工作流](https://smiler488.github.io/zh-Hans/blog/botanical-extract-ai-pro): 一套实验性的网页与批处理工作流，用多模态图像模型把植株置于白色背景上，并说明其科学和隐私局限。 [DIG]
-- [MCTP：一个多模态作物表型工作台](https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform): 一个用于高光谱、LiDAR、RGB 和热红外作物表型工作流的桌面工作台，在共享 UI 与跨模态融合之间有清晰边界。 [DIG]
-- [从表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/blog/brdf-paper): 一个经过同行评审的框架，结合方向光谱测量、BRDF 拟合、表型性状、集成学习和冠层光线追踪，覆盖四个物种。 [UND]
-- [用 Python 做本地图像量化：一套可审计的实验工作流](https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial): 一套紧凑的 OpenCV 工作流：分割分离的生物样本，导出像素和定标后的尺寸描述符，并记录科学使用前所需的验证。 [DIG]
-- [面向植物图像的 Hunyuan3D-1：一份可复现的探索指南](https://smiler488.github.io/zh-Hans/blog/hunyuan3d-plant-reconstruction-guide): 一套针对特定版本、注重证据的工作流：用 Hunyuan3D-1 生成探索性植株网格，并验证为何生成式三维输出不自动等同于表型测量。 [DIG]
-- [无人机三维作物表型：从 CCO 采集到经验证的性状](https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping): 一套从田间到分析的工作流：涵盖交叉环绕倾斜（CCO）无人机采集、SfM 重建、空间配准、点云表型和诚实的模型验证。 [DIG]
-- [Root Quantify：用 Python 交互式预处理根系图像](https://smiler488.github.io/zh-Hans/blog/root-quantify): 一份实用指南：用 Root Quantify 进行多边形 ROI 选择、背景校正、二值掩膜清理，并在下游根系分析前有序导出。 [DIG]
-- [基于三维植株模型的冠层光合作用——一套概念性工作流](https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en): 一个以验证为先的科研框架，连接多视图重建、植株几何、辐射传输、叶片生理和冠层尺度不确定性。 [UND, PRE]
-- [用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状](https://smiler488.github.io/zh-Hans/blog/dji-p4m-webodm-qgis-workflow): 一套以验证为先的工作流：在 WebODM 中处理大疆 P4 多光谱影像，在 QGIS 中核查波段元数据，并提取小区尺度的植被特征。 [DIG]
-- [人工气候室内盆栽棉花的转台摄影测量](https://smiler488.github.io/zh-Hans/blog/growth-chamber-cotton-3d): 一套以验证为先的实验流程：在受控环境中采集并重建盆栽棉花植株的多视图图像。 [DIG]
+- [PhenoHUB：一个数字植物表型移动工具包](https://smiler488.github.io/zh-Hans/blog/phenohub-wechat-miniapp): 面向植物表型田间工作的微信小程序：叶倾角与地块面积测量、测点气象、图像分析、AI 辅助绘图和数据管理集成于一个移动工具包。 [DIG]
+- [Botanical Extract AI Pro：基于多模态模型的零样本植株背景去除](https://smiler488.github.io/zh-Hans/blog/botanical-extract-ai-pro): 一个网页应用与批处理流程，借助多模态图像模型、结构化提示词、宽高比匹配和文件头格式识别，在不针对任务训练的情况下去除植株图像背景。 [DIG]
+- [MCTP：多模态作物表型数据处理平台](https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform): 一个桌面平台，以统一界面、交互式调参、批量处理和结构化导出，处理高光谱、LiDAR、RGB 和热红外表型数据。 [DIG]
+- [基于表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/blog/brdf-paper): 一套由表型性状预测四个物种叶片 BRDF 参数的测量与分析框架，结合方向光谱测量、Cook–Torrance 模型拟合、集成学习和冠层光线追踪（Plant Phenomics，2025）。 [UND]
+- [用 Python 从图像中量化种子、叶片等植物样本](https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial): 一种本地运行的 OpenCV 方法：在均匀背景上分割彼此分离的植物样本，以定标后的物理单位测量尺寸、形状和颜色，并为每张图像输出标注叠加图。 [DIG]
+- [基于 Hunyuan3D-1 的单图像植株三维重建及其与 SfM 的比较](https://smiler488.github.io/zh-Hans/blog/hunyuan3d-plant-reconstruction-guide): 用生成式模型 Hunyuan3D-1 由单张照片生成棉花植株三维模型，并按器官与同一植株的多视角 SfM 重建进行比较。 [DIG]
+- [无人机三维作物表型：交叉环绕倾斜采集、SfM 与 CanopyPC](https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping): 面向小区尺度三维作物表型的无人机流程：交叉环绕倾斜航线设计、SfM 重建、基于 CanopyPC 的冠层点云处理，以及作物性状的机器学习建模。 [DIG]
+- [Root Quantify：用 Python 交互式预处理根系图像](https://smiler488.github.io/zh-Hans/blog/root-quantify): 一个交互式 OpenCV 工具：通过多边形 ROI 选择、光照校正、阈值分割和画笔修正，把原始根系扫描图和照片处理为干净的二值图像，可直接用于根系性状软件。 [DIG]
+- [基于三维重建的冠层光合作用模型](https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en): 一个模块化模型：由多视角图像重建作物植株，构建三角面元冠层，用光线追踪模拟冠层光分布，并将叶片光合积分到冠层碳同化。 [UND, PRE]
+- [用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状](https://smiler488.github.io/zh-Hans/blog/dji-p4m-webodm-qgis-workflow): 在 WebODM 中把大疆 P4 多光谱影像处理为辐射信息完整的正射影像，在 QGIS 中核查波段，并提取小区尺度的植被指数与纹理特征。 [DIG]
+- [基于转台摄影测量的盆栽棉花三维重建](https://smiler488.github.io/zh-Hans/blog/growth-chamber-cotton-3d): 一套人工气候室方案：以双高度转台视频和运动恢复结构重建盆栽棉花，包含尺度控制、颜色校正与精度评估。 [DIG]
 
 ## 可选
 
