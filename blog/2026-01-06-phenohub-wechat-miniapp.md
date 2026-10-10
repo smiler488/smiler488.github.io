@@ -7,92 +7,76 @@ article_type: Research project
 tags: [plant-phenotyping, artificial-intelligence, data-analysis]
 layers: [DIG]
 image: /img/phenohub.png
-description: A January 2026 snapshot of a WeChat Mini Program combining field utilities, weather queries, image tools, and experimental AI assistants.
+description: "A WeChat Mini Program for plant phenotyping fieldwork: leaf-angle and land-area measurement, site weather, image analysis, AI-assisted charting and data management in one mobile toolkit."
 ---
 
 ## Overview
 
-![PhenoHUB prototype screens and WeChat Mini Program code](/img/phenohub.png)
+![PhenoHUB screens](/img/phenohub.png)
 
-**PhenoHUB** is a WeChat Mini Program prototype that groups mobile utilities for plant-phenotyping work. The project explores how field measurements, weather queries, image analysis, and AI-assisted research tasks can be made easier to access from a phone.
-
-This article records the **January 2026 project snapshot** represented by the interface above. It is not a live completeness report, and the presence of a module in the launcher does not by itself establish measurement accuracy or production readiness.
+Field phenotyping often happens far from a lab computer, yet many routine measurements need only a phone: the angle of a leaf, the area of a plot, the weather at the site, a quick image analysis, a first look at a data table. **PhenoHUB** brings these tools together in one WeChat Mini Program for plant phenotyping and photosynthesis research. It runs on iOS and Android inside WeChat, needs no installation, and connects to a Python backend for the analyses that do not fit on the phone.
 
 <!-- truncate -->
 
-## Prototype modules
+## Modules
 
-### Device-orientation measurements
+### Phenotypic measurement
 
-The leaf-angle utility uses phone motion sensors to display and record device orientation. It can support rapid relative measurements when the phone is aligned consistently with a leaf.
+- **Leaf angle.** The phone's gyroscope and accelerometer give its orientation in real time. With the phone laid along the leaf blade, the reading is the leaf inclination; readings are recorded per leaf, so several leaves of a plant can be measured in sequence.
+- **Land area.** The plot boundary is recorded as a GPS track while walking it; the enclosed polygon area is computed and converted between m², ha and mu.
+- **Image quantitative analysis.** Plant images are processed with OpenCV to extract leaf area and colour traits, with batch processing of multiple images.
 
-The result should not be described as a precise leaf angle without a defined mounting method, sensor calibration, reference plane, and validation against a trusted instrument. Device model, case geometry, operator alignment, and motion can all affect the reading.
+### Environment
 
-### Land-area estimation
+- **Agricultural weather.** Location-based weather for the measurement site: temperature, humidity and light conditions, from a weather service, together with agrometeorological indices.
+- **Location.** Coordinates and altitude from GPS/BeiDou positioning, with coordinate conversion.
 
-The area utility records a location track and estimates the enclosed polygon. It is useful for reconnaissance and rough field records, but consumer-phone positioning is not survey-grade.
+### AI-assisted analysis
 
-- Accuracy varies with the device, satellite visibility, buildings, trees, and sampling interval.
-- Altitude from a phone location service is especially uncertain.
-- Boundaries used for contracts, regulation, engineering, or precision operations require suitable survey equipment.
+- **AI chart agent.** Turns a CSV file into publication-style charts in eight types: bar charts with ANOVA, heatmaps, line charts, histograms, violin plots, scatter plots and radar charts, with checks on the input data before plotting.
+- **AI academic assistant.** Supports experimental design, choice of analysis methods and paper writing.
 
-### Weather and environmental context
+### Data management
 
-The agricultural-weather module is designed to query location-based weather information. Values obtained from a weather service describe the provider's grid or station estimate; they are not direct measurements from the phone.
+CSV and Excel import, data cleaning, descriptive statistics, hypothesis tests and regression, and export of results.
 
-Soil moisture, canopy temperature, light intensity, or other local variables require an explicit data source or external sensor. The interface should always label the provider, observation or forecast time, units, and location.
+## Architecture
 
-### Image analysis
+| Layer | Technology |
+|---|---|
+| Client | Native WeChat Mini Program, TDesign Miniprogram 1.8.6, LESS |
+| Charts | Canvas API for lightweight charts, ECharts for Weixin 1.0.2 for interactive charts |
+| Backend | Python FastAPI for image analysis, statistics and model calls |
 
-The image module provides an entry point for plant-image preprocessing and quantitative analysis. Any reported area, count, color, or shape trait depends on segmentation quality, scale calibration, and acquisition conditions.
+Light interaction and sensor readings stay on the phone; image analysis, statistics and AI functions run on the backend. The project is organized by tool:
 
-Image color alone should not be presented as chlorophyll content without a documented calibration model and independent validation.
+```text
+PhenoHUB/
+├── pages/
+│   ├── hub/                         # toolbox home
+│   ├── leafAngle/                   # leaf angle
+│   ├── landArea/                    # land area
+│   ├── agriWeather/                 # agricultural weather
+│   ├── imageQuantitativeAnalysis/   # image analysis
+│   ├── aiImage/                     # AI chart agent
+│   ├── aiJournal/                   # AI academic assistant
+│   └── my/                          # user centre
+├── components/
+├── utils/
+└── Backend code/                    # FastAPI service
+```
 
-### Experimental AI assistants
+## Applications
 
-The prototype includes entries for chart generation and research assistance. These tools can help explore CSV data or draft analytical ideas, but AI output must remain reviewable:
+- Leaf-angle and plot-area measurement during field surveys of crop architecture.
+- Recording site weather alongside phenotypic measurements.
+- First-pass image and statistical analysis of experiment data in the field or greenhouse.
+- Teaching mobile phenotyping methods.
 
-- Charts should be traced back to the exact input rows and transformations.
-- Statistical tests require their assumptions and sample structure to be checked.
-- Literature, journal, and writing suggestions can be incomplete or incorrect.
-- Research data sent to an external model are subject to that provider's privacy terms.
+## Scope and limitations
 
-## Architecture snapshot
+Phone sensors are not survey or laboratory instruments. Leaf-angle readings depend on how the phone is aligned with the blade, and consumer GPS has metre-level error, so area measurement suits plots and fields rather than small quadrats. Weather values come from the provider's station or grid, not from sensors at the plant. Colour-based image traits are relative unless calibrated against reference measurements. Data sent to the backend and to AI models leave the phone, so sensitive data should be handled accordingly.
 
-The mobile client uses the native WeChat Mini Program environment with reusable UI components and Canvas/ECharts-style visualization. Some analysis tasks can be local to the Mini Program, while network-dependent features can call an external API service.
+## Access
 
-This split keeps lightweight interaction on the phone but creates clear boundaries:
-
-1. Sensor and location permissions should be requested only when the user starts the relevant tool.
-2. Local and remote processing must be identified in the interface.
-3. Uploaded files and API requests need size limits, failure states, and privacy guidance.
-4. Model-generated results should include the provider, model, and generation time when possible.
-
-## Appropriate use
-
-PhenoHUB is most suitable as a prototype for:
-
-- Field notes and rapid exploratory measurements
-- Teaching mobile phenotyping concepts
-- Testing interaction designs before instrument integration
-- Providing one launch point for small research utilities
-
-It should not be treated as a replacement for calibrated scientific instruments, validated statistical software, or a laboratory data-management system.
-
-## Access and reproducibility
-
-The project repository is hosted on WeChat Git and currently requires authenticated access. External readers cannot reliably clone it from a public URL, so this article does not present public installation or contribution steps.
-
-For an internal or authorized deployment, record at least:
-
-- Mini Program revision and backend revision
-- Device model and operating-system version
-- Permission and calibration procedure
-- Weather, map, or AI provider and request time
-- Input files, parameters, raw readings, and exported results
-
-Access questions can be directed through the contact channels on the [CV page](/cv).
-
-## Development priorities
-
-The next useful milestones are evidence-driven rather than percentage-based: validate each measurement against a reference method, label experimental modules clearly, add provenance to exports, document privacy boundaries, and test the complete workflow on both iOS and Android devices.
+The source code is hosted on WeChat Git with access on request. For access or collaboration, see the contact details on the [CV page](/cv).

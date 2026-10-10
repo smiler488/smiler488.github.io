@@ -11,7 +11,6 @@
 export const PROJECT_STATUS = {
   published: { en: "Published", zh: "已发表" },
   active: { en: "Active", zh: "进行中" },
-  snapshot: { en: "Project snapshot", zh: "项目快照" },
   archived: { en: "Archived", zh: "已归档" },
 };
 
@@ -20,11 +19,11 @@ export const PROJECTS = [
     id: "brdf-traits",
     title: {
       en: "Predicting leaf BRDF from phenotypic traits",
-      zh: "从表型性状预测叶片 BRDF",
+      zh: "基于表型性状预测叶片 BRDF",
     },
     finding: {
-      en: "Leaf directional reflectance can be predicted from measurable traits, and the optical diversity this reveals changes how light is distributed inside a simulated canopy.",
-      zh: "叶片的方向反射可以由可测量的表型性状预测，而由此揭示的叶片光学多样性会改变模拟冠层内部的光分布。",
+      en: "Leaf directional reflectance can be predicted from measurable traits, and the resulting differences in leaf optics change how light is distributed inside a simulated canopy.",
+      zh: "叶片的方向反射可以由易测的表型性状预测，叶片光学特性的差异会改变模拟冠层内的光分布。",
     },
     layers: ["UND"],
     status: "published",
@@ -41,20 +40,20 @@ export const PROJECTS = [
   {
     id: "mctp-workspace",
     title: {
-      en: "MCTP: a multi-modal crop phenotyping workspace",
-      zh: "MCTP：多模态作物表型工作台",
+      en: "MCTP: a multi-modal crop phenotyping data processing platform",
+      zh: "MCTP：多模态作物表型数据处理平台",
     },
     finding: {
-      en: "One desktop workspace gives hyperspectral, LiDAR, RGB and thermal processing a shared entry point and export convention, while keeping each modality's processing transparent and tunable.",
-      zh: "一个桌面工作台为高光谱、激光雷达、RGB 与热红外处理提供统一入口和一致的导出约定，同时让每种模态的处理过程保持透明、可调。",
+      en: "One desktop platform processes hyperspectral, LiDAR, RGB and thermal phenotyping data with a shared interface, interactive parameter tuning, batch processing and structured exports.",
+      zh: "一个桌面平台以统一界面、交互式调参、批量处理和结构化导出，处理高光谱、LiDAR、RGB 和热红外表型数据。",
     },
     layers: ["DIG"],
-    status: "snapshot",
+    status: "active",
     year: 2025,
     cover: "/img/mctp.png",
     coverAlt: {
-      en: "MCTP desktop launcher with four modality modules",
-      zh: "MCTP 桌面启动器与四个模态模块",
+      en: "MCTP launcher with four modality modules",
+      zh: "MCTP 启动界面与四个模态模块",
     },
     publications: [],
     note: "/blog/mctp-unified-phenotyping-platform",

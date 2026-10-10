@@ -1,93 +1,85 @@
 ---
 slug: mctp-unified-phenotyping-platform
-title: "MCTP: A Multi-Modal Crop Phenotyping Workspace"
+title: "MCTP: A Multi-Modal Crop Phenotyping Data Processing Platform"
 authors: [liangchao]
 category: Plant phenotyping
 article_type: Research project
 tags: [plant-phenotyping, image-analysis, data-analysis, remote-sensing]
 layers: [DIG]
 image: /img/mctp.png
-description: A desktop workspace for hyperspectral, LiDAR, RGB, and thermal crop-phenotyping workflows, with clear boundaries between shared UI and cross-modal fusion.
+description: "A desktop platform that processes hyperspectral, LiDAR, RGB and thermal phenotyping data with one interface, interactive parameter tuning, batch processing and structured exports."
 ---
 
 ## Overview
 
-![MCTP desktop launcher with four modality modules](/img/mctp.png)
+![MCTP launcher with the four modality modules](/img/mctp.png)
 
-**MCTP (Multi-Modal Crop Phenotyping Platform)** is a desktop data-processing workspace developed alongside a field phenotyping collaboration with Shufeng Bio. My contribution focused on system optimization and the data-processing and analysis workflows.
+A field phenotyping campaign with a walking platform produces four very different data types for every plot: hyperspectral cubes, LiDAR point clouds, RGB images and thermal images. Each normally needs its own software, parameter conventions and export format, which makes multi-modal trait analysis slow and hard to reproduce.
 
-The interface brings hyperspectral, LiDAR, RGB, and thermal tools into one launcher. In this project snapshot, “unified” means a consistent entry point, interaction pattern, and export convention. It does **not** mean that the four modalities are automatically registered, fused, or interpreted by one model.
+**MCTP (Multi-modal Crop Trait Processing)** puts the four modalities into one desktop platform with a shared interface, interactive parameter tuning, batch processing and structured exports. It was developed for the field walking phenotyping platform of Shufeng Bio; I was responsible for system optimization and for the data-processing and analysis methods.
 
 <!-- truncate -->
 
-:::note Project snapshot
-This article describes the version represented by the available interface and module screenshots. Exact input formats and outputs should be confirmed in the build used for a specific experiment.
-:::
+## Modules
 
-## Current module scope
+### Hyperspectral (HyperVis)
 
-### Hyperspectral processing
+![Hyperspectral module](/img/hyper.png)
 
-![Hyperspectral module showing spectral-image analysis views](/img/hyper.png)
+- Reads ENVI HDR/SPE pairs and parses wavelength metadata.
+- Detects the bands needed for vegetation indices from the wavelengths.
+- Computes NDVI, builds plant masks with NIR thresholding, and removes specular glare with a percentile mask.
+- Exports the leaf-region mean spectrum (CSV) and summary statistics (JSON).
+- Shows RGB quicklook, NDVI, mask comparison, spectral curves and statistics in tabs.
+- Processes whole directories of HDR/SPE pairs in batch.
 
-The hyperspectral workflow is designed around paired ENVI files and wavelength metadata. Its project implementation includes:
+### LiDAR
 
-- HDR/SPE ingestion and wavelength parsing
-- RGB quicklooks and vegetation-index views
-- Threshold-based plant masks and glare filtering
-- Mean-spectrum and summary exports in CSV/JSON form
-- Directory-level processing for compatible datasets
+![LiDAR loading and preprocessing](/img/lidar1.png)
 
-Index values and masks depend on valid radiometric metadata and suitable thresholds. They should be inspected before downstream statistical analysis.
+![LiDAR segmentation and trait tuning](/img/lidar2.png)
 
-### LiDAR processing
+- Reads PLY, LAS, LAZ and text point clouds.
+- Rebases the ground plane with RANSAC, then voxel-downsamples, crops and colours by height.
+- Segments plants with DBSCAN, tuned interactively in the SegTuner window.
+- Computes canopy and plant traits: ground coverage, voxel occupancy, convex-hull volume and height percentiles H10, H50 and H90.
+- Exports cropped point clouds and JSON trait reports.
 
-![LiDAR module for point-cloud loading and preprocessing](/img/lidar1.png)
+### RGB
 
-![LiDAR segmentation and trait-tuning interface](/img/lidar2.png)
+- Segments vegetation by combining three colour indices, ExG, CIVE and VDI, with a joint threshold.
+- Suppresses glare from water and plastic, and removes labels and borders.
+- Keeps thin plants with adaptive morphology and skeleton enhancement.
+- Separates individual plants with watershed and connected-component labelling.
+- Exports overlay images, plot-level JSON metrics and per-plant CSV tables.
 
-The LiDAR module groups common point-cloud preparation and trait-extraction operations:
+### Thermal
 
-- PLY, LAS, LAZ, and text-file input
-- Ground rebasing, voxel downsampling, cropping, and height coloring
-- DBSCAN-based clustering with interactive parameter tuning
-- Coverage, height percentiles, occupancy, and convex-hull summaries
-- Cropped point-cloud and JSON report export
+![Thermal module](/img/thermal.png)
 
-These outputs are algorithmic estimates. Ground selection, point density, occlusion, and clustering parameters can materially change the result.
+- Loads BMP images with their DDT temperature matrices, with flipping and calibration.
+- Suggests thresholds from Otsu's method and percentiles.
+- Tunes temperature thresholds, HSV range and morphology with sliders.
+- Previews overlay, heatmap and plant-only views.
+- Exports PNG, NPY, CSV and JSON results.
 
-### RGB processing
+## Shared design
 
-The RGB workflow combines color-index thresholding with morphology and connected-component operations. The project implementation uses ExG, CIVE, and VDI features, then applies cleanup and instance-labeling steps for group-level and per-plant summaries.
+- **One interface** for all four modalities: control panel, live preview and processing log in the same layout.
+- **Interactive tuning** with sliders, suggested thresholds and real-time previews, so parameters are set by inspecting the data.
+- **Batch processing** for hyperspectral and RGB data; saved parameters are reused across samples for LiDAR and thermal data.
+- **Structured outputs** in JSON and CSV, ready for statistics in R or Python and for trait–yield modelling.
 
-This classical computer-vision approach is transparent and tunable, but it is sensitive to illumination, reflections, labels, soil color, and overlapping plants. A representative subset should be checked before batch processing.
+## Recommended use
 
-### Thermal processing
+1. Archive the raw data and acquisition metadata unchanged.
+2. Open a representative sample and confirm file pairing, orientation and units.
+3. Tune parameters on the preview and check the difficult cases.
+4. Process a small batch and compare with the raw data, then scale up.
+5. Store thresholds, voxel sizes, clustering settings and the software version with the results.
 
-![Thermal module with threshold controls and heatmap preview](/img/thermal.png)
+## Scope and roadmap
 
-The thermal workflow pairs image and temperature-matrix inputs, then provides threshold and morphology controls with overlay, heatmap, and plant-only previews. Depending on the module build, outputs can include images, arrays, tables, and JSON summaries.
+The four modules process each modality separately and share conventions for parameters and exports; they do not yet register the modalities to each other. The next steps are cross-modal registration, time-series analysis across campaigns, shared project configuration templates, and batch processing and reporting on a server.
 
-Temperature values are only meaningful when the camera export, orientation, calibration, and environmental assumptions are correct.
-
-## Recommended workflow
-
-1. **Archive raw data first.** Keep the original files and acquisition metadata unchanged.
-2. **Open one representative sample.** Confirm file pairing, orientation, units, and coordinate conventions.
-3. **Tune parameters visibly.** Use previews to identify failure cases instead of relying on defaults.
-4. **Process a small batch.** Check outputs against the raw data before scaling up.
-5. **Record the configuration.** Save thresholds, voxel sizes, clustering settings, and software version with the results.
-
-## Boundaries of the platform
-
-The available project snapshot should be treated as a collection of modality-specific processing tools, not as an autonomous scientific interpretation system.
-
-- Cross-modal registration and temporal analysis are not current automatic capabilities.
-- Batch behavior differs by module; interactive tuning remains important for LiDAR and thermal data.
-- Structured exports improve handoff to R, Python, or other statistics tools, but they do not replace quality control.
-- No cloud processing service is documented in this snapshot.
-- Reproducibility requires the raw data, module version, parameters, calibration information, and exported results to be stored together.
-
-## Next development priorities
-
-Potential future work includes shared project configuration files, explicit provenance records, cross-modal registration, and validated temporal analysis. These are development directions rather than claims about the current release.
+To try MCTP or obtain sample data, see the contact details on the [CV page](/cv).

@@ -35,8 +35,9 @@ const COPY = {
     statProjects: "projects",
     statPublications: "publications and software",
     statNotes: "research notes",
-    filterLabel: "Filter by layer",
-    all: "All layers",
+    filterHint: "Select a layer to filter the projects, notes and tools below.",
+    filtered: (name) => `Showing work in ${name}.`,
+    all: "Show all layers",
     layersEyebrow: "Architecture",
     layersTitle: "Four layers of crop intelligence",
     layersDescription:
@@ -64,8 +65,9 @@ const COPY = {
     statProjects: "个项目",
     statPublications: "篇论文与软件",
     statNotes: "篇研究笔记",
-    filterLabel: "按层筛选",
-    all: "全部层次",
+    filterHint: "点选某一层，可筛选下方的项目、笔记与工具。",
+    filtered: (name) => `正在显示“${name}”层的工作。`,
+    all: "显示全部",
     layersEyebrow: "研究架构",
     layersTitle: "作物智能的四个层次",
     layersDescription:
@@ -130,6 +132,7 @@ export default function ResearchHub() {
   const researchNotes = notes
     .filter((note) => note.layers?.length)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const activeLayer = LAYERS.find((layer) => layer.id === active);
   const inLayer = (item) => !active || item.layers?.includes(active);
   const projects = PROJECTS.filter(inLayer);
   const visibleNotes = researchNotes.filter(inLayer);
@@ -177,25 +180,6 @@ export default function ResearchHub() {
             />
           </PageHero>
 
-          <div
-            className={styles.filterBar}
-            role="group"
-            aria-label={copy.filterLabel}
-          >
-            <Chip active={!active} onClick={() => setActive(null)}>
-              {copy.all}
-            </Chip>
-            {LAYERS.map((layer) => (
-              <Chip
-                key={layer.id}
-                active={active === layer.id}
-                onClick={() => setActive(active === layer.id ? null : layer.id)}
-              >
-                {layer.index} · {localize(layer.name)}
-              </Chip>
-            ))}
-          </div>
-
           <section className={styles.section} aria-labelledby="layers-title">
             <SectionHeader
               id="layers-title"
@@ -229,6 +213,26 @@ export default function ResearchHub() {
                 );
               })}
             </div>
+            <p className={styles.filterStatus} aria-live="polite">
+              {activeLayer ? (
+                <>
+                  <span>
+                    {copy.filtered(
+                      `${activeLayer.index} · ${localize(activeLayer.name)}`
+                    )}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.filterReset}
+                    onClick={() => setActive(null)}
+                  >
+                    {copy.all}
+                  </button>
+                </>
+              ) : (
+                copy.filterHint
+              )}
+            </p>
           </section>
 
           <section className={styles.section} aria-labelledby="projects-title">

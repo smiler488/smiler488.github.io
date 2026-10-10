@@ -1,21 +1,21 @@
 ---
 slug: root-quantify
 title: "Root Quantify: Interactive Root Image Preprocessing in Python"
-description: "A practical guide to using Root Quantify for polygon ROI selection, background correction, binary-mask cleanup, and organized export before downstream root analysis."
+description: "An interactive OpenCV tool that turns raw root scans and photographs into clean binary images through polygon ROI selection, illumination correction, thresholding and brush-based correction, ready for root-trait software."
 authors: [liangchao]
 tags: [python, image-analysis, plant-phenotyping]
 layers: [DIG]
 category: Plant phenotyping
-article_type: Technical guide
+article_type: Research tool
 ---
 
-**Root Quantify** is a small OpenCV desktop utility for preparing root images. It guides a user through polygon selection, background correction, binarization, and manual cleanup, then saves the corrected region for analysis in another tool.
+Root-trait software such as RhizoVision Explorer and WinRHIZO measures length, diameter and architecture from a binary image, so its results are only as good as that image. Raw root photographs carry trays, labels, uneven lighting, shadows and soil particles, and fully automatic thresholding either loses fine laterals or keeps debris.
 
-It is important to describe that boundary precisely: the current program creates cleaned binary images; it does **not** calculate validated root length, density, diameter, or architecture traits by itself.
+**Root Quantify** is an OpenCV desktop tool I wrote for this preprocessing step. It combines automatic correction with targeted human review: the user outlines the root region, the tool corrects uneven illumination and thresholds the image, and the user repairs the remaining errors with a brush. The output is a clean binary root image that goes directly into root-trait software.
 
 <!-- truncate -->
 
-## What the current tool does
+## Workflow
 
 | Stage | Operation | Result |
 | --- | --- | --- |
@@ -25,7 +25,7 @@ It is important to describe that boundary precisely: the current program creates
 | Manual correction | Draws or erases pixels with an adjustable brush | A reviewed binary image |
 | Export | Saves the corrected image and moves the original into an archive folder | No accidental reprocessing in the next run |
 
-This workflow is most useful before skeletonization or measurement in software such as RhizoVision Explorer, WinRHIZO, ImageJ, or a validated laboratory pipeline.
+The corrected images are measured in RhizoVision Explorer, WinRHIZO, ImageJ or a laboratory pipeline.
 
 ## Installation
 
@@ -49,11 +49,7 @@ On Windows, activate the environment with:
 
 The interface requires a graphical desktop. A headless server or notebook session cannot display the OpenCV selection windows without additional display configuration.
 
-:::caution Configure the input directory
-
-The current `RootImager.py` revision contains a `folder_path` value in the script. Set it to the directory containing the images before running. Keep a backup of that directory because completed originals are moved into `processed_original`.
-
-:::
+Before running, set `folder_path` in `RootImager.py` to the image directory. Completed originals are moved into `processed_original`, so keep a separate backup of the raw images.
 
 ## Run the workflow
 
@@ -89,8 +85,6 @@ For reproducible work, save the following alongside the outputs:
 - operator identity and correction date;
 - a note describing any difficult or excluded image.
 
-Do not use the moved copy as the only archive of raw data.
-
 ## Quality-control checklist
 
 - [ ] Roots and background have visibly different intensities.
@@ -101,15 +95,8 @@ Do not use the moved copy as the only archive of raw data.
 - [ ] A second reviewer checks a sample when measurements will support a publication.
 - [ ] Downstream measurements are validated against known objects or manual reference data.
 
-## Known limitations
+## Scope and limitations
 
-- Threshold-based segmentation is sensitive to shadows, reflections, substrate, and overlapping roots.
-- A binary image discards color and intensity information from the original.
-- Manual correction introduces operator variability.
-- Moving source files is convenient for batching but requires a deliberate backup policy.
-- The desktop interaction is not designed for unattended or high-throughput server processing.
-- The output is a preprocessing result, not a biological conclusion or calibrated phenotype table.
+Threshold segmentation is sensitive to shadows, reflections, substrate and overlapping roots, which is why the tool includes manual correction; correction in turn introduces operator variability, so edits are kept minimal and logged. The binary output drops colour and intensity information. The interactive design targets careful processing of experiment-sized image sets rather than unattended high-throughput runs; trait measurement itself is done in the downstream software.
 
-For a browser-based preprocessing workflow with different limits, see [Root Image Preprocessor](/app/root-processor) and its [App Lab tutorial](/docs/tutorial-apps/root-preprocessor-tutorial).
-
-*Workflow reviewed: July 2026. Check the repository README and source before use because the interface may change.*
+A browser version is available in the App Lab: [Root Image Preprocessor](/app/root-processor) ([tutorial](/docs/tutorial-apps/root-preprocessor-tutorial)).

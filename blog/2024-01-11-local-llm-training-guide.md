@@ -9,15 +9,15 @@ category: "AI & machine learning"
 article_type: Technical guide
 ---
 
-Local large language models are useful when data must stay on controlled hardware, when offline operation matters, or when an experiment needs a fixed model and software stack. They are not automatically cheaper, faster, or more private: those outcomes depend on model size, hardware, network settings, and how the service is exposed.
+Local large language models are useful when data must stay on controlled hardware, when offline operation matters, or when an experiment needs a fixed model and software stack. Whether they are also cheaper, faster or more private depends on model size, hardware, network settings and how the service is exposed.
 
 This guide separates three jobs that are often mixed together: **running a model**, **adapting a model**, and **serving a model**. Start with the smallest job that answers your research question.
 
 <!-- truncate -->
 
-:::caution Version-sensitive workflow
+:::note Versions
 
-Model names, package APIs, CUDA builds, and hardware requirements change quickly. Record the model revision, package lockfile, operating system, driver, accelerator, prompt template, and test date for every reproducible experiment. Commands below are starting points, not universal production recipes.
+Model names, package APIs, CUDA builds and hardware requirements change quickly. For every experiment, record the model revision, package lockfile, operating system, driver, accelerator, prompt template and test date.
 
 :::
 
@@ -207,5 +207,3 @@ Check leakage, prompt-template differences, retrieval quality, and whether the t
 - [Axolotl](https://github.com/OpenAccess-AI-Collective/axolotl)
 - [Text Generation WebUI](https://github.com/oobabooga/text-generation-webui)
 - [Hugging Face model hub](https://huggingface.co/Qwen/Qwen2-7B)
-
-*Workflow reviewed: July 2026. Re-check upstream documentation before reproducing the commands.*

@@ -1,7 +1,7 @@
 ---
 slug: dji-p4m-webodm-qgis-workflow
 title: 用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状
-description: 一套以验证为先的工作流：在 WebODM 中处理大疆 P4 多光谱影像，在 QGIS 中核查波段元数据，并提取小区尺度的植被特征。
+description: 在 WebODM 中把大疆 P4 多光谱影像处理为辐射信息完整的正射影像，在 QGIS 中核查波段，并提取小区尺度的植被指数与纹理特征。
 authors: [liangchao]
 category: 植物表型
 article_type: 技术指南
@@ -17,7 +17,7 @@ date: 2023-04-22
 
 - **输入：** 原始 RGB 与多光谱影像、元数据、小区边界，最好还有定标与精度控制资料
 - **输出：** 经核查的正射影像波段、植被指数、可选的纹理图层，以及小区尺度统计量
-- **边界：** 菜单名称随 WebODM 与 QGIS 版本而变；请以你实际安装的界面和处理报告为准
+- **版本：** WebODM 与 QGIS 不同版本的菜单名称有所不同，下文按功能描述各项操作
 
 <!-- truncate -->
 

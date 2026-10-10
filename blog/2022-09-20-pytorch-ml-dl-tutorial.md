@@ -11,11 +11,10 @@ image: /img/blog-default.jpg
 
 ## Project overview
 
-This article is a learning roadmap, not a copy-and-run production framework. It keeps one small executable example, then explains the decisions that make a research model auditable: device handling, seeds, data splits, metrics, checkpoints, version records, and validation.
+This roadmap takes a Python user from a first PyTorch model to experiments that can be reproduced and audited. It works through one small executable example and the decisions that matter in research: device handling, seeds, data splits, metrics, checkpoints, version records and validation.
 
 - **Audience:** Python users starting reproducible machine-learning experiments
 - **API scope:** recent PyTorch 2.x and torchvision releases; always check the installed-version documentation
-- **Verification boundary:** examples are intentionally small and syntax-checkable; no benchmark, cloud price, or hardware-performance claim is implied
 
 <!-- truncate -->
 

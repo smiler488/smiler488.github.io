@@ -1,30 +1,22 @@
 ---
 slug: local-image-quantification-tutorial
-title: "Local Image Quantification in Python: An Experimental, Auditable Workflow"
-description: "A compact OpenCV workflow for segmenting isolated biological samples, exporting pixel and calibrated size descriptors, and documenting the validation required before scientific use."
+title: "Quantifying Seeds, Leaves and Other Plant Samples from Images with Python"
+description: "A local OpenCV method that segments separated plant samples on a uniform background and measures size, shape and colour in calibrated units, with an overlay for every image."
 authors: [liangchao]
 tags: [python, computer-vision, image-analysis, plant-phenotyping]
 layers: [DIG]
 image: /img/blog-default.jpg
 category: Plant phenotyping
-article_type: Technical guide
+article_type: Method
 ---
 
-Simple thresholding and connected-component analysis can quantify isolated biological samples photographed on a uniform background. This is useful for prototypes, teaching, and controlled screening, but it is not a universal plant-phenotyping method.
-
-The workflow below deliberately requires an explicit image scale. If scale calibration fails, it is safer to report pixels than to invent millimetres.
+Seeds, leaves, fruits and other organs photographed side by side on a uniform background can be measured quickly and objectively from images: area, length, width, shape and colour for every sample, instead of calipers and visual scores. This note presents a compact, local Python method for this task. It segments samples from the background by colour distance, measures each connected component, converts the results to millimetres with a measured scale, and writes a table and an annotated overlay for every image. Everything runs locally, so images never leave the computer.
 
 <!-- truncate -->
 
-:::warning Experimental workflow
+## Imaging conditions
 
-The example has not been validated for every camera, crop, sample type, background, or lighting condition. Inspect every overlay and compare a representative set with independent manual measurements before using the output in a paper, breeding decision, or quality-control process.
-
-:::
-
-## Appropriate use
-
-This workflow assumes:
+The method is designed for controlled imaging:
 
 - samples are physically separated;
 - the background is mostly uniform and visible in the image corners;
@@ -33,11 +25,11 @@ This workflow assumes:
 - lens distortion and perspective are negligible or corrected;
 - the intended traits can be approximated from a two-dimensional silhouette.
 
-It is not appropriate for tangled roots, dense canopies, overlapping leaves, uncontrolled field scenes, or organs whose three-dimensional curvature is central to the measurement.
+Tangled roots, dense canopies, overlapping leaves and field scenes need dedicated segmentation methods, and organs whose 3D curvature matters need 3D measurement.
 
-## Measurement plan
+## Trait definitions
 
-Before writing code, define each output:
+Each output has an explicit operational definition:
 
 | Output | Operational definition |
 | --- | --- |
@@ -48,7 +40,7 @@ Before writing code, define each output:
 | Circularity | `4π × area / perimeter²`; sensitive to contour noise |
 | Mean RGB | Mean source-image channel value inside the component mask |
 
-These are image descriptors. For example, minimum-rectangle length is not automatically equivalent to botanical leaf length along a curved midrib.
+These are image-based definitions; for strongly curved organs, minimum-rectangle length differs from botanical length along the midrib.
 
 ## 1. Capture controlled images
 
@@ -69,7 +61,7 @@ Measure the visible reference span in pixels using a reviewed image or calibrati
 pixels_per_mm = reference_length_pixels / reference_length_mm
 ```
 
-For example, a 25 mm marker spanning 310 pixels gives `12.4 px/mm`. Record how endpoints were selected. Do not fall back to an arbitrary constant when the marker is missing or ambiguous.
+For example, a 25 mm marker spanning 310 pixels gives `12.4 px/mm`. The script requires this value explicitly, so every millimetre in the output traces back to a measured reference; how the endpoints were selected is recorded with it.
 
 For higher-accuracy work, calibrate lens distortion and estimate a planar transform from multiple reference points rather than relying on one length.
 
@@ -85,7 +77,7 @@ python -m pip freeze > requirements-lock.txt
 
 On Windows, activate with `.venv\Scripts\activate`.
 
-## 4. Run a compact reference implementation
+## 4. Implementation
 
 Save the following as `quantify_samples.py`. It estimates the background from the image corners, applies Otsu thresholding to color distance, filters small connected components, and exports both a CSV and an overlay.
 
@@ -214,9 +206,9 @@ Run it with the measured scale:
 python quantify_samples.py samples.jpg --px-per-mm 12.4 --min-area 500
 ```
 
-The script does not automatically identify or exclude the calibration object. Crop it out before analysis or remove its component only after checking the overlay and documenting the rule.
+The calibration object is cropped out before analysis, or its component is removed by a documented rule after checking the overlay.
 
-## 5. Review before accepting numbers
+## 5. Quality control
 
 For every batch:
 
@@ -230,7 +222,7 @@ For every batch:
 
 Save exclusions rather than silently deleting them.
 
-## Interpretation boundaries
+## Scope and limitations
 
 - Downsampling or image compression can change contours and small structures.
 - Otsu thresholding assumes separable foreground and background distributions.
@@ -242,6 +234,4 @@ Save exclusions rather than silently deleting them.
 
 ## Related browser tool
 
-[Biological Sample Quantifier](/app/image) provides a browser entry point to a hosted image-analysis service. Review its [App Lab tutorial](/docs/tutorial-apps/image-quantifier-tutorial), service status, upload limits, and external-processing privacy boundary before sending research images.
-
-*Reference implementation reviewed: July 2026. Validate it with your own acquisition protocol before scientific use.*
+The [Biological Sample Quantifier](/app/image) in the App Lab offers the same kind of analysis in the browser through a hosted service ([tutorial](/docs/tutorial-apps/image-quantifier-tutorial)); unlike the local script, it uploads images for processing.

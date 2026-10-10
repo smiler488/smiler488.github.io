@@ -1,7 +1,7 @@
 ---
-title: Turntable Photogrammetry for Potted Cotton in a Growth Chamber
+title: "3D Reconstruction of Potted Cotton by Turntable Photogrammetry"
 slug: growth-chamber-cotton-3d
-description: An experimental, validation-first protocol for acquiring and reconstructing multi-view images of potted cotton plants in a controlled environment.
+description: "A growth-chamber protocol that reconstructs potted cotton plants from two-elevation turntable video with structure from motion, with scale control, colour correction and accuracy assessment."
 authors: [liangchao]
 category: Imaging & 3D
 article_type: Research project
@@ -18,161 +18,105 @@ image: /img/cotton3d/sfm.webp
 
 import { CottonSfmFigure } from '@site/src/components/figures/Cotton3D';
 
-## Project overview
+## Overview
 
-This protocol uses a rotating plant and fixed cameras to create a multi-view image set for 3D reconstruction. It is intended as an experimental starting point, not a validated claim of high-precision phenotyping. Accuracy depends on plant motion, image sharpness, calibration, scale control, background masking, and independent validation.
+Single-plant 3D models are the input to organ-level phenotyping and to canopy light and photosynthesis simulation. This protocol reconstructs potted cotton plants in a growth chamber by turntable photogrammetry: the plant rotates in front of two fixed cameras at different elevations, and structure from motion (SfM) turns the image sequence into a scaled point cloud and mesh.
+
+The protocol has three aims:
+
+- a standardized multi-view image dataset for each plant;
+- a metric 3D reconstruction for plant architecture analysis and light-distribution modelling;
+- quantified reconstruction accuracy and colour consistency.
 
 <!-- truncate -->
 
-## Research objective
+## 1. Imaging environment
 
-The workflow can support:
+- **Chamber.** A growth chamber with controlled temperature, humidity and light. Fans are stopped during capture, because small leaf movements break feature matching between views.
+- **Light.** Uniform diffuse light of 500–800 lx from side-mounted diffusing LED panels; ceiling spotlights are switched off to avoid specular highlights and hard shadows.
+- **Background.** Black non-reflective cloth over background and floor, which suppresses reflections and makes masking simple.
+- **Turntable.** An acrylic turntable 60–80 cm in diameter, covered with diffusing film to remove specular reflection, motor-driven at constant speed with one revolution in 60–90 s. The pot is centred on the rotation axis and stabilized if needed.
+- **Scale and control.** Coded markers and measured scale bars are fixed on the turntable, so they rotate with the plant. Marker layouts avoid symmetry, which can produce ambiguous correspondences. One measured distance is kept out of the scaling and used as an independent check.
+- **Colour.** A SpyderCheckr 24 chart is placed in the field of view of both cameras to monitor and correct colour.
 
-- visualization of plant architecture;
-- exploratory estimates of plant height, width, volume, and leaf orientation;
-- development of organ-segmentation and light-distribution methods;
-- comparison of reconstruction settings under controlled acquisition.
+In turntable capture the plant moves relative to the room, so everything static (background, colour chart, supports) is masked out of the reconstruction.
 
-Do not treat mesh-derived traits as ground truth until their errors have been quantified against independent measurements.
+## 2. Cameras
 
-## 1. Prepare the imaging area
+| | Camera A | Camera B |
+|---|---|---|
+| Device | iPhone Pro (13 Pro or later) | iPhone Pro (13 Pro or later) |
+| Elevation | −45° (looking down) | 0° (horizontal) |
+| Distance | ≈ 1.0 m | ≈ 1.2 m |
+| Recording | 4K (3840 × 2160), 30 fps | 4K (3840 × 2160), 30 fps |
 
-### Stable environment
+Focus, exposure, white balance and focal length are locked on both cameras; automatic HDR and lens switching are disabled. The two elevations cover the upper surfaces and the sides of the plant and reduce occlusion between leaf layers. Device, lens, resolution and exposure settings are recorded with each session.
 
-- Stop fans and minimize airflow during capture; small leaf motion can break feature matching.
-- Use diffuse, flicker-free light and keep it constant for the full sequence.
-- Measure and record illuminance or exposure conditions rather than adopting an arbitrary universal lux value.
-- Avoid specular highlights, deep shadows, and automatic lighting changes.
+## 3. Capture
 
-### Background and turntable
+1. Centre and secure the pot without touching the leaves; record plant ID, treatment and date.
+2. Start the turntable and let it reach constant speed.
+3. Start recording on both cameras.
+4. Record one full revolution, checking that the plant, markers and chart stay in frame.
+5. Stop recording and name the files by plant, camera and elevation, e.g. `Plant01_A_45.mp4`, `Plant01_B_0.mp4`.
+6. Review the sequence for blur, exposure drift and leaf movement before removing the plant.
 
-- Use a matte, visually uniform background that can be masked reliably.
-- Use a rigid, matte turntable large enough for the pot and plant.
-- Avoid transparent or reflective acrylic unless its reflections are controlled and validated.
-- Keep static background features, color charts, cables, and supports out of the reconstruction mask. In turntable photogrammetry, the plant moves relative to the room, so static background features violate the assumed scene geometry.
+## 4. Pre-processing
 
-### Scale and control
+**Colour correction.** In DaVinci Resolve, colour balance is calibrated against the SpyderCheckr 24 chart, and the same correction is applied to the whole sequence. The uncorrected videos and the correction parameters are kept. Colour correction makes images consistent across plants and sessions; it does not convert pixel values to reflectance.
 
-Place measured scale bars and uniquely identifiable coded markers on the rotating platform so they move with the plant. Avoid symmetric, repeated marker layouts that can create ambiguous correspondences.
+**Frame selection.** A 4K, 30 fps revolution of 60–90 s gives 1,800–2,700 frames per camera, most of them nearly identical. Frames are therefore thinned to an even angular spacing that keeps strong overlap between neighbouring views, and blurred frames are discarded. The final angular interval, number of retained frames and rejection reasons are recorded.
 
-Reserve at least one independent scale or distance as a check rather than using every measurement to define the model.
-
-## 2. Configure the cameras
-
-One well-controlled camera moved between height levels is often easier to calibrate than two unmatched phone cameras. If multiple cameras are used:
-
-- lock focus, shutter speed, ISO, white balance, and focal length;
-- disable automatic HDR or lens switching when possible;
-- record each device, lens, resolution, frame rate, and exposure setting;
-- acquire calibration data for each camera;
-- avoid digital zoom;
-- verify that all views are sharp and free from rolling-shutter or stabilization artifacts.
-
-Phone video is compressed and may apply computational processing between frames. Still images or high-quality intra-frame video are preferable when the workflow permits.
-
-Use at least two elevation bands to reduce top- and underside occlusion. Exact angles and distances depend on plant size and field of view; verify that the entire specimen and scale controls remain visible.
-
-## 3. Capture the sequence
-
-1. Center and secure the pot without deforming the plant.
-2. Record a sharp reference view and the experiment metadata.
-3. Start a slow, constant rotation.
-4. Capture enough angular views to maintain feature overlap around the full plant.
-5. Repeat at the second camera height or elevation.
-6. Inspect the sequence immediately for blur, exposure drift, leaf motion, missing regions, and marker visibility.
-
-Do not export every one or two video frames by default. At 30 frames per second, that produces thousands of highly redundant images. Sample by angular coverage and image quality. Document the final angular interval, number of retained frames, and rejection criteria.
-
-## 4. Manage color separately from geometry
-
-A color chart such as SpyderCheck24 can help monitor camera and lighting consistency, but it does not by itself make image values physically calibrated reflectance.
-
-- Capture the chart under the same camera and lighting settings.
-- Apply one documented correction consistently to the sequence.
-- Keep the static chart out of the geometry reconstruction mask.
-- Preserve the uncorrected source files and the correction parameters.
-
-If color is a scientific output, validate the corrected patch values and report the color space, white balance, exposure, and error metric.
-
-## 5. Organize and screen the images
-
-Use names that preserve plant, camera, elevation, and view order:
+**File organization.**
 
 ```text
 Plant01/
-├── raw/
-│   ├── camera-a/
-│   └── camera-b/
-├── selected/
-│   ├── upper/
-│   └── horizontal/
+├── raw_videos/        # Plant01_A_45.mp4, Plant01_B_0.mp4
+├── frames/
+│   ├── A_45/          # Plant01_A_45_0001.jpg …
+│   └── B_0/
 ├── masks/
-├── calibration/
-├── reconstruction/
-└── validation/
+├── calibration/       # colour chart, scale bars, camera settings
+├── metashape/         # Plant01.psx and exports
+└── validation/        # manual measurements
 ```
 
-For every selected image, check:
+## 5. Reconstruction in Agisoft Metashape
 
-- sharpness at leaf edges;
-- consistent exposure and white balance;
-- sufficient overlap with adjacent views;
-- no large leaf displacement;
-- no accidental crop of the plant or scale controls;
-- a mask that excludes the static room and color chart.
+1. Import the frames as two camera groups (A −45°, B 0°) and apply masks.
+2. **Align Photos** at high accuracy with generic preselection (starting values: key-point limit 40,000, tie-point limit 10,000), then inspect the sparse cloud and remove clear outlier tie points.
+3. Detect the coded markers, enter the measured scale-bar distances and run **Optimize Cameras**.
+4. **Build Dense Cloud** at high quality with mild depth filtering, which preserves thin leaf margins.
+5. Remove remaining background geometry, then **Build Mesh** from the dense cloud and, when needed, **Build Texture** (generic mapping, mosaic blending).
+6. Export the point cloud or mesh (PLY, OBJ or GLB) in metres, with camera positions.
 
-## 6. Reconstruct in Metashape or comparable software
-
-Software labels vary by version, so the workflow is described by purpose:
-
-1. import the selected images;
-2. apply masks before or during feature matching;
-3. estimate camera poses and a sparse reconstruction;
-4. inspect and remove obvious outlier tie points cautiously;
-5. identify coded markers and enter measured scale constraints;
-6. optimize camera parameters only after checking that the control geometry is correct;
-7. generate depth maps and a dense point cloud;
-8. remove unsupported background geometry;
-9. build and, if required, texture a mesh;
-10. export the point cloud or mesh with units and coordinate metadata.
-
-Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.
-
-The figure below is one such export: a cotton plant reconstructed with structure from motion, kept as a point cloud with organ labels.
+Point clouds are cleaned and organ-labelled in CloudCompare or Open3D. The figure below is a result of this protocol: cotton sample 20240109-84-5 reconstructed by SfM, with points labelled as main stem, branches and petioles, or leaves.
 
 <CottonSfmFigure />
 
-## 7. Validate before extracting traits
+## 6. Accuracy assessment
 
-At minimum, report:
+Each reconstruction is reported with:
 
-- number of input and aligned images;
-- camera reprojection error, with its definition and units;
-- marker and scale residuals;
-- error on an independent distance or object;
-- visibly missing or falsely filled plant regions;
-- repeatability across replicate captures;
-- sensitivity of traits to masking and reconstruction settings.
+- the number of input and aligned images;
+- camera reprojection error;
+- marker and scale-bar residuals;
+- the error on the independent check distance;
+- regions that are visibly missing or falsely filled.
 
-For manual plant height or width measurements (m_i) and reconstructed values (r_i), summarize bias and RMSE:
+Plant height and canopy width measured by hand (m_i) are compared with the reconstructed values (r_i):
 
 ```text
-bias = mean(r_i - m_i)
-RMSE = sqrt(mean((r_i - m_i)^2))
+bias = mean(r_i − m_i)
+RMSE = sqrt(mean((r_i − m_i)²))
 ```
 
-A visually plausible mesh can still give biased traits, particularly for thin leaf margins, overlapping leaves, and reflective or texture-poor surfaces.
+Repeated captures of the same plants give the repeatability of each trait. Colour correction is checked by comparing the corrected chart patches with their reference values.
 
-## 8. Export research-ready outputs
+## 7. Trait extraction and data products
 
-Preserve:
+Plant height, canopy width, volume and leaf inclination are extracted with Python, Open3D and NumPy. Each plant's record keeps the raw videos, selected-frame list, masks, calibration records, Metashape project and software version, scale constraints, validation measurements, exported models in metric units, and the scripts and parameters used for trait extraction. The organ-labelled point clouds are the input to the triangle-facet canopy used in the [canopy photosynthesis model](/blog/canopy-photosynthesis-modeling-en).
 
-- original images and metadata;
-- selected-frame manifest and rejection reasons;
-- masks and calibration records;
-- reconstruction project and software version;
-- scale constraints and independent validation measurements;
-- exported PLY/OBJ/GLB with units;
-- scripts, parameters, and trait tables linked to a code commit.
+## Scope and limitations
 
-This evidence makes the reconstruction auditable and allows future processing improvements without repeating the experiment.
+Turntable photogrammetry assumes a rigid plant: leaf movement during rotation, thin leaf margins, overlapping leaves and texture-poor surfaces are the main sources of missing or false geometry. The protocol suits potted plants up to about the turntable diameter; larger plants and field canopies need a moving-camera or UAV acquisition.

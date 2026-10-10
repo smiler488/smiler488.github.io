@@ -1,7 +1,7 @@
 ---
 slug: dji-p4m-webodm-qgis-workflow
 title: DJI P4 Multispectral to Plot-Level Traits with WebODM and QGIS
-description: A validation-first workflow for processing DJI P4 Multispectral imagery in WebODM, checking band metadata in QGIS, and extracting plot-level vegetation features.
+description: Processing DJI P4 Multispectral imagery into radiometrically documented orthomosaics in WebODM, checking bands in QGIS, and extracting plot-level vegetation indices and texture features.
 authors: [liangchao]
 category: Plant phenotyping
 article_type: Technical guide
@@ -17,7 +17,7 @@ This guide takes original DJI P4 Multispectral imagery through WebODM and QGIS t
 
 - **Inputs:** original RGB and multispectral captures, metadata, plot boundaries, and preferably calibration and accuracy controls
 - **Outputs:** checked orthomosaic bands, vegetation indices, optional texture layers, and plot-level statistics
-- **Boundary:** menu labels vary by WebODM and QGIS version; verify the installed interface and processing report
+- **Versions:** menu labels differ between WebODM and QGIS releases; the steps below name each operation by purpose
 
 <!-- truncate -->
 

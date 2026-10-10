@@ -1,103 +1,104 @@
 ---
 slug: botanical-extract-ai-pro
-title: "Botanical Extract AI Pro: An Experimental Background-Isolation Workflow"
+title: "Botanical Extract AI Pro: Zero-Shot Plant Background Removal with Multimodal Models"
 authors: [liangchao]
 category: AI & machine learning
-article_type: Workflow
+article_type: "Research project"
 tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
 layers: [DIG]
 image: /img/botanical-extract-ai-pro.png
-description: An experimental web and batch workflow for placing plants on white backgrounds with multimodal image models, including scientific and privacy limitations.
+description: "A web application and batch pipeline that removes plant-image backgrounds without task-specific training, using a multimodal image model with a structured prompt, aspect-ratio matching and file-signature format detection."
 ---
 
 ## Overview
 
-![Examples of source plant images and AI-generated white-background outputs](/img/botanical-extract-ai-pro.png)
+![Source plant images and the corresponding white-background outputs](/img/botanical-extract-ai-pro.png)
 
-**Botanical Extract AI Pro** explores whether a multimodal image model can reduce background clutter in plant photographs without project-specific model training. It provides an interactive web workflow for individual images and a Node.js-oriented workflow for repeated processing.
+Plant images taken in greenhouses, growth chambers and fields carry cluttered backgrounds: soil, pots, walls, labels and neighbouring plants. Removing them is the first step of most image-based phenotyping, and manual segmentation is slow, while trained segmentation models need annotated data for each species and setting.
 
-This is best described as **AI-assisted background isolation**, not validated scientific segmentation. A generative model may redraw leaves, remove thin structures, change colors, or invent boundaries even when the prompt asks it not to.
+**Botanical Extract AI Pro** removes plant backgrounds without task-specific training. It uses the visual understanding and image-editing capability of a multimodal model: the model receives the plant photograph with a structured instruction and returns the same plant on a pure white (#FFFFFF) background. The same core runs in an interactive web application for single images and in a Node.js pipeline for batch processing of whole image collections.
 
 <!-- truncate -->
 
-:::warning Experimental output
-“Zero-shot” means that no task-specific training was performed. It does not imply zero error, pixel-perfect preservation, or suitability for quantitative phenotyping.
-:::
+## System design
 
-## Workflow
+The system has two clients and one shared core.
 
-The two clients follow the same basic path:
+```mermaid
+graph TD
+    U[User] --> W[React web application]
+    U --> B[Node.js batch pipeline]
+    W --> P[Image loading]
+    B --> F[Directory scan]
+    F --> P
+    P --> V[Format detection from file signature]
+    V --> R[Aspect-ratio matching]
+    R --> T[Structured TAS prompt]
+    T --> M[Multimodal image model]
+    M --> O[White-background PNG]
+    O --> W
+    O --> B
+```
 
-1. Load an image and decode it to confirm the format and dimensions.
-2. Select the closest aspect ratio supported by the chosen model API.
-3. Send the image and a constrained background-replacement instruction to the provider.
-4. Save the returned image beside the untouched original.
-5. Record the provider, model, prompt version, time, and processing outcome.
+- **Web client:** React 19, TypeScript, Vite and Tailwind CSS. Drag-and-drop upload, side-by-side display of original and result, and settings for aspect ratio and output format.
+- **Batch client:** Node.js with `fs/promises`, for hundreds to thousands of images.
+- **Core:** format detection, aspect-ratio matching and prompt construction, shared by both clients so that interactive tests and batch runs use identical requests.
 
-The web interface supports visual comparison for a single sample. The batch workflow scans a directory, mirrors its structure in an output directory, and records successes and failures.
+## Key methods
 
-## What the prompt can and cannot do
+### Structured prompt (Task–Action–Specification)
 
-A prompt can request a white background and ask the model to preserve the plant. It cannot force a generative system to retain the original pixels. Statements such as “pixel-perfect” are therefore **instructions to the model**, not guarantees about the result.
+The instruction is written as a technical editing task, not a creative one, which reduces the model's tendency to restyle the plant:
 
-Aspect-ratio matching is similarly limited. Choosing the nearest supported ratio can reduce avoidable cropping or stretching in the API request, but it does not guarantee identical geometry or resolution in the generated image.
+```text
+TASK: Image segmentation / background replacement.
+INPUT: A photo of a plant.
+OUTPUT: The same plant, with the background replaced by pure solid white (#FFFFFF).
 
-## Input validation
+INSTRUCTIONS:
+1. OUTPUT: Return the input image with the background replaced by solid white.
+2. PRESERVATION: The plant (leaves, stems, flowers, pots if integral) must remain
+   identical to the original. Do not redraw or restyle.
+3. BACKGROUND: All non-plant pixels (walls, ground, shadows) must be solid white.
+4. FORMAT: Return a PNG image.
+```
 
-File extensions alone are not sufficient validation. A safer client should:
+The prompt defines the task, the object to keep, what counts as background (walls, ground, shadows) and the output format.
 
-- Check the binary signature and successfully decode the image
-- Enforce file-size and pixel-dimension limits
-- Reject unsupported or malformed data
-- Normalize orientation without silently discarding the original
-- Keep provider payloads separate from local metadata
+### Aspect-ratio matching
 
-The current Base64-style request pattern loads the image into memory. It should not be described as streaming, and large inputs need explicit limits.
+Image models accept a fixed set of output ratios. To avoid stretching and cropping, the system computes the input ratio R = W/H and selects the closest supported ratio from `{1:1, 3:4, 4:3, 9:16, 16:9}`:
 
-## Bounded batch processing
-
-`Promise.allSettled(files.map(processFile))` does **not** control concurrency; it schedules every task immediately. A production batch client should place a small limit around the provider call:
-
-```javascript
-import pLimit from 'p-limit';
-
-const limit = pLimit(3);
-
-const results = await Promise.allSettled(
-  files.map((file) => limit(() => processOneImage(file))),
+```typescript
+const supported = [
+  { id: "1:1", val: 1.0 },
+  { id: "4:3", val: 4 / 3 },
+  { id: "3:4", val: 3 / 4 },
+  { id: "16:9", val: 16 / 9 },
+  { id: "9:16", val: 9 / 16 },
+];
+const closest = supported.reduce((prev, curr) =>
+  Math.abs(curr.val - ratio) < Math.abs(prev.val - ratio) ? curr : prev
 );
 ```
 
-The processing function should also use capped exponential backoff for retryable `429` and `5xx` responses, stop retrying permanent errors, and write a resumable manifest. Concurrency must be adjusted to the provider's documented limits and the available memory.
+### Format detection from file signatures
 
-## Scientific quality control
+Inputs arrive as browser `File` objects or Node.js `Buffer`s. Instead of trusting file extensions, the core reads the leading bytes (magic numbers) to identify PNG (`89 50 4E 47`), JPEG (`FF D8`) or BMP, strips any data-URL prefix, and sends a clean Base64 payload with the correct MIME type.
 
-Generated outputs should not be used directly for leaf area, shape, disease, growth, or time-series measurements without validation. A practical review should include:
+### Batch pipeline
 
-1. Overlay the source and output at the same scale.
-2. Inspect thin stems, leaf tips, holes, flowers, labels, and pot boundaries.
-3. Check whether colors, shadows, or plant geometry changed.
-4. Compare a manually annotated validation subset with appropriate mask and boundary metrics.
-5. Reject or manually correct failed samples before quantitative analysis.
+The batch script (`batch-process.js`):
 
-For measurements that require a reproducible binary mask, a conventional segmentation model or a validated interactive segmentation tool is usually more appropriate than image generation.
+1. recursively scans the input directory for image files;
+2. mirrors the input folder structure in the output directory, so results stay organized by experiment, treatment or date;
+3. catches API errors, retries rate-limit (`429`) and server (`5xx`) errors with a delay, and records the paths of failed files;
+4. reports progress and success/failure counts during the run.
 
-## Privacy, cost, and reproducibility
+## Quality control
 
-Unless a local model is used, uploaded images leave the device and are processed by an external provider. Before processing research data:
+Every output is stored next to its untouched original. For use in phenotyping, results are reviewed by overlaying output and source at the same scale and checking thin stems, leaf tips, holes and pot edges. Because the background is uniform white, a binary plant mask follows from a simple threshold, which allows comparison with manually annotated masks on a validation subset.
 
-- Review the provider's retention and training policies.
-- Remove sensitive labels, locations, and personal information.
-- Store API keys in server-side or environment configuration, never in public client code.
-- Estimate per-image cost and rate limits before starting a batch.
-- Preserve the original files and a machine-readable processing manifest.
+## Scope and limitations
 
-## Current limitations
-
-- No public benchmark currently establishes accuracy across species, organs, backgrounds, or imaging conditions.
-- Results may vary across model versions and repeated requests.
-- The workflow produces an edited image, not necessarily an alpha mask or class-labeled segmentation.
-- Large-scale processing requires bounded concurrency, recovery logs, and manual quality assurance.
-- The project should not be described as open source unless a public repository and license are provided.
-
-The project remains useful as a prototype for rapid visual cleanup and for studying how multimodal models behave on botanical imagery. Its outputs should be treated as generated derivatives, not as ground truth.
+The model edits the image rather than classifying pixels, so fine structures such as thin stems, leaf margins and small flowers can be altered or lost, and repeated requests or model versions can give different results. For measurements that need pixel-exact masks, such as leaf area or lesion area, outputs are checked against annotated masks or a trained segmentation model is used. Images are processed by the model provider, so the provider's data policy applies to research images, and API keys are kept on the server or in environment configuration, never in client code.

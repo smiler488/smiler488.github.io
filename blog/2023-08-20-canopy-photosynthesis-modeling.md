@@ -1,10 +1,10 @@
 ---
 slug: canopy-photosynthesis-modeling-en
-title: Canopy Photosynthesis from 3D Plant Models — A Conceptual Workflow
-description: A validation-first research framework connecting multi-view reconstruction, plant geometry, radiative transfer, leaf physiology, and canopy-scale uncertainty.
+title: Canopy Photosynthesis Modeling from 3D Plant Reconstruction
+description: A modular model that reconstructs crop plants from multi-view images, assembles a triangle-facet canopy, simulates its light distribution by ray tracing, and integrates leaf photosynthesis to canopy carbon gain.
 authors: [liangchao]
 category: Plant phenotyping
-article_type: Workflow
+article_type: Research project
 tags:
   [
     crop-modeling,
@@ -18,155 +18,66 @@ image: /img/cotton3d/canopy.webp
 
 import { CottonCanopyFigure } from '@site/src/components/figures/Cotton3D';
 
-## Project overview
+## Overview
 
-Canopy photosynthesis modeling links several distinct systems: image acquisition, 3D reconstruction, organ geometry, radiative transfer, leaf physiology, and environmental forcing. This article defines the interfaces and validation requirements between those stages.
+Canopy photosynthesis depends on how leaves are arranged in space: architecture decides how much light each leaf receives, and leaf physiology decides how much of that light is fixed as carbon. Big-leaf and multilayer models average this structure away. To keep it, I built a modular model that starts from images of real plants and ends with canopy carbon gain, with an explicit 3D canopy in between.
 
-It is a **conceptual research workflow**, not a complete executable simulator. Each stage requires a tested implementation, calibrated parameters, units, uncertainty analysis, and comparison with independent measurements.
+The model has five stages: **multi-view imaging → 3D reconstruction → triangle-facet plant model → ray-traced light distribution → leaf-to-canopy photosynthesis.** Each stage writes a defined data product, so stages can be replaced or re-run independently, for example swapping SfM for 3D Gaussian Splatting without touching the light model.
 
 <!-- truncate -->
 
-## Workflow map
+## Model structure
 
 ```mermaid
 flowchart TD
-    A[Multi-view images and calibration] --> B[Camera poses and 3D reconstruction]
-    B --> C[Validated plant geometry]
-    C --> D[Organ labels and leaf area]
-    D --> E[Measured or synthetic canopy]
-    F[Sun, sky, weather, and optical properties] --> G[Radiative-transfer model]
+    A[Multi-view images and calibration] --> B[SfM / 3DGS reconstruction]
+    B --> C[Scaled plant point cloud]
+    C --> D[Triangle-facet plant model with organ labels]
+    D --> E[Canopy assembly: replication and arrangement]
+    F[Sun position, direct and diffuse radiation] --> G[Ray tracing]
+    O[Leaf reflectance and transmittance] --> G
     E --> G
-    G --> H[Leaf-level absorbed PPFD]
-    I[Species-specific physiological parameters] --> J[Leaf photosynthesis and conductance]
+    G --> H[Absorbed PPFD per facet and time step]
+    I[Leaf photosynthesis parameters] --> J[Leaf photosynthesis per facet]
     H --> J
-    J --> K[Area- and time-integrated canopy exchange]
-    K --> L[Validation and uncertainty analysis]
+    J --> K[Canopy photosynthesis and daily carbon gain]
 ```
 
-The arrows are data contracts. For example, a radiative-transfer model needs geometry with known units and normals; a photosynthesis model needs absorbed radiation in physical units, not arbitrary ray-hit counts.
+## 1. Multi-view image acquisition
 
-## 1. Define the scientific question first
+Plants are photographed from multiple elevations around the full circumference, either on a turntable in a growth chamber or with a camera moving around the plant in the field. The capture protocol fixes focus, exposure, white balance and focal length, keeps the plant still, and includes scale markers so that the reconstruction can be brought to metric units. In turntable capture, the static background is masked because the plant rotates relative to it.
 
-Possible questions include:
+## 2. 3D reconstruction
 
-- How does leaf-angle distribution affect within-canopy light?
-- Which architectural traits explain differences in daily carbon gain?
-- Can reconstructed canopies reproduce measured light interception?
-- How sensitive is a crop-model parameter to 3D structural variation?
+**Structure from Motion and multi-view stereo.** SfM (COLMAP) estimates camera poses and a sparse structure; multi-view stereo densifies it into a point cloud. The software version and configuration are stored with each reconstruction.
 
-The question determines the necessary spatial and temporal resolution. A visualization model does not automatically support quantitative carbon-flux claims.
+**3D Gaussian Splatting.** 3DGS optimizes a set of anisotropic Gaussians against the images and renders thin, overlapping leaves more completely than dense stereo. Because the Gaussians are a radiance representation rather than a surface, a separate surface-extraction step converts them to geometry before the light simulation.
 
-Pre-register or document:
+Reconstructed geometry is checked against independent distances (scale), and incomplete or falsely connected leaves are inspected before the next stage.
 
-- target variable and unit;
-- spatial unit: leaf, plant, plot, or canopy;
-- temporal unit: instant, hour, or day;
-- experimental factors and replicates;
-- calibration and validation observations;
-- acceptable error or decision threshold.
+## 3. Triangle-facet plant model
 
-## 2. Acquire multi-view images
+The light model operates on triangles. The scaled point cloud is meshed, and each triangle (facet) carries:
 
-Use a capture protocol appropriate to the plant scale:
+- its three vertices and normal, in metres;
+- an organ label, leaf or non-leaf (stem, branch, petiole);
+- the optical properties of that organ, reflectance and transmittance.
 
-- stable illumination and minimal leaf motion;
-- locked or recorded focus, exposure, white balance, and focal length;
-- sufficient overlap and multiple elevations;
-- measured scale controls;
-- calibration images and camera metadata;
-- subject identifiers that connect images to field or chamber records.
+Organ labels come from point-cloud segmentation, combining geometry and colour with manual review on a representative subset. Facet area summed by organ gives the leaf area of the plant, which is checked against destructive leaf-area measurement.
 
-Turntable and field capture need different background strategies. In a turntable setup, static room features must be masked because the plant rotates relative to them. In field capture, wind and moving shadows can violate the static-scene assumption.
+## 4. Canopy assembly
 
-### Acquisition validation
+A canopy is assembled by placing plant models at the planting positions of the stand (row spacing, plant spacing, number of rows). Each instance can be rotated about its vertical axis and perturbed in position, so that leaves of neighbouring plants do not line up artificially. Overlaps, below-ground geometry and changes of leaf area after transformation are checked after assembly.
 
-Report image count, rejected images, angular or spatial coverage, blur screening, marker visibility, and missing views. Repeat a subset of plants to quantify capture repeatability.
-
-## 3. Reconstruct geometry
-
-### Structure from Motion and multi-view stereo
-
-SfM estimates camera poses and sparse scene structure; multi-view stereo creates a denser point cloud. Tools such as COLMAP can provide these stages, but command-line option names change across versions. Save the exact software version and configuration.
-
-The geometry pipeline should produce:
-
-- camera poses and intrinsics;
-- scaled point cloud or mesh;
-- per-vertex or per-face normals;
-- confidence or density information where available;
-- reconstruction diagnostics.
-
-### 3D Gaussian Splatting
-
-3D Gaussian Splatting is primarily a learned radiance-field representation for novel-view rendering. A set of optimized Gaussians is not automatically a watertight, metrically validated plant mesh. Geometry extraction requires an additional, documented method and its own validation.
-
-Do not replace an SfM-to-mesh pipeline with a few tensor parameters and call the result complete 3DGS. A practical implementation needs a differentiable rasterizer, constrained scale/rotation/opacity parameterization, densification and pruning, camera calibration, and a defined export path.
-
-## 4. Validate and process the mesh
-
-Thin leaves, self-occlusion, texture-poor surfaces, and motion produce holes and false surfaces. Surface reconstruction can also fill unsupported regions.
-
-Inspect:
-
-- scale error against independent distances;
-- completeness by organ and canopy depth;
-- false connections between overlapping leaves;
-- mesh normals and orientation;
-- non-manifold or degenerate geometry;
-- sensitivity to masking and reconstruction settings.
-
-Poisson reconstruction returns a smooth closed surface and can extrapolate into low-density areas. Use density information and measured evidence to crop unsupported surfaces rather than accepting the default mesh.
-
-## 5. Derive plant organs and leaf area
-
-A curvature threshold alone is not a robust leaf/stem segmentation method. Curvature depends on scale, mesh resolution, noise, and neighborhood definition.
-
-Use a validated combination of:
-
-- geometry and topology;
-- color or spectral information;
-- supervised organ labels;
-- plant-development constraints;
-- manual review on a representative subset.
-
-For each organ, preserve:
-
-- surface area and the method used to calculate it;
-- orientation and normal convention;
-- thickness or two-sided-leaf assumption;
-- segmentation confidence;
-- link to the original plant and treatment.
-
-Compare total reconstructed leaf area with destructive leaf-area measurements or another independent method.
-
-## 6. Build a measured or synthetic canopy
-
-There are two different scientific products:
-
-1. **Measured canopy:** positions and geometry are reconstructed from an observed stand.
-2. **Synthetic canopy:** plant instances and traits are generated to test hypotheses.
-
-Synthetic perturbations must be interpretable. Record the distribution, covariance, bounds, and random seed for plant spacing, height, azimuth, leaf angle, and size. Repeatedly cloning one plant and adding arbitrary vertex noise does not reproduce population-level architectural diversity.
-
-Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.
-
-The model below shows what a canopy input looks like at facet level: one reconstructed cotton plant replicated 24 times and described as triangles, each facet carrying the reflectance and transmittance of its class (leaf or other organ).
+The canopy below is the cotton input used in the model: one reconstructed plant replicated 24 times, described as triangles, each facet carrying the reflectance and transmittance of its class (leaf or other organ).
 
 <CottonCanopyFigure />
 
-## 7. Model the light environment in physical units
+## 5. Light distribution by ray tracing
 
-A radiative-transfer stage needs:
+The sun position is computed from date, time and location. Direct radiation is traced as parallel rays from the sun direction; diffuse radiation is traced from discretized sky directions. At each hit, a ray deposits the absorbed fraction of its energy, and the reflected and transmitted fractions continue according to the facet's reflectance and transmittance, so multiple scattering inside the canopy is included. Rays that reach the ground are treated with the soil reflectance.
 
-- canopy coordinates and units;
-- direct and diffuse sky radiation;
-- sun position calculated from date, time, and location;
-- leaf reflectance and transmittance by waveband;
-- soil/background optical properties;
-- an absorption and scattering model;
-- a mapping from intercepted energy to absorbed PPFD or another defined quantity.
-
-Angles provided in degrees must be converted before using NumPy trigonometric functions:
+Each ray carries an energy weight, so the result is absorbed photosynthetic photon flux density (PPFD, µmol m⁻² s⁻¹) per facet, not a hit count. The number of rays is increased until the canopy-level result converges. Angles are converted to radians before trigonometric evaluation:
 
 ```python
 import numpy as np
@@ -175,114 +86,56 @@ elevation = np.deg2rad(elevation_degrees)
 azimuth = np.deg2rad(azimuth_degrees)
 ```
 
-Counting first ray intersections produces a sampling density, not irradiance. Each ray needs a defined energy or probability weight, and the model must describe whether it includes transmission, reflection, multiple scattering, and diffuse radiation.
+## 6. Leaf photosynthesis
 
-### Light-model validation
-
-Compare predictions with independent observations such as:
-
-- above- and below-canopy PAR sensors;
-- vertical or horizontal light profiles;
-- intercepted-radiation measurements;
-- hemispherical images or ceptometers;
-- energy conservation and convergence checks.
-
-Increase ray count or spatial resolution until the output of interest converges within a predefined tolerance.
-
-## 8. Parameterize leaf photosynthesis
-
-The Farquhar–von Caemmerer–Berry model describes C3 leaf photosynthesis through biochemical limitations. A credible implementation needs more than a generic `Vcmax25` and `Jmax25`.
-
-Define and justify:
-
-- species, cultivar, leaf age, and nitrogen status;
-- leaf temperature rather than air temperature when they differ;
-- intercellular or chloroplastic CO₂ treatment;
-- Rubisco-, electron-transport-, and, when relevant, TPU-limited rates;
-- day respiration;
-- temperature-response functions;
-- stomatal and, when needed, mesophyll conductance;
-- absorbed light and spectral assumptions;
-- fitted parameter uncertainty.
-
-Ambient CO₂ concentration cannot simply replace intercellular CO₂ without a conductance model or an explicitly justified approximation.
-
-Fit physiological parameters from appropriate gas-exchange observations or cite a parameter source that matches the biological material and conditions. Generic literature constants are useful for sensitivity analysis, not automatically for quantitative prediction.
-
-## 9. Integrate leaf rates without losing units
-
-For leaf element `i` with net assimilation `A_i` in micromoles of CO₂ per square metre per second and one-sided area `a_i` in square metres:
+Each facet's absorbed PPFD drives a C3 leaf photosynthesis model of the Farquhar–von Caemmerer–Berry type. Net assimilation is the minimum of the Rubisco-limited and electron-transport-limited rates minus day respiration. The electron transport rate J follows a non-rectangular hyperbola in absorbed light:
 
 ```text
-P_canopy = sum_i(A_i × a_i)
+θJ² − (αI + Jmax)J + αI·Jmax = 0
 ```
 
-The result is micromoles of CO₂ per second. An area-weighted mean is:
+where I is absorbed PPFD, α the quantum efficiency, θ the curvature and Jmax the maximum electron transport rate. Vcmax and Jmax are adjusted from 25 °C to leaf temperature with Arrhenius-type temperature responses. Vcmax, Jmax and day respiration are fitted from gas-exchange measurements (A–Ci and light-response curves) of the simulated crop.
+
+## 7. From leaves to canopy
+
+For facet i with net assimilation A_i (µmol CO₂ m⁻² s⁻¹) and one-sided area a_i (m²):
 
 ```text
-A_mean = sum_i(A_i × a_i) / sum_i(a_i)
+P_canopy = Σ A_i · a_i                 (µmol CO₂ s⁻¹)
+A_mean   = Σ A_i · a_i / Σ a_i         (µmol CO₂ m⁻² s⁻¹)
 ```
 
-Dividing total assimilation by the number of occupied voxels does not produce an area-based rate.
+Dividing P_canopy by the ground area of the simulated stand gives canopy photosynthesis per unit ground area, and integrating over the day's time steps gives daily carbon gain. The ground area, the time step and the simulated domain (plant, row segment or plot) are reported with every result.
 
-For daily carbon gain, integrate over time using environmental forcing and consistent time units. Report whether the canopy domain represents one plant, one row segment, one square metre of ground, or a whole plot.
+## 8. Modular implementation
 
-## 10. Keep the implementation modular
-
-A reproducible project can expose explicit stage interfaces:
+The stages exchange explicit data products:
 
 ```text
-images + calibration
-    -> camera poses + scaled geometry
-geometry + organ labels
-    -> leaf elements + area + normals
-leaf elements + environment + optics
-    -> absorbed PPFD by element and time
-absorbed PPFD + physiology
-    -> leaf assimilation by element and time
-leaf assimilation + area
-    -> canopy exchange + uncertainty
+images + calibration          -> camera poses + scaled point cloud
+point cloud + organ labels    -> triangle facets + area + normals + optics
+facets + planting layout      -> canopy
+canopy + sun and sky          -> absorbed PPFD per facet and time step
+absorbed PPFD + leaf model    -> assimilation per facet and time step
+assimilation + facet area     -> canopy photosynthesis
 ```
 
-For every interface, validate:
+Each interface has a schema with units and coordinate conventions and a small test case with a hand-checked result. This modularity is what allows the same canopy to be re-run under different sun positions, optical properties or physiological parameters, and different plant architectures to be compared under the same light environment.
 
-- file schema and coordinate convention;
-- shape, unit, range, and missing values;
-- provenance and software version;
-- stable identifiers across stages;
-- a small fixture with a known or manually checked result.
+## Uses
 
-## 11. Uncertainty and sensitivity
+- Quantify how leaf angle, leaf area distribution and plant spacing change within-canopy light and daily carbon gain.
+- Compare cultivars or management (density, row orientation) on an explicit 3D canopy.
+- Test the effect of leaf optical properties, including BRDF-based leaf reflectance, on canopy light absorption.
+- Provide architecture-explicit inputs to crop growth models.
 
-Uncertainty enters through:
+## Scope and limitations
 
-- camera calibration and scale;
-- missing or falsely reconstructed leaf area;
-- organ segmentation;
-- leaf normals and optical properties;
-- sky and sun forcing;
-- physiological parameter fitting;
-- numerical sampling and time integration.
+The model resolves light at the level of individual facets, so its accuracy depends on the completeness of the reconstruction: missing or merged leaves change both leaf area and light interception. A canopy built by replicating one plant does not contain plant-to-plant variation; when that variation matters, several reconstructed plants are used. Light predictions are compared with above- and below-canopy PAR sensors, and canopy photosynthesis with canopy gas exchange where such measurements are available.
 
-Use perturbation, Monte Carlo, or a designed sensitivity analysis to determine which uncertainties control the final canopy result. Report distributions or intervals, not only a single simulated value.
+## References
 
-## Minimum evidence for a quantitative claim
-
-- independent geometric measurements;
-- measured or well-supported optical properties;
-- light-model validation;
-- physiological calibration or appropriate parameter provenance;
-- canopy-level gas-exchange or biomass/carbon evidence when available;
-- repeatability across plants or plots;
-- a fully versioned environment, configuration, and data manifest.
-
-Without this evidence, present the output as a hypothesis-generating simulation or visualization.
-
-## References and implementations
-
-- [COLMAP command-line interface](https://colmap.github.io/cli.html)
-- [3D Gaussian Splatting paper and reference implementation](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
-- [Open3D surface reconstruction guide](https://www.open3d.org/docs/latest/tutorial/Advanced/surface_reconstruction.html)
-- [Farquhar, von Caemmerer, and Berry (1980)](https://biocycle.atmos.colostate.edu/Documents/SiB/Farquhar_1980.pdf)
-
-These resources document individual stages. They do not remove the need to validate the integrated crop or canopy model for the intended experiment.
+- Farquhar, G. D., von Caemmerer, S., & Berry, J. A. (1980). A biochemical model of photosynthetic CO₂ assimilation in leaves of C3 species. _Planta, 149_, 78–90.
+- [COLMAP](https://colmap.github.io/)
+- [3D Gaussian Splatting](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
+- [Open3D surface reconstruction](https://www.open3d.org/docs/latest/tutorial/Advanced/surface_reconstruction.html)

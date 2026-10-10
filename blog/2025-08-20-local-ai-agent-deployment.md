@@ -286,5 +286,3 @@ Store this record with evaluation results and deployment configuration.
 - [ ] Secrets fail closed and never use a default value
 - [ ] Logs are redacted and access-controlled
 - [ ] Rollback and kill-switch procedures are tested
-
-*Workflow reviewed: July 2026. Re-check Ollama, container-runtime, and framework documentation before deployment.*

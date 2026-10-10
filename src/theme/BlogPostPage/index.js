@@ -18,7 +18,21 @@ import TOCInline from "@theme/TOCInline";
 import Comment from "@site/src/components/comment";
 import ContentVisibility from "@theme/ContentVisibility";
 import Heading from "@theme/Heading";
+import { useIsChinese } from "@site/src/components/ds";
 import styles from "./styles.module.css";
+
+const COPY = {
+  en: {
+    onThisPage: "On this page",
+    discussion: "Discussion",
+    discussionTitle: "Questions or field notes?",
+  },
+  zh: {
+    onThisPage: "本页目录",
+    discussion: "讨论",
+    discussionTitle: "有问题或田间观察想交流？",
+  },
+};
 
 function ArticleToc({ toc, minHeadingLevel, maxHeadingLevel, inline = false }) {
   const TocComponent = inline ? TOCInline : TOC;
@@ -40,6 +54,7 @@ function BlogPostPageContent({ children }) {
     toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
   const showToc = !hideTableOfContents && toc.length > 0;
+  const copy = useIsChinese() ? COPY.zh : COPY.en;
 
   return (
     <Layout>
@@ -52,7 +67,7 @@ function BlogPostPageContent({ children }) {
             {showToc && (
               <details className={styles.mobileToc}>
                 <summary>
-                  <span>On this page</span>
+                  <span>{copy.onThisPage}</span>
                   <span aria-hidden="true">＋</span>
                 </summary>
                 <div className={styles.mobileTocContent}>
@@ -74,19 +89,22 @@ function BlogPostPageContent({ children }) {
               </div>
             )}
 
-            <section className={styles.commentSurface} aria-label="Discussion">
+            <section
+              className={styles.commentSurface}
+              aria-label={copy.discussion}
+            >
               <div>
-                <p>DISCUSSION</p>
-                <Heading as="h2">Questions or field notes?</Heading>
+                <p>{copy.discussion}</p>
+                <Heading as="h2">{copy.discussionTitle}</Heading>
               </div>
               <Comment />
             </section>
           </div>
 
           {showToc && (
-            <aside className={styles.tocColumn} aria-label="Table of contents">
+            <aside className={styles.tocColumn} aria-label={copy.onThisPage}>
               <div className={styles.tocSurface}>
-                <p>On this page</p>
+                <p>{copy.onThisPage}</p>
                 <ArticleToc
                   toc={toc}
                   minHeadingLevel={tocMinHeadingLevel}
