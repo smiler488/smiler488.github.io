@@ -5,6 +5,10 @@ import {
   getAIProvider,
 } from "../../lib/api";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./zh";
+
+const tx = makeToolText(ZH);
 
 export default function AIProviderSettings({
   value,
@@ -47,19 +51,19 @@ export default function AIProviderSettings({
     <section className={styles.panel} aria-labelledby={titleId}>
       <div className={styles.headingRow}>
         <div>
-          <span className={styles.eyebrow}>Bring your own key</span>
+          <span className={styles.eyebrow}>{tx("Bring your own key")}</span>
           <h3 id={titleId} className={styles.title}>
             {title}
           </h3>
         </div>
         <span className={styles.status}>
-          {isDemo ? "Private demo" : "Experimental API"}
+          {isDemo ? tx("Private demo") : tx("Experimental API")}
         </span>
       </div>
 
       <div className={styles.grid}>
         <label className={styles.field}>
-          <span>Provider</span>
+          <span>{tx("Provider")}</span>
           <select
             value={provider.id}
             onChange={(event) =>
@@ -68,7 +72,7 @@ export default function AIProviderSettings({
           >
             {AI_PROVIDER_PRESETS.map((item) => (
               <option key={item.id} value={item.id}>
-                {item.name}
+                {tx(item.name)}
               </option>
             ))}
           </select>
@@ -76,12 +80,12 @@ export default function AIProviderSettings({
 
         {!isDemo && (
           <label className={styles.field}>
-            <span>Model</span>
+            <span>{tx("Model")}</span>
             <input
               value={value.model}
               onChange={(event) => updateField("model", event.target.value)}
               list={listId}
-              placeholder="Enter a model ID"
+              placeholder={tx("Enter a model ID")}
               autoComplete="off"
               spellCheck="false"
               aria-invalid={visionMismatch || undefined}
@@ -89,7 +93,7 @@ export default function AIProviderSettings({
             <datalist id={listId}>
               {provider.models.map((model) => (
                 <option key={model.id} value={model.id}>
-                  {model.label}
+                  {tx(model.label)}
                 </option>
               ))}
             </datalist>
@@ -98,7 +102,7 @@ export default function AIProviderSettings({
 
         {!isDemo && (
           <label className={`${styles.field} ${styles.fullWidth}`}>
-            <span>API endpoint</span>
+            <span>{tx("API endpoint")}</span>
             <input
               type="url"
               value={value.endpoint}
@@ -113,13 +117,13 @@ export default function AIProviderSettings({
 
         {!isDemo && (
           <label className={`${styles.field} ${styles.fullWidth}`}>
-            <span>API key</span>
+            <span>{tx("API key")}</span>
             <span className={styles.secretRow}>
               <input
                 type="password"
                 value={value.apiKey}
                 onChange={(event) => updateField("apiKey", event.target.value)}
-                placeholder="Paste the key for this tab"
+                placeholder={tx("Paste the key for this tab")}
                 autoComplete="off"
                 spellCheck="false"
               />
@@ -129,30 +133,34 @@ export default function AIProviderSettings({
                 onClick={() => updateField("apiKey", "")}
                 disabled={!value.apiKey}
               >
-                Clear
+                {tx("Clear")}
               </button>
             </span>
           </label>
         )}
       </div>
 
-      <p className={styles.description}>{provider.description}</p>
+      <p className={styles.description}>{tx(provider.description)}</p>
       {visionMismatch && (
         <p className={styles.warning} role="alert">
-          This preset is not marked as vision-capable. Choose a vision model or
-          use text mode.
+          {tx(
+            "This preset is not marked as vision-capable. Choose a vision model or use text mode."
+          )}
         </p>
       )}
       {requireVision && !selectedModel && !isDemo && (
         <p className={styles.warning}>
-          Image support for this custom model ID is unknown; verify it with the
-          provider.
+          {tx(
+            "Image support for this custom model ID is unknown; verify it with the provider."
+          )}
         </p>
       )}
       <p className={styles.privacyNote}>
         {isDemo
-          ? "No network request is made in demo mode."
-          : "Experimental BYOK: the key is kept only in this tab\u2019s memory, cleared on refresh or exit, and sent only to the endpoint shown above. A static website cannot protect it like a backend can. Use a restricted test key; for production, use your own authenticated proxy."}
+          ? tx("No network request is made in demo mode.")
+          : tx(
+              "Experimental BYOK: the key is kept only in this tab’s memory, cleared on refresh or exit, and sent only to the endpoint shown above. A static website cannot protect it like a backend can. Use a restricted test key; for production, use your own authenticated proxy."
+            )}
       </p>
     </section>
   );

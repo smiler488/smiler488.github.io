@@ -1,0 +1,41 @@
+/** Chinese interface text for this tool (src/lib/i18n/toolText.js). */
+export default {
+  "Unit:": "单位：",
+  "Available NASA POWER Parameters": "可下载的 NASA POWER 参数",
+  "Download CSV": "下载 CSV",
+  "Data preview": "数据预览",
+  "Weather data download progress": "气象数据下载进度",
+  "Ready to download NASA POWER weather data":
+    "已就绪，可下载 NASA POWER 气象数据",
+  Status: "状态",
+  "Download NASA Weather Data": "下载 NASA 气象数据",
+  "Get Current Location": "获取当前位置",
+  "Interactive location map. You can also enter latitude and longitude above.":
+    "交互式位置地图，也可以在上方直接输入经纬度。",
+  Search: "搜索",
+  "Search place or address": "搜索地名或地址",
+  "End Date:": "结束日期：",
+  "Start Date:": "开始日期：",
+  "Enter Longitude (e.g., 86.05)": "输入经度（如 86.05）",
+  "Longitude:": "经度：",
+  "Enter Latitude (e.g., 44.30)": "输入纬度（如 44.30）",
+  "Latitude:": "纬度：",
+  "Time Standard:": "时间标准：",
+  Hourly: "逐小时",
+  Daily: "逐日",
+  "Time Scale:": "时间尺度：",
+  "Location & Date Range": "位置与日期范围",
+  "Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again.":
+    "本网站的定位权限当前被拒绝。请在浏览器或系统设置中开启定位权限后重试。",
+  "Geolocation is not supported in this browser, or it may be disabled. Please use a modern browser (preferably on mobile) and ensure location services are enabled.":
+    "此浏览器不支持定位，或定位已被禁用。请使用较新的浏览器（最好在手机上），并确认已开启定位服务。",
+  "Processing...": "正在处理…",
+  "Precipitation corrected": "降水量（订正后）",
+  "Wind speed at 2 meters": "2 米高处风速",
+  "Dew point temperature at 2 meters": "2 米高处露点温度",
+  "Maximum temperature at 2 meters": "2 米高处最高气温",
+  "Minimum temperature at 2 meters": "2 米高处最低气温",
+  "Temperature at 2 meters": "2 米高处气温",
+  "All-sky surface shortwave downward irradiance": "地表全天空短波向下辐照度",
+  "Top-of-atmosphere shortwave downward irradiance": "大气层顶短波向下辐照度",
+};

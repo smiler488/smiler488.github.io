@@ -4,6 +4,10 @@ import Heading from "@theme/Heading";
 import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const BACKEND_BASE =
   typeof window !== "undefined" && window.__CLOUDNOTE_BACKEND_URL__
@@ -218,7 +222,7 @@ export default function CloudNotePage() {
     if (noteObj.expiresAtISO) {
       const exp = new Date(noteObj.expiresAtISO);
       if (!isNaN(exp.getTime()) && Date.now() > exp.getTime()) {
-        setStatus("⚠️ This note has expired.");
+        setStatus(tx("⚠️ This note has expired."));
         return false;
       }
     }
@@ -235,7 +239,7 @@ export default function CloudNotePage() {
       if (!parsed) return;
 
       if (parsed.payload.mode === "pw") {
-        setStatus("🔒 Protected note — password required.");
+        setStatus(tx("🔒 Protected note — password required."));
       } else if (parsed.payload.mode === "key") {
         if (parsed.rawKeyHex) {
           try {
@@ -249,18 +253,18 @@ export default function CloudNotePage() {
             if (checkExpiryAndReturn(noteObj)) {
               setOpenedNote(noteObj);
               setOpenedProtection({ mode: "key", password: "" });
-              setStatus("✅ Opened note from link.");
+              setStatus(tx("✅ Opened note from link."));
             }
           } catch (e) {
             if (cancelled) return;
             console.error(e);
-            setStatus("❌ Failed to decrypt.");
+            setStatus(tx("❌ Failed to decrypt."));
           }
         } else {
-          setStatus("❌ Shared link missing key.");
+          setStatus(tx("❌ Shared link missing key."));
         }
       } else {
-        setStatus("❌ Unknown link mode.");
+        setStatus(tx("❌ Unknown link mode."));
       }
     }
 
@@ -274,7 +278,7 @@ export default function CloudNotePage() {
   async function onOpenWithPassword() {
     if (!parsedFrag) return;
     if (!openPassword) {
-      setStatus("⚠️ Enter the note password.");
+      setStatus(tx("⚠️ Enter the note password."));
       return;
     }
     try {
@@ -290,19 +294,19 @@ export default function CloudNotePage() {
       if (!checkExpiryAndReturn(noteObj)) return;
       setOpenedNote(noteObj);
       setOpenedProtection({ mode: "pw", password: openPassword });
-      setStatus("✅ Opened note with password.");
+      setStatus(tx("✅ Opened note with password."));
     } catch (e) {
-      setStatus("❌ Wrong password or decryption failed.");
+      setStatus(tx("❌ Wrong password or decryption failed."));
     }
   }
 
   async function onOpenByNamePassword() {
-    if (!lookupName) return setStatus("⚠️ Enter note name.");
+    if (!lookupName) return setStatus(tx("⚠️ Enter note name."));
     const stored = await getStoredPayloadByName(lookupName);
-    if (!stored) return setStatus("❌ No stored note found.");
+    if (!stored) return setStatus(tx("❌ No stored note found."));
     if (stored.mode !== "pw")
-      return setStatus("❌ Not a password-protected note.");
-    if (!lookupPassword) return setStatus("⚠️ Enter password.");
+      return setStatus(tx("❌ Not a password-protected note."));
+    if (!lookupPassword) return setStatus(tx("⚠️ Enter password."));
 
     try {
       const key = await deriveKeyFromPassword(lookupPassword, stored.salt);
@@ -310,10 +314,10 @@ export default function CloudNotePage() {
       if (!checkExpiryAndReturn(noteObj)) return;
       setOpenedNote(noteObj);
       setOpenedProtection({ mode: "pw", password: lookupPassword });
-      setStatus("✅ Opened note by name/password.");
+      setStatus(tx("✅ Opened note by name/password."));
       setParsedFrag(null);
     } catch (e) {
-      setStatus("❌ Wrong password or decryption failed.");
+      setStatus(tx("❌ Wrong password or decryption failed."));
     }
   }
 
@@ -321,17 +325,20 @@ export default function CloudNotePage() {
     try {
       if (name.length > MAX_NAME_CHARS) {
         setStatus(
-          `⚠️ Note name must be ${MAX_NAME_CHARS} characters or fewer.`
+          tx("⚠️ Note name must be {0} characters or fewer.", MAX_NAME_CHARS)
         );
         return;
       }
       if (content.length > MAX_NOTE_CHARS) {
         setStatus(
-          `⚠️ Note content must be ${MAX_NOTE_CHARS.toLocaleString()} characters or fewer.`
+          tx(
+            "⚠️ Note content must be {0} characters or fewer.",
+            MAX_NOTE_CHARS.toLocaleString()
+          )
         );
         return;
       }
-      setStatus("Generating link...");
+      setStatus(tx("Generating link..."));
       const noteObj = {
         name: name || "Untitled",
         content: content || "",
@@ -342,7 +349,7 @@ export default function CloudNotePage() {
       const frag = await buildShareFragment(noteObj, password);
       const full = `${location.origin}${location.pathname}#${frag}`;
       setGeneratedLink(full);
-      setStatus("✅ Link generated. Ready to share.");
+      setStatus(tx("✅ Link generated. Ready to share."));
     } catch (e) {
       setStatus("❌ Failed to generate: " + e.message);
     }
@@ -354,7 +361,7 @@ export default function CloudNotePage() {
       await navigator.clipboard.writeText(value);
       setStatus(successMessage);
     } catch (_) {
-      setStatus("❌ Copy failed. Select the text and copy it manually.");
+      setStatus(tx("❌ Copy failed. Select the text and copy it manually."));
     }
   }
 
@@ -383,17 +390,16 @@ export default function CloudNotePage() {
     const frag = await buildShareFragment(noteObj, pw);
     const full = `${location.origin}${location.pathname}#${frag}`;
     setGeneratedLink(full);
-    setStatus("✅ Saved & Regenerated link.");
+    setStatus(tx("✅ Saved & Regenerated link."));
   }
 
   return (
     <AppScaffold appId="cloudnote">
       <div className={styles.container}>
         <aside className={styles.boundaryNotice} role="note">
-          Encryption happens in this browser. Shared data lives in the URL
-          fragment; password-protected copies are kept only in this
-          browser&apos;s local storage unless an optional backend is configured.
-          Expiry and read-only flags are advisory, not revocation controls.
+          {tx(
+            "Encryption happens in this browser. Shared data lives in the URL fragment; password-protected copies are kept only in this browser's local storage unless an optional backend is configured. Expiry and read-only flags are advisory, not revocation controls."
+          )}
         </aside>
 
         {status && (
@@ -405,18 +411,18 @@ export default function CloudNotePage() {
         {/* --- Create/Share Section --- */}
         <section className={styles.card}>
           <Heading as="h2" className={styles.cardTitle}>
-            Create New Note
+            {tx("Create New Note")}
           </Heading>
 
           <div className={styles.inputGroup}>
             <label className={styles.label} htmlFor="cloudnote-name">
-              Note Name
+              {tx("Note Name")}
             </label>
             <input
               id="cloudnote-name"
               maxLength={MAX_NAME_CHARS}
               className={styles.input}
-              placeholder="e.g. Meeting Minutes"
+              placeholder={tx("e.g. Meeting Minutes")}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -425,7 +431,7 @@ export default function CloudNotePage() {
           <div className={styles.inputGroup}>
             <div className={styles.labelRow}>
               <label className={styles.label} htmlFor="cloudnote-content">
-                Content
+                {tx("Content")}
               </label>
               <span className={styles.counter}>
                 {content.length.toLocaleString()} /{" "}
@@ -436,7 +442,7 @@ export default function CloudNotePage() {
               id="cloudnote-content"
               maxLength={MAX_NOTE_CHARS}
               className={styles.textarea}
-              placeholder="Write your note here..."
+              placeholder={tx("Write your note here...")}
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -445,7 +451,7 @@ export default function CloudNotePage() {
           <div className={styles.optionsGrid}>
             <div className={styles.inputGroup}>
               <label className={styles.label} htmlFor="cloudnote-expires">
-                Expires (Optional)
+                {tx("Expires (Optional)")}
               </label>
               <input
                 id="cloudnote-expires"
@@ -458,13 +464,13 @@ export default function CloudNotePage() {
 
             <div className={styles.inputGroup}>
               <label className={styles.label} htmlFor="cloudnote-password">
-                Password Protection (Optional)
+                {tx("Password Protection (Optional)")}
               </label>
               <input
                 id="cloudnote-password"
                 type="password"
                 className={styles.input}
-                placeholder="Recipient must enter this"
+                placeholder={tx("Recipient must enter this")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -477,9 +483,9 @@ export default function CloudNotePage() {
                   checked={readOnly}
                   onChange={(e) => setReadOnly(e.target.checked)}
                 />
-                <span>Read-only link</span>
+                <span>{tx("Read-only link")}</span>
               </label>
-              <small className={styles.smallText}>Advisory only.</small>
+              <small className={styles.smallText}>{tx("Advisory only.")}</small>
             </div>
           </div>
 
@@ -488,7 +494,7 @@ export default function CloudNotePage() {
               onClick={onGenerateLink}
               className={`${styles.btn} ${styles.btnPrimary}`}
             >
-              Generate Share Link
+              {tx("Generate Share Link")}
             </button>
             <button
               onClick={() =>
@@ -497,7 +503,7 @@ export default function CloudNotePage() {
               className={`${styles.btn} ${styles.btnSecondary}`}
               disabled={!generatedLink}
             >
-              Copy Link
+              {tx("Copy Link")}
             </button>
             <button
               onClick={() =>
@@ -506,7 +512,7 @@ export default function CloudNotePage() {
               className={`${styles.btn} ${styles.btnGhost}`}
               disabled={!content}
             >
-              Copy Text
+              {tx("Copy Text")}
             </button>
             <button
               onClick={() => {
@@ -520,14 +526,14 @@ export default function CloudNotePage() {
               }}
               className={`${styles.btn} ${styles.btnGhost}`}
             >
-              Reset form
+              {tx("Reset form")}
             </button>
           </div>
 
           {generatedLink && (
             <div style={{ marginTop: 20 }}>
               <label className={styles.label} htmlFor="cloudnote-share-link">
-                Generated Link
+                {tx("Generated Link")}
               </label>
               <textarea
                 id="cloudnote-share-link"
@@ -538,8 +544,9 @@ export default function CloudNotePage() {
                 value={generatedLink}
               />
               <small id="cloudnote-share-help" className={styles.smallText}>
-                Anyone with a key-mode link can decrypt it. Password-mode links
-                still require the password.
+                {tx(
+                  "Anyone with a key-mode link can decrypt it. Password-mode links still require the password."
+                )}
               </small>
             </div>
           )}
@@ -548,7 +555,7 @@ export default function CloudNotePage() {
         {/* --- Open Section --- */}
         <section className={styles.card}>
           <Heading as="h2" className={styles.cardTitle}>
-            Open Note
+            {tx("Open Note")}
           </Heading>
 
           {parsedFrag ? (
@@ -565,14 +572,14 @@ export default function CloudNotePage() {
                     className={styles.label}
                     htmlFor="cloudnote-open-password"
                   >
-                    This note is password protected
+                    {tx("This note is password protected")}
                   </label>
                   <div className={styles.unlockRow}>
                     <input
                       id="cloudnote-open-password"
                       type="password"
                       className={styles.input}
-                      placeholder="Enter Password"
+                      placeholder={tx("Enter Password")}
                       value={openPassword}
                       onChange={(e) => setOpenPassword(e.target.value)}
                     />
@@ -580,19 +587,19 @@ export default function CloudNotePage() {
                       onClick={onOpenWithPassword}
                       className={`${styles.btn} ${styles.btnPrimary}`}
                     >
-                      Unlock
+                      {tx("Unlock")}
                     </button>
                   </div>
                 </div>
               )}
               {parsedFrag.payload.mode === "key" && (
                 <div>
-                  Processing link...{" "}
+                  {tx("Processing link...")}{" "}
                   <button
                     className={`${styles.btn} ${styles.btnGhost}`}
                     onClick={clearFragmentView}
                   >
-                    Cancel
+                    {tx("Cancel")}
                   </button>
                 </div>
               )}
@@ -604,8 +611,9 @@ export default function CloudNotePage() {
                 color: "var(--ifm-color-emphasis-700)",
               }}
             >
-              Opening a shared link? It should load automatically. <br />
-              Or open a previously saved password-protected note below:
+              {tx("Opening a shared link? It should load automatically. ")}
+              <br />
+              {tx("Or open a previously saved password-protected note below:")}
             </div>
           )}
 
@@ -613,7 +621,7 @@ export default function CloudNotePage() {
             <div className={styles.optionsGrid} style={{ alignItems: "end" }}>
               <div className={styles.inputGroup}>
                 <label className={styles.label} htmlFor="cloudnote-lookup-name">
-                  Stored Note Name
+                  {tx("Stored Note Name")}
                 </label>
                 <input
                   id="cloudnote-lookup-name"
@@ -627,7 +635,7 @@ export default function CloudNotePage() {
                   className={styles.label}
                   htmlFor="cloudnote-lookup-password"
                 >
-                  Password
+                  {tx("Password")}
                 </label>
                 <input
                   id="cloudnote-lookup-password"
@@ -645,7 +653,7 @@ export default function CloudNotePage() {
                   onClick={onOpenByNamePassword}
                   className={`${styles.btn} ${styles.btnSecondary}`}
                 >
-                  Open Saved
+                  {tx("Open Saved")}
                 </button>
               </div>
             </div>
@@ -657,27 +665,28 @@ export default function CloudNotePage() {
           <section className={`${styles.card} ${styles.openedCard}`}>
             <div className={styles.openedHeader}>
               <Heading as="h2" className={styles.cardTitle}>
-                {openedNote.name || "Untitled Note"}
+                {openedNote.name || tx("Untitled Note")}
               </Heading>
               <button
                 onClick={clearFragmentView}
                 className={`${styles.btn} ${styles.btnGhost} button--sm`}
               >
-                Close
+                {tx("Close")}
               </button>
             </div>
 
             <div className={styles.noteDisplay}>
               <div className={styles.noteMeta}>
-                Created: {new Date(openedNote.createdAtISO).toLocaleString()}
+                {tx("Created: ")}
+                {new Date(openedNote.createdAtISO).toLocaleString()}
                 {openedNote.expiresAtISO && (
                   <span>
                     {" "}
-                    • Expires:{" "}
+                    {tx("• Expires:")}{" "}
                     {new Date(openedNote.expiresAtISO).toLocaleString()}
                   </span>
                 )}
-                {openedNote.readOnly && <span> • 👁️ Read Only</span>}
+                {openedNote.readOnly && <span>{tx(" • 👁️ Read Only")}</span>}
               </div>
               <textarea
                 className={styles.textarea}
@@ -690,7 +699,7 @@ export default function CloudNotePage() {
                   fontSize: "1.1rem",
                 }}
                 value={openedNote.content}
-                aria-label="Opened note content"
+                aria-label={tx("Opened note content")}
                 readOnly={!canEditOpened()}
                 onChange={(e) =>
                   setOpenedNote({ ...openedNote, content: e.target.value })
@@ -704,7 +713,7 @@ export default function CloudNotePage() {
                 onClick={onSaveEditAndRegenerate}
                 className={`${styles.btn} ${styles.btnPrimary}`}
               >
-                Save Edits & Get New Link
+                {tx("Save Edits & Get New Link")}
               </button>
               <button
                 onClick={() =>
@@ -715,7 +724,7 @@ export default function CloudNotePage() {
                 }
                 className={`${styles.btn} ${styles.btnSecondary}`}
               >
-                Copy Text
+                {tx("Copy Text")}
               </button>
             </div>
           </section>

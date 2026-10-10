@@ -3,6 +3,10 @@ import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AppScaffold from "../../../components/AppScaffold";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const RANKING_KEY = "mazeRankings";
 const MAX_RANKINGS = 10;
@@ -278,7 +282,12 @@ export default function MazePage() {
 
       const safeName = playerNameRef.current.trim().slice(0, 32) || "Player";
       setMessage(
-        `Victory! ${safeName} finished in ${elapsedSeconds}s with ${moves} moves!`
+        tx(
+          "Victory! {0} finished in {1}s with {2} moves!",
+          safeName,
+          elapsedSeconds,
+          moves
+        )
       );
       recordRanking(safeName, parseFloat(elapsedSeconds), moves);
     }
@@ -363,7 +372,7 @@ export default function MazePage() {
         <section className={styles.gameCard} aria-labelledby="maze-board-title">
           <div className={styles.toolbar}>
             <div className={styles.playerField}>
-              <label htmlFor="maze-player">Player</label>
+              <label htmlFor="maze-player">{tx("Player")}</label>
               <input
                 id="maze-player"
                 type="text"
@@ -374,7 +383,7 @@ export default function MazePage() {
               />
             </div>
             <div className={styles.steps} aria-live="polite">
-              <span>Steps</span>
+              <span>{tx("Steps")}</span>
               <strong>{stepCount}</strong>
             </div>
             <button
@@ -382,18 +391,20 @@ export default function MazePage() {
               onClick={initGame}
               className={styles.newGameButton}
             >
-              New Game
+              {tx("New Game")}
             </button>
           </div>
 
           <div className={styles.boardHeading}>
             <div>
-              <span>Procedural board</span>
+              <span>{tx("Procedural board")}</span>
               <Heading as="h2" id="maze-board-title">
-                Find the green exit
+                {tx("Find the green exit")}
               </Heading>
             </div>
-            <span className={styles.keyboardHint}>Arrow keys or controls</span>
+            <span className={styles.keyboardHint}>
+              {tx("Arrow keys or controls")}
+            </span>
           </div>
 
           <div className={styles.canvasFrame}>
@@ -408,20 +419,24 @@ export default function MazePage() {
                 message ? ` ${message}` : ""
               }`}
             >
-              A 21 by 21 maze. Use the arrow controls to move from the top-left
-              to the green exit.
+              {tx(
+                "A 21 by 21 maze. Use the arrow controls to move from the top-left to the green exit."
+              )}
             </canvas>
             <div className={styles.message} role="status" aria-live="assertive">
               {message}
             </div>
           </div>
 
-          <div className={styles.dpad} aria-label="Maze direction controls">
+          <div
+            className={styles.dpad}
+            aria-label={tx("Maze direction controls")}
+          >
             <span />
             <button
               type="button"
               onClick={() => moveBall(-1, 0)}
-              aria-label="Move up"
+              aria-label={tx("Move up")}
             >
               ▲
             </button>
@@ -430,7 +445,7 @@ export default function MazePage() {
             <button
               type="button"
               onClick={() => moveBall(0, -1)}
-              aria-label="Move left"
+              aria-label={tx("Move left")}
             >
               ◀
             </button>
@@ -438,7 +453,7 @@ export default function MazePage() {
             <button
               type="button"
               onClick={() => moveBall(1, 0)}
-              aria-label="Move down"
+              aria-label={tx("Move down")}
             >
               ▼
             </button>
@@ -446,7 +461,7 @@ export default function MazePage() {
             <button
               type="button"
               onClick={() => moveBall(0, 1)}
-              aria-label="Move right"
+              aria-label={tx("Move right")}
             >
               ▶
             </button>
@@ -458,15 +473,15 @@ export default function MazePage() {
           aria-labelledby="maze-leaderboard-title"
         >
           <div className={styles.leaderboardHeading}>
-            <span>Local records</span>
+            <span>{tx("Local records")}</span>
             <Heading as="h2" id="maze-leaderboard-title">
-              Leaderboard
+              {tx("Leaderboard")}
             </Heading>
           </div>
           <ol>
             {ranking.length === 0 && (
               <li className={styles.emptyRanking}>
-                Finish a maze to set the first record.
+                {tx("Finish a maze to set the first record.")}
               </li>
             )}
             {ranking.map((r, i) => (
@@ -480,7 +495,7 @@ export default function MazePage() {
               </li>
             ))}
           </ol>
-          <p>Scores stay in this browser and are never uploaded.</p>
+          <p>{tx("Scores stay in this browser and are never uploaded.")}</p>
         </aside>
       </div>
 

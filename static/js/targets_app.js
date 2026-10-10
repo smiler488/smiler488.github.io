@@ -1,3 +1,15 @@
+/* Interface text: English here, Chinese in static/js/i18n/targets.zh.js. */
+function txTargets(text) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var dict = (typeof window !== "undefined" && window.__ZH_TARGETS) || {};
+  var zh = typeof document !== "undefined" && document.documentElement.lang === "zh-Hans";
+  var m = String(text).match(/^(\s*)([\s\S]*?)(\s*)$/);
+  var core = zh && dict[m[2]] ? dict[m[2]] : m[2];
+  return (m[1] + core + m[3]).replace(/\{(\d+)\}/g, function (s, i) {
+    return i < args.length ? String(args[i]) : s;
+  });
+}
+
 /* Enhanced Calibration Targets Generator */
 (function () {
   "use strict";
@@ -61,7 +73,7 @@
       });
       return e;
     } catch (error) {
-      log(`Failed to create SVG element ${tag}: ${error.message}`, 'error');
+      log(txTargets("Failed to create SVG element {0}: {1}", tag, error.message), 'error');
       return null;
     }
   };
@@ -130,18 +142,18 @@
     const size = toNum(params.cbSize, 25);
     const v = VALIDATION.chessboard;
     
-    if (rows < v.minRows) errors.push(`Rows must be ≥ ${v.minRows}`);
-    if (rows > v.maxRows) errors.push(`Rows must be ≤ ${v.maxRows}`);
-    if (cols < v.minCols) errors.push(`Cols must be ≥ ${v.minCols}`);
-    if (cols > v.maxCols) errors.push(`Cols must be ≤ ${v.maxCols}`);
-    if (size < v.minSize) errors.push(`Square size must be ≥ ${v.minSize}mm`);
-    if (size > v.maxSize) warnings.push(`Large square size (${size}mm) may not fit`);
+    if (rows < v.minRows) errors.push(txTargets("Rows must be ≥ {0}", v.minRows));
+    if (rows > v.maxRows) errors.push(txTargets("Rows must be ≤ {0}", v.maxRows));
+    if (cols < v.minCols) errors.push(txTargets("Cols must be ≥ {0}", v.minCols));
+    if (cols > v.maxCols) errors.push(txTargets("Cols must be ≤ {0}", v.maxCols));
+    if (size < v.minSize) errors.push(txTargets("Square size must be ≥ {0}mm", v.minSize));
+    if (size > v.maxSize) warnings.push(txTargets("Large square size ({0}mm) may not fit", size));
     
     // Check paper fit
     const fit = chessboardLayout(params);
     if (fit.scaled) {
       warnings.push(
-        `Squares reduced to ${fit.cell.toFixed(1)}mm to fit ${fit.page.name}`
+        txTargets("Squares reduced to {0}mm to fit {1}", fit.cell.toFixed(1), fit.page.name)
       );
     }
     
@@ -160,18 +172,18 @@
     
     const v = VALIDATION.bullseye;
     
-    if (outer < v.minOuter) errors.push(`Outer diameter must be ≥ ${v.minOuter}mm`);
-    if (outer > v.maxOuter) errors.push(`Outer diameter must be ≤ ${v.maxOuter}mm`);
-    if (rings < v.minRings) errors.push(`Ring count must be ≥ ${v.minRings}`);
-    if (rings > v.maxRings) errors.push(`Ring count must be ≤ ${v.maxRings}`);
-    if (hole > outer * v.maxHoleRatio) errors.push(`Center hole too large (max ${(outer * v.maxHoleRatio).toFixed(1)}mm)`);
-    if (stroke > v.maxStroke) warnings.push(`Thick stroke (${stroke}mm) may affect precision`);
+    if (outer < v.minOuter) errors.push(txTargets("Outer diameter must be ≥ {0}mm", v.minOuter));
+    if (outer > v.maxOuter) errors.push(txTargets("Outer diameter must be ≤ {0}mm", v.maxOuter));
+    if (rings < v.minRings) errors.push(txTargets("Ring count must be ≥ {0}", v.minRings));
+    if (rings > v.maxRings) errors.push(txTargets("Ring count must be ≤ {0}", v.maxRings));
+    if (hole > outer * v.maxHoleRatio) errors.push(txTargets("Center hole too large (max {0}mm)", (outer * v.maxHoleRatio).toFixed(1)));
+    if (stroke > v.maxStroke) warnings.push(txTargets("Thick stroke ({0}mm) may affect precision", stroke));
     
     // Check paper fit
     const page = getPage(params);
     const availableSize = Math.min(page.w - 2 * margin, page.h - 2 * margin);
     if (outer > availableSize) {
-      warnings.push(`Will auto-scale to ${availableSize.toFixed(1)}mm diameter to fit ${page.name}`);
+      warnings.push(txTargets("Will auto-scale to {0}mm diameter to fit {1}", availableSize.toFixed(1), page.name));
     }
     
     return { errors, warnings, isValid: errors.length === 0 };
@@ -191,20 +203,20 @@
     
     const v = VALIDATION.ringArcs;
     
-    if (outer < v.minOuter) errors.push(`Outer diameter must be ≥ ${v.minOuter}mm`);
-    if (outer > v.maxOuter) errors.push(`Outer diameter must be ≤ ${v.maxOuter}mm`);
-    if (width < v.minWidth) errors.push(`Ring width must be ≥ ${v.minWidth}mm`);
-    if (width > outer * v.maxWidthRatio) errors.push(`Ring width too large (max ${(outer * v.maxWidthRatio).toFixed(1)}mm)`);
-    if (gap1 < v.minGap || gap1 > v.maxGap) errors.push(`Gap 1 angle must be ${v.minGap}-${v.maxGap}°`);
-    if (gap2 < v.minGap || gap2 > v.maxGap) errors.push(`Gap 2 angle must be ${v.minGap}-${v.maxGap}°`);
-    if (hub > outer * v.maxHubRatio) errors.push(`Hub too large (max ${(outer * v.maxHubRatio).toFixed(1)}mm)`);
-    if (dot > v.maxDot) warnings.push(`Large key dot (${dot}mm) may be hard to detect`);
+    if (outer < v.minOuter) errors.push(txTargets("Outer diameter must be ≥ {0}mm", v.minOuter));
+    if (outer > v.maxOuter) errors.push(txTargets("Outer diameter must be ≤ {0}mm", v.maxOuter));
+    if (width < v.minWidth) errors.push(txTargets("Ring width must be ≥ {0}mm", v.minWidth));
+    if (width > outer * v.maxWidthRatio) errors.push(txTargets("Ring width too large (max {0}mm)", (outer * v.maxWidthRatio).toFixed(1)));
+    if (gap1 < v.minGap || gap1 > v.maxGap) errors.push(txTargets("Gap 1 angle must be {0}-{1}°", v.minGap, v.maxGap));
+    if (gap2 < v.minGap || gap2 > v.maxGap) errors.push(txTargets("Gap 2 angle must be {0}-{1}°", v.minGap, v.maxGap));
+    if (hub > outer * v.maxHubRatio) errors.push(txTargets("Hub too large (max {0}mm)", (outer * v.maxHubRatio).toFixed(1)));
+    if (dot > v.maxDot) warnings.push(txTargets("Large key dot ({0}mm) may be hard to detect", dot));
     
     // Check paper fit
     const page = getPage(params);
     const availableSize = Math.min(page.w - 2 * margin, page.h - 2 * margin);
     if (outer > availableSize) {
-      warnings.push(`Will auto-scale to ${availableSize.toFixed(1)}mm diameter to fit ${page.name}`);
+      warnings.push(txTargets("Will auto-scale to {0}mm diameter to fit {1}", availableSize.toFixed(1), page.name));
     }
     
     return { errors, warnings, isValid: errors.length === 0 };
@@ -292,7 +304,7 @@
     
     const validation = validateChessboard(params);
     if (!validation.isValid) {
-      overlayError(svg, "Invalid Chessboard Parameters", validation.errors);
+      overlayError(svg, txTargets("Invalid Chessboard Parameters"), validation.errors);
       return;
     }
     
@@ -350,14 +362,14 @@
 
     // Enhanced caption with more details
     const captionY = page.h - Math.max(8, margin / 2);
-    const caption = `Chessboard: ${innerR}×${innerC} inner corners | ${squaresR}×${squaresC} squares | ${cell.toFixed(2)}mm${scaled ? " (auto-fit)" : ""} | ${page.name}`;
+    const caption = txTargets("Chessboard: {0}×{1} inner corners | {2}×{3} squares | {4}mm{5} | {6}", innerR, innerC, squaresR, squaresC, cell.toFixed(2), scaled ? txTargets(" (auto-fit)") : "", page.name);
     const captionEl = elText(page.w / 2, captionY, caption, {
       "text-anchor": "middle", "font-size": "4", "font-weight": "bold", fill: "#495057"
     });
     if (captionEl) svg.appendChild(captionEl);
 
     // Technical info
-    const techInfo = `Board: ${totalW.toFixed(1)}×${totalH.toFixed(1)}mm | Margin: ${margin}mm | Inner corners for OpenCV detection`;
+    const techInfo = txTargets("Board: {0}×{1}mm | Margin: {2}mm | Inner corners for OpenCV detection", totalW.toFixed(1), totalH.toFixed(1), margin);
     const techEl = elText(page.w / 2, captionY + 8, techInfo, {
       "text-anchor": "middle", "font-size": "3", fill: "#6c757d"
     });
@@ -368,7 +380,7 @@
       overlayWarning(svg, validation.warnings);
     }
 
-    log(`Chessboard rendered: ${innerR}×${innerC} inner corners, ${cell.toFixed(2)}mm squares`);
+    log(txTargets("Chessboard rendered: {0}×{1} inner corners, {2}mm squares", innerR, innerC, cell.toFixed(2)));
   }
 
   // ========================
@@ -379,7 +391,7 @@
     
     const validation = validateBullseye(params);
     if (!validation.isValid) {
-      overlayError(svg, "Invalid Bullseye Parameters", validation.errors);
+      overlayError(svg, txTargets("Invalid Bullseye Parameters"), validation.errors);
       return;
     }
     
@@ -458,7 +470,7 @@
 
     // Enhanced caption
     const captionY = page.h - Math.max(8, margin / 2);
-    const caption = `Bullseye: ${outer.toFixed(1)}mm diameter | ${rings} rings | ${hole}mm hole${scaled ? " (auto-fit)" : ""} | ${page.name}`;
+    const caption = txTargets("Bullseye: {0}mm diameter | {1} rings | {2}mm hole{3} | {4}", outer.toFixed(1), rings, hole, scaled ? txTargets(" (auto-fit)") : "", page.name);
     const captionEl = elText(page.w / 2, captionY, caption, {
       "text-anchor": "middle", "font-size": "4", "font-weight": "bold", fill: "#495057"
     });
@@ -466,7 +478,7 @@
 
     // Technical info
     const ringWidth = (rOuter / rings).toFixed(1);
-    const techInfo = `Ring width: ${ringWidth}mm | Center: ${cx.toFixed(1)}, ${cy.toFixed(1)} | Concentric circles target`;
+    const techInfo = txTargets("Ring width: {0}mm | Center: {1}, {2} | Concentric circles target", ringWidth, cx.toFixed(1), cy.toFixed(1));
     const techEl = elText(page.w / 2, captionY + 8, techInfo, {
       "text-anchor": "middle", "font-size": "3", fill: "#6c757d"
     });
@@ -477,7 +489,7 @@
       overlayWarning(svg, validation.warnings);
     }
 
-    log(`Bullseye rendered: ${outer.toFixed(1)}mm diameter, ${rings} rings`);
+    log(txTargets("Bullseye rendered: {0}mm diameter, {1} rings", outer.toFixed(1), rings));
   }
 
   // ========================
@@ -488,7 +500,7 @@
     
     const validation = validateRingArcs(params);
     if (!validation.isValid) {
-      overlayError(svg, "Invalid Ring Arcs Parameters", validation.errors);
+      overlayError(svg, txTargets("Invalid Ring Arcs Parameters"), validation.errors);
       return;
     }
     
@@ -563,7 +575,7 @@
 
     // Enhanced caption
     const captionY = page.h - Math.max(8, margin / 2);
-    const caption = `Ring Arcs: ${outer.toFixed(1)}mm outer | ${width}mm width | gaps ${gap1}°/${gap2}°${scaled ? " (auto-fit)" : ""} | ${page.name}`;
+    const caption = txTargets("Ring Arcs: {0}mm outer | {1}mm width | gaps {2}°/{3}°{4} | {5}", outer.toFixed(1), width, gap1, gap2, scaled ? txTargets(" (auto-fit)") : "", page.name);
     const captionEl = elText(page.w / 2, captionY, caption, {
       "text-anchor": "middle", "font-size": "4", "font-weight": "bold", fill: "#495057"
     });
@@ -571,7 +583,7 @@
 
     // Technical info
     const innerDiam = (rInner * 2).toFixed(1);
-    const techInfo = `Inner: ${innerDiam}mm | Hub: ${hub}mm | Dot: ${dot}mm | Asymmetric gaps for orientation`;
+    const techInfo = txTargets("Inner: {0}mm | Hub: {1}mm | Dot: {2}mm | Asymmetric gaps for orientation", innerDiam, hub, dot);
     const techEl = elText(page.w / 2, captionY + 8, techInfo, {
       "text-anchor": "middle", "font-size": "3", fill: "#6c757d"
     });
@@ -582,7 +594,7 @@
       overlayWarning(svg, validation.warnings);
     }
 
-    log(`Ring arcs rendered: ${outer.toFixed(1)}mm outer, ${width}mm width, gaps ${gap1}°/${gap2}°`);
+    log(txTargets("Ring arcs rendered: {0}mm outer, {1}mm width, gaps {2}°/{3}°", outer.toFixed(1), width, gap1, gap2));
   }
 
   function drawSector(svg, cx, cy, rInner, rOuter, aStartDeg, aEndDeg, fill) {
@@ -612,8 +624,8 @@
   function ensureJsPDF() {
     const ok = !!(window.jspdf && window.jspdf.jsPDF);
     if (!ok) {
-      log("jsPDF not loaded", 'error');
-      alert("PDF library not loaded. Please refresh the page and try again.");
+      log(txTargets("jsPDF not loaded"), 'error');
+      alert(txTargets("PDF library not loaded. Please refresh the page and try again."));
     }
     return ok;
   }
@@ -735,11 +747,11 @@
       const filename = generateFilename("chessboard", params);
       doc.save(filename);
       recordTargetsExport(filename, doc, "chessboard", params);
-      log(`Chessboard PDF saved: ${filename}`);
+      log(txTargets("Chessboard PDF saved: {0}", filename));
       
     } catch (error) {
-      log(`PDF generation failed: ${error.message}`, 'error');
-      alert(`PDF generation failed: ${error.message}`);
+      log(txTargets("PDF generation failed: {0}", error.message), 'error');
+      alert(txTargets("PDF generation failed: {0}", error.message));
     }
   }
 
@@ -836,11 +848,11 @@
       const filename = generateFilename("bullseye", params);
       doc.save(filename);
       recordTargetsExport(filename, doc, "bullseye", params);
-      log(`Bullseye PDF saved: ${filename}`);
+      log(txTargets("Bullseye PDF saved: {0}", filename));
       
     } catch (error) {
-      log(`PDF generation failed: ${error.message}`, 'error');
-      alert(`PDF generation failed: ${error.message}`);
+      log(txTargets("PDF generation failed: {0}", error.message), 'error');
+      alert(txTargets("PDF generation failed: {0}", error.message));
     }
   }
 
@@ -932,11 +944,11 @@
       const filename = generateFilename("ringArcs", params);
       doc.save(filename);
       recordTargetsExport(filename, doc, "ringArcs", params);
-      log(`Ring arcs PDF saved: ${filename}`);
+      log(txTargets("Ring arcs PDF saved: {0}", filename));
       
     } catch (error) {
-      log(`PDF generation failed: ${error.message}`, 'error');
-      alert(`PDF generation failed: ${error.message}`);
+      log(txTargets("PDF generation failed: {0}", error.message), 'error');
+      alert(txTargets("PDF generation failed: {0}", error.message));
     }
   }
 
@@ -1060,11 +1072,11 @@
     try {
       const type = String(params.type || "chessboard").toLowerCase();
       if (!svg) {
-        log("No SVG element provided for preview", 'warn');
+        log(txTargets("No SVG element provided for preview"), 'warn');
         return;
       }
       
-      log(`Rendering ${type} preview`);
+      log(txTargets("Rendering {0} preview", type));
       
       switch (type) {
         case "chessboard":
@@ -1080,13 +1092,13 @@
           drawAgisoftMarkersToSvg(svg, params);
           break;
         default:
-          log(`Unknown target type: ${type}`, 'warn');
+          log(txTargets("Unknown target type: {0}", type), 'warn');
           drawChessboardToSvg(svg, params);
       }
     } catch (error) {
-      log(`Preview render error: ${error.message}`, 'error');
+      log(txTargets("Preview render error: {0}", error.message), 'error');
       if (svg) {
-        overlayError(svg, `Render Error: ${error.message}`, [
+        overlayError(svg, txTargets("Render Error: {0}", error.message), [
           "Check your parameters and try again",
           "Refresh the page if the problem persists"
         ]);
@@ -1097,7 +1109,7 @@
   // Enhanced preview with debouncing
   window.targetsPreview = function targetsPreview(params, svgEl) {
     if (!svgEl) {
-      log("No SVG element provided to targetsPreview", 'warn');
+      log(txTargets("No SVG element provided to targetsPreview"), 'warn');
       return;
     }
     
@@ -1111,7 +1123,7 @@
   window.targetsDownload = function targetsDownload(params) {
     try {
       const type = String(params.type || "chessboard").toLowerCase();
-      log(`Generating ${type} PDF`);
+      log(txTargets("Generating {0} PDF", type));
       
       switch (type) {
         case "chessboard":
@@ -1127,12 +1139,12 @@
           downloadAgisoftMarkers(params);
           break;
         default:
-          log(`Unknown target type for download: ${type}`, 'warn');
+          log(txTargets("Unknown target type for download: {0}", type), 'warn');
           downloadChessboard(params);
       }
     } catch (error) {
-      log(`Download error: ${error.message}`, 'error');
-      alert(`PDF generation failed: ${error.message}\n\nPlease check your parameters and try again.`);
+      log(txTargets("Download error: {0}", error.message), 'error');
+      alert(txTargets("PDF generation failed: {0}\n\nPlease check your parameters and try again.", error.message));
     }
   };
 
@@ -1187,7 +1199,7 @@
   window.TARGETS_INIT = function() {
     if (initialized) return true;
     initialized = true;
-    log("Calibration targets generator initialized");
+    log(txTargets("Calibration targets generator initialized"));
     return true;
   };
 
@@ -1261,13 +1273,13 @@
       const filename = generateFilename("agisoft", params);
       doc.save(filename);
       recordTargetsExport(filename, doc, "agisoft", params);
-      log(`Agisoft markers PDF saved: ${filename}`);
+      log(txTargets("Agisoft markers PDF saved: {0}", filename));
     } catch (error) {
-      log(`PDF generation failed: ${error.message}`, 'error');
-      alert(`PDF generation failed: ${error.message}`);
+      log(txTargets("PDF generation failed: {0}", error.message), 'error');
+      alert(txTargets("PDF generation failed: {0}", error.message));
     }
   }
 
-  log("Enhanced calibration targets module loaded");
+  log(txTargets("Enhanced calibration targets module loaded"));
   window.dispatchEvent(new CustomEvent("targets_ready"));
 })();

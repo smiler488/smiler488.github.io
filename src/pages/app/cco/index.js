@@ -4,6 +4,10 @@ import Heading from "@theme/Heading";
 import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const CCOPage = () => {
   useEffect(() => {
@@ -28,15 +32,17 @@ const CCOPage = () => {
           src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"
           defer
         ></script>
+        <script src="/js/i18n/cco.zh.js" defer></script>
         <script src="/js/cco_app.js" defer></script>
       </Head>
 
       <AppScaffold appId="cco">
         <div className={styles.shell}>
           <aside className={styles.safetyNotice} role="note">
-            <strong>Planning preview.</strong> Validate altitude, route
-            geometry, device enums and local flight rules in DJI software before
-            operating an aircraft.
+            <strong>{tx("Planning preview.")}</strong>
+            {tx(
+              " Validate altitude, route geometry, device enums and local flight rules in DJI software before operating an aircraft."
+            )}
           </aside>
 
           <div className={styles.workspaceGrid}>
@@ -44,10 +50,10 @@ const CCOPage = () => {
             <div className={styles.controlsColumn}>
               <fieldset className={styles.panel}>
                 <legend>
-                  <b>Target Area</b>
+                  <b>{tx("Target Area")}</b>
                 </legend>
                 <label>
-                  Upload KML (Polygon)
+                  {tx("Upload KML (Polygon)")}
                   <input
                     id="kmlFile"
                     type="file"
@@ -56,17 +62,17 @@ const CCOPage = () => {
                   />
                 </label>
                 <div className={styles.hint}>
-                  One Polygon is supported. Maximum file size: 5 MB.
+                  {tx("One Polygon is supported. Maximum file size: 5 MB.")}
                 </div>
               </fieldset>
 
               <fieldset className={styles.panel}>
                 <legend>
-                  <b>Coverage Parameters</b>
+                  <b>{tx("Coverage Parameters")}</b>
                 </legend>
                 <div className={styles.formGrid}>
                   <label>
-                    Circle radius (m)
+                    {tx("Circle radius (m)")}
                     <input
                       id="radius"
                       type="number"
@@ -77,7 +83,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Pts/circle
+                    {tx("Pts/circle")}
                     <input
                       id="perRing"
                       type="number"
@@ -88,7 +94,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Overlap (0~0.9)
+                    {tx("Overlap (0~0.9)")}
                     <input
                       id="overlap"
                       type="number"
@@ -99,7 +105,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Center step (m, 0=auto)
+                    {tx("Center step (m, 0 = auto)")}
                     <input
                       id="centerStep"
                       type="number"
@@ -110,7 +116,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Padding (m)
+                    {tx("Padding (m)")}
                     <input
                       id="padding"
                       type="number"
@@ -121,7 +127,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Grid bearing (°)
+                    {tx("Grid bearing (°)")}
                     <input
                       id="bearing"
                       type="number"
@@ -132,7 +138,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Start bearing (°)
+                    {tx("Start bearing (°)")}
                     <input
                       id="startBearing"
                       type="number"
@@ -143,40 +149,41 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Center mode
+                    {tx("Center mode")}
                     <select id="centerMode" defaultValue="centroid">
-                      <option value="centroid">Centroid</option>
-                      <option value="bbox_center">BBox center</option>
+                      <option value="centroid">{tx("Centroid")}</option>
+                      <option value="bbox_center">{tx("BBox center")}</option>
                     </select>
                   </label>
                   <label>
-                    Clip inside
+                    {tx("Clip inside")}
                     <select id="clipInside" defaultValue="0">
-                      <option value="1">Yes</option>
-                      <option value="0">No</option>
+                      <option value="1">{tx("Yes")}</option>
+                      <option value="0">{tx("No")}</option>
                     </select>
                   </label>
                   <label>
-                    Prune outside centers
+                    {tx("Prune outside centers")}
                     <select id="pruneOutside" defaultValue="1">
-                      <option value="1">Yes</option>
-                      <option value="0">No</option>
+                      <option value="1">{tx("Yes")}</option>
+                      <option value="0">{tx("No")}</option>
                     </select>
                   </label>
                 </div>
                 <div className={styles.hint}>
-                  Auto step = max(2*R*(1-overlap), 1 m). Set Grid bearing to
-                  obtain a cross‑oblique coverage pattern.
+                  {IS_ZH
+                    ? "自动步长 = max(2·R·(1 − 重叠率), 1 m)。设置网格方位角即可得到交叉倾斜的覆盖方式。"
+                    : "Auto step = max(2*R*(1-overlap), 1 m). Set Grid bearing to obtain a cross‑oblique coverage pattern."}
                 </div>
               </fieldset>
 
               <fieldset className={styles.panel}>
                 <legend>
-                  <b>Flight & Camera</b>
+                  <b>{tx("Flight & Camera")}</b>
                 </legend>
                 <div className={styles.formGrid}>
                   <label>
-                    Altitude (m)
+                    {tx("Altitude (m)")}
                     <input
                       id="alt"
                       type="number"
@@ -187,7 +194,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Speed (m/s)
+                    {tx("Speed (m/s)")}
                     <input
                       id="speed"
                       type="number"
@@ -198,7 +205,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    Gimbal pitch (°)
+                    {tx("Gimbal pitch (°)")}
                     <input
                       id="gimbal"
                       type="number"
@@ -209,7 +216,7 @@ const CCOPage = () => {
                     />
                   </label>
                   <label>
-                    File suffix
+                    {tx("File suffix")}
                     <input
                       id="fileSuffix"
                       type="text"
@@ -221,7 +228,7 @@ const CCOPage = () => {
 
               <fieldset className={styles.panel}>
                 <legend>
-                  <b>Drone & Payload (Optional)</b>
+                  <b>{tx("Drone & Payload (Optional)")}</b>
                 </legend>
                 <div className={styles.formGrid}>
                   <label>
@@ -277,7 +284,7 @@ const CCOPage = () => {
                 </div>
                 <div className={styles.fullField}>
                   <label>
-                    Max points / part
+                    {tx("Max points / part")}
                     <input
                       id="maxPoints"
                       type="number"
@@ -292,11 +299,11 @@ const CCOPage = () => {
 
               <fieldset className={styles.panel}>
                 <legend>
-                  <b>Import from DJI KMZ</b>
+                  <b>{tx("Import from DJI KMZ")}</b>
                 </legend>
                 <div className={styles.importGrid}>
                   <label>
-                    Upload DJI route (.kmz)
+                    {tx("Upload DJI route (.kmz)")}
                     <input
                       id="kmzDroneFile"
                       type="file"
@@ -309,12 +316,13 @@ const CCOPage = () => {
                     type="button"
                     className="button button--secondary"
                   >
-                    Parse Drone & Payload
+                    {tx("Parse Drone & Payload")}
                   </button>
                 </div>
                 <div className={styles.hint}>
-                  Reads device enums from a KMZ up to 25 MB. Imported values
-                  still require verification.
+                  {tx(
+                    "Reads device enums from a KMZ up to 25 MB. Imported values still require verification."
+                  )}
                 </div>
               </fieldset>
 
@@ -324,14 +332,14 @@ const CCOPage = () => {
                   type="button"
                   className="button button--secondary"
                 >
-                  Preview
+                  {tx("Preview")}
                 </button>
                 <button
                   id="generateBtn"
                   type="button"
                   className="button button--primary"
                 >
-                  Generate files
+                  {tx("Generate files")}
                 </button>
                 <div
                   id="status"
@@ -339,7 +347,7 @@ const CCOPage = () => {
                   role="status"
                   aria-live="polite"
                 >
-                  Idle
+                  {tx("Idle")}
                 </div>
               </div>
               <div
@@ -351,19 +359,19 @@ const CCOPage = () => {
                   {/* Blob download URLs are assigned by cco_app.js. */}
                   {/* eslint-disable-next-line @docusaurus/no-html-links */}
                   <a id="downloadTemplate" href="#" download="template.kml">
-                    Download template.kml
+                    {tx("Download template.kml")}
                   </a>
                 </div>
                 <div>
                   {/* eslint-disable-next-line @docusaurus/no-html-links */}
                   <a id="downloadWPML" href="#" download="waylines.wpml">
-                    Download waylines.wpml
+                    {tx("Download waylines.wpml")}
                   </a>
                 </div>
                 <div>
                   {/* eslint-disable-next-line @docusaurus/no-html-links */}
                   <a id="downloadKMZ" href="#" download="cco_full.kmz">
-                    Download cco_full.kmz
+                    {tx("Download cco_full.kmz")}
                   </a>
                 </div>
                 <div
@@ -383,7 +391,7 @@ const CCOPage = () => {
                 id="cco-preview-title"
                 className={styles.previewTitle}
               >
-                Live Preview
+                {tx("Live Preview")}
               </Heading>
               <div className={styles.canvasFrame}>
                 <canvas
@@ -392,12 +400,17 @@ const CCOPage = () => {
                   height={460}
                   className={styles.previewCanvas}
                   role="img"
-                  aria-label="Preview of the uploaded field polygon and generated CCO flight route"
+                  aria-label={tx(
+                    "Preview of the uploaded field polygon and generated CCO flight route"
+                  )}
                 />
               </div>
               <div className={styles.hint}>
-                Upload KML → set parameters → click <b>Preview</b> to refresh →
-                click <b>Generate</b> to get download links.
+                {tx("Upload KML → set parameters → click ")}
+                <b>{tx("Preview")}</b>
+                {tx(" to refresh → click ")}
+                <b>{tx("Generate")}</b>
+                {tx(" to get download links.")}
               </div>
             </section>
           </div>

@@ -7,147 +7,155 @@ import AppScaffold from "../../../components/AppScaffold";
 import { recordExport } from "../../../lib/workbench/provenance";
 import { createDefaultAIConfig, requestAI } from "../../../lib/api";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 const INDICATOR_FILE_PATH = "/app/journal-selector/journal-indicator-system.md";
 
 const BASE_COLUMNS = [];
 
 const OA_OPTIONS = [
-  { value: "flexible", label: "No preference (OA or subscription)" },
-  { value: "required", label: "Open access required" },
-  { value: "not_required", label: "Subscription journal preferred" },
+  { value: "flexible", label: tx("No preference (OA or subscription)") },
+  { value: "required", label: tx("Open access required") },
+  { value: "not_required", label: tx("Subscription journal preferred") },
 ];
 
 const SPEED_OPTIONS = [
   "4 weeks",
   "6-8 weeks",
   "10-12 weeks",
-  "Flexible / not specified",
+  tx("Flexible / not specified"),
 ];
 
 const JOURNAL_PREF_OPTIONS = [
-  { value: "any", label: "No preference (Chinese or international)" },
-  { value: "cn", label: "Prefer Chinese core journals (CSCD/PKU core)" },
-  { value: "sci", label: "Prefer SCI / international English journals" },
+  { value: "any", label: tx("No preference (Chinese or international)") },
+  { value: "cn", label: tx("Prefer Chinese core journals (CSCD/PKU core)") },
+  { value: "sci", label: tx("Prefer SCI / international English journals") },
 ];
 
 const DEFAULT_INDICATOR_FIELDS = [
   {
     key: "serial_number",
-    label: "Serial Number",
-    description: "Auto-increment ranking (1,2,3...)",
+    label: tx("Serial Number"),
+    description: tx("Auto-increment ranking (1,2,3...)"),
   },
   {
     key: "journal_name",
-    label: "Journal Name",
-    description: "Official full name",
+    label: tx("Journal Name"),
+    description: tx("Official full name"),
   },
-  { key: "issn", label: "ISSN", description: "Print or electronic ISSN" },
+  { key: "issn", label: "ISSN", description: tx("Print or electronic ISSN") },
   {
     key: "publisher",
-    label: "Publisher",
-    description: "Publishing group or organization",
+    label: tx("Publisher"),
+    description: tx("Publishing group or organization"),
   },
   {
     key: "established_year",
-    label: "Year Established",
-    description: "Year the journal was founded",
+    label: tx("Year Established"),
+    description: tx("Year the journal was founded"),
   },
   {
     key: "publication_frequency",
-    label: "Publication Frequency",
-    description: "Monthly / Quarterly / Continuous etc.",
+    label: tx("Publication Frequency"),
+    description: tx("Monthly / Quarterly / Continuous etc."),
   },
   {
     key: "oa_type",
-    label: "Open Access (OA)",
-    description: "Gold / Hybrid / Subscription",
+    label: tx("Open Access (OA)"),
+    description: tx("Gold / Hybrid / Subscription"),
   },
   {
     key: "apc_usd",
-    label: "OA Fee (USD)",
-    description: "Article processing charge",
+    label: tx("OA Fee (USD)"),
+    description: tx("Article processing charge"),
   },
   {
     key: "impact_factor_2024",
-    label: "Impact Factor (2024)",
-    description: "Latest Journal Impact Factor",
+    label: tx("Impact Factor (2024)"),
+    description: tx("Latest Journal Impact Factor"),
   },
   {
     key: "five_year_if",
-    label: "Five-year Impact Factor",
-    description: "Five-year IF",
+    label: tx("Five-year Impact Factor"),
+    description: tx("Five-year IF"),
   },
-  { key: "jcr_quartile", label: "JCR Quartile", description: "Q1–Q4 ranking" },
+  {
+    key: "jcr_quartile",
+    label: tx("JCR Quartile"),
+    description: tx("Q1–Q4 ranking"),
+  },
   {
     key: "cas_quartile",
-    label: "CAS Quartile",
-    description: "Chinese Academy of Sciences division",
+    label: tx("CAS Quartile"),
+    description: tx("Chinese Academy of Sciences division"),
   },
-  { key: "citescore", label: "CiteScore", description: "Scopus CiteScore" },
+  { key: "citescore", label: "CiteScore", description: tx("Scopus CiteScore") },
   {
     key: "h_index",
     label: "H-index",
-    description: "Scopus or Google Scholar H-index",
+    description: tx("Scopus or Google Scholar H-index"),
   },
   {
     key: "self_citation_rate",
-    label: "Self-citation Rate (%)",
-    description: "Percentage of self-citations",
+    label: tx("Self-citation Rate (%)"),
+    description: tx("Percentage of self-citations"),
   },
   {
     key: "annual_publication_volume",
-    label: "Annual Publications",
-    description: "Articles published per year",
+    label: tx("Annual Publications"),
+    description: tx("Articles published per year"),
   },
   {
     key: "acceptance_rate",
-    label: "Acceptance Rate (%)",
-    description: "Estimated acceptance probability",
+    label: tx("Acceptance Rate (%)"),
+    description: tx("Estimated acceptance probability"),
   },
   {
     key: "initial_review_weeks",
-    label: "Initial Review Cycle (weeks)",
-    description: "Desk review duration",
+    label: tx("Initial Review Cycle (weeks)"),
+    description: tx("Desk review duration"),
   },
   {
     key: "submission_to_acceptance_weeks",
-    label: "Submission-to-Acceptance (weeks)",
-    description: "Full peer review cycle",
+    label: tx("Submission-to-Acceptance (weeks)"),
+    description: tx("Full peer review cycle"),
   },
   {
     key: "publication_timeline",
-    label: "Publication Timeline",
-    description: "Time from acceptance to publication",
+    label: tx("Publication Timeline"),
+    description: tx("Time from acceptance to publication"),
   },
   {
     key: "discipline_scope",
-    label: "Discipline Scope",
-    description: "Primary research area",
+    label: tx("Discipline Scope"),
+    description: tx("Primary research area"),
   },
   {
     key: "core_focus",
-    label: "Core Focus Areas",
-    description: "Key topics or domains",
+    label: tx("Core Focus Areas"),
+    description: tx("Key topics or domains"),
   },
   {
     key: "special_sections",
-    label: "Special Sections",
-    description: "Unique columns or sections",
+    label: tx("Special Sections"),
+    description: tx("Unique columns or sections"),
   },
   {
     key: "strengths",
-    label: "Strengths",
-    description: "Competitive advantages",
+    label: tx("Strengths"),
+    description: tx("Competitive advantages"),
   },
   {
     key: "submission_advice",
-    label: "Submission Advice",
-    description: "Tailored recommendations",
+    label: tx("Submission Advice"),
+    description: tx("Tailored recommendations"),
   },
   {
     key: "warning_status",
-    label: "Warning Status",
-    description: "Any alerts or risk flags",
+    label: tx("Warning Status"),
+    description: tx("Any alerts or risk flags"),
   },
 ];
 
@@ -343,7 +351,7 @@ function verificationLinks(row) {
       href: `https://www.scimagojr.com/journalsearch.php?q=${query}`,
     },
     {
-      label: "NLM Catalog",
+      label: tx("NLM Catalog"),
       href: `https://www.ncbi.nlm.nih.gov/nlmcatalog/?term=${query}`,
     },
     {
@@ -365,7 +373,7 @@ export default function JournalSelectorPage() {
   const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
 
   const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState("Waiting for an abstract…");
+  const [status, setStatus] = useState(tx("Waiting for an abstract…"));
   const [journals, setJournals] = useState([]);
   const [overview, setOverview] = useState(null);
   const [csvText, setCsvText] = useState("");
@@ -400,7 +408,7 @@ export default function JournalSelectorPage() {
     async function loadIndicator() {
       try {
         const resp = await fetch(INDICATOR_FILE_PATH, { cache: "no-store" });
-        if (!resp.ok) throw new Error("fetch failed");
+        if (!resp.ok) throw new Error(tx("fetch failed"));
         const text = await resp.text();
         if (!cancelled) {
           setIndicatorText(text);
@@ -455,12 +463,12 @@ export default function JournalSelectorPage() {
 
   async function handleGenerate() {
     if (!abstractText.trim()) {
-      setStatus("Please paste the abstract first.");
+      setStatus(tx("Please paste the abstract first."));
       return;
     }
 
     setBusy(true);
-    setStatus("Preparing prompt…");
+    setStatus(tx("Preparing prompt…"));
     setJournals([]);
     setCsvText("");
     setOverview(null);
@@ -487,14 +495,16 @@ export default function JournalSelectorPage() {
         indicatorText,
       });
 
-      setStatus("Calling AI…");
+      setStatus(tx("Calling AI…"));
       const { text: aiText } = await callAi(prompt);
       setRawText(aiText);
 
       const parsed = tryParseJson(aiText);
       if (!parsed || !Array.isArray(parsed.journals)) {
         setStatus(
-          "AI response could not be parsed. Please adjust the prompt or try again."
+          tx(
+            "AI response could not be parsed. Please adjust the prompt or try again."
+          )
         );
         return;
       }
@@ -548,9 +558,9 @@ export default function JournalSelectorPage() {
       setCsvText(csv);
       setJournals(rows);
       setOverview(parsed.overview || null);
-      setStatus(`Generated ${rows.length} journal suggestions.`);
+      setStatus(tx("Generated {0} journal suggestions.", rows.length));
     } catch (err) {
-      setStatus(err?.message || "Generation failed");
+      setStatus(err?.message || tx("Generation failed"));
     } finally {
       setBusy(false);
     }
@@ -562,24 +572,28 @@ export default function JournalSelectorPage() {
     <AppScaffold appId="journal-selector">
       <section
         className={styles.inputGrid}
-        aria-label="Manuscript and journal preferences"
+        aria-label={tx("Manuscript and journal preferences")}
       >
         <div className={`${styles.glassPanel} ${styles.abstractPanel}`}>
           <div className={styles.panelHeading}>
             <div>
               <span className={styles.step}>01 · Manuscript</span>
-              <Heading as="h2">Research abstract</Heading>
+              <Heading as="h2">{tx("Research abstract")}</Heading>
             </div>
-            <span className={styles.hint}>Recommended 200–400 words</span>
+            <span className={styles.hint}>
+              {tx("Recommended 200–400 words")}
+            </span>
           </div>
           <label className={styles.label} htmlFor="journal-abstract">
-            Abstract
+            {tx("Abstract")}
           </label>
           <textarea
             id="journal-abstract"
             value={abstractText}
             onChange={(e) => setAbstractText(e.target.value)}
-            placeholder="Paste a 200–400 word abstract covering objective, method, data, and novelty."
+            placeholder={tx(
+              "Paste a 200–400 word abstract covering objective, method, data, and novelty."
+            )}
             className={styles.abstractInput}
           />
         </div>
@@ -588,25 +602,27 @@ export default function JournalSelectorPage() {
           <div className={styles.panelHeading}>
             <div>
               <span className={styles.step}>02 · Preferences</span>
-              <Heading as="h2">Submission profile</Heading>
+              <Heading as="h2">{tx("Submission profile")}</Heading>
             </div>
           </div>
           <div className={styles.fieldGrid}>
             <div className={styles.fieldFull}>
               <label className={styles.label} htmlFor="journal-keywords">
-                Keywords / Focus
+                {tx("Keywords / Focus")}
               </label>
               <input
                 id="journal-keywords"
                 value={keywordHints}
                 onChange={(e) => setKeywordHints(e.target.value)}
-                placeholder="e.g., precision agriculture; hyperspectral imaging; maize"
+                placeholder={tx(
+                  "e.g., precision agriculture; hyperspectral imaging; maize"
+                )}
               />
             </div>
 
             <div>
               <label className={styles.label} htmlFor="journal-oa">
-                OA requirement
+                {tx("OA requirement")}
               </label>
               <select
                 id="journal-oa"
@@ -623,7 +639,7 @@ export default function JournalSelectorPage() {
 
             <div>
               <label className={styles.label} htmlFor="journal-speed">
-                Review speed
+                {tx("Review speed")}
               </label>
               <select
                 id="journal-speed"
@@ -640,7 +656,7 @@ export default function JournalSelectorPage() {
 
             <div>
               <label className={styles.label} htmlFor="journal-type">
-                Journal type
+                {tx("Journal type")}
               </label>
               <select
                 id="journal-type"
@@ -657,7 +673,7 @@ export default function JournalSelectorPage() {
 
             <div>
               <label className={styles.label} htmlFor="journal-count">
-                Suggestions (3–8)
+                {tx("Suggestions (3–8)")}
               </label>
               <input
                 id="journal-count"
@@ -676,13 +692,15 @@ export default function JournalSelectorPage() {
 
             <div className={styles.fieldFull}>
               <label className={styles.label} htmlFor="journal-notes">
-                Special notes
+                {tx("Special notes")}
               </label>
               <textarea
                 id="journal-notes"
                 value={extraNotes}
                 onChange={(e) => setExtraNotes(e.target.value)}
-                placeholder="e.g., need open data compliance, avoiding page charges, prefer Q1."
+                placeholder={tx(
+                  "e.g., need open data compliance, avoiding page charges, prefer Q1."
+                )}
                 className={styles.notesInput}
               />
             </div>
@@ -692,12 +710,12 @@ export default function JournalSelectorPage() {
 
       <section
         className={styles.modelSection}
-        aria-label="AI model configuration"
+        aria-label={tx("AI model configuration")}
       >
         <AIProviderSettings
           value={aiConfig}
           onChange={setAiConfig}
-          title="Journal analysis model"
+          title={tx("Journal analysis model")}
         />
       </section>
 
@@ -705,7 +723,7 @@ export default function JournalSelectorPage() {
         <div className={styles.panelHeading}>
           <div>
             <span className={styles.step}>03 · Criteria</span>
-            <Heading as="h2">Indicator reference</Heading>
+            <Heading as="h2">{tx("Indicator reference")}</Heading>
           </div>
           <span className={styles.metricCount}>
             {activeIndicatorFields.length} metrics
@@ -713,13 +731,17 @@ export default function JournalSelectorPage() {
         </div>
         <p className={styles.referenceIntro}>
           {indicatorText.trim()
-            ? "Each suggested journal is scored against these fields. The full indicator schema is sent with your request."
-            : "The indicator file is missing, so the default journal evaluation schema is used."}
+            ? tx(
+                "Each suggested journal is scored against these fields. The full indicator schema is sent with your request."
+              )
+            : tx(
+                "The indicator file is missing, so the default journal evaluation schema is used."
+              )}
         </p>
-        <ul className={styles.metricChips} aria-label="Evaluation fields">
+        <ul className={styles.metricChips} aria-label={tx("Evaluation fields")}>
           {activeIndicatorFields.map((field) => (
             <li key={field.key} title={field.description || undefined}>
-              {field.label}
+              {tx(field.label)}
             </li>
           ))}
         </ul>
@@ -728,16 +750,14 @@ export default function JournalSelectorPage() {
       <section className={`${styles.glassPanel} ${styles.actionPanel}`}>
         <div>
           <span className={styles.step}>04 · Generate</span>
-          <Heading as="h2">Build a journal shortlist</Heading>
+          <Heading as="h2">{tx("Build a journal shortlist")}</Heading>
           <p className={styles.status} role="status" aria-live="polite">
             {status}
           </p>
           <p className={styles.disclaimer}>
-            Journal suggestions and the metrics shown with them come from the
-            language model and are not looked up in a database. Each result
-            links to SCImago, the NLM Catalog and DOAJ for checking; confirm
-            impact factor and quartiles in Journal Citation Reports and fees and
-            review times on the publisher&apos;s site before submission.
+            {tx(
+              "Journal suggestions and the metrics shown with them come from the language model and are not looked up in a database. Each result links to SCImago, the NLM Catalog and DOAJ for checking; confirm impact factor and quartiles in Journal Citation Reports and fees and review times on the publisher's site before submission."
+            )}
           </p>
         </div>
         <div className={styles.actionButtons}>
@@ -747,7 +767,7 @@ export default function JournalSelectorPage() {
             disabled={busy}
             className={styles.primaryButton}
           >
-            {busy ? "Generating…" : "Generate journal plan"}
+            {busy ? tx("Generating…") : tx("Generate journal plan")}
           </button>
           <button
             type="button"
@@ -755,21 +775,21 @@ export default function JournalSelectorPage() {
             disabled={!canDownload}
             className={styles.secondaryButton}
           >
-            Download CSV
+            {tx("Download CSV")}
           </button>
         </div>
       </section>
 
       {overview && (
         <section className={styles.glassPanel}>
-          <Heading as="h2">AI summary</Heading>
+          <Heading as="h2">{tx("AI summary")}</Heading>
           <div className={styles.summaryGrid}>
             <div>
-              <strong>Abstract recap:</strong>
+              <strong>{tx("Abstract recap:")}</strong>
               <p>{formatCellValue(overview.abstract_summary) || "—"}</p>
             </div>
             <div>
-              <strong>Alignment:</strong>
+              <strong>{tx("Alignment:")}</strong>
               <p>{formatCellValue(overview.alignment_summary) || "—"}</p>
             </div>
           </div>
@@ -783,9 +803,9 @@ export default function JournalSelectorPage() {
         >
           <div className={styles.resultsHeading}>
             <div>
-              <span className={styles.step}>Results</span>
+              <span className={styles.step}>{tx("Results")}</span>
               <Heading as="h2" id="journal-results-title">
-                Recommended journals
+                {tx("Recommended journals")}
               </Heading>
             </div>
             <span className={styles.metricCount}>
@@ -804,11 +824,11 @@ export default function JournalSelectorPage() {
                   <div>
                     <Heading as="h3">
                       {formatCellValue(row.journal_name) ||
-                        `Candidate Journal ${idx + 1}`}
+                        tx("Candidate Journal {0}", idx + 1)}
                     </Heading>
                     <p>
                       {formatCellValue(row.publisher) ||
-                        "Publisher not provided"}
+                        tx("Publisher not provided")}
                     </p>
                   </div>
                 </div>
@@ -822,14 +842,14 @@ export default function JournalSelectorPage() {
                     const column = allColumns.find((item) => item.key === key);
                     return column ? (
                       <div key={key}>
-                        <dt>{column.label}</dt>
+                        <dt>{tx(column.label)}</dt>
                         <dd>{formatCellValue(row[key]) || "—"}</dd>
                       </div>
                     ) : null;
                   })}
                 </dl>
                 <p className={styles.verifyLinks}>
-                  Verify:{" "}
+                  {tx("Verify:")}{" "}
                   {verificationLinks(row).map((link, i) => (
                     <React.Fragment key={link.label}>
                       {i > 0 && " · "}
@@ -838,11 +858,11 @@ export default function JournalSelectorPage() {
                   ))}
                 </p>
                 <details className={styles.resultDetails}>
-                  <summary>View all evaluation fields</summary>
+                  <summary>{tx("View all evaluation fields")}</summary>
                   <dl>
                     {allColumns.map((col) => (
                       <div key={col.key}>
-                        <dt>{col.label}</dt>
+                        <dt>{tx(col.label)}</dt>
                         <dd>{formatCellValue(row[col.key]) || "—"}</dd>
                       </div>
                     ))}
@@ -856,14 +876,14 @@ export default function JournalSelectorPage() {
             className={styles.tableScroll}
             tabIndex="0"
             role="region"
-            aria-label="Complete journal comparison table"
+            aria-label={tx("Complete journal comparison table")}
           >
             <table className={styles.resultsTable}>
               <thead>
                 <tr>
                   {allColumns.map((col) => (
                     <th key={col.key} scope="col">
-                      {col.label}
+                      {tx(col.label)}
                     </th>
                   ))}
                 </tr>
@@ -885,7 +905,7 @@ export default function JournalSelectorPage() {
       {rawText && (
         <section className={styles.rawPanel}>
           <details className={styles.metricDetails}>
-            <summary>View raw AI response</summary>
+            <summary>{tx("View raw AI response")}</summary>
             <pre className={styles.rawText}>{rawText}</pre>
           </details>
         </section>

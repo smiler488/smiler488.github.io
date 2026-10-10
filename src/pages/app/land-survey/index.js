@@ -20,6 +20,10 @@ import {
   projectLocal,
 } from "../../../lib/science/geo.js";
 import pageStyles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const styles = {
   page: {
@@ -159,7 +163,7 @@ const WB_COPY = {
     duplicates: (list) =>
       `Points ${list} are within 5 cm of the point before them, usually a double tap. The area is computed, but check those points.`,
     closed: "Polygon closed. Area and perimeter are shown below.",
-    perimeter: "Perimeter",
+    perimeter: "Perimeter: ",
   },
   zh: {
     importTitle: "从工作区导入点位",
@@ -176,7 +180,7 @@ const WB_COPY = {
     duplicates: (list) =>
       `第 ${list} 个点与前一个点相距不足 5 cm，通常是重复点击。面积已计算，请检查这些点。`,
     closed: "多边形已闭合，面积和周长见下方。",
-    perimeter: "周长",
+    perimeter: "周长：",
   },
 };
 
@@ -214,7 +218,9 @@ function LandSurveyApp() {
   const handleGeoError = (err) => {
     if (!err) {
       setError(
-        "Unable to access location. Your browser or device may have blocked geolocation for this site."
+        tx(
+          "Unable to access location. Your browser or device may have blocked geolocation for this site."
+        )
       );
       return;
     }
@@ -255,7 +261,9 @@ function LandSurveyApp() {
         .then((result) => {
           if (!cancelled && result.state === "denied") {
             setError(
-              "Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again."
+              tx(
+                "Location permission is currently denied for this site. Please enable location access in your browser or system settings, then try again."
+              )
             );
           }
         })
@@ -283,7 +291,7 @@ function LandSurveyApp() {
     setLatInput("");
     setLngInput("");
     setError("");
-    setStatus(`Added ${source} point`);
+    setStatus(tx("Added {0} point", source));
     setIsClosed(false);
   }, []);
 
@@ -332,12 +340,14 @@ function LandSurveyApp() {
     const lat = parseFloat(latInput);
     const lng = parseFloat(lngInput);
     if (Number.isNaN(lat) || Number.isNaN(lng)) {
-      setError("Please enter valid decimal latitude and longitude.");
+      setError(tx("Please enter valid decimal latitude and longitude."));
       return;
     }
     if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
       setError(
-        "Latitude must be within -90 to 90 and longitude within -180 to 180."
+        tx(
+          "Latitude must be within -90 to 90 and longitude within -180 to 180."
+        )
       );
       return;
     }
@@ -347,12 +357,14 @@ function LandSurveyApp() {
   const handleUseLocation = () => {
     if (!canUseGeolocation) {
       setError(
-        "Geolocation is not supported in this browser, or it may be disabled. Please use a modern mobile browser and ensure location is enabled."
+        tx(
+          "Geolocation is not supported in this browser, or it may be disabled. Please use a modern mobile browser and ensure location is enabled."
+        )
       );
       return;
     }
     setLoadingLocation(true);
-    setStatus("Fetching location...");
+    setStatus(tx("Fetching location..."));
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude, accuracy } = position.coords;
@@ -375,13 +387,17 @@ function LandSurveyApp() {
     setError("");
     if (!canUseGeolocation) {
       setError(
-        "Geolocation is not supported in this browser. You can still enter coordinates manually."
+        tx(
+          "Geolocation is not supported in this browser. You can still enter coordinates manually."
+        )
       );
       return;
     }
     if (typeof navigator.permissions?.query !== "function") {
       setStatus(
-        "Location is supported. Your browser will ask for permission when you choose “Add current location”."
+        tx(
+          "Location is supported. Your browser will ask for permission when you choose “Add current location”."
+        )
       );
       return;
     }
@@ -395,18 +411,20 @@ function LandSurveyApp() {
         denied:
           "Location access is blocked. Enable it in browser or system settings, or enter coordinates manually.",
       };
-      setStatus(messages[result.state] || "Location capability checked.");
+      setStatus(messages[result.state] || tx("Location capability checked."));
       if (result.state === "denied") setError(messages.denied);
     } catch {
       setStatus(
-        "Location is supported. Permission will be checked when you add your current location."
+        tx(
+          "Location is supported. Permission will be checked when you add your current location."
+        )
       );
     }
   };
 
   const handleClosePolygon = () => {
     if (points.length < 3) {
-      setError("You need at least 3 points to close the polygon.");
+      setError(tx("You need at least 3 points to close the polygon."));
       return;
     }
     const issues = polygonIssues(points);
@@ -440,7 +458,7 @@ function LandSurveyApp() {
     setPoints((prev) => prev.filter((point) => point.id !== id));
     setIsClosed(false);
     setError("");
-    setStatus("Point removed. Close the polygon again to update the area.");
+    setStatus(tx("Point removed. Close the polygon again to update the area."));
   };
 
   const previewPoints = useMemo(() => {
@@ -500,9 +518,11 @@ function LandSurveyApp() {
       await saveArtifact({
         type: "geo.polygon",
         appId: "land-survey",
-        label: `${points.length}-point boundary · ${areaHectares.toFixed(
-          2
-        )} ha`,
+        label: tx(
+          "{0}-point boundary · {1} ha",
+          points.length,
+          areaHectares.toFixed(2)
+        ),
         data: {
           points: points.map(({ lat, lng }) => ({ lat, lng })),
           ...boundaryParameters(),
@@ -573,11 +593,11 @@ function LandSurveyApp() {
   return (
     <div className={pageStyles.workspace}>
       <section className={pageStyles.introCard}>
-        <Heading as="h2">Map a field boundary</Heading>
+        <Heading as="h2">{tx("Map a field boundary")}</Heading>
         <p style={styles.sectionLead}>
-          Record parcel vertices sequentially via manual coordinates or phone
-          GPS. The tool draws each segment in real time, and once closed it
-          calculates the polygon area in square meters, hectares, and mu.
+          {tx(
+            "Record parcel vertices sequentially via manual coordinates or phone GPS. The tool draws each segment in real time, and once closed it calculates the polygon area in square meters, hectares, and mu."
+          )}
         </p>
 
         <div className={pageStyles.readinessCard}>
@@ -591,14 +611,16 @@ function LandSurveyApp() {
             }}
           >
             <span className="app-muted">
-              Check whether location is available without adding a survey point.
+              {tx(
+                "Check whether location is available without adding a survey point."
+              )}
             </span>
             <button
               type="button"
               className="button button--secondary"
               onClick={handleCheckLocationAccess}
             >
-              Check location access
+              {tx("Check location access")}
             </button>
           </div>
         </div>
@@ -606,7 +628,7 @@ function LandSurveyApp() {
         <form style={styles.form} onSubmit={handleAddManualPoint}>
           <div style={styles.formGroup}>
             <label htmlFor="latInput" style={styles.label}>
-              Latitude (Lat)
+              {tx("Latitude (Lat)")}
             </label>
             <input
               id="latInput"
@@ -624,7 +646,7 @@ function LandSurveyApp() {
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="lngInput" style={styles.label}>
-              Longitude (Lng)
+              {tx("Longitude (Lng)")}
             </label>
             <input
               id="lngInput"
@@ -641,7 +663,7 @@ function LandSurveyApp() {
             />
           </div>
           <button type="submit" className="button button--primary">
-            Add Point
+            {tx("Add Point")}
           </button>
           <button
             type="button"
@@ -649,21 +671,21 @@ function LandSurveyApp() {
             onClick={handleUseLocation}
             disabled={!canUseGeolocation || loadingLocation}
           >
-            {loadingLocation ? "Locating..." : "Add current location"}
+            {loadingLocation ? tx("Locating...") : tx("Add current location")}
           </button>
           <button
             type="button"
             className="button button--secondary"
             onClick={handleClosePolygon}
           >
-            Close Polygon
+            {tx("Close Polygon")}
           </button>
           <button
             type="button"
             className="button button--outline"
             onClick={handleReset}
           >
-            Reset
+            {tx("Reset")}
           </button>
         </form>
 
@@ -708,14 +730,16 @@ function LandSurveyApp() {
         <section style={styles.panel} className={pageStyles.glassPanel}>
           <div style={styles.panelHeader}>
             <Heading as="h2" className={pageStyles.panelTitle}>
-              Live polyline preview
+              {tx("Live polyline preview")}
             </Heading>
             <span>
               {points.length
-                ? `Captured ${points.length} point${
+                ? tx(
+                    "Captured {0} point{1}",
+                    points.length,
                     points.length === 1 ? "" : "s"
-                  }`
-                : "Awaiting coordinates..."}
+                  )
+                : tx("Awaiting coordinates...")}
             </span>
           </div>
           <div style={styles.previewCanvas}>
@@ -725,9 +749,13 @@ function LandSurveyApp() {
                 preserveAspectRatio="xMidYMid meet"
                 style={{ width: "100%", height: "260px" }}
                 role="img"
-                aria-label={`${points.length}-point ${
-                  isClosed ? "closed field boundary" : "open survey path"
-                } preview`}
+                aria-label={tx(
+                  "{0}-point {1} preview",
+                  points.length,
+                  isClosed
+                    ? tx("closed field boundary")
+                    : tx("open survey path")
+                )}
               >
                 {previewPoints.map((point, index) => (
                   <circle
@@ -739,9 +767,14 @@ function LandSurveyApp() {
                     stroke="var(--app-overlay-stroke)"
                     strokeWidth="0.3"
                   >
-                    <title>{`Point ${index + 1}: ${points[index].lat.toFixed(
-                      6
-                    )}, ${points[index].lng.toFixed(6)}`}</title>
+                    <title>
+                      {tx(
+                        "Point {0}: {1}, {2}",
+                        index + 1,
+                        points[index].lat.toFixed(6),
+                        points[index].lng.toFixed(6)
+                      )}
+                    </title>
                   </circle>
                 ))}
                 {previewPoints.length >= 2 &&
@@ -762,20 +795,25 @@ function LandSurveyApp() {
                   ))}
               </svg>
             ) : (
-              <p>Add at least two points to preview the live polyline.</p>
+              <p>
+                {tx("Add at least two points to preview the live polyline.")}
+              </p>
             )}
           </div>
           {isClosed && (
             <div style={styles.areaCard}>
-              <p style={{ margin: 0 }}>Area estimate:</p>
+              <p style={{ margin: 0 }}>{tx("Area estimate:")}</p>
               <strong style={{ fontSize: "1.4rem" }}>
                 {area.toFixed(2)} m²
               </strong>
               <span>
-                ≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu
+                ≈ {areaHectares.toFixed(4)}
+                {tx(" ha · ")}
+                {areaMu.toFixed(2)} {tx("mu")}
               </span>
               <span>
-                {wb.perimeter}: {perimeter.toFixed(2)} m
+                {wb.perimeter}
+                {perimeter.toFixed(2)} m
               </span>
             </div>
           )}
@@ -819,10 +857,10 @@ function LandSurveyApp() {
         <section style={styles.panel} className={pageStyles.glassPanel}>
           <div style={styles.panelHeader}>
             <Heading as="h2" className={pageStyles.panelTitle}>
-              Coordinate list
+              {tx("Coordinate list")}
             </Heading>
             {points.length >= 3 && !isClosed && (
-              <span>Click “Close Polygon” to compute area.</span>
+              <span>{tx("Click “Close Polygon” to compute area.")}</span>
             )}
           </div>
           {points.length ? (
@@ -830,15 +868,21 @@ function LandSurveyApp() {
               {points.map((point, index) => (
                 <li key={point.id} style={styles.listItem}>
                   <div>
-                    <strong>Point {index + 1}</strong>
+                    <strong>
+                      {tx("Point ")}
+                      {index + 1}
+                    </strong>
                     <p className={pageStyles.coordinateMeta}>
-                      Latitude: {point.lat.toFixed(6)}
+                      {tx("Latitude: ")}
+                      {point.lat.toFixed(6)}
                     </p>
                     <p className={pageStyles.coordinateMeta}>
-                      Longitude: {point.lng.toFixed(6)}
+                      {tx("Longitude: ")}
+                      {point.lng.toFixed(6)}
                     </p>
                     <p className={pageStyles.coordinateMeta}>
-                      Source: {point.source}
+                      {tx("Source: ")}
+                      {point.source}
                     </p>
                   </div>
                   <button
@@ -846,14 +890,14 @@ function LandSurveyApp() {
                     className="button button--sm button--outline"
                     onClick={() => handleRemovePoint(point.id)}
                   >
-                    Delete
+                    {tx("Delete")}
                   </button>
                 </li>
               ))}
             </ol>
           ) : (
             <p className={pageStyles.emptyState}>
-              No coordinates yet. Add a point to get started.
+              {tx("No coordinates yet. Add a point to get started.")}
             </p>
           )}
         </section>

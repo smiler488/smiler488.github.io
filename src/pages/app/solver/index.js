@@ -1,16 +1,19 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import AppScaffold from "../../../components/AppScaffold";
+import Heading from "@theme/Heading";
+import CitationNotice from "../../../components/CitationNotice";
+import AIProviderSettings from "../../../components/AIProviderSettings";
+import { createDefaultAIConfig, requestAI } from "../../../lib/api";
+import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import AppScaffold from '../../../components/AppScaffold';
-import Heading from '@theme/Heading';
-import CitationNotice from '../../../components/CitationNotice';
-import AIProviderSettings from '../../../components/AIProviderSettings';
-import { createDefaultAIConfig, requestAI } from '../../../lib/api';
-import styles from './styles.module.css';
+const tx = makeToolText(ZH);
 
 const INPUT_MODES = [
-  { id: 'camera', label: 'Camera' },
-  { id: 'screenshot', label: 'Screen' },
-  { id: 'text', label: 'Text' },
+  { id: "camera", label: tx("Camera") },
+  { id: "screenshot", label: tx("Screen") },
+  { id: "text", label: tx("Text") },
 ];
 
 function useCamera() {
@@ -32,7 +35,7 @@ function useCamera() {
 
   const startCamera = useCallback(async () => {
     if (!navigator.mediaDevices?.getUserMedia) {
-      setError('Camera access is not supported by this browser.');
+      setError(tx("Camera access is not supported by this browser."));
       return;
     }
     stopCamera();
@@ -41,7 +44,7 @@ function useCamera() {
     setStarting(true);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
+        video: { facingMode: "environment" },
         audio: false,
       });
       if (requestId !== requestIdRef.current) {
@@ -70,29 +73,39 @@ async function captureCompressedJpeg(video, maxSide = 1280, quality = 0.85) {
   const w = video.videoWidth || 1080;
   const h = video.videoHeight || 1440;
   const scale = Math.min(1, maxSide / Math.max(w, h));
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = Math.round(w * scale);
   canvas.height = Math.round(h * scale);
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas rendering is not available in this browser.');
+  const ctx = canvas.getContext("2d");
+  if (!ctx)
+    throw new Error(tx("Canvas rendering is not available in this browser."));
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
-  if (!blob) throw new Error('The browser could not encode the captured image.');
+  const blob = await new Promise((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", quality)
+  );
+  if (!blob)
+    throw new Error(tx("The browser could not encode the captured image."));
   return blob;
 }
 
 function formatAiResponse(result) {
-  const text = result?.text || 'The provider returned an empty response.';
+  const text = result?.text || "The provider returned an empty response.";
   const usage = result?.usage || {};
   const promptTokens =
-    usage.prompt_tokens ?? usage.input_tokens ?? usage.promptTokenCount ?? usage.PromptTokens;
+    usage.prompt_tokens ??
+    usage.input_tokens ??
+    usage.promptTokenCount ??
+    usage.PromptTokens;
   const completionTokens =
-    usage.completion_tokens ?? usage.output_tokens ?? usage.candidatesTokenCount ?? usage.CompletionTokens;
+    usage.completion_tokens ??
+    usage.output_tokens ??
+    usage.candidatesTokenCount ??
+    usage.CompletionTokens;
   const totalTokens =
     usage.total_tokens ??
     usage.totalTokenCount ??
     usage.TotalTokens ??
-    (typeof promptTokens === 'number' && typeof completionTokens === 'number'
+    (typeof promptTokens === "number" && typeof completionTokens === "number"
       ? promptTokens + completionTokens
       : null);
 
@@ -100,57 +113,62 @@ function formatAiResponse(result) {
     return text;
   }
 
-  return `${text}\n\n---\nTokens: ${totalTokens ?? 'N/A'} (Prompt: ${promptTokens ?? 'N/A'}, Completion: ${completionTokens ?? 'N/A'})`;
+  return `${text}\n\n---\nTokens: ${totalTokens ?? "N/A"} (Prompt: ${
+    promptTokens ?? "N/A"
+  }, Completion: ${completionTokens ?? "N/A"})`;
 }
 
 function getSafeAiErrorMessage(error) {
-  const message = error instanceof Error ? error.message : String(error || '');
+  const message = error instanceof Error ? error.message : String(error || "");
   const normalized = message.toLowerCase();
 
   if (
-    normalized.includes('enter an api endpoint') ||
-    normalized.includes('choose or enter a model') ||
-    normalized.includes('enter the api key')
+    normalized.includes("enter an api endpoint") ||
+    normalized.includes("choose or enter a model") ||
+    normalized.includes("enter the api key")
   ) {
     return message;
   }
-  if (/\b401\b|unauthori[sz]ed|authentication|invalid api key/.test(normalized)) {
-    return 'Authentication failed. Check the API key for the selected provider.';
+  if (
+    /\b401\b|unauthori[sz]ed|authentication|invalid api key/.test(normalized)
+  ) {
+    return "Authentication failed. Check the API key for the selected provider.";
   }
   if (/\b403\b|permission|forbidden/.test(normalized)) {
-    return 'The provider denied this request. Check key permissions, billing, and model access.';
+    return "The provider denied this request. Check key permissions, billing, and model access.";
   }
   if (/\b404\b|not found/.test(normalized)) {
-    return 'The API endpoint or model was not found. Check the provider settings.';
+    return "The API endpoint or model was not found. Check the provider settings.";
   }
   if (/\b429\b|rate limit|too many requests/.test(normalized)) {
-    return 'The provider rate limit was reached. Wait briefly or check the account quota.';
+    return "The provider rate limit was reached. Wait briefly or check the account quota.";
   }
   if (/cors|failed to fetch|network|load failed|connection/.test(normalized)) {
-    return 'The browser could not reach the provider. Check the endpoint, connection, and CORS support.';
+    return "The browser could not reach the provider. Check the endpoint, connection, and CORS support.";
   }
   if (/\b5\d\d\b|service unavailable|overloaded/.test(normalized)) {
-    return 'The provider is temporarily unavailable. Please try again later.';
+    return "The provider is temporarily unavailable. Please try again later.";
   }
   if (/\b400\b|bad request|invalid request/.test(normalized)) {
-    return 'The provider rejected the request. Check that the selected model supports this input type.';
+    return "The provider rejected the request. Check that the selected model supports this input type.";
   }
 
-  return 'The AI request failed. Check the provider, model, endpoint, and account status.';
+  return "The AI request failed. Check the provider, model, endpoint, and account status.";
 }
 
 export default function SolverAppPage() {
-  const { videoRef, ready, error, starting, startCamera, stopCamera } = useCamera();
+  const { videoRef, ready, error, starting, startCamera, stopCamera } =
+    useCamera();
 
   // State management
   const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
   // Preset prompt list
-// Preset prompt list — full English version
-const promptPresets = [
-  { 
-    id: 'default', 
-    name: 'Intelligent Analysis Assistant', 
-    prompt: `ROLE: Professional multimodal analyst
+  // Preset prompt list — full English version
+  const promptPresets = [
+    {
+      id: "default",
+      name: tx("Intelligent Analysis Assistant"),
+      prompt: `ROLE: Professional multimodal analyst
 TASK: Analyze the problem shown in the image, photo, or text, and provide a practical, step-by-step solution.
 METHOD:
 - If an image is provided: briefly describe the visible content and extract key information (titles, labels, warnings, numbers).
@@ -162,13 +180,13 @@ OUTPUT:
 - Answer (final actionable solution and parameters)
 - Checks/Uncertainties (assumptions and unclear areas)
 - Next actions (1–3 follow-up suggestions)`,
-    description: 'General intelligent analysis and solution generation'
-  },
+      description: tx("General intelligent analysis and solution generation"),
+    },
 
-  { 
-    id: 'math', 
-    name: 'Math Problem Solver', 
-    prompt: `ROLE: Mathematician and educator
+    {
+      id: "math",
+      name: tx("Math Problem Solver"),
+      prompt: `ROLE: Mathematician and educator
 TASK: Solve the given math problem with rigorous reasoning and precise results.
 METHOD:
 - List knowns, unknowns, conditions, and goals; unify notations and units.
@@ -180,13 +198,15 @@ OUTPUT:
 - Answer (final result: exact form → numeric)
 - Checks/Uncertainties (domain restrictions, special cases)
 - Next actions (numerical verification or plotting tip)`,
-    description: 'Equation solving, geometry, algebra, and other math problems'
-  },
+      description: tx(
+        "Equation solving, geometry, algebra, and other math problems"
+      ),
+    },
 
-  { 
-    id: 'lab_safety', 
-    name: 'Laboratory Safety Assessment', 
-    prompt: `ROLE: Laboratory safety inspector
+    {
+      id: "lab_safety",
+      name: tx("Laboratory Safety Assessment"),
+      prompt: `ROLE: Laboratory safety inspector
 TASK: Identify potential hazards and compliance issues in the lab image/text and recommend corrections.
 METHOD:
 - Classify risks: chemical, biological, physical, electrical, ergonomic, fire, etc.
@@ -198,13 +218,15 @@ OUTPUT:
 - Recommendations (specific corrective steps and PPE list)
 - Checks/Uncertainties (unverifiable elements)
 - Next actions (training, documentation, inspection cycle)`,
-    description: 'Laboratory safety risk assessment and improvement suggestions'
-  },
+      description: tx(
+        "Laboratory safety risk assessment and improvement suggestions"
+      ),
+    },
 
-  { 
-    id: 'plant', 
-    name: 'Plant Identification Analysis', 
-    prompt: `ROLE: Botanist
+    {
+      id: "plant",
+      name: tx("Plant Identification Analysis"),
+      prompt: `ROLE: Botanist
 TASK: Identify the plant in the image and provide care and usage information.
 METHOD:
 - Describe diagnostic traits (leaf, flower, fruit, bark, growth habit, habitat).
@@ -217,13 +239,13 @@ OUTPUT:
 - Care and uses (cultivation and application)
 - Checks/Uncertainties (missing angles/phenological stage)
 - Next actions (additional photos or observation tips)`,
-    description: 'Plant species identification and growth information'
-  },
+      description: tx("Plant species identification and growth information"),
+    },
 
-  { 
-    id: 'code', 
-    name: 'Code Review and Optimization', 
-    prompt: `ROLE: Senior software engineer
+    {
+      id: "code",
+      name: tx("Code Review and Optimization"),
+      prompt: `ROLE: Senior software engineer
 TASK: Explain the purpose of the code, find potential bugs or inefficiencies, and provide improved code.
 METHOD:
 - Detect language/environment, summarize purpose and data flow.
@@ -236,13 +258,15 @@ OUTPUT:
 - Complexity (Big-O time and space)
 - Checks/Uncertainties (dependencies, assumptions)
 - Next actions (testing, linting, profiling)`,
-    description: 'Code explanation, debugging, and performance optimization'
-  },
+      description: tx(
+        "Code explanation, debugging, and performance optimization"
+      ),
+    },
 
-  { 
-    id: 'translation', 
-    name: 'Academic Literature Translation', 
-    prompt: `ROLE: Academic translator/editor
+    {
+      id: "translation",
+      name: tx("Academic Literature Translation"),
+      prompt: `ROLE: Academic translator/editor
 TASK: Translate the academic text into the target language with accurate terminology and fluent scholarly style.
 METHOD:
 - Preserve structure (headings, lists, tables, citations).
@@ -252,13 +276,15 @@ OUTPUT:
 - Translation (publication-quality output)
 - Glossary (5–15 essential terms)
 - Notes (only if needed)`,
-    description: 'Professional academic translation and terminology explanation'
-  },
+      description: tx(
+        "Professional academic translation and terminology explanation"
+      ),
+    },
 
-  { 
-    id: 'physics', 
-    name: 'Physics Problem Solver', 
-    prompt: `ROLE: Physicist
+    {
+      id: "physics",
+      name: tx("Physics Problem Solver"),
+      prompt: `ROLE: Physicist
 TASK: Solve the physics problem step-by-step using fundamental laws and correct units.
 METHOD:
 - List knowns/unknowns, define the system boundaries, and state the governing principles (Newton, conservation, Maxwell, thermodynamics, etc.).
@@ -269,13 +295,15 @@ OUTPUT:
 - Answer (result with units and significant figures)
 - Checks/Uncertainties (error sources, limiting cases)
 - Next actions (experimental verification idea)`,
-    description: 'Mechanics, electromagnetism, thermodynamics, and other physics problems'
-  },
+      description: tx(
+        "Mechanics, electromagnetism, thermodynamics, and other physics problems"
+      ),
+    },
 
-  { 
-    id: 'chemistry', 
-    name: 'Chemistry Problem Solver', 
-    prompt: `ROLE: Chemist
+    {
+      id: "chemistry",
+      name: tx("Chemistry Problem Solver"),
+      prompt: `ROLE: Chemist
 TASK: Analyze chemical reactions, stoichiometry, structures, or lab procedures.
 METHOD:
 - Identify species and conditions; write and balance reactions; outline mechanisms when relevant.
@@ -286,13 +314,15 @@ OUTPUT:
 - Answer (balanced results, quantities, or expected phenomena)
 - Checks/Uncertainties (side reactions, sensitivity)
 - Next actions (controls, optimization suggestions)`,
-    description: 'Chemical equations, structures, mechanisms, and experiment analysis'
-  },
+      description: tx(
+        "Chemical equations, structures, mechanisms, and experiment analysis"
+      ),
+    },
 
-  { 
-    id: 'english', 
-    name: 'English Learning Assistant', 
-    prompt: `ROLE: English tutor
+    {
+      id: "english",
+      name: tx("English Learning Assistant"),
+      prompt: `ROLE: English tutor
 TASK: Analyze English text, explain grammar and vocabulary, and provide detailed exercise solutions.
 METHOD:
 - Break down syntax (clauses, parts of speech, collocations).
@@ -302,13 +332,15 @@ OUTPUT:
 - Analysis (grammar and vocabulary)
 - Answers with explanations (if exercises)
 - Next actions (3–5 mini practice items)`,
-    description: 'Grammar explanation, vocabulary learning, and exercise guidance'
-  },
+      description: tx(
+        "Grammar explanation, vocabulary learning, and exercise guidance"
+      ),
+    },
 
-  { 
-    id: 'ocr', 
-    name: 'Text Extraction', 
-    prompt: `ROLE: OCR transcriber and formatter
+    {
+      id: "ocr",
+      name: tx("Text Extraction"),
+      prompt: `ROLE: OCR transcriber and formatter
 TASK: Extract all text from the image accurately while preserving layout and structure.
 METHOD:
 - Maintain original paragraphing and headings; reconstruct tables using Markdown tables; preserve math/code blocks.
@@ -318,13 +350,15 @@ OUTPUT:
 - Extracted text (structured)
 - Uncertain fragments (list with notes)
 - Next actions (reshoot tips: angle, resolution, key region)`,
-    description: 'Accurate image text recognition and format preservation'
-  },
+      description: tx(
+        "Accurate image text recognition and format preservation"
+      ),
+    },
 
-  { 
-    id: 'biology', 
-    name: 'Biology Analysis', 
-    prompt: `ROLE: Biology instructor
+    {
+      id: "biology",
+      name: tx("Biology Analysis"),
+      prompt: `ROLE: Biology instructor
 TASK: Identify and explain biological structures or processes in the image.
 METHOD:
 - For anatomy: label parts and functions; for cellular/molecular: describe pathways; for ecology: outline species relationships.
@@ -335,13 +369,15 @@ OUTPUT:
 - Findings (main biological insights)
 - Checks/Uncertainties
 - Next actions (observation or experiment suggestion)`,
-    description: 'Biological structures, cell biology, and ecology analysis'
-  },
+      description: tx(
+        "Biological structures, cell biology, and ecology analysis"
+      ),
+    },
 
-  { 
-    id: 'history', 
-    name: 'Historical Document Interpretation', 
-    prompt: `ROLE: Historian
+    {
+      id: "history",
+      name: tx("Historical Document Interpretation"),
+      prompt: `ROLE: Historian
 TASK: Interpret the document or artifact’s background, era, and cultural significance.
 METHOD:
 - Describe visible features; infer materials and craftsmanship; relate to known historical periods (no fabricated citations).
@@ -351,13 +387,13 @@ OUTPUT:
 - Findings (historical significance)
 - Checks/Uncertainties
 - Next actions (evidence needed for dating/provenance)`,
-    description: 'Historical document or artifact interpretation'
-  },
+      description: tx("Historical document or artifact interpretation"),
+    },
 
-  { 
-    id: 'medical', 
-    name: 'Medical Image Analysis', 
-    prompt: `ROLE: Medical information assistant (not a clinician)
+    {
+      id: "medical",
+      name: tx("Medical Image Analysis"),
+      prompt: `ROLE: Medical information assistant (not a clinician)
 TASK: Identify anatomical structures and observable findings in medical images and explain their general significance.
 DISCLAIMER: This analysis is for informational purposes only and does NOT replace professional medical advice.
 METHOD:
@@ -368,13 +404,15 @@ OUTPUT:
 - Significance (general clinical meaning)
 - Checks/Uncertainties
 - Next actions (what to discuss with a doctor)`,
-    description: 'Medical image structure and general interpretation (non-diagnostic)'
-  },
+      description: tx(
+        "Medical image structure and general interpretation (non-diagnostic)"
+      ),
+    },
 
-  { 
-    id: 'engineering', 
-    name: 'Engineering Drawing Interpretation', 
-    prompt: `ROLE: Engineering analyst
+    {
+      id: "engineering",
+      name: tx("Engineering Drawing Interpretation"),
+      prompt: `ROLE: Engineering analyst
 TASK: Interpret the engineering drawing or chart and explain its design intent and parameters.
 METHOD:
 - Identify drawing type (mechanical, civil, circuit, P&ID, etc.); decode symbols and summarize key dimensions or tolerances.
@@ -385,13 +423,15 @@ OUTPUT:
 - Findings (key tolerances, critical paths)
 - Checks/Uncertainties
 - Next actions (manufacture, assembly, validation)`,
-    description: 'Engineering drawings, technical charts, and design interpretation'
-  },
+      description: tx(
+        "Engineering drawings, technical charts, and design interpretation"
+      ),
+    },
 
-  { 
-    id: 'finance', 
-    name: 'Financial Statement Analysis', 
-    prompt: `ROLE: Financial analyst (informational only)
+    {
+      id: "finance",
+      name: tx("Financial Statement Analysis"),
+      prompt: `ROLE: Financial analyst (informational only)
 TASK: Analyze financial statements or data for performance, trends, and risks.
 METHOD:
 - Compute key metrics (growth, margins, ROE/ROA, leverage, liquidity) based on provided data only.
@@ -403,13 +443,15 @@ OUTPUT:
 - Findings (strengths and risks)
 - Checks/Uncertainties
 - Next actions (questions for management, monitoring points)`,
-    description: 'Financial statement interpretation and business performance analysis'
-  },
+      description: tx(
+        "Financial statement interpretation and business performance analysis"
+      ),
+    },
 
-  { 
-    id: 'art', 
-    name: 'Artwork Appreciation', 
-    prompt: `ROLE: Art critic
+    {
+      id: "art",
+      name: tx("Artwork Appreciation"),
+      prompt: `ROLE: Art critic
 TASK: Analyze the artwork’s style, technique, composition, and aesthetic value.
 METHOD:
 - Discuss composition, perspective, color, texture, medium, and artistic influences; do not invent provenance.
@@ -419,13 +461,13 @@ OUTPUT:
 - Findings (aesthetic and contextual meaning)
 - Checks/Uncertainties
 - Next actions (comparative references or similar works)`,
-    description: 'Art style, technique, and aesthetic value analysis'
-  },
+      description: tx("Art style, technique, and aesthetic value analysis"),
+    },
 
-  { 
-    id: 'legal', 
-    name: 'Legal Document Interpretation', 
-    prompt: `ROLE: Legal information assistant (not a lawyer)
+    {
+      id: "legal",
+      name: tx("Legal Document Interpretation"),
+      prompt: `ROLE: Legal information assistant (not a lawyer)
 TASK: Explain rights, obligations, and risk points in the legal document.
 DISCLAIMER: This content is for general informational purposes and not legal advice.
 METHOD:
@@ -436,13 +478,15 @@ OUTPUT:
 - Risks and ambiguities
 - Checks/Uncertainties
 - Next actions (questions or negotiable clauses)`,
-    description: 'Legal document and contract clause interpretation (non-advisory)'
-  },
+      description: tx(
+        "Legal document and contract clause interpretation (non-advisory)"
+      ),
+    },
 
-  { 
-    id: 'education', 
-    name: 'Educational Material Analysis', 
-    prompt: `ROLE: Instructional designer
+    {
+      id: "education",
+      name: tx("Educational Material Analysis"),
+      prompt: `ROLE: Instructional designer
 TASK: Analyze teaching materials for educational value, target audience, and pedagogy.
 METHOD:
 - Identify learning objectives, prerequisites, key concepts, and assessment focus.
@@ -452,13 +496,15 @@ OUTPUT:
 - Analysis (objectives and knowledge map)
 - Findings (strengths and gaps)
 - Next actions (activities, assessments, improvements)`,
-    description: 'Educational material evaluation and teaching method design'
-  },
+      description: tx(
+        "Educational material evaluation and teaching method design"
+      ),
+    },
 
-  { 
-    id: 'custom', 
-    name: 'Custom Mode', 
-    prompt: `ROLE: Flexible expert
+    {
+      id: "custom",
+      name: tx("Custom Mode"),
+      prompt: `ROLE: Flexible expert
 TASK: Handle special or mixed requests not covered by other presets, following general reasoning rules.
 METHOD:
 - Clarify objective and assumptions; provide an immediately usable solution with alternative paths if needed.
@@ -468,18 +514,17 @@ OUTPUT:
 - Answer / Deliverable
 - Checks/Uncertainties
 - Next actions`,
-    description: 'Flexible mode for custom or mixed scenarios'
-  }
-];
+      description: tx("Flexible mode for custom or mixed scenarios"),
+    },
+  ];
 
-
-  const [selectedPreset, setSelectedPreset] = useState('default');
+  const [selectedPreset, setSelectedPreset] = useState("default");
   const [question, setQuestion] = useState(promptPresets[0].prompt);
-  const [respText, setRespText] = useState('');
+  const [respText, setRespText] = useState("");
   const [busy, setBusy] = useState(false);
   const [lastSizeKB, setLastSizeKB] = useState(null);
-  const [captureMode, setCaptureMode] = useState('camera'); // 'camera', 'screenshot', 'text'
-  const [textInput, setTextInput] = useState(''); // Text input
+  const [captureMode, setCaptureMode] = useState("camera"); // 'camera', 'screenshot', 'text'
+  const [textInput, setTextInput] = useState(""); // Text input
   const [screenshotData, setScreenshotData] = useState(null); // Screenshot data
   const [selectionBox, setSelectionBox] = useState(null); // Selection box
   const [isSelecting, setIsSelecting] = useState(false); // Whether selecting
@@ -488,7 +533,7 @@ OUTPUT:
   const requestControllerRef = useRef(null);
 
   useEffect(() => {
-    if (captureMode !== 'camera') stopCamera();
+    if (captureMode !== "camera") stopCamera();
   }, [captureMode, stopCamera]);
 
   useEffect(
@@ -496,7 +541,7 @@ OUTPUT:
       dragCleanupRef.current?.();
       requestControllerRef.current?.abort();
     },
-    [],
+    []
   );
 
   // 通用的发送到AI的函数
@@ -506,16 +551,17 @@ OUTPUT:
     requestControllerRef.current = controller;
     try {
       const result = await requestAI(aiConfig, payload, {
-        mockTag: 'ai-solver',
+        mockTag: "ai-solver",
         requireVision: Boolean(payload.imageBase64 || payload.imageUrl),
         signal: controller.signal,
       });
       setRespText(formatAiResponse(result));
     } catch (error) {
-      if (error?.name === 'AbortError') return;
+      if (error?.name === "AbortError") return;
       throw new Error(getSafeAiErrorMessage(error));
     } finally {
-      if (requestControllerRef.current === controller) requestControllerRef.current = null;
+      if (requestControllerRef.current === controller)
+        requestControllerRef.current = null;
     }
   }
 
@@ -528,25 +574,41 @@ OUTPUT:
   // Send text to AI
   async function sendTextToAI(text) {
     // Check if it's a special command
-    if (text.startsWith('/preset ')) {
+    if (text.startsWith("/preset ")) {
       const presetName = text.substring(8).trim().toLowerCase();
-      const preset = promptPresets.find(p => p.id.toLowerCase() === presetName || p.name.toLowerCase() === presetName);
-      
+      const preset = promptPresets.find(
+        (p) =>
+          p.id.toLowerCase() === presetName ||
+          p.name.toLowerCase() === presetName
+      );
+
       if (preset) {
         setSelectedPreset(preset.id);
-        if (preset.id === 'custom') {
-          setQuestion('');
+        if (preset.id === "custom") {
+          setQuestion("");
         } else {
           setQuestion(preset.prompt);
         }
-        setRespText(`Switched to preset: ${preset.name}\n\nDescription: ${preset.description}`);
+        setRespText(
+          tx(
+            "Switched to preset: {0}\n\nDescription: {1}",
+            preset.name,
+            preset.description
+          )
+        );
         return;
       } else {
-        setRespText(`Preset "${presetName}" not found. Available presets: ${promptPresets.map(p => p.name).join(', ')}`);
+        setRespText(
+          tx(
+            'Preset "{0}" not found. Available presets: {1}',
+            presetName,
+            promptPresets.map((p) => p.name).join(", ")
+          )
+        );
         return;
       }
     }
-    
+
     const payload = { question: text };
     await sendToAI(payload);
   }
@@ -554,16 +616,16 @@ OUTPUT:
   // 处理文本提问
   async function handleTextQuestion() {
     if (!textInput.trim()) {
-      setRespText('Please enter your question');
+      setRespText("Please enter your question");
       return;
     }
 
-    setRespText('');
+    setRespText("");
     setBusy(true);
     try {
       await sendTextToAI(textInput.trim());
     } catch (e) {
-      setRespText('Error: ' + (e?.message || String(e)));
+      setRespText("Error: " + (e?.message || String(e)));
     } finally {
       setBusy(false);
     }
@@ -572,66 +634,68 @@ OUTPUT:
   // 截图功能 - 第一步：捕获整个屏幕
   async function handleScreenshot() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-      setRespText('Error: The browser does not support screen capture');
+      setRespText("Error: The browser does not support screen capture");
       return;
     }
 
-    setRespText('');
+    setRespText("");
     setBusy(true);
     let stream = null;
     try {
       stream = await navigator.mediaDevices.getDisplayMedia({
-        video: { mediaSource: 'screen' },
-        audio: false
+        video: { mediaSource: "screen" },
+        audio: false,
       });
 
-      const video = document.createElement('video');
+      const video = document.createElement("video");
       video.srcObject = stream;
       video.muted = true;
       video.playsInline = true;
       if (video.readyState < 1) {
         await new Promise((resolve, reject) => {
           video.onloadedmetadata = resolve;
-          video.onerror = () => reject(new Error('The shared screen could not be read.'));
+          video.onerror = () =>
+            reject(new Error(tx("The shared screen could not be read.")));
         });
       }
       await video.play();
 
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx || !canvas.width || !canvas.height) {
-        throw new Error('The shared screen did not provide a usable video frame.');
+        throw new Error(
+          tx("The shared screen did not provide a usable video frame.")
+        );
       }
       ctx.drawImage(video, 0, 0);
 
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+
       // 保存截图数据，进入选择模式
       setScreenshotData({
         dataUrl,
         width: canvas.width,
         height: canvas.height,
-        canvas
+        canvas,
       });
-      
+
       // 初始化选择框（默认选择中间区域）
       const defaultSize = Math.min(canvas.width, canvas.height) * 0.5;
       setSelectionBox({
         x: (canvas.width - defaultSize) / 2,
         y: (canvas.height - defaultSize) / 2,
         width: defaultSize,
-        height: defaultSize
+        height: defaultSize,
       });
-      
-      setIsSelecting(true);
 
+      setIsSelecting(true);
     } catch (e) {
-      if (e.name === 'NotAllowedError') {
-        setRespText('Error: The user canceled screen sharing permission');
+      if (e.name === "NotAllowedError") {
+        setRespText("Error: The user canceled screen sharing permission");
       } else {
-        setRespText('Error: ' + (e?.message || String(e)));
+        setRespText("Error: " + (e?.message || String(e)));
       }
     } finally {
       stream?.getTracks().forEach((track) => track.stop());
@@ -642,28 +706,38 @@ OUTPUT:
   // 确认选择区域并发送给AI
   async function handleConfirmSelection() {
     if (!screenshotData || !selectionBox) return;
-    
+
     setBusy(true);
     try {
       // 创建新的canvas来裁剪选中区域
-      const cropCanvas = document.createElement('canvas');
+      const cropCanvas = document.createElement("canvas");
       cropCanvas.width = selectionBox.width;
       cropCanvas.height = selectionBox.height;
-      const cropCtx = cropCanvas.getContext('2d');
-      if (!cropCtx) throw new Error('Canvas rendering is not available in this browser.');
-      
+      const cropCtx = cropCanvas.getContext("2d");
+      if (!cropCtx)
+        throw new Error(
+          tx("Canvas rendering is not available in this browser.")
+        );
+
       // 从原始canvas裁剪选中区域
       cropCtx.drawImage(
         screenshotData.canvas,
-        selectionBox.x, selectionBox.y, selectionBox.width, selectionBox.height,
-        0, 0, selectionBox.width, selectionBox.height
+        selectionBox.x,
+        selectionBox.y,
+        selectionBox.width,
+        selectionBox.height,
+        0,
+        0,
+        selectionBox.width,
+        selectionBox.height
       );
-      
-      const blob = await new Promise((resolve) => 
-        cropCanvas.toBlob((b) => resolve(b), 'image/jpeg', 0.85)
+
+      const blob = await new Promise((resolve) =>
+        cropCanvas.toBlob((b) => resolve(b), "image/jpeg", 0.85)
       );
-      if (!blob) throw new Error('The browser could not encode the selected area.');
-      
+      if (!blob)
+        throw new Error(tx("The browser could not encode the selected area."));
+
       setLastSizeKB(Math.round(blob.size / 1024));
 
       const dataUrl = await new Promise((res) => {
@@ -671,17 +745,16 @@ OUTPUT:
         fr.onload = () => res(fr.result);
         fr.readAsDataURL(blob);
       });
-      const base64 = String(dataUrl).split(',')[1];
+      const base64 = String(dataUrl).split(",")[1];
 
       await sendImageToAI(base64);
-      
+
       // 清理状态
       setScreenshotData(null);
       setSelectionBox(null);
       setIsSelecting(false);
-
     } catch (e) {
-      setRespText('Error: ' + (e?.message || String(e)));
+      setRespText("Error: " + (e?.message || String(e)));
     } finally {
       setBusy(false);
     }
@@ -697,62 +770,89 @@ OUTPUT:
   // 处理选择框拖拽 - 优化为自由框选
   function handleSelectionDrag(e, type, corner = null) {
     if (!screenshotData || !selectionBox) return;
-    
+
     // 阻止默认行为和冒泡，防止干扰
     e.preventDefault();
     e.stopPropagation();
-    
+
     // 获取图像容器的位置和尺寸信息
-    const containerRect = screenshotViewportRef.current?.getBoundingClientRect();
+    const containerRect =
+      screenshotViewportRef.current?.getBoundingClientRect();
     if (!containerRect?.width || !containerRect?.height) return;
-    
+
     // 计算图像的实际尺寸与显示尺寸的比例
     const scaleX = screenshotData.width / containerRect.width;
     const scaleY = screenshotData.height / containerRect.height;
-    
+
     // 保存初始状态，避免在拖动过程中使用可能变化的状态
     const initialBox = JSON.parse(JSON.stringify(selectionBox));
     const startX = e.clientX;
     const startY = e.clientY;
-    
+
     const pointerId = e.pointerId;
 
     const handlePointerMove = (moveEvent) => {
       if (moveEvent.pointerId !== pointerId) return;
       // 阻止默认行为，防止选择文本等
       moveEvent.preventDefault();
-      
+
       // 计算鼠标移动的像素距离
       const deltaPixelX = moveEvent.clientX - startX;
       const deltaPixelY = moveEvent.clientY - startY;
-      
+
       // 将像素距离转换为图像坐标系中的距离
       const deltaX = deltaPixelX * scaleX;
       const deltaY = deltaPixelY * scaleY;
-      
+
       // 根据操作类型计算新的选择框
       let newBox;
-      
-      if (type === 'move') {
+
+      if (type === "move") {
         // 移动操作 - 更新位置但保持大小不变
-        const newX = Math.max(0, Math.min(screenshotData.width - initialBox.width, initialBox.x + deltaX));
-        const newY = Math.max(0, Math.min(screenshotData.height - initialBox.height, initialBox.y + deltaY));
-        newBox = { 
-          ...initialBox, 
-          x: newX, 
-          y: newY 
+        const newX = Math.max(
+          0,
+          Math.min(
+            screenshotData.width - initialBox.width,
+            initialBox.x + deltaX
+          )
+        );
+        const newY = Math.max(
+          0,
+          Math.min(
+            screenshotData.height - initialBox.height,
+            initialBox.y + deltaY
+          )
+        );
+        newBox = {
+          ...initialBox,
+          x: newX,
+          y: newY,
         };
-      } else if (type === 'resize' && corner) {
-        const minimum = Math.min(50, screenshotData.width, screenshotData.height);
+      } else if (type === "resize" && corner) {
+        const minimum = Math.min(
+          50,
+          screenshotData.width,
+          screenshotData.height
+        );
         let left = initialBox.x;
         let top = initialBox.y;
         let right = initialBox.x + initialBox.width;
         let bottom = initialBox.y + initialBox.height;
 
-        if (corner.includes('left')) left = Math.max(0, Math.min(right - minimum, left + deltaX));
-        if (corner.includes('right')) right = Math.min(screenshotData.width, Math.max(left + minimum, right + deltaX));
-        if (corner.includes('top')) top = Math.max(0, Math.min(bottom - minimum, top + deltaY));
-        if (corner.includes('bottom')) bottom = Math.min(screenshotData.height, Math.max(top + minimum, bottom + deltaY));
+        if (corner.includes("left"))
+          left = Math.max(0, Math.min(right - minimum, left + deltaX));
+        if (corner.includes("right"))
+          right = Math.min(
+            screenshotData.width,
+            Math.max(left + minimum, right + deltaX)
+          );
+        if (corner.includes("top"))
+          top = Math.max(0, Math.min(bottom - minimum, top + deltaY));
+        if (corner.includes("bottom"))
+          bottom = Math.min(
+            screenshotData.height,
+            Math.max(top + minimum, bottom + deltaY)
+          );
 
         newBox = { x: left, y: top, width: right - left, height: bottom - top };
       }
@@ -761,9 +861,9 @@ OUTPUT:
     };
 
     const cleanup = () => {
-      document.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerup', handlePointerUp);
-      document.removeEventListener('pointercancel', handlePointerUp);
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerup", handlePointerUp);
+      document.removeEventListener("pointercancel", handlePointerUp);
       dragCleanupRef.current = null;
     };
     const handlePointerUp = (upEvent) => {
@@ -772,15 +872,17 @@ OUTPUT:
 
     dragCleanupRef.current?.();
     dragCleanupRef.current = cleanup;
-    document.addEventListener('pointermove', handlePointerMove, { passive: false });
-    document.addEventListener('pointerup', handlePointerUp);
-    document.addEventListener('pointercancel', handlePointerUp);
+    document.addEventListener("pointermove", handlePointerMove, {
+      passive: false,
+    });
+    document.addEventListener("pointerup", handlePointerUp);
+    document.addEventListener("pointercancel", handlePointerUp);
   }
 
   // 拍照功能
   async function handleShoot() {
     if (!videoRef.current) return;
-    setRespText('');
+    setRespText("");
     setBusy(true);
     try {
       const blob = await captureCompressedJpeg(videoRef.current);
@@ -791,11 +893,11 @@ OUTPUT:
         fr.onload = () => res(fr.result);
         fr.readAsDataURL(blob);
       });
-      const base64 = String(dataUrl).split(',')[1];
+      const base64 = String(dataUrl).split(",")[1];
 
       await sendImageToAI(base64);
     } catch (e) {
-      setRespText('Error: ' + (e?.message || String(e)));
+      setRespText("Error: " + (e?.message || String(e)));
     } finally {
       setBusy(false);
     }
@@ -803,449 +905,523 @@ OUTPUT:
 
   return (
     <AppScaffold appId="solver">
-    <div className={`app-container ${styles.solver}`}>
-      <p className={styles.lead}>
-        Ask with your camera, a screen capture, or plain text. Use the private
-        local demo, or connect your own AI provider for this page session.
-      </p>
-
-      <div className={styles.grid}>
-        <section className={styles.panel} aria-labelledby="solver-input-title">
-          <div className={styles.panelHead}>
-            <Heading as="h2" id="solver-input-title" className={styles.panelTitle}>
-              Input
-            </Heading>
-            <fieldset className={styles.modeGroup}>
-              <legend className={styles.srOnly}>Input mode</legend>
-              <div className={styles.segmented}>
-                {INPUT_MODES.map((mode) => (
-                  <label
-                    key={mode.id}
-                    className={captureMode === mode.id ? styles.segmentActive : styles.segment}
-                  >
-                    <input
-                      type="radio"
-                      name="solver-input-mode"
-                      value={mode.id}
-                      checked={captureMode === mode.id}
-                      onChange={(e) => setCaptureMode(e.target.value)}
-                    />
-                    <span>{mode.label}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          </div>
-
-          {/* Camera Preview */}
-          {captureMode === 'camera' && (
-            <div>
-              <div className={styles.stage} data-live={ready ? 'true' : 'false'}>
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  playsInline
-                  className={styles.video}
-                />
-                {!ready && (
-                  <span className={styles.stageHint}>
-                    {starting ? 'Waiting for camera permission…' : 'Camera off'}
-                  </span>
-                )}
-              </div>
-              <div role="status" className={styles.note}>
-                {ready
-                  ? 'Camera ready — video stays on this device.'
-                  : starting
-                    ? 'Waiting for camera permission…'
-                    : error
-                      ? `Camera error: ${error}`
-                      : 'Camera is off. It starts only after you choose Enable camera.'}
-              </div>
-              <div className={styles.actions}>
-                {!ready ? (
-                  <button
-                    type="button"
-                    className="button button--primary"
-                    onClick={startCamera}
-                    disabled={starting}
-                  >
-                    {starting ? 'Starting…' : 'Enable camera'}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button button--secondary"
-                    onClick={stopCamera}
-                  >
-                    Turn off camera
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className="button button--primary"
-                  onClick={handleShoot}
-                  disabled={!ready || busy}
-                >
-                  {busy ? 'Processing…' : 'Capture and solve'}
-                </button>
-              </div>
-            </div>
+      <div className={`app-container ${styles.solver}`}>
+        <p className={styles.lead}>
+          {tx(
+            "Ask with your camera, a screen capture, or plain text. Use the private local demo, or connect your own AI provider for this page session."
           )}
+        </p>
 
-          {/* Screenshot Mode */}
-          {captureMode === 'screenshot' && (
-            <div>
-              {!isSelecting ? (
-                // 初始状态 - 显示截图按钮
-                <>
-                  <div className={styles.stage}>
-                    <span className={styles.stageHint}>No screen captured yet</span>
-                  </div>
-                  <div className={styles.note}>
-                    Capture your screen, then drag to select the area to analyze.
-                  </div>
-                  <div className={styles.actions}>
+        <div className={styles.grid}>
+          <section
+            className={styles.panel}
+            aria-labelledby="solver-input-title"
+          >
+            <div className={styles.panelHead}>
+              <Heading
+                as="h2"
+                id="solver-input-title"
+                className={styles.panelTitle}
+              >
+                {tx("Input")}
+              </Heading>
+              <fieldset className={styles.modeGroup}>
+                <legend className={styles.srOnly}>{tx("Input mode")}</legend>
+                <div className={styles.segmented}>
+                  {INPUT_MODES.map((mode) => (
+                    <label
+                      key={mode.id}
+                      className={
+                        captureMode === mode.id
+                          ? styles.segmentActive
+                          : styles.segment
+                      }
+                    >
+                      <input
+                        type="radio"
+                        name="solver-input-mode"
+                        value={mode.id}
+                        checked={captureMode === mode.id}
+                        onChange={(e) => setCaptureMode(e.target.value)}
+                      />
+                      <span>{mode.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            </div>
+
+            {/* Camera Preview */}
+            {captureMode === "camera" && (
+              <div>
+                <div
+                  className={styles.stage}
+                  data-live={ready ? "true" : "false"}
+                >
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    playsInline
+                    className={styles.video}
+                  />
+                  {!ready && (
+                    <span className={styles.stageHint}>
+                      {starting
+                        ? tx("Waiting for camera permission…")
+                        : tx("Camera off")}
+                    </span>
+                  )}
+                </div>
+                <div role="status" className={styles.note}>
+                  {ready
+                    ? tx("Camera ready — video stays on this device.")
+                    : starting
+                    ? tx("Waiting for camera permission…")
+                    : error
+                    ? tx("Camera error: {0}", error)
+                    : tx(
+                        "Camera is off. It starts only after you choose Enable camera."
+                      )}
+                </div>
+                <div className={styles.actions}>
+                  {!ready ? (
                     <button
                       type="button"
                       className="button button--primary"
-                      onClick={handleScreenshot}
-                      disabled={busy}
+                      onClick={startCamera}
+                      disabled={starting}
                     >
-                      {busy ? 'Processing…' : 'Capture screen'}
+                      {starting ? tx("Starting…") : tx("Enable camera")}
                     </button>
-                  </div>
-                </>
-              ) : (
-                // 选择状态 - 显示截图和选择框
-                <>
-                  <div
-                    ref={screenshotViewportRef}
-                    style={{
-                      position: 'relative',
-                      width: 'min(560px, 100%)',
-                      aspectRatio: screenshotData ? `${screenshotData.width} / ${screenshotData.height}` : '4 / 3',
-                      border: '1px solid var(--ds-line)',
-                      borderRadius: 18,
-                      overflow: 'hidden',
-                      touchAction: 'none',
-                      background: '#000',
-                    }}
-                  >
-                    <img 
-                      src={screenshotData?.dataUrl} 
-                      alt="Screenshot" 
-                      draggable={false}
-                      style={{ width: '100%', height: '100%', objectFit: 'fill', userSelect: 'none' }}
-                      onPointerDown={(e) => handleSelectionDrag(e, 'move')}
-                    />
-                    {selectionBox && screenshotData && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          left: `${(selectionBox.x / screenshotData.width) * 100}%`,
-                          top: `${(selectionBox.y / screenshotData.height) * 100}%`,
-                          width: `${(selectionBox.width / screenshotData.width) * 100}%`,
-                          height: `${(selectionBox.height / screenshotData.height) * 100}%`,
-                          border: '2px solid var(--ifm-color-emphasis-800)',
-                          backgroundColor: 'rgba(0, 0, 0, 0.06)',
-                          cursor: 'move',
-                          boxSizing: 'border-box'
-                        }}
-                        onPointerDown={(e) => {
-                          e.stopPropagation();
-                          handleSelectionDrag(e, 'move');
-                        }}
-                      >
-                        {/* 八个方向的调整大小手柄 */}
-                        {/* 左上角 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            left: -8,
-                            top: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'nw-resize',
-                            borderRadius: '50%'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'top-left');
-                          }}
-                        />
-                        {/* 上边 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            left: '50%',
-                            top: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'n-resize',
-                            borderRadius: '50%',
-                            transform: 'translateX(-50%)'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'top');
-                          }}
-                        />
-                        {/* 右上角 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            right: -8,
-                            top: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'ne-resize',
-                            borderRadius: '50%'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'top-right');
-                          }}
-                        />
-                        {/* 右边 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            right: -8,
-                            top: '50%',
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'e-resize',
-                            borderRadius: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'right');
-                          }}
-                        />
-                        {/* 右下角 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            right: -8,
-                            bottom: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'se-resize',
-                            borderRadius: '50%'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'bottom-right');
-                          }}
-                        />
-                        {/* 下边 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            left: '50%',
-                            bottom: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 's-resize',
-                            borderRadius: '50%',
-                            transform: 'translateX(-50%)'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'bottom');
-                          }}
-                        />
-                        {/* 左下角 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            left: -8,
-                            bottom: -8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'sw-resize',
-                            borderRadius: '50%'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'bottom-left');
-                          }}
-                        />
-                        {/* 左边 */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            left: -8,
-                            top: '50%',
-                            width: 16,
-                            height: 16,
-                            backgroundColor: 'var(--ifm-color-emphasis-800)',
-                            cursor: 'w-resize',
-                            borderRadius: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                          onPointerDown={(e) => {
-                            e.stopPropagation();
-                            handleSelectionDrag(e, 'resize', 'left');
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className={styles.note}>
-                    Drag the box to move it, or drag a corner to resize the selection.
-                  </div>
-                  <div className={styles.actions}>
-                    <button
-                      type="button"
-                      className="button button--primary"
-                      onClick={handleConfirmSelection}
-                      disabled={busy}
-                    >
-                      {busy ? 'Processing…' : 'Analyze selection'}
-                    </button>
+                  ) : (
                     <button
                       type="button"
                       className="button button--secondary"
-                      onClick={handleCancelSelection}
-                      disabled={busy}
+                      onClick={stopCamera}
                     >
-                      Cancel
+                      {tx("Turn off camera")}
                     </button>
-                  </div>
-                </>
+                  )}
+                  <button
+                    type="button"
+                    className="button button--primary"
+                    onClick={handleShoot}
+                    disabled={!ready || busy}
+                  >
+                    {busy ? tx("Processing…") : tx("Capture and solve")}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Screenshot Mode */}
+            {captureMode === "screenshot" && (
+              <div>
+                {!isSelecting ? (
+                  // 初始状态 - 显示截图按钮
+                  <>
+                    <div className={styles.stage}>
+                      <span className={styles.stageHint}>
+                        {tx("No screen captured yet")}
+                      </span>
+                    </div>
+                    <div className={styles.note}>
+                      {tx(
+                        "Capture your screen, then drag to select the area to analyze."
+                      )}
+                    </div>
+                    <div className={styles.actions}>
+                      <button
+                        type="button"
+                        className="button button--primary"
+                        onClick={handleScreenshot}
+                        disabled={busy}
+                      >
+                        {busy ? tx("Processing…") : tx("Capture screen")}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  // 选择状态 - 显示截图和选择框
+                  <>
+                    <div
+                      ref={screenshotViewportRef}
+                      style={{
+                        position: "relative",
+                        width: "min(560px, 100%)",
+                        aspectRatio: screenshotData
+                          ? `${screenshotData.width} / ${screenshotData.height}`
+                          : "4 / 3",
+                        border: "1px solid var(--ds-line)",
+                        borderRadius: 18,
+                        overflow: "hidden",
+                        touchAction: "none",
+                        background: "#000",
+                      }}
+                    >
+                      <img
+                        src={screenshotData?.dataUrl}
+                        alt={tx("Screenshot")}
+                        draggable={false}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "fill",
+                          userSelect: "none",
+                        }}
+                        onPointerDown={(e) => handleSelectionDrag(e, "move")}
+                      />
+                      {selectionBox && screenshotData && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: `${
+                              (selectionBox.x / screenshotData.width) * 100
+                            }%`,
+                            top: `${
+                              (selectionBox.y / screenshotData.height) * 100
+                            }%`,
+                            width: `${
+                              (selectionBox.width / screenshotData.width) * 100
+                            }%`,
+                            height: `${
+                              (selectionBox.height / screenshotData.height) *
+                              100
+                            }%`,
+                            border: "2px solid var(--ifm-color-emphasis-800)",
+                            backgroundColor: "rgba(0, 0, 0, 0.06)",
+                            cursor: "move",
+                            boxSizing: "border-box",
+                          }}
+                          onPointerDown={(e) => {
+                            e.stopPropagation();
+                            handleSelectionDrag(e, "move");
+                          }}
+                        >
+                          {/* 八个方向的调整大小手柄 */}
+                          {/* 左上角 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: -8,
+                              top: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "nw-resize",
+                              borderRadius: "50%",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "top-left");
+                            }}
+                          />
+                          {/* 上边 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: "50%",
+                              top: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "n-resize",
+                              borderRadius: "50%",
+                              transform: "translateX(-50%)",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "top");
+                            }}
+                          />
+                          {/* 右上角 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: -8,
+                              top: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "ne-resize",
+                              borderRadius: "50%",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "top-right");
+                            }}
+                          />
+                          {/* 右边 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: -8,
+                              top: "50%",
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "e-resize",
+                              borderRadius: "50%",
+                              transform: "translateY(-50%)",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "right");
+                            }}
+                          />
+                          {/* 右下角 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: -8,
+                              bottom: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "se-resize",
+                              borderRadius: "50%",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "bottom-right");
+                            }}
+                          />
+                          {/* 下边 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: "50%",
+                              bottom: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "s-resize",
+                              borderRadius: "50%",
+                              transform: "translateX(-50%)",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "bottom");
+                            }}
+                          />
+                          {/* 左下角 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: -8,
+                              bottom: -8,
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "sw-resize",
+                              borderRadius: "50%",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "bottom-left");
+                            }}
+                          />
+                          {/* 左边 */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: -8,
+                              top: "50%",
+                              width: 16,
+                              height: 16,
+                              backgroundColor: "var(--ifm-color-emphasis-800)",
+                              cursor: "w-resize",
+                              borderRadius: "50%",
+                              transform: "translateY(-50%)",
+                            }}
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              handleSelectionDrag(e, "resize", "left");
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.note}>
+                      {tx(
+                        "Drag the box to move it, or drag a corner to resize the selection."
+                      )}
+                    </div>
+                    <div className={styles.actions}>
+                      <button
+                        type="button"
+                        className="button button--primary"
+                        onClick={handleConfirmSelection}
+                        disabled={busy}
+                      >
+                        {busy ? tx("Processing…") : tx("Analyze selection")}
+                      </button>
+                      <button
+                        type="button"
+                        className="button button--secondary"
+                        onClick={handleCancelSelection}
+                        disabled={busy}
+                      >
+                        {tx("Cancel")}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Text Question Mode */}
+            {captureMode === "text" && (
+              <div>
+                <label
+                  htmlFor="solver-text-question"
+                  className={styles.fieldLabel}
+                >
+                  {tx("Your question")}
+                </label>
+                <textarea
+                  id="solver-text-question"
+                  className={styles.question}
+                  value={textInput}
+                  onChange={(e) => setTextInput(e.target.value)}
+                  placeholder={tx(
+                    "For example:\n• Explain the basic principles of quantum mechanics\n• Write a Python sorting algorithm\n• Type /preset to see available presets"
+                  )}
+                />
+                <div className={styles.note}>
+                  {tx("Tip: type ")}
+                  <code>/preset {tx("name")}</code>
+                  {tx(" to switch presets, e.g.")}{" "}
+                  <code>/preset {tx("Math Problem Solver")}</code>.
+                </div>
+                <div className={styles.actions}>
+                  <button
+                    type="button"
+                    className="button button--primary"
+                    onClick={handleTextQuestion}
+                    disabled={busy || !textInput.trim()}
+                  >
+                    {busy ? tx("Thinking…") : tx("Ask")}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {lastSizeKB != null && (
+              <div className={styles.meta}>
+                {tx("Last image size: ")}
+                {lastSizeKB} KB
+              </div>
+            )}
+          </section>
+
+          <section
+            className={styles.panel}
+            aria-labelledby="solver-model-title"
+          >
+            <div className={styles.panelHead}>
+              <Heading
+                as="h2"
+                id="solver-model-title"
+                className={styles.panelTitle}
+              >
+                {tx("Model & prompt")}
+              </Heading>
+            </div>
+            <AIProviderSettings
+              value={aiConfig}
+              onChange={setAiConfig}
+              title={tx("Solver model")}
+              requireVision={captureMode !== "text"}
+            />
+
+            <div className={styles.promptBlock}>
+              <div>
+                <label className={styles.fieldLabel}>
+                  {tx("Prompt preset")}
+                  <select
+                    value={selectedPreset}
+                    onChange={(e) => {
+                      setSelectedPreset(e.target.value);
+                      const preset = promptPresets.find(
+                        (p) => p.id === e.target.value
+                      );
+                      if (preset) {
+                        if (preset.id === "custom") {
+                          setQuestion("");
+                        } else {
+                          setQuestion(preset.prompt);
+                        }
+                      }
+                    }}
+                    className={styles.select}
+                  >
+                    {promptPresets.map((preset) => (
+                      <option key={preset.id} value={preset.id}>
+                        {preset.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <div className={styles.note}>
+                  {promptPresets.find((p) => p.id === selectedPreset)
+                    ?.description || ""}
+                </div>
+              </div>
+
+              {selectedPreset === "custom" ? (
+                <label className={styles.fieldLabel}>
+                  {tx("Question for image mode")}
+                  <textarea
+                    className={styles.questionSmall}
+                    value={question}
+                    onChange={(e) => {
+                      setQuestion(e.target.value);
+                    }}
+                    rows={3}
+                  />
+                </label>
+              ) : (
+                <div className={styles.note}>
+                  {tx(
+                    "Preset instructions are applied automatically for the selected mode."
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </section>
+        </div>
 
-          {/* Text Question Mode */}
-          {captureMode === 'text' && (
-            <div>
-              <label htmlFor="solver-text-question" className={styles.fieldLabel}>
-                Your question
-              </label>
-              <textarea
-                id="solver-text-question"
-                className={styles.question}
-                value={textInput}
-                onChange={e => setTextInput(e.target.value)}
-                placeholder={'For example:\n• Explain the basic principles of quantum mechanics\n• Write a Python sorting algorithm\n• Type /preset to see available presets'}
-              />
-              <div className={styles.note}>
-                Tip: type <code>/preset name</code> to switch presets, e.g.{' '}
-                <code>/preset Math Problem Solver</code>.
-              </div>
-              <div className={styles.actions}>
-                <button
-                  type="button"
-                  className="button button--primary"
-                  onClick={handleTextQuestion}
-                  disabled={busy || !textInput.trim()}
-                >
-                  {busy ? 'Thinking…' : 'Ask'}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {lastSizeKB != null && (
-            <div className={styles.meta}>Last image size: {lastSizeKB} KB</div>
-          )}
-        </section>
-
-        <section className={styles.panel} aria-labelledby="solver-model-title">
+        <section
+          className={`${styles.panel} ${styles.responsePanel}`}
+          aria-labelledby="solver-response-title"
+        >
           <div className={styles.panelHead}>
-            <Heading as="h2" id="solver-model-title" className={styles.panelTitle}>
-              Model &amp; prompt
+            <Heading
+              as="h2"
+              id="solver-response-title"
+              className={styles.panelTitle}
+            >
+              {tx("Response")}
             </Heading>
           </div>
-          <AIProviderSettings
-            value={aiConfig}
-            onChange={setAiConfig}
-            title="Solver model"
-            requireVision={captureMode !== 'text'}
-          />
-
-          <div className={styles.promptBlock}>
-            <div>
-              <label className={styles.fieldLabel}>Prompt preset
-                <select
-                  value={selectedPreset} 
-                  onChange={(e) => {
-                    setSelectedPreset(e.target.value);
-                    const preset = promptPresets.find(p => p.id === e.target.value);
-                    if (preset) {
-                      if (preset.id === 'custom') {
-                        setQuestion('');
-                      } else {
-                        setQuestion(preset.prompt);
-                      }
-                    }
-                  }}
-                  className={styles.select}
-                >
-                  {promptPresets.map(preset => (
-                    <option key={preset.id} value={preset.id}>{preset.name}</option>
-                  ))}
-                </select>
-              </label>
-              <div className={styles.note}>
-                {promptPresets.find(p => p.id === selectedPreset)?.description || ''}
-              </div>
-            </div>
-
-            {selectedPreset === 'custom' ? (
-              <label className={styles.fieldLabel}>Question for image mode
-                <textarea
-                  className={styles.questionSmall}
-                  value={question}
-                  onChange={e => {
-                    setQuestion(e.target.value);
-                  }}
-                  rows={3}
-                />
-              </label>
-            ) : (
-              <div className={styles.note}>
-                Preset instructions are applied automatically for the selected mode.
-              </div>
+          <div
+            role="status"
+            aria-live="polite"
+            aria-busy={busy}
+            tabIndex={0}
+            className={styles.response}
+          >
+            {respText || (
+              <span className={styles.empty}>
+                {tx("The answer appears here after you capture or ask.")}
+              </span>
             )}
           </div>
         </section>
+        <CitationNotice />
       </div>
-
-      <section className={`${styles.panel} ${styles.responsePanel}`} aria-labelledby="solver-response-title">
-        <div className={styles.panelHead}>
-          <Heading as="h2" id="solver-response-title" className={styles.panelTitle}>
-            Response
-          </Heading>
-        </div>
-        <div
-          role="status"
-          aria-live="polite"
-          aria-busy={busy}
-          tabIndex={0}
-          className={styles.response}
-        >
-          {respText || (
-            <span className={styles.empty}>
-              The answer appears here after you capture or ask.
-            </span>
-          )}
-        </div>
-      </section>
-      <CitationNotice />
-    </div>
     </AppScaffold>
   );
 }

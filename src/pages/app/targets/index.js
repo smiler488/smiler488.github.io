@@ -5,6 +5,10 @@ import Heading from "@theme/Heading";
 import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 export default function TargetsPage() {
   const targetsScript = useBaseUrl("js/targets_app.js");
@@ -16,8 +20,8 @@ export default function TargetsPage() {
     const setStatus = (msg, isError = false) => {
       if (statusEl()) {
         statusEl().textContent = msg;
-        statusEl().style.color = 'var(--ifm-color-emphasis-800)';
-        statusEl().style.fontWeight = isError ? 'bold' : 'normal';
+        statusEl().style.color = "var(--ifm-color-emphasis-800)";
+        statusEl().style.fontWeight = isError ? "bold" : "normal";
       }
     };
 
@@ -28,46 +32,55 @@ export default function TargetsPage() {
       const sizeEl = $("cbSize");
       const box = $("cbComputed");
       const validationBox = $("cbValidation");
-      
+
       if (!rEl || !cEl || !sizeEl || !box) return;
-      
+
       const r = parseInt(rEl.value || "0", 10);
       const c = parseInt(cEl.value || "0", 10);
       const size = parseFloat(sizeEl.value || "0");
-      
+
       // Validation
       const errors = [];
       if (r < 3) errors.push("Rows must be ≥ 3");
       if (c < 3) errors.push("Cols must be ≥ 3");
       if (size < 2) errors.push("Size must be ≥ 2mm");
       if (size > 100) errors.push("Size should be ≤ 100mm");
-      
+
       if (errors.length > 0) {
         box.textContent = "Invalid parameters";
-        box.style.color = 'var(--ifm-color-emphasis-800)';
+        box.style.color = "var(--ifm-color-emphasis-800)";
         if (validationBox) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
-          validationBox.style.display = 'block';
+          validationBox.style.color = "var(--ifm-color-emphasis-800)";
+          validationBox.style.display = "block";
         }
         return;
       }
-      
+
       const sr = r + 1;
       const sc = c + 1;
       const totalSquares = sr * sc;
       const boardWidth = sc * size;
       const boardHeight = sr * size;
-      
-      box.textContent = `Printed squares = ${sr} × ${sc} = ${totalSquares}`;
-      box.style.color = 'var(--ifm-color-emphasis-800)';
-      
+
+      box.textContent = tx(
+        "Printed squares = {0} × {1} = {2}",
+        sr,
+        sc,
+        totalSquares
+      );
+      box.style.color = "var(--ifm-color-emphasis-800)";
+
       if (validationBox) {
-        validationBox.textContent = `Board size: ${boardWidth}×${boardHeight}mm`;
-        validationBox.style.color = 'var(--ifm-color-emphasis-600)';
-        validationBox.style.display = 'block';
+        validationBox.textContent = tx(
+          "Board size: {0}×{1} mm",
+          boardWidth,
+          boardHeight
+        );
+        validationBox.style.color = "var(--ifm-color-emphasis-600)";
+        validationBox.style.display = "block";
       }
-      
+
       // Check if fits on paper
       const paper = $("paper")?.value || "a4";
       const margin = parseFloat($("margin")?.value || 10);
@@ -75,13 +88,18 @@ export default function TargetsPage() {
       const [paperW, paperH] = paperSizes[paper] || paperSizes.a4;
       const availableW = paperW - 2 * margin;
       const availableH = paperH - 2 * margin;
-      
+
       if (boardWidth > availableW || boardHeight > availableH) {
-        const scaleNeeded = Math.min(availableW / boardWidth, availableH / boardHeight);
+        const scaleNeeded = Math.min(
+          availableW / boardWidth,
+          availableH / boardHeight
+        );
         const newSize = size * scaleNeeded;
         if (validationBox) {
-          validationBox.textContent += ` | Will auto-scale to ${newSize.toFixed(1)}mm squares`;
-          validationBox.style.color = 'var(--ifm-color-emphasis-600)';
+          validationBox.textContent += ` | Will auto-scale to ${newSize.toFixed(
+            1
+          )}mm squares`;
+          validationBox.style.color = "var(--ifm-color-emphasis-600)";
         }
       }
     };
@@ -92,27 +110,27 @@ export default function TargetsPage() {
       const rings = parseInt($("beRings")?.value || 0, 10);
       const hole = parseFloat($("beHole")?.value || 0);
       const stroke = parseFloat($("beStroke")?.value || 0);
-      
+
       const errors = [];
       if (outer < 20) errors.push("Outer diameter too small");
       if (outer > 250) errors.push("Outer diameter too large");
       if (rings < 1) errors.push("Need at least 1 ring");
       if (rings > 20) errors.push("Too many rings");
-      if (hole >= outer/2) errors.push("Center hole too large");
+      if (hole >= outer / 2) errors.push("Center hole too large");
       if (stroke > 5) errors.push("Stroke too thick");
-      
+
       const validationBox = $("beValidation");
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
+          validationBox.style.color = "var(--ifm-color-emphasis-800)";
         } else {
           validationBox.textContent = `Target size: ${outer}mm diameter`;
-          validationBox.style.color = 'var(--app-accent-green)';
+          validationBox.style.color = "var(--app-accent-green)";
         }
-        validationBox.style.display = 'block';
+        validationBox.style.display = "block";
       }
-      
+
       return errors.length === 0;
     };
 
@@ -122,27 +140,29 @@ export default function TargetsPage() {
       const gap1 = parseFloat($("raA1")?.value || 0);
       const gap2 = parseFloat($("raA2")?.value || 0);
       const hub = parseFloat($("raHub")?.value || 0);
-      
+
       const errors = [];
       if (outer < 50) errors.push("Outer diameter too small");
-      if (width >= outer/2) errors.push("Ring width too large");
+      if (width >= outer / 2) errors.push("Ring width too large");
       if (gap1 < 10 || gap1 > 350) errors.push("Gap 1 angle invalid");
       if (gap2 < 10 || gap2 > 350) errors.push("Gap 2 angle invalid");
-      if (hub >= outer/2) errors.push("Hub too large");
-      
+      if (hub >= outer / 2) errors.push("Hub too large");
+
       const validationBox = $("raValidation");
       if (validationBox) {
         if (errors.length > 0) {
           validationBox.textContent = errors.join(", ");
-          validationBox.style.color = 'var(--ifm-color-emphasis-800)';
+          validationBox.style.color = "var(--ifm-color-emphasis-800)";
         } else {
           const inner = outer - 2 * width;
-          validationBox.textContent = `Ring: ${outer}mm outer, ${inner.toFixed(1)}mm inner`;
-          validationBox.style.color = 'var(--ifm-color-success)';
+          validationBox.textContent = `Ring: ${outer}mm outer, ${inner.toFixed(
+            1
+          )}mm inner`;
+          validationBox.style.color = "var(--ifm-color-success)";
         }
-        validationBox.style.display = 'block';
+        validationBox.style.display = "block";
       }
-      
+
       return errors.length === 0;
     };
 
@@ -162,25 +182,31 @@ export default function TargetsPage() {
       if (dot < 1 || dot > 10) errors.push("Center dot invalid");
       // Each marker must fit its grid cell, or neighbours overlap.
       const paper = ($("paper")?.value || "a4").toLowerCase();
-      const page = paper === "letter" ? { w: 215.9, h: 279.4 } : { w: 210, h: 297 };
+      const page =
+        paper === "letter" ? { w: 215.9, h: 279.4 } : { w: 210, h: 297 };
       const margin = parseFloat($("margin")?.value || 15);
       if (rows >= 1 && cols >= 1) {
-        const cell = Math.min((page.w - 2 * margin) / cols, (page.h - 2 * margin) / rows);
+        const cell = Math.min(
+          (page.w - 2 * margin) / cols,
+          (page.h - 2 * margin) / rows
+        );
         if (outer > cell - 2) {
           errors.push(
-            `Markers overlap: with ${rows}×${cols} on this page the outer diameter must be ≤ ${Math.floor(cell - 2)}mm`
+            `Markers overlap: with ${rows}×${cols} on this page the outer diameter must be ≤ ${Math.floor(
+              cell - 2
+            )}mm`
           );
         }
       }
       if (box) {
         if (errors.length) {
           box.textContent = errors.join(", ");
-          box.style.color = 'var(--ifm-color-emphasis-800)';
-          box.style.display = 'block';
+          box.style.color = "var(--ifm-color-emphasis-800)";
+          box.style.display = "block";
         } else {
           box.textContent = `Marker: ${outer}mm outer, ${width}mm width, ${seg}° segments`;
-          box.style.color = 'var(--ifm-color-success)';
-          box.style.display = 'block';
+          box.style.color = "var(--ifm-color-success)";
+          box.style.display = "block";
         }
       }
       return errors.length === 0;
@@ -232,7 +258,8 @@ export default function TargetsPage() {
       const chessDetails = $("chessDetails");
       const agi = $("agisoftParams");
       if (chess) chess.style.display = t === "chessboard" ? "block" : "none";
-      if (chessDetails) chessDetails.style.display = t === "chessboard" ? "block" : "none";
+      if (chessDetails)
+        chessDetails.style.display = t === "chessboard" ? "block" : "none";
       if (agi) agi.style.display = t === "agisoft" ? "block" : "none";
       if (t === "chessboard") updateCbComputed();
       if (t === "agisoft") validateAgisoftParams();
@@ -240,92 +267,113 @@ export default function TargetsPage() {
 
     const tryInit = (source) => {
       if (typeof window === "undefined") return false;
-      const has = !!(window.TARGETS_INIT || window.targetsPreview || window.targetsDownload);
+      const has = !!(
+        window.TARGETS_INIT ||
+        window.targetsPreview ||
+        window.targetsDownload
+      );
       if (!has) return false;
 
       try {
         window.TARGETS_INIT?.();
-        
+
         const previewBtn = $("btnPreview");
         const downloadBtn = $("btnDownload");
         const svg = $("previewSvg");
 
         const doPreview = () => {
           const p = collectParams();
-          
+
           // Validate parameters before preview
           let isValid = true;
           if (p.type === "chessboard") {
             if (p.cbInnerRows < 3 || p.cbInnerCols < 3 || p.cbSize < 2) {
-              setStatus("Invalid chessboard parameters", true);
+              setStatus(tx("Invalid chessboard parameters"), true);
               isValid = false;
             }
           } else if (p.type === "agisoft") {
             isValid = validateAgisoftParams();
-            if (!isValid) setStatus("Invalid segmented marker parameters", true);
+            if (!isValid)
+              setStatus(tx("Invalid segmented marker parameters"), true);
           }
-          
+
           if (!isValid) return;
-          
-          console.log('[targets] preview params', p);
+
+          console.log("[targets] preview params", p);
           if (typeof window.targetsPreview === "function") {
             window.targetsPreview(p, svg);
-            setStatus("Preview updated successfully");
+            setStatus(tx("Preview updated successfully"));
             return;
           }
           if (typeof window.TARGETS_PREVIEW === "function") {
             window.TARGETS_PREVIEW(p);
-            setStatus("Preview requested");
+            setStatus(tx("Preview requested"));
             return;
           }
           window.__TARGETS_LAST_PARAMS = p;
-          window.dispatchEvent(new CustomEvent("targets_preview_request", { detail: p }));
-          setStatus("Preview event dispatched");
+          window.dispatchEvent(
+            new CustomEvent("targets_preview_request", { detail: p })
+          );
+          setStatus(tx("Preview event dispatched"));
         };
 
         const doDownload = () => {
           const p = collectParams();
-          
+
           // Validate before download
           let isValid = true;
           if (p.type === "chessboard") {
             if (p.cbInnerRows < 3 || p.cbInnerCols < 3 || p.cbSize < 2) {
-              setStatus("Cannot download: Invalid chessboard parameters", true);
+              setStatus(
+                tx("Cannot download: Invalid chessboard parameters"),
+                true
+              );
               return;
             }
           } else if (p.type === "bullseye") {
             isValid = validateBullseyeParams();
             if (!isValid) {
-              setStatus("Cannot download: Invalid bullseye parameters", true);
+              setStatus(
+                tx("Cannot download: Invalid bullseye parameters"),
+                true
+              );
               return;
             }
           } else if (p.type === "ringArcs") {
             isValid = validateRingArcsParams();
             if (!isValid) {
-              setStatus("Cannot download: Invalid ring arcs parameters", true);
+              setStatus(
+                tx("Cannot download: Invalid ring arcs parameters"),
+                true
+              );
               return;
             }
           } else if (p.type === "agisoft") {
             isValid = validateAgisoftParams();
             if (!isValid) {
-              setStatus("Cannot download: invalid segmented marker parameters", true);
+              setStatus(
+                tx("Cannot download: invalid segmented marker parameters"),
+                true
+              );
               return;
             }
           }
-          
+
           if (typeof window.targetsDownload === "function") {
             window.targetsDownload(p);
-            setStatus("Generating PDF...");
+            setStatus(tx("Generating PDF..."));
             return;
           }
           if (typeof window.TARGETS_DOWNLOAD === "function") {
             window.TARGETS_DOWNLOAD(p);
-            setStatus("Generating PDF...");
+            setStatus(tx("Generating PDF..."));
             return;
           }
           window.__TARGETS_LAST_PARAMS = p;
-          window.dispatchEvent(new CustomEvent("targets_download_request", { detail: p }));
-          setStatus("Download event dispatched");
+          window.dispatchEvent(
+            new CustomEvent("targets_download_request", { detail: p })
+          );
+          setStatus(tx("Download event dispatched"));
         };
 
         if (previewBtn && !previewBtn.__bound) {
@@ -339,11 +387,14 @@ export default function TargetsPage() {
 
         toggleParamPanels();
         doPreview();
-        setStatus("Calibration targets generator ready");
+        setStatus(tx("Calibration targets generator ready"));
         return true;
       } catch (e) {
         console.error("Targets init failed from", source, e);
-        setStatus("Initialization failed. Check console for details.", true);
+        setStatus(
+          tx("Initialization failed. Check console for details."),
+          true
+        );
         return false;
       }
     };
@@ -367,7 +418,12 @@ export default function TargetsPage() {
       if (initialized) clearInterval(poll);
       if (!initialized && pollAttempts >= 40) {
         clearInterval(poll);
-        setStatus("The target generator script could not be loaded. Refresh and try again.", true);
+        setStatus(
+          tx(
+            "The target generator script could not be loaded. Refresh and try again."
+          ),
+          true
+        );
       }
     }, 150);
 
@@ -379,7 +435,11 @@ export default function TargetsPage() {
         updateFn();
         const svg = $("previewSvg");
         const p = collectParams();
-        if (typeof window !== 'undefined' && typeof window.targetsPreview === 'function' && svg) {
+        if (
+          typeof window !== "undefined" &&
+          typeof window.targetsPreview === "function" &&
+          svg
+        ) {
           window.targetsPreview(p, svg);
         }
       }, 300);
@@ -391,7 +451,11 @@ export default function TargetsPage() {
         toggleParamPanels();
         const svg = $("previewSvg");
         const p = collectParams();
-        if (typeof window !== 'undefined' && typeof window.targetsPreview === 'function' && svg) {
+        if (
+          typeof window !== "undefined" &&
+          typeof window.targetsPreview === "function" &&
+          svg
+        ) {
           window.targetsPreview(p, svg);
         }
       });
@@ -399,7 +463,7 @@ export default function TargetsPage() {
 
     // Chessboard parameter listeners
     const chessInputs = ["cbRows", "cbCols", "cbSize"];
-    chessInputs.forEach(id => {
+    chessInputs.forEach((id) => {
       const el = $(id);
       if (el) {
         el.addEventListener("input", () => debouncedUpdate(updateCbComputed));
@@ -407,12 +471,25 @@ export default function TargetsPage() {
       }
     });
 
-    const agisoftInputs = ["amOuter", "amWidth", "amSegAngle", "amRotateStep", "amRows", "amCols", "amDot", "amLabel"];
-    agisoftInputs.forEach(id => {
+    const agisoftInputs = [
+      "amOuter",
+      "amWidth",
+      "amSegAngle",
+      "amRotateStep",
+      "amRows",
+      "amCols",
+      "amDot",
+      "amLabel",
+    ];
+    agisoftInputs.forEach((id) => {
       const el = $(id);
       if (el) {
-        el.addEventListener("input", () => debouncedUpdate(validateAgisoftParams));
-        el.addEventListener("change", () => debouncedUpdate(validateAgisoftParams));
+        el.addEventListener("input", () =>
+          debouncedUpdate(validateAgisoftParams)
+        );
+        el.addEventListener("change", () =>
+          debouncedUpdate(validateAgisoftParams)
+        );
       }
     });
 
@@ -420,10 +497,14 @@ export default function TargetsPage() {
     const paperEl = $("paper");
     const marginEl = $("margin");
     if (paperEl) {
-      paperEl.addEventListener("change", () => debouncedUpdate(updateCbComputed));
+      paperEl.addEventListener("change", () =>
+        debouncedUpdate(updateCbComputed)
+      );
     }
     if (marginEl) {
-      marginEl.addEventListener("input", () => debouncedUpdate(updateCbComputed));
+      marginEl.addEventListener("input", () =>
+        debouncedUpdate(updateCbComputed)
+      );
     }
 
     // Initial validation
@@ -440,498 +521,946 @@ export default function TargetsPage() {
   return (
     <Fragment>
       <Head>
-        <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer />
+        <script
+          src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"
+          defer
+        />
+        <script src={useBaseUrl("js/i18n/targets.zh.js")} defer />
         <script id="targets-script" src={targetsScript} defer />
       </Head>
 
       <AppScaffold appId="targets">
-      <div className={styles.appContainer}>
-        <p className={styles.lead}>
-          Generate high-precision printable calibration targets for camera calibration and photogrammetry. 
-          Print at <strong>100% / Actual size</strong> to preserve accurate measurements. 
-          For chessboards, inputs are <strong>inner corners</strong> (intersection points).
-        </p>
+        <div className={styles.appContainer}>
+          <p className={styles.lead}>
+            {IS_ZH ? (
+              <>
+                生成可打印的高精度标定板，用于相机标定和摄影测量。请按
+                <strong>100% / 实际尺寸</strong>
+                打印，以保证测量精确。棋盘格的输入值为<strong>内角点</strong>
+                （即交点）的数量。
+              </>
+            ) : (
+              <>
+                {tx(
+                  "Generate high-precision printable calibration targets for camera calibration and photogrammetry. Print at"
+                )}{" "}
+                <strong>100% / Actual size</strong>
+                {tx(
+                  " to preserve accurate measurements. For chessboards, inputs are"
+                )}{" "}
+                <strong>{tx("inner corners")}</strong>
+                {tx(" (intersection points).")}
+              </>
+            )}
+          </p>
 
-        <div className={styles.layoutGrid}>
-          {/* Enhanced Control Panel */}
-          <div id="controls" className={styles.controlCard}>
-            <Heading as="h2" className={styles.sectionTitle}>Target parameters</Heading>
+          <div className={styles.layoutGrid}>
+            {/* Enhanced Control Panel */}
+            <div id="controls" className={styles.controlCard}>
+              <Heading as="h2" className={styles.sectionTitle}>
+                {tx("Target parameters")}
+              </Heading>
 
-            <div className={styles.formRow}>
-              <label className={styles.label} htmlFor="targetType">Target type</label>
-              <select id="targetType" className={styles.select}>
-                <option value="chessboard">Chessboard (OpenCV Standard)</option>
-                <option value="agisoft">Segmented circular markers (GCP / manual marking)</option>
-              </select>
-            </div>
-
-            <div className={styles.twoColRow}>
-              <div>
-                <label className={styles.label} htmlFor="paper">Paper format</label>
-                <select id="paper" className={styles.select}>
-                  <option value="a4">A4 (210×297 mm)</option>
-                  <option value="letter">Letter (8.5×11 in)</option>
+              <div className={styles.formRow}>
+                <label className={styles.label} htmlFor="targetType">
+                  {tx("Target type")}
+                </label>
+                <select id="targetType" className={styles.select}>
+                  <option value="chessboard">
+                    {tx("Chessboard (OpenCV Standard)")}
+                  </option>
+                  <option value="agisoft">
+                    {tx("Segmented circular markers (GCP / manual marking)")}
+                  </option>
                 </select>
               </div>
-              <div>
-                <label className={styles.label} htmlFor="margin">Margin (mm)</label>
-                <input id="margin" type="number" defaultValue="15" min="5" max="50" step="1" className={styles.input} />
-              </div>
-            </div>
 
-            <hr className={styles.divider} />
-
-            {/* Enhanced Chessboard Parameters */}
-            <div id="chessParams">
-              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Chessboard configuration</Heading>
-              <div className={styles.paramGrid}>
+              <div className={styles.twoColRow}>
                 <div>
-                  <label htmlFor="cbRows" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rows (inner corners)</label>
-                  <input 
-                    id="cbRows" 
-                    type="number" 
-                    min="3" 
+                  <label className={styles.label} htmlFor="paper">
+                    {tx("Paper format")}
+                  </label>
+                  <select id="paper" className={styles.select}>
+                    <option value="a4">{tx("A4 (210×297 mm)")}</option>
+                    <option value="letter">{tx("Letter (8.5×11 in)")}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={styles.label} htmlFor="margin">
+                    {tx("Margin (mm)")}
+                  </label>
+                  <input
+                    id="margin"
+                    type="number"
+                    defaultValue="15"
+                    min="5"
                     max="50"
-                    defaultValue="9" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
+                    step="1"
+                    className={styles.input}
                   />
                 </div>
-                <div>
-                  <label htmlFor="cbCols" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Columns (inner corners)</label>
-                  <input 
-                    id="cbCols" 
-                    type="number" 
-                    min="3" 
-                    max="50"
-                    defaultValue="6" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
               </div>
-            </div>
-            </div>
 
-            {/* Agisoft Segmented Circular Marker Parameters */}
-            <div id="agisoftParams" style={{ display: "none" }}>
-              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Segmented marker configuration</Heading>
-              <p style={{ margin: "0 0 16px", fontSize: 13, color: "var(--ifm-color-emphasis-700)" }}>
-                For manual placement as ground control points or scale references. Agisoft Metashape detects only its own coded targets automatically; print those from Metashape (Tools → Markers → Print Markers).
-              </p>
-              <div className={styles.paramGrid}>
-                <div>
-                  <label htmlFor="amOuter" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer diameter (mm)</label>
-                  <input id="amOuter" type="number" min="40" max="250" step="5" defaultValue="80" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amWidth" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring width (mm)</label>
-                  <input id="amWidth" type="number" min="5" max="60" step="1" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amSegAngle" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Segment angle (°)</label>
-                  <input id="amSegAngle" type="number" min="20" max="120" step="5" defaultValue="60" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amRotateStep" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Rotation step (°)</label>
-                  <input id="amRotateStep" type="number" min="0" max="60" step="5" defaultValue="15" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amRows" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid rows</label>
-                  <input id="amRows" type="number" min="1" max="10" step="1" defaultValue="3" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amCols" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Grid columns</label>
-                  <input id="amCols" type="number" min="1" max="10" step="1" defaultValue="2" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amDot" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center dot (mm)</label>
-                  <input id="amDot" type="number" min="1" max="10" step="0.5" defaultValue="4" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
-                </div>
-                <div>
-                  <label htmlFor="amLabel" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Label size (pt)</label>
-                  <input id="amLabel" type="number" min="8" max="24" step="1" defaultValue="12" style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--ifm-border-color)", borderRadius: 6, fontSize: 14 }} />
+              <hr className={styles.divider} />
+
+              {/* Enhanced Chessboard Parameters */}
+              <div id="chessParams">
+                <Heading
+                  as="h3"
+                  style={{
+                    color: "var(--ifm-color-emphasis-800)",
+                    marginBottom: 16,
+                  }}
+                >
+                  {tx("Chessboard configuration")}
+                </Heading>
+                <div className={styles.paramGrid}>
+                  <div>
+                    <label
+                      htmlFor="cbRows"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Rows (inner corners)")}
+                    </label>
+                    <input
+                      id="cbRows"
+                      type="number"
+                      min="3"
+                      max="50"
+                      defaultValue="9"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="cbCols"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Columns (inner corners)")}
+                    </label>
+                    <input
+                      id="cbCols"
+                      type="number"
+                      min="3"
+                      max="50"
+                      defaultValue="6"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-              <div id="amValidation" role="status" aria-live="polite" style={{ fontSize: 12, padding: 8, backgroundColor: "var(--ifm-background-color)", border: "1px solid var(--ifm-border-color)", borderRadius: 6, display: "none" }} />
-            </div>
-            <div id="chessDetails">
-              <div style={{ marginBottom: 16 }}>
-                <label htmlFor="cbSize" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Square size (mm)</label>
-                <input 
-                  id="cbSize" 
-                  type="number" 
-                  min="2" 
-                  max="100"
-                  step="0.5"
-                  defaultValue="25" 
-                  style={{ 
-                    width: "100%", 
-                    padding: "8px 12px",
+
+              {/* Agisoft Segmented Circular Marker Parameters */}
+              <div id="agisoftParams" style={{ display: "none" }}>
+                <Heading
+                  as="h3"
+                  style={{
+                    color: "var(--ifm-color-emphasis-800)",
+                    marginBottom: 16,
+                  }}
+                >
+                  {tx("Segmented marker configuration")}
+                </Heading>
+                <p
+                  style={{
+                    margin: "0 0 16px",
+                    fontSize: 13,
+                    color: "var(--ifm-color-emphasis-700)",
+                  }}
+                >
+                  {tx(
+                    "For manual placement as ground control points or scale references. Agisoft Metashape detects only its own coded targets automatically; print those from Metashape (Tools → Markers → Print Markers)."
+                  )}
+                </p>
+                <div className={styles.paramGrid}>
+                  <div>
+                    <label
+                      htmlFor="amOuter"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Outer diameter (mm)")}
+                    </label>
+                    <input
+                      id="amOuter"
+                      type="number"
+                      min="40"
+                      max="250"
+                      step="5"
+                      defaultValue="80"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amWidth"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Ring width (mm)")}
+                    </label>
+                    <input
+                      id="amWidth"
+                      type="number"
+                      min="5"
+                      max="60"
+                      step="1"
+                      defaultValue="15"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amSegAngle"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Segment angle (°)")}
+                    </label>
+                    <input
+                      id="amSegAngle"
+                      type="number"
+                      min="20"
+                      max="120"
+                      step="5"
+                      defaultValue="60"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amRotateStep"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Rotation step (°)")}
+                    </label>
+                    <input
+                      id="amRotateStep"
+                      type="number"
+                      min="0"
+                      max="60"
+                      step="5"
+                      defaultValue="15"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amRows"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Grid rows")}
+                    </label>
+                    <input
+                      id="amRows"
+                      type="number"
+                      min="1"
+                      max="10"
+                      step="1"
+                      defaultValue="3"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amCols"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Grid columns")}
+                    </label>
+                    <input
+                      id="amCols"
+                      type="number"
+                      min="1"
+                      max="10"
+                      step="1"
+                      defaultValue="2"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amDot"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Center dot (mm)")}
+                    </label>
+                    <input
+                      id="amDot"
+                      type="number"
+                      min="1"
+                      max="10"
+                      step="0.5"
+                      defaultValue="4"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amLabel"
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Label size (pt)")}
+                    </label>
+                    <input
+                      id="amLabel"
+                      type="number"
+                      min="8"
+                      max="24"
+                      step="1"
+                      defaultValue="12"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="amValidation"
+                  role="status"
+                  aria-live="polite"
+                  style={{
+                    fontSize: 12,
+                    padding: 8,
+                    backgroundColor: "var(--ifm-background-color)",
                     border: "1px solid var(--ifm-border-color)",
                     borderRadius: 6,
-                    fontSize: 14
-                  }} 
+                    display: "none",
+                  }}
                 />
               </div>
-              <div style={{
-                padding: "10px 12px",
-                borderLeft: "2px solid var(--ifm-color-emphasis-300)",
-                borderRadius: "0 8px 8px 0",
-                backgroundColor: "var(--ifm-background-surface-color)",
-                fontSize: 13,
-                lineHeight: 1.55,
-                color: "var(--ifm-color-emphasis-700)",
-                marginBottom: 8
-              }}>
-                OpenCV detects <em>inner corners</em> (intersection points), so
-                printed squares = <code>(rows + 1) × (cols + 1)</code>.
+              <div id="chessDetails">
+                <div style={{ marginBottom: 16 }}>
+                  <label
+                    htmlFor="cbSize"
+                    style={{
+                      display: "block",
+                      marginBottom: 8,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {tx("Square size (mm)")}
+                  </label>
+                  <input
+                    id="cbSize"
+                    type="number"
+                    min="2"
+                    max="100"
+                    step="0.5"
+                    defaultValue="25"
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid var(--ifm-border-color)",
+                      borderRadius: 6,
+                      fontSize: 14,
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    padding: "10px 12px",
+                    borderLeft: "2px solid var(--ifm-color-emphasis-300)",
+                    borderRadius: "0 8px 8px 0",
+                    backgroundColor: "var(--ifm-background-surface-color)",
+                    fontSize: 13,
+                    lineHeight: 1.55,
+                    color: "var(--ifm-color-emphasis-700)",
+                    marginBottom: 8,
+                  }}
+                >
+                  {IS_ZH ? (
+                    <>
+                      {tx("OpenCV 检测的是")}
+                      <em>内角点</em>
+                      （即交点），因此打印出的方格数 ={" "}
+                      <code>（行数 + 1）×（列数 + 1）</code>。
+                    </>
+                  ) : (
+                    <>
+                      {tx("OpenCV detects ")}
+                      <em>{tx("inner corners")}</em> (intersection points), so
+                      printed squares ={" "}
+                      <code>{tx("(rows + 1) × (cols + 1)")}</code>.
+                    </>
+                  )}
+                </div>
+                <div
+                  id="cbComputed"
+                  role="status"
+                  aria-live="polite"
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    padding: "8px 12px",
+                    backgroundColor: "var(--ifm-background-surface-color)",
+                    borderRadius: 8,
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                />
+                <div
+                  id="cbValidation"
+                  role="status"
+                  aria-live="polite"
+                  style={{
+                    fontSize: 12,
+                    marginTop: 8,
+                    padding: 8,
+                    backgroundColor: "var(--ifm-background-color)",
+                    border: "1px solid var(--ifm-border-color)",
+                    borderRadius: 6,
+                    display: "none",
+                  }}
+                />
+              </div>
+
+              {/* Enhanced Bullseye Parameters */}
+              <div id="bullseyeParams" style={{ display: "none" }}>
+                <Heading
+                  as="h3"
+                  style={{
+                    color: "var(--ifm-color-emphasis-800)",
+                    marginBottom: 16,
+                  }}
+                >
+                  {tx("Bullseye configuration")}
+                </Heading>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                >
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Outer Diameter (mm)")}
+                    </label>
+                    <input
+                      id="beOuter"
+                      type="number"
+                      min="20"
+                      max="250"
+                      step="5"
+                      defaultValue="160"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Ring Count")}
+                    </label>
+                    <input
+                      id="beRings"
+                      type="number"
+                      min="1"
+                      max="20"
+                      defaultValue="4"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Center Hole (mm)")}
+                    </label>
+                    <input
+                      id="beHole"
+                      type="number"
+                      min="0"
+                      max="50"
+                      step="0.5"
+                      defaultValue="4"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Border Stroke (mm)")}
+                    </label>
+                    <input
+                      id="beStroke"
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      defaultValue="0"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="beValidation"
+                  style={{
+                    fontSize: 12,
+                    padding: 8,
+                    backgroundColor: "var(--ifm-background-color)",
+                    border: "1px solid var(--ifm-border-color)",
+                    borderRadius: 6,
+                    display: "none",
+                  }}
+                />
+              </div>
+
+              {/* Enhanced Ring Arcs Parameters */}
+              <div id="RingArcsParams" style={{ display: "none" }}>
+                <Heading
+                  as="h3"
+                  style={{
+                    color: "var(--ifm-color-emphasis-800)",
+                    marginBottom: 16,
+                  }}
+                >
+                  {tx("Ring with arc gaps")}
+                </Heading>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                >
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Outer Diameter (mm)")}
+                    </label>
+                    <input
+                      id="raOuter"
+                      type="number"
+                      min="50"
+                      max="250"
+                      step="5"
+                      defaultValue="180"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Ring Width (mm)")}
+                    </label>
+                    <input
+                      id="raWidth"
+                      type="number"
+                      min="5"
+                      max="50"
+                      step="1"
+                      defaultValue="30"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Gap 1 Angle (°)")}
+                    </label>
+                    <input
+                      id="raA1"
+                      type="number"
+                      min="10"
+                      max="350"
+                      step="5"
+                      defaultValue="300"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Gap 2 Angle (°)")}
+                    </label>
+                    <input
+                      id="raA2"
+                      type="number"
+                      min="10"
+                      max="350"
+                      step="5"
+                      defaultValue="120"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Center Hub (mm)")}
+                    </label>
+                    <input
+                      id="raHub"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="1"
+                      defaultValue="40"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: 8,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tx("Key Dot (mm)")}
+                    </label>
+                    <input
+                      id="raDot"
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      defaultValue="2.5"
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid var(--ifm-border-color)",
+                        borderRadius: 6,
+                        fontSize: 14,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  id="raValidation"
+                  style={{
+                    fontSize: 12,
+                    padding: 8,
+                    backgroundColor: "var(--ifm-background-color)",
+                    border: "1px solid var(--ifm-border-color)",
+                    borderRadius: 6,
+                    display: "none",
+                  }}
+                />
+              </div>
+
+              <hr
+                style={{
+                  margin: "24px 0",
+                  border: "none",
+                  borderTop: "1px solid var(--ifm-border-color)",
+                }}
+              />
+
+              <div className={styles.actionGrid}>
+                <button
+                  type="button"
+                  id="btnPreview"
+                  className="button button--secondary"
+                >
+                  {tx("Live preview")}
+                </button>
+                <button
+                  type="button"
+                  id="btnDownload"
+                  className="button button--primary"
+                >
+                  {tx("Download PDF")}
+                </button>
+              </div>
+              <p
+                id="status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                style={{
+                  marginTop: 16,
+                  fontSize: 13,
+                  padding: 8,
+                  backgroundColor: "var(--ifm-background-color)",
+                  border: "1px solid var(--ifm-border-color)",
+                  borderRadius: 6,
+                  textAlign: "center",
+                }}
+              >
+                {tx("Initializing...")}
+              </p>
+            </div>
+
+            {/* Enhanced Preview Panel */}
+            <div className={styles.previewCard}>
+              <Heading
+                as="h2"
+                style={{ marginTop: 0, color: "var(--ifm-color-emphasis-800)" }}
+              >
+                {tx("Live preview")}
+              </Heading>
+              <div
+                style={{
+                  width: "100%",
+                  background: "var(--ifm-background-surface-color)",
+                  border: "2px dashed var(--ifm-border-color)",
+                  borderRadius: 12,
+                  overflow: "hidden",
+                  padding: 16,
+                  minHeight: 400,
+                }}
+              >
+                <svg
+                  id="previewSvg"
+                  viewBox="0 0 210 297"
+                  width="100%"
+                  role="img"
+                  aria-label={tx("Printable calibration target preview")}
+                  style={{
+                    maxHeight: "600px",
+                    border: "1px solid var(--ifm-border-color)",
+                    borderRadius: 8,
+                    backgroundColor: "var(--ifm-background-color)",
+                  }}
+                />
               </div>
               <div
-                id="cbComputed"
-                role="status"
-                aria-live="polite"
                 style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  padding: "8px 12px",
+                  marginTop: 16,
+                  color: "var(--ifm-color-emphasis-600)",
+                  fontSize: 14,
+                  textAlign: "center",
+                  padding: 12,
                   backgroundColor: "var(--ifm-background-surface-color)",
                   borderRadius: 8,
-                  fontVariantNumeric: "tabular-nums"
                 }}
-              />
-              <div 
-                id="cbValidation" 
-                role="status"
-                aria-live="polite"
-                style={{ 
-                  fontSize: 12, 
-                  marginTop: 8,
-                  padding: 8,
-                  backgroundColor: "var(--ifm-background-color)",
-                  border: "1px solid var(--ifm-border-color)",
-                  borderRadius: 6,
-                  display: "none"
-                }} 
-              />
-            </div>
-
-            {/* Enhanced Bullseye Parameters */}
-            <div id="bullseyeParams" style={{ display: "none" }}>
-              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Bullseye configuration</Heading>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
-                  <input 
-                    id="beOuter" 
-                    type="number" 
-                    min="20" 
-                    max="250"
-                    step="5"
-                    defaultValue="160" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring Count</label>
-                  <input 
-                    id="beRings" 
-                    type="number" 
-                    min="1" 
-                    max="20"
-                    defaultValue="4" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center Hole (mm)</label>
-                  <input 
-                    id="beHole" 
-                    type="number" 
-                    min="0" 
-                    max="50"
-                    step="0.5"
-                    defaultValue="4" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Border Stroke (mm)</label>
-                  <input 
-                    id="beStroke" 
-                    type="number" 
-                    min="0" 
-                    max="5"
-                    step="0.1"
-                    defaultValue="0" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-              </div>
-              <div 
-                id="beValidation" 
-                style={{ 
-                  fontSize: 12, 
-                  padding: 8,
-                  backgroundColor: "var(--ifm-background-color)",
-                  border: "1px solid var(--ifm-border-color)",
-                  borderRadius: 6,
-                  display: "none"
-                }} 
-              />
-            </div>
-
-            {/* Enhanced Ring Arcs Parameters */}
-            <div id="RingArcsParams" style={{ display: "none" }}>
-              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Ring with arc gaps</Heading>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer Diameter (mm)</label>
-                  <input 
-                    id="raOuter" 
-                    type="number" 
-                    min="50" 
-                    max="250"
-                    step="5"
-                    defaultValue="180" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Ring Width (mm)</label>
-                  <input 
-                    id="raWidth" 
-                    type="number" 
-                    min="5" 
-                    max="50"
-                    step="1"
-                    defaultValue="30" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Gap 1 Angle (°)</label>
-                  <input 
-                    id="raA1" 
-                    type="number" 
-                    min="10" 
-                    max="350"
-                    step="5"
-                    defaultValue="300" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Gap 2 Angle (°)</label>
-                  <input 
-                    id="raA2" 
-                    type="number" 
-                    min="10" 
-                    max="350"
-                    step="5"
-                    defaultValue="120" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Center Hub (mm)</label>
-                  <input 
-                    id="raHub" 
-                    type="number" 
-                    min="0" 
-                    max="100"
-                    step="1"
-                    defaultValue="40" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-                <div>
-                  <label style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Key Dot (mm)</label>
-                  <input 
-                    id="raDot" 
-                    type="number" 
-                    min="0" 
-                    max="10"
-                    step="0.1"
-                    defaultValue="2.5" 
-                    style={{ 
-                      width: "100%", 
-                      padding: "8px 12px",
-                      border: "1px solid var(--ifm-border-color)",
-                      borderRadius: 6,
-                      fontSize: 14
-                    }} 
-                  />
-                </div>
-              </div>
-              <div 
-                id="raValidation" 
-                style={{ 
-                  fontSize: 12, 
-                  padding: 8,
-                  backgroundColor: "var(--ifm-background-color)",
-                  border: "1px solid var(--ifm-border-color)",
-                  borderRadius: 6,
-                  display: "none"
-                }} 
-              />
-            </div>
-
-            <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid var(--ifm-border-color)" }} />
-
-            <div className={styles.actionGrid}>
-              <button
-                type="button"
-                id="btnPreview"
-                className="button button--secondary"
               >
-                Live preview
-              </button>
-              <button
-                type="button"
-                id="btnDownload"
-                className="button button--primary"
-              >
-                Download PDF
-              </button>
+                <strong>{tx("Preview Note:")}</strong>
+                {tx(
+                  " Scale is proportional for display. Physical dimensions are preserved in the exported PDF."
+                )}
+              </div>
             </div>
-            <p 
-              id="status" 
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              style={{ 
-                marginTop: 16, 
-                fontSize: 13,
-                padding: 8,
-                backgroundColor: "var(--ifm-background-color)",
-                border: "1px solid var(--ifm-border-color)",
-                borderRadius: 6,
-                textAlign: "center"
-              }}
-            >
-              Initializing...
-            </p>
           </div>
 
-          {/* Enhanced Preview Panel */}
-          <div className={styles.previewCard}>
-            <Heading as="h2" style={{ marginTop: 0, color: "var(--ifm-color-emphasis-800)" }}>Live preview</Heading>
-            <div
-              style={{
-                width: "100%",
-                background: "var(--ifm-background-surface-color)",
-                border: "2px dashed var(--ifm-border-color)",
-                borderRadius: 12,
-                overflow: "hidden",
-                padding: 16,
-                minHeight: 400
-              }}
-            >
-              <svg 
-                id="previewSvg" 
-                viewBox="0 0 210 297" 
-                width="100%" 
-                role="img"
-                aria-label="Printable calibration target preview"
-                style={{ 
-                  maxHeight: "600px",
-                  border: "1px solid var(--ifm-border-color)",
-                  borderRadius: 8,
-                  backgroundColor: "var(--ifm-background-color)"
-                }}
-              />
-            </div>
-            <div style={{ 
-              marginTop: 16, 
-              color: "var(--ifm-color-emphasis-600)", 
-              fontSize: 14,
-              textAlign: "center",
-              padding: 12,
-              backgroundColor: "var(--ifm-background-surface-color)",
-              borderRadius: 8
-            }}>
-              <strong>Preview Note:</strong> Scale is proportional for display. 
-              Physical dimensions are preserved in the exported PDF.
-            </div>
-          </div>
+          <aside className={styles.printNotice}>
+            <Heading as="h2">{tx("Printing instructions")}</Heading>
+            <ul style={{ marginBottom: 0, paddingLeft: 20 }}>
+              <li>
+                {tx("Use high-quality white paper (minimum 80gsm recommended)")}
+              </li>
+              <li>
+                {IS_ZH ? (
+                  <>
+                    按<strong>100% / 实际尺寸</strong>打印，并关闭“适合页面”
+                  </>
+                ) : (
+                  <>
+                    {tx("Print at ")}
+                    <strong>100% scale / Actual size</strong>
+                    {tx(" – disable “Fit to page”")}
+                  </>
+                )}
+              </li>
+              <li>
+                {tx("Use a laser printer for best precision and contrast")}
+              </li>
+              <li>{tx("Verify printed dimensions with a ruler before use")}</li>
+              <li>
+                {tx(
+                  "For best results, mount on rigid backing (foam board, etc.)"
+                )}
+              </li>
+            </ul>
+          </aside>
+          <CitationNotice />
         </div>
-
-        <aside className={styles.printNotice}>
-          <Heading as="h2">Printing instructions</Heading>
-          <ul style={{ marginBottom: 0, paddingLeft: 20 }}>
-            <li>Use high-quality white paper (minimum 80gsm recommended)</li>
-            <li>Print at <strong>100% scale / Actual size</strong> - disable “Fit to page”</li>
-            <li>Use a laser printer for best precision and contrast</li>
-            <li>Verify printed dimensions with a ruler before use</li>
-            <li>For best results, mount on rigid backing (foam board, etc.)</li>
-          </ul>
-        </aside>
-        <CitationNotice />
-      </div>
       </AppScaffold>
     </Fragment>
   );

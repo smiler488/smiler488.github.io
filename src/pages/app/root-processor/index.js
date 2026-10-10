@@ -3,6 +3,10 @@ import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AppScaffold from "../../../components/AppScaffold";
 import { recordExport } from "../../../lib/workbench/provenance";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 import "./styles.css";
 
 const MAX_CANVAS_SIZE = 1800;
@@ -36,7 +40,7 @@ export default function RootProcessorApp() {
   const [processing, setProcessing] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [status, setStatus] = useState({
-    text: "Upload JPG/PNG scans of root systems to begin.",
+    text: tx("Upload JPG/PNG scans of root systems to begin."),
     tone: "info",
   });
 
@@ -80,7 +84,7 @@ export default function RootProcessorApp() {
     if (!files.length) {
       if (selectedFiles.length)
         updateStatus(
-          `A maximum of ${MAX_BATCH_FILES} images can be open at once.`,
+          tx("A maximum of {0} images can be open at once.", MAX_BATCH_FILES),
           "warning"
         );
       event.target.value = "";
@@ -92,19 +96,19 @@ export default function RootProcessorApp() {
       0
     );
     setLoadingFiles(true);
-    updateStatus(`Loading ${files.length} image(s)...`, "info");
+    updateStatus(tx("Loading {0} image(s)...", files.length), "info");
     const newEntries = [];
 
     for (const file of files) {
       try {
         if (!file.type.startsWith("image/"))
-          throw new Error("Unsupported file type");
+          throw new Error(tx("Unsupported file type"));
         if (file.size > MAX_FILE_BYTES)
-          throw new Error("File is larger than 24 MB");
+          throw new Error(tx("File is larger than 24 MB"));
         const { imageData, width, height } = await loadFileAsImageData(file);
         if (totalPixels + width * height > MAX_TOTAL_PIXELS) {
           throw new Error(
-            "Combined image dimensions exceed the safe browser limit"
+            tx("Combined image dimensions exceed the safe browser limit")
           );
         }
         totalPixels += width * height;
@@ -127,9 +131,11 @@ export default function RootProcessorApp() {
       } catch (error) {
         console.error(error);
         updateStatus(
-          `Unable to add ${file.name}: ${
+          tx(
+            "Unable to add {0}: {1}",
+            file.name,
             error?.message || "image decode failed"
-          }`,
+          ),
           "warning"
         );
       }
@@ -143,13 +149,13 @@ export default function RootProcessorApp() {
         setActiveIndex(previousCount);
       }
       updateStatus(
-        "Images loaded. Select ROI points on the right canvas.",
+        tx("Images loaded. Select ROI points on the right canvas."),
         "success"
       );
     }
     if (selectedFiles.length > files.length) {
       updateStatus(
-        `Loaded the safe batch limit of ${MAX_BATCH_FILES} images.`,
+        tx("Loaded the safe batch limit of {0} images.", MAX_BATCH_FILES),
         "warning"
       );
     }
@@ -161,7 +167,7 @@ export default function RootProcessorApp() {
     setActiveIndex(index);
     setInteractionMode("polygon");
     updateStatus(
-      "Polygon mode active. Click along the root area to define ROI.",
+      tx("Polygon mode active. Click along the root area to define ROI."),
       "info"
     );
   };
@@ -176,7 +182,7 @@ export default function RootProcessorApp() {
     }
     if (processedDataRef.current[currentImage.id]) {
       updateStatus(
-        "Processed result detected. Reset to original to redefine ROI.",
+        tx("Processed result detected. Reset to original to redefine ROI."),
         "warning"
       );
       return;
@@ -191,14 +197,17 @@ export default function RootProcessorApp() {
     }
     if (currentImage.isPolygonClosed) {
       updateStatus(
-        "Polygon already closed. Reset ROI to add more points.",
+        tx("Polygon already closed. Reset ROI to add more points."),
         "warning"
       );
       return;
     }
     if (currentImage.polygonPoints.length >= MAX_POINTS) {
       updateStatus(
-        `Point limit (${MAX_POINTS}) reached. Close or reset the polygon.`,
+        tx(
+          "Point limit ({0}) reached. Close or reset the polygon.",
+          MAX_POINTS
+        ),
         "warning"
       );
       return;
@@ -214,11 +223,17 @@ export default function RootProcessorApp() {
       return;
     }
     if (currentImage.polygonPoints.length < 3) {
-      updateStatus("Need at least 3 points to close the polygon.", "warning");
+      updateStatus(
+        tx("Need at least 3 points to close the polygon."),
+        "warning"
+      );
       return;
     }
     updateImageEntry(currentImage.id, { isPolygonClosed: true });
-    updateStatus("Polygon closed. You can still reset if needed.", "success");
+    updateStatus(
+      tx("Polygon closed. You can still reset if needed."),
+      "success"
+    );
   };
 
   const handleUndoPoint = () => {
@@ -239,7 +254,7 @@ export default function RootProcessorApp() {
       polygonPoints: [],
       isPolygonClosed: false,
     });
-    updateStatus("ROI polygon reset.", "info");
+    updateStatus(tx("ROI polygon reset."), "info");
   };
 
   const handlePreviewBackground = async () => {
@@ -250,7 +265,7 @@ export default function RootProcessorApp() {
     if (!original) {
       return;
     }
-    updateStatus("Running fast background cleanup preview...", "info");
+    updateStatus(tx("Running fast background cleanup preview..."), "info");
     await Promise.resolve();
     const preview = removeBackground(
       original,
@@ -259,25 +274,25 @@ export default function RootProcessorApp() {
     );
     previewDataRef.current[currentImage.id] = preview;
     updateImageEntry(currentImage.id, { previewVersion: Date.now() });
-    updateStatus("Background preview updated.", "success");
+    updateStatus(tx("Background preview updated."), "success");
   };
 
   const handleProcessImage = async () => {
     if (!currentImage) {
-      updateStatus("Upload an image first.", "warning");
+      updateStatus(tx("Upload an image first."), "warning");
       return;
     }
     if (!currentImage.isPolygonClosed) {
-      updateStatus("Close the ROI polygon before processing.", "warning");
+      updateStatus(tx("Close the ROI polygon before processing."), "warning");
       return;
     }
     const original = imageDataRef.current[currentImage.id];
     if (!original) {
-      updateStatus("Original image data unavailable.", "danger");
+      updateStatus(tx("Original image data unavailable."), "danger");
       return;
     }
     setProcessing(true);
-    updateStatus("Processing ROI ... this may take a few seconds.", "info");
+    updateStatus(tx("Processing ROI ... this may take a few seconds."), "info");
     await Promise.resolve();
     try {
       const polygonMask = createPolygonMask(
@@ -312,13 +327,13 @@ export default function RootProcessorApp() {
       });
       setInteractionMode("manual");
       updateStatus(
-        "Processing complete. Switch to manual mode to clean up.",
+        tx("Processing complete. Switch to manual mode to clean up."),
         "success"
       );
     } catch (error) {
       console.error(error);
       updateStatus(
-        "Processing failed. Try lowering the blur radius or image size.",
+        tx("Processing failed. Try lowering the blur radius or image size."),
         "danger"
       );
     } finally {
@@ -332,7 +347,7 @@ export default function RootProcessorApp() {
     }
     const processed = processedDataRef.current[currentImage.id];
     if (!processed) {
-      updateStatus("Run processing before downloading.", "warning");
+      updateStatus(tx("Run processing before downloading."), "warning");
       return;
     }
     const filename = `${stripExtension(currentImage.name)}-processed.png`;
@@ -347,7 +362,7 @@ export default function RootProcessorApp() {
         },
       })
     );
-    updateStatus("Download triggered.", "success");
+    updateStatus(tx("Download triggered."), "success");
   };
 
   const handleResetProcessed = () => {
@@ -361,7 +376,10 @@ export default function RootProcessorApp() {
       historySize: 0,
     });
     setInteractionMode("polygon");
-    updateStatus("Processed result cleared. You can redefine the ROI.", "info");
+    updateStatus(
+      tx("Processed result cleared. You can redefine the ROI."),
+      "info"
+    );
   };
 
   const handleClearImages = () => {
@@ -372,7 +390,7 @@ export default function RootProcessorApp() {
     previewDataRef.current = {};
     historyRef.current = {};
     setInteractionMode("polygon");
-    updateStatus("Images and in-memory edit history cleared.", "info");
+    updateStatus(tx("Images and in-memory edit history cleared."), "info");
   };
 
   const handleUndoBrush = () => {
@@ -381,7 +399,7 @@ export default function RootProcessorApp() {
     }
     const history = historyRef.current[currentImage.id];
     if (!history || history.length < 2) {
-      updateStatus("Nothing to undo.", "warning");
+      updateStatus(tx("Nothing to undo."), "warning");
       return;
     }
     history.pop();
@@ -424,7 +442,10 @@ export default function RootProcessorApp() {
       }
       const processed = processedDataRef.current[currentImage.id];
       if (!processed) {
-        updateStatus("Run auto-processing before manual editing.", "warning");
+        updateStatus(
+          tx("Run auto-processing before manual editing."),
+          "warning"
+        );
         isDrawingRef.current = false;
         return;
       }
@@ -560,7 +581,7 @@ export default function RootProcessorApp() {
       <div className="root-app">
         <div className="root-app__header">
           <div>
-            <Heading as="h2">Processing workspace</Heading>
+            <Heading as="h2">{tx("Processing workspace")}</Heading>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {images.length > 0 && (
@@ -570,7 +591,7 @@ export default function RootProcessorApp() {
                 onClick={handleClearImages}
                 disabled={processing || loadingFiles}
               >
-                Clear batch
+                {tx("Clear batch")}
               </button>
             )}
             <button
@@ -579,13 +600,14 @@ export default function RootProcessorApp() {
               onClick={() => fileInputRef.current?.click()}
               disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
             >
-              {loadingFiles ? "Loading…" : "Upload images"}
+              {loadingFiles ? tx("Loading…") : tx("Upload images")}
             </button>
           </div>
         </div>
         <p style={{ margin: "12px 0 24px" }}>
-          Combine automated background removal with ROI high-pass filtering and
-          manual cleanup directly in the browser.
+          {tx(
+            "Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser."
+          )}
         </p>
 
         <div
@@ -608,18 +630,23 @@ export default function RootProcessorApp() {
                 disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
               />
               <p>
-                Choose up to {MAX_BATCH_FILES} JPG/PNG files. Images larger than{" "}
-                {MAX_CANVAS_SIZE}px on the longest edge are scaled.
+                {tx("Choose up to ")}
+                {MAX_BATCH_FILES}
+                {tx(" JPG/PNG files. Images larger than")} {MAX_CANVAS_SIZE}
+                {tx("px on the longest edge are scaled.")}
               </p>
             </div>
 
             <div className="root-filelist">
               <div className="root-filelist__header">
-                <Heading as="h3">Batch</Heading>
-                <span>{images.length} file(s)</span>
+                <Heading as="h3">{tx("Batch")}</Heading>
+                <span>
+                  {images.length}
+                  {tx(" file(s)")}
+                </span>
               </div>
               {images.length === 0 && (
-                <p className="root-muted">No uploads yet.</p>
+                <p className="root-muted">{tx("No uploads yet.")}</p>
               )}
               {images.map((img, index) => (
                 <button
@@ -636,16 +663,19 @@ export default function RootProcessorApp() {
                     </div>
                   </div>
                   <div className="root-file__status">
-                    {processedDataRef.current[img.id] ? "Processed" : "Pending"}
+                    {processedDataRef.current[img.id]
+                      ? tx("Processed")
+                      : tx("Pending")}
                   </div>
                 </button>
               ))}
             </div>
 
             <div className="root-settings">
-              <Heading as="h3">Automation Settings</Heading>
+              <Heading as="h3">{tx("Automation Settings")}</Heading>
               <label>
-                Background threshold ({settings.bgThreshold})
+                {tx("Background threshold (")}
+                {settings.bgThreshold})
                 <input
                   type="range"
                   min="5"
@@ -657,7 +687,8 @@ export default function RootProcessorApp() {
                 />
               </label>
               <label>
-                Noise kernel ({settings.noiseKernel})
+                {tx("Noise kernel (")}
+                {settings.noiseKernel})
                 <input
                   type="range"
                   min="1"
@@ -673,7 +704,9 @@ export default function RootProcessorApp() {
                 />
               </label>
               <label>
-                Blur radius ({settings.blurRadius}px)
+                {tx("Blur radius (")}
+                {settings.blurRadius}
+                {tx("px)")}
                 <input
                   type="range"
                   min="5"
@@ -685,7 +718,9 @@ export default function RootProcessorApp() {
                 />
               </label>
               <label>
-                Root contrast ({settings.roiThreshold} grey levels)
+                {tx("Root contrast (")}
+                {settings.roiThreshold}
+                {tx(" grey levels)")}
                 <input
                   type="range"
                   min="2"
@@ -702,7 +737,7 @@ export default function RootProcessorApp() {
                 onClick={handlePreviewBackground}
                 disabled={!currentImage}
               >
-                Preview Background Cleanup
+                {tx("Preview Background Cleanup")}
               </button>
             </div>
           </aside>
@@ -711,19 +746,19 @@ export default function RootProcessorApp() {
             <div className="root-canvas-row">
               <div>
                 <div className="root-panel-heading">
-                  <Heading as="h3">Original Preview</Heading>
-                  <span className="root-muted">Read-only</span>
+                  <Heading as="h3">{tx("Original Preview")}</Heading>
+                  <span className="root-muted">{tx("Read-only")}</span>
                 </div>
                 <canvas ref={originalCanvasRef} className="root-canvas" />
               </div>
 
               <div>
                 <div className="root-panel-heading">
-                  <Heading as="h3">ROI / Processing Canvas</Heading>
+                  <Heading as="h3">{tx("ROI / Processing Canvas")}</Heading>
                   <span className="root-muted">
                     {interactionMode === "polygon"
-                      ? "Click to add polygon points"
-                      : "Brush to refine"}
+                      ? tx("Click to add polygon points")
+                      : tx("Brush to refine")}
                   </span>
                 </div>
                 <canvas
@@ -740,17 +775,19 @@ export default function RootProcessorApp() {
 
             <div className="root-controls">
               <div className="root-controls__group">
-                <Heading as="h4">ROI Polygon</Heading>
+                <Heading as="h4">{tx("ROI Polygon")}</Heading>
                 <p>
-                  Click on the right canvas to trace the region containing the
-                  root system.
+                  {tx(
+                    "Click on the right canvas to trace the region containing the root system."
+                  )}
                 </p>
                 <div className="root-chip-row">
                   <span className="root-chip">
-                    Points: {currentImage?.polygonPoints.length || 0}
+                    {tx("Points: ")}
+                    {currentImage?.polygonPoints.length || 0}
                   </span>
                   <span className="root-chip">
-                    {currentImage?.isPolygonClosed ? "Closed" : "Open"}
+                    {currentImage?.isPolygonClosed ? tx("Closed") : tx("Open")}
                   </span>
                 </div>
                 <div className="root-button-row">
@@ -760,7 +797,7 @@ export default function RootProcessorApp() {
                     onClick={handleClosePolygon}
                     disabled={!currentImage}
                   >
-                    Close Polygon
+                    {tx("Close Polygon")}
                   </button>
                   <button
                     type="button"
@@ -768,7 +805,7 @@ export default function RootProcessorApp() {
                     onClick={handleUndoPoint}
                     disabled={!currentImage}
                   >
-                    Undo Point
+                    {tx("Undo Point")}
                   </button>
                   <button
                     type="button"
@@ -776,17 +813,17 @@ export default function RootProcessorApp() {
                     onClick={handleResetPolygon}
                     disabled={!currentImage}
                   >
-                    Reset Polygon
+                    {tx("Reset Polygon")}
                   </button>
                 </div>
               </div>
 
               <div className="root-controls__group">
-                <Heading as="h4">Automation</Heading>
+                <Heading as="h4">{tx("Automation")}</Heading>
                 <p>
-                  Background removal (0_tranbg) and ROI enhancement (1_process)
-                  are combined. Use the sliders to tune the binary mask before
-                  running.
+                  {tx(
+                    "Background removal (0_tranbg) and ROI enhancement (1_process) are combined. Use the sliders to tune the binary mask before running."
+                  )}
                 </p>
                 <button
                   type="button"
@@ -794,15 +831,16 @@ export default function RootProcessorApp() {
                   onClick={handleProcessImage}
                   disabled={processing || !currentImage}
                 >
-                  {processing ? "Processing..." : "Run ROI Processing"}
+                  {processing ? tx("Processing...") : tx("Run ROI Processing")}
                 </button>
               </div>
 
               <div className="root-controls__group">
-                <Heading as="h4">Manual Cleanup</Heading>
+                <Heading as="h4">{tx("Manual Cleanup")}</Heading>
                 <p>
-                  After automation, switch to manual mode to adjust fine details
-                  with brush + undo.
+                  {tx(
+                    "After automation, switch to manual mode to adjust fine details with brush + undo."
+                  )}
                 </p>
                 <div className="root-button-row">
                   <button
@@ -813,7 +851,7 @@ export default function RootProcessorApp() {
                     onClick={() => setInteractionMode("polygon")}
                     disabled={!currentImage}
                   >
-                    Polygon Mode
+                    {tx("Polygon Mode")}
                   </button>
                   <button
                     type="button"
@@ -824,7 +862,9 @@ export default function RootProcessorApp() {
                       if (!currentImage) return;
                       if (!processedDataRef.current[currentImage.id]) {
                         updateStatus(
-                          "Process the ROI before switching to manual mode.",
+                          tx(
+                            "Process the ROI before switching to manual mode."
+                          ),
                           "warning"
                         );
                         return;
@@ -833,22 +873,24 @@ export default function RootProcessorApp() {
                     }}
                     disabled={!currentImage}
                   >
-                    Manual Brush
+                    {tx("Manual Brush")}
                   </button>
                 </div>
                 <div className="root-manual-controls">
                   <label>
-                    Brush mode
+                    {tx("Brush mode")}
                     <select
                       value={brushMode}
                       onChange={(e) => setBrushMode(e.target.value)}
                     >
-                      <option value="draw">Draw (black)</option>
-                      <option value="erase">Erase (white)</option>
+                      <option value="draw">{tx("Draw (black)")}</option>
+                      <option value="erase">{tx("Erase (white)")}</option>
                     </select>
                   </label>
                   <label>
-                    Brush size ({brushSize}px)
+                    {tx("Brush size (")}
+                    {brushSize}
+                    {tx("px)")}
                     <input
                       type="range"
                       min="4"
@@ -866,13 +908,13 @@ export default function RootProcessorApp() {
                       !processedDataRef.current[currentImage?.id]
                     }
                   >
-                    Undo Brush Stroke
+                    {tx("Undo Brush Stroke")}
                   </button>
                 </div>
               </div>
 
               <div className="root-controls__group">
-                <Heading as="h4">Export</Heading>
+                <Heading as="h4">{tx("Export")}</Heading>
                 <div className="root-button-row">
                   <button
                     type="button"
@@ -880,7 +922,7 @@ export default function RootProcessorApp() {
                     onClick={handleDownload}
                     disabled={!currentImage}
                   >
-                    Download Processed PNG
+                    {tx("Download Processed PNG")}
                   </button>
                   <button
                     type="button"
@@ -888,7 +930,7 @@ export default function RootProcessorApp() {
                     onClick={handleResetProcessed}
                     disabled={!currentImage}
                   >
-                    Reset Processed Result
+                    {tx("Reset Processed Result")}
                   </button>
                 </div>
               </div>
@@ -968,7 +1010,7 @@ async function loadFileAsImageData(file) {
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Canvas is unavailable");
+    if (!ctx) throw new Error(tx("Canvas is unavailable"));
     ctx.drawImage(resource.element, 0, 0, width, height);
     const imageData = ctx.getImageData(0, 0, width, height);
     return { imageData, width, height };

@@ -5,6 +5,10 @@ import { useColorMode } from "@docusaurus/theme-common";
 import AppScaffold from "../../../components/AppScaffold";
 import CitationNotice from "../../../components/CitationNotice";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const SPACE_URL = "https://smiler488-image-quantifier.hf.space";
 const SPACE_API_URL =
@@ -13,15 +17,15 @@ const SPACE_API_URL =
 function describeStage(stage) {
   const value = String(stage || "").toUpperCase();
   if (["RUNNING", "READY"].includes(value)) {
-    return { tone: "ready", label: "Hosted runtime ready" };
+    return { tone: "ready", label: tx("Hosted runtime ready") };
   }
   if (["APP_STARTING", "BUILDING", "STARTING", "SLEEPING"].includes(value)) {
-    return { tone: "starting", label: "Hosted runtime is waking up" };
+    return { tone: "starting", label: tx("Hosted runtime is waking up") };
   }
   if (["RUNTIME_ERROR", "BUILD_ERROR", "STOPPED", "PAUSED"].includes(value)) {
-    return { tone: "error", label: "Hosted runtime is unavailable" };
+    return { tone: "error", label: tx("Hosted runtime is unavailable") };
   }
-  return { tone: "checking", label: "Checking hosted runtime" };
+  return { tone: "checking", label: tx("Checking hosted runtime") };
 }
 
 function BiologicalWorkspace() {
@@ -29,7 +33,7 @@ function BiologicalWorkspace() {
   const [retryKey, setRetryKey] = useState(0);
   const [service, setService] = useState({
     tone: "checking",
-    label: "Checking hosted runtime",
+    label: tx("Checking hosted runtime"),
   });
   const [frameLoaded, setFrameLoaded] = useState(false);
 
@@ -39,7 +43,7 @@ function BiologicalWorkspace() {
 
     fetch(SPACE_API_URL, { signal: controller.signal })
       .then((response) => {
-        if (!response.ok) throw new Error(`Status ${response.status}`);
+        if (!response.ok) throw new Error(tx("Status {0}", response.status));
         return response.json();
       })
       .then((payload) => setService(describeStage(payload?.runtime?.stage)))
@@ -47,7 +51,7 @@ function BiologicalWorkspace() {
         if (!controller.signal.aborted) {
           setService({
             tone: "unknown",
-            label: "Runtime status could not be checked",
+            label: tx("Runtime status could not be checked"),
           });
         }
       })
@@ -74,11 +78,12 @@ function BiologicalWorkspace() {
         />
         <div>
           <strong>
-            {frameLoaded ? "Analysis workspace loaded" : service.label}
+            {frameLoaded ? tx("Analysis workspace loaded") : service.label}
           </strong>
           <span>
-            The embedded app runs on Hugging Face infrastructure; startup can
-            take a minute after inactivity.
+            {tx(
+              "The embedded app runs on Hugging Face infrastructure; startup can take a minute after inactivity."
+            )}
           </span>
         </div>
         <div className={styles.serviceActions}>
@@ -88,13 +93,13 @@ function BiologicalWorkspace() {
             onClick={() => {
               setService({
                 tone: "checking",
-                label: "Checking hosted runtime",
+                label: tx("Checking hosted runtime"),
               });
               setFrameLoaded(false);
               setRetryKey((value) => value + 1);
             }}
           >
-            Retry
+            {tx("Retry")}
           </button>
           <Link
             className="button button--secondary"
@@ -102,31 +107,31 @@ function BiologicalWorkspace() {
             target="_blank"
             rel="noreferrer"
           >
-            Open separately
+            {tx("Open separately")}
           </Link>
         </div>
       </div>
 
       <aside className={styles.privacyNotice} role="note">
-        Images selected inside the embedded workspace are processed by the
-        hosted Space, not by this static website. Do not upload sensitive
-        material without reviewing the hosted service first.
+        {tx(
+          "Images selected inside the embedded workspace are processed by the hosted Space, not by this static website. Do not upload sensitive material without reviewing the hosted service first."
+        )}
       </aside>
 
       <section
         className={styles.frameCard}
-        aria-label="Hosted biological sample analysis workspace"
+        aria-label={tx("Hosted biological sample analysis workspace")}
       >
         {!frameLoaded && (
           <div className={styles.loadingLayer} aria-hidden="true">
             <span className={styles.spinner} />
-            <span>Loading analysis workspace…</span>
+            <span>{tx("Loading analysis workspace…")}</span>
           </div>
         )}
         <iframe
           key={`${retryKey}-${colorMode}`}
           src={frameUrl}
-          title="Biological Sample Quantifier hosted workspace"
+          title={tx("Biological Sample Quantifier hosted workspace")}
           className={styles.frame}
           allow="camera; clipboard-write"
           referrerPolicy="strict-origin-when-cross-origin"

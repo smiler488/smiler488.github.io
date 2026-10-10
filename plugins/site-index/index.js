@@ -82,6 +82,20 @@ export default function siteIndexPlugin(context) {
   return {
     name: "site-index",
 
+    // Each locale is bundled separately; expose it to client code as a
+    // build-time constant so App Lab tools pick their language during
+    // server rendering as well (src/lib/i18n/toolText.js).
+    configureWebpack(config, isServer, utils) {
+      const { DefinePlugin } = utils.currentBundler.instance;
+      return {
+        plugins: [
+          new DefinePlugin({
+            "process.env.SITE_LOCALE": JSON.stringify(i18n.currentLocale),
+          }),
+        ],
+      };
+    },
+
     async allContentLoaded({ allContent, actions }) {
       const blog = allContent[BLOG_PLUGIN]?.default;
       notes = (blog?.blogPosts ?? [])

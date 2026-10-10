@@ -9,6 +9,10 @@ import {
   dripLayout,
 } from "../../../lib/science/irrigation.js";
 import styles from "./styles.module.css";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const deg2rad = (deg) => (deg * Math.PI) / 180;
 const defaultConfig = {
@@ -44,10 +48,18 @@ const defaultConfig = {
 };
 
 const tips = [
-  "Keep pipe velocities at or below 1.5 m/s to limit water hammer and energy losses.",
-  "Keep pressure variation within a subunit (submain plus laterals) below about 20% for non-compensating emitters; this gives about 10% flow variation.",
-  "Shorter laterals (closer submains) cut lateral losses sharply: friction grows with roughly the 2.75th power of lateral length.",
-  "Use pressure-compensating emitters on slopes above about 0.5% or where pressure variation cannot be kept low.",
+  tx(
+    "Keep pipe velocities at or below 1.5 m/s to limit water hammer and energy losses."
+  ),
+  tx(
+    "Keep pressure variation within a subunit (submain plus laterals) below about 20% for non-compensating emitters; this gives about 10% flow variation."
+  ),
+  tx(
+    "Shorter laterals (closer submains) cut lateral losses sharply: friction grows with roughly the 2.75th power of lateral length."
+  ),
+  tx(
+    "Use pressure-compensating emitters on slopes above about 0.5% or where pressure variation cannot be kept low."
+  ),
 ];
 
 function NumberField({
@@ -172,29 +184,39 @@ function buildLayoutGeometry(config) {
 
 const WARNING_TEXT = {
   mainVelocity: (w) =>
-    `Mainline velocity ${w.value.toFixed(2)} m/s exceeds ${
+    tx(
+      "Mainline velocity {0} m/s exceeds {1} m/s; use a larger mainline or fewer submains per shift.",
+      w.value.toFixed(2),
       w.limit
-    } m/s; use a larger mainline or fewer submains per shift.`,
+    ),
   subVelocity: (w) =>
-    `Submain inlet velocity ${w.value.toFixed(2)} m/s exceeds ${
+    tx(
+      "Submain inlet velocity {0} m/s exceeds {1} m/s; use a larger submain or closer submains.",
+      w.value.toFixed(2),
       w.limit
-    } m/s; use a larger submain or closer submains.`,
+    ),
   pumpFlow: (w) =>
-    `Flow per shift ${w.value.toFixed(1)} m³/h exceeds the pump's ${
+    tx(
+      "Flow per shift {0} m³/h exceeds the pump's {1} m³/h; open fewer submains per shift.",
+      w.value.toFixed(1),
       w.limit
-    } m³/h; open fewer submains per shift.`,
+    ),
   pressureDeficit: (w) =>
-    `Pressure at the farthest submain inlet is ${w.value.toFixed(
-      1
-    )} kPa short of what the subunit needs; raise pump pressure or enlarge the mainline.`,
+    tx(
+      "Pressure at the farthest submain inlet is {0} kPa short of what the subunit needs; raise pump pressure or enlarge the mainline.",
+      w.value.toFixed(1)
+    ),
   pressureVariation: (w) =>
-    `Pressure variation within a subunit is ${w.value.toFixed(0)}% (limit ${
+    tx(
+      "Pressure variation within a subunit is {0}% (limit {1}%); shorten laterals, enlarge the submain or use pressure-compensating emitters.",
+      w.value.toFixed(0),
       w.limit
-    }%); shorten laterals, enlarge the submain or use pressure-compensating emitters.`,
+    ),
   flowVariation: (w) =>
-    `Emitter flow variation is ${w.value.toFixed(
-      0
-    )}%, above the 20% usually considered acceptable.`,
+    tx(
+      "Emitter flow variation is {0}%, above the 20% usually considered acceptable.",
+      w.value.toFixed(0)
+    ),
 };
 
 function buildHydraulics(config) {
@@ -288,10 +310,13 @@ function LayoutCanvas({ config, layout }, ref) {
       aria-labelledby="irrigation-layout-title irrigation-layout-description"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title id="irrigation-layout-title">Irrigation layout preview</title>
+      <title id="irrigation-layout-title">
+        {tx("Irrigation layout preview")}
+      </title>
       <desc id="irrigation-layout-description">
-        Scaled field diagram showing the mainline, submains, drip laterals and
-        headworks.
+        {tx(
+          "Scaled field diagram showing the mainline, submains, drip laterals and headworks."
+        )}
       </desc>
       {fieldRect}
       <g opacity={0.15}>
@@ -329,7 +354,7 @@ function LayoutCanvas({ config, layout }, ref) {
           fill="var(--app-accent-blue)"
         />
         <text x={16} y={5} fontSize={12} fill="var(--app-accent-blue)">
-          Headworks
+          {tx("Headworks")}
         </text>
       </g>
       <text x={width - 200} y={height - 30} fontSize={12} fill="#475569">
@@ -343,9 +368,9 @@ const ForwardLayoutCanvas = React.forwardRef(LayoutCanvas);
 
 function CanvasPanel({ config, layout, svgRef }) {
   const legend = [
-    { color: "var(--app-accent-blue)", label: "Mainline" },
-    { color: "var(--app-accent-green)", label: "Submains" },
-    { color: "var(--app-accent-muted)", label: "Drip laterals" },
+    { color: "var(--app-accent-blue)", label: tx("Mainline") },
+    { color: "var(--app-accent-green)", label: tx("Submains") },
+    { color: "var(--app-accent-muted)", label: tx("Drip laterals") },
   ];
 
   return (
@@ -359,7 +384,7 @@ function CanvasPanel({ config, layout, svgRef }) {
       >
         <div>
           <Heading as="h2" className={styles.sectionTitle}>
-            Layout Preview
+            {tx("Layout Preview")}
           </Heading>
           <p
             style={{
@@ -367,7 +392,9 @@ function CanvasPanel({ config, layout, svgRef }) {
               color: "var(--ifm-color-emphasis-700)",
             }}
           >
-            Field drawn to scale with rotation; headworks shown at origin.
+            {tx(
+              "Field drawn to scale with rotation; headworks shown at origin."
+            )}
           </p>
         </div>
         <div
@@ -416,60 +443,72 @@ function Hydraulics({ data, config }) {
   const g = data.layout;
   const rows = [
     {
-      label: "Layout",
+      label: tx("Layout"),
       value: `${g.nSubmains} submains`,
-      hint: `every ${g.spacing.toFixed(1)} m · ${
+      hint: tx(
+        "every {0} m · {1} laterals",
+        g.spacing.toFixed(1),
         g.nSubmains * g.lateralsPerSubmain
-      } laterals`,
+      ),
     },
     {
-      label: "Lateral run",
+      label: tx("Lateral run"),
       value: `${g.lateralLength.toFixed(1)} m`,
-      hint: `${g.emittersPerLateral} emitters · ${data.qLat_Lph.toFixed(
-        0
-      )} L/h`,
+      hint: tx(
+        "{0} emitters · {1} L/h",
+        g.emittersPerLateral,
+        data.qLat_Lph.toFixed(0)
+      ),
     },
     {
-      label: "Lateral headloss",
+      label: tx("Lateral headloss"),
       value: `${data.hfLat.toFixed(2)} m`,
-      hint: `inlet velocity ${data.vLat.toFixed(2)} m/s`,
+      hint: tx("inlet velocity {0} m/s", data.vLat.toFixed(2)),
     },
     {
-      label: "Submain headloss",
+      label: tx("Submain headloss"),
       value: `${data.hfSub.toFixed(2)} m`,
-      hint: `inlet ${data.vSub.toFixed(2)} m/s · ${data.qSubmain_m3h.toFixed(
-        1
-      )} m³/h`,
+      hint: tx(
+        "inlet {0} m/s · {1} m³/h",
+        data.vSub.toFixed(2),
+        data.qSubmain_m3h.toFixed(1)
+      ),
     },
     {
-      label: "Flow per shift",
+      label: tx("Flow per shift"),
       value: `${data.qSystem_m3h.toFixed(1)} m³/h`,
-      hint: `${data.active} submain(s) open · pump ${headworks.maxFlow_m3h}`,
+      hint: tx(
+        "{0} submain(s) open · pump {1}",
+        data.active,
+        headworks.maxFlow_m3h
+      ),
     },
     {
-      label: "Mainline headloss",
+      label: tx("Mainline headloss"),
       value: `${data.hfMain.toFixed(2)} m`,
-      hint: `velocity ${data.vMain.toFixed(2)} m/s`,
+      hint: tx("velocity {0} m/s", data.vMain.toFixed(2)),
     },
     {
-      label: "Pressure at farthest submain",
+      label: tx("Pressure at farthest submain"),
       value: `${data.atSubmain_kPa.toFixed(0)} kPa`,
-      hint: `needed ${data.required_kPa.toFixed(
-        0
-      )} kPa · margin ${data.margin_kPa.toFixed(0)}`,
+      hint: tx(
+        "needed {0} kPa · margin {1}",
+        data.required_kPa.toFixed(0),
+        data.margin_kPa.toFixed(0)
+      ),
     },
     {
-      label: "Pressure variation",
+      label: tx("Pressure variation"),
       value: `${(data.headVar * 100).toFixed(1)}%`,
-      hint: "within a subunit",
+      hint: tx("within a subunit"),
     },
     {
-      label: "Emitter flow variation",
+      label: tx("Emitter flow variation"),
       value: laterals.pressureComp
         ? "≈ 0%"
         : `${(data.qVar * 100).toFixed(1)}%`,
       hint: laterals.pressureComp
-        ? "pressure-compensating, within its range"
+        ? tx("pressure-compensating, within its range")
         : `exponent x = ${data.exponent}`,
     },
   ];
@@ -477,7 +516,7 @@ function Hydraulics({ data, config }) {
   return (
     <section className={styles.panel}>
       <Heading as="h2" className={styles.sectionTitle}>
-        Hydraulic summary
+        {tx("Hydraulic summary")}
       </Heading>
       <div className={styles.summaryGrid}>
         {rows.map((item) => (
@@ -515,15 +554,16 @@ function Warnings({ warnings }) {
     return (
       <div className={`${styles.panel} ${styles.noticeSuccess}`}>
         <div>
-          All screened parameters are within the configured limits. Continue
-          with detailed hydraulic and zoning checks.
+          {tx(
+            "All screened parameters are within the configured limits. Continue with detailed hydraulic and zoning checks."
+          )}
         </div>
       </div>
     );
   }
   return (
     <div className={`${styles.panel} ${styles.noticeWarning}`}>
-      <div style={{ fontWeight: 600, marginBottom: 6 }}>Warnings</div>
+      <div style={{ fontWeight: 600, marginBottom: 6 }}>{tx("Warnings")}</div>
       <ul style={{ paddingLeft: 18 }}>
         {warnings.map((msg) => (
           <li key={msg} style={{ marginBottom: 4 }}>
@@ -600,54 +640,54 @@ export default function IrrigationDesigner() {
           onClick={() => setConfig(defaultConfig)}
           className="button button--secondary"
         >
-          Reset defaults
+          {tx("Reset defaults")}
         </button>
       }
     >
       <div className={styles.workspace}>
         <aside className={styles.preliminaryNotice} role="note">
-          <strong>Design check for drip systems.</strong> Friction in the
-          mainline, submains and laterals, elevation, pressure at the farthest
-          subunit and emitter flow variation are computed from standard
-          hydraulics. Minor losses at fittings, transients and manufacturing
-          variation of emitters are not included; use the tape&apos;s datasheet
-          for emitter flow, exponent and inner diameter.
+          <strong>{tx("Design check for drip systems.")}</strong>
+          {tx(
+            " Friction in the mainline, submains and laterals, elevation, pressure at the farthest subunit and emitter flow variation are computed from standard hydraulics. Minor losses at fittings, transients and manufacturing variation of emitters are not included; use the tape's datasheet for emitter flow, exponent and inner diameter."
+          )}
         </aside>
 
         <div className={styles.workspaceGrid}>
           <div className={styles.controlsColumn}>
             <Section
-              title="Field & Terrain"
-              description="Orientation measured clockwise from true north. Slopes convert to head differences."
+              title={tx("Field & Terrain")}
+              description={tx(
+                "Orientation measured clockwise from true north. Slopes convert to head differences."
+              )}
             >
               <div className="row">
                 <div className="col col--6">
                   <NumberField
-                    label="Length (m)"
+                    label={tx("Length (m)")}
                     value={config.field.length_m}
                     onChange={(v) => update("field", "length_m", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Width (m)"
+                    label={tx("Width (m)")}
                     value={config.field.width_m}
                     onChange={(v) => update("field", "width_m", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Orientation (°)"
+                    label={tx("Orientation (°)")}
                     min={-360}
                     max={360}
                     value={config.terrain.orientation_deg}
                     onChange={(v) => update("terrain", "orientation_deg", v)}
-                    suffix="clockwise from N"
+                    suffix={tx("clockwise from N")}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Slope along length (%)"
+                    label={tx("Slope along length (%)")}
                     min={-100}
                     max={100}
                     step={0.1}
@@ -657,7 +697,7 @@ export default function IrrigationDesigner() {
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Slope along width (%)"
+                    label={tx("Slope along width (%)")}
                     min={-100}
                     max={100}
                     step={0.1}
@@ -669,41 +709,43 @@ export default function IrrigationDesigner() {
             </Section>
 
             <Section
-              title="Headworks & Constraints"
-              description="Pump pressure, filter/fertigation losses, and allowable variation determine available head."
+              title={tx("Headworks & Constraints")}
+              description={tx(
+                "Pump pressure, filter/fertigation losses, and allowable variation determine available head."
+              )}
             >
               <div className="row">
                 <div className="col col--6">
                   <NumberField
-                    label="Pump pressure (kPa)"
+                    label={tx("Pump pressure (kPa)")}
                     value={config.headworks.pumpPressure_kPa}
                     onChange={(v) => update("headworks", "pumpPressure_kPa", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Max flow (m³/h)"
+                    label={tx("Max flow (m³/h)")}
                     value={config.headworks.maxFlow_m3h}
                     onChange={(v) => update("headworks", "maxFlow_m3h", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Filter loss (kPa)"
+                    label={tx("Filter loss (kPa)")}
                     value={config.headworks.filterLoss_kPa}
                     onChange={(v) => update("headworks", "filterLoss_kPa", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <Toggle
-                    label="Fertigation skid"
+                    label={tx("Fertigation skid")}
                     value={config.headworks.fertigation}
                     onChange={(v) => update("headworks", "fertigation", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Allowable pressure variation (%)"
+                    label={tx("Allowable pressure variation (%)")}
                     value={config.constraints.maxPressureVar_pct}
                     onChange={(v) =>
                       update("constraints", "maxPressureVar_pct", v)
@@ -712,7 +754,7 @@ export default function IrrigationDesigner() {
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Max velocity (m/s)"
+                    label={tx("Max velocity (m/s)")}
                     value={config.constraints.maxVel_ms}
                     onChange={(v) => update("constraints", "maxVel_ms", v)}
                   />
@@ -721,13 +763,15 @@ export default function IrrigationDesigner() {
             </Section>
 
             <Section
-              title="Mainline"
-              description="Runs along the field length. Material sets the Hazen–Williams C; a ring (two-end) feed halves the run and its flow."
+              title={tx("Mainline")}
+              description={tx(
+                "Runs along the field length. Material sets the Hazen–Williams C; a ring (two-end) feed halves the run and its flow."
+              )}
             >
               <div className="row">
                 <div className="col col--6">
                   <NumberField
-                    label="Diameter (mm)"
+                    label={tx("Diameter (mm)")}
                     value={config.mainline.diameter_mm}
                     onChange={(v) => update("mainline", "diameter_mm", v)}
                   />
@@ -741,7 +785,7 @@ export default function IrrigationDesigner() {
                         marginBottom: 4,
                       }}
                     >
-                      Material
+                      {tx("Material")}
                     </span>
                     <select
                       style={{
@@ -755,8 +799,8 @@ export default function IrrigationDesigner() {
                         update("mainline", "material", e.target.value)
                       }
                     >
-                      <option value="PE">PE (C≈140)</option>
-                      <option value="PVC">PVC (C≈150)</option>
+                      <option value="PE">{tx("PE (C≈140)")}</option>
+                      <option value="PVC">{tx("PVC (C≈150)")}</option>
                     </select>
                   </label>
                 </div>
@@ -769,7 +813,7 @@ export default function IrrigationDesigner() {
                         marginBottom: 4,
                       }}
                     >
-                      Location
+                      {tx("Location")}
                     </span>
                     <select
                       style={{
@@ -783,14 +827,14 @@ export default function IrrigationDesigner() {
                         update("mainline", "location", e.target.value)
                       }
                     >
-                      <option value="edge">Field edge</option>
-                      <option value="center">Centerline</option>
+                      <option value="edge">{tx("Field edge")}</option>
+                      <option value="center">{tx("Centerline")}</option>
                     </select>
                   </label>
                 </div>
                 <div className="col col--12">
                   <Toggle
-                    label="Ring / two-end feed"
+                    label={tx("Ring / two-end feed")}
                     value={config.mainline.ring}
                     onChange={(v) => update("mainline", "ring", v)}
                   />
@@ -799,27 +843,29 @@ export default function IrrigationDesigner() {
             </Section>
 
             <Section
-              title="Submains"
-              description="Cross the field width. Spacing sets the number of submains and the lateral length (half the spacing on each side); a centreline mainline feeds them from the middle."
+              title={tx("Submains")}
+              description={tx(
+                "Cross the field width. Spacing sets the number of submains and the lateral length (half the spacing on each side); a centreline mainline feeds them from the middle."
+              )}
             >
               <div className="row">
                 <div className="col col--6">
                   <NumberField
-                    label="Spacing (m)"
+                    label={tx("Spacing (m)")}
                     value={config.submains.spacing_m}
                     onChange={(v) => update("submains", "spacing_m", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Diameter (mm)"
+                    label={tx("Diameter (mm)")}
                     value={config.submains.diameter_mm}
                     onChange={(v) => update("submains", "diameter_mm", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Submains per shift"
+                    label={tx("Submains per shift")}
                     min={1}
                     value={config.submains.perShift}
                     onChange={(v) => update("submains", "perShift", v)}
@@ -829,41 +875,43 @@ export default function IrrigationDesigner() {
             </Section>
 
             <Section
-              title="Drip laterals"
-              description="Laterals follow the crop rows. Tape spacing is the row spacing; emitter data come from the tape's datasheet."
+              title={tx("Drip laterals")}
+              description={tx(
+                "Laterals follow the crop rows. Tape spacing is the row spacing; emitter data come from the tape's datasheet."
+              )}
             >
               <div className="row">
                 <div className="col col--6">
                   <NumberField
-                    label="Tape spacing (m)"
+                    label={tx("Tape spacing (m)")}
                     value={config.laterals.tapeSpacing_m}
                     onChange={(v) => update("laterals", "tapeSpacing_m", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Emitter spacing (cm)"
+                    label={tx("Emitter spacing (cm)")}
                     value={config.laterals.emitterSpacing_cm}
                     onChange={(v) => update("laterals", "emitterSpacing_cm", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Emitter flow (L/h)"
+                    label={tx("Emitter flow (L/h)")}
                     value={config.laterals.emitterFlow_Lph}
                     onChange={(v) => update("laterals", "emitterFlow_Lph", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Operating pressure (kPa)"
+                    label={tx("Operating pressure (kPa)")}
                     value={config.laterals.operPressure_kPa}
                     onChange={(v) => update("laterals", "operPressure_kPa", v)}
                   />
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Tape inner diameter (mm)"
+                    label={tx("Tape inner diameter (mm)")}
                     step={0.1}
                     value={config.laterals.innerDiameter_mm}
                     onChange={(v) => update("laterals", "innerDiameter_mm", v)}
@@ -871,7 +919,7 @@ export default function IrrigationDesigner() {
                 </div>
                 <div className="col col--6">
                   <Toggle
-                    label="Pressure-compensating"
+                    label={tx("Pressure-compensating")}
                     value={config.laterals.pressureComp}
                     onChange={(v) => update("laterals", "pressureComp", v)}
                   />
@@ -885,14 +933,14 @@ export default function IrrigationDesigner() {
                 onClick={exportSVG}
                 className="button button--primary"
               >
-                Export SVG
+                {tx("Export SVG")}
               </button>
               <button
                 type="button"
                 onClick={() => setConfig(defaultConfig)}
                 className="button button--secondary"
               >
-                Reset
+                {tx("Reset")}
               </button>
             </div>
           </div>
@@ -903,7 +951,7 @@ export default function IrrigationDesigner() {
             <Warnings warnings={hydraulics.warnings} />
             <section className={styles.panel}>
               <Heading as="h2" className={styles.sectionTitle}>
-                Tips
+                {tx("Tips")}
               </Heading>
               <ul style={{ paddingLeft: 18 }}>
                 {tips.map((line) => (
@@ -914,33 +962,38 @@ export default function IrrigationDesigner() {
 
             <section className={styles.panel}>
               <Heading as="h2" className={styles.sectionTitle}>
-                Underlying formulas & references
+                {tx("Underlying formulas & references")}
               </Heading>
               <p style={{ marginBottom: 8 }}>
-                Mainline and submains: Hazen–Williams,&nbsp;
+                {tx("Mainline and submains: Hazen–Williams, ")}
                 <code>
                   h<sub>f</sub> = 10.67 · L · Q<sup>1.852</sup> / (C
                   <sup>1.852</sup> · d<sup>4.87</sup>)
                 </code>
-                . Laterals: Darcy–Weisbach with the Blasius friction factor
+                {IS_ZH
+                  ? tx("。毛管：Darcy–Weisbach 公式，摩阻系数采用 Blasius 公式")
+                  : ". Laterals: Darcy–Weisbach with the Blasius friction factor"}
                 <code>
                   {" "}
                   f = 0.316 · Re<sup>−0.25</sup>
                 </code>
-                . Pipes with N evenly spaced outlets carry Christiansen&apos;s
-                factor
-                <code> F = 1/(m+1) + 1/(2N) + √(m−1)/(6N²)</code>. Subunit inlet
-                pressure follows Keller &amp; Karmeli,
+                {IS_ZH
+                  ? tx("。有 N 个等间距出口的管道乘以 Christiansen 多口系数")
+                  : ". Pipes with N evenly spaced outlets carry Christiansen's factor"}
+                <code> F = 1/(m+1) + 1/(2N) + √(m−1)/(6N²)</code>
+                {IS_ZH
+                  ? tx("。灌水小区入口压力按 Keller & Karmeli 方法计算，")
+                  : ". Subunit inlet pressure follows Keller & Karmeli,"}
                 <code>
                   {" "}
                   h = h<sub>a</sub> + 0.75 Δh<sub>f</sub> + 0.5 Δz
                 </code>
-                , and emitter flow variation
+                {tx(", and emitter flow variation")}
                 <code>
                   {" "}
                   q<sub>var</sub> = 1 − (1 − h<sub>var</sub>)<sup>x</sup>
                 </code>
-                .
+                {IS_ZH ? "。" : "."}
               </p>
               <p
                 style={{
@@ -949,12 +1002,9 @@ export default function IrrigationDesigner() {
                   color: "var(--ifm-color-emphasis-700)",
                 }}
               >
-                Validated in the site&apos;s test suite: F factors against
-                Christiansen&apos;s table and the F-factor losses against
-                segment-by-segment summation (within 2%). References: Keller
-                &amp; Karmeli (1974), Trans. ASAE 17(4): 678–684; Christiansen
-                (1942), Univ. California Agric. Exp. Stn. Bull. 670; ASABE
-                EP405.
+                {tx(
+                  "Validated in the site's test suite: F factors against Christiansen's table and the F-factor losses against segment-by-segment summation (within 2%). References: Keller & Karmeli (1974), Trans. ASAE 17(4): 678–684; Christiansen (1942), Univ. California Agric. Exp. Stn. Bull. 670; ASABE EP405."
+                )}
               </p>
             </section>
           </div>

@@ -9,6 +9,10 @@ import { CATEGORICAL } from "../../../lib/dataViz";
 import { recordExport } from "../../../lib/workbench/provenance";
 import { groupComparison } from "../../../lib/science/stats.js";
 import styles from "./styles.module.css";
+import { makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 const MAX_SAMPLE_ROWS = 40;
 const MAX_ROWS_TO_STORE = 10000;
@@ -888,37 +892,47 @@ function attachErrorBars(option, errorBars) {
   }
 }
 
-function applyTukeyLetters(option, lettersMap) {
+// Significance letters as a label-only scatter series placed just above each
+// group's highest drawn value (`tops`: category → y). Falls back to labels on
+// the first bar series when no positions are given.
+function applyTukeyLetters(option, lettersMap, tops) {
   try {
     if (!option || !lettersMap || typeof lettersMap !== "object") return option;
-    const entries = Object.keys(lettersMap);
-    if (entries.length === 0) return option;
-    const seriesList = Array.isArray(option.series)
-      ? option.series.map((series) => ({ ...series }))
-      : [];
+    const seriesList = Array.isArray(option.series) ? [...option.series] : [];
     if (seriesList.length === 0) return option;
+    const label = {
+      show: true,
+      position: "top",
+      distance: 6,
+      color: "#333",
+      fontSize: 14,
+      fontWeight: 600,
+      formatter: (params) => lettersMap[params.data?.[0] ?? params.name] || "",
+    };
+    if (tops && typeof tops === "object") {
+      const data = Object.keys(lettersMap)
+        .filter((name) => Number.isFinite(tops[name]))
+        .map((name) => [name, tops[name]]);
+      seriesList.push({
+        name: "letters",
+        type: "scatter",
+        data,
+        symbolSize: 0,
+        silent: true,
+        tooltip: { show: false },
+        label,
+        z: 10,
+      });
+      return { ...option, series: seriesList };
+    }
     const targetIndex = seriesList.findIndex(
       (series) => String(series?.type || "").toLowerCase() === "bar"
     );
     if (targetIndex === -1) return option;
-
-    const targetSeries = { ...seriesList[targetIndex] };
-    const existingLabel = targetSeries.label || {};
-    targetSeries.label = {
-      show: true,
-      position: "top",
-      color: "var(--ifm-color-emphasis-900)",
-      fontSize: 14,
-      fontWeight: "600",
-      backgroundColor: "rgba(255,255,255,0.0)",
-      padding: [0, 0, 4, 0],
-      offset: [0, -4],
-      ...existingLabel,
-      formatter: (params) => (lettersMap && lettersMap[params.name]) || "",
+    seriesList[targetIndex] = {
+      ...seriesList[targetIndex],
+      label: { ...label, formatter: (params) => lettersMap[params.name] || "" },
     };
-    delete targetSeries.markPoint;
-    delete targetSeries.markLine;
-    seriesList[targetIndex] = targetSeries;
     return { ...option, series: seriesList };
   } catch (_) {
     return option;
@@ -937,7 +951,7 @@ export default function AiDataVisualizerPage() {
   const [selectedSheet, setSelectedSheet] = useState("");
   const [excelTables, setExcelTables] = useState({});
   const [status, setStatus] = useState({
-    text: "Upload a CSV/TSV to get started.",
+    text: tx("Upload a CSV/TSV to get started."),
     tone: "muted",
   });
   const [busy, setBusy] = useState(false);
@@ -987,7 +1001,7 @@ export default function AiDataVisualizerPage() {
         chartInstanceRef.current.resize();
         setChartReady(true);
       } catch (err) {
-        setChartRuntimeError(err?.message || "Chart rendering failed.");
+        setChartRuntimeError(err?.message || tx("Chart rendering failed."));
         setChartReady(false);
       }
     }
@@ -1036,7 +1050,7 @@ export default function AiDataVisualizerPage() {
       setFileText("");
       setParsedTableOverride(null);
       setStatusMessage(
-        "File is larger than 20 MB. Please reduce it before analysis.",
+        tx("File is larger than 20 MB. Please reduce it before analysis."),
         "danger"
       );
       event.target.value = "";
@@ -1048,7 +1062,7 @@ export default function AiDataVisualizerPage() {
       size: file.size,
       type: file.type || "text/csv",
     });
-    setStatusMessage("Reading file…", "info");
+    setStatusMessage(tx("Reading file…"), "info");
     const lower = (file.name || "").toLowerCase();
     if (lower.endsWith(".xlsx") || lower.endsWith(".xls")) {
       try {
@@ -1081,18 +1095,21 @@ export default function AiDataVisualizerPage() {
             setSelectedSheet(first);
             setParsedTableOverride(tables[first] || null);
             setStatusMessage(
-              "File ready. Configure the analysis prompt.",
+              tx("File ready. Configure the analysis prompt."),
               "success"
             );
           } catch (_) {
-            setStatusMessage("Failed to parse Excel file.", "danger");
+            setStatusMessage(tx("Failed to parse Excel file."), "danger");
           }
         };
         reader.onerror = () =>
-          setStatusMessage("Failed to read file. Please try again.", "danger");
+          setStatusMessage(
+            tx("Failed to read file. Please try again."),
+            "danger"
+          );
         reader.readAsArrayBuffer(file);
       } catch (_) {
-        setStatusMessage("Failed to load Excel parser.", "danger");
+        setStatusMessage(tx("Failed to load Excel parser."), "danger");
       }
       return;
     }
@@ -1106,37 +1123,40 @@ export default function AiDataVisualizerPage() {
           setParsedTableOverride(tableObj);
           setFileText("");
           setStatusMessage(
-            "File ready. Configure the analysis prompt.",
+            tx("File ready. Configure the analysis prompt."),
             "success"
           );
         } catch (_) {
           setFileText(text);
           setParsedTableOverride(null);
-          setStatusMessage("JSON parse failed. Treating as text.", "warning");
+          setStatusMessage(
+            tx("JSON parse failed. Treating as text."),
+            "warning"
+          );
         }
       } else {
         setParsedTableOverride(null);
         setFileText(text);
         setStatusMessage(
-          "File ready. Configure the analysis prompt.",
+          tx("File ready. Configure the analysis prompt."),
           "success"
         );
       }
     };
     reader.onerror = () => {
-      setStatusMessage("Failed to read file. Please try again.", "danger");
+      setStatusMessage(tx("Failed to read file. Please try again."), "danger");
     };
     reader.readAsText(file);
   }
 
   async function handleAnalyze() {
     if (!table) {
-      setStatusMessage("Please upload a CSV or TSV file first.", "warning");
+      setStatusMessage(tx("Please upload a CSV or TSV file first."), "warning");
       return;
     }
 
     setBusy(true);
-    setStatusMessage("Building prompt…", "info");
+    setStatusMessage(tx("Building prompt…"), "info");
     setChartError("");
     setChartRuntimeError("");
     setRawAiText("");
@@ -1157,11 +1177,11 @@ export default function AiDataVisualizerPage() {
         });
         if (!localResult?.option) {
           throw new Error(
-            "The uploaded table does not contain a usable numeric series."
+            tx("The uploaded table does not contain a usable numeric series.")
           );
         }
         setAiSummary(
-          localResult.summary || "Local deterministic visualization."
+          localResult.summary || tx("Local deterministic visualization.")
         );
         setAiInsights([
           ...(localResult.statsInsights || []),
@@ -1176,7 +1196,7 @@ export default function AiDataVisualizerPage() {
           )
         );
         setStatusMessage(
-          "Local visualization generated from the uploaded rows.",
+          tx("Local visualization generated from the uploaded rows."),
           "success"
         );
         return;
@@ -1188,7 +1208,7 @@ export default function AiDataVisualizerPage() {
         mapping: { xField, yField, groupField, agg, errorMetric, multiCharts },
       });
 
-      setStatusMessage("Calling AI…", "info");
+      setStatusMessage(tx("Calling AI…"), "info");
       const result = await requestAI(
         aiConfig,
         { question: prompt },
@@ -1200,7 +1220,7 @@ export default function AiDataVisualizerPage() {
         }
       );
       await processAiText(result.text);
-      setStatusMessage("Visualization ready!", "success");
+      setStatusMessage(tx("Visualization ready!"), "success");
     } catch (err) {
       const fallback = buildFromPlan(table, {}, analysisGoal, {
         xField,
@@ -1211,7 +1231,7 @@ export default function AiDataVisualizerPage() {
         multiCharts,
       });
       if (fallback?.option) {
-        setAiSummary(fallback.summary || "Local fallback visualization.");
+        setAiSummary(fallback.summary || tx("Local fallback visualization."));
         setAiInsights([
           ...(fallback.statsInsights || []),
           ...(fallback.insights || []),
@@ -1231,8 +1251,8 @@ export default function AiDataVisualizerPage() {
           "warning"
         );
       } else {
-        setChartError(err?.message || "AI call failed.");
-        setStatusMessage("Analysis failed.", "danger");
+        setChartError(err?.message || tx("AI call failed."));
+        setStatusMessage(tx("Analysis failed."), "danger");
       }
     } finally {
       setBusy(false);
@@ -1251,7 +1271,7 @@ export default function AiDataVisualizerPage() {
         multiCharts,
       });
       if (fallback && fallback.option) {
-        setAiSummary(fallback.summary || "Offline visualization.");
+        setAiSummary(fallback.summary || tx("Offline visualization."));
         setAiInsights([
           ...(fallback.statsInsights || []),
           ...(fallback.insights || []),
@@ -1266,7 +1286,7 @@ export default function AiDataVisualizerPage() {
         );
         return;
       }
-      throw new Error("AI response was not valid JSON.");
+      throw new Error(tx("AI response was not valid JSON."));
     }
 
     try {
@@ -1274,7 +1294,7 @@ export default function AiDataVisualizerPage() {
     } catch (_) {
       setRawAiText(aiText);
     }
-    setAiSummary(parsed.summary || "AI did not return a summary.");
+    setAiSummary(parsed.summary || tx("AI did not return a summary."));
     const aiInsights = Array.isArray(parsed.insights) ? parsed.insights : [];
     // The chart is always built from the full table; the model only chooses
     // the chart type and columns. Manual field mapping overrides the plan.
@@ -1289,7 +1309,9 @@ export default function AiDataVisualizerPage() {
     if (!built || !built.option) {
       setAiInsights(aiInsights);
       setChartError(
-        "The suggested chart could not be built from this table; set the X and Y fields manually and retry."
+        tx(
+          "The suggested chart could not be built from this table; set the X and Y fields manually and retry."
+        )
       );
       return;
     }
@@ -1439,13 +1461,13 @@ export default function AiDataVisualizerPage() {
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Upload data
+                  {tx("Upload data")}
                 </Heading>
-                <span className={styles.stepBadge}>Step 1</span>
+                <span className={styles.stepBadge}>{tx("Step 1")}</span>
               </div>
               <label className={styles.fileInputWrapper}>
                 <span className={styles.fieldLabel}>
-                  Choose a CSV, TSV, XLSX, XLS or JSON file
+                  {tx("Choose a CSV, TSV, XLSX, XLS or JSON file")}
                 </span>
                 <input
                   className={styles.fileInput}
@@ -1456,7 +1478,7 @@ export default function AiDataVisualizerPage() {
               </label>
               {excelSheets && excelSheets.length > 1 && (
                 <label className={styles.fieldLabel}>
-                  Excel sheet
+                  {tx("Excel sheet")}
                   <select
                     className={styles.textInput}
                     value={selectedSheet}
@@ -1497,29 +1519,31 @@ export default function AiDataVisualizerPage() {
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Analysis goal & API
+                  {tx("Analysis goal & API")}
                 </Heading>
-                <span className={styles.stepBadge}>Step 2</span>
+                <span className={styles.stepBadge}>{tx("Step 2")}</span>
               </div>
               <label className={styles.fieldLabel}>
-                Analysis goal
+                {tx("Analysis goal")}
                 <textarea
                   className={styles.textArea}
                   value={analysisGoal}
                   onChange={(e) => setAnalysisGoal(e.target.value)}
-                  placeholder="Tell the AI what kind of pattern or story to highlight."
+                  placeholder={tx(
+                    "Tell the AI what kind of pattern or story to highlight."
+                  )}
                 />
               </label>
               {table && (
                 <div className={styles.fieldGroup}>
                   <label className={styles.fieldLabel}>
-                    X Field
+                    {tx("X Field")}
                     <select
                       className={styles.textInput}
                       value={xField}
                       onChange={(e) => setXField(e.target.value)}
                     >
-                      <option value="">Auto</option>
+                      <option value="">{tx("Auto")}</option>
                       {table.headers.map((h) => (
                         <option key={h} value={h}>
                           {h}
@@ -1528,13 +1552,13 @@ export default function AiDataVisualizerPage() {
                     </select>
                   </label>
                   <label className={styles.fieldLabel}>
-                    Y Field
+                    {tx("Y Field")}
                     <select
                       className={styles.textInput}
                       value={yField}
                       onChange={(e) => setYField(e.target.value)}
                     >
-                      <option value="">Auto</option>
+                      <option value="">{tx("Auto")}</option>
                       {table.headers.map((h) => (
                         <option key={h} value={h}>
                           {h}
@@ -1543,13 +1567,13 @@ export default function AiDataVisualizerPage() {
                     </select>
                   </label>
                   <label className={styles.fieldLabel}>
-                    Group
+                    {tx("Group")}
                     <select
                       className={styles.textInput}
                       value={groupField}
                       onChange={(e) => setGroupField(e.target.value)}
                     >
-                      <option value="">None</option>
+                      <option value="">{tx("None")}</option>
                       {table.headers.map((h) => (
                         <option key={h} value={h}>
                           {h}
@@ -1558,7 +1582,7 @@ export default function AiDataVisualizerPage() {
                     </select>
                   </label>
                   <label className={styles.fieldLabel}>
-                    Aggregation
+                    {tx("Aggregation")}
                     <select
                       className={styles.textInput}
                       value={agg}
@@ -1571,7 +1595,7 @@ export default function AiDataVisualizerPage() {
                     </select>
                   </label>
                   <label className={styles.fieldLabel}>
-                    Error Bars
+                    {tx("Error Bars")}
                     <select
                       className={styles.textInput}
                       value={errorMetric}
@@ -1588,7 +1612,7 @@ export default function AiDataVisualizerPage() {
                       checked={multiCharts}
                       onChange={(e) => setMultiCharts(e.target.checked)}
                     />
-                    Side-by-side multi charts
+                    {tx("Side-by-side multi charts")}
                   </label>
                   <button
                     className="button button--secondary margin-top--sm"
@@ -1602,7 +1626,9 @@ export default function AiDataVisualizerPage() {
                         multiCharts,
                       });
                       if (res && res.option) {
-                        setAiSummary(res.summary || "Offline visualization.");
+                        setAiSummary(
+                          res.summary || tx("Offline visualization.")
+                        );
                         setAiInsights([
                           ...(res.statsInsights || []),
                           ...(res.insights || []),
@@ -1622,34 +1648,36 @@ export default function AiDataVisualizerPage() {
                     }}
                     disabled={!table}
                   >
-                    Apply field mapping
+                    {tx("Apply field mapping")}
                   </button>
                 </div>
               )}
               <AIProviderSettings
                 value={aiConfig}
                 onChange={setAiConfig}
-                title="Analysis model"
+                title={tx("Analysis model")}
               />
               <button
                 className="button button--primary margin-top--sm"
                 onClick={handleAnalyze}
                 disabled={busy || !table || false}
               >
-                {busy ? "Analyzing…" : "Generate visualization"}
+                {busy ? tx("Analyzing…") : tx("Generate visualization")}
               </button>
             </section>
 
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Dataset summary sent to AI
+                  {tx("Dataset summary sent to AI")}
                 </Heading>
               </div>
               <textarea
                 className={clsx(styles.textArea, styles.monoArea)}
                 value={datasetSummary}
-                aria-label="Dataset summary that will be sent to the selected AI provider"
+                aria-label={tx(
+                  "Dataset summary that will be sent to the selected AI provider"
+                )}
                 readOnly
               />
             </section>
@@ -1659,14 +1687,16 @@ export default function AiDataVisualizerPage() {
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Preview (first {previewCount} rows)
+                  {tx("Preview (first ")}
+                  {previewCount}
+                  {tx(" rows)")}
                 </Heading>
               </div>
               {table ? (
                 <div className={styles.tableScroll}>
                   <table className={styles.previewTable}>
                     <caption className={styles.srOnly}>
-                      Preview of the uploaded dataset
+                      {tx("Preview of the uploaded dataset")}
                     </caption>
                     <thead>
                       <tr>
@@ -1689,20 +1719,20 @@ export default function AiDataVisualizerPage() {
                   </table>
                 </div>
               ) : (
-                <p className={styles.metaText}>No data preview yet.</p>
+                <p className={styles.metaText}>{tx("No data preview yet.")}</p>
               )}
             </section>
 
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  AI Insights
+                  {tx("AI Insights")}
                 </Heading>
               </div>
               {chartError && <p className={styles.errorText}>{chartError}</p>}
               {aiSummary && (
                 <p>
-                  <strong>Summary:</strong> {aiSummary}
+                  <strong>{tx("Summary:")}</strong> {aiSummary}
                 </p>
               )}
               {aiInsights.length > 0 && (
@@ -1714,7 +1744,7 @@ export default function AiDataVisualizerPage() {
               )}
               {!aiSummary && aiInsights.length === 0 && !chartError && (
                 <p className={styles.metaText}>
-                  Run an analysis to see highlights here.
+                  {tx("Run an analysis to see highlights here.")}
                 </p>
               )}
             </section>
@@ -1722,14 +1752,14 @@ export default function AiDataVisualizerPage() {
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Interactive chart
+                  {tx("Interactive chart")}
                 </Heading>
                 <button
                   className="button button--secondary button--sm"
                   onClick={handleDownloadChart}
                   disabled={!chartReady}
                 >
-                  Download PNG
+                  {tx("Download PNG")}
                 </button>
               </div>
               {chartRuntimeError && (
@@ -1738,10 +1768,13 @@ export default function AiDataVisualizerPage() {
               <div className={styles.chartShell}>
                 {!chartOption && (
                   <div className={styles.chartEmpty} aria-hidden="true">
-                    <span className={styles.chartEmptyTitle}>No chart yet</span>
+                    <span className={styles.chartEmptyTitle}>
+                      {tx("No chart yet")}
+                    </span>
                     <span>
-                      Upload a table and generate a visualization to see it
-                      here.
+                      {tx(
+                        "Upload a table and generate a visualization to see it here."
+                      )}
                     </span>
                   </div>
                 )}
@@ -1761,11 +1794,11 @@ export default function AiDataVisualizerPage() {
             <section className={styles.card}>
               <div className={styles.cardHeading}>
                 <Heading as="h2" className={styles.cardTitle}>
-                  Raw AI response
+                  {tx("Raw AI response")}
                 </Heading>
               </div>
               <pre className={styles.codeBlock}>
-                {rawAiText || "No response yet."}
+                {rawAiText || tx("No response yet.")}
               </pre>
             </section>
           </div>
@@ -1789,7 +1822,14 @@ const PLAN_CHARTS = new Set([
 
 // Mean ± SE error bars, Tukey–Kramer letters and an ANOVA line, all computed
 // from the full table (src/lib/science/stats.js).
-function attachGroupStatistics(option, rows, xField, yField, withErrorBars) {
+function attachGroupStatistics(
+  option,
+  rows,
+  xField,
+  yField,
+  withErrorBars,
+  drawsDistribution = !withErrorBars
+) {
   const grouped = groupValues(rows, xField, yField);
   const groups = Object.entries(grouped)
     .map(([name, values]) => ({ name: String(name), values }))
@@ -1798,7 +1838,9 @@ function attachGroupStatistics(option, rows, xField, yField, withErrorBars) {
     return {
       option,
       statsInsights: [
-        "Group comparison needs at least two groups with two or more values each.",
+        tx(
+          "Group comparison needs at least two groups with two or more values each."
+        ),
       ],
     };
   }
@@ -1814,18 +1856,34 @@ function attachGroupStatistics(option, rows, xField, yField, withErrorBars) {
       }))
     );
   }
-  opt = applyTukeyLetters(opt, result.letters);
+  // Letters sit above the highest drawn value of each group.
+  const tops = Object.fromEntries(
+    result.summary.map((g) => {
+      const values = groups.find((x) => x.name === g.name).values;
+      const top = withErrorBars
+        ? g.mean + g.se
+        : drawsDistribution
+        ? Math.max(...values)
+        : g.mean;
+      return [g.name, top];
+    })
+  );
+  opt = applyTukeyLetters(opt, result.letters, tops);
   const a = result.anova;
   const pText = a.p < 0.001 ? "p < 0.001" : `p = ${a.p.toFixed(3)}`;
   return {
     option: opt,
     statsInsights: [
-      `One-way ANOVA (computed from all rows): F(${a.dfBetween}, ${
-        a.dfWithin
-      }) = ${a.F.toFixed(2)}, ${pText}.`,
-      `Letters: Tukey–Kramer HSD at α = 0.05; groups sharing a letter do not differ significantly.${
-        withErrorBars ? " Error bars: mean ± SE." : ""
-      }`,
+      tx(
+        "One-way ANOVA (computed from all rows): F({0}, {1}) = {2}, {3}.",
+        a.dfBetween,
+        a.dfWithin,
+        a.F.toFixed(2),
+        pText
+      ),
+      tx(
+        "Letters: Tukey–Kramer HSD at α = 0.05; groups sharing a letter do not differ significantly."
+      ) + (withErrorBars ? tx(" Error bars: mean ± SE.") : ""),
     ],
     comparison: result,
   };
@@ -1989,13 +2047,13 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
         const opt2 = buildHistogramOption(hist.labels, hist.counts, yField);
         return {
           option: composeDualOption(opt, opt2),
-          summary: `${agg}(${yField}) by ${xField} + histogram`,
+          summary: tx("{0}({1}) by {2} + histogram", agg, yField, xField),
           insights: [],
         };
       }
       return {
         option: opt,
-        summary: `${agg}(${yField}) by ${xField}`,
+        summary: tx("{0}({1}) by {2}", agg, yField, xField),
         insights: [],
       };
     }
@@ -2027,13 +2085,19 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
       );
       return {
         option: composeDualOption(opt, opt2),
-        summary: `${agg}(${yField}) by ${xField} grouped + violin`,
+        summary: tx("{0}({1}) by {2} grouped + violin", agg, yField, xField),
         insights: [],
       };
     }
     return {
       option: opt,
-      summary: `${agg}(${yField}) by ${xField} grouped by ${groupField}`,
+      summary: tx(
+        "{0}({1}) by {2} grouped by {3}",
+        agg,
+        yField,
+        xField,
+        groupField
+      ),
       insights: [],
     };
   }
@@ -2046,7 +2110,7 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
     );
     return {
       option: opt,
-      summary: "Correlation heatmap across numeric columns.",
+      summary: tx("Correlation heatmap across numeric columns."),
       insights: [],
     };
   }
@@ -2060,11 +2124,15 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
       const opt2 = buildHistogramOption(hist.labels, hist.counts, y);
       return {
         option: composeDualOption(opt, opt2),
-        summary: `Scatter of ${x} vs ${y} + histogram`,
+        summary: tx("Scatter of {0} vs {1} + histogram", x, y),
         insights: [],
       };
     }
-    return { option: opt, summary: `Scatter of ${x} vs ${y}.`, insights: [] };
+    return {
+      option: opt,
+      summary: tx("Scatter of {0} vs {1}.", x, y),
+      insights: [],
+    };
   }
   if (
     (keywords.includes("boxplot") || keywords.includes("anova")) &&
@@ -2089,7 +2157,7 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
       );
       return {
         option: composeDualOption(left, right),
-        summary: `Grouped boxplot + violin of ${y} by ${x}`,
+        summary: tx("Grouped boxplot + violin of {0} by {1}", y, x),
         insights: [],
       };
     }
@@ -2097,7 +2165,7 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
     const opt = buildBoxplotOption(stat.labels, stat.boxes);
     return {
       option: opt,
-      summary: `Distribution of ${y} by ${x}.`,
+      summary: tx("Distribution of {0} by {1}.", y, x),
       insights: [],
     };
   }
@@ -2110,25 +2178,29 @@ function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
     const x = categoryCols[0];
     const grouped = groupValues(tableObj.rows, x, y);
     const opt = buildViolinOption(Object.keys(grouped), grouped, y);
-    return { option: opt, summary: `Violin of ${y} by ${x}.`, insights: [] };
+    return {
+      option: opt,
+      summary: tx("Violin of {0} by {1}.", y, x),
+      insights: [],
+    };
   }
   if (keywords.includes("histogram") && numericCols.length >= 1) {
     const y = numericCols[0];
     const hist = computeHistogram(tableObj.rows, y, 12);
     const opt = buildHistogramOption(hist.labels, hist.counts, y);
-    return { option: opt, summary: `Histogram of ${y}.`, insights: [] };
+    return { option: opt, summary: tx("Histogram of {0}.", y), insights: [] };
   }
   const y = numericCols[0];
   const x = categoryCols[0];
   if (y && x) {
     const agg = aggregateByCategoryMean(tableObj.rows, x, y);
     const opt = buildBarMeanOption(agg.labels, agg.means, x, y);
-    return { option: opt, summary: `Mean ${y} by ${x}.`, insights: [] };
+    return { option: opt, summary: tx("Mean {0} by {1}.", y, x), insights: [] };
   }
   if (y && !x) {
     const seq = buildSeriesFromNumeric(tableObj.rows, y);
     const opt = buildLineOption(seq.labels, seq.values, y);
-    return { option: opt, summary: `Sequence of ${y}.`, insights: [] };
+    return { option: opt, summary: tx("Sequence of {0}.", y), insights: [] };
   }
   return null;
 }
@@ -2248,7 +2320,7 @@ function aggregateByXYGroup(rows, xField, yField, gField, method) {
 
 function buildGroupedBarOption(labels, series, xField, yName) {
   return normalizeEchartsOption({
-    title: { text: `${yName} by ${xField}`, left: "center" },
+    title: { text: tx("{0} by {1}", yName, xField), left: "center" },
     tooltip: { trigger: "axis" },
     xAxis: { type: "category", data: labels },
     yAxis: { type: "value", name: yName },
@@ -2337,7 +2409,7 @@ function buildCorrelationHeatmapOption(xCats, yCats, matrix) {
     }
   }
   return normalizeEchartsOption({
-    title: { text: "Correlation Heatmap", left: "center" },
+    title: { text: tx("Correlation Heatmap"), left: "center" },
     tooltip: { position: "top" },
     grid: { left: "5%", right: "5%", top: "12%", bottom: "16%" },
     xAxis: { type: "category", data: xCats },
@@ -2370,7 +2442,7 @@ function buildScatterOptionFromRows(rows, xField, yField, groupField) {
     data: points[k],
   }));
   return normalizeEchartsOption({
-    title: { text: `${xField} vs ${yField}`, left: "center" },
+    title: { text: tx("{0} vs {1}", xField, yField), left: "center" },
     tooltip: { trigger: "axis" },
     xAxis: { type: "value", name: xField },
     yAxis: { type: "value", name: yField },
@@ -2414,7 +2486,7 @@ function fiveNumber(arr) {
 
 function buildBoxplotOption(labels, boxes) {
   return normalizeEchartsOption({
-    title: { text: "Boxplot", left: "center" },
+    title: { text: tx("Boxplot"), left: "center" },
     tooltip: { trigger: "item" },
     xAxis: { type: "category", data: labels },
     yAxis: { type: "value" },
@@ -2446,7 +2518,7 @@ function buildViolinOption(labels, valuesByLabel, yName) {
     values: valuesByLabel[lab] || [],
   }));
   return normalizeEchartsOption({
-    title: { text: `Violin of ${yName}`, left: "center" },
+    title: { text: tx("Violin of {0}", yName), left: "center" },
     tooltip: { trigger: "item" },
     xAxis: { type: "category", data: labels },
     yAxis: { type: "value", name: yName },
@@ -2542,7 +2614,7 @@ function buildGroupedViolinOption(labelsX, groups, valuesByGroup, yName) {
     })),
   }));
   return normalizeEchartsOption({
-    title: { text: `Grouped Violin of ${yName}`, left: "center" },
+    title: { text: tx("Grouped Violin of {0}", yName), left: "center" },
     tooltip: { trigger: "item" },
     xAxis: { type: "category", data: labelsX },
     yAxis: { type: "value", name: yName },
@@ -2597,7 +2669,7 @@ function computeHistogram(rows, field, bins) {
 
 function buildHistogramOption(labels, counts, field) {
   return normalizeEchartsOption({
-    title: { text: `Histogram of ${field}`, left: "center" },
+    title: { text: tx("Histogram of {0}", field), left: "center" },
     tooltip: { trigger: "axis" },
     xAxis: { type: "category", data: labels },
     yAxis: { type: "value" },
@@ -2649,7 +2721,7 @@ function composeDualOption(opt1, opt2) {
 
 function buildBarMeanOption(labels, values, xField, yField) {
   return normalizeEchartsOption({
-    title: { text: `Mean ${yField} by ${xField}`, left: "center" },
+    title: { text: tx("Mean {0} by {1}", yField, xField), left: "center" },
     tooltip: { trigger: "axis" },
     xAxis: { type: "category", data: labels },
     yAxis: { type: "value", name: yField },
@@ -2776,7 +2848,7 @@ function buildGroupedBoxplotCustomOption(
     })),
   }));
   return normalizeEchartsOption({
-    title: { text: `Grouped Boxplot of ${yName}`, left: "center" },
+    title: { text: tx("Grouped Boxplot of {0}", yName), left: "center" },
     tooltip: { trigger: "item" },
     xAxis: { type: "category", data: labelsX },
     yAxis: { type: "value", name: yName },

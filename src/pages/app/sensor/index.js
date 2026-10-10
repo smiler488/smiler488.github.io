@@ -9,6 +9,10 @@ import { saveArtifact } from "../../../lib/workbench/workspace";
 import { solarPosition } from "../../../lib/science/solar.js";
 import { inclinationFromOrientation } from "../../../lib/science/orientation.js";
 import styles from "./styles.module.css";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
+import ZH from "./_zh";
+
+const tx = makeToolText(ZH);
 
 /**
  * Sensor App
@@ -127,7 +131,9 @@ function getCurrentGeo(onError) {
     if (!("geolocation" in navigator)) {
       if (onError)
         onError(
-          new Error("Geolocation is not supported on this device or browser.")
+          new Error(
+            tx("Geolocation is not supported on this device or browser.")
+          )
         );
       resolve({
         latitude: null,
@@ -218,7 +224,9 @@ export default function SensorPage() {
   function handleGeoError(err) {
     if (!err) {
       setError(
-        "Unable to access location. Your browser or device may have blocked geolocation for this site."
+        tx(
+          "Unable to access location. Your browser or device may have blocked geolocation for this site."
+        )
       );
       return;
     }
@@ -253,7 +261,9 @@ export default function SensorPage() {
       if (!hasMotion) {
         setPermission("denied");
         setError(
-          "This device or browser does not provide motion sensors. Orientation data may not be available. Try using a mobile phone with gyroscope/accelerometer."
+          tx(
+            "This device or browser does not provide motion sensors. Orientation data may not be available. Try using a mobile phone with gyroscope/accelerometer."
+          )
         );
         return false;
       }
@@ -264,7 +274,9 @@ export default function SensorPage() {
     if (!motionOk) {
       setPermission("denied");
       setError(
-        "Motion permission was denied or is not available. Please enable motion/orientation access for this site in your browser settings and try again."
+        tx(
+          "Motion permission was denied or is not available. Please enable motion/orientation access for this site in your browser settings and try again."
+        )
       );
       return false;
     }
@@ -289,7 +301,9 @@ export default function SensorPage() {
       const sensorReading = await waitForOrientation(latestOrientationRef);
       if (!sensorReading?.receivedAt) {
         setError(
-          "No orientation reading arrived. Keep the phone awake, check motion access, and try again."
+          tx(
+            "No orientation reading arrived. Keep the phone awake, check motion access, and try again."
+          )
         );
         return;
       }
@@ -344,9 +358,11 @@ export default function SensorPage() {
       const item = await saveArtifact({
         type: "geo.point[]",
         appId: "sensor",
-        label: `${
-          geoRows.length
-        } GPS points · ${new Date().toLocaleDateString()}`,
+        label: tx(
+          "{0} GPS points · {1}",
+          geoRows.length,
+          new Date().toLocaleDateString()
+        ),
         data: geoRows.map((r) => ({
           lat: r.latitude,
           lng: r.longitude,
@@ -435,10 +451,11 @@ export default function SensorPage() {
         <div className={styles.permissionCard}>
           <div className={styles.permissionContent}>
             <div>
-              <strong>Sensor readiness</strong>
+              <strong>{tx("Sensor readiness")}</strong>
               <span className={styles.muted}>
-                Allow motion/orientation and location access from an explicit
-                tap.
+                {tx(
+                  "Allow motion/orientation and location access from an explicit tap."
+                )}
               </span>
             </div>
             <div>
@@ -448,8 +465,8 @@ export default function SensorPage() {
                 className="button button--secondary"
               >
                 {permission === "granted"
-                  ? "Sensors enabled"
-                  : "Enable sensors"}
+                  ? tx("Sensors enabled")
+                  : tx("Enable sensors")}
               </button>
             </div>
           </div>
@@ -463,11 +480,11 @@ export default function SensorPage() {
 
         <div className={styles.controls}>
           <div className={styles.leafField}>
-            <label htmlFor="sensor-leaf-id">Leaf or sample ID</label>
+            <label htmlFor="sensor-leaf-id">{tx("Leaf or sample ID")}</label>
             <input
               id="sensor-leaf-id"
               type="text"
-              placeholder="e.g. Plot-04-Leaf-12"
+              placeholder={tx("e.g. Plot-04-Leaf-12")}
               value={leafId}
               onChange={(e) => setLeafId(e.target.value)}
               className={styles.input}
@@ -480,7 +497,7 @@ export default function SensorPage() {
             disabled={busy}
             className={`${styles.button} ${styles.buttonPrimary}`}
           >
-            {busy ? "Capturing…" : "Capture Sample"}
+            {busy ? tx("Capturing…") : tx("Capture Sample")}
           </button>
           <button
             type="button"
@@ -488,7 +505,7 @@ export default function SensorPage() {
             disabled={!rows.length}
             className={`${styles.button} ${styles.buttonPrimary}`}
           >
-            Export CSV
+            {tx("Export CSV")}
           </button>
           <button
             type="button"
@@ -511,25 +528,25 @@ export default function SensorPage() {
         <div className={styles.grid}>
           <div className={styles.card}>
             <Heading as="h2" className={styles.cardTitle}>
-              Current orientation
+              {tx("Current orientation")}
             </Heading>
             <div>
               <div className={styles.row}>
-                <span>Alpha (Z, yaw):</span>
+                <span>{tx("Alpha (Z, yaw):")}</span>
                 <strong>
                   {toFixedMaybe(orientation.alpha, 2) || "N/A"}
                   {orientation.alpha == null ? "" : "°"}
                 </strong>
               </div>
               <div className={styles.row}>
-                <span>Beta (X, pitch):</span>
+                <span>{tx("Beta (X, pitch):")}</span>
                 <strong>
                   {toFixedMaybe(orientation.beta, 2) || "N/A"}
                   {orientation.beta == null ? "" : "°"}
                 </strong>
               </div>
               <div className={styles.row}>
-                <span>Gamma (Y, roll):</span>
+                <span>{tx("Gamma (Y, roll):")}</span>
                 <strong>
                   {toFixedMaybe(orientation.gamma, 2) || "N/A"}
                   {orientation.gamma == null ? "" : "°"}
@@ -549,34 +566,36 @@ export default function SensorPage() {
                   const ok = await ensurePermissions();
                   if (!ok)
                     setError(
-                      "Please allow motion/orientation access in browser settings."
+                      tx(
+                        "Please allow motion/orientation access in browser settings."
+                      )
                     );
                 }}
                 className={`${styles.button} ${styles.buttonPrimary}`}
                 style={{ marginTop: 8, width: "100%" }}
               >
                 {permission === "granted"
-                  ? "Motion Permission Granted"
-                  : "Enable Motion Permission"}
+                  ? tx("Motion Permission Granted")
+                  : tx("Enable Motion Permission")}
               </button>
             </div>
           </div>
 
           <div className={styles.card}>
             <Heading as="h2" className={styles.cardTitle}>
-              Latest location
+              {tx("Latest location")}
             </Heading>
             <div>
               <div className={styles.row}>
-                <span>Latitude:</span>
+                <span>{tx("Latitude:")}</span>
                 <strong>{toFixedMaybe(geo.latitude, 6) || "N/A"}</strong>
               </div>
               <div className={styles.row}>
-                <span>Longitude:</span>
+                <span>{tx("Longitude:")}</span>
                 <strong>{toFixedMaybe(geo.longitude, 6) || "N/A"}</strong>
               </div>
               <div className={styles.row}>
-                <span>Altitude:</span>
+                <span>{tx("Altitude:")}</span>
                 <strong>
                   {geo.altitude == null
                     ? "N/A"
@@ -584,7 +603,7 @@ export default function SensorPage() {
                 </strong>
               </div>
               <div className={styles.row}>
-                <span>Accuracy:</span>
+                <span>{tx("Accuracy:")}</span>
                 <strong>
                   {geo.accuracy == null
                     ? "N/A"
@@ -599,26 +618,27 @@ export default function SensorPage() {
                 className={`${styles.button} ${styles.buttonPrimary}`}
                 style={{ marginTop: 8, width: "100%" }}
               >
-                Refresh Location
+                {tx("Refresh Location")}
               </button>
             </div>
           </div>
 
           <div className={styles.card}>
             <Heading as="h2" className={styles.cardTitle}>
-              Session status
+              {tx("Session status")}
             </Heading>
             <div>
-              Recorded rows: <strong>{rows.length}</strong>
+              {tx("Recorded rows: ")}
+              <strong>{rows.length}</strong>
             </div>
             <div>
-              Motion access:{" "}
+              {tx("Motion access:")}{" "}
               <strong>
                 {permission === "granted"
-                  ? "Enabled"
+                  ? tx("Enabled")
                   : permission === "denied"
-                  ? "Unavailable"
-                  : "Not requested"}
+                  ? tx("Unavailable")
+                  : tx("Not requested")}
               </strong>
             </div>
           </div>
@@ -693,7 +713,7 @@ export default function SensorPage() {
                       textAlign: "center",
                     }}
                   >
-                    No data yet. Enter ID and click “Capture Sample”.
+                    {tx("No data yet. Enter ID and click “Capture Sample”.")}
                   </td>
                 </tr>
               )}
@@ -705,15 +725,15 @@ export default function SensorPage() {
         <div className={styles.formulaBox}>
           <div className={styles.formulaHeader}>
             <Heading as="h2" className={styles.formulaTitle}>
-              Solar angle formulas
+              {tx("Solar angle formulas")}
             </Heading>
           </div>
 
           <div className={styles.formulaContent}>
             <p style={{ margin: "0 0 14px", fontSize: "0.9rem" }}>
-              Solar declination (δ) and the equation of time come from the NOAA
-              solar position algorithm (after Meeus); elevation (h) and azimuth
-              (A) then follow from:
+              {tx(
+                "Solar declination (δ) and the equation of time come from the NOAA solar position algorithm (after Meeus); elevation (h) and azimuth (A) then follow from:"
+              )}
             </p>
 
             {/* Formula rows */}
@@ -721,7 +741,8 @@ export default function SensorPage() {
               <span className={styles.formulaLhs}>h</span>
               <span className={styles.formulaEq}>=</span>
               <span className={styles.formulaRhs}>
-                arcsin(&thinsp;<span className={styles.formulaFn}>sin</span>(φ)·
+                {tx("arcsin( ")}
+                <span className={styles.formulaFn}>sin</span>(φ)·
                 <span className={styles.formulaFn}>sin</span>(δ)
                 &thinsp;+&thinsp;
                 <span className={styles.formulaFn}>cos</span>(φ)·
@@ -733,7 +754,8 @@ export default function SensorPage() {
               <span className={styles.formulaLhs}>A</span>
               <span className={styles.formulaEq}>=</span>
               <span className={styles.formulaRhs}>
-                atan2(&thinsp;<span className={styles.formulaFn}>sin</span>
+                {tx("atan2( ")}
+                <span className={styles.formulaFn}>sin</span>
                 (H),&ensp;
                 <span className={styles.formulaFn}>cos</span>(H)·
                 <span className={styles.formulaFn}>sin</span>(φ)
@@ -757,8 +779,9 @@ export default function SensorPage() {
                 className={styles.formulaRhs}
                 style={{ fontSize: "0.88rem" }}
               >
-                rad &times; (180 / π)&ensp;·&ensp;Azimuth reported from North,
-                clockwise&thinsp;[0&thinsp;…&thinsp;360°]
+                {tx(
+                  "rad × (180 / π) · Azimuth reported from North, clockwise [0 … 360°]"
+                )}
               </span>
             </div>
 
@@ -770,33 +793,33 @@ export default function SensorPage() {
                 fontSize: "0.88rem",
               }}
             >
-              Symbols
+              {tx("Symbols")}
             </p>
             <table className={styles.formulaLegend}>
               <tbody>
                 <tr>
                   <td className={styles.legendSym}>φ</td>
-                  <td>geographic latitude</td>
+                  <td>{tx("geographic latitude")}</td>
                 </tr>
                 <tr>
                   <td className={styles.legendSym}>δ</td>
-                  <td>solar declination</td>
+                  <td>{tx("solar declination")}</td>
                 </tr>
                 <tr>
                   <td className={styles.legendSym}>H</td>
                   <td>
-                    hour angle — H&thinsp;=&thinsp;15°&thinsp;×&thinsp;(solar
-                    time − 12)
+                    {IS_ZH ? "时角" : "hour angle"} —
+                    H&thinsp;=&thinsp;15°&thinsp;×&thinsp;(
+                    {IS_ZH ? "真太阳时" : "solar time"} − 12)
                   </td>
                 </tr>
               </tbody>
             </table>
 
             <p className={styles.formulaNote}>
-              Solar time is computed from the UTC instant, the longitude and the
-              equation of time. Validated against NREL SPA: elevation within
-              0.05° and azimuth within 0.1°. Elevation is geometric, without
-              atmospheric refraction.
+              {tx(
+                "Solar time is computed from the UTC instant, the longitude and the equation of time. Validated against NREL SPA: elevation within 0.05° and azimuth within 0.1°. Elevation is geometric, without atmospheric refraction."
+              )}
             </p>
           </div>
         </div>
