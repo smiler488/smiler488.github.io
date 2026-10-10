@@ -1,7 +1,7 @@
 ---
 slug: personal-website-docusaurus-github-pages
 title: "用 Docusaurus 和 GitHub Pages 搭建并发布个人网站"
-description: "一套注重版本的工作流：创建 Docusaurus 作品集，正确配置 GitHub Pages，并维护可靠的部署。"
+description: "从创建项目、配置 GitHub Pages 地址到自动部署，用 Docusaurus 搭建并长期维护个人网站。"
 authors: [liangchao]
 category: 开发者工具
 article_type: 技术指南
@@ -9,26 +9,26 @@ tags: [web-development, git, reproducible-research]
 image: /img/blog-default.jpg
 ---
 
-## 项目概述
+## 概述
 
-本指南用 Docusaurus 搭建个人作品集，并将生成的静态站点发布到 GitHub Pages。它涵盖导致大多数部署失败的两个细节：选择正确的 `baseUrl`，以及把源码分支与生成的 `gh-pages` 分支分开。
+本文介绍如何用 Docusaurus 搭建个人主页，并把生成的静态网站发布到 GitHub Pages。部署失败大多出在两处：`baseUrl` 设置错误，以及源码分支和部署用的 `gh-pages` 分支混在一起。下文会重点说明这两点。
 
-- **适用场景：** 作品集、项目文档、论文列表和技术笔记
-- **结果：** 一个版本可控的站点，本地与托管构建均可重复
-- **当前基线：** Docusaurus 3 需要 Node.js 20 或更新版本
+- **适合用来做：** 个人主页、项目文档、论文列表和技术笔记
+- **最终效果：** 网站纳入版本管理，本地构建和线上构建结果一致
+- **版本要求：** Docusaurus 3 需要 Node.js 20 及以上
 
 <!-- truncate -->
 
-## 开始之前
+## 准备工作
 
-安装或准备：
+需要先安装：
 
-- Node.js 20 或更新版本以及 npm
+- Node.js 20 及以上，以及 npm
 - Git
-- 一个 GitHub 账号
-- 一个代码编辑器
+- GitHub 账号
+- 代码编辑器
 
-检查本地工具：
+检查本地环境：
 
 ```bash
 node --version
@@ -36,11 +36,11 @@ npm --version
 git --version
 ```
 
-下面的命令使用 npm。在整个项目中保持使用同一个包管理器及其锁文件。
+下文统一使用 npm。同一个项目请始终用同一种包管理器，并提交它的锁文件。
 
-## 1. 创建站点
+## 1. 创建网站
 
-使用官方项目生成器：
+用官方脚手架创建项目：
 
 ```bash
 npx create-docusaurus@latest my-portfolio classic
@@ -49,9 +49,9 @@ npm install
 npm run start
 ```
 
-开发服务器通常在 `http://localhost:3000` 打开。对 Markdown、React 组件和 CSS 的修改会通过热重载呈现。
+开发服务器一般运行在 `http://localhost:3000`，修改 Markdown、React 组件或 CSS 后页面会自动刷新。
 
-classic 模板包含：
+classic 模板的目录结构如下：
 
 ```text
 my-portfolio/
@@ -67,18 +67,18 @@ my-portfolio/
 └── package.json
 ```
 
-没有默认的 `npm run new blog` 命令。创建一个诸如 `blog/2026-07-16-field-workflow.md` 的文件并添加合法的 frontmatter 即可。
+Docusaurus 没有 `npm run new blog` 这样的命令。新建一篇博客，只需创建一个文件，例如 `blog/2026-07-16-field-workflow.md`，并写好 front matter。
 
 ## 2. 确定 GitHub Pages 地址
 
-仓库名决定了公开路径。
+网站的公开地址由仓库名决定：
 
-| 站点类型          | 仓库                   | 公开 URL                                     | `baseUrl`        |
-| ------------------------- | ---------------------- | -------------------------------------------- | ---------------- |
-| 用户或组织站点    | `<username>.github.io` | `https://<username>.github.io/`              | `/`              |
-| 项目站点          | `my-portfolio`         | `https://<username>.github.io/my-portfolio/` | `/my-portfolio/` |
+| 网站类型 | 仓库名 | 公开地址 | `baseUrl` |
+| --- | --- | --- | --- |
+| 用户或组织主页 | `<username>.github.io` | `https://<username>.github.io/` | `/` |
+| 项目页面 | `my-portfolio` | `https://<username>.github.io/my-portfolio/` | `/my-portfolio/` |
 
-为其中一个目标配置 `docusaurus.config.js`。下面这个用户站点示例保留了干净的根 URL：
+按其中一种情况配置 `docusaurus.config.js`。下面是用户主页的例子，网址就是根路径：
 
 ```js
 const config = {
@@ -95,36 +95,36 @@ const config = {
 export default config;
 ```
 
-对于项目站点，把 `projectName` 改为仓库名，并把 `baseUrl` 设为 `/repository-name/`。不要在部署工作流中把这个值留给一个未设置的环境变量。
+如果是项目页面，把 `projectName` 改成仓库名，`baseUrl` 设为 `/仓库名/`。这个值请直接写在配置里，不要依赖部署流程中可能没有设置的环境变量。
 
-## 3. 添加内容和身份信息
+## 3. 填充内容
 
-优先提供访问者需要的信息：
+先放访客最关心的信息：
 
-- 一段简短的研究或职业简介
-- 当前项目及其具体成果
-- 论文、数据集、软件和可复现的工作流
-- 目的明确的联系方式
-- 一个简洁的博客，文章带日期并持续维护
+- 简短的研究或职业介绍
+- 正在做的项目及其具体成果
+- 论文、数据集、软件和可复现的流程
+- 联系方式，并说明适合联系的事由
+- 博客：文章标注日期，并持续更新
 
-把可下载的资源放在 `static/` 下。例如 `static/files/cv.pdf` 可通过 `/files/cv.pdf` 访问。
+可供下载的文件放在 `static/` 下，例如 `static/files/cv.pdf` 的访问地址就是 `/files/cv.pdf`。
 
-使用博客作者注册表，而不是在每篇文章里重复写职称。更新一条作者记录，可以避免旧的身份文字残留在归档文章中。
+作者信息写在博客的作者配置文件中，不要在每篇文章里重复填写职称。这样职位变动时只需改一处，旧文章也会同步更新。
 
-## 4. 验证生产构建
+## 4. 本地检查生产构建
 
-发布前先在本地运行同样的构建：
+发布前先在本地跑一遍正式构建：
 
 ```bash
 npm run build
 npm run serve
 ```
 
-预览使用生成的 `build/` 目录。在部署之前，解决失效链接、非法 frontmatter 和缺失资源等问题。
+预览的是生成的 `build/` 目录。失效链接、front matter 格式错误、资源缺失等问题，都应在部署前解决。
 
-## 5. 连接源码仓库
+## 5. 关联 GitHub 仓库
 
-创建一个空的 GitHub 仓库，然后连接本地项目：
+在 GitHub 上新建一个空仓库，然后把本地项目推送上去：
 
 ```bash
 git init
@@ -135,11 +135,11 @@ git remote add origin https://github.com/<username>/<repository>.git
 git push -u origin main
 ```
 
-源码分支包含可编辑的代码。`gh-pages` 分支应只包含生成的部署文件。
+源码分支存放可编辑的代码，`gh-pages` 分支只存放构建生成的网站文件。
 
-## 6. 用 GitHub Actions 部署
+## 6. 用 GitHub Actions 自动部署
 
-创建 `.github/workflows/deploy.yml`：
+新建 `.github/workflows/deploy.yml`：
 
 ```yaml
 name: Deploy to GitHub Pages
@@ -170,47 +170,47 @@ jobs:
           publish_branch: gh-pages
 ```
 
-如果源码分支是 `master`，相应更新工作流触发条件。在 **Settings → Pages** 中，选择 `gh-pages` 分支及其根目录作为发布源。
+如果源码分支叫 `master`，把触发分支改成 `master`。然后在仓库的 **Settings → Pages** 中，把发布来源设为 `gh-pages` 分支的根目录。
 
-对于受控的手动部署，Docusaurus 还提供了：
+如果希望手动控制部署，也可以用 Docusaurus 自带的命令：
 
 ```bash
 npx docusaurus deploy
 ```
 
-请一致地使用一种部署方法。项目专用的 `npm run deploy` 脚本可以封装构建和发布命令。
+自动部署和手动部署选一种即可，不要混用。也可以在 `package.json` 中写一个 `npm run deploy` 脚本，把构建和发布合并成一步。
 
-## 7. 维护工作流
+## 7. 日常维护
 
-每次更新：
+每次更新网站：
 
-1. 当改动较大时，在功能分支上编辑；
+1. 改动较大时，在单独的功能分支上修改；
 2. 运行生产构建；
-3. 在桌面端和移动端审查生成的页面；
+3. 在电脑和手机上分别检查页面；
 4. 提交源码改动；
-5. 推送已配置的源码分支并监控部署任务。
+5. 推送到源码分支，并查看部署任务是否成功。
 
-定期查阅依赖的发布说明，再将所有 `@docusaurus/*` 包升级到同一版本。
+升级依赖前先看发布说明，所有 `@docusaurus/*` 包要升级到同一版本。
 
-## 故障排查
+## 常见问题
 
-### 样式或资源返回 404
+### 样式或图片 404
 
-确认 `url`、`baseUrl` 和仓库名描述的是同一托管路径。项目站点却用 `baseUrl: '/'` 部署，是最常见的原因。
+检查 `url`、`baseUrl` 和仓库名是否对应同一个地址。最常见的原因是项目页面却把 `baseUrl` 设成了 `/`。
 
-### 某个路由能通过导航访问，但在公开 URL 上打不开
+### 站内点击能打开，直接访问网址却 404
 
-Docusaurus 生成的是静态路由，而不是依赖通用的单页应用回退。设置明确的 `trailingSlash` 策略，核对生成的文件，并让 GitHub Pages 从预期的分支发布。
+Docusaurus 为每个路由生成独立的静态页面，并不依赖单页应用的路由回退。请明确设置 `trailingSlash`，检查生成的文件是否存在，并确认 GitHub Pages 的发布分支设置正确。
 
-### Action 能构建但无法发布
+### Action 构建成功但发布失败
 
-确认 `permissions: contents: write`、仓库的 Actions 权限、源码分支触发条件以及 Pages 发布分支。
+检查工作流中是否有 `permissions: contents: write`、仓库是否允许 Actions 写入、触发分支是否正确，以及 Pages 的发布分支设置。
 
-### 自定义域名无法解析
+### 自定义域名无法访问
 
-在 GitHub Pages 和 DNS 提供商处都配置自定义域名。子域名通常使用 CNAME 记录；根域名使用受支持的 A、ALIAS 或 ANAME 记录。仅当部署工作流要求该文件包含在每次构建中时，才保留 `static/CNAME`。
+自定义域名需要在 GitHub Pages 和域名服务商两边都配置。子域名一般用 CNAME 记录，根域名用服务商支持的 A、ALIAS 或 ANAME 记录。只有当部署流程要求每次构建都包含 `CNAME` 文件时，才需要保留 `static/CNAME`。
 
-## 官方参考资料
+## 官方文档
 
 - [Docusaurus 安装](https://docusaurus.io/docs/installation)
 - [Docusaurus 部署](https://docusaurus.io/docs/deployment)

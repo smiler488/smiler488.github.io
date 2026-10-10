@@ -90,7 +90,7 @@ export const PUBLICATIONS = [
     layers: ["DIG"],
     description: {
       en: "An integrated platform for plant phenotyping, data processing, and analysis. Core modules have been transferred through Shufeng Bio for applied phenotyping and intelligent-agriculture services.",
-      zh: "集成植物表型分析、数据处理与分析的软件平台。核心模块已通过舒丰生物完成转让和商业化，用于植物表型与智慧农业服务。",
+      zh: "集成植物表型分析、数据处理与分析的软件平台。核心模块已通过黍峰生物完成转让和商业化，用于植物表型与智慧农业服务。",
     },
   },
 ];
