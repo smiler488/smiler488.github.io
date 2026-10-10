@@ -51,9 +51,13 @@ const CONTACT_LINKS = [
   },
 ];
 
+// `scale` evens out optical size: the image files carry different amounts of
+// built-in padding (visible content measured at 82–100% of the canvas), so
+// marks with more padding are drawn larger to match the full-bleed ones.
 const SOCIAL_LINKS = [
   {
     name: "Bilibili",
+    scale: 1.11,
     icon: "/img/Bilibili.png",
     href: "https://space.bilibili.com/16062789",
     color: "#00a1d6",
@@ -66,6 +70,7 @@ const SOCIAL_LINKS = [
   },
   {
     name: "Weibo",
+    scale: 1.05,
     icon: "/img/Weibo.png",
     href: "https://m.weibo.cn/profile/5283742028",
     color: "#e6162d",
@@ -90,6 +95,7 @@ const SOCIAL_LINKS = [
   },
   {
     name: "X",
+    scale: 1.04,
     icon: "/img/X.png",
     href: "https://x.com/smiler488",
     color: "#6b7280",
@@ -102,6 +108,7 @@ const SOCIAL_LINKS = [
   },
   {
     name: "LinkedIn",
+    scale: 1.11,
     icon: "/img/LinkedIn.png",
     href: "https://www.linkedin.com/in/liangchao-deng-7b420b269/",
     color: "#0077b5",
@@ -114,12 +121,14 @@ const SOCIAL_LINKS = [
   },
   {
     name: "Bluesky",
+    scale: 1.22,
     icon: "/img/Bluesky.png",
     href: "https://bsky.app/profile/smiler488.bsky.social",
     color: "#1285fe",
   },
   {
     name: "GitHub",
+    scale: 1.2,
     icon: "/img/Github.png",
     // Single-colour black mark: inverted in dark mode so it stays visible.
     mono: true,
@@ -302,6 +311,7 @@ function SocialIcon({ social, newWindow }) {
       rel="noopener noreferrer"
       className={styles.socialIcon}
       data-mono={social.mono || undefined}
+      style={social.scale ? { "--icon-scale": social.scale } : undefined}
       aria-label={`${social.name} · ${newWindow}`}
       title={social.name}
     >

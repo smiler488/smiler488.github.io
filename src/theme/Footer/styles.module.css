@@ -194,6 +194,36 @@
   gap: 0.45rem;
 }
 
+/* Wide screens: the platform block is a subgrid of the footer grid, so the
+   row labels share the Research column and the icons start on the Lab
+   column above. Narrower layouts fall back to the label | icons grid below. */
+@media (min-width: 1101px) {
+  @supports (grid-template-columns: subgrid) {
+    .communityColumn,
+    .socialGroups,
+    .socialGroup {
+      display: grid;
+      grid-template-columns: subgrid;
+      /* "normal" lets a subgrid inherit the footer grid's column gap. */
+      column-gap: normal;
+    }
+
+    .communityColumn > *,
+    .socialGroups,
+    .socialGroup {
+      grid-column: 1 / -1;
+    }
+
+    .socialGroups {
+      row-gap: 0.6rem;
+    }
+
+    .socialRow {
+      grid-column: 2 / -1;
+    }
+  }
+}
+
 .socialIcon {
   position: relative;
   display: inline-flex;
@@ -212,8 +242,8 @@
 
 .socialIcon img {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: calc(22px * var(--icon-scale, 1));
+  height: calc(22px * var(--icon-scale, 1));
   object-fit: contain;
 }
 
