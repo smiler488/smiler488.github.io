@@ -148,7 +148,7 @@ const TOOLS = [
           type: "number",
           minimum: BRDF_BOUNDS.rho[0],
           maximum: BRDF_BOUNDS.rho[1],
-          description: "Surface roughness ρ",
+          description: "Surface roughness σ (named rho in the fitting code)",
         },
         k: {
           type: "number",

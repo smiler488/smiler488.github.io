@@ -20,15 +20,23 @@ import styles from "./styles.module.css";
 const DOI = "10.1016/j.plaphe.2025.100135";
 const CODE = "https://github.com/PlantSystemsBiology/brdf";
 const VIEW_ANGLES = Array.from({ length: 171 }, (_, i) => i - 85);
-const DEFAULTS = { incidence: 30, ...BRDF_INITIAL };
+// Roughness starts at σ = 0.2 so the glossy lobe is visible on load; the
+// fitting code's own initial guess (σ = 0.6) is so rough that the lobe
+// spreads into a near-flat band. k and n keep the code's initial guesses.
+const DEFAULTS = {
+  incidence: 30,
+  rho: 0.2,
+  k: BRDF_INITIAL.k,
+  n: BRDF_INITIAL.n,
+};
 
 const COPY = {
   en: {
     title: "Leaf BRDF in the principal plane",
     caption:
-      "Computed in your browser with the study's Cook–Torrance model, as implemented in its fitting code. Slider ranges are the fitting bounds; the starting values are the code's initial guesses, not a measured leaf. Fitted values for each species are reported in the paper.",
+      "f = F(n, θh)·D(α, σ)·G(L, N, V, H) / 2π²(L·N)(N·V) + k/π, computed in your browser as in the study's fitting code. The total is the diffuse semicircle plus the glossy lobe around the mirror direction. Slider ranges are the fitting bounds. The starting roughness σ = 0.2 is chosen to make the lobe visible; k and n are the code's initial guesses. None of these is a measured leaf; fitted values for each species are in the paper.",
     incidence: "Incidence angle θᵢ",
-    rho: "Roughness ρ",
+    rho: "Roughness σ",
     k: "Diffuse coefficient k",
     n: "Refractive index n",
     peak: "Peak",
@@ -41,16 +49,17 @@ const COPY = {
     leaf: "Leaf surface",
     unit: "sr⁻¹",
     total: "Total BRDF",
-    diffuseLegend: "Diffuse part",
+    diffuseLegend: "Diffuse part k/π",
+    glossyLegend: "Glossy (specular) part",
     aria: (peak, angle) =>
       `Half-polar plot of leaf BRDF against view angle. Peak ${peak} per steradian at ${angle} degrees.`,
   },
   zh: {
     title: "主平面内的叶片 BRDF",
     caption:
-      "在浏览器中按研究所用的 Cook–Torrance 模型计算，实现与其拟合代码一致。滑块范围即拟合边界；初始值取自代码中的拟合初值，并非某片实测叶片。各物种的拟合值见论文。",
+      "f = F(n, θh)·D(α, σ)·G(L, N, V, H) / 2π²(L·N)(N·V) + k/π，在浏览器中按研究的拟合代码计算。总 BRDF 等于漫反射半圆加上镜面方向附近的光泽波瓣。滑块范围即拟合边界；初始粗糙度 σ = 0.2 是为了让波瓣清晰可见，k 与 n 取自代码中的拟合初值。以上都不是某片实测叶片，各物种的拟合值见论文。",
     incidence: "入射角 θᵢ",
-    rho: "粗糙度 ρ",
+    rho: "粗糙度 σ",
     k: "漫反射系数 k",
     n: "折射率 n",
     peak: "峰值",
@@ -63,7 +72,8 @@ const COPY = {
     leaf: "叶片表面",
     unit: "sr⁻¹",
     total: "总 BRDF",
-    diffuseLegend: "漫反射部分",
+    diffuseLegend: "漫反射部分 k/π",
+    glossyLegend: "光泽（镜面）部分",
     aria: (peak, angle) =>
       `叶片 BRDF 随观测角变化的半极坐标图。峰值 ${peak} 每球面度，位于 ${angle} 度。`,
   },
@@ -155,6 +165,12 @@ export default function BrdfExplorer() {
     })
     .join(" ");
   const area = `${curve} L ${CX} ${CY} Z`;
+  const glossy = points
+    .map((p, i) => {
+      const [x, y] = polar(scale(p.specular), p.angle);
+      return `${i ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+    })
+    .join(" ");
   const diffuseR = scale(points[0].diffuse);
   const [peakX, peakY] = polar(scale(peak.total), peak.angle);
   const [lightX, lightY] = polar(R + 14, -state.incidence);
@@ -234,6 +250,7 @@ export default function BrdfExplorer() {
 
             <path d={arcPath(diffuseR)} className={styles.diffuse} />
             <path d={area} className={styles.area} />
+            <path d={glossy} className={styles.glossy} />
             <path d={curve} className={styles.curve} />
 
             <line
@@ -281,6 +298,7 @@ export default function BrdfExplorer() {
           <div className={styles.legend} aria-hidden="true">
             <span className={styles.legendTotal}>{copy.total}</span>
             <span className={styles.legendDiffuse}>{copy.diffuseLegend}</span>
+            <span className={styles.legendGlossy}>{copy.glossyLegend}</span>
             <span className={styles.legendMirror}>{copy.mirror}</span>
           </div>
         </div>

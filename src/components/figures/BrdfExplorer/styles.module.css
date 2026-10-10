@@ -61,6 +61,13 @@
   stroke-linejoin: round;
 }
 
+.glossy {
+  fill: none;
+  stroke: var(--ds-data-1);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
 .mirrorRay {
   stroke: var(--ds-accent);
   stroke-width: 1;
@@ -123,6 +130,10 @@
 
 .legendDiffuse::before {
   border-top: 1.5px dashed var(--ifm-color-emphasis-500);
+}
+
+.legendGlossy::before {
+  border-top: 1.5px solid var(--ds-data-1);
 }
 
 .legendMirror::before {

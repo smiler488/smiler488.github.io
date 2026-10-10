@@ -672,7 +672,7 @@ flowchart LR
   - 首页真实数据视频（可选）。
 - **状态：已完成（2026-10-09）**
   - `src/components/figure/`：`InteractiveFigure` 外壳（编号、交互标识、图注、DOI 与代码来源；重型图可用 `load` + `poster` 懒加载）与 `useReducedMotion`。
-  - 首个交互图 BRDF 探索器（`src/components/figures/BrdfExplorer`），已嵌入 BRDF 项目页（中英文）。模型移植自研究的开源拟合代码 `lsq_brdf_up.mlx`（github.com/PlantSystemsBiology/brdf），放在 `src/lib/science/brdf.js`；与按原始仪器几何直接移植的 MATLAB 函数对照，172 个配置的最大相对误差 5.8×10⁻¹⁵；回归测试见 `npm run test:science`（P4 起并入科学层测试）。滑块范围即拟合边界（ρ、k ∈ [0.01, 0.99]，n ∈ [1.1, 5]），默认值为代码中的拟合初值，图注中明确说明不是实测叶片。
+  - 首个交互图 BRDF 探索器（`src/components/figures/BrdfExplorer`），已嵌入 BRDF 项目页（中英文）。模型移植自研究的开源拟合代码 `lsq_brdf_up.mlx`（github.com/PlantSystemsBiology/brdf），放在 `src/lib/science/brdf.js`；与按原始仪器几何直接移植的 MATLAB 函数对照，172 个配置的最大相对误差 5.8×10⁻¹⁵；回归测试见 `npm run test:science`（P4 起并入科学层测试）。滑块范围即拟合边界（ρ、k ∈ [0.01, 0.99]，n ∈ [1.1, 5]），默认粗糙度 σ = 0.2（为使光泽波瓣可见；代码初值 σ = 0.6 时波瓣几乎摊平、峰值落在掠射角），k、n 为代码中的拟合初值；图中分别绘出漫反射半圆、光泽（镜面）波瓣与总 BRDF，图注写出完整公式并说明均非实测叶片。
   - 采用 SVG 而非 Canvas / ECharts：服务端渲染的默认状态就是静态 poster（满足 §7.1 第 1 条），交互部分约几 KB。
   - 科研图表风格套件：见 §7.4。
   - 未做：首页真实数据循环视频（需作者提供素材，可选项）。
