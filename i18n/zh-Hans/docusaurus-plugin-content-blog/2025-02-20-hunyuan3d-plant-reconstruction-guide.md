@@ -5,10 +5,12 @@ description: "一套针对特定版本、注重证据的工作流：用 Hunyuan3
 authors: [liangchao]
 tags: [artificial-intelligence, computer-vision, three-dimensional-reconstruction, plant-phenotyping]
 layers: [DIG]
-image: /img/blog-default.jpg
+image: /img/cotton3d/compare.webp
 category: 成像与三维
 article_type: 技术指南
 ---
+
+import { CottonCompareFigure } from '@site/src/components/figures/Cotton3D';
 
 Hunyuan3D-1 是腾讯发布的生成式图生三维和文生三维系统。它能从单张植株照片创建带纹理的三维资产，这使其在可视化、假设生成以及研究生成式三维模型行为方面很有用。
 
@@ -149,6 +151,10 @@ o3d.io.write_point_cloud("generated_mesh_sampled.ply", points)
 - 按物种、生育期和遮挡水平的性能；
 - 对种子、裁剪、背景和输入视角的敏感性；
 - 置信区间或重复运行的变异性。
+
+下图展示了对一株棉花做这类检验的第一步：把 Hunyuan3D 的输出与同一植株的独立 SfM 重建对齐。这是可视化对比，而不是基准测试。
+
+<CottonCompareFigure />
 
 在数据集、划分、基线、代码和评估定义都可用之前，不要报告基准数字。
 

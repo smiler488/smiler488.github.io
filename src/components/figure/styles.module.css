@@ -13,8 +13,36 @@
 
 .poster {
   display: grid;
+  gap: 1rem;
   min-height: 240px;
   place-items: center;
+}
+
+.loadButton {
+  min-height: 38px;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-900);
+  border-radius: var(--ds-radius-pill);
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-0);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.loadButton:hover {
+  background: var(--ifm-color-emphasis-800);
+}
+
+.loadButton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.loadButton:focus-visible {
+  outline: 2px solid var(--ifm-color-emphasis-900);
+  outline-offset: 3px;
 }
 
 .poster img {

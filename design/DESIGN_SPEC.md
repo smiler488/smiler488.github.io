@@ -406,6 +406,19 @@ updated: 2026-10-09
 
 **必须**：交互图只展示真实的、已发表或作者确认过的数据与模型，不使用示意性的假数据。
 
+**已落地（棉花三维，2026-10）**：作者提供的三份数据（样本 cotton_20240109-84-5 的 SfM 点云与 Hunyuan3D 点云、24 株冠层三角面元模型）已做成三个交互图，放在对应的研究笔记中：
+
+| 交互图 | 所在笔记 | 网页数据 | 处理 |
+|---|---|---|---|
+| `CottonSfmFigure` | growth-chamber-cotton-3d | `sfm.bin` 272 KB | 39,765 点全量，按器官类别着色 |
+| `CottonCompareFigure`（SfM / Hunyuan3D / 叠加） | hunyuan3d-plant-reconstruction-guide | `hy3d.bin` 410 KB | 177,357 点按类别体素降采样到 60,000 |
+| `CottonCanopyFigure` | canopy-photosynthesis-modeling | `canopy.bin` 1.15 MB | 1,613,632 个三角面元按两类分别做二次误差简化，共 119,999 个；图注中的面积统计来自完整模型 |
+
+- 代码：`src/components/figures/Cotton3D/`；数据 `static/data/cotton3d/`（坐标 16 位量化）；元数据 `src/data/cotton3d.js`；poster `static/img/cotton3d/`。
+- three.js 单独成懒加载块（约 500 KB，不进主包），超出 §7.1 的 150 KB 代码预算，记为例外：只在读者滚动到图或点击"加载交互视图"后加载。
+- 所有懒加载图的 poster 上都有"加载交互视图"按钮，与进入视口自动加载并存（慢速或按流量计费的网络下读者可自行选择）。
+- 点云类别名（0 主茎、1 分枝与叶柄、2 叶片）和冠层两类面元的光学含义待作者确认；确认前图注不写光学参数。
+
 ### 7.3 渐进增强
 
 - 默认使用 WebGL。WebGPU 只作为可选的增强路径，并且必须有检测与回退。

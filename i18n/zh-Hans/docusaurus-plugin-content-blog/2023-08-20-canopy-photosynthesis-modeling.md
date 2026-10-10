@@ -13,8 +13,10 @@ tags:
     computer-vision,
   ]
 layers: [UND, PRE]
-image: /img/blog-default.jpg
+image: /img/cotton3d/canopy.webp
 ---
+
+import { CottonCanopyFigure } from '@site/src/components/figures/Cotton3D';
 
 ## 项目概述
 
@@ -147,6 +149,10 @@ SfM 估计相机位姿和稀疏场景结构；多视图立体创建更稠密的�
 合成扰动必须是可解释的。记录株距、株高、方位角、叶角和尺寸的分布、协方差、边界和随机种子。反复克隆一株植株并添加任意顶点噪声，并不能复现群体层面的结构多样性。
 
 检查植株重叠、地下几何、不切实际的叶片相交，以及变换后叶面积的变化。
+
+下面的模型展示了冠层输入在面元层面的样子：24 株棉花以三角面元描述，每个面元归属于叶片或其他器官。
+
+<CottonCanopyFigure />
 
 ## 7. 以物理单位对光照环境建模
 

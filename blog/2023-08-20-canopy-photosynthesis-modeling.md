@@ -13,8 +13,10 @@ tags:
     computer-vision,
   ]
 layers: [UND, PRE]
-image: /img/blog-default.jpg
+image: /img/cotton3d/canopy.webp
 ---
+
+import { CottonCanopyFigure } from '@site/src/components/figures/Cotton3D';
 
 ## Project overview
 
@@ -147,6 +149,10 @@ There are two different scientific products:
 Synthetic perturbations must be interpretable. Record the distribution, covariance, bounds, and random seed for plant spacing, height, azimuth, leaf angle, and size. Repeatedly cloning one plant and adding arbitrary vertex noise does not reproduce population-level architectural diversity.
 
 Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.
+
+The model below shows what a canopy input looks like at facet level: 24 cotton plants described as triangles, each facet assigned to leaves or to other organs.
+
+<CottonCanopyFigure />
 
 ## 7. Model the light environment in physical units
 

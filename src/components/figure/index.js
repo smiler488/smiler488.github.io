@@ -19,8 +19,17 @@ const COPY = {
     interactive: "Interactive",
     source: "Source",
     code: "Code",
+    load: "Load interactive view",
+    loading: "Loading…",
   },
-  zh: { figure: "图", interactive: "交互", source: "来源", code: "代码" },
+  zh: {
+    figure: "图",
+    interactive: "交互",
+    source: "来源",
+    code: "代码",
+    load: "加载交互视图",
+    loading: "正在加载…",
+  },
 };
 
 /** True when the user asked the OS for reduced motion. */
@@ -36,33 +45,53 @@ export function useReducedMotion() {
   return reduced;
 }
 
-function LazyBody({ load, poster, posterAlt }) {
+function LazyBody({ load, loadProps, poster, posterAlt, labels }) {
   const ref = React.useRef(null);
+  const started = React.useRef(false);
   const [Component, setComponent] = React.useState(null);
-  const [failed, setFailed] = React.useState(false);
+  const [state, setState] = React.useState("idle"); // idle | loading | failed
+
+  // One entry point for both triggers: scrolling into view or the button.
+  const start = React.useCallback(() => {
+    if (started.current) return;
+    started.current = true;
+    setState("loading");
+    load()
+      .then((mod) => setComponent(() => mod.default))
+      .catch(() => {
+        started.current = false;
+        setState("failed");
+      });
+  }, [load]);
 
   React.useEffect(() => {
     const node = ref.current;
-    if (!node) return undefined;
+    if (!node || typeof IntersectionObserver === "undefined") return undefined;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
           observer.disconnect();
-          load()
-            .then((mod) => setComponent(() => mod.default))
-            .catch(() => setFailed(true));
+          start();
         }
       },
       { rootMargin: "200px" }
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [load]);
+  }, [start]);
 
-  if (Component && !failed) return <Component />;
+  if (Component) return <Component {...loadProps} />;
   return (
     <div ref={ref} className={styles.poster}>
       {poster && <img src={poster} alt={posterAlt ?? ""} />}
+      <button
+        type="button"
+        className={styles.loadButton}
+        onClick={start}
+        disabled={state === "loading"}
+      >
+        {state === "loading" ? labels.loading : labels.load}
+      </button>
     </div>
   );
 }
@@ -75,6 +104,7 @@ export function InteractiveFigure({
   code,
   children,
   load,
+  loadProps,
   poster,
   posterAlt,
 }) {
@@ -84,16 +114,26 @@ export function InteractiveFigure({
     <figure className={styles.figure}>
       <div className={styles.frame}>
         {load ? (
-          <LazyBody load={load} poster={poster} posterAlt={posterAlt} />
+          <LazyBody
+            load={load}
+            loadProps={loadProps}
+            poster={poster}
+            posterAlt={posterAlt}
+            labels={copy}
+          />
         ) : (
           children
         )}
       </div>
       <figcaption className={styles.caption}>
         <p>
-          <strong>
-            {copy.figure} {number}.
-          </strong>{" "}
+          {number != null && (
+            <>
+              <strong>
+                {copy.figure} {number}.
+              </strong>{" "}
+            </>
+          )}
           <span className={styles.badge}>{copy.interactive}</span> {title}
         </p>
         {caption && <p className={styles.captionText}>{caption}</p>}

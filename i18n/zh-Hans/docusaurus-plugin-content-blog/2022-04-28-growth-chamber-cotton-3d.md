@@ -13,8 +13,10 @@ tags:
     computer-vision,
   ]
 layers: [DIG]
-image: /img/blog-default.jpg
+image: /img/cotton3d/sfm.webp
 ---
+
+import { CottonSfmFigure } from '@site/src/components/figures/Cotton3D';
 
 ## 项目概述
 
@@ -135,6 +137,10 @@ Plant01/
 10. 导出点云或网格，并附上单位和坐标元数据。
 
 不要把关键点上限、深度设置或过滤强度当作通用默认值照搬。记录软件版本，并在有代表性的植株上做一次小型参数对比。
+
+下图就是这样一份导出结果：用运动恢复结构重建的一株棉花，以带器官标签的点云形式保存。
+
+<CottonSfmFigure />
 
 ## 7. 提取性状前先验证
 

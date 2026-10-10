@@ -13,8 +13,10 @@ tags:
     computer-vision,
   ]
 layers: [DIG]
-image: /img/blog-default.jpg
+image: /img/cotton3d/sfm.webp
 ---
+
+import { CottonSfmFigure } from '@site/src/components/figures/Cotton3D';
 
 ## Project overview
 
@@ -135,6 +137,10 @@ Software labels vary by version, so the workflow is described by purpose:
 10. export the point cloud or mesh with units and coordinate metadata.
 
 Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.
+
+The figure below is one such export: a cotton plant reconstructed with structure from motion, kept as a point cloud with organ labels.
+
+<CottonSfmFigure />
 
 ## 7. Validate before extracting traits
 

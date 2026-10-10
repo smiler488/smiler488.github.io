@@ -5,10 +5,12 @@ description: "A version-specific, evidence-aware workflow for generating explora
 authors: [liangchao]
 tags: [artificial-intelligence, computer-vision, three-dimensional-reconstruction, plant-phenotyping]
 layers: [DIG]
-image: /img/blog-default.jpg
+image: /img/cotton3d/compare.webp
 category: "Imaging & 3D"
 article_type: Technical guide
 ---
+
+import { CottonCompareFigure } from '@site/src/components/figures/Cotton3D';
 
 Hunyuan3D-1 is a generative image-to-3D and text-to-3D system released by Tencent. It can create a textured 3D asset from a single plant photograph, which makes it useful for visualization, hypothesis generation, and studying the behavior of generative 3D models.
 
@@ -149,6 +151,10 @@ If the research claim concerns geometry, collect an independently scaled referen
 - performance by species, growth stage, and occlusion level;
 - sensitivity to seed, crop, background, and input view;
 - confidence intervals or repeated-run variability.
+
+The figure below shows the first step of such a check for one cotton plant: the Hunyuan3D output aligned to an independent SfM reconstruction of the same specimen. It is a visual comparison, not a benchmark.
+
+<CottonCompareFigure />
 
 Do not report benchmark numbers unless the dataset, split, baseline, code, and evaluation definition are available.
 
