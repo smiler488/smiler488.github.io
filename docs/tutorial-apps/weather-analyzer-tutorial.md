@@ -54,7 +54,7 @@ The current app exports the variables returned by NASA POWER. It does not conver
 | **Time Standard**                        | Sends `LST` or `UTC` with hourly requests.                                                                                       |
 | **Latitude / Longitude**                 | Sets the request coordinate directly. Map clicks and location tools update these fields.                                         |
 | **Search place or address** / **Search** | Sends the query to Nominatim and uses the first result. Pressing Enter also starts a search.                                     |
-| **Get Current Location**                 | Requests browser geolocation; on unsupported, insecure, unavailable or timed-out cases it can try IP-based approximate location. |
+| **Get Current Location**                 | Requests browser geolocation; if it is unsupported, unavailable or timed out, it tries an IP-based approximate location. A denied permission is respected: no IP lookup is made. |
 | **Download NASA Weather Data**           | Validates the inputs and requests the fixed parameter set. A later request cancels an active earlier request.                    |
 | **Data preview**                         | Displays at most the first 100 records.                                                                                          |
 | **Download CSV**                         | Downloads every parsed record, not just the preview.                                                                             |
@@ -69,14 +69,14 @@ T2M_MAX, T2MDEW, WS2M, PRECTOTCORR
 Hourly parameters:
 
 ```text
-T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOT
+T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOTCORR
 ```
 
 ## How it works
 
 The app calls the NASA POWER point API with community `AG`, the chosen coordinate, inclusive date range and one fixed parameter list. Daily requests use the daily endpoint. Hourly requests use the hourly endpoint and include the selected time standard.
 
-Returned parameter series are aligned by their date or hour keys and converted to rows. The preview renders the first 100 rows, while the CSV contains the full parsed response. Values are exported as returned; no statistical cleaning, interpolation or unit conversion is applied.
+Returned parameter series are aligned by their date or hour keys and converted to rows: `DATE` is written as `YYYY-MM-DD`, hourly data get a separate `HOUR` column, and every column name carries the unit reported by POWER, e.g. `T2M [C]` or `PRECTOTCORR [mm/hour]`. Missing values (POWER fill value `-999`) are written as empty cells, and the status line reports how many there were. The preview renders the first 100 rows; the CSV contains the full response. No interpolation or unit conversion is applied.
 
 ## Data, privacy & external services
 
@@ -87,7 +87,7 @@ This workflow connects to several third parties:
 | NASA POWER    | Coordinate, date range, time scale, time standard where applicable and parameter identifiers. |
 | OpenStreetMap | Map tile requests for the visible area.                                                       |
 | Nominatim     | Text entered into place search.                                                               |
-| ipapi.co      | An IP-based approximate-location request after precise location cannot be used.               |
+| ipapi.co      | An IP-based approximate-location request when precise location is unsupported, unavailable or timed out. Not used after you deny location permission. |
 | unpkg         | Leaflet JavaScript and CSS required by the map.                                               |
 
 The downloaded records remain in browser memory until replaced or the page is closed. A temporary local URL is created for CSV download and revoked during cleanup.

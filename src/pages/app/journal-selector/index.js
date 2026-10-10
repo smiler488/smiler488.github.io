@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AIProviderSettings from "../../../components/AIProviderSettings";
@@ -322,7 +323,34 @@ ${indicatorList}
 1. 仅返回 JSON，不要 Markdown 代码块。
 2. journal_name、publisher 可保持官方语言，其余字段优先使用英文。
 3. 确保所有 JSON key 与上方列表完全一致，并且每一条期刊都包含全部字段。
-4. 根据“期刊类型偏好”选择对应的中文核心或 SCI 期刊。`;
+4. 根据“期刊类型偏好”选择对应的中文核心或 SCI 期刊。
+5. 只推荐确实存在的期刊，journal_name 使用期刊官方全称，issn 填写真实 ISSN。
+6. 影响因子、分区、审稿周期、录用率、版面费等数值，只有在确知时才填写；不确定时填 "-"，不得估计或编造。`;
+}
+
+// Links where each recommended journal's facts can be checked; the metrics
+// in the table come from the language model and must be verified.
+function verificationLinks(row) {
+  const name = formatCellValue(row.journal_name) || "";
+  const issnMatch = String(formatCellValue(row.issn) || "").match(
+    /\b\d{4}-\d{3}[\dXx]\b/
+  );
+  const query = encodeURIComponent(issnMatch ? issnMatch[0] : name);
+  if (!query) return [];
+  return [
+    {
+      label: "SCImago",
+      href: `https://www.scimagojr.com/journalsearch.php?q=${query}`,
+    },
+    {
+      label: "NLM Catalog",
+      href: `https://www.ncbi.nlm.nih.gov/nlmcatalog/?term=${query}`,
+    },
+    {
+      label: "DOAJ",
+      href: `https://doaj.org/search/journals?ref=quick-search&kw=${query}`,
+    },
+  ];
 }
 
 export default function JournalSelectorPage() {
@@ -705,8 +733,11 @@ export default function JournalSelectorPage() {
             {status}
           </p>
           <p className={styles.disclaimer}>
-            Journal metrics change over time. Verify rankings, fees and review
-            timelines on the publisher website before submission.
+            Journal suggestions and the metrics shown with them come from the
+            language model and are not looked up in a database. Each result
+            links to SCImago, the NLM Catalog and DOAJ for checking; confirm
+            impact factor and quartiles in Journal Citation Reports and fees and
+            review times on the publisher&apos;s site before submission.
           </p>
         </div>
         <div className={styles.actionButtons}>
@@ -797,6 +828,15 @@ export default function JournalSelectorPage() {
                     ) : null;
                   })}
                 </dl>
+                <p className={styles.verifyLinks}>
+                  Verify:{" "}
+                  {verificationLinks(row).map((link, i) => (
+                    <React.Fragment key={link.label}>
+                      {i > 0 && " · "}
+                      <Link to={link.href}>{link.label}</Link>
+                    </React.Fragment>
+                  ))}
+                </p>
                 <details className={styles.resultDetails}>
                   <summary>View all evaluation fields</summary>
                   <dl>

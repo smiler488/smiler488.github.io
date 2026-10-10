@@ -7,6 +7,7 @@ import AIProviderSettings from "../../../components/AIProviderSettings";
 import { createDefaultAIConfig, requestAI } from "../../../lib/api";
 import { CATEGORICAL } from "../../../lib/dataViz";
 import { recordExport } from "../../../lib/workbench/provenance";
+import { groupComparison } from "../../../lib/science/stats.js";
 import styles from "./styles.module.css";
 
 const MAX_SAMPLE_ROWS = 40;
@@ -175,23 +176,24 @@ function buildVisualizationPrompt({ datasetSummary, goal, mapping }) {
       : "Highlight the most actionable trend and propose the best chart.";
 
   return [
-    "You are an expert data scientist that returns high quality **ECharts** visualizations.",
+    "You are an expert data scientist. Choose the chart that best answers the user's goal; the app computes every value from the full dataset.",
     "Instructions:",
-    "- Use the dataset summary below (tabular, tidy rows).",
-    "- Choose the most expressive chart type supported by Apache ECharts (line, bar, scatter, pie, radar, heatmap, sankey, etc.). Heatmaps are encouraged for correlation matrices.",
+    "- You see only a summary and a few sample rows. Do not compute or state numbers (means, totals, p-values, letters, error bars); the app computes them from all rows.",
     "- Respond with strict JSON only. Start with { and end with }. No Markdown or explanations:",
     "  {",
-    '    "summary": "<2-3 sentence natural-language overview>",',
-    '    "insights": ["<bullet insight 1>", "<bullet insight 2>", "..."],',
-    '    "chart_option": { /* valid ECharts option */ }',
+    '    "summary": "<2-3 sentences: what the chart shows and why it fits the goal>",',
+    '    "insights": ["<what to look for in the chart>", "..."],',
+    '    "plan": {',
+    '      "chart": "bar | grouped_bar | boxplot | violin | scatter | histogram | correlation | line",',
+    '      "x": "<column name or null>",',
+    '      "y": "<numeric column name or null>",',
+    '      "group": "<column name or null>",',
+    '      "agg": "mean | median | sum | count",',
+    '      "compare_groups": <true when the goal asks whether groups differ (ANOVA, Tukey, significance letters)>',
+    "    }",
     "  }",
-    "- The `chart_option` must be a valid ECharts option object (title/tooltip/grid/xAxis/yAxis/visualMap/series/etc).",
-    "- Include axes labels, legends, tooltips, and visualMap (when using heatmap or continuous color scales).",
-    "- Keep series arrays short (<=6) and align data lengths with category axes.",
-    "- Never include functions or comments in the JSON.",
-    '- If the goal mentions ANOVA/Tukey or group letters, return an additional field `tukey_letters` as a JSON object mapping each category name (x-axis label) to its letter(s), e.g., {"Treatment_A":"a","Treatment_B":"ab"}.',
-    '- Do NOT create a second series for Standard Error. If uncertainty must be represented, return an `error_bars` array like [{"name":"Treatment_A","low":2450,"high":2550}] and the app will render whiskers; letters must be TEXT labels only.',
-    "- If the goal requests a correlation heatmap, build a rectangular heatmap using [xIndex, yIndex, value] tuples.",
+    "- Use column names exactly as listed in `columns`.",
+    "- bar/boxplot/violin: x is a categorical column, y numeric. scatter: x and y numeric, group optional. histogram/line: y numeric. correlation: no fields needed.",
     mapping && (mapping.xField || mapping.yField || mapping.groupField)
       ? `Field mapping: x=${mapping.xField || "auto"}, y=${
           mapping.yField || "auto"
@@ -1145,7 +1147,7 @@ export default function AiDataVisualizerPage() {
 
     try {
       if (aiConfig.provider === "demo") {
-        const localResult = buildOfflineVisualization(table, analysisGoal, {
+        const localResult = buildFromPlan(table, {}, analysisGoal, {
           xField,
           yField,
           groupField,
@@ -1161,7 +1163,10 @@ export default function AiDataVisualizerPage() {
         setAiSummary(
           localResult.summary || "Local deterministic visualization."
         );
-        setAiInsights(localResult.insights || []);
+        setAiInsights([
+          ...(localResult.statsInsights || []),
+          ...(localResult.insights || []),
+        ]);
         setChartOption(localResult.option);
         setRawAiText(
           JSON.stringify(
@@ -1197,7 +1202,7 @@ export default function AiDataVisualizerPage() {
       await processAiText(result.text);
       setStatusMessage("Visualization ready!", "success");
     } catch (err) {
-      const fallback = buildOfflineVisualization(table, analysisGoal, {
+      const fallback = buildFromPlan(table, {}, analysisGoal, {
         xField,
         yField,
         groupField,
@@ -1207,7 +1212,10 @@ export default function AiDataVisualizerPage() {
       });
       if (fallback?.option) {
         setAiSummary(fallback.summary || "Local fallback visualization.");
-        setAiInsights(fallback.insights || []);
+        setAiInsights([
+          ...(fallback.statsInsights || []),
+          ...(fallback.insights || []),
+        ]);
         setChartOption(fallback.option);
         setRawAiText(
           JSON.stringify(
@@ -1234,7 +1242,7 @@ export default function AiDataVisualizerPage() {
   async function processAiText(aiText) {
     const parsed = tryParseJson(aiText);
     if (!parsed) {
-      const fallback = buildOfflineVisualization(table, analysisGoal, {
+      const fallback = buildFromPlan(table, {}, analysisGoal, {
         xField,
         yField,
         groupField,
@@ -1244,7 +1252,10 @@ export default function AiDataVisualizerPage() {
       });
       if (fallback && fallback.option) {
         setAiSummary(fallback.summary || "Offline visualization.");
-        setAiInsights(fallback.insights || []);
+        setAiInsights([
+          ...(fallback.statsInsights || []),
+          ...(fallback.insights || []),
+        ]);
         setChartOption(fallback.option);
         setRawAiText(
           JSON.stringify(
@@ -1264,40 +1275,26 @@ export default function AiDataVisualizerPage() {
       setRawAiText(aiText);
     }
     setAiSummary(parsed.summary || "AI did not return a summary.");
-    setAiInsights(Array.isArray(parsed.insights) ? parsed.insights : []);
-    // Extract Tukey letters if provided by AI
-    const lettersCandidate =
-      (parsed &&
-        (parsed.tukey_letters ||
-          parsed.tukeyLetters ||
-          parsed.letters ||
-          parsed.annotations_letters)) ||
-      null;
-    const optionCandidate =
-      parsed.chart_option ||
-      parsed.chartOption ||
-      parsed.option ||
-      convertChartConfigToEcharts(parsed.chart_config || parsed.chartConfig);
-
-    let normalizedOption = normalizeEchartsOption(optionCandidate, {
-      letters: lettersCandidate,
-      errorBars: parsed.error_bars,
-      categoryHints: table?.categoryHints || [],
+    const aiInsights = Array.isArray(parsed.insights) ? parsed.insights : [];
+    // The chart is always built from the full table; the model only chooses
+    // the chart type and columns. Manual field mapping overrides the plan.
+    const built = buildFromPlan(table, parsed.plan || {}, analysisGoal, {
+      xField,
+      yField,
+      groupField,
+      agg,
+      errorMetric,
+      multiCharts,
     });
-    if (!normalizedOption) {
+    if (!built || !built.option) {
+      setAiInsights(aiInsights);
       setChartError(
-        "AI response missing a valid chart_option; please retry with clearer instructions."
+        "The suggested chart could not be built from this table; set the X and Y fields manually and retry."
       );
       return;
     }
-    // If AI provided error bars as low/high, render them as custom whiskers
-    if (Array.isArray(parsed.error_bars) && parsed.error_bars.length > 0) {
-      normalizedOption = attachErrorBars(normalizedOption, parsed.error_bars);
-    }
-    if (lettersCandidate && typeof lettersCandidate === "object") {
-      normalizedOption = applyTukeyLetters(normalizedOption, lettersCandidate);
-    }
-    setChartOption(normalizedOption);
+    setAiInsights([...(built.statsInsights || []), ...aiInsights]);
+    setChartOption(normalizeEchartsOption(built.option, {}) || built.option);
   }
 
   function buildTableFromRows(headers, rows) {
@@ -1596,21 +1593,20 @@ export default function AiDataVisualizerPage() {
                   <button
                     className="button button--secondary margin-top--sm"
                     onClick={() => {
-                      const res = buildOfflineVisualization(
-                        table,
-                        analysisGoal,
-                        {
-                          xField,
-                          yField,
-                          groupField,
-                          agg,
-                          errorMetric,
-                          multiCharts,
-                        }
-                      );
+                      const res = buildFromPlan(table, {}, analysisGoal, {
+                        xField,
+                        yField,
+                        groupField,
+                        agg,
+                        errorMetric,
+                        multiCharts,
+                      });
                       if (res && res.option) {
                         setAiSummary(res.summary || "Offline visualization.");
-                        setAiInsights(res.insights || []);
+                        setAiInsights([
+                          ...(res.statsInsights || []),
+                          ...(res.insights || []),
+                        ]);
                         setChartOption(res.option);
                         setRawAiText(
                           JSON.stringify(
@@ -1780,6 +1776,174 @@ export default function AiDataVisualizerPage() {
     </AppScaffold>
   );
 }
+const PLAN_CHARTS = new Set([
+  "bar",
+  "grouped_bar",
+  "boxplot",
+  "violin",
+  "scatter",
+  "histogram",
+  "correlation",
+  "line",
+]);
+
+// Mean ± SE error bars, Tukey–Kramer letters and an ANOVA line, all computed
+// from the full table (src/lib/science/stats.js).
+function attachGroupStatistics(option, rows, xField, yField, withErrorBars) {
+  const grouped = groupValues(rows, xField, yField);
+  const groups = Object.entries(grouped)
+    .map(([name, values]) => ({ name: String(name), values }))
+    .filter((g) => g.values.length >= 2);
+  if (groups.length < 2) {
+    return {
+      option,
+      statsInsights: [
+        "Group comparison needs at least two groups with two or more values each.",
+      ],
+    };
+  }
+  const result = groupComparison(groups);
+  let opt = option;
+  if (withErrorBars) {
+    opt = attachErrorBars(
+      opt,
+      result.summary.map((g) => ({
+        name: g.name,
+        low: g.mean - g.se,
+        high: g.mean + g.se,
+      }))
+    );
+  }
+  opt = applyTukeyLetters(opt, result.letters);
+  const a = result.anova;
+  const pText = a.p < 0.001 ? "p < 0.001" : `p = ${a.p.toFixed(3)}`;
+  return {
+    option: opt,
+    statsInsights: [
+      `One-way ANOVA (computed from all rows): F(${a.dfBetween}, ${
+        a.dfWithin
+      }) = ${a.F.toFixed(2)}, ${pText}.`,
+      `Letters: Tukey–Kramer HSD at α = 0.05; groups sharing a letter do not differ significantly.${
+        withErrorBars ? " Error bars: mean ± SE." : ""
+      }`,
+    ],
+    comparison: result,
+  };
+}
+
+function buildFromPlan(tableObj, plan, goalText, mapping = {}) {
+  if (!tableObj || !(tableObj.rows || []).length) return null;
+  const headers = tableObj.headers || [];
+  const has = (c) => typeof c === "string" && headers.includes(c);
+  const isNum = (c) => has(c) && tableObj.numericHints.includes(c);
+  const keywords = extractGoalKeywords(goalText || "");
+  const chart = PLAN_CHARTS.has(plan?.chart) ? plan.chart : null;
+  const x = has(mapping.xField) ? mapping.xField : has(plan?.x) ? plan.x : null;
+  const y = isNum(mapping.yField)
+    ? mapping.yField
+    : isNum(plan?.y)
+    ? plan.y
+    : null;
+  const group = has(mapping.groupField)
+    ? mapping.groupField
+    : has(plan?.group)
+    ? plan.group
+    : null;
+  const aggMethod = ["mean", "median", "sum", "count"].includes(plan?.agg)
+    ? plan.agg
+    : mapping.agg || "mean";
+  const compare = Boolean(plan?.compare_groups) || keywords.includes("anova");
+  const rows = tableObj.rows;
+  const withStats = (res, errorBars) =>
+    compare && x && y && !group
+      ? attachGroupStatistics(res.option, rows, x, y, errorBars)
+      : res;
+
+  if ((chart === "bar" || (!chart && x && y)) && x && y && !group) {
+    const aggRes = aggregateByCategory(rows, x, y, aggMethod);
+    let opt = buildBarMeanOption(
+      aggRes.labels,
+      aggRes.values,
+      x,
+      `${aggMethod}(${y})`
+    );
+    const errorMetric = mapping.errorMetric || "none";
+    if (!compare && errorMetric !== "none") {
+      opt = attachErrorBars(opt, computeErrorBars(rows, x, y, errorMetric));
+    }
+    return withStats({ option: opt }, aggMethod === "mean");
+  }
+  if ((chart === "grouped_bar" || chart === "bar") && x && y && group) {
+    const grp = aggregateByXYGroup(rows, x, y, group, aggMethod);
+    return {
+      option: buildGroupedBarOption(
+        grp.labels,
+        grp.series,
+        x,
+        `${aggMethod}(${y})`
+      ),
+    };
+  }
+  if (chart === "boxplot" && x && y) {
+    const stat = computeBoxplotStats(rows, x, y);
+    return withStats(
+      { option: buildBoxplotOption(stat.labels, stat.boxes) },
+      false
+    );
+  }
+  if (chart === "violin" && x && y) {
+    const grouped = groupValues(rows, x, y);
+    return withStats(
+      { option: buildViolinOption(Object.keys(grouped), grouped, y) },
+      false
+    );
+  }
+  if (chart === "scatter" && isNum(x) && y) {
+    return { option: buildScatterOptionFromRows(rows, x, y, group) };
+  }
+  if (chart === "histogram" && y) {
+    const hist = computeHistogram(rows, y, 12);
+    return { option: buildHistogramOption(hist.labels, hist.counts, y) };
+  }
+  if (chart === "correlation") {
+    const numericCols = headers.filter((h) =>
+      tableObj.numericHints.includes(h)
+    );
+    if (numericCols.length >= 2) {
+      const corr = computeCorrelationMatrix(rows, numericCols);
+      return {
+        option: buildCorrelationHeatmapOption(
+          corr.labelsX,
+          corr.labelsY,
+          corr.matrix
+        ),
+      };
+    }
+  }
+  if (chart === "line" && y) {
+    const seq = buildSeriesFromNumeric(rows, y);
+    return { option: buildLineOption(seq.labels, seq.values, y) };
+  }
+  if (compare && !chart && !x && !y) {
+    const cx = headers.find((h) => !tableObj.numericHints.includes(h));
+    const cy = headers.find((h) => tableObj.numericHints.includes(h));
+    if (cx && cy) {
+      const stat = computeBoxplotStats(rows, cx, cy);
+      return attachGroupStatistics(
+        buildBoxplotOption(stat.labels, stat.boxes),
+        rows,
+        cx,
+        cy,
+        false
+      );
+    }
+  }
+  // Anything else: the local builder chooses from the goal and the mapping.
+  const fallback = buildOfflineVisualization(tableObj, goalText, mapping);
+  if (!fallback) return null;
+  return fallback;
+}
+
 function buildOfflineVisualization(tableObj, goalText, mapping = {}) {
   if (
     !tableObj ||

@@ -16,7 +16,7 @@ const defaultSettings = {
   bgThreshold: 35,
   noiseKernel: 3,
   blurRadius: 24,
-  roiThreshold: 32,
+  roiThreshold: 15,
 };
 
 const statusToneClass = {
@@ -291,9 +291,15 @@ export default function RootProcessorApp() {
         settings.noiseKernel
       );
       previewDataRef.current[currentImage.id] = backgroundClean;
+      const bgMask = backgroundMask(
+        original,
+        settings.bgThreshold,
+        settings.noiseKernel
+      );
       const processed = emphasizeRoots(
         original,
         polygonMask,
+        bgMask,
         settings.blurRadius,
         settings.roiThreshold
       );
@@ -679,11 +685,11 @@ export default function RootProcessorApp() {
                 />
               </label>
               <label>
-                ROI threshold ({settings.roiThreshold})
+                Root contrast ({settings.roiThreshold} grey levels)
                 <input
                   type="range"
-                  min="10"
-                  max="80"
+                  min="2"
+                  max="60"
                   value={settings.roiThreshold}
                   onChange={(e) =>
                     handleSettingsChange("roiThreshold", Number(e.target.value))
@@ -1027,19 +1033,27 @@ function cloneImageData(imageData) {
   );
 }
 
-function removeBackground(imageData, threshold, kernelSize) {
-  const { width, height, data } = imageData;
+// Foreground mask: pixels brighter than the threshold (the tray or paper);
+// darker surroundings are background. A morphological opening removes specks.
+function backgroundMask(imageData, threshold, kernelSize) {
+  const { width, height } = imageData;
   const gray = toGrayscale(imageData);
   const binary = new Uint8Array(gray.length);
   for (let i = 0; i < gray.length; i += 1) {
     binary[i] = gray[i] > threshold ? 255 : 0;
   }
-  const cleaned =
-    kernelSize > 1 ? openBinaryMask(binary, width, height, kernelSize) : binary;
+  return kernelSize > 1
+    ? openBinaryMask(binary, width, height, kernelSize)
+    : binary;
+}
+
+function removeBackground(imageData, threshold, kernelSize) {
+  const { width, height, data } = imageData;
+  const cleaned = backgroundMask(imageData, threshold, kernelSize);
   const result = new ImageData(width, height);
   const out = result.data;
 
-  for (let i = 0; i < gray.length; i += 1) {
+  for (let i = 0; i < cleaned.length; i += 1) {
     const srcIndex = i * 4;
     if (cleaned[i]) {
       out[srcIndex] = data[srcIndex];
@@ -1140,31 +1154,27 @@ function createPolygonMask(width, height, points) {
   return mask;
 }
 
-function emphasizeRoots(original, polygonMask, blurRadius, roiThreshold) {
+// High-pass root detection: a pixel is root when it is darker than its
+// blurred neighbourhood by more than `roiThreshold` grey levels (absolute,
+// so the same setting means the same contrast in every image), inside the
+// ROI and not in the background mask.
+function emphasizeRoots(
+  original,
+  polygonMask,
+  bgMask,
+  blurRadius,
+  roiThreshold
+) {
   const blurred = blurImageData(original, blurRadius);
   const grayOriginal = toGrayscale(original);
   const grayBlurred = toGrayscale(blurred);
   const { width, height } = original;
-  const diff = new Float32Array(grayOriginal.length);
-  let min = Infinity;
-  let max = -Infinity;
-  for (let i = 0; i < diff.length; i += 1) {
-    const value = Math.max(0, grayBlurred[i] - grayOriginal[i]);
-    diff[i] = value;
-    if (value < min) {
-      min = value;
-    }
-    if (value > max) {
-      max = value;
-    }
-  }
-  const range = Math.max(1, max - min);
   const output = new ImageData(width, height);
   const out = output.data;
-  for (let i = 0; i < diff.length; i += 1) {
-    const normalized = ((diff[i] - min) / range) * 255;
-    const binary = normalized > roiThreshold ? 255 : 0;
-    const value = polygonMask[i] ? 255 - binary : 255;
+  for (let i = 0; i < grayOriginal.length; i += 1) {
+    const contrast = grayBlurred[i] - grayOriginal[i];
+    const isRoot = polygonMask[i] && bgMask[i] && contrast > roiThreshold;
+    const value = isRoot ? 0 : 255;
     const idx = i * 4;
     out[idx] = value;
     out[idx + 1] = value;

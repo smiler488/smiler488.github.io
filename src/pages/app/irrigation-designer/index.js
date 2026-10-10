@@ -3,71 +3,51 @@ import Heading from "@theme/Heading";
 import AppScaffold from "../../../components/AppScaffold";
 import { recordExport } from "../../../lib/workbench/provenance";
 import CitationNotice from "../../../components/CitationNotice";
+import {
+  IRRIGATION_METHOD,
+  dripHydraulics,
+  dripLayout,
+} from "../../../lib/science/irrigation.js";
 import styles from "./styles.module.css";
 
 const deg2rad = (deg) => (deg * Math.PI) / 180;
-const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-const MATERIAL_HW_C = { PE: 140, PVC: 150 };
-const GRAVITY_KPA_PER_M = 9.81;
-const FERTIGATION_LOSS_KPA = 5;
-
-function hazenWilliams(length, flow, diameter, c = 150) {
-  if (length <= 0 || flow <= 0 || diameter <= 0) return 0;
-  return (
-    (10.67 * length * Math.pow(flow, 1.852)) /
-    (Math.pow(c, 1.852) * Math.pow(diameter, 4.87))
-  );
-}
-
-function velocity(flow, diameter) {
-  if (flow <= 0 || diameter <= 0) return 0;
-  const area = (Math.PI * diameter * diameter) / 4;
-  return flow / area;
-}
-
-function pressureUniformity(percent) {
-  const cu = 100 - clamp(percent, 0, 25) * 1.6;
-  return clamp(cu, 60, 98);
-}
-
 const defaultConfig = {
   field: { length_m: 320, width_m: 140 },
   headworks: {
-    pumpPressure_kPa: 180,
+    pumpPressure_kPa: 250,
     maxFlow_m3h: 130,
-    filterLoss_kPa: 12,
+    filterLoss_kPa: 30,
     fertigation: true,
   },
   mainline: {
-    diameter_mm: 90,
-    length_m: 320,
+    diameter_mm: 160,
     location: "edge",
     ring: false,
-    material: "PE",
+    material: "PVC",
   },
   submains: {
-    spacing_m: 60,
-    diameter_mm: 50,
-    twoSideFeed: false,
-    valveEvery: 1,
+    spacing_m: 64,
+    diameter_mm: 90,
+    material: "PE",
+    perShift: 1,
   },
   laterals: {
     tapeSpacing_m: 2.2,
     emitterSpacing_cm: 30,
     emitterFlow_Lph: 2.4,
     operPressure_kPa: 100,
-    length_m: 320,
-    pressureComp: true,
+    innerDiameter_mm: 16,
+    pressureComp: false,
   },
   terrain: { orientation_deg: 0, slope_len_pct: 0.3, slope_wid_pct: 0 },
-  constraints: { maxPressureVar_pct: 10, maxVel_ms: 1.5 },
+  constraints: { maxPressureVar_pct: 20, maxVel_ms: 1.5 },
 };
 
 const tips = [
-  "Keep mainline velocity ≤1.5 m/s to minimize water hammer and energy losses.",
-  "Limit submain headloss to <20% of operating pressure and lateral headloss to <10%.",
-  "Use pressure-compensating emitters or zoning when slope exceeds 0.5%.",
-  "Ring-fed mains or two-side-fed submains help maintain uniform pressure.",
+  "Keep pipe velocities at or below 1.5 m/s to limit water hammer and energy losses.",
+  "Keep pressure variation within a subunit (submain plus laterals) below about 20% for non-compensating emitters; this gives about 10% flow variation.",
+  "Shorter laterals (closer submains) cut lateral losses sharply: friction grows with roughly the 2.75th power of lateral length.",
+  "Use pressure-compensating emitters on slopes above about 0.5% or where pressure variation cannot be kept low.",
 ];
 
 function NumberField({
@@ -165,36 +145,21 @@ function Section({ title, description, children }) {
   );
 }
 
-function buildLayoutGeometry(field, submains, laterals, terrain) {
+function buildLayoutGeometry(config) {
+  const { terrain } = config;
+  const g = dripLayout(config);
   const padding = 32;
   const width = 900;
   const height = 560;
   const scale = Math.min(
-    (width - 2 * padding) / field.length_m,
-    (height - 2 * padding) / field.width_m
+    (width - 2 * padding) / g.L,
+    (height - 2 * padding) / g.W
   );
-
-  const nSubmains = Math.max(
-    1,
-    Math.floor(field.width_m / Math.max(submains.spacing_m, 1))
-  );
-  const submainSpacing = field.width_m / nSubmains;
-  const tapesPerSubmain = Math.max(
-    1,
-    Math.floor(submainSpacing / Math.max(laterals.tapeSpacing_m, 0.1))
-  );
-  const emittersPerTape = Math.max(
-    1,
-    Math.floor(
-      (laterals.length_m * 100) / Math.max(laterals.emitterSpacing_cm, 1)
-    )
-  );
-
   const angle = deg2rad(terrain.orientation_deg || 0);
   const cosA = Math.cos(angle);
   const sinA = Math.sin(angle);
-  const cx = field.length_m / 2;
-  const cy = field.width_m / 2;
+  const cx = g.L / 2;
+  const cy = g.W / 2;
 
   function project(x, y) {
     const xr = cosA * (x - cx) - sinA * (y - cy) + cx;
@@ -202,134 +167,45 @@ function buildLayoutGeometry(field, submains, laterals, terrain) {
     return [padding + xr * scale, padding + yr * scale];
   }
 
-  return {
-    padding,
-    width,
-    height,
-    scale,
-    nSubmains,
-    submainSpacing,
-    tapesPerSubmain,
-    emittersPerTape,
-    project,
-  };
+  return { ...g, padding, width, height, scale, project };
 }
 
-function buildHydraulics(config, layout) {
-  const {
-    field,
-    headworks,
-    mainline,
-    submains,
-    laterals,
-    terrain,
-    constraints,
-  } = config;
-  const { tapesPerSubmain, emittersPerTape, nSubmains } = layout;
+const WARNING_TEXT = {
+  mainVelocity: (w) =>
+    `Mainline velocity ${w.value.toFixed(2)} m/s exceeds ${
+      w.limit
+    } m/s; use a larger mainline or fewer submains per shift.`,
+  subVelocity: (w) =>
+    `Submain inlet velocity ${w.value.toFixed(2)} m/s exceeds ${
+      w.limit
+    } m/s; use a larger submain or closer submains.`,
+  pumpFlow: (w) =>
+    `Flow per shift ${w.value.toFixed(1)} m³/h exceeds the pump's ${
+      w.limit
+    } m³/h; open fewer submains per shift.`,
+  pressureDeficit: (w) =>
+    `Pressure at the farthest submain inlet is ${w.value.toFixed(
+      1
+    )} kPa short of what the subunit needs; raise pump pressure or enlarge the mainline.`,
+  pressureVariation: (w) =>
+    `Pressure variation within a subunit is ${w.value.toFixed(0)}% (limit ${
+      w.limit
+    }%); shorten laterals, enlarge the submain or use pressure-compensating emitters.`,
+  flowVariation: (w) =>
+    `Emitter flow variation is ${w.value.toFixed(
+      0
+    )}%, above the 20% usually considered acceptable.`,
+};
 
-  const tapesTotal = nSubmains * tapesPerSubmain;
-  const tapeFlow_m3h = (emittersPerTape * laterals.emitterFlow_Lph) / 1000;
-  const totalFlow_m3h = tapesTotal * tapeFlow_m3h;
-
-  const mainQ = totalFlow_m3h / 3600;
-  const mainD = mainline.diameter_mm / 1000;
-  const mainEffectiveLength = mainline.ring
-    ? mainline.length_m / 2
-    : mainline.length_m;
-  const mainEffectiveQ = mainline.ring ? mainQ / 2 : mainQ;
-  const mainHf = hazenWilliams(
-    mainEffectiveLength,
-    mainEffectiveQ,
-    mainD,
-    MATERIAL_HW_C[mainline.material] || 140
-  );
-  const mainV = velocity(mainEffectiveQ, mainD);
-
-  const subQ = (tapesPerSubmain * tapeFlow_m3h) / 3600;
-  const subD = submains.diameter_mm / 1000;
-  const subEffectiveLength = submains.twoSideFeed
-    ? field.length_m / 2
-    : field.length_m;
-  const subEffectiveQ = submains.twoSideFeed ? subQ / 2 : subQ;
-  const subHf = hazenWilliams(subEffectiveLength, subEffectiveQ, subD, 140);
-  const subV = velocity(subEffectiveQ, subD);
-
-  const slopeLenHead_m = (terrain.slope_len_pct / 100) * laterals.length_m;
-  const slopeWidHead_m = (terrain.slope_wid_pct / 100) * field.width_m;
-  const slopeLen_kPa = slopeLenHead_m * GRAVITY_KPA_PER_M;
-  const slopeWid_kPa = slopeWidHead_m * GRAVITY_KPA_PER_M;
-
-  const netPump_kPa = Math.max(
-    0,
-    headworks.pumpPressure_kPa - headworks.filterLoss_kPa
-  );
-  const fertigationLoss = headworks.fertigation ? FERTIGATION_LOSS_KPA : 0;
-  const afterMain_kPa =
-    netPump_kPa - fertigationLoss - mainHf * GRAVITY_KPA_PER_M;
-  const atLaterals_kPa =
-    afterMain_kPa - subHf * GRAVITY_KPA_PER_M - Math.max(0, slopeLen_kPa);
-  const pressureMargin_kPa = atLaterals_kPa - laterals.operPressure_kPa;
-  const CU = pressureUniformity(constraints.maxPressureVar_pct);
-
-  const warnings = [];
-  if (mainV > constraints.maxVel_ms)
-    warnings.push(
-      `Mainline velocity ${mainV.toFixed(2)} m/s exceeds ${
-        constraints.maxVel_ms
-      } m/s limit.`
-    );
-  if (totalFlow_m3h > headworks.maxFlow_m3h)
-    warnings.push(
-      `Total system flow ${totalFlow_m3h.toFixed(1)} m³/h > pump rating ${
-        headworks.maxFlow_m3h
-      } m³/h.`
-    );
-  if (afterMain_kPa <= 0)
-    warnings.push(
-      "Net pump pressure after filter/fertigation losses is insufficient for mainline delivery."
-    );
-  if (pressureMargin_kPa < 0)
-    warnings.push(
-      `Lateral pressure deficit ${Math.abs(pressureMargin_kPa).toFixed(
-        1
-      )} kPa vs setpoint; increase pump pressure or pipe size.`
-    );
-  if (Math.abs(slopeLenHead_m) > 1)
-    warnings.push(
-      `Lengthwise slope induces ${slopeLen_kPa.toFixed(1)} kPa head variation.`
-    );
-  if (Math.abs(slopeWidHead_m) > 1)
-    warnings.push(
-      `Cross-field slope induces ${slopeWid_kPa.toFixed(1)} kPa head variation.`
-    );
-
-  return {
-    tapesTotal,
-    totalFlow_m3h,
-    mainV,
-    mainHf,
-    subV,
-    subHf,
-    CU,
-    warnings,
-    netPump_kPa,
-    atLaterals_kPa,
-    pressureMargin_kPa,
-  };
+function buildHydraulics(config) {
+  const r = dripHydraulics(config);
+  return { ...r, warnings: r.warnings.map((w) => WARNING_TEXT[w.key](w)) };
 }
 
 function LayoutCanvas({ config, layout }, ref) {
   const { field, mainline, submains, laterals } = config;
-  const {
-    width,
-    height,
-    project,
-    nSubmains,
-    submainSpacing,
-    tapesPerSubmain,
-    scale,
-    padding,
-  } = layout;
+  const { width, height, project, nSubmains, spacing, rows, scale, padding } =
+    layout;
 
   const fieldRect = (
     <rect
@@ -344,23 +220,12 @@ function LayoutCanvas({ config, layout }, ref) {
     />
   );
 
+  // Mainline along the field length; submains across the width; laterals
+  // along the rows on both sides of each submain.
+  const mainY = mainline.location === "edge" ? 0 : field.width_m / 2;
   const mainlineElement = (() => {
-    if (mainline.location === "edge") {
-      const [x1, y1] = project(0, 0);
-      const [x2, y2] = project(0, field.width_m);
-      return (
-        <line
-          x1={x1}
-          y1={y1}
-          x2={x2}
-          y2={y2}
-          stroke="var(--app-accent-blue)"
-          strokeWidth={Math.max(3, mainline.diameter_mm / 40)}
-        />
-      );
-    }
-    const [x1, y1] = project(0, field.width_m / 2);
-    const [x2, y2] = project(field.length_m, field.width_m / 2);
+    const [x1, y1] = project(0, mainY);
+    const [x2, y2] = project(field.length_m, mainY);
     return (
       <line
         x1={x1}
@@ -373,52 +238,46 @@ function LayoutCanvas({ config, layout }, ref) {
     );
   })();
 
-  const submainElements = Array.from({ length: nSubmains + 1 }).map(
-    (_, idx) => {
-      const y = idx * submainSpacing;
-      const [x1, y1] = project(0, y);
-      const [x2, y2] = project(field.length_m, y);
-      return (
-        <line
-          key={`sub-${idx}`}
-          x1={x1}
-          y1={y1}
-          x2={x2}
-          y2={y2}
-          stroke="var(--app-accent-green)"
-          strokeWidth={Math.max(2, submains.diameter_mm / 60)}
-          opacity={0.9}
-        />
-      );
-    }
-  );
+  const submainElements = Array.from({ length: nSubmains }).map((_, idx) => {
+    const x = (idx + 0.5) * spacing;
+    const [x1, y1] = project(x, 0);
+    const [x2, y2] = project(x, field.width_m);
+    return (
+      <line
+        key={`sub-${idx}`}
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        stroke="var(--app-accent-green)"
+        strokeWidth={Math.max(2, submains.diameter_mm / 40)}
+        opacity={0.9}
+      />
+    );
+  });
 
+  // Draw at most ~40 rows so dense layouts stay legible.
+  const rowStep = Math.max(1, Math.ceil(rows / 40));
   const lateralElements = [];
-  for (let s = 0; s < nSubmains; s += 1) {
-    const startY = s * submainSpacing;
-    for (let t = 0; t < tapesPerSubmain; t += 1) {
-      const y = startY + (t + 0.5) * (submainSpacing / tapesPerSubmain);
-      const [x1, y1] = project(0, y);
-      const [x2, y2] = project(field.length_m, y);
-      lateralElements.push(
-        <line
-          key={`lat-${s}-${t}`}
-          x1={x1}
-          y1={y1}
-          x2={x2}
-          y2={y2}
-          stroke="var(--app-accent-muted)"
-          strokeDasharray="6 6"
-          strokeWidth={1.3}
-        />
-      );
-    }
+  for (let r = 0; r < rows; r += rowStep) {
+    const y = (r + 0.5) * laterals.tapeSpacing_m;
+    const [x1, y1] = project(0, y);
+    const [x2, y2] = project(field.length_m, y);
+    lateralElements.push(
+      <line
+        key={`lat-${r}`}
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        stroke="var(--app-accent-muted)"
+        strokeDasharray="6 6"
+        strokeWidth={1}
+      />
+    );
   }
 
-  const [hx, hy] = project(
-    0,
-    mainline.location === "edge" ? 0 : field.width_m / 2
-  );
+  const [hx, hy] = project(0, mainY);
 
   return (
     <svg
@@ -554,34 +413,71 @@ function CanvasPanel({ config, layout, svgRef }) {
 
 function Hydraulics({ data, config }) {
   const { headworks, laterals } = config;
+  const g = data.layout;
   const rows = [
-    { label: "Total laterals", value: data.tapesTotal },
     {
-      label: "System flow",
-      value: `${data.totalFlow_m3h.toFixed(1)} m³/h`,
-      hint: `Pump limit ${headworks.maxFlow_m3h}`,
+      label: "Layout",
+      value: `${g.nSubmains} submains`,
+      hint: `every ${g.spacing.toFixed(1)} m · ${
+        g.nSubmains * g.lateralsPerSubmain
+      } laterals`,
     },
-    { label: "Mainline velocity", value: `${data.mainV.toFixed(2)} m/s` },
-    { label: "Mainline headloss", value: `${data.mainHf.toFixed(2)} m` },
-    { label: "Submain velocity", value: `${data.subV.toFixed(2)} m/s` },
-    { label: "Submain headloss", value: `${data.subHf.toFixed(2)} m` },
     {
-      label: "Available pressure",
-      value: `${Math.max(0, data.atLaterals_kPa).toFixed(0)} kPa`,
-      hint: `Margin ${data.pressureMargin_kPa.toFixed(1)} kPa`,
+      label: "Lateral run",
+      value: `${g.lateralLength.toFixed(1)} m`,
+      hint: `${g.emittersPerLateral} emitters · ${data.qLat_Lph.toFixed(
+        0
+      )} L/h`,
     },
-    { label: "Net pump pressure", value: `${data.netPump_kPa.toFixed(0)} kPa` },
     {
-      label: "Estimated CU",
-      value: `${data.CU.toFixed(0)}%`,
-      hint: laterals.pressureComp ? "PC emitter" : "non-PC emitter",
+      label: "Lateral headloss",
+      value: `${data.hfLat.toFixed(2)} m`,
+      hint: `inlet velocity ${data.vLat.toFixed(2)} m/s`,
+    },
+    {
+      label: "Submain headloss",
+      value: `${data.hfSub.toFixed(2)} m`,
+      hint: `inlet ${data.vSub.toFixed(2)} m/s · ${data.qSubmain_m3h.toFixed(
+        1
+      )} m³/h`,
+    },
+    {
+      label: "Flow per shift",
+      value: `${data.qSystem_m3h.toFixed(1)} m³/h`,
+      hint: `${data.active} submain(s) open · pump ${headworks.maxFlow_m3h}`,
+    },
+    {
+      label: "Mainline headloss",
+      value: `${data.hfMain.toFixed(2)} m`,
+      hint: `velocity ${data.vMain.toFixed(2)} m/s`,
+    },
+    {
+      label: "Pressure at farthest submain",
+      value: `${data.atSubmain_kPa.toFixed(0)} kPa`,
+      hint: `needed ${data.required_kPa.toFixed(
+        0
+      )} kPa · margin ${data.margin_kPa.toFixed(0)}`,
+    },
+    {
+      label: "Pressure variation",
+      value: `${(data.headVar * 100).toFixed(1)}%`,
+      hint: "within a subunit",
+    },
+    {
+      label: "Emitter flow variation",
+      value: laterals.pressureComp
+        ? "≈ 0%"
+        : `${(data.qVar * 100).toFixed(1)}%`,
+      hint: laterals.pressureComp
+        ? "pressure-compensating, within its range"
+        : `exponent x = ${data.exponent}`,
     },
   ];
 
   return (
     <section className={styles.panel}>
       <Heading as="h2" className={styles.sectionTitle}>
-        Hydraulic Summary
+        Hydraulic summary
       </Heading>
       <div className={styles.summaryGrid}>
         {rows.map((item) => (
@@ -643,20 +539,8 @@ export default function IrrigationDesigner() {
   const [config, setConfig] = useState(defaultConfig);
   const svgRef = useRef(null);
 
-  const layout = useMemo(
-    () =>
-      buildLayoutGeometry(
-        config.field,
-        config.submains,
-        config.laterals,
-        config.terrain
-      ),
-    [config]
-  );
-  const hydraulics = useMemo(
-    () => buildHydraulics(config, layout),
-    [config, layout]
-  );
+  const layout = useMemo(() => buildLayoutGeometry(config), [config]);
+  const hydraulics = useMemo(() => buildHydraulics(config), [config]);
 
   const update = (section, key, value) =>
     setConfig((prev) => ({
@@ -692,7 +576,16 @@ export default function IrrigationDesigner() {
     anchor.click();
     recordExport({
       files: [{ name: "irrigation-layout.svg", blob }],
-      parameters: { design: config, note: "Preliminary screening estimate" },
+      parameters: {
+        design: config,
+        method: IRRIGATION_METHOD,
+        results: {
+          flowPerShift_m3h: hydraulics.qSystem_m3h,
+          pressureAtFarthestSubmain_kPa: hydraulics.atSubmain_kPa,
+          pressureVariation: hydraulics.headVar,
+          emitterFlowVariation: hydraulics.qVar,
+        },
+      },
     });
     anchor.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -713,10 +606,12 @@ export default function IrrigationDesigner() {
     >
       <div className={styles.workspace}>
         <aside className={styles.preliminaryNotice} role="note">
-          <strong>Preliminary screening estimate.</strong> This browser model
-          simplifies emitter behaviour, lateral losses, fittings, transients and
-          terrain. Confirm the final design with field measurements and a
-          qualified irrigation engineer.
+          <strong>Design check for drip systems.</strong> Friction in the
+          mainline, submains and laterals, elevation, pressure at the farthest
+          subunit and emitter flow variation are computed from standard
+          hydraulics. Minor losses at fittings, transients and manufacturing
+          variation of emitters are not included; use the tape&apos;s datasheet
+          for emitter flow, exponent and inner diameter.
         </aside>
 
         <div className={styles.workspaceGrid}>
@@ -808,7 +703,7 @@ export default function IrrigationDesigner() {
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Allowable ΔP (%)"
+                    label="Allowable pressure variation (%)"
                     value={config.constraints.maxPressureVar_pct}
                     onChange={(v) =>
                       update("constraints", "maxPressureVar_pct", v)
@@ -827,7 +722,7 @@ export default function IrrigationDesigner() {
 
             <Section
               title="Mainline"
-              description="Material determines Hazen–Williams C; ring feed halves effective length/flow."
+              description="Runs along the field length. Material sets the Hazen–Williams C; a ring (two-end) feed halves the run and its flow."
             >
               <div className="row">
                 <div className="col col--6">
@@ -835,13 +730,6 @@ export default function IrrigationDesigner() {
                     label="Diameter (mm)"
                     value={config.mainline.diameter_mm}
                     onChange={(v) => update("mainline", "diameter_mm", v)}
-                  />
-                </div>
-                <div className="col col--6">
-                  <NumberField
-                    label="Length (m)"
-                    value={config.mainline.length_m}
-                    onChange={(v) => update("mainline", "length_m", v)}
                   />
                 </div>
                 <div className="col col--6">
@@ -912,7 +800,7 @@ export default function IrrigationDesigner() {
 
             <Section
               title="Submains"
-              description="Spacing sets the number of runs; two-side supply lowers end losses."
+              description="Cross the field width. Spacing sets the number of submains and the lateral length (half the spacing on each side); a centreline mainline feeds them from the middle."
             >
               <div className="row">
                 <div className="col col--6">
@@ -930,17 +818,11 @@ export default function IrrigationDesigner() {
                   />
                 </div>
                 <div className="col col--6">
-                  <Toggle
-                    label="Two-side feed"
-                    value={config.submains.twoSideFeed}
-                    onChange={(v) => update("submains", "twoSideFeed", v)}
-                  />
-                </div>
-                <div className="col col--6">
                   <NumberField
-                    label="Valve every (runs)"
-                    value={config.submains.valveEvery}
-                    onChange={(v) => update("submains", "valveEvery", v)}
+                    label="Submains per shift"
+                    min={1}
+                    value={config.submains.perShift}
+                    onChange={(v) => update("submains", "perShift", v)}
                   />
                 </div>
               </div>
@@ -948,7 +830,7 @@ export default function IrrigationDesigner() {
 
             <Section
               title="Drip laterals"
-              description="Emitter spacing/flow and tape pressure determine total demand and headloss."
+              description="Laterals follow the crop rows. Tape spacing is the row spacing; emitter data come from the tape's datasheet."
             >
               <div className="row">
                 <div className="col col--6">
@@ -981,9 +863,10 @@ export default function IrrigationDesigner() {
                 </div>
                 <div className="col col--6">
                   <NumberField
-                    label="Tape length (m)"
-                    value={config.laterals.length_m}
-                    onChange={(v) => update("laterals", "length_m", v)}
+                    label="Tape inner diameter (mm)"
+                    step={0.1}
+                    value={config.laterals.innerDiameter_mm}
+                    onChange={(v) => update("laterals", "innerDiameter_mm", v)}
                   />
                 </div>
                 <div className="col col--6">
@@ -1034,16 +917,30 @@ export default function IrrigationDesigner() {
                 Underlying formulas & references
               </Heading>
               <p style={{ marginBottom: 8 }}>
-                Mainline and submain headloss use the Hazen–Williams form&nbsp;
+                Mainline and submains: Hazen–Williams,&nbsp;
                 <code>
                   h<sub>f</sub> = 10.67 · L · Q<sup>1.852</sup> / (C
                   <sup>1.852</sup> · d<sup>4.87</sup>)
                 </code>
-                , with the material coefficient
-                <code> C</code> set by the PE/PVC selector. Velocities are
-                <code> v = Q / (π d² / 4)</code> and slope-induced head
-                difference is
-                <code> Δh = g · slope · length</code>.
+                . Laterals: Darcy–Weisbach with the Blasius friction factor
+                <code>
+                  {" "}
+                  f = 0.316 · Re<sup>−0.25</sup>
+                </code>
+                . Pipes with N evenly spaced outlets carry Christiansen&apos;s
+                factor
+                <code> F = 1/(m+1) + 1/(2N) + √(m−1)/(6N²)</code>. Subunit inlet
+                pressure follows Keller &amp; Karmeli,
+                <code>
+                  {" "}
+                  h = h<sub>a</sub> + 0.75 Δh<sub>f</sub> + 0.5 Δz
+                </code>
+                , and emitter flow variation
+                <code>
+                  {" "}
+                  q<sub>var</sub> = 1 − (1 − h<sub>var</sub>)<sup>x</sup>
+                </code>
+                .
               </p>
               <p
                 style={{
@@ -1052,9 +949,12 @@ export default function IrrigationDesigner() {
                   color: "var(--ifm-color-emphasis-700)",
                 }}
               >
-                Reference: ASABE EP405 / FAO Irrigation and Drainage Paper 29
-                for recommended limits on velocity, allowable pressure
-                variation, and Christiansen Uniformity (CU) interpretation.
+                Validated in the site&apos;s test suite: F factors against
+                Christiansen&apos;s table and the F-factor losses against
+                segment-by-segment summation (within 2%). References: Keller
+                &amp; Karmeli (1974), Trans. ASAE 17(4): 678–684; Christiansen
+                (1942), Univ. California Agric. Exp. Stn. Bull. 670; ASABE
+                EP405.
               </p>
             </section>
           </div>

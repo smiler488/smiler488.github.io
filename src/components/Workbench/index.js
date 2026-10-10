@@ -42,7 +42,7 @@ const COPY = {
     from: "from",
     version: "Version",
     validated: (d) => `Validated ${d}`,
-    notValidated: "Validation not yet recorded",
+    notValidated: "Validation pending",
   },
   zh: {
     record: "参数记录",
@@ -64,7 +64,7 @@ const COPY = {
     from: "来自",
     version: "版本",
     validated: (d) => `验证于 ${d}`,
-    notValidated: "尚未记录验证日期",
+    notValidated: "待验证",
   },
 };
 
@@ -103,6 +103,9 @@ export function ToolStatus({ app }) {
       <span>
         {app.validatedAt ? copy.validated(app.validatedAt) : copy.notValidated}
       </span>
+      {app.validation?.[locale] && (
+        <span className={styles.validationNote}>{app.validation[locale]}</span>
+      )}
     </div>
   );
 }

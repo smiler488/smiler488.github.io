@@ -85,7 +85,7 @@ const TOOLS = [
     name: "solar_position",
     title: "Solar position",
     description:
-      "Sun elevation and azimuth (degrees, azimuth clockwise from north) for a location and moment, using the same simplified approximation as the Sensor Recorder tool. The local time zone is explicit so results do not depend on where this server runs.",
+      "Sun elevation and azimuth (degrees, azimuth clockwise from north) for a location and moment, with the NOAA solar position algorithm used by the Sensor Recorder tool (validated against NREL SPA to within a few hundredths of a degree). Elevation is geometric, without atmospheric refraction.",
     inputSchema: {
       type: "object",
       properties: {
@@ -101,10 +101,10 @@ const TOOLS = [
           minimum: -720,
           maximum: 840,
           description:
-            "Local time zone offset from UTC in minutes (480 for UTC+8). Defines the local calendar day used by the approximation.",
+            "Optional. Local time zone offset from UTC in minutes (480 for UTC+8), recorded for reference; the result depends only on the moment given in datetime.",
         },
       },
-      required: ["latitude", "longitude", "datetime", "utc_offset_minutes"],
+      required: ["latitude", "longitude", "datetime"],
     },
     run({ latitude, longitude, datetime, utc_offset_minutes: offset }) {
       requireNumber(latitude, "latitude", -90, 90);
@@ -114,9 +114,11 @@ const TOOLS = [
           "datetime must be ISO 8601 with Z or ±hh:mm, e.g. 2026-06-21T12:00:00+08:00"
         );
       }
-      if (!Number.isInteger(offset))
-        throw new InputError("utc_offset_minutes must be an integer");
-      requireNumber(offset, "utc_offset_minutes", -720, 840);
+      if (offset !== undefined) {
+        if (!Number.isInteger(offset))
+          throw new InputError("utc_offset_minutes must be an integer");
+        requireNumber(offset, "utc_offset_minutes", -720, 840);
+      }
       const { elevation, azimuth } = solarPosition(
         latitude,
         longitude,

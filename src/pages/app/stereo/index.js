@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 
 export default function StereoPage() {
   const stereoScript = useBaseUrl("js/stereo_app.js");
-  const openCvLoader = useBaseUrl("js/opencv_loader.js");
+  const stereoCore = useBaseUrl("js/stereo_core.js");
 
   useEffect(() => {
     let active = true;
@@ -31,8 +31,8 @@ export default function StereoPage() {
     <Fragment>
       <Head>
         <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" defer />
+        <script src={stereoCore} defer />
         <script src={stereoScript} defer />
-        <script src={openCvLoader} defer />
       </Head>
 
       <AppScaffold appId="stereo">
@@ -46,9 +46,11 @@ export default function StereoPage() {
           </section>
 
           <aside className={styles.calibrationNotice}>
-            <strong>Calibration profile:</strong> the bundled rectification values are for one
-            1280×480 side-by-side rig (640×480 per eye). Other cameras can preview images, but
-            their depth values are not calibrated measurements.
+            <strong>Calibration profile:</strong> depth is computed with the bundled calibration of
+            one 1280×480 side-by-side rig (640×480 per eye, 59.9 mm baseline): Bouguet
+            rectification, block matching and Z = f·B/d. Other cameras can preview images; depth
+            is enabled only for the calibrated resolution. Saved depth maps include a 16-bit PGM
+            in millimetres.
           </aside>
 
           <section className={styles.panel} aria-labelledby="camera-config-heading">

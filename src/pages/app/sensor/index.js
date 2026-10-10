@@ -7,6 +7,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { recordExport } from "../../../lib/workbench/provenance";
 import { saveArtifact } from "../../../lib/workbench/workspace";
 import { solarPosition } from "../../../lib/science/solar.js";
+import { inclinationFromOrientation } from "../../../lib/science/orientation.js";
 import styles from "./styles.module.css";
 
 /**
@@ -64,14 +65,20 @@ function useOrientation(enabled) {
   return { orientation: ori, latestRef };
 }
 
+// A reading older than this is treated as stale: the sensor may have stopped.
+const MAX_READING_AGE_MS = 1000;
+
 function waitForOrientation(latestRef, timeout = 1800) {
-  if (latestRef.current?.receivedAt) return Promise.resolve(latestRef.current);
+  const fresh = () =>
+    latestRef.current?.receivedAt &&
+    Date.now() - latestRef.current.receivedAt <= MAX_READING_AGE_MS;
+  if (fresh()) return Promise.resolve(latestRef.current);
   return new Promise((resolve) => {
     const startedAt = Date.now();
     const timer = window.setInterval(() => {
-      if (latestRef.current?.receivedAt || Date.now() - startedAt >= timeout) {
+      if (fresh() || Date.now() - startedAt >= timeout) {
         window.clearInterval(timer);
-        resolve(latestRef.current);
+        resolve(fresh() ? latestRef.current : null);
       }
     }, 60);
   });
@@ -188,6 +195,10 @@ export default function SensorPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [savedId, setSavedId] = useState(null);
+  const liveInclination = inclinationFromOrientation(
+    orientation.beta,
+    orientation.gamma
+  );
   const { i18n } = useDocusaurusContext();
   const wb =
     i18n.currentLocale === "zh-Hans"
@@ -195,11 +206,13 @@ export default function SensorPage() {
           save: "保存 GPS 点到工作区",
           open: "在土地测量仪中打开",
           saveFailed: "无法写入本地工作区。",
+          inclination: "倾角（屏幕平面，叶倾角）：",
         }
       : {
           save: "Save GPS points to workspace",
           open: "Open in Land Surveyor",
           saveFailed: "Could not write to the local workspace.",
+          inclination: "Inclination (screen plane, leaf angle):",
         };
 
   function handleGeoError(err) {
@@ -297,6 +310,10 @@ export default function SensorPage() {
         alpha: sensorReading.alpha,
         beta: sensorReading.beta,
         gamma: sensorReading.gamma,
+        inclination: inclinationFromOrientation(
+          sensorReading.beta,
+          sensorReading.gamma
+        ),
         sensorTimestamp: new Date(sensorReading.receivedAt).toISOString(),
         sunElevationDeg: elevation,
         sunAzimuthDeg: azimuth,
@@ -357,6 +374,7 @@ export default function SensorPage() {
       "alpha_deg",
       "beta_deg",
       "gamma_deg",
+      "inclination_deg",
       "sunElevation_deg",
       "sunAzimuth_deg",
       "sensorTimestamp",
@@ -382,6 +400,7 @@ export default function SensorPage() {
           toFixedMaybe(r.alpha, 6),
           toFixedMaybe(r.beta, 6),
           toFixedMaybe(r.gamma, 6),
+          toFixedMaybe(r.inclination, 4),
           r.sunElevationDeg == null ? "" : Number(r.sunElevationDeg).toFixed(6),
           r.sunAzimuthDeg == null ? "" : Number(r.sunAzimuthDeg).toFixed(6),
           r.sensorTimestamp,
@@ -516,6 +535,14 @@ export default function SensorPage() {
                   {orientation.gamma == null ? "" : "°"}
                 </strong>
               </div>
+              <div className={styles.row}>
+                <span>{wb.inclination}</span>
+                <strong>
+                  {liveInclination == null
+                    ? "N/A"
+                    : `${liveInclination.toFixed(2)}°`}
+                </strong>
+              </div>
               <button
                 type="button"
                 onClick={async () => {
@@ -611,6 +638,7 @@ export default function SensorPage() {
                   "alpha_deg",
                   "beta_deg",
                   "gamma_deg",
+                  "inclination_deg",
                   "sunElevation_deg",
                   "sunAzimuth_deg",
                   "sensorTimestamp",
@@ -640,6 +668,9 @@ export default function SensorPage() {
                   <td className={styles.td}>{toFixedMaybe(r.beta, 6)}</td>
                   <td className={styles.td}>{toFixedMaybe(r.gamma, 6)}</td>
                   <td className={styles.td}>
+                    {toFixedMaybe(r.inclination, 2)}
+                  </td>
+                  <td className={styles.td}>
                     {r.sunElevationDeg == null
                       ? ""
                       : Number(r.sunElevationDeg).toFixed(6)}
@@ -655,7 +686,7 @@ export default function SensorPage() {
               {!rows.length && (
                 <tr>
                   <td
-                    colSpan={12}
+                    colSpan={13}
                     style={{
                       padding: 12,
                       color: "var(--ifm-color-emphasis-600)",
@@ -680,8 +711,9 @@ export default function SensorPage() {
 
           <div className={styles.formulaContent}>
             <p style={{ margin: "0 0 14px", fontSize: "0.9rem" }}>
-              Elevation (h) and Azimuth (A) computed in this app follow common
-              remote-sensing approximations:
+              Solar declination (δ) and the equation of time come from the NOAA
+              solar position algorithm (after Meeus); elevation (h) and azimuth
+              (A) then follow from:
             </p>
 
             {/* Formula rows */}
@@ -761,8 +793,10 @@ export default function SensorPage() {
             </table>
 
             <p className={styles.formulaNote}>
-              The implementation also includes Equation of Time (EoT) and
-              time-zone offset to estimate apparent solar time.
+              Solar time is computed from the UTC instant, the longitude and the
+              equation of time. Validated against NREL SPA: elevation within
+              0.05° and azimuth within 0.1°. Elevation is geometric, without
+              atmospheric refraction.
             </p>
           </div>
         </div>

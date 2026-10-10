@@ -73,7 +73,9 @@ The browser reads at most 10,000 table rows and retains a smaller sample for pro
 
 CSV and TSV files are parsed as delimited text. Excel workbooks are parsed by sheet. JSON supports common table shapes such as an array of objects, a `columns` plus `data` structure, or a `headers` plus `rows` structure.
 
-In Local demo, chart values are computed from the stored rows. In live mode, the app asks the selected model for strict JSON containing `summary`, `insights` and `chart_option`, then normalizes the option before rendering it. Tukey letters and low/high error bars are supported when the model returns the expected fields.
+Every value in the chart is computed in the browser from all stored rows. In live mode the model only plans the chart: it returns `summary`, `insights` and a `plan` naming the chart type, the columns and the aggregation, and the app builds the chart from the data. Manual field mapping overrides the plan.
+
+**Group comparison.** When the goal asks whether groups differ (ANOVA, Tukey, significance letters) or the plan sets `compare_groups`, the app runs a one-way ANOVA and Tukey–Kramer HSD on all rows, prints F, degrees of freedom and p in the insights, labels each group with compact letters (groups sharing a letter do not differ at α = 0.05) and, for bar charts of means, draws mean ± SE error bars. These statistics are validated against SciPy (`scipy.stats.f_oneway` and `tukey_hsd`) in the site's test suite. The model never supplies statistics, letters or error bars.
 
 If a live request fails and the table can still be charted locally, the app displays a local fallback. The raw payload can contain modes such as `local-deterministic`, `offline-mapping`, `local-fallback` or `offline`.
 
@@ -95,7 +97,7 @@ An external model can omit rows, invent values or return a misleading chart opti
 - The compact AI summary is not the full dataset.
 - Local chart selection is heuristic and may need explicit field mapping.
 - Live providers may reject browser requests because of CORS, account policy, quota or model access.
-- A model can return invalid JSON or an unsupported ECharts option.
+- A model can return invalid JSON or name columns that do not exist; the app then falls back to its own chart choice.
 - PNG export becomes available only after ECharts has rendered successfully.
 
 ## Troubleshooting
@@ -106,7 +108,7 @@ An external model can omit rows, invent values or return a misleading chart opti
 - **The chart is not what you expected:** set field mapping, aggregation and error bars, then use **Apply field mapping**.
 - **401, 403, 404 or 429:** verify the selected provider, exact model ID, key permissions, billing and quota.
 - **CORS or Failed to fetch:** use Local demo or route the request through your authenticated backend.
-- **Chart rendering failed:** simplify the goal or regenerate; the returned ECharts option may be malformed.
+- **Chart rendering failed:** set the X and Y fields manually and use **Apply field mapping**.
 - **Download PNG is disabled:** wait for the chart to render and check for a runtime error above it.
 
 [Open AI Data Visualizer →](/app/ai-data-visualizer)

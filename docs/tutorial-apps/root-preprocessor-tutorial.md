@@ -37,7 +37,7 @@ Image decoding, processing, editing, and export happen in this browser tab. The 
 2. Select an image in **Batch**.
 3. In **Polygon Mode**, click around the root region on the right canvas, then select **Close Polygon**.
 4. Optionally tune **Background threshold** and **Noise kernel**, then select **Preview Background Cleanup** to inspect a separate cleanup preview.
-5. Tune **Blur radius** and **ROI threshold**, then select **Run ROI Processing**.
+5. Tune **Blur radius** and **Root contrast**, then select **Run ROI Processing**.
 6. In **Manual Brush**, choose **Draw (black)** to restore roots or **Erase (white)** to remove artifacts. Adjust **Brush size** as needed.
 7. Use **Undo Brush Stroke** for recent corrections and select **Download Processed PNG** when the mask is ready.
 8. Repeat for the remaining batch items, or use **Clear batch** to remove every open image from memory.
@@ -48,11 +48,11 @@ Image decoding, processing, editing, and export happen in this browser tab. The 
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Upload images                      | Opens JPG/PNG scans within the file, batch, and decoded-pixel limits.                                  |
 | Batch                              | Switches between open images and shows `Pending` or `Processed`.                                       |
-| Background threshold               | Sets the grayscale cutoff for the background-cleanup preview.                                          |
-| Noise kernel                       | Applies morphological opening to the background-cleanup preview.                                       |
-| Preview Background Cleanup         | Updates the preview canvas; it does not replace the final ROI-processing input.                        |
+| Background threshold               | Grey level below which pixels count as background (the dark surroundings of the tray). Applied to the preview and to the final mask. |
+| Noise kernel                       | Morphological opening that removes specks from the background mask.                                    |
+| Preview Background Cleanup         | Shows the background mask on the image before processing.                                              |
 | Blur radius                        | Sets the local blur used by final high-pass enhancement.                                               |
-| ROI threshold                      | Converts normalized high-pass response into the final binary mask.                                     |
+| Root contrast                      | Minimum darkness of a root relative to its blurred surroundings, in grey levels (0–255 scale).          |
 | Close / Undo Point / Reset Polygon | Completes, shortens, or clears the polygon. A polygon needs at least 3 points and supports at most 60. |
 | Run ROI Processing                 | Creates a white-background, black-root mask inside the closed polygon.                                 |
 | Polygon Mode / Manual Brush        | Switches between ROI definition and mask editing. Manual mode requires a processed result.             |
@@ -65,7 +65,7 @@ Image decoding, processing, editing, and export happen in this browser tab. The 
 
 The browser decodes each image and reduces oversized dimensions before placing pixel data in memory. **Preview Background Cleanup** converts the image to grayscale, thresholds it, and optionally applies a morphological opening; it is a diagnostic preview controlled by **Background threshold** and **Noise kernel**.
 
-Final **Run ROI Processing** follows a separate path. It blurs the original image, compares blurred and original grayscale intensity, normalizes that high-pass response, applies **ROI threshold**, and writes black detections only inside the polygon. The manual brush then edits that binary result directly.
+**Run ROI Processing** blurs the original image and marks a pixel as root when it is darker than its blurred neighbourhood by more than **Root contrast** grey levels, lies inside the polygon and is not background. The threshold is absolute, so the same settings apply the same contrast criterion to every image in a batch.
 
 This is a lightweight Canvas implementation inspired by a root-processing workflow, not an exact browser port of OpenCV scripts or a validated segmentation model.
 
@@ -85,7 +85,7 @@ The generated PNG is a candidate mask, not a ground-truth root measurement. Insp
 :::
 
 - Drag-and-drop is not implemented; use **Upload images**.
-- Background-preview controls do not affect the final ROI high-pass mask.
+- Roots must be darker than the tray or paper; for bright roots on a dark tray, invert the scan first.
 - Large images and blur radii can block the browser while pixel operations run on the main thread.
 - Automatic scaling reduces fine detail in high-resolution scans.
 - Undo is intentionally shallow to limit memory use.
@@ -97,8 +97,8 @@ The generated PNG is a candidate mask, not a ground-truth root measurement. Insp
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | A file is rejected                  | Use JPG/PNG, keep it below 24 MB, and stay within the 6-file and 9-million-pixel batch limits.                      |
 | **Run ROI Processing** does nothing | Select an image, add at least 3 polygon points, and select **Close Polygon** first.                                 |
-| Thin roots disappear                | Reduce **ROI threshold** or **Blur radius**, rerun processing, then restore isolated details with **Draw (black)**. |
-| Noise remains                       | Increase **ROI threshold**, tighten the polygon, or remove artifacts with **Erase (white)**.                        |
+| Thin roots disappear                | Reduce **Root contrast** or **Blur radius**, rerun processing, then restore isolated details with **Draw (black)**. |
+| Noise remains                       | Increase **Root contrast**, tighten the polygon, or remove artifacts with **Erase (white)**.                        |
 | Polygon editing is blocked          | Select **Reset Processed Result**; use **Reset Polygon** as well if you need a new boundary.                        |
 | Brush editing is unavailable        | Run ROI processing before switching to **Manual Brush**.                                                            |
 | The browser becomes slow            | Reduce the source dimensions, open fewer images, or use a smaller blur radius.                                      |

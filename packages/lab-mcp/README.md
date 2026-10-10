@@ -10,11 +10,11 @@ access, nothing leaves your machine.
 
 ## Tools
 
-| Tool             | What it computes                                                                      | Same as                           |
-| ---------------- | ------------------------------------------------------------------------------------- | --------------------------------- |
-| `field_area`     | Area of a lat/lng field boundary in m², ha and mu, plus its centroid                  | Land Surveyor                     |
-| `solar_position` | Sun elevation and azimuth for a place and moment, with an explicit time zone          | Sensor Recorder                   |
-| `leaf_brdf`      | Leaf BRDF in the principal plane, Deng et al. 2025, within the study's fitting bounds | BRDF explorer on the project page |
+| Tool             | What it computes                                                                                               | Same as                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| `field_area`     | Area of a lat/lng field boundary in m², ha and mu, plus its centroid (WGS 84, validated against GeographicLib) | Land Surveyor                     |
+| `solar_position` | Sun elevation and azimuth for a place and moment (NOAA algorithm, validated against NREL SPA)                  | Sensor Recorder                   |
+| `leaf_brdf`      | Leaf BRDF in the principal plane, Deng et al. 2025, within the study's fitting bounds                          | BRDF explorer on the project page |
 
 Inputs are validated. Out-of-range values come back as tool errors the
 assistant can read and correct, not as crashes.
@@ -54,8 +54,8 @@ From the repository root:
 npm run test:science
 ```
 
-This runs the science-layer tests (reference values recorded from the original
-tool code) and a protocol test that drives the server over stdio the way an MCP
+This runs the science-layer validation tests (against NREL SPA, GeographicLib
+and the BRDF study's fitting code) and a protocol test that drives the server over stdio the way an MCP
 client does.
 
 ## Citing

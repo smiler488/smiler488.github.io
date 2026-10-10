@@ -15,6 +15,9 @@ import {
   AREA_METHOD,
   polygonArea,
   polygonCentroid,
+  polygonIssues,
+  polygonPerimeter,
+  projectLocal,
 } from "../../../lib/science/geo.js";
 import pageStyles from "./styles.module.css";
 
@@ -151,6 +154,12 @@ const WB_COPY = {
     kml: "Download KML",
     weather: "Weather for this field",
     failed: "Could not read the local workspace.",
+    crossing: (pairs) =>
+      `The boundary crosses itself (edges ${pairs}), so its area would be wrong. Reorder or remove points so the edges do not cross, then close the polygon again.`,
+    duplicates: (list) =>
+      `Points ${list} are within 5 cm of the point before them, usually a double tap. The area is computed, but check those points.`,
+    closed: "Polygon closed. Area and perimeter are shown below.",
+    perimeter: "Perimeter",
   },
   zh: {
     importTitle: "从工作区导入点位",
@@ -162,6 +171,12 @@ const WB_COPY = {
     kml: "下载 KML",
     weather: "查看该田块的气象数据",
     failed: "无法读取本地工作区。",
+    crossing: (pairs) =>
+      `边界自相交（第 ${pairs} 条边相交），面积计算会出错。请调整或删除点位，使各边不再交叉后重新闭合。`,
+    duplicates: (list) =>
+      `第 ${list} 个点与前一个点相距不足 5 cm，通常是重复点击。面积已计算，请检查这些点。`,
+    closed: "多边形已闭合，面积和周长见下方。",
+    perimeter: "周长",
   },
 };
 
@@ -394,8 +409,22 @@ function LandSurveyApp() {
       setError("You need at least 3 points to close the polygon.");
       return;
     }
+    const issues = polygonIssues(points);
+    if (issues.selfIntersecting) {
+      setError(
+        wb.crossing(
+          issues.crossingEdges.map(([a, b]) => `${a + 1}–${b + 1}`).join(", ")
+        )
+      );
+      return;
+    }
+    setError("");
     setIsClosed(true);
-    setStatus("Polygon closed. Area is available below.");
+    setStatus(
+      issues.duplicates.length
+        ? wb.duplicates(issues.duplicates.map((i) => i + 1).join(", "))
+        : wb.closed
+    );
   };
 
   const handleReset = () => {
@@ -418,20 +447,23 @@ function LandSurveyApp() {
     if (!points.length) {
       return [];
     }
-    const lats = points.map((p) => p.lat);
-    const lngs = points.map((p) => p.lng);
-    const minLat = Math.min(...lats);
-    const maxLat = Math.max(...lats);
-    const minLng = Math.min(...lngs);
-    const maxLng = Math.max(...lngs);
-    const latSpan = Math.max(0.00001, maxLat - minLat);
-    const lngSpan = Math.max(0.00001, maxLng - minLng);
-
+    // Same metres-per-unit scale on both axes, so the outline keeps its shape.
+    const metric = projectLocal(points);
+    const xs = metric.map((p) => p.x);
+    const ys = metric.map((p) => p.y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const extent = Math.max(1e-6, maxX - minX, maxY - minY);
     const inset = 7;
     const span = 100 - inset * 2;
-    return points.map((point) => ({
-      x: inset + ((point.lng - minLng) / lngSpan) * span,
-      y: inset + (1 - (point.lat - minLat) / latSpan) * span,
+    // Centre the shorter axis in the square frame; north is up.
+    const offsetX = (span - ((maxX - minX) / extent) * span) / 2;
+    const offsetY = (span - ((maxY - minY) / extent) * span) / 2;
+    return metric.map((p) => ({
+      x: inset + offsetX + ((p.x - minX) / extent) * span,
+      y: inset + offsetY + ((maxY - p.y) / extent) * span,
     }));
   }, [points]);
 
@@ -446,6 +478,10 @@ function LandSurveyApp() {
     return polygonArea(points);
   }, [isClosed, points]);
 
+  const perimeter = useMemo(
+    () => (isClosed ? polygonPerimeter(points) : 0),
+    [isClosed, points]
+  );
   const areaHectares = area / 10000;
   const areaMu = area / 666.6667;
   const centroid = useMemo(() => polygonCentroid(points), [points]);
@@ -456,6 +492,7 @@ function LandSurveyApp() {
     area_m2: Number(area.toFixed(2)),
     area_ha: Number(areaHectares.toFixed(4)),
     area_mu: Number(areaMu.toFixed(2)),
+    perimeter_m: Number(perimeter.toFixed(2)),
   });
 
   async function saveBoundary() {
@@ -736,6 +773,9 @@ function LandSurveyApp() {
               </strong>
               <span>
                 ≈ {areaHectares.toFixed(4)} ha · {areaMu.toFixed(2)} mu
+              </span>
+              <span>
+                {wb.perimeter}: {perimeter.toFixed(2)} m
               </span>
             </div>
           )}

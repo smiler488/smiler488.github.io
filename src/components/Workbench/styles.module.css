@@ -11,6 +11,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+.validationNote {
+  flex-basis: 100%;
+  max-width: 72ch;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.5;
+}
+
 .maturity {
   display: inline-flex;
   align-items: center;

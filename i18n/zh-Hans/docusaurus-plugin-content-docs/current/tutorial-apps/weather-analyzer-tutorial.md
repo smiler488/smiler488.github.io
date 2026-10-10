@@ -69,14 +69,14 @@ T2M_MAX, T2MDEW, WS2M, PRECTOTCORR
 每小时参数：
 
 ```text
-T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOT
+T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOTCORR
 ```
 
 ## 工作原理
 
 应用调用 NASA POWER 点 API，使用 community `AG`、所选坐标、包含日期范围和一个固定参数列表。每日请求使用每日端点。每小时请求使用每小时端点并包含所选时间标准。
 
-返回的参数序列按其日期或小时键对齐并转换为行。预览渲染前 100 行，而 CSV 包含完整的已解析响应。值按返回原样导出；不进行统计清理、插值或单位转换。
+返回的各参数序列按日期或小时对齐后转换为行：`DATE` 写为 `YYYY-MM-DD`，逐小时数据另有 `HOUR` 列，每列列名都带有 POWER 给出的单位，如 `T2M [C]`、`PRECTOTCORR [mm/hour]`。缺测值（POWER 填充值 `-999`）写为空单元格，状态栏会报告缺测数量。预览显示前 100 行，CSV 包含全部数据。不做插值或单位换算。
 
 ## 数据、隐私与外部服务
 
@@ -87,7 +87,7 @@ T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOT
 | NASA POWER    | 坐标、日期范围、时间尺度、适用时的时间标准和参数标识符。                          |
 | OpenStreetMap | 可见区域的地图瓦片请求。                                                          |
 | Nominatim     | 输入到地点搜索的文本。                                                            |
-| ipapi.co      | 在精确定位无法使用后的基于 IP 的近似定位请求。                                    |
+| ipapi.co      | 浏览器不支持定位、定位不可用或超时时，按 IP 地址估算大致位置。拒绝定位权限后不会调用。 |
 | unpkg         | 地图所需的 Leaflet JavaScript 和 CSS。                                            |
 
 下载的记录保留在浏览器内存中，直到被替换或页面关闭。CSV 下载创建临时本地 URL，在清理期间撤销。

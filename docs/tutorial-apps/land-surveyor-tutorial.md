@@ -60,22 +60,24 @@ The app is intended for rapid field screening. It does not replace a projected G
 
 ## How it works
 
-The calculator uses the mean latitude and longitude as a local reference. Longitude differences are scaled by the cosine of the reference latitude, latitude differences are converted with an Earth radius of `6,378,137 m`, and the projected vertices are passed to the planar shoelace formula.
+The calculator projects the vertices to metres around their mean position using the WGS 84 ellipsoid (the meridian radius of curvature for north–south and the prime-vertical radius for east–west distances at the mean latitude), then applies the shoelace formula. Validated against GeographicLib geodesic areas for polygons from 20 m to 2 km: agreement within 0.05% (typically better than 0.01%). Perimeter is computed on the same projection.
 
-The SVG preview normalizes the latitude and longitude extents independently so every captured shape fits the frame. It is a schematic ordering aid, not a georeferenced or scale-preserving map.
+When the polygon is closed, the tool checks it: if edges cross, it refuses to compute the area (a self-intersecting polygon's area is wrong) and names the crossing edges; vertices closer than 5 cm to the previous one are flagged as probable double taps.
+
+The SVG preview uses the same metric scale on both axes, with north up, so the outline keeps its true shape. It has no basemap.
 
 ## Data, privacy & external services
 
 Manual coordinates, device locations and results stay in the current browser tab. There is no server calculation, map provider or automatic upload. Browser geolocation is the only protected capability used.
 
-The current version does not persist a survey or export its coordinates. Copy any coordinates you need before refreshing or leaving the page.
+A closed boundary can be saved to the local workspace, downloaded as GeoJSON or KML (with area, perimeter and method in the properties), or passed to the Weather tool at its centroid.
 
 ## Limitations
 
 :::caution Accuracy boundary
 
-- The local planar approximation is most appropriate for relatively small field parcels away from the poles and date line.
-- The app does not detect self-intersection, duplicate vertices, holes or multiple polygons.
+- The local projection is designed for field parcels up to a few kilometres; very large polygons, the poles and the date line need a full geodesic method.
+- Holes and multi-part polygons are not supported.
 - Browser-reported GPS accuracy can be much larger than the coordinate display precision.
 - The result represents a horizontal planar estimate, not terrain surface area.
 - Do not use the result as a legal, cadastral, construction or land-transaction measurement.

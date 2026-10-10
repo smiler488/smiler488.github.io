@@ -392,3 +392,16 @@
     transition: none;
   }
 }
+
+.verifyLinks {
+  margin: 0.35rem 0 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.82rem;
+}
+
+.verifyLinks a {
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-emphasis-300);
+  text-underline-offset: 3px;
+}

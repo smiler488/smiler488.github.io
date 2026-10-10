@@ -1,1314 +1,2993 @@
 {
-  "_source": "Outputs of the original tool functions (Sensor Recorder computeSunPosition under TZ=Asia/Shanghai, America/New_York, UTC, Australia/Sydney; Land Surveyor calculatePolygonArea) and of a direct port of brdffunction from lsq_brdf_up.mlx. Recorded 2026-10-09 before the refactor.",
-  "solar": [
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": -240,
-      "elevation": 73.08946367158428,
-      "azimuth": 166.95363293801847,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": -240,
-      "elevation": 84.11656784456744,
-      "azimuth": 79.87958897213474,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": -240,
-      "elevation": 25.612154781774795,
-      "azimuth": 328.56884435320285,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": -240,
-      "elevation": 1.2858631846210267,
-      "azimuth": 52.34277275173639,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": -240,
-      "elevation": 55.101981807176884,
-      "azimuth": 115.28284850816476,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": -240,
-      "elevation": -24.36917274195418,
-      "azimuth": 291.0953177489921,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": -240,
-      "elevation": -27.473542317924455,
-      "azimuth": 281.4560843930873,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": -240,
-      "elevation": -49.01285987123304,
-      "azimuth": 217.0262257305185,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": -240,
-      "elevation": 37.50366562192706,
-      "azimuth": 186.96867383910399,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": -240,
-      "elevation": -1.6901030476135006,
-      "azimuth": 270.52149482069717,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": -300,
-      "elevation": -4.902358855721958,
-      "azimuth": 116.7067972122257,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": -300,
-      "elevation": 1.202281013166589,
-      "azimuth": 116.08234989588857,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": -300,
-      "elevation": 52.785557735114075,
-      "azimuth": 84.75742880567157,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": -300,
-      "elevation": -60.42452110765436,
-      "azimuth": 336.7871159235101,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": -300,
-      "elevation": -27.45370024175268,
-      "azimuth": 96.86868461577558,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": -240,
-      "elevation": 29.39132293847678,
-      "azimuth": 228.38320292920832,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": -240,
-      "elevation": 41.64285463611827,
-      "azimuth": 236.34477356075865,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": -240,
-      "elevation": 15.696638654448213,
-      "azimuth": 271.6473403047079,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": -240,
-      "elevation": 3.3030828989189684,
-      "azimuth": 106.14376433540201,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": -240,
-      "elevation": 37.43917073543121,
-      "azimuth": 193.577830360779,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": -300,
-      "elevation": 2.8582082703189022,
-      "azimuth": 123.67007007583436,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": -300,
-      "elevation": 10.59326342520976,
-      "azimuth": 120.63200580731944,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": -300,
-      "elevation": 61.891034253803646,
-      "azimuth": 75.27017309541395,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": -300,
-      "elevation": -61.59736371401475,
-      "azimuth": 358.25591268033486,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": -300,
-      "elevation": -19.240866452035952,
-      "azimuth": 103.86762085639299,
-      "tz": "America/New_York"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 480,
-      "elevation": 73.08946367158428,
-      "azimuth": 166.95363293801847,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 480,
-      "elevation": 84.11656784456744,
-      "azimuth": 79.87958897213474,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 480,
-      "elevation": 25.612154781774777,
-      "azimuth": 328.56884435320285,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 480,
-      "elevation": 1.2858631846210267,
-      "azimuth": 52.34277275173639,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 480,
-      "elevation": 55.101981807176884,
-      "azimuth": 115.28284850816476,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 480,
-      "elevation": -24.36917274195418,
-      "azimuth": 291.0953177489921,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 480,
-      "elevation": -27.473542317924455,
-      "azimuth": 281.4560843930873,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 480,
-      "elevation": -49.01285987123304,
-      "azimuth": 217.0262257305185,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 480,
-      "elevation": 37.50366562192706,
-      "azimuth": 186.96867383910399,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 480,
-      "elevation": -1.6901030476135006,
-      "azimuth": 270.52149482069717,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 480,
-      "elevation": -4.979471168148365,
-      "azimuth": 116.63072282178393,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 480,
-      "elevation": 1.106829749174978,
-      "azimuth": 116.031548375726,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 480,
-      "elevation": 52.685961760605316,
-      "azimuth": 84.82693796446694,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 480,
-      "elevation": -60.39048273948314,
-      "azimuth": 336.5792986792633,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 480,
-      "elevation": -27.534056559965045,
-      "azimuth": 96.78713061566725,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 480,
-      "elevation": 29.39132293847678,
-      "azimuth": 228.38320292920832,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 480,
-      "elevation": 41.64285463611827,
-      "azimuth": 236.34477356075865,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 480,
-      "elevation": 15.696638654448174,
-      "azimuth": 271.6473403047079,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 480,
-      "elevation": 3.3030828989189684,
-      "azimuth": 106.14376433540201,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 480,
-      "elevation": 37.43917073543121,
-      "azimuth": 193.577830360779,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 480,
-      "elevation": 2.9117528513915394,
-      "azimuth": 123.61853004143819,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 480,
-      "elevation": 10.630664277571384,
-      "azimuth": 120.56671876564724,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 480,
-      "elevation": 61.85473024449486,
-      "azimuth": 75.13272450076067,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 480,
-      "elevation": -61.52310516996445,
-      "azimuth": 358.2591224038433,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 480,
-      "elevation": -19.192180713021006,
-      "azimuth": 103.80821856265317,
-      "tz": "Asia/Shanghai"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 600,
-      "elevation": 73.08946367158428,
-      "azimuth": 166.95363293801847,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 600,
-      "elevation": 84.11656784456744,
-      "azimuth": 79.87958897213474,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 600,
-      "elevation": 25.612154781774777,
-      "azimuth": 328.56884435320285,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 600,
-      "elevation": 1.2858631846210267,
-      "azimuth": 52.34277275173639,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 600,
-      "elevation": 55.101981807176884,
-      "azimuth": 115.28284850816476,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 660,
-      "elevation": -24.36917274195418,
-      "azimuth": 291.0953177489921,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 660,
-      "elevation": -27.473542317924455,
-      "azimuth": 281.4560843930873,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 660,
-      "elevation": -49.01285987123304,
-      "azimuth": 217.0262257305185,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 660,
-      "elevation": 37.50366562192706,
-      "azimuth": 186.96867383910399,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 660,
-      "elevation": -1.6901030476135006,
-      "azimuth": 270.52149482069717,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 660,
-      "elevation": -4.979471168148365,
-      "azimuth": 116.63072282178393,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 660,
-      "elevation": 1.106829749174978,
-      "azimuth": 116.031548375726,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 660,
-      "elevation": 52.685961760605316,
-      "azimuth": 84.82693796446694,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 660,
-      "elevation": -60.39048273948314,
-      "azimuth": 336.5792986792633,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 660,
-      "elevation": -27.534056559965045,
-      "azimuth": 96.78713061566725,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 660,
-      "elevation": 29.39132293847678,
-      "azimuth": 228.38320292920832,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 660,
-      "elevation": 41.64285463611827,
-      "azimuth": 236.34477356075865,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 660,
-      "elevation": 15.696638654448174,
-      "azimuth": 271.6473403047079,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 660,
-      "elevation": 3.3030828989189684,
-      "azimuth": 106.14376433540201,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 660,
-      "elevation": 37.43917073543121,
-      "azimuth": 193.577830360779,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 660,
-      "elevation": 2.9117528513915394,
-      "azimuth": 123.61853004143819,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 660,
-      "elevation": 10.630664277571384,
-      "azimuth": 120.56671876564724,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 660,
-      "elevation": 61.85473024449486,
-      "azimuth": 75.13272450076067,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 660,
-      "elevation": -61.52310516996445,
-      "azimuth": 358.2591224038433,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 660,
-      "elevation": -19.192180713021006,
-      "azimuth": 103.80821856265317,
-      "tz": "Australia/Sydney"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 0,
-      "elevation": 73.08946367158428,
-      "azimuth": 166.95363293801847,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 0,
-      "elevation": 84.11656784456744,
-      "azimuth": 79.87958897213474,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 0,
-      "elevation": 25.612154781774795,
-      "azimuth": 328.56884435320285,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 0,
-      "elevation": 1.2858631846210267,
-      "azimuth": 52.34277275173639,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-06-21T04:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 0,
-      "elevation": 55.101981807176884,
-      "azimuth": 115.28284850816476,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 0,
-      "elevation": -24.36917274195418,
-      "azimuth": 291.0953177489921,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 0,
-      "elevation": -27.473542317924455,
-      "azimuth": 281.4560843930873,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 0,
-      "elevation": -49.01285987123304,
-      "azimuth": 217.0262257305185,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 0,
-      "elevation": 37.50366562192706,
-      "azimuth": 186.96867383910399,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-03-20T12:30:15Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 0,
-      "elevation": -1.6901030476135006,
-      "azimuth": 270.52149482069717,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 0,
-      "elevation": -4.902358855721958,
-      "azimuth": 116.7067972122257,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 0,
-      "elevation": 1.202281013166589,
-      "azimuth": 116.08234989588857,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 0,
-      "elevation": 52.785557735114075,
-      "azimuth": 84.75742880567157,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 0,
-      "elevation": -60.42452110765436,
-      "azimuth": 336.7871159235101,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-12-21T23:10:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 0,
-      "elevation": -27.45370024175268,
-      "azimuth": 96.86868461577558,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 0,
-      "elevation": 29.39132293847678,
-      "azimuth": 228.38320292920832,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 0,
-      "elevation": 41.64285463611827,
-      "azimuth": 236.34477356075865,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 0,
-      "elevation": 15.696638654448213,
-      "azimuth": 271.6473403047079,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 0,
-      "elevation": 3.3030828989189684,
-      "azimuth": 106.14376433540201,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-10-09T06:45:30Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 0,
-      "elevation": 37.43917073543121,
-      "azimuth": 193.577830360779,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 40.0016,
-      "lon": 116.2706,
-      "utcOffsetMinutes": 0,
-      "elevation": 2.9117528513915296,
-      "azimuth": 123.61853004143819,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 22.54,
-      "lon": 114.06,
-      "utcOffsetMinutes": 0,
-      "elevation": 10.630664277571373,
-      "azimuth": 120.56671876564724,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": -33.87,
-      "lon": 151.21,
-      "utcOffsetMinutes": 0,
-      "elevation": 61.854730244494846,
-      "azimuth": 75.13272450076067,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 51.48,
-      "lon": 0,
-      "utcOffsetMinutes": 0,
-      "elevation": -61.52310516996445,
-      "azimuth": 358.2591224038433,
-      "tz": "UTC"
-    },
-    {
-      "iso": "2026-01-01T00:00:00Z",
-      "lat": 44.3,
-      "lon": 86.05,
-      "utcOffsetMinutes": 0,
-      "elevation": -19.192180713021024,
-      "azimuth": 103.80821856265311,
-      "tz": "UTC"
+ "_source": "Independent references. solar: NREL SPA via pvlib 0.16.1 (method nrel_numpy, geometric elevation). area: GeographicLib geodesic polygon area on WGS 84. brdf: direct port of brdffunction from lsq_brdf_up.mlx. Regenerated 2026-10-10.",
+ "solar": [
+  {
+   "iso": "1960-12-27T08:21:00Z",
+   "lat": -19.4751,
+   "lon": 58.3532,
+   "elevation": 85.06348,
+   "azimuth": 218.19225
+  },
+  {
+   "iso": "1994-03-13T14:00:00Z",
+   "lat": -12.8178,
+   "lon": -51.5961,
+   "elevation": 64.28078,
+   "azimuth": 69.27068
+  },
+  {
+   "iso": "2033-08-20T05:12:00Z",
+   "lat": 37.1526,
+   "lon": 4.7397,
+   "elevation": 1.0942,
+   "azimuth": 75.31599
+  },
+  {
+   "iso": "1973-11-02T02:17:00Z",
+   "lat": -20.1349,
+   "lon": -72.3431,
+   "elevation": -41.75375,
+   "azimuth": 226.47235
+  },
+  {
+   "iso": "2050-05-22T01:29:00Z",
+   "lat": -23.5777,
+   "lon": 130.4796,
+   "elevation": 39.03613,
+   "azimuth": 32.50732
+  },
+  {
+   "iso": "2051-09-18T01:34:00Z",
+   "lat": -14.7313,
+   "lon": 123.7568,
+   "elevation": 54.793,
+   "azimuth": 64.32316
+  },
+  {
+   "iso": "2004-02-26T17:21:00Z",
+   "lat": -10.5522,
+   "lon": 117.9577,
+   "elevation": -65.60131,
+   "azimuth": 141.83994
+  },
+  {
+   "iso": "2056-09-07T21:34:00Z",
+   "lat": 36.2959,
+   "lon": -70.228,
+   "elevation": 16.25715,
+   "azimuth": 264.84942
+  },
+  {
+   "iso": "2030-01-16T15:34:00Z",
+   "lat": 51.3734,
+   "lon": -25.2346,
+   "elevation": 14.31279,
+   "azimuth": 204.83338
+  },
+  {
+   "iso": "1956-11-24T16:05:00Z",
+   "lat": 29.6762,
+   "lon": -79.2505,
+   "elevation": 37.72665,
+   "azimuth": 162.51793
+  },
+  {
+   "iso": "2058-12-16T18:17:00Z",
+   "lat": -11.3336,
+   "lon": 101.4441,
+   "elevation": -51.64871,
+   "azimuth": 154.75315
+  },
+  {
+   "iso": "2055-11-10T11:15:00Z",
+   "lat": 6.5355,
+   "lon": 32.1756,
+   "elevation": 55.76879,
+   "azimuth": 225.78394
+  },
+  {
+   "iso": "2017-01-01T16:42:00Z",
+   "lat": -54.9777,
+   "lon": -75.3519,
+   "elevation": 57.67049,
+   "azimuth": 10.01203
+  },
+  {
+   "iso": "2016-11-02T00:13:00Z",
+   "lat": -45.3102,
+   "lon": 49.1636,
+   "elevation": -11.14673,
+   "azimuth": 124.7267
+  },
+  {
+   "iso": "2084-11-04T21:53:00Z",
+   "lat": -46.1194,
+   "lon": 68.8057,
+   "elevation": -17.75318,
+   "azimuth": 138.33195
+  },
+  {
+   "iso": "1997-04-13T04:49:00Z",
+   "lat": 3.8598,
+   "lon": 6.7863,
+   "elevation": -10.33335,
+   "azimuth": 80.05944
+  },
+  {
+   "iso": "2013-01-02T00:57:00Z",
+   "lat": 6.2875,
+   "lon": -129.1889,
+   "elevation": 20.94752,
+   "azimuth": 242.50951
+  },
+  {
+   "iso": "2052-09-04T00:09:00Z",
+   "lat": -3.5942,
+   "lon": 19.9143,
+   "elevation": -67.4274,
+   "azimuth": 80.42459
+  },
+  {
+   "iso": "2055-10-02T19:36:00Z",
+   "lat": -46.8474,
+   "lon": -178.8817,
+   "elevation": 21.51113,
+   "azimuth": 71.56148
+  },
+  {
+   "iso": "2008-08-13T14:32:00Z",
+   "lat": 13.2493,
+   "lon": 103.9729,
+   "elevation": -42.31771,
+   "azimuth": 304.09954
+  },
+  {
+   "iso": "1986-09-18T06:44:00Z",
+   "lat": -20.2638,
+   "lon": 166.8231,
+   "elevation": 0.02165,
+   "azimuth": 272.10016
+  },
+  {
+   "iso": "2053-12-07T22:59:00Z",
+   "lat": 58.6962,
+   "lon": -5.3888,
+   "elevation": -51.6596,
+   "azimuth": 331.71351
+  },
+  {
+   "iso": "2040-07-15T03:48:00Z",
+   "lat": 9.8762,
+   "lon": -72.8496,
+   "elevation": -54.35541,
+   "azimuth": 331.5288
+  },
+  {
+   "iso": "2055-11-24T17:51:00Z",
+   "lat": -35.3491,
+   "lon": 51.026,
+   "elevation": -23.48293,
+   "azimuth": 218.80741
+  },
+  {
+   "iso": "1952-03-15T11:01:00Z",
+   "lat": 3.531,
+   "lon": -30.186,
+   "elevation": 42.5069,
+   "azimuth": 96.05396
+  },
+  {
+   "iso": "2062-12-28T01:05:00Z",
+   "lat": 28.1756,
+   "lon": 15.0577,
+   "elevation": -61.7472,
+   "azimuth": 87.13869
+  },
+  {
+   "iso": "2004-06-09T15:35:00Z",
+   "lat": -33.54,
+   "lon": 12.4568,
+   "elevation": 5.2526,
+   "azimuth": 302.11537
+  },
+  {
+   "iso": "2049-10-04T13:01:00Z",
+   "lat": -58.6267,
+   "lon": -50.0107,
+   "elevation": 30.63878,
+   "azimuth": 37.75519
+  },
+  {
+   "iso": "2028-10-12T14:01:00Z",
+   "lat": 1.782,
+   "lon": 88.918,
+   "elevation": -32.52336,
+   "azimuth": 261.96336
+  },
+  {
+   "iso": "2078-05-20T12:35:00Z",
+   "lat": -63.7676,
+   "lon": -28.3613,
+   "elevation": 4.83008,
+   "azimuth": 17.65767
+  },
+  {
+   "iso": "2065-12-04T20:02:00Z",
+   "lat": 20.0289,
+   "lon": 81.3728,
+   "elevation": -67.2939,
+   "azimuth": 100.29098
+  },
+  {
+   "iso": "2089-01-19T15:24:00Z",
+   "lat": 6.21,
+   "lon": -147.3334,
+   "elevation": -10.59678,
+   "azimuth": 109.32698
+  },
+  {
+   "iso": "2038-07-04T02:52:00Z",
+   "lat": 60.8202,
+   "lon": 105.5714,
+   "elevation": 45.88827,
+   "azimuth": 134.60044
+  },
+  {
+   "iso": "1989-11-15T10:30:00Z",
+   "lat": 56.545,
+   "lon": -149.4857,
+   "elevation": -50.9647,
+   "azimuth": 18.02739
+  },
+  {
+   "iso": "1951-04-12T17:59:00Z",
+   "lat": -29.9043,
+   "lon": -101.0697,
+   "elevation": 49.94256,
+   "azimuth": 17.91762
+  },
+  {
+   "iso": "2010-01-17T07:45:00Z",
+   "lat": 18.5625,
+   "lon": 68.6707,
+   "elevation": 50.62345,
+   "azimuth": 183.56426
+  },
+  {
+   "iso": "1994-08-26T12:40:00Z",
+   "lat": -26.8178,
+   "lon": 9.6529,
+   "elevation": 48.38876,
+   "azimuth": 330.85333
+  },
+  {
+   "iso": "2014-06-07T07:51:00Z",
+   "lat": 36.3795,
+   "lon": -104.9969,
+   "elevation": -29.60005,
+   "azimuth": 13.85378
+  },
+  {
+   "iso": "2010-04-12T23:52:00Z",
+   "lat": -29.9551,
+   "lon": 14.3578,
+   "elevation": -66.07961,
+   "azimuth": 149.04096
+  },
+  {
+   "iso": "1954-10-15T00:52:00Z",
+   "lat": 47.0311,
+   "lon": 105.591,
+   "elevation": 14.67402,
+   "azimuth": 119.91792
+  },
+  {
+   "iso": "2057-09-21T06:35:00Z",
+   "lat": 3.9688,
+   "lon": 29.258,
+   "elevation": 39.68551,
+   "azimuth": 92.67045
+  },
+  {
+   "iso": "1952-04-06T15:14:00Z",
+   "lat": 56.4891,
+   "lon": -29.1992,
+   "elevation": 37.96241,
+   "azimuth": 203.82998
+  },
+  {
+   "iso": "1993-08-06T02:54:00Z",
+   "lat": 37.6963,
+   "lon": 144.0789,
+   "elevation": 68.34743,
+   "azimuth": 196.03169
+  },
+  {
+   "iso": "2062-11-27T12:59:00Z",
+   "lat": 35.0351,
+   "lon": -14.9521,
+   "elevation": 33.67071,
+   "azimuth": 183.23691
+  },
+  {
+   "iso": "1996-06-11T14:15:00Z",
+   "lat": 34.0817,
+   "lon": 8.8792,
+   "elevation": 51.23992,
+   "azimuth": 265.10811
+  },
+  {
+   "iso": "1988-11-12T06:31:00Z",
+   "lat": 47.4787,
+   "lon": 77.1803,
+   "elevation": 24.74111,
+   "azimuth": 178.83145
+  },
+  {
+   "iso": "1950-10-28T04:14:00Z",
+   "lat": -9.5269,
+   "lon": -73.4054,
+   "elevation": -66.81118,
+   "azimuth": 194.68901
+  },
+  {
+   "iso": "2027-09-15T10:15:00Z",
+   "lat": -7.6531,
+   "lon": 103.2094,
+   "elevation": 11.33128,
+   "azimuth": 274.66496
+  },
+  {
+   "iso": "2032-07-19T14:02:00Z",
+   "lat": 23.8114,
+   "lon": -89.8938,
+   "elevation": 33.88754,
+   "azimuth": 80.31403
+  },
+  {
+   "iso": "1992-05-16T00:40:00Z",
+   "lat": -15.8534,
+   "lon": -115.7402,
+   "elevation": 8.22222,
+   "azimuth": 292.64333
+  },
+  {
+   "iso": "1951-10-19T05:43:00Z",
+   "lat": 7.2453,
+   "lon": 116.9579,
+   "elevation": 58.70791,
+   "azimuth": 237.59265
+  },
+  {
+   "iso": "1962-07-18T21:30:00Z",
+   "lat": -24.0671,
+   "lon": -4.0048,
+   "elevation": -50.28377,
+   "azimuth": 274.38658
+  },
+  {
+   "iso": "2084-03-28T07:07:00Z",
+   "lat": -6.6098,
+   "lon": 59.8653,
+   "elevation": 72.33705,
+   "azimuth": 55.93041
+  },
+  {
+   "iso": "2006-07-21T00:35:00Z",
+   "lat": -41.5857,
+   "lon": -80.2406,
+   "elevation": -25.88964,
+   "azimuth": 275.19992
+  },
+  {
+   "iso": "1979-07-08T04:04:00Z",
+   "lat": -27.2497,
+   "lon": 111.4578,
+   "elevation": 39.48612,
+   "azimuth": 10.49883
+  },
+  {
+   "iso": "2044-01-05T19:05:00Z",
+   "lat": 0.6045,
+   "lon": -48.62,
+   "elevation": 30.54495,
+   "azimuth": 243.11716
+  },
+  {
+   "iso": "2063-08-01T12:52:00Z",
+   "lat": 48.0252,
+   "lon": -81.0481,
+   "elevation": 26.73258,
+   "azimuth": 92.58669
+  },
+  {
+   "iso": "1966-08-12T13:16:00Z",
+   "lat": 19.7095,
+   "lon": -171.8086,
+   "elevation": -46.91618,
+   "azimuth": 38.1995
+  },
+  {
+   "iso": "1985-11-04T15:21:00Z",
+   "lat": 27.1876,
+   "lon": 136.6964,
+   "elevation": -74.43504,
+   "azimuth": 43.49389
+  },
+  {
+   "iso": "1996-10-25T00:08:00Z",
+   "lat": 50.9902,
+   "lon": -104.5319,
+   "elevation": -4.10569,
+   "azimuth": 255.76842
+  },
+  {
+   "iso": "2038-10-04T19:49:00Z",
+   "lat": -34.7568,
+   "lon": -149.4099,
+   "elevation": 49.46463,
+   "azimuth": 48.65841
+  },
+  {
+   "iso": "2083-01-17T12:18:00Z",
+   "lat": 54.5589,
+   "lon": 165.6933,
+   "elevation": -54.82391,
+   "azimuth": 339.7454
+  },
+  {
+   "iso": "2024-06-07T08:57:00Z",
+   "lat": -17.7486,
+   "lon": -174.858,
+   "elevation": -51.93348,
+   "azimuth": 284.57102
+  },
+  {
+   "iso": "1982-10-08T03:25:00Z",
+   "lat": -26.3667,
+   "lon": -174.3758,
+   "elevation": 29.39094,
+   "azimuth": 278.71018
+  },
+  {
+   "iso": "2051-12-16T21:22:00Z",
+   "lat": 54.7365,
+   "lon": 149.337,
+   "elevation": -7.71148,
+   "azimuth": 120.05125
+  },
+  {
+   "iso": "1992-09-15T14:40:00Z",
+   "lat": -12.2136,
+   "lon": 84.1439,
+   "elevation": -35.139,
+   "azimuth": 264.74104
+  },
+  {
+   "iso": "2083-12-08T03:33:00Z",
+   "lat": 51.8483,
+   "lon": 33.1219,
+   "elevation": -18.60823,
+   "azimuth": 103.35857
+  },
+  {
+   "iso": "1978-11-11T06:18:00Z",
+   "lat": 51.1663,
+   "lon": 148.5688,
+   "elevation": 0.06455,
+   "azimuth": 241.53703
+  },
+  {
+   "iso": "1957-11-03T09:56:00Z",
+   "lat": 18.2042,
+   "lon": 70.9442,
+   "elevation": 35.3367,
+   "azimuth": 235.38127
+  },
+  {
+   "iso": "1957-07-12T11:04:00Z",
+   "lat": 19.024,
+   "lon": -173.0752,
+   "elevation": -48.1754,
+   "azimuth": 348.22314
+  },
+  {
+   "iso": "2017-06-25T02:14:00Z",
+   "lat": -52.8798,
+   "lon": 175.4691,
+   "elevation": 9.85496,
+   "azimuth": 333.77197
+  },
+  {
+   "iso": "1997-11-20T04:25:00Z",
+   "lat": -6.6052,
+   "lon": -123.643,
+   "elevation": -30.92318,
+   "azimuth": 242.31188
+  },
+  {
+   "iso": "1951-07-16T09:06:00Z",
+   "lat": -25.9295,
+   "lon": -50.495,
+   "elevation": -13.87523,
+   "azimuth": 72.58256
+  },
+  {
+   "iso": "2008-05-22T17:24:00Z",
+   "lat": 52.4897,
+   "lon": 156.1412,
+   "elevation": -1.36941,
+   "azimuth": 52.55834
+  },
+  {
+   "iso": "2047-11-24T14:19:00Z",
+   "lat": -31.9292,
+   "lon": -138.3007,
+   "elevation": 2.59034,
+   "azimuth": 112.75345
+  },
+  {
+   "iso": "1999-01-07T00:00:00Z",
+   "lat": -59.4056,
+   "lon": 84.5504,
+   "elevation": 15.78418,
+   "azimuth": 107.55621
+  },
+  {
+   "iso": "1983-12-28T05:26:00Z",
+   "lat": -63.8298,
+   "lon": 78.3956,
+   "elevation": 47.28558,
+   "azimuth": 28.17026
+  },
+  {
+   "iso": "2008-11-10T05:01:00Z",
+   "lat": -16.7074,
+   "lon": 45.6947,
+   "elevation": 37.54551,
+   "azimuth": 99.18514
+  },
+  {
+   "iso": "1986-08-06T22:35:00Z",
+   "lat": 0.2514,
+   "lon": 72.1955,
+   "elevation": -38.41428,
+   "azimuth": 68.42181
+  },
+  {
+   "iso": "2000-06-27T02:26:00Z",
+   "lat": -41.9782,
+   "lon": 12.8273,
+   "elevation": -45.76012,
+   "azimuth": 99.25472
+  },
+  {
+   "iso": "1984-03-15T16:39:00Z",
+   "lat": 40.7803,
+   "lon": 2.2654,
+   "elevation": 13.88136,
+   "azimuth": 255.06872
+  },
+  {
+   "iso": "2072-05-13T21:53:00Z",
+   "lat": -36.9239,
+   "lon": -1.9251,
+   "elevation": -56.0641,
+   "azimuth": 246.65984
+  },
+  {
+   "iso": "2069-10-14T08:44:00Z",
+   "lat": 12.3839,
+   "lon": -41.3115,
+   "elevation": 1.30451,
+   "azimuth": 98.91198
+  },
+  {
+   "iso": "1978-06-27T16:53:00Z",
+   "lat": 33.5851,
+   "lon": 115.5255,
+   "elevation": -32.58609,
+   "azimuth": 8.76997
+  },
+  {
+   "iso": "2010-12-24T12:42:00Z",
+   "lat": 54.7076,
+   "lon": 146.9819,
+   "elevation": -54.53882,
+   "azimuth": 322.93077
+  },
+  {
+   "iso": "2034-06-12T01:56:00Z",
+   "lat": 30.7797,
+   "lon": 30.3529,
+   "elevation": -11.60377,
+   "azimuth": 53.89657
+  },
+  {
+   "iso": "2005-12-24T08:16:00Z",
+   "lat": 51.3985,
+   "lon": 102.9287,
+   "elevation": 4.56506,
+   "azimuth": 222.35034
+  },
+  {
+   "iso": "1957-05-24T01:48:00Z",
+   "lat": 7.7035,
+   "lon": 66.0944,
+   "elevation": 6.3652,
+   "azimuth": 69.90137
+  },
+  {
+   "iso": "2082-11-03T17:48:00Z",
+   "lat": 55.8305,
+   "lon": -104.169,
+   "elevation": 17.97047,
+   "azimuth": 166.76976
+  },
+  {
+   "iso": "2048-08-05T18:34:00Z",
+   "lat": 63.2849,
+   "lon": 144.5933,
+   "elevation": 2.89984,
+   "azimuth": 57.56929
+  },
+  {
+   "iso": "1951-09-09T15:14:00Z",
+   "lat": 19.5515,
+   "lon": -47.1952,
+   "elevation": 75.79652,
+   "azimuth": 187.85081
+  },
+  {
+   "iso": "2024-02-04T08:34:00Z",
+   "lat": 35.3612,
+   "lon": -41.5117,
+   "elevation": -14.53217,
+   "azimuth": 99.92359
+  },
+  {
+   "iso": "2071-07-23T08:11:00Z",
+   "lat": 56.7809,
+   "lon": 3.3587,
+   "elevation": 35.26726,
+   "azimuth": 108.37049
+  },
+  {
+   "iso": "1985-06-01T07:04:00Z",
+   "lat": 61.7965,
+   "lon": 9.6193,
+   "elevation": 31.61564,
+   "azimuth": 102.40455
+  },
+  {
+   "iso": "1970-08-28T13:04:00Z",
+   "lat": 41.6362,
+   "lon": 135.787,
+   "elevation": -32.31926,
+   "azimuth": 326.15177
+  },
+  {
+   "iso": "1972-08-12T17:53:00Z",
+   "lat": 53.4048,
+   "lon": 129.5113,
+   "elevation": -14.96735,
+   "azimuth": 36.56992
+  },
+  {
+   "iso": "2006-12-04T13:54:00Z",
+   "lat": 26.2753,
+   "lon": 81.6496,
+   "elevation": -29.12309,
+   "azimuth": 257.95456
+  },
+  {
+   "iso": "1964-06-14T22:13:00Z",
+   "lat": -0.3572,
+   "lon": 123.8389,
+   "elevation": 6.30139,
+   "azimuth": 66.50558
+  },
+  {
+   "iso": "2085-09-03T19:21:00Z",
+   "lat": 50.1423,
+   "lon": -15.0134,
+   "elevation": 1.92648,
+   "azimuth": 278.70049
+  },
+  {
+   "iso": "1994-08-13T03:48:00Z",
+   "lat": -19.997,
+   "lon": 55.2951,
+   "elevation": 13.85426,
+   "azimuth": 68.3514
+  },
+  {
+   "iso": "2040-09-06T08:28:00Z",
+   "lat": 47.4572,
+   "lon": -100.4356,
+   "elevation": -31.32819,
+   "azimuth": 31.91502
+  },
+  {
+   "iso": "1955-05-27T05:05:00Z",
+   "lat": 48.6268,
+   "lon": -146.8864,
+   "elevation": 3.36898,
+   "azimuth": 298.70482
+  },
+  {
+   "iso": "2040-06-20T01:22:00Z",
+   "lat": 9.8744,
+   "lon": -35.1755,
+   "elevation": -53.56904,
+   "azimuth": 336.28208
+  },
+  {
+   "iso": "2069-03-26T12:46:00Z",
+   "lat": -17.5754,
+   "lon": 31.4324,
+   "elevation": 44.34785,
+   "azimuth": 292.0354
+  },
+  {
+   "iso": "2065-03-03T19:16:00Z",
+   "lat": -10.1984,
+   "lon": 171.9513,
+   "elevation": 8.99787,
+   "azimuth": 94.92662
+  },
+  {
+   "iso": "1999-06-16T15:25:00Z",
+   "lat": 60.5513,
+   "lon": -57.7175,
+   "elevation": 52.50762,
+   "azimuth": 169.98116
+  },
+  {
+   "iso": "2067-10-09T17:03:00Z",
+   "lat": -0.643,
+   "lon": 62.7215,
+   "elevation": -51.09889,
+   "azimuth": 258.8352
+  },
+  {
+   "iso": "2032-03-24T05:07:00Z",
+   "lat": 17.3568,
+   "lon": 149.1981,
+   "elevation": 43.64478,
+   "azimuth": 255.12485
+  },
+  {
+   "iso": "2036-11-01T07:01:00Z",
+   "lat": -37.5373,
+   "lon": -75.4193,
+   "elevation": -28.85727,
+   "azimuth": 141.91852
+  },
+  {
+   "iso": "2033-10-10T13:59:00Z",
+   "lat": -47.9195,
+   "lon": 2.5716,
+   "elevation": 39.05768,
+   "azimuth": 311.90516
+  },
+  {
+   "iso": "1988-01-23T17:16:00Z",
+   "lat": 60.4204,
+   "lon": 81.7726,
+   "elevation": -46.16619,
+   "azimuth": 329.10105
+  },
+  {
+   "iso": "1984-12-18T14:06:00Z",
+   "lat": -23.9905,
+   "lon": -31.7129,
+   "elevation": 89.20282,
+   "azimuth": 317.15172
+  },
+  {
+   "iso": "1982-02-26T22:54:00Z",
+   "lat": -55.3163,
+   "lon": 45.5425,
+   "elevation": -22.5899,
+   "azimuth": 152.19687
+  },
+  {
+   "iso": "2045-09-23T06:36:00Z",
+   "lat": 10.5739,
+   "lon": 142.2984,
+   "elevation": 26.23214,
+   "azimuth": 264.42531
+  },
+  {
+   "iso": "2057-12-06T14:57:00Z",
+   "lat": 31.6424,
+   "lon": -121.8562,
+   "elevation": -0.20027,
+   "azimuth": 116.67975
+  },
+  {
+   "iso": "2038-01-19T10:58:00Z",
+   "lat": 58.4777,
+   "lon": -80.0482,
+   "elevation": -21.42855,
+   "azimuth": 94.10984
+  },
+  {
+   "iso": "2081-07-23T22:42:00Z",
+   "lat": -24.1436,
+   "lon": -152.754,
+   "elevation": 45.69855,
+   "azimuth": 351.79768
+  },
+  {
+   "iso": "2020-10-23T23:03:00Z",
+   "lat": 59.6278,
+   "lon": -109.4917,
+   "elevation": 3.96317,
+   "azimuth": 238.37205
+  },
+  {
+   "iso": "2085-07-13T00:48:00Z",
+   "lat": 18.1217,
+   "lon": 144.8481,
+   "elevation": 66.58254,
+   "azimuth": 77.02586
+  },
+  {
+   "iso": "2026-10-23T07:35:00Z",
+   "lat": 39.0261,
+   "lon": -19.0914,
+   "elevation": -0.65855,
+   "azimuth": 104.24555
+  },
+  {
+   "iso": "1971-01-07T13:24:00Z",
+   "lat": -22.4147,
+   "lon": 103.4276,
+   "elevation": -18.58283,
+   "azimuth": 234.98572
+  },
+  {
+   "iso": "2025-08-22T03:09:00Z",
+   "lat": -44.9215,
+   "lon": 3.1451,
+   "elevation": -36.31496,
+   "azimuth": 112.14761
+  },
+  {
+   "iso": "1988-03-15T15:55:00Z",
+   "lat": -58.7677,
+   "lon": -62.5036,
+   "elevation": 32.91313,
+   "azimuth": 7.09939
+  },
+  {
+   "iso": "1987-09-06T18:43:00Z",
+   "lat": -46.5303,
+   "lon": 168.1685,
+   "elevation": -5.13653,
+   "azimuth": 86.05654
+  },
+  {
+   "iso": "2021-02-24T23:57:00Z",
+   "lat": 38.7019,
+   "lon": -147.4606,
+   "elevation": 35.33072,
+   "azimuth": 215.30377
+  },
+  {
+   "iso": "2033-03-19T09:13:00Z",
+   "lat": 38.2576,
+   "lon": 57.0453,
+   "elevation": 49.461,
+   "azimuth": 200.84661
+  },
+  {
+   "iso": "1991-09-06T09:15:00Z",
+   "lat": -54.6185,
+   "lon": -44.0166,
+   "elevation": -2.41606,
+   "azimuth": 82.04877
+  },
+  {
+   "iso": "2089-10-07T10:33:00Z",
+   "lat": -30.1512,
+   "lon": -175.4103,
+   "elevation": -51.53459,
+   "azimuth": 202.87886
+  },
+  {
+   "iso": "1991-04-20T02:59:00Z",
+   "lat": 45.3741,
+   "lon": 50.8682,
+   "elevation": 12.1085,
+   "azimuth": 86.0885
+  },
+  {
+   "iso": "1997-10-18T00:13:00Z",
+   "lat": -41.3529,
+   "lon": 83.1555,
+   "elevation": 6.36354,
+   "azimuth": 97.13567
+  },
+  {
+   "iso": "2076-12-09T23:21:00Z",
+   "lat": -16.9191,
+   "lon": -72.1271,
+   "elevation": -2.18864,
+   "azimuth": 245.1925
+  },
+  {
+   "iso": "1979-04-18T10:49:00Z",
+   "lat": -43.4526,
+   "lon": 24.6987,
+   "elevation": 35.46577,
+   "azimuth": 351.44453
+  },
+  {
+   "iso": "2049-05-21T09:04:00Z",
+   "lat": 46.7069,
+   "lon": -93.741,
+   "elevation": -12.5381,
+   "azimuth": 41.02784
+  },
+  {
+   "iso": "2080-06-04T00:45:00Z",
+   "lat": -32.0824,
+   "lon": 117.8138,
+   "elevation": 17.07964,
+   "azimuth": 48.28581
+  },
+  {
+   "iso": "2023-02-10T09:27:00Z",
+   "lat": -57.2296,
+   "lon": -134.9443,
+   "elevation": -18.34076,
+   "azimuth": 176.66735
+  },
+  {
+   "iso": "1966-01-02T16:58:00Z",
+   "lat": -50.0717,
+   "lon": 41.3658,
+   "elevation": 2.87255,
+   "azimuth": 236.80973
+  },
+  {
+   "iso": "2069-05-21T21:39:00Z",
+   "lat": 35.1232,
+   "lon": 26.2696,
+   "elevation": -33.90277,
+   "azimuth": 350.76709
+  },
+  {
+   "iso": "2057-02-27T04:47:00Z",
+   "lat": 47.0017,
+   "lon": -146.0673,
+   "elevation": -14.50337,
+   "azimuth": 273.56972
+  },
+  {
+   "iso": "2010-03-15T06:21:00Z",
+   "lat": 46.8849,
+   "lon": -62.7295,
+   "elevation": -38.12804,
+   "azimuth": 39.81597
+  },
+  {
+   "iso": "1966-03-02T02:15:00Z",
+   "lat": -42.637,
+   "lon": -158.9023,
+   "elevation": 32.61729,
+   "azimuth": 292.38105
+  },
+  {
+   "iso": "2045-03-02T02:35:00Z",
+   "lat": 18.5656,
+   "lon": 140.9782,
+   "elevation": 64.13716,
+   "azimuth": 172.49128
+  },
+  {
+   "iso": "1956-11-21T08:39:00Z",
+   "lat": -54.8657,
+   "lon": 14.5861,
+   "elevation": 47.47589,
+   "azimuth": 47.73088
+  },
+  {
+   "iso": "2066-07-02T06:17:00Z",
+   "lat": 53.2373,
+   "lon": -75.4523,
+   "elevation": -12.22675,
+   "azimuth": 16.68191
+  },
+  {
+   "iso": "2040-06-06T09:57:00Z",
+   "lat": 5.7008,
+   "lon": -92.6801,
+   "elevation": -27.59988,
+   "azimuth": 60.63521
+  },
+  {
+   "iso": "1994-12-02T13:17:00Z",
+   "lat": -45.3038,
+   "lon": 12.7148,
+   "elevation": 53.38906,
+   "azimuth": 297.94027
+  },
+  {
+   "iso": "1962-05-09T19:56:00Z",
+   "lat": -21.9653,
+   "lon": -93.0289,
+   "elevation": 42.65819,
+   "azimuth": 324.0846
+  },
+  {
+   "iso": "2003-12-16T10:49:00Z",
+   "lat": 2.8324,
+   "lon": 163.0598,
+   "elevation": -51.63917,
+   "azimuth": 234.84665
+  },
+  {
+   "iso": "2017-08-17T17:23:00Z",
+   "lat": -63.7641,
+   "lon": -131.1895,
+   "elevation": 3.64743,
+   "azimuth": 49.70887
+  },
+  {
+   "iso": "1976-09-14T15:33:00Z",
+   "lat": 21.4565,
+   "lon": -11.8968,
+   "elevation": 44.87146,
+   "azimuth": 252.143
+  },
+  {
+   "iso": "2080-02-21T18:32:00Z",
+   "lat": 51.2429,
+   "lon": 26.2847,
+   "elevation": -27.19294,
+   "azimuth": 288.43088
+  },
+  {
+   "iso": "1955-12-13T15:14:00Z",
+   "lat": 34.2503,
+   "lon": -65.3926,
+   "elevation": 30.7834,
+   "azimuth": 163.49299
+  },
+  {
+   "iso": "1997-07-20T02:34:00Z",
+   "lat": 57.6111,
+   "lon": -92.0253,
+   "elevation": 0.64933,
+   "azimuth": 309.87897
+  },
+  {
+   "iso": "1969-08-05T17:19:00Z",
+   "lat": 47.5395,
+   "lon": -77.4858,
+   "elevation": 59.34515,
+   "azimuth": 181.48334
+  },
+  {
+   "iso": "2079-11-03T12:47:00Z",
+   "lat": -54.0624,
+   "lon": -143.7789,
+   "elevation": -7.79722,
+   "azimuth": 129.77751
+  },
+  {
+   "iso": "2064-06-09T00:18:00Z",
+   "lat": -29.6268,
+   "lon": 68.4521,
+   "elevation": -25.19083,
+   "azimuth": 76.77457
+  },
+  {
+   "iso": "2042-08-25T03:04:00Z",
+   "lat": 31.0805,
+   "lon": -20.2667,
+   "elevation": -41.70911,
+   "azimuth": 34.05854
+  },
+  {
+   "iso": "1985-06-05T21:59:00Z",
+   "lat": -59.4739,
+   "lon": 61.7201,
+   "elevation": -46.85024,
+   "azimuth": 134.58928
+  },
+  {
+   "iso": "1969-08-18T12:57:00Z",
+   "lat": -8.5059,
+   "lon": 63.9128,
+   "elevation": 10.35754,
+   "azimuth": 285.04649
+  },
+  {
+   "iso": "2070-07-11T03:01:00Z",
+   "lat": -60.5657,
+   "lon": 162.4688,
+   "elevation": 4.66421,
+   "azimuth": 335.66726
+  },
+  {
+   "iso": "2083-04-08T08:32:00Z",
+   "lat": -19.404,
+   "lon": -52.4099,
+   "elevation": -16.40664,
+   "azimuth": 87.86001
+  }
+ ],
+ "area": [
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": -63.02196744,
+     "lng": 72.17444611
+    },
+    {
+     "lat": -63.02208261,
+     "lng": 72.1746641
+    },
+    {
+     "lat": -63.02221632,
+     "lng": 72.174739
+    },
+    {
+     "lat": -63.02230005,
+     "lng": 72.17440942
+    },
+    {
+     "lat": -63.02219662,
+     "lng": 72.17405037
+    },
+    {
+     "lat": -63.02206956,
+     "lng": 72.17410891
     }
-  ],
-  "area": [
+   ],
+   "area": 810.3272
+  },
+  {
+   "size_m": 20,
+   "points": [
     {
-      "points": [
-        {
-          "lat": 50.49174204025964,
-          "lng": -71.65036683548189
-        },
-        {
-          "lat": 50.498730112173305,
-          "lng": -71.6643000995492
-        },
-        {
-          "lat": 50.483127532478605,
-          "lng": -71.66383870095989
-        }
-      ],
-      "area": 844235.6022477974
+     "lat": 14.69449309,
+     "lng": -172.00626928
     },
     {
-      "points": [
-        {
-          "lat": 16.309752537081835,
-          "lng": 107.70865178104765
-        },
-        {
-          "lat": 16.31841394780255,
-          "lng": 107.70240675767842
-        },
-        {
-          "lat": 16.32048367845135,
-          "lng": 107.69531669979904
-        },
-        {
-          "lat": 16.315049882858276,
-          "lng": 107.68704587449065
-        },
-        {
-          "lat": 16.306203693118842,
-          "lng": 107.6883825247489
-        },
-        {
-          "lat": 16.297845743225132,
-          "lng": 107.69506928451457
-        },
-        {
-          "lat": 16.30130506212122,
-          "lng": 107.70405197204323
-        }
-      ],
-      "area": 3846647.7345030783
+     "lat": 14.69438084,
+     "lng": -172.00616596
     },
     {
-      "points": [
-        {
-          "lat": 49.00009933346888,
-          "lng": -43.423766743439145
-        },
-        {
-          "lat": 49.00817132653689,
-          "lng": -43.42764286482001
-        },
-        {
-          "lat": 49.01342067480057,
-          "lng": -43.436423434613474
-        },
-        {
-          "lat": 49.012004137220515,
-          "lng": -43.44647266091607
-        },
-        {
-          "lat": 49.00009933346888,
-          "lng": -43.45284898366635
-        },
-        {
-          "lat": 48.9924862410254,
-          "lng": -43.44508604990613
-        },
-        {
-          "lat": 48.98586506679572,
-          "lng": -43.436423434613474
-        },
-        {
-          "lat": 48.99071404580578,
-          "lng": -43.42815422153241
-        }
-      ],
-      "area": 4200665.582046125
+     "lat": 14.69422622,
+     "lng": -172.00628407
     },
     {
-      "points": [
-        {
-          "lat": -53.41441925308407,
-          "lng": -45.72525833905615
-        },
-        {
-          "lat": -53.40432876653612,
-          "lng": -45.73408750103176
-        },
-        {
-          "lat": -53.40092278833392,
-          "lng": -45.74242865468487
-        },
-        {
-          "lat": -53.40508196741376,
-          "lng": -45.75206388696932
-        },
-        {
-          "lat": -53.41441925308407,
-          "lng": -45.756817781025546
-        },
-        {
-          "lat": -53.425006482194526,
-          "lng": -45.751108753844086
-        },
-        {
-          "lat": -53.43146312509064,
-          "lng": -45.74242865468487
-        },
-        {
-          "lat": -53.42625332450748,
-          "lng": -45.73173582331112
-        }
-      ],
-      "area": 4564253.356027671
-    },
-    {
-      "points": [
-        {
-          "lat": 1.9492231784151954,
-          "lng": 1.7094015885404632
-        },
-        {
-          "lat": 1.975958128035757,
-          "lng": 1.6951258492607866
-        },
-        {
-          "lat": 1.9744886824440069,
-          "lng": 1.6699500845062099
-        },
-        {
-          "lat": 1.9492231784151954,
-          "lng": 1.6564435727991378
-        },
-        {
-          "lat": 1.9214411066799775,
-          "lng": 1.666266592159174
-        },
-        {
-          "lat": 1.9297179884932316,
-          "lng": 1.6990966047352944
-        }
-      ],
-      "area": 25131387.042787142
-    },
-    {
-      "points": [
-        {
-          "lat": -11.183528970546796,
-          "lng": -117.7826327246918
-        },
-        {
-          "lat": -11.180283095768937,
-          "lng": -117.78710097854442
-        },
-        {
-          "lat": -11.186508069307015,
-          "lng": -117.78749528157267
-        }
-      ],
-      "area": 176847.57488000195
-    },
-    {
-      "points": [
-        {
-          "lat": 50.62451049248898,
-          "lng": 130.79560129539695
-        },
-        {
-          "lat": 50.65978048574592,
-          "lng": 130.73624491620401
-        },
-        {
-          "lat": 50.60094930699109,
-          "lng": 130.73648922091368
-        }
-      ],
-      "area": 13691198.491149614
-    },
-    {
-      "points": [
-        {
-          "lat": -59.809958897442534,
-          "lng": 39.73523395963439
-        },
-        {
-          "lat": -59.80081337948437,
-          "lng": 39.72143503229685
-        },
-        {
-          "lat": -59.81991783079543,
-          "lng": 39.721441998867256
-        }
-      ],
-      "area": 821181.7652467175
-    },
-    {
-      "points": [
-        {
-          "lat": 47.313274511747665,
-          "lng": -129.72920210338253
-        },
-        {
-          "lat": 47.33356789203749,
-          "lng": -129.74582264372842
-        },
-        {
-          "lat": 47.32220148832241,
-          "lng": -129.7726844505037
-        },
-        {
-          "lat": 47.30336658231493,
-          "lng": -129.77323929650237
-        },
-        {
-          "lat": 47.29366156772927,
-          "lng": -129.7465716466497
-        }
-      ],
-      "area": 9450095.201654622
-    },
-    {
-      "points": [
-        {
-          "lat": -33.26678930468242,
-          "lng": -98.93615246538067
-        },
-        {
-          "lat": -33.24150715403856,
-          "lng": -98.96222409278258
-        },
-        {
-          "lat": -33.26678930468242,
-          "lng": -98.979832437901
-        },
-        {
-          "lat": -33.28528885205476,
-          "lng": -98.96222409278258
-        }
-      ],
-      "area": 9907572.540635584
-    },
-    {
-      "points": [
-        {
-          "lat": 22.54341421767296,
-          "lng": 133.63003244649838
-        },
-        {
-          "lat": 22.54544609686742,
-          "lng": 133.62665487167013
-        },
-        {
-          "lat": 22.541568066309612,
-          "lng": 133.62690650127536
-        }
-      ],
-      "area": 72030.31906201743
-    },
-    {
-      "points": [
-        {
-          "lat": 27.319918241035154,
-          "lng": 129.9688736858371
-        },
-        {
-          "lat": 27.33941038034178,
-          "lng": 129.95331838724826
-        },
-        {
-          "lat": 27.319918241035154,
-          "lng": 129.93599411187523
-        },
-        {
-          "lat": 27.301668092767564,
-          "lng": 129.95331838724826
-        }
-      ],
-      "area": 6831284.680704522
-    },
-    {
-      "points": [
-        {
-          "lat": 40.002,
-          "lng": 116.27
-        },
-        {
-          "lat": 40.002,
-          "lng": 116.2712
-        },
-        {
-          "lat": 40.0011,
-          "lng": 116.2712
-        },
-        {
-          "lat": 40.0011,
-          "lng": 116.27
-        }
-      ],
-      "area": 10252.0398475281
+     "lat": 14.69436452,
+     "lng": -172.00642263
     }
-  ],
-  "brdf": [
+   ],
+   "area": 406.6954
+  },
+  {
+   "size_m": 20,
+   "points": [
     {
-      "rho": 0.6,
-      "k": 0.3,
-      "n": 1.47,
-      "incidence": 30,
-      "view": -40,
-      "f": 0.111668268024
+     "lat": -30.67377187,
+     "lng": 14.14049297
     },
     {
-      "rho": 0.6,
-      "k": 0.3,
-      "n": 1.47,
-      "incidence": 30,
-      "view": 10,
-      "f": 0.115147396091
+     "lat": -30.67387264,
+     "lng": 14.14062686
     },
     {
-      "rho": 0.6,
-      "k": 0.3,
-      "n": 1.47,
-      "incidence": 30,
-      "view": 30,
-      "f": 0.116000079809
+     "lat": -30.67407885,
+     "lng": 14.14060231
     },
     {
-      "rho": 0.15,
-      "k": 0.2,
-      "n": 1.5,
-      "incidence": 30,
-      "view": -40,
-      "f": 0.063661977618
+     "lat": -30.67404802,
+     "lng": 14.14039797
     },
     {
-      "rho": 0.15,
-      "k": 0.2,
-      "n": 1.5,
-      "incidence": 30,
-      "view": 10,
-      "f": 0.158889725738
-    },
-    {
-      "rho": 0.15,
-      "k": 0.2,
-      "n": 1.5,
-      "incidence": 30,
-      "view": 30,
-      "f": 0.430031710806
-    },
-    {
-      "rho": 0.35,
-      "k": 0.05,
-      "n": 3.2,
-      "incidence": 30,
-      "view": -40,
-      "f": 0.0330067097269
-    },
-    {
-      "rho": 0.35,
-      "k": 0.05,
-      "n": 3.2,
-      "incidence": 30,
-      "view": 10,
-      "f": 0.284911782409
-    },
-    {
-      "rho": 0.35,
-      "k": 0.05,
-      "n": 3.2,
-      "incidence": 30,
-      "view": 30,
-      "f": 0.384144946452
-    },
-    {
-      "rho": 0.9,
-      "k": 0.6,
-      "n": 1.2,
-      "incidence": 30,
-      "view": -40,
-      "f": 0.194634683544
-    },
-    {
-      "rho": 0.9,
-      "k": 0.6,
-      "n": 1.2,
-      "incidence": 30,
-      "view": 10,
-      "f": 0.192800749457
-    },
-    {
-      "rho": 0.9,
-      "k": 0.6,
-      "n": 1.2,
-      "incidence": 30,
-      "view": 30,
-      "f": 0.192405873562
+     "lat": -30.67387146,
+     "lng": 14.14033552
     }
-  ]
+   ],
+   "area": 655.8061
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": 36.72585511,
+     "lng": -74.16665143
+    },
+    {
+     "lat": 36.72571192,
+     "lng": -74.16647814
+    },
+    {
+     "lat": 36.72554878,
+     "lng": -74.16661314
+    },
+    {
+     "lat": 36.72567621,
+     "lng": -74.16678182
+    }
+   ],
+   "area": 467.8723
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": 42.00488678,
+     "lng": 28.93549284
+    },
+    {
+     "lat": 42.00480547,
+     "lng": 28.93567347
+    },
+    {
+     "lat": 42.00465377,
+     "lng": 28.93556668
+    },
+    {
+     "lat": 42.00462352,
+     "lng": 28.93532534
+    },
+    {
+     "lat": 42.00478047,
+     "lng": 28.93528299
+    }
+   ],
+   "area": 607.28
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": 10.58846465,
+     "lng": 16.35982571
+    },
+    {
+     "lat": 10.58836325,
+     "lng": 16.3599661
+    },
+    {
+     "lat": 10.58821452,
+     "lng": 16.35992202
+    },
+    {
+     "lat": 10.58820414,
+     "lng": 16.35976456
+    },
+    {
+     "lat": 10.58835982,
+     "lng": 16.35967191
+    }
+   ],
+   "area": 601.5628
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": 17.20060558,
+     "lng": -87.22360133
+    },
+    {
+     "lat": 17.20035279,
+     "lng": -87.22346603
+    },
+    {
+     "lat": 17.20038776,
+     "lng": -87.22372063
+    }
+   ],
+   "area": 350.9859
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": 52.77115995,
+     "lng": -38.63690964
+    },
+    {
+     "lat": 52.7710985,
+     "lng": -38.63672533
+    },
+    {
+     "lat": 52.77098448,
+     "lng": -38.63672344
+    },
+    {
+     "lat": 52.77090865,
+     "lng": -38.63678478
+    },
+    {
+     "lat": 52.77089271,
+     "lng": -38.63708881
+    },
+    {
+     "lat": 52.77098631,
+     "lng": -38.63718752
+    },
+    {
+     "lat": 52.77112933,
+     "lng": -38.63716099
+    }
+   ],
+   "area": 760.301
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": -12.06614051,
+     "lng": -19.21132338
+    },
+    {
+     "lat": -12.06627606,
+     "lng": -19.21113947
+    },
+    {
+     "lat": -12.0663872,
+     "lng": -19.21129529
+    },
+    {
+     "lat": -12.0662709,
+     "lng": -19.21147609
+    }
+   ],
+   "area": 499.2057
+  },
+  {
+   "size_m": 20,
+   "points": [
+    {
+     "lat": -45.65519833,
+     "lng": 75.8385032
+    },
+    {
+     "lat": -45.65534477,
+     "lng": 75.83862577
+    },
+    {
+     "lat": -45.65552912,
+     "lng": 75.83844456
+    },
+    {
+     "lat": -45.65533451,
+     "lng": 75.83827019
+    }
+   ],
+   "area": 512.0827
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -14.81028289,
+     "lng": -49.38733677
+    },
+    {
+     "lat": -14.81024342,
+     "lng": -49.38698135
+    },
+    {
+     "lat": -14.81048577,
+     "lng": -49.38691512
+    },
+    {
+     "lat": -14.81074791,
+     "lng": -49.38706704
+    },
+    {
+     "lat": -14.810899,
+     "lng": -49.3871956
+    },
+    {
+     "lat": -14.81084049,
+     "lng": -49.38739725
+    },
+    {
+     "lat": -14.81066607,
+     "lng": -49.38756095
+    },
+    {
+     "lat": -14.81053414,
+     "lng": -49.38773247
+    },
+    {
+     "lat": -14.81035881,
+     "lng": -49.3875599
+    }
+   ],
+   "area": 3988.6319
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -11.488519,
+     "lng": 19.97130293
+    },
+    {
+     "lat": -11.4886941,
+     "lng": 19.97166277
+    },
+    {
+     "lat": -11.48896235,
+     "lng": 19.97169843
+    },
+    {
+     "lat": -11.48917636,
+     "lng": 19.97149573
+    },
+    {
+     "lat": -11.48927192,
+     "lng": 19.97115983
+    },
+    {
+     "lat": -11.48892282,
+     "lng": 19.97096656
+    },
+    {
+     "lat": -11.48868456,
+     "lng": 19.97107099
+    }
+   ],
+   "area": 4450.1941
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": 52.55559656,
+     "lng": 100.63147936
+    },
+    {
+     "lat": 52.55544831,
+     "lng": 100.63180519
+    },
+    {
+     "lat": 52.55512239,
+     "lng": 100.63205339
+    },
+    {
+     "lat": 52.55476545,
+     "lng": 100.63165668
+    },
+    {
+     "lat": 52.55482944,
+     "lng": 100.63112588
+    },
+    {
+     "lat": 52.55511578,
+     "lng": 100.63083079
+    },
+    {
+     "lat": 52.55544297,
+     "lng": 100.63080011
+    }
+   ],
+   "area": 5459.6244
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": 38.55331475,
+     "lng": -69.00825144
+    },
+    {
+     "lat": 38.55319185,
+     "lng": -69.00793961
+    },
+    {
+     "lat": 38.55306066,
+     "lng": -69.00782806
+    },
+    {
+     "lat": 38.55271214,
+     "lng": -69.00781647
+    },
+    {
+     "lat": 38.55260141,
+     "lng": -69.00822875
+    },
+    {
+     "lat": 38.55281342,
+     "lng": -69.00847288
+    },
+    {
+     "lat": 38.55303172,
+     "lng": -69.00874719
+    },
+    {
+     "lat": 38.55338663,
+     "lng": -69.00851725
+    }
+   ],
+   "area": 4521.1918
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": 23.68984374,
+     "lng": 157.67019026
+    },
+    {
+     "lat": 23.6896912,
+     "lng": 157.67047151
+    },
+    {
+     "lat": 23.6894656,
+     "lng": 157.67070056
+    },
+    {
+     "lat": 23.68917849,
+     "lng": 157.67047797
+    },
+    {
+     "lat": 23.68903485,
+     "lng": 157.67022764
+    },
+    {
+     "lat": 23.68916525,
+     "lng": 157.66985513
+    },
+    {
+     "lat": 23.68941474,
+     "lng": 157.66978529
+    },
+    {
+     "lat": 23.68973644,
+     "lng": 157.66991003
+    }
+   ],
+   "area": 5485.8065
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -4.55080924,
+     "lng": -108.91108215
+    },
+    {
+     "lat": -4.55101803,
+     "lng": -108.91071418
+    },
+    {
+     "lat": -4.55143983,
+     "lng": -108.91108974
+    },
+    {
+     "lat": -4.55102278,
+     "lng": -108.91139615
+    }
+   ],
+   "area": 2638.3743
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -9.29117582,
+     "lng": -168.03804965
+    },
+    {
+     "lat": -9.29148251,
+     "lng": -168.0378164
+    },
+    {
+     "lat": -9.29186929,
+     "lng": -168.03788187
+    },
+    {
+     "lat": -9.29179211,
+     "lng": -168.03834922
+    },
+    {
+     "lat": -9.29141261,
+     "lng": -168.03850338
+    }
+   ],
+   "area": 3828.6318
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -3.10854233,
+     "lng": 151.00553091
+    },
+    {
+     "lat": -3.10904581,
+     "lng": 151.00590441
+    },
+    {
+     "lat": -3.10909128,
+     "lng": 151.00525121
+    }
+   ],
+   "area": 2125.5352
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -52.88673444,
+     "lng": 149.25974442
+    },
+    {
+     "lat": -52.8869956,
+     "lng": 149.26021683
+    },
+    {
+     "lat": -52.88742798,
+     "lng": 149.26010531
+    },
+    {
+     "lat": -52.88751093,
+     "lng": 149.25928293
+    },
+    {
+     "lat": -52.88708446,
+     "lng": 149.25893154
+    }
+   ],
+   "area": 4881.4999
+  },
+  {
+   "size_m": 50,
+   "points": [
+    {
+     "lat": -54.48760801,
+     "lng": -24.08421473
+    },
+    {
+     "lat": -54.48806054,
+     "lng": -24.08352788
+    },
+    {
+     "lat": -54.48834812,
+     "lng": -24.08413941
+    },
+    {
+     "lat": -54.48801617,
+     "lng": -24.08482939
+    }
+   ],
+   "area": 3462.3593
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": 23.7686491,
+     "lng": -148.26385086
+    },
+    {
+     "lat": 23.76807228,
+     "lng": -148.26328154
+    },
+    {
+     "lat": 23.76738908,
+     "lng": -148.2635528
+    },
+    {
+     "lat": 23.76738209,
+     "lng": -148.2643881
+    },
+    {
+     "lat": 23.76797822,
+     "lng": -148.26462501
+    }
+   ],
+   "area": 12533.9594
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": -16.60637611,
+     "lng": 134.97960221
+    },
+    {
+     "lat": -16.60668266,
+     "lng": 134.98044401
+    },
+    {
+     "lat": -16.60731017,
+     "lng": 134.9805647
+    },
+    {
+     "lat": -16.60758168,
+     "lng": 134.98022127
+    },
+    {
+     "lat": -16.6081165,
+     "lng": 134.97983498
+    },
+    {
+     "lat": -16.60779313,
+     "lng": 134.97918681
+    },
+    {
+     "lat": -16.60727659,
+     "lng": 134.97889977
+    },
+    {
+     "lat": -16.60658632,
+     "lng": 134.97927158
+    }
+   ],
+   "area": 21812.1926
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": -36.73934711,
+     "lng": 74.52820291
+    },
+    {
+     "lat": -36.73950807,
+     "lng": 74.5290824
+    },
+    {
+     "lat": -36.74003168,
+     "lng": 74.52930102
+    },
+    {
+     "lat": -36.74075297,
+     "lng": 74.52870252
+    },
+    {
+     "lat": -36.74069799,
+     "lng": 74.52778892
+    },
+    {
+     "lat": -36.74019212,
+     "lng": 74.5275815
+    },
+    {
+     "lat": -36.7395943,
+     "lng": 74.52744985
+    }
+   ],
+   "area": 19111.0571
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": 8.88199939,
+     "lng": 91.26727688
+    },
+    {
+     "lat": 8.88185106,
+     "lng": 91.26773318
+    },
+    {
+     "lat": 8.88157898,
+     "lng": 91.26781026
+    },
+    {
+     "lat": 8.88097607,
+     "lng": 91.26784976
+    },
+    {
+     "lat": 8.88060596,
+     "lng": 91.26759684
+    },
+    {
+     "lat": 8.88081731,
+     "lng": 91.26692579
+    },
+    {
+     "lat": 8.88079293,
+     "lng": 91.26657346
+    },
+    {
+     "lat": 8.88136881,
+     "lng": 91.26666257
+    },
+    {
+     "lat": 8.8818658,
+     "lng": 91.26667832
+    }
+   ],
+   "area": 16769.0518
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": -20.13580773,
+     "lng": -47.27478272
+    },
+    {
+     "lat": -20.13615285,
+     "lng": -47.27405806
+    },
+    {
+     "lat": -20.13693257,
+     "lng": -47.27408008
+    },
+    {
+     "lat": -20.13709791,
+     "lng": -47.27451585
+    },
+    {
+     "lat": -20.13687061,
+     "lng": -47.27516507
+    },
+    {
+     "lat": -20.13623006,
+     "lng": -47.27525273
+    }
+   ],
+   "area": 13276.6584
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": -41.72098259,
+     "lng": 21.38389182
+    },
+    {
+     "lat": -41.72144694,
+     "lng": 21.3849243
+    },
+    {
+     "lat": -41.72218158,
+     "lng": 21.38456295
+    },
+    {
+     "lat": -41.72218654,
+     "lng": 21.38330182
+    },
+    {
+     "lat": -41.72147837,
+     "lng": 21.38309466
+    }
+   ],
+   "area": 14366.4709
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": -23.17096008,
+     "lng": -88.58280174
+    },
+    {
+     "lat": -23.17150891,
+     "lng": -88.58205396
+    },
+    {
+     "lat": -23.17237588,
+     "lng": -88.58202762
+    },
+    {
+     "lat": -23.17216801,
+     "lng": -88.58304478
+    },
+    {
+     "lat": -23.17162708,
+     "lng": -88.5834431
+    }
+   ],
+   "area": 14319.8346
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": 46.27154832,
+     "lng": -17.86908629
+    },
+    {
+     "lat": 46.27111658,
+     "lng": -17.86819957
+    },
+    {
+     "lat": 46.27076262,
+     "lng": -17.8680514
+    },
+    {
+     "lat": 46.27029619,
+     "lng": -17.86796315
+    },
+    {
+     "lat": 46.27022685,
+     "lng": -17.8688947
+    },
+    {
+     "lat": 46.27037216,
+     "lng": -17.86974276
+    },
+    {
+     "lat": 46.27075888,
+     "lng": -17.86977068
+    },
+    {
+     "lat": 46.27119624,
+     "lng": -17.8695821
+    }
+   ],
+   "area": 14727.3166
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": 4.91111806,
+     "lng": -174.44691926
+    },
+    {
+     "lat": 4.91064272,
+     "lng": -174.44632959
+    },
+    {
+     "lat": 4.90972933,
+     "lng": -174.44661295
+    },
+    {
+     "lat": 4.90984771,
+     "lng": -174.44732591
+    },
+    {
+     "lat": 4.91059344,
+     "lng": -174.44755632
+    }
+   ],
+   "area": 13633.2175
+  },
+  {
+   "size_m": 100,
+   "points": [
+    {
+     "lat": 26.61049342,
+     "lng": -159.69044577
+    },
+    {
+     "lat": 26.60979111,
+     "lng": -159.68989454
+    },
+    {
+     "lat": 26.60916144,
+     "lng": -159.69060483
+    },
+    {
+     "lat": 26.60974381,
+     "lng": -159.69125562
+    }
+   ],
+   "area": 9961.2392
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": 17.86625513,
+     "lng": -1.16648943
+    },
+    {
+     "lat": 17.86541512,
+     "lng": -1.16484242
+    },
+    {
+     "lat": 17.86352046,
+     "lng": -1.16443236
+    },
+    {
+     "lat": 17.86266223,
+     "lng": -1.16566284
+    },
+    {
+     "lat": 17.86242829,
+     "lng": -1.16771561
+    },
+    {
+     "lat": 17.86382253,
+     "lng": -1.16848828
+    },
+    {
+     "lat": 17.86536102,
+     "lng": -1.16796442
+    }
+   ],
+   "area": 128697.3882
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": 51.21043347,
+     "lng": -45.32930088
+    },
+    {
+     "lat": 51.21010241,
+     "lng": -45.32711636
+    },
+    {
+     "lat": 51.20913233,
+     "lng": -45.32667513
+    },
+    {
+     "lat": 51.20765878,
+     "lng": -45.32714938
+    },
+    {
+     "lat": 51.20720102,
+     "lng": -45.32879743
+    },
+    {
+     "lat": 51.20684109,
+     "lng": -45.33159041
+    },
+    {
+     "lat": 51.20807974,
+     "lng": -45.33262881
+    },
+    {
+     "lat": 51.20890214,
+     "lng": -45.33234938
+    },
+    {
+     "lat": 51.2101952,
+     "lng": -45.33189824
+    }
+   ],
+   "area": 128757.9142
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -9.75680508,
+     "lng": 62.5702491
+    },
+    {
+     "lat": -9.758072,
+     "lng": 62.57211746
+    },
+    {
+     "lat": -9.75967014,
+     "lng": 62.57164199
+    },
+    {
+     "lat": -9.76131852,
+     "lng": 62.57104577
+    },
+    {
+     "lat": -9.7612347,
+     "lng": 62.56900215
+    },
+    {
+     "lat": -9.75963179,
+     "lng": 62.56756321
+    },
+    {
+     "lat": -9.75808139,
+     "lng": 62.56840657
+    }
+   ],
+   "area": 163238.8914
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": 35.00803959,
+     "lng": 145.86560233
+    },
+    {
+     "lat": 35.00471894,
+     "lng": 145.86822056
+    },
+    {
+     "lat": 35.00511693,
+     "lng": 145.86272644
+    }
+   ],
+   "area": 87101.2579
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -21.78879851,
+     "lng": -70.11644937
+    },
+    {
+     "lat": -21.78955653,
+     "lng": -70.11454691
+    },
+    {
+     "lat": -21.79090068,
+     "lng": -70.11371537
+    },
+    {
+     "lat": -21.79245159,
+     "lng": -70.11434475
+    },
+    {
+     "lat": -21.79300344,
+     "lng": -70.1162817
+    },
+    {
+     "lat": -21.79240807,
+     "lng": -70.11812506
+    },
+    {
+     "lat": -21.79124464,
+     "lng": -70.11884182
+    },
+    {
+     "lat": -21.78942999,
+     "lng": -70.11733197
+    }
+   ],
+   "area": 163535.9741
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -49.41329602,
+     "lng": -58.06146485
+    },
+    {
+     "lat": -49.41418105,
+     "lng": -58.05780472
+    },
+    {
+     "lat": -49.41711179,
+     "lng": -58.05964572
+    },
+    {
+     "lat": -49.41710628,
+     "lng": -58.06302186
+    },
+    {
+     "lat": -49.41446164,
+     "lng": -58.06382989
+    }
+   ],
+   "area": 130838.6311
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": 53.9492076,
+     "lng": -30.23717801
+    },
+    {
+     "lat": 53.94786194,
+     "lng": -30.23294617
+    },
+    {
+     "lat": 53.9452939,
+     "lng": -30.23782778
+    },
+    {
+     "lat": 53.94748782,
+     "lng": -30.24112498
+    }
+   ],
+   "area": 116073.934
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -36.04544328,
+     "lng": -88.23453248
+    },
+    {
+     "lat": -36.0463359,
+     "lng": -88.23140174
+    },
+    {
+     "lat": -36.04853819,
+     "lng": -88.23207259
+    },
+    {
+     "lat": -36.04903767,
+     "lng": -88.23449588
+    },
+    {
+     "lat": -36.04824081,
+     "lng": -88.23695879
+    },
+    {
+     "lat": -36.04628282,
+     "lng": -88.23762823
+    }
+   ],
+   "area": 158322.963
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -48.55088409,
+     "lng": -114.70151226
+    },
+    {
+     "lat": -48.55166419,
+     "lng": -114.69898951
+    },
+    {
+     "lat": -48.55333897,
+     "lng": -114.69729129
+    },
+    {
+     "lat": -48.55466892,
+     "lng": -114.69874646
+    },
+    {
+     "lat": -48.55525733,
+     "lng": -114.70077154
+    },
+    {
+     "lat": -48.55522103,
+     "lng": -114.70326982
+    },
+    {
+     "lat": -48.55336187,
+     "lng": -114.70440794
+    },
+    {
+     "lat": -48.55207306,
+     "lng": -114.70339368
+    }
+   ],
+   "area": 171161.107
+  },
+  {
+   "size_m": 300,
+   "points": [
+    {
+     "lat": -58.44981276,
+     "lng": 136.45898864
+    },
+    {
+     "lat": -58.45065441,
+     "lng": 136.46239666
+    },
+    {
+     "lat": -58.45223731,
+     "lng": 136.46319391
+    },
+    {
+     "lat": -58.45466136,
+     "lng": 136.45972311
+    },
+    {
+     "lat": -58.4536889,
+     "lng": 136.45617548
+    },
+    {
+     "lat": -58.45258168,
+     "lng": 136.45456767
+    },
+    {
+     "lat": -58.45054615,
+     "lng": 136.45532972
+    }
+   ],
+   "area": 182272.9347
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 8.26010325,
+     "lng": -108.09543935
+    },
+    {
+     "lat": 8.25006053,
+     "lng": -108.09149587
+    },
+    {
+     "lat": 8.25003709,
+     "lng": -108.10179638
+    }
+   ],
+   "area": 630803.3338
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 35.71867074,
+     "lng": -128.42990127
+    },
+    {
+     "lat": 35.71206662,
+     "lng": -128.42322731
+    },
+    {
+     "lat": 35.70459101,
+     "lng": -128.43267197
+    },
+    {
+     "lat": 35.713755,
+     "lng": -128.43944178
+    }
+   ],
+   "area": 1169541.1506
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 63.27436289,
+     "lng": 78.59843787
+    },
+    {
+     "lat": 63.2630738,
+     "lng": 78.61564294
+    },
+    {
+     "lat": 63.26353585,
+     "lng": 78.58343916
+    }
+   ],
+   "area": 995134.2159
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 48.19295785,
+     "lng": -122.08798633
+    },
+    {
+     "lat": 48.1864965,
+     "lng": -122.08033025
+    },
+    {
+     "lat": 48.17991636,
+     "lng": -122.08316232
+    },
+    {
+     "lat": 48.17769827,
+     "lng": -122.09671745
+    },
+    {
+     "lat": 48.18854084,
+     "lng": -122.0997181
+    }
+   ],
+   "area": 1639627.354
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": -51.24045281,
+     "lng": 65.73510408
+    },
+    {
+     "lat": -51.24438866,
+     "lng": 65.74743654
+    },
+    {
+     "lat": -51.24955573,
+     "lng": 65.74552707
+    },
+    {
+     "lat": -51.25245036,
+     "lng": 65.73537108
+    },
+    {
+     "lat": -51.25108864,
+     "lng": 65.72366479
+    },
+    {
+     "lat": -51.24422836,
+     "lng": 65.72484248
+    }
+   ],
+   "area": 1553211.8291
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 51.45850028,
+     "lng": 85.53577211
+    },
+    {
+     "lat": 51.45655283,
+     "lng": 85.54878276
+    },
+    {
+     "lat": 51.45258457,
+     "lng": 85.54925694
+    },
+    {
+     "lat": 51.4472107,
+     "lng": 85.54911086
+    },
+    {
+     "lat": 51.44402459,
+     "lng": 85.54135639
+    },
+    {
+     "lat": 51.44351482,
+     "lng": 85.5334466
+    },
+    {
+     "lat": 51.44535914,
+     "lng": 85.52821007
+    },
+    {
+     "lat": 51.4522484,
+     "lng": 85.5258315
+    },
+    {
+     "lat": 51.45556926,
+     "lng": 85.53005059
+    }
+   ],
+   "area": 2104340.9361
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": -48.50938798,
+     "lng": -163.54348231
+    },
+    {
+     "lat": -48.51304907,
+     "lng": -163.53310776
+    },
+    {
+     "lat": -48.52062137,
+     "lng": -163.53414917
+    },
+    {
+     "lat": -48.52453607,
+     "lng": -163.54517094
+    },
+    {
+     "lat": -48.51947402,
+     "lng": -163.55206398
+    },
+    {
+     "lat": -48.51306248,
+     "lng": -163.55407128
+    }
+   ],
+   "area": 1770175.1872
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 55.19147657,
+     "lng": -23.9111885
+    },
+    {
+     "lat": 55.18991247,
+     "lng": -23.90053759
+    },
+    {
+     "lat": 55.18049259,
+     "lng": -23.89779583
+    },
+    {
+     "lat": 55.17866238,
+     "lng": -23.91098614
+    },
+    {
+     "lat": 55.18102608,
+     "lng": -23.92126044
+    },
+    {
+     "lat": 55.1895091,
+     "lng": -23.92259019
+    }
+   ],
+   "area": 1758503.2472
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": 7.06781403,
+     "lng": -67.48560673
+    },
+    {
+     "lat": 7.06279977,
+     "lng": -67.47793443
+    },
+    {
+     "lat": 7.0556884,
+     "lng": -67.47980911
+    },
+    {
+     "lat": 7.05289277,
+     "lng": -67.48592849
+    },
+    {
+     "lat": 7.05755495,
+     "lng": -67.4906312
+    },
+    {
+     "lat": 7.06285669,
+     "lng": -67.48963849
+    }
+   ],
+   "area": 1481426.2384
+  },
+  {
+   "size_m": 1000,
+   "points": [
+    {
+     "lat": -61.91715712,
+     "lng": -117.53910589
+    },
+    {
+     "lat": -61.9291181,
+     "lng": -117.52596895
+    },
+    {
+     "lat": -61.92902657,
+     "lng": -117.55488935
+    }
+   ],
+   "area": 1008878.9856
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -10.71674526,
+     "lng": 5.99008893
+    },
+    {
+     "lat": -10.7332562,
+     "lng": 6.00482684
+    },
+    {
+     "lat": -10.74968091,
+     "lng": 5.98449905
+    },
+    {
+     "lat": -10.73511782,
+     "lng": 5.9742877
+    }
+   ],
+   "area": 6021955.9965
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -6.98174468,
+     "lng": 121.55209841
+    },
+    {
+     "lat": -6.98500237,
+     "lng": 121.55963881
+    },
+    {
+     "lat": -7.00058535,
+     "lng": 121.56409445
+    },
+    {
+     "lat": -7.01037451,
+     "lng": 121.5507274
+    },
+    {
+     "lat": -6.9982908,
+     "lng": 121.53869512
+    },
+    {
+     "lat": -6.98635138,
+     "lng": 121.53771147
+    }
+   ],
+   "area": 6168692.375
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -12.7269237,
+     "lng": 1.48006225
+    },
+    {
+     "lat": -12.72585843,
+     "lng": 1.49076514
+    },
+    {
+     "lat": -12.73980511,
+     "lng": 1.49773055
+    },
+    {
+     "lat": -12.74853185,
+     "lng": 1.49273923
+    },
+    {
+     "lat": -12.7555954,
+     "lng": 1.48279442
+    },
+    {
+     "lat": -12.74736421,
+     "lng": 1.47580222
+    },
+    {
+     "lat": -12.73878285,
+     "lng": 1.46853664
+    },
+    {
+     "lat": -12.72545794,
+     "lng": 1.46953723
+    }
+   ],
+   "area": 7114496.1747
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -37.59942965,
+     "lng": -15.90032277
+    },
+    {
+     "lat": -37.60374763,
+     "lng": -15.88463878
+    },
+    {
+     "lat": -37.61565719,
+     "lng": -15.88364653
+    },
+    {
+     "lat": -37.62821562,
+     "lng": -15.88807152
+    },
+    {
+     "lat": -37.62504668,
+     "lng": -15.90151015
+    },
+    {
+     "lat": -37.61940674,
+     "lng": -15.91577386
+    },
+    {
+     "lat": -37.60392442,
+     "lng": -15.91608082
+    }
+   ],
+   "area": 7002691.8407
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -53.51571922,
+     "lng": -39.59811605
+    },
+    {
+     "lat": -53.5220765,
+     "lng": -39.57794775
+    },
+    {
+     "lat": -53.53650011,
+     "lng": -39.57785522
+    },
+    {
+     "lat": -53.54348267,
+     "lng": -39.59454734
+    },
+    {
+     "lat": -53.54056035,
+     "lng": -39.61972558
+    },
+    {
+     "lat": -53.52451307,
+     "lng": -39.61377108
+    }
+   ],
+   "area": 6148126.6029
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": 1.42709209,
+     "lng": -80.97539326
+    },
+    {
+     "lat": 1.42359914,
+     "lng": -80.96570234
+    },
+    {
+     "lat": 1.40997477,
+     "lng": -80.96173443
+    },
+    {
+     "lat": 1.40396159,
+     "lng": -80.97056864
+    },
+    {
+     "lat": 1.40229828,
+     "lng": -80.98089026
+    },
+    {
+     "lat": 1.41153925,
+     "lng": -80.98737677
+    },
+    {
+     "lat": 1.42567013,
+     "lng": -80.98516989
+    }
+   ],
+   "area": 5813881.7362
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -55.2602598,
+     "lng": 106.30793105
+    },
+    {
+     "lat": -55.27428987,
+     "lng": 106.33938899
+    },
+    {
+     "lat": -55.28537421,
+     "lng": 106.30888836
+    },
+    {
+     "lat": -55.27638984,
+     "lng": 106.28564424
+    }
+   ],
+   "area": 4782268.4024
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": -2.79999278,
+     "lng": 126.0271429
+    },
+    {
+     "lat": -2.80774658,
+     "lng": 126.03350224
+    },
+    {
+     "lat": -2.81693826,
+     "lng": 126.04037335
+    },
+    {
+     "lat": -2.82639958,
+     "lng": 126.03926724
+    },
+    {
+     "lat": -2.82813651,
+     "lng": 126.02946225
+    },
+    {
+     "lat": -2.83363812,
+     "lng": 126.02032811
+    },
+    {
+     "lat": -2.82286277,
+     "lng": 126.01399972
+    },
+    {
+     "lat": -2.81529168,
+     "lng": 126.01195602
+    },
+    {
+     "lat": -2.80353615,
+     "lng": 126.01401719
+    }
+   ],
+   "area": 7859321.415
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": 35.91469541,
+     "lng": 0.87094411
+    },
+    {
+     "lat": 35.91345639,
+     "lng": 0.88359397
+    },
+    {
+     "lat": 35.90507052,
+     "lng": 0.89351835
+    },
+    {
+     "lat": 35.89421383,
+     "lng": 0.88804766
+    },
+    {
+     "lat": 35.88772441,
+     "lng": 0.87608059
+    },
+    {
+     "lat": 35.88330203,
+     "lng": 0.86763705
+    },
+    {
+     "lat": 35.89119452,
+     "lng": 0.85614916
+    },
+    {
+     "lat": 35.90197548,
+     "lng": 0.8588804
+    },
+    {
+     "lat": 35.9105655,
+     "lng": 0.857589
+    }
+   ],
+   "area": 8014373.7526
+  },
+  {
+   "size_m": 2000,
+   "points": [
+    {
+     "lat": 45.07695598,
+     "lng": 25.72199076
+    },
+    {
+     "lat": 45.07226806,
+     "lng": 25.73308699
+    },
+    {
+     "lat": 45.06653246,
+     "lng": 25.73922002
+    },
+    {
+     "lat": 45.05588788,
+     "lng": 25.73945486
+    },
+    {
+     "lat": 45.05311147,
+     "lng": 25.72319661
+    },
+    {
+     "lat": 45.0562319,
+     "lng": 25.70897898
+    },
+    {
+     "lat": 45.06591186,
+     "lng": 25.69763216
+    },
+    {
+     "lat": 45.07511799,
+     "lng": 25.70694918
+    }
+   ],
+   "area": 6234311.3239
+  }
+ ],
+ "brdf": [
+  {
+   "rho": 0.6,
+   "k": 0.3,
+   "n": 1.47,
+   "incidence": 30,
+   "view": -40,
+   "f": 0.111668268024
+  },
+  {
+   "rho": 0.6,
+   "k": 0.3,
+   "n": 1.47,
+   "incidence": 30,
+   "view": 10,
+   "f": 0.115147396091
+  },
+  {
+   "rho": 0.6,
+   "k": 0.3,
+   "n": 1.47,
+   "incidence": 30,
+   "view": 30,
+   "f": 0.116000079809
+  },
+  {
+   "rho": 0.15,
+   "k": 0.2,
+   "n": 1.5,
+   "incidence": 30,
+   "view": -40,
+   "f": 0.063661977618
+  },
+  {
+   "rho": 0.15,
+   "k": 0.2,
+   "n": 1.5,
+   "incidence": 30,
+   "view": 10,
+   "f": 0.158889725738
+  },
+  {
+   "rho": 0.15,
+   "k": 0.2,
+   "n": 1.5,
+   "incidence": 30,
+   "view": 30,
+   "f": 0.430031710806
+  },
+  {
+   "rho": 0.35,
+   "k": 0.05,
+   "n": 3.2,
+   "incidence": 30,
+   "view": -40,
+   "f": 0.0330067097269
+  },
+  {
+   "rho": 0.35,
+   "k": 0.05,
+   "n": 3.2,
+   "incidence": 30,
+   "view": 10,
+   "f": 0.284911782409
+  },
+  {
+   "rho": 0.35,
+   "k": 0.05,
+   "n": 3.2,
+   "incidence": 30,
+   "view": 30,
+   "f": 0.384144946452
+  },
+  {
+   "rho": 0.9,
+   "k": 0.6,
+   "n": 1.2,
+   "incidence": 30,
+   "view": -40,
+   "f": 0.194634683544
+  },
+  {
+   "rho": 0.9,
+   "k": 0.6,
+   "n": 1.2,
+   "incidence": 30,
+   "view": 10,
+   "f": 0.192800749457
+  },
+  {
+   "rho": 0.9,
+   "k": 0.6,
+   "n": 1.2,
+   "incidence": 30,
+   "view": 30,
+   "f": 0.192405873562
+  }
+ ]
 }

@@ -76,7 +76,7 @@ Validate route geometry, altitude interpretation, device enums, payload actions,
    ```
 
 5. Each retained centre produces a ring of waypoints. Adjacent rings reverse direction, and the next ring is rotated to begin near the preceding endpoint. Waypoint headings face the ring centre.
-6. **Generate files** writes a take-photo action at each waypoint and creates `template.kml`, `waylines.wpml` and a `wpmz/` KMZ package when JSZip is available.
+6. **Generate files** creates `template.kml`, `waylines.wpml` and a `wpmz/` KMZ package when JSZip is available. Both files follow the structure of DJI's WPML reference (Cloud API, `wpmz/1.0.2` namespace): a waypoint template with heights relative to the take-off point, and an executable wayline in which every waypoint carries a `gimbalRotate` action to the set pitch followed by `takePhoto`. Headings point to each circle's centre and are written in the WPML range −180° to 180°.
 7. If the route exceeds **Max points / part**, the point list is divided into sequential KML/WPML parts with optional KMZ downloads.
 
 DJI KMZ import searches, in order, for `waylines.wpml`, `wpmz/waylines.wpml`, `template.kml`, `wpmz/template.kml`, `doc.kml`, then any WPML or KML file. Missing enum fields fall back to the app defaults and must still be verified.

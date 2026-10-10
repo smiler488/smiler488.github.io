@@ -160,6 +160,18 @@ export default function TargetsPage() {
       if (seg < 20 || seg > 120) errors.push("Segment angle invalid");
       if (rows < 1 || cols < 1) errors.push("Grid size invalid");
       if (dot < 1 || dot > 10) errors.push("Center dot invalid");
+      // Each marker must fit its grid cell, or neighbours overlap.
+      const paper = ($("paper")?.value || "a4").toLowerCase();
+      const page = paper === "letter" ? { w: 215.9, h: 279.4 } : { w: 210, h: 297 };
+      const margin = parseFloat($("margin")?.value || 15);
+      if (rows >= 1 && cols >= 1) {
+        const cell = Math.min((page.w - 2 * margin) / cols, (page.h - 2 * margin) / rows);
+        if (outer > cell - 2) {
+          errors.push(
+            `Markers overlap: with ${rows}×${cols} on this page the outer diameter must be ≤ ${Math.floor(cell - 2)}mm`
+          );
+        }
+      }
       if (box) {
         if (errors.length) {
           box.textContent = errors.join(", ");
@@ -250,7 +262,7 @@ export default function TargetsPage() {
             }
           } else if (p.type === "agisoft") {
             isValid = validateAgisoftParams();
-            if (!isValid) setStatus("Invalid Agisoft marker parameters", true);
+            if (!isValid) setStatus("Invalid segmented marker parameters", true);
           }
           
           if (!isValid) return;
@@ -296,7 +308,7 @@ export default function TargetsPage() {
           } else if (p.type === "agisoft") {
             isValid = validateAgisoftParams();
             if (!isValid) {
-              setStatus("Cannot download: Invalid Agisoft marker parameters", true);
+              setStatus("Cannot download: invalid segmented marker parameters", true);
               return;
             }
           }
@@ -449,7 +461,7 @@ export default function TargetsPage() {
               <label className={styles.label} htmlFor="targetType">Target type</label>
               <select id="targetType" className={styles.select}>
                 <option value="chessboard">Chessboard (OpenCV Standard)</option>
-                <option value="agisoft">Segmented Circular Marker (Agisoft)</option>
+                <option value="agisoft">Segmented circular markers (GCP / manual marking)</option>
               </select>
             </div>
 
@@ -512,7 +524,10 @@ export default function TargetsPage() {
 
             {/* Agisoft Segmented Circular Marker Parameters */}
             <div id="agisoftParams" style={{ display: "none" }}>
-              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Agisoft marker configuration</Heading>
+              <Heading as="h3" style={{ color: "var(--ifm-color-emphasis-800)", marginBottom: 16 }}>Segmented marker configuration</Heading>
+              <p style={{ margin: "0 0 16px", fontSize: 13, color: "var(--ifm-color-emphasis-700)" }}>
+                For manual placement as ground control points or scale references. Agisoft Metashape detects only its own coded targets automatically; print those from Metashape (Tools → Markers → Print Markers).
+              </p>
               <div className={styles.paramGrid}>
                 <div>
                   <label htmlFor="amOuter" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>Outer diameter (mm)</label>

@@ -61,18 +61,20 @@ The app records raw browser orientation angles. It does not calibrate the phone 
 The CSV columns are:
 
 ```text
-leafId,timestamp,latitude,longitude,altitude,geoAccuracy_m,alpha_deg,beta_deg,gamma_deg,sunElevation_deg,sunAzimuth_deg,sensorTimestamp
+leafId,timestamp,latitude,longitude,altitude,geoAccuracy_m,alpha_deg,beta_deg,gamma_deg,inclination_deg,sunElevation_deg,sunAzimuth_deg,sensorTimestamp
 ```
 
 ## How it works
 
 - Orientation events are sampled through `requestAnimationFrame`; a capture uses the latest available event.
 - Geolocation requests high accuracy with a 15-second timeout and no cached position.
-- Solar declination and Equation of Time are estimated from the local calendar day. Apparent solar time is derived from longitude and the device time-zone offset.
+- Solar declination and the equation of time come from the NOAA solar position algorithm (after Meeus). Apparent solar time is derived from the UTC instant, the longitude and the equation of time.
+- `inclination_deg` is the angle between the phone's screen plane and the horizontal, arccos(cos β · cos γ). With the phone laid flat on a leaf blade it is the leaf inclination angle (0° horizontal, 90° vertical).
+- A capture only uses an orientation reading received within the last second; if the sensor has stopped, the capture is refused instead of reusing an old value.
 - Elevation is calculated from latitude, declination and hour angle. Azimuth is reported clockwise from north in the range `0–360°`.
 - CSV values are escaped, and text beginning with spreadsheet formula characters is prefixed before export.
 
-The solar calculation is a lightweight approximation. It does not apply atmospheric refraction, terrain-horizon or elevation corrections.
+The solar position has been validated against NREL SPA (160 cases, 1950–2090, latitudes ±65°): elevation agrees within 0.05° and azimuth within 0.1°. Elevation is geometric: atmospheric refraction, terrain horizon and site elevation are not applied.
 
 ## Data, privacy & external services
 

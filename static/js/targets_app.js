@@ -78,6 +78,49 @@
   // ========================
   // Enhanced Validation Functions
   // ========================
+  // Space kept free under the board for the PDF's metadata lines (mm), so
+  // the text never prints over the outer squares.
+  const CHESSBOARD_FOOTER_MM = 28;
+
+  // One layout for validation, preview and PDF. When the requested squares do
+  // not fit, the square size is reduced and rounded down to 0.5 mm, so the
+  // printed size is a value that can be typed into calibration software.
+  function chessboardLayout(params) {
+    const page = getPage(params);
+    const margin = clamp(toNum(params.margin, 15), 5, 50);
+    const innerR = clamp(toNum(params.cbInnerRows, 9), 3, 50);
+    const innerC = clamp(toNum(params.cbInnerCols, 6), 3, 50);
+    const squaresR = innerR + 1;
+    const squaresC = innerC + 1;
+    const requested = clamp(toNum(params.cbSize, 25), 2, 100);
+    const printableW = Math.max(0, page.w - 2 * margin);
+    const printableH = Math.max(0, page.h - 2 * margin - CHESSBOARD_FOOTER_MM);
+    let cell = requested;
+    let scaled = false;
+    if (squaresC * cell > printableW || squaresR * cell > printableH) {
+      const fit = Math.min(printableW / squaresC, printableH / squaresR);
+      cell = Math.max(0.5, Math.floor(fit * 2) / 2);
+      scaled = true;
+    }
+    const totalW = squaresC * cell;
+    const totalH = squaresR * cell;
+    return {
+      page,
+      margin,
+      innerR,
+      innerC,
+      squaresR,
+      squaresC,
+      requested,
+      cell,
+      scaled,
+      totalW,
+      totalH,
+      ox: (page.w - totalW) / 2,
+      oy: margin + (printableH - totalH) / 2,
+    };
+  }
+
   function validateChessboard(params) {
     const errors = [];
     const warnings = [];
@@ -85,8 +128,6 @@
     const rows = toNum(params.cbInnerRows, 9);
     const cols = toNum(params.cbInnerCols, 6);
     const size = toNum(params.cbSize, 25);
-    const margin = toNum(params.margin, 15);
-    
     const v = VALIDATION.chessboard;
     
     if (rows < v.minRows) errors.push(`Rows must be ≥ ${v.minRows}`);
@@ -97,16 +138,11 @@
     if (size > v.maxSize) warnings.push(`Large square size (${size}mm) may not fit`);
     
     // Check paper fit
-    const page = getPage(params);
-    const boardW = (cols + 1) * size;
-    const boardH = (rows + 1) * size;
-    const availableW = page.w - 2 * margin;
-    const availableH = page.h - 2 * margin;
-    
-    if (boardW > availableW || boardH > availableH) {
-      const scale = Math.min(availableW / boardW, availableH / boardH);
-      const newSize = size * scale;
-      warnings.push(`Will auto-scale to ${newSize.toFixed(1)}mm squares to fit ${page.name}`);
+    const fit = chessboardLayout(params);
+    if (fit.scaled) {
+      warnings.push(
+        `Squares reduced to ${fit.cell.toFixed(1)}mm to fit ${fit.page.name}`
+      );
     }
     
     return { errors, warnings, isValid: errors.length === 0 };
@@ -260,32 +296,23 @@
       return;
     }
     
-    const page = getPage(params);
-    const margin = clamp(toNum(params.margin, 15), 5, 50);
-    
-    const innerR = clamp(toNum(params.cbInnerRows, 9), 3, 50);
-    const innerC = clamp(toNum(params.cbInnerCols, 6), 3, 50);
-    const squaresR = innerR + 1;
-    const squaresC = innerC + 1;
-    let cell = clamp(toNum(params.cbSize, 25), 2, 100);
+    const {
+      page,
+      margin,
+      innerR,
+      innerC,
+      squaresR,
+      squaresC,
+      cell,
+      scaled,
+      totalW,
+      totalH,
+      ox,
+      oy,
+    } = chessboardLayout(params);
 
     clearSvg(svg);
     setViewPage(svg, page);
-
-    const printableW = Math.max(0, page.w - 2 * margin);
-    const printableH = Math.max(0, page.h - 2 * margin);
-
-    let scaled = false;
-    if (squaresC * cell > printableW || squaresR * cell > printableH) {
-      const scale = Math.min(printableW / (squaresC * cell), printableH / (squaresR * cell));
-      cell *= scale;
-      scaled = true;
-    }
-
-    const totalW = squaresC * cell;
-    const totalH = squaresR * cell;
-    const ox = (page.w - totalW) / 2;
-    const oy = (page.h - totalH) / 2;
 
     // Background
     const bg = elRect(0, 0, page.w, page.h, { fill: "#fff" });
@@ -649,35 +676,26 @@
     
     try {
       const { jsPDF } = window.jspdf;
-      const page = getPage(params);
-      const margin = clamp(toNum(params.margin, 15), 5, 50);
+      const {
+        page,
+        margin,
+        innerR,
+        innerC,
+        squaresR,
+        squaresC,
+        cell,
+        scaled,
+        totalW,
+        totalH,
+        ox,
+        oy,
+      } = chessboardLayout(params);
 
-      const innerR = clamp(toNum(params.cbInnerRows, 9), 3, 50);
-      const innerC = clamp(toNum(params.cbInnerCols, 6), 3, 50);
-      const squaresR = innerR + 1;
-      const squaresC = innerC + 1;
-      let cell = clamp(toNum(params.cbSize, 25), 2, 100);
-
-      const doc = new jsPDF({ 
-        unit: "mm", 
-        format: page === PAPER.letter ? "letter" : "a4", 
-        compress: true 
+      const doc = new jsPDF({
+        unit: "mm",
+        format: page === PAPER.letter ? "letter" : "a4",
+        compress: true,
       });
-
-      const printableW = Math.max(0, page.w - 2 * margin);
-      const printableH = Math.max(0, page.h - 2 * margin);
-      
-      let scaled = false;
-      if (squaresC * cell > printableW || squaresR * cell > printableH) {
-        const scale = Math.min(printableW / (squaresC * cell), printableH / (squaresR * cell));
-        cell *= scale;
-        scaled = true;
-      }
-      
-      const totalW = squaresC * cell;
-      const totalH = squaresR * cell;
-      const ox = (page.w - totalW) / 2;
-      const oy = (page.h - totalH) / 2;
 
       // White background
       doc.setFillColor(255, 255, 255);
@@ -703,14 +721,15 @@
       const metadata = [
         `Generated: ${new Date().toLocaleString()}`,
         `Chessboard: ${innerR}×${innerC} inner corners, ${squaresR}×${squaresC} squares`,
-        `Square size: ${cell.toFixed(2)}mm${scaled ? " (auto-scaled)" : ""}`,
+        `Square size: ${cell.toFixed(2)}mm${scaled ? " (reduced to fit the page)" : ""}`,
         `Board size: ${totalW.toFixed(1)}×${totalH.toFixed(1)}mm`,
         `Paper: ${page.name}, Margin: ${margin}mm`,
         `Print at 100% scale for accurate measurements`
       ];
       
+      // Footer lines sit in the space kept free by chessboardLayout().
       metadata.forEach((line, i) => {
-        doc.text(line, 10, page.h - 25 + i * 4);
+        doc.text(line, margin, page.h - margin - 22 + i * 4);
       });
 
       const filename = generateFilename("chessboard", params);

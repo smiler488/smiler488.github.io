@@ -76,7 +76,7 @@ CCO 航线构建器读取 KML 多边形，在其周围放置旋转的圆形航�
    ```
 
 5. 每个保留的中心点生成一个航点环。相邻环反向，下一个环旋转以在前一个端点附近开始。航点朝向环中心。
-6. **Generate files** 在每个航点写入拍照动作，并创建 `template.kml`、`waylines.wpml` 以及在 JSZip 可用时创建 `wpmz/` KMZ 包。
+6. **Generate files**（生成文件）会生成 `template.kml`、`waylines.wpml`，并在 JSZip 可用时打包为 `wpmz/` 结构的 KMZ。两个文件均按大疆 WPML 参考文档（Cloud API，`wpmz/1.0.2` 命名空间）的结构生成：航点模板的高度相对起飞点；可执行航线中每个航点先执行 `gimbalRotate` 将云台转到设定俯仰角，再执行 `takePhoto`。机头朝向各圆心，偏航角按 WPML 规定写为 −180° 至 180°。
 7. 如果航线超过 **Max points / part**，航点列表被划分为顺序 KML/WPML 部分，并提供可选 KMZ 下载。
 
 DJI KMZ 导入按顺序搜索 `waylines.wpml`、`wpmz/waylines.wpml`、`template.kml`、`wpmz/template.kml`、`doc.kml`，然后是任何 WPML 或 KML 文件。缺失的枚举字段回退到应用默认值，仍须验证。

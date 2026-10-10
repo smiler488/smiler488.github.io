@@ -61,18 +61,20 @@ app_badges:
 CSV 的列为：
 
 ```text
-leafId,timestamp,latitude,longitude,altitude,geoAccuracy_m,alpha_deg,beta_deg,gamma_deg,sunElevation_deg,sunAzimuth_deg,sensorTimestamp
+leafId,timestamp,latitude,longitude,altitude,geoAccuracy_m,alpha_deg,beta_deg,gamma_deg,inclination_deg,sunElevation_deg,sunAzimuth_deg,sensorTimestamp
 ```
 
 ## 工作原理
 
 - 姿态事件通过 `requestAnimationFrame` 采样；一次采集使用最新可用的事件。
 - 地理定位请求高精度，超时 15 秒，且不使用缓存位置。
-- 太阳赤纬和时差根据本地日历日估算。真太阳时由经度和设备时区偏移推导。
+- 太阳赤纬和时差采用 NOAA 太阳位置算法（基于 Meeus）计算；真太阳时由 UTC 时刻、经度和时差推算。
+- `inclination_deg` 是手机屏幕平面与水平面的夹角，即 arccos(cos β · cos γ)。将手机平贴在叶片上时，它就是叶倾角（0° 为水平，90° 为竖直）。
+- 每次采集只使用 1 秒内收到的姿态读数；如果传感器已停止更新，会拒绝采集，而不是沿用旧数值。
 - 高度角由纬度、赤纬和时角计算。方位角以正北为起点顺时针报告，范围为 `0–360°`。
 - CSV 数值会被转义，以电子表格公式字符开头的文本在导出前会加上前缀。
 
-太阳计算是一种轻量近似。它不做大气折射、地形地平线或海拔校正。
+太阳位置已用 NREL SPA 验证（160 个样例，1950–2090 年，纬度 ±65°）：高度角误差在 0.05° 以内，方位角误差在 0.1° 以内。高度角为几何高度角，未做大气折射、地形遮挡和海拔校正。
 
 ## 数据、隐私与外部服务
 

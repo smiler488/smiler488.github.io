@@ -117,7 +117,7 @@
     if (prefaceMsg) {
       updateStatus(prefaceMsg);
     } else {
-      updateStatus("Trying approximate location via IP lookup...");
+      updateStatus("Trying approximate location from your IP address (ipapi.co)...");
     }
 
     try {
@@ -172,8 +172,11 @@
         console.error(err);
         let msg = "Failed to get current location.";
         if (err && err.code === 1) {
-          msg =
-            "Location permission denied. Please allow access or enter coordinates manually.";
+          // Respect the refusal: no IP-based fallback to a third party.
+          updateStatus(
+            "Location permission denied. Enter coordinates, search a place, or click the map."
+          );
+          return;
         } else if (err && err.code === 2) {
           msg = "Location information is unavailable. Trying approximate lookup.";
         } else if (err && err.code === 3) {
@@ -275,7 +278,7 @@
         "U10M",
         "V10M",
         "PS",
-        "PRECTOT",
+        "PRECTOTCORR",
       ].join(",");
       url = `https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON&time-standard=${timeStandard}`;
       updateStatus("Requesting NASA POWER hourly data...");
@@ -316,7 +319,7 @@
       const json = await res.json();
       setProgress(70);
 
-      const records = parsePowerResponse(json);
+      const { records, missing } = parsePowerResponse(json);
       if (!records || records.length === 0) {
         updateStatus("No data returned for this period.");
         showProgress(false);
@@ -327,10 +330,15 @@
       prepareDownloads(records, lat, lon, startDate, endDate, timeScale, {
         url,
         timeStandard,
+        missing,
       });
       setProgress(100);
       showProgress(false, "Done.");
-      updateStatus("NASA POWER data downloaded successfully.");
+      updateStatus(
+        missing
+          ? `NASA POWER data downloaded: ${records.length} rows; ${missing} missing values (POWER fill value -999) are left empty.`
+          : `NASA POWER data downloaded: ${records.length} rows, no missing values.`
+      );
     } catch (e) {
       if (e?.name === "AbortError") return;
       console.error(e);
@@ -347,47 +355,40 @@
     }
   }
 
+  // NASA POWER marks missing values with this fill value (header.fill_value).
+  const POWER_FILL = -999;
+
+  // Turns a POWER point response into rows with ISO dates, a separate HOUR
+  // column for hourly data (keys are YYYYMMDDHH), fill values as empty cells,
+  // and column names carrying the units from the response metadata.
   function parsePowerResponse(json) {
-    if (!json || !json.properties || !json.properties.parameter) {
-      return [];
-    }
-    const p = json.properties.parameter;
-    const anyParam = Object.keys(p)[0];
-    if (!anyParam) return [];
-    const sampleVal = p[anyParam];
-    const keys = Object.keys(sampleVal || {});
-    if (!keys.length) return [];
-    const firstVal = sampleVal[keys[0]];
-    if (Array.isArray(firstVal)) {
-      const params = Object.keys(p);
-      const records = [];
-      keys.sort().forEach((d) => {
-        const len = (p[params[0]] && Array.isArray(p[params[0]][d])) ? p[params[0]][d].length : 0;
-        for (let h = 0; h < len; h += 1) {
-          const obj = { DATE: d, HOUR: h };
-          params.forEach((name) => {
-            const series = p[name];
-            const arr = series && series[d];
-            obj[name] = Array.isArray(arr) ? arr[h] : undefined;
-          });
-          records.push(obj);
+    const p = json?.properties?.parameter;
+    if (!p) return { records: [], missing: 0 };
+    const names = Object.keys(p);
+    if (!names.length) return { records: [], missing: 0 };
+    const fill = Number(json?.header?.fill_value ?? POWER_FILL);
+    const units = json.parameters || {};
+    const column = (name) =>
+      units[name]?.units ? `${name} [${units[name].units}]` : name;
+    const keys = Object.keys(p[names[0]] || {}).sort();
+    let missing = 0;
+    const records = keys.map((key) => {
+      const row = {
+        DATE: `${key.slice(0, 4)}-${key.slice(4, 6)}-${key.slice(6, 8)}`,
+      };
+      if (key.length >= 10) row.HOUR = Number(key.slice(8, 10));
+      names.forEach((name) => {
+        const value = p[name]?.[key];
+        if (value === undefined || value === null || Number(value) === fill) {
+          row[column(name)] = null;
+          missing += 1;
+        } else {
+          row[column(name)] = value;
         }
       });
-      return records;
-    }
-    const dates = Object.keys(p.T2M || sampleVal).sort();
-    const params = Object.keys(p);
-    const records = dates.map((d) => {
-      const obj = { DATE: d };
-      params.forEach((name) => {
-        const series = p[name];
-        if (series && Object.prototype.hasOwnProperty.call(series, d)) {
-          obj[name] = series[d];
-        }
-      });
-      return obj;
+      return row;
     });
-    return records;
+    return { records, missing };
   }
 
   function renderTable(records) {
@@ -469,6 +470,8 @@
               timeScale,
               ...(timeScale === "hourly" ? { timeStandard: meta.timeStandard } : {}),
               records: records.length,
+              missingValues: meta.missing ?? 0,
+              missingValueRule: "POWER fill value -999 written as empty cells",
               fields: headers,
             },
           },

@@ -15,7 +15,7 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 
 ## What it does
 
-Calibration Targets Generator creates an on-page SVG preview and a printable PDF for two target families: an OpenCV-style checkerboard and a grid of coded segmented circular markers for Agisoft-oriented workflows. Inputs use physical millimetre units and include fit and range validation.
+Calibration Targets Generator creates an on-page SVG preview and a printable PDF for two target families: an OpenCV-style checkerboard and a grid of segmented circular markers for ground control points and manual marking. Inputs use physical millimetre units and include fit and range validation.
 
 :::caution Print scale is part of calibration
 
@@ -34,7 +34,7 @@ Always print the exported PDF at **100% / Actual size** with **Fit to page** dis
 
 ## Quick workflow
 
-1. Choose **Chessboard (OpenCV Standard)** or **Segmented Circular Marker (Agisoft)** under **Target type**.
+1. Choose **Chessboard (OpenCV Standard)** or **Segmented circular markers (GCP / manual marking)** under **Target type**.
 2. Select **Paper format** and enter **Margin (mm)**.
 3. Enter the target-specific dimensions and inspect the validation message.
 4. Select **Live Preview** or change a field to refresh the proportional SVG preview.
@@ -93,9 +93,9 @@ For segmented circular markers, it arranges labeled markers in the requested gri
 ## Limitations
 
 - The current interface provides only checkerboard and segmented circular targets, A4/Letter portrait pages, and PDF export. It does not generate AprilTags, custom tags, SVG/PNG/DXF downloads, landscape pages, or batch files.
-- Chessboard auto-fit changes the physical square size from the requested value. Use the displayed fitted value and verify the print rather than assuming the input was preserved.
-- Segmented marker dimensions are not automatically reduced to fit each grid cell; large markers or dense grids can overlap.
-- “Agisoft” identifies the intended marker style, not guaranteed compatibility with every Metashape release or detector. Test recognition before a production campaign.
+- When the requested chessboard does not fit, the square size is reduced and rounded down to 0.5 mm; the fitted value is shown in the preview warning and printed in the PDF footer. Space is kept free under the board for that footer, so text never prints over the squares.
+- Segmented markers must fit their grid cell: the tool refuses diameters that would make neighbouring markers overlap and states the largest allowed diameter.
+- Segmented markers are for manual placement as ground control points or scale references. Agisoft Metashape detects only its own coded targets automatically; print those from Metashape (Tools → Markers → Print Markers).
 - The app validates numeric ranges and page fit; it does not evaluate printer accuracy, target flatness, image quality, detector success, reprojection error, or calibration suitability.
 - No fixed dimensional tolerance or sub-pixel calibration accuracy is guaranteed.
 

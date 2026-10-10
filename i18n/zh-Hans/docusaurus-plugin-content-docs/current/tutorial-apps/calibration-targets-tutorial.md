@@ -15,7 +15,7 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 
 ## 功能简介
 
-标定靶生成器为两类靶标创建页面内 SVG 预览和可打印 PDF：OpenCV 风格棋盘格和面向 Agisoft 工作流的编码分段圆形标记网格。输入使用物理毫米单位，并包含适配和范围验证。
+标定靶生成器为两类靶标创建页面内 SVG 预览和可打印 PDF：OpenCV 风格棋盘格和用于地面控制点或人工标记的分段圆形标记网格。输入使用物理毫米单位，并包含适配和范围验证。
 
 :::caution 打印比例是标定的一部分
 
@@ -34,7 +34,7 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 
 ## 快速流程
 
-1. 在 **Target type**（靶标类型）下选择 **Chessboard (OpenCV Standard)**（棋盘格——OpenCV 标准）或 **Segmented Circular Marker (Agisoft)**（分段圆形标记——Agisoft）。
+1. 在 **Target type**（靶标类型）下选择 **Chessboard (OpenCV Standard)**（棋盘格——OpenCV 标准）或 **Segmented circular markers (GCP / manual marking)**（分段圆形标记——用于地面控制点或人工标记）。
 2. 选择 **Paper format**（纸张格式）并输入 **Margin (mm)**（页边距，毫米）。
 3. 输入靶标专用尺寸并检查验证消息。
 4. 选择 **Live Preview**（实时预览）或更改字段以刷新按比例的 SVG 预览。
@@ -93,9 +93,9 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 ## 局限性
 
 - 当前界面仅提供棋盘格和分段圆形靶标、A4/Letter 纵向页面和 PDF 导出。它不生成 AprilTags、自定义标记、SVG/PNG/DXF 下载、横向页面或批量文件。
-- 棋盘格自动适配会将物理方格尺寸从请求值更改。使用显示的适配值并验证打印件，而非假定输入值被保留。
-- 分段标记尺寸不会自动缩小以适应每个网格单元格；大标记或密集网格可能重叠。
-- "Agisoft" 标识的是预期的标记风格，不保证与每个 Metashape 版本或检测器兼容。在生产任务之前测试识别。
+- 请求的棋盘格放不下时，方格边长会缩小并向下取整到 0.5 mm；实际边长会显示在预览提示中，并印在 PDF 页脚。棋盘下方为页脚预留了空间，文字不会压在方格上。
+- 每个分段标记必须放得进所在的网格单元：若外径会导致相邻标记重叠，工具会拒绝生成并给出允许的最大外径。
+- 分段标记用于人工布设的地面控制点或尺度参考。Agisoft Metashape 只能自动识别它自己的编码标志，需要自动识别时，请在 Metashape 中打印（Tools → Markers → Print Markers）。
 - 应用验证数值范围和页面适配；它不评估打印机精度、靶标平整度、图像质量、检测器成功率、重投影误差或标定适用性。
 - 不保证固定的尺寸公差或亚像素标定精度。
 
