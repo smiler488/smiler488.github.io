@@ -1076,8 +1076,8 @@
 </ol>
 <p>合成扰动必须是可解释的。记录株距、株高、方位角、叶角和尺寸的分布、协方差、边界和随机种子。反复克隆一株植株并添加任意顶点噪声，并不能复现群体层面的结构多样性。</p>
 <p>检查植株重叠、地下几何、不切实际的叶片相交，以及变换后叶面积的变化。</p>
-<p>下面的模型展示了冠层输入在面元层面的样子：24 株棉花以三角面元描述，每个面元归属于叶片或其他器官。</p>
-<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/zh-Hans/img/cotton3d/canopy.webp" alt="同一三维数据的静态视图"><button type="button" class="loadButton_i66X">加载交互视图</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">交互</span> <!-- -->用于光照模拟的三角面元冠层模型</p><p class="captionText_D8a1">由单株重建构建的 24 株棉花冠层，即冠层光合模型所用的输入。完整模型共 1,613,632 个三角面元（叶片单面面积 1.2745 m²，其他器官 0.4344 m²）；此处为网页显示简化为 119,999 个，仅供查看，不用于测量。</p></figcaption></figure>
+<p>下面的模型展示了冠层输入在面元层面的样子：同一株重建棉花复制 24 次，以三角面元描述，每个面元带有所属类别（叶片或其他器官）的反射率和透射率。</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/zh-Hans/img/cotton3d/canopy.webp" alt="同一三维数据的静态视图"><button type="button" class="loadButton_i66X">加载交互视图</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">交互</span> <!-- -->用于光照模拟的三角面元冠层模型</p><p class="captionText_D8a1">由同一株重建棉花复制 24 次排布成冠层，即冠层光合模型的输入，因此冠层内没有株间差异。每个面元按类别赋予光学参数：叶片反射率 0.10、透射率 0.05；其他器官反射率 0.15、透射率 0.00。完整模型共 1,613,632 个三角面元（叶片单面面积 1.2745 m²，其他器官 0.4344 m²）；此处为网页显示简化为 119,999 个，仅供查看，不用于测量。</p></figcaption></figure>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-以物理单位对光照环境建模">7. 以物理单位对光照环境建模<a href="https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en#7-%E4%BB%A5%E7%89%A9%E7%90%86%E5%8D%95%E4%BD%8D%E5%AF%B9%E5%85%89%E7%85%A7%E7%8E%AF%E5%A2%83%E5%BB%BA%E6%A8%A1" class="hash-link" aria-label="7. 以物理单位对光照环境建模的直接链接" title="7. 以物理单位对光照环境建模的直接链接" translate="no">​</a></h2>
 <p>辐射传输阶段需要：</p>
 <ul>

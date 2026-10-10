@@ -1268,7 +1268,7 @@ Synthetic perturbations must be interpretable. Record the distribution, covarian
 
 Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.
 
-The model below shows what a canopy input looks like at facet level: 24 cotton plants described as triangles, each facet assigned to leaves or to other organs.
+The model below shows what a canopy input looks like at facet level: one reconstructed cotton plant replicated 24 times and described as triangles, each facet carrying the reflectance and transmittance of its class (leaf or other organ).
 
 ## 7. Model the light environment in physical units
 
