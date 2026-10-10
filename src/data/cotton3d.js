@@ -56,6 +56,7 @@ export const COTTON3D = {
       nonleafArea_m2: 0.4344,
       height_m: 0.414,
       plants: 24,
+      // label1 = reflectance, label2 = transmittance (confirmed by the author).
       optical: {
         leaf: {
           reflectance: 0.1,
@@ -70,7 +71,7 @@ export const COTTON3D = {
   },
 };
 
-/** Point-cloud classes. Names are drafts pending the author's confirmation. */
+/** Point-cloud classes, as confirmed by the author. */
 export const POINT_CLASSES = {
   0: { en: "Main stem", zh: "主茎" },
   1: { en: "Branches and petioles", zh: "分枝与叶柄" },

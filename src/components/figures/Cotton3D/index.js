@@ -11,6 +11,18 @@ import { COTTON3D } from "@site/src/data/cotton3d";
 
 const loadViewer = () => import("./Viewer");
 
+// Two decimals, as given in the model file (label1 = reflectance,
+// label2 = transmittance).
+const OPTICAL = Object.fromEntries(
+  Object.entries(COTTON3D.canopy.full.optical).map(([k, v]) => [
+    k,
+    {
+      reflectance: v.reflectance.toFixed(2),
+      transmittance: v.transmittance.toFixed(2),
+    },
+  ])
+);
+
 const fmt = (n, zh) => n.toLocaleString(zh ? "zh-CN" : "en");
 
 const COPY = {
@@ -22,8 +34,8 @@ const COPY = {
     compareCaption: (sfm, hy, hySrc) =>
       `Sample cotton_20240109-84-5. The Hunyuan3D point cloud is aligned to the SfM reconstruction, so Overlay shows where the generated geometry departs from the measured one. SfM: ${sfm} points. Hunyuan3D: ${hySrc} points, downsampled within each organ class to ${hy} for the web.`,
     canopyTitle: "Triangle-facet canopy model for light simulation",
-    canopyCaption: (full, shown, leafArea, nonArea) =>
-      `24 cotton plants built from single-plant reconstructions, as used in the canopy photosynthesis model. The full model has ${full} triangles (one-sided leaf area ${leafArea} m², other organs ${nonArea} m²); ${shown} are shown here after simplification for the web, so the view is for inspection, not measurement.`,
+    canopyCaption: (full, shown, leafArea, nonArea, o) =>
+      `One reconstructed cotton plant replicated 24 times to form the canopy input of the photosynthesis model, so the canopy carries no plant-to-plant variation. Each facet has the optical properties of its class: leaves reflectance ${o.leaf.reflectance}, transmittance ${o.leaf.transmittance}; other organs reflectance ${o.nonleaf.reflectance}, transmittance ${o.nonleaf.transmittance}. The full model has ${full} triangles (one-sided leaf area ${leafArea} m², other organs ${nonArea} m²); ${shown} are shown here after simplification for the web, so the view is for inspection, not measurement.`,
     posterAlt: "Static view of the same 3D data",
   },
   zh: {
@@ -34,8 +46,8 @@ const COPY = {
     compareCaption: (sfm, hy, hySrc) =>
       `样本 cotton_20240109-84-5。Hunyuan3D 点云已与 SfM 重建对齐，“叠加”视图可直接看出生成几何与实测几何的偏差。SfM：${sfm} 个点；Hunyuan3D：${hySrc} 个点，为网页显示在各器官类别内降采样至 ${hy} 个。`,
     canopyTitle: "用于光照模拟的三角面元冠层模型",
-    canopyCaption: (full, shown, leafArea, nonArea) =>
-      `由单株重建构建的 24 株棉花冠层，即冠层光合模型所用的输入。完整模型共 ${full} 个三角面元（叶片单面面积 ${leafArea} m²，其他器官 ${nonArea} m²）；此处为网页显示简化为 ${shown} 个，仅供查看，不用于测量。`,
+    canopyCaption: (full, shown, leafArea, nonArea, o) =>
+      `由同一株重建棉花复制 24 次排布成冠层，即冠层光合模型的输入，因此冠层内没有株间差异。每个面元按类别赋予光学参数：叶片反射率 ${o.leaf.reflectance}、透射率 ${o.leaf.transmittance}；其他器官反射率 ${o.nonleaf.reflectance}、透射率 ${o.nonleaf.transmittance}。完整模型共 ${full} 个三角面元（叶片单面面积 ${leafArea} m²，其他器官 ${nonArea} m²）；此处为网页显示简化为 ${shown} 个，仅供查看，不用于测量。`,
     posterAlt: "同一三维数据的静态视图",
   },
 };
@@ -87,7 +99,8 @@ export function CottonCanopyFigure() {
         fmt(c.full.triangles, zh),
         fmt(c.leaf.triangles + c.nonleaf.triangles, zh),
         c.full.leafArea_m2,
-        c.full.nonleafArea_m2
+        c.full.nonleafArea_m2,
+        OPTICAL
       )}
       load={loadViewer}
       loadProps={{ mode: "canopy" }}
