@@ -808,6 +808,8 @@ If the research claim concerns geometry, collect an independently scaled referen
 - sensitivity to seed, crop, background, and input view;
 - confidence intervals or repeated-run variability.
 
+The figure below shows the first step of such a check for one cotton plant: the Hunyuan3D output aligned to an independent SfM reconstruction of the same specimen. It is a visual comparison, not a benchmark.
+
 Do not report benchmark numbers unless the dataset, split, baseline, code, and evaluation definition are available.
 
 ## 6. Reproducibility record
@@ -1265,6 +1267,8 @@ There are two different scientific products:
 Synthetic perturbations must be interpretable. Record the distribution, covariance, bounds, and random seed for plant spacing, height, azimuth, leaf angle, and size. Repeatedly cloning one plant and adding arbitrary vertex noise does not reproduce population-level architectural diversity.
 
 Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.
+
+The model below shows what a canopy input looks like at facet level: 24 cotton plants described as triangles, each facet assigned to leaves or to other organs.
 
 ## 7. Model the light environment in physical units
 
@@ -1729,6 +1733,8 @@ Software labels vary by version, so the workflow is described by purpose:
 10. export the point cloud or mesh with units and coordinate metadata.
 
 Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.
+
+The figure below is one such export: a cotton plant reconstructed with structure from motion, kept as a point cloud with organ labels.
 
 ## 7. Validate before extracting traits
 

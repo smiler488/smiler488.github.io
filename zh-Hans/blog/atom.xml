@@ -694,6 +694,8 @@
 <li class="">对种子、裁剪、背景和输入视角的敏感性；</li>
 <li class="">置信区间或重复运行的变异性。</li>
 </ul>
+<p>下图展示了对一株棉花做这类检验的第一步：把 Hunyuan3D 的输出与同一植株的独立 SfM 重建对齐。这是可视化对比，而不是基准测试。</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/zh-Hans/img/cotton3d/compare.webp" alt="同一三维数据的静态视图"><button type="button" class="loadButton_i66X">加载交互视图</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">交互</span> <!-- -->同一植株的 SfM 与 Hunyuan3D 重建</p><p class="captionText_D8a1">样本 cotton_20240109-84-5。Hunyuan3D 点云已与 SfM 重建对齐，“叠加”视图可直接看出生成几何与实测几何的偏差。SfM：39,765 个点；Hunyuan3D：177,357 个点，为网页显示在各器官类别内降采样至 60,000 个。</p></figcaption></figure>
 <p>在数据集、划分、基线、代码和评估定义都可用之前，不要报告基准数字。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-可复现性记录">6. 可复现性记录<a href="https://smiler488.github.io/zh-Hans/blog/hunyuan3d-plant-reconstruction-guide#6-%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7%E8%AE%B0%E5%BD%95" class="hash-link" aria-label="6. 可复现性记录的直接链接" title="6. 可复现性记录的直接链接" translate="no">​</a></h2>
 <p>保存一份清单，例如：</p>
@@ -1117,6 +1119,8 @@
 </ol>
 <p>合成扰动必须是可解释的。记录株距、株高、方位角、叶角和尺寸的分布、协方差、边界和随机种子。反复克隆一株植株并添加任意顶点噪声，并不能复现群体层面的结构多样性。</p>
 <p>检查植株重叠、地下几何、不切实际的叶片相交，以及变换后叶面积的变化。</p>
+<p>下面的模型展示了冠层输入在面元层面的样子：24 株棉花以三角面元描述，每个面元归属于叶片或其他器官。</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/zh-Hans/img/cotton3d/canopy.webp" alt="同一三维数据的静态视图"><button type="button" class="loadButton_i66X">加载交互视图</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">交互</span> <!-- -->用于光照模拟的三角面元冠层模型</p><p class="captionText_D8a1">由单株重建构建的 24 株棉花冠层，即冠层光合模型所用的输入。完整模型共 1,613,632 个三角面元（叶片单面面积 1.2745 m²，其他器官 0.4344 m²）；此处为网页显示简化为 119,999 个，仅供查看，不用于测量。</p></figcaption></figure>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-以物理单位对光照环境建模">7. 以物理单位对光照环境建模<a href="https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en#7-%E4%BB%A5%E7%89%A9%E7%90%86%E5%8D%95%E4%BD%8D%E5%AF%B9%E5%85%89%E7%85%A7%E7%8E%AF%E5%A2%83%E5%BB%BA%E6%A8%A1" class="hash-link" aria-label="7. 以物理单位对光照环境建模的直接链接" title="7. 以物理单位对光照环境建模的直接链接" translate="no">​</a></h2>
 <p>辐射传输阶段需要：</p>
 <ul>
@@ -1592,6 +1596,8 @@
 <li class="">导出点云或网格，并附上单位和坐标元数据。</li>
 </ol>
 <p>不要把关键点上限、深度设置或过滤强度当作通用默认值照搬。记录软件版本，并在有代表性的植株上做一次小型参数对比。</p>
+<p>下图就是这样一份导出结果：用运动恢复结构重建的一株棉花，以带器官标签的点云形式保存。</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/zh-Hans/img/cotton3d/sfm.webp" alt="同一三维数据的静态视图"><button type="button" class="loadButton_i66X">加载交互视图</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">交互</span> <!-- -->棉花单株的 SfM 点云</p><p class="captionText_D8a1">样本 cotton_20240109-84-5，运动恢复结构（SfM）重建，共 39,765 个点，按器官类别着色。</p></figcaption></figure>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-提取性状前先验证">7. 提取性状前先验证<a href="https://smiler488.github.io/zh-Hans/blog/growth-chamber-cotton-3d#7-%E6%8F%90%E5%8F%96%E6%80%A7%E7%8A%B6%E5%89%8D%E5%85%88%E9%AA%8C%E8%AF%81" class="hash-link" aria-label="7. 提取性状前先验证的直接链接" title="7. 提取性状前先验证的直接链接" translate="no">​</a></h2>
 <p>至少报告：</p>
 <ul>

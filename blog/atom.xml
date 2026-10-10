@@ -694,6 +694,8 @@
 <li class="">sensitivity to seed, crop, background, and input view;</li>
 <li class="">confidence intervals or repeated-run variability.</li>
 </ul>
+<p>The figure below shows the first step of such a check for one cotton plant: the Hunyuan3D output aligned to an independent SfM reconstruction of the same specimen. It is a visual comparison, not a benchmark.</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/img/cotton3d/compare.webp" alt="Static view of the same 3D data"><button type="button" class="loadButton_i66X">Load interactive view</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">Interactive</span> <!-- -->SfM and Hunyuan3D reconstructions of the same plant</p><p class="captionText_D8a1">Sample cotton_20240109-84-5. The Hunyuan3D point cloud is aligned to the SfM reconstruction, so Overlay shows where the generated geometry departs from the measured one. SfM: 39,765 points. Hunyuan3D: 177,357 points, downsampled within each organ class to 60,000 for the web.</p></figcaption></figure>
 <p>Do not report benchmark numbers unless the dataset, split, baseline, code, and evaluation definition are available.</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="6-reproducibility-record">6. Reproducibility record<a href="https://smiler488.github.io/blog/hunyuan3d-plant-reconstruction-guide#6-reproducibility-record" class="hash-link" aria-label="Direct link to 6. Reproducibility record" title="Direct link to 6. Reproducibility record" translate="no">​</a></h2>
 <p>Save a manifest such as:</p>
@@ -1117,6 +1119,8 @@
 </ol>
 <p>Synthetic perturbations must be interpretable. Record the distribution, covariance, bounds, and random seed for plant spacing, height, azimuth, leaf angle, and size. Repeatedly cloning one plant and adding arbitrary vertex noise does not reproduce population-level architectural diversity.</p>
 <p>Check for plant overlap, below-ground geometry, unrealistic leaf intersections, and changes in leaf area after transformation.</p>
+<p>The model below shows what a canopy input looks like at facet level: 24 cotton plants described as triangles, each facet assigned to leaves or to other organs.</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/img/cotton3d/canopy.webp" alt="Static view of the same 3D data"><button type="button" class="loadButton_i66X">Load interactive view</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">Interactive</span> <!-- -->Triangle-facet canopy model for light simulation</p><p class="captionText_D8a1">24 cotton plants built from single-plant reconstructions, as used in the canopy photosynthesis model. The full model has 1,613,632 triangles (one-sided leaf area 1.2745 m², other organs 0.4344 m²); 119,999 are shown here after simplification for the web, so the view is for inspection, not measurement.</p></figcaption></figure>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-model-the-light-environment-in-physical-units">7. Model the light environment in physical units<a href="https://smiler488.github.io/blog/canopy-photosynthesis-modeling-en#7-model-the-light-environment-in-physical-units" class="hash-link" aria-label="Direct link to 7. Model the light environment in physical units" title="Direct link to 7. Model the light environment in physical units" translate="no">​</a></h2>
 <p>A radiative-transfer stage needs:</p>
 <ul>
@@ -1592,6 +1596,8 @@
 <li class="">export the point cloud or mesh with units and coordinate metadata.</li>
 </ol>
 <p>Do not copy key-point limits, depth settings, or filtering strengths as universal defaults. Record the software version and run a small parameter comparison on representative plants.</p>
+<p>The figure below is one such export: a cotton plant reconstructed with structure from motion, kept as a point cloud with organ labels.</p>
+<figure class="figure_VbbA"><div class="frame_lWxZ"><div class="poster_tgi1"><img src="https://smiler488.github.io/img/cotton3d/sfm.webp" alt="Static view of the same 3D data"><button type="button" class="loadButton_i66X">Load interactive view</button></div></div><figcaption class="caption_zW9n"><p><span class="badge_jCqf">Interactive</span> <!-- -->SfM point cloud of a cotton plant</p><p class="captionText_D8a1">Sample cotton_20240109-84-5, reconstructed with structure from motion: all 39,765 points, coloured by organ class.</p></figcaption></figure>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="7-validate-before-extracting-traits">7. Validate before extracting traits<a href="https://smiler488.github.io/blog/growth-chamber-cotton-3d#7-validate-before-extracting-traits" class="hash-link" aria-label="Direct link to 7. Validate before extracting traits" title="Direct link to 7. Validate before extracting traits" translate="no">​</a></h2>
 <p>At minimum, report:</p>
 <ul>
