@@ -27,16 +27,16 @@ Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](htt
 
 Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
 
-- [Device Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
+- [Device Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, leaf inclination, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
 - [Land Surveyor](https://smiler488.github.io/app/land-survey): Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu. [DIG]
-- [Irrigation Layout Designer](https://smiler488.github.io/app/irrigation-designer): Explore drip-line layouts, hydraulic constraints and pressure-loss estimates in an interactive preliminary design workspace. [DES]
+- [Irrigation Layout Designer](https://smiler488.github.io/app/irrigation-designer): Check a drip-irrigation block: lateral, submain and mainline losses, pressure at the farthest subunit and emitter flow variation, with a validated model. [DES]
 - [NASA POWER Weather Downloader](https://smiler488.github.io/app/weather): Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results. [PRE]
 - [CCO Waylines Builder](https://smiler488.github.io/app/cco): Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings. [DIG]
 - [Biological Sample Quantifier](https://smiler488.github.io/app/image): Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements. [DIG]
 - [Root Image Preprocessor](https://smiler488.github.io/app/root-processor): Prepare root scans with polygon regions, background cleanup, high-pass enhancement and precise manual corrections. [DIG]
-- [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Split and rectify a side-by-side camera stream, inspect stereo pairs and explore depth output with an explicit calibration profile. [DIG]
-- [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboard and coded circular calibration targets with live dimensions, validation and PDF export. [DIG]
-- [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table, create deterministic local charts and optionally use your chosen AI provider to help interpret patterns. [UND]
+- [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres. [DIG]
+- [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboards and segmented circular markers at exact millimetre sizes, with fit checks and PDF export. [DIG]
+- [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table and chart it from the full data; an optional AI provider suggests the chart, and group comparisons run ANOVA and Tukey tests locally. [UND]
 - [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose.
 - [Multimodal AI Solver](https://smiler488.github.io/app/solver): Ask with text, camera or screen capture and send the prompt to the visual AI model and API provider you configure.
 - [Encrypted Note](https://smiler488.github.io/app/cloudnote): Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage.

@@ -9,7 +9,6 @@
   let devicesCached = [];
   let stream = null, animHandle = null;
   let initialized = false;
-  let openCvInitTimer = null;
   let deviceSelectChangeHandler = null;
 
   // Capture/ZIP state
@@ -18,11 +17,9 @@
   let leafIdEl = null;
   let downloadBtnEl = null;
 
-  // OpenCV state
-  let cvReady = false;
-  let rectificationMapsReady = false;
-  let map1x, map1y, map2x, map2y;
-  let Q_matrix;
+  // Rectification state (static/js/stereo_core.js)
+  let rectification = null; // { params, map1, map2, width, height }
+  let lastDepth = null; // { depth: Float32Array, width, height, stats }
 
   // ============ PRECISE CALIBRATION DATA ============
   // Left camera intrinsic parameters
@@ -49,9 +46,6 @@
   ]);
   const T = new Float32Array([-59.936399567191145, 0.006329653339225, 0.957303253584517]);
 
-  // Precision parameters
-  const BASELINE_MM = Math.abs(T[0]); // 59.936mm baseline
-  const FOCAL_LENGTH_PX = leftK[0]; // ~526 pixels
 
   // ============ UTILITY FUNCTIONS ============
   
@@ -76,356 +70,148 @@
     }
   }
 
-  function safeDelete(value) {
-    try {
-      value?.delete?.();
-    } catch (error) {
-      console.warn('[Stereo] OpenCV resource cleanup failed:', error);
+  // ============ RECTIFICATION ============
+
+  const CALIB_WIDTH = 640;
+  const CALIB_HEIGHT = 480;
+  const DISPARITY_OPTIONS = {
+    numDisparities: 64,
+    blockSize: 15,
+    uniquenessRatio: 10,
+    lrMaxDiff: 1,
+    textureThreshold: 2,
+  };
+
+  // Rectification maps for the calibrated 640×480 per-camera resolution.
+  function ensureRectification(width, height) {
+    if (rectification && rectification.width === width && rectification.height === height) {
+      return rectification;
     }
+    const core = window.StereoCore;
+    if (!core || width !== CALIB_WIDTH || height !== CALIB_HEIGHT) {
+      rectification = null;
+      return null;
+    }
+    const K1 = Array.from(leftK);
+    const K2 = Array.from(rightK);
+    const params = core.stereoRectify(
+      K1, Array.from(leftD), K2, Array.from(rightD),
+      Array.from(R), Array.from(T), width, height
+    );
+    rectification = {
+      params,
+      width,
+      height,
+      map1: core.rectifyMap(K1, Array.from(leftD), params.R1, params.f, params.cx, params.cy, width, height),
+      map2: core.rectifyMap(K2, Array.from(rightD), params.R2, params.f, params.cx, params.cy, width, height),
+    };
+    return rectification;
   }
 
-  function releaseOpenCvResources() {
-    [map1x, map1y, map2x, map2y, Q_matrix].forEach(safeDelete);
-    map1x = map1y = map2x = map2y = Q_matrix = null;
-    rectificationMapsReady = false;
-    cvReady = false;
+  // Bilinear remap of RGBA image data with a rectification map.
+  function remapRGBA(src, map) {
+    const { width, height } = src;
+    const out = new ImageData(width, height);
+    const s = src.data;
+    const o = out.data;
+    for (let i = 0; i < width * height; i += 1) {
+      const x = map.mapX[i];
+      const y = map.mapY[i];
+      const x0 = Math.floor(x);
+      const y0 = Math.floor(y);
+      const k = i * 4;
+      if (x0 < 0 || y0 < 0 || x0 >= width - 1 || y0 >= height - 1) {
+        o[k + 3] = 255;
+        continue;
+      }
+      const ax = x - x0;
+      const ay = y - y0;
+      const j = (y0 * width + x0) * 4;
+      const jr = j + 4;
+      const jd = j + width * 4;
+      const jdr = jd + 4;
+      for (let c = 0; c < 3; c += 1) {
+        o[k + c] =
+          (1 - ay) * ((1 - ax) * s[j + c] + ax * s[jr + c]) +
+          ay * ((1 - ax) * s[jd + c] + ax * s[jdr + c]);
+      }
+      o[k + 3] = 255;
+    }
+    return out;
   }
 
-  // ============ OPENCV INITIALIZATION ============
-  
-  function initializeOpenCV() {
-    if (cvReady && rectificationMapsReady) return true;
-    if (!window.cv || !window.cv.Mat) {
-      setStatus('OpenCV not loaded, using basic mode', true);
-      return false;
-    }
-
-    try {
-      releaseOpenCvResources();
-      setStatus('Initializing OpenCV rectification maps...');
-      
-      const imageSize = new cv.Size(640, 480); // Single camera resolution
-      
-      // Convert calibration data to OpenCV matrices
-      const K1 = cv.matFromArray(3, 3, cv.CV_32FC1, leftK);
-      const D1 = cv.matFromArray(5, 1, cv.CV_32FC1, leftD);
-      const K2 = cv.matFromArray(3, 3, cv.CV_32FC1, rightK);
-      const D2 = cv.matFromArray(5, 1, cv.CV_32FC1, rightD);
-      const R_mat = cv.matFromArray(3, 3, cv.CV_32FC1, R);
-      const T_mat = cv.matFromArray(3, 1, cv.CV_32FC1, T);
-
-      // Compute rectification transforms
-      const R1 = new cv.Mat();
-      const R2 = new cv.Mat();
-      const P1 = new cv.Mat();
-      const P2 = new cv.Mat();
-      Q_matrix = new cv.Mat();
-
-      cv.stereoRectify(
-        K1, D1, K2, D2, imageSize, R_mat, T_mat,
-        R1, R2, P1, P2, Q_matrix,
-        cv.CALIB_ZERO_DISPARITY, 0, imageSize
-      );
-
-      // Initialize rectification maps
-      map1x = new cv.Mat();
-      map1y = new cv.Mat();
-      map2x = new cv.Mat();
-      map2y = new cv.Mat();
-
-      cv.initUndistortRectifyMap(K1, D1, R1, P1, imageSize, cv.CV_16SC2, map1x, map1y);
-      cv.initUndistortRectifyMap(K2, D2, R2, P2, imageSize, cv.CV_16SC2, map2x, map2y);
-
-      // Cleanup temporary matrices
-      K1.delete(); D1.delete(); K2.delete(); D2.delete();
-      R_mat.delete(); T_mat.delete(); R1.delete(); R2.delete();
-      P1.delete(); P2.delete();
-
-      rectificationMapsReady = true;
-      cvReady = true;
-      setStatus('OpenCV rectification maps initialized - High precision mode');
-      return true;
-
-    } catch (error) {
-      console.error('OpenCV initialization failed:', error);
-      setStatus('OpenCV initialization failed, using basic mode', true);
-      return false;
-    }
-  }
-
-  // ============ IMAGE PROCESSING ============
-  
   function splitAndRectifyStereoImage(canvas, ctx) {
     const width = canvas.width;
     const height = canvas.height;
     const halfWidth = Math.floor(width / 2);
-    
-    if (!cvReady || !rectificationMapsReady) {
-      // Fallback to simple split
-      const leftImageData = ctx.getImageData(0, 0, halfWidth, height);
-      const rightImageData = ctx.getImageData(halfWidth, 0, halfWidth, height);
-      return { leftImageData, rightImageData, rectified: false };
+    const leftRaw = ctx.getImageData(0, 0, halfWidth, height);
+    const rightRaw = ctx.getImageData(halfWidth, 0, halfWidth, height);
+    const rect = ensureRectification(halfWidth, height);
+    if (!rect) {
+      return { leftImageData: leftRaw, rightImageData: rightRaw, rectified: false };
     }
-
-    try {
-      // Get raw stereo image
-      const imageData = ctx.getImageData(0, 0, width, height);
-      const src = cv.matFromImageData(imageData);
-      
-      // Split into left and right
-      const leftROI = new cv.Rect(0, 0, halfWidth, height);
-      const rightROI = new cv.Rect(halfWidth, 0, halfWidth, height);
-      
-      const leftRaw = src.roi(leftROI);
-      const rightRaw = src.roi(rightROI);
-      
-      // Apply rectification
-      const leftRect = new cv.Mat();
-      const rightRect = new cv.Mat();
-      
-      cv.remap(leftRaw, leftRect, map1x, map1y, cv.INTER_LINEAR);
-      cv.remap(rightRaw, rightRect, map2x, map2y, cv.INTER_LINEAR);
-      
-      // Convert back to ImageData
-      const leftCanvas = document.createElement('canvas');
-      const rightCanvas = document.createElement('canvas');
-      leftCanvas.width = rightCanvas.width = halfWidth;
-      leftCanvas.height = rightCanvas.height = height;
-      
-      cv.imshow(leftCanvas, leftRect);
-      cv.imshow(rightCanvas, rightRect);
-      
-      const leftImageData = leftCanvas.getContext('2d').getImageData(0, 0, halfWidth, height);
-      const rightImageData = rightCanvas.getContext('2d').getImageData(0, 0, halfWidth, height);
-      
-      // Cleanup
-      src.delete(); leftRaw.delete(); rightRaw.delete();
-      leftRect.delete(); rightRect.delete();
-      
-      return { leftImageData, rightImageData, rectified: true };
-      
-    } catch (error) {
-      console.error('Image rectification failed:', error);
-      setStatus('Image rectification failed, using raw images', true);
-      
-      // Fallback to simple split
-      const leftImageData = ctx.getImageData(0, 0, halfWidth, height);
-      const rightImageData = ctx.getImageData(halfWidth, 0, halfWidth, height);
-      return { leftImageData, rightImageData, rectified: false };
-    }
+    return {
+      leftImageData: remapRGBA(leftRaw, rect.map1),
+      rightImageData: remapRGBA(rightRaw, rect.map2),
+      rectified: true,
+    };
   }
 
-  function computePrecisionDepthMap(leftImageData, rightImageData) {
-    if (!cvReady || !Q_matrix) {
-      return createBasicDepthMap(leftImageData, rightImageData);
-    }
+  // ============ DEPTH ============
 
-    try {
-      setStatus('Computing high-precision depth map...');
-      
-      const width = leftImageData.width;
-      const height = leftImageData.height;
-      
-      // Convert to OpenCV matrices
-      const leftMat = cv.matFromImageData(leftImageData);
-      const rightMat = cv.matFromImageData(rightImageData);
-      
-      // Convert to grayscale
-      const leftGray = new cv.Mat();
-      const rightGray = new cv.Mat();
-      cv.cvtColor(leftMat, leftGray, cv.COLOR_RGBA2GRAY);
-      cv.cvtColor(rightMat, rightGray, cv.COLOR_RGBA2GRAY);
-      
-      // Compute disparity using StereoBM
-      const disparity = new cv.Mat();
-      const stereoBM = new cv.StereoBM(64, 15);
-      
-      // Set parameters for precision measurement
-      stereoBM.setMinDisparity(1);
-      stereoBM.setNumDisparities(64);
-      stereoBM.setBlockSize(15);
-      stereoBM.setDisp12MaxDiff(1);
-      stereoBM.setUniquenessRatio(10);
-      stereoBM.setSpeckleWindowSize(50);
-      stereoBM.setSpeckleRange(2);
-      
-      stereoBM.compute(leftGray, rightGray, disparity);
-      
-      // Create depth visualization
-      const depthVis = createPrecisionDepthVisualization(disparity, width, height);
-      
-      // Cleanup
-      leftMat.delete(); rightMat.delete();
-      leftGray.delete(); rightGray.delete();
-      disparity.delete();
-      stereoBM.delete();
-      
-      setStatus('High-precision depth map computed');
-      return depthVis;
-      
-    } catch (error) {
-      console.error('High-precision depth computation failed:', error);
-      setStatus('High-precision computation failed, using basic algorithm', true);
-      return createBasicDepthMap(leftImageData, rightImageData);
-    }
+  // Depth in millimetres from a rectified pair: block matching, then
+  // Z = f·B/d with the rectified focal length and baseline.
+  function computeDepth(leftImageData, rightImageData) {
+    const core = window.StereoCore;
+    const { width, height } = leftImageData;
+    const l = core.toGray(leftImageData.data, width, height);
+    const r = core.toGray(rightImageData.data, width, height);
+    const disparity = core.computeDisparity(l, r, width, height, DISPARITY_OPTIONS);
+    const { f, baseline } = rectification.params;
+    const depth = core.disparityToDepth(disparity, f, baseline);
+    const valid = Array.from(depth).filter(Number.isFinite).sort((a, b) => a - b);
+    const q = (p) => (valid.length ? valid[Math.floor(p * (valid.length - 1))] : NaN);
+    const stats = {
+      validFraction: valid.length / depth.length,
+      p05_mm: q(0.05),
+      median_mm: q(0.5),
+      p95_mm: q(0.95),
+    };
+    return { depth, width, height, stats };
   }
 
-  function createPrecisionDepthVisualization(disparityMat, width, height) {
-    const depthData = new ImageData(width, height);
-    const depthPixels = depthData.data;
-    
-    // Get disparity data
-    const disparityData = disparityMat.data16S; // 16-bit signed data
-    
-    console.log(`[Depth] Creating depth visualization: ${width}x${height}`);
-    
-    // Find min and max valid depth values for normalization
-    let minValidDepth = Infinity;
-    let maxValidDepth = -Infinity;
-    const depthValues = new Float32Array(width * height);
-    
-    // First pass: calculate all depth values and find range
-    for (let i = 0; i < width * height; i++) {
-      const disparity = disparityData[i] / 16.0; // StereoBM returns 16x scaled values
-      
-      if (disparity > 0) {
-        // Convert disparity to depth in mm
-        const depth_mm = (FOCAL_LENGTH_PX * BASELINE_MM) / disparity;
-        depthValues[i] = depth_mm;
-        
-        // Track valid depth range
-        if (depth_mm > 0 && depth_mm < 1000) {
-          minValidDepth = Math.min(minValidDepth, depth_mm);
-          maxValidDepth = Math.max(maxValidDepth, depth_mm);
-        }
-      } else {
-        depthValues[i] = -1; // Invalid depth marker
-      }
+  // Grey depth image: near = bright, scaled between the 5th and 95th
+  // percentiles; invalid pixels are black.
+  function depthToImageData({ depth, width, height, stats }) {
+    const img = new ImageData(width, height);
+    const lo = stats.p05_mm;
+    const hi = stats.p95_mm;
+    const span = hi > lo ? hi - lo : 1;
+    for (let i = 0; i < depth.length; i += 1) {
+      const z = depth[i];
+      const k = i * 4;
+      const g = Number.isFinite(z) ? 255 - Math.round(255 * Math.min(1, Math.max(0, (z - lo) / span))) : 0;
+      img.data[k] = img.data[k + 1] = img.data[k + 2] = g;
+      img.data[k + 3] = 255;
     }
-    
-    console.log(`[Depth] Valid depth range: ${minValidDepth.toFixed(1)}mm - ${maxValidDepth.toFixed(1)}mm`);
-    
-    // Second pass: normalize and render based on actual depth range
-    for (let i = 0; i < width * height; i++) {
-      const pixelIdx = i * 4;
-      const depth_mm = depthValues[i];
-      
-      if (depth_mm > 0 && minValidDepth < maxValidDepth) {
-        // Normalize depth to 0-255 range based on actual data range
-        const normalizedDepth = (depth_mm - minValidDepth) / (maxValidDepth - minValidDepth);
-        const grayValue = Math.floor(normalizedDepth * 255);
-        
-        // Set grayscale value (R=G=B for grayscale)
-        depthPixels[pixelIdx] = grayValue;     // Red
-        depthPixels[pixelIdx + 1] = grayValue; // Green
-        depthPixels[pixelIdx + 2] = grayValue; // Blue
-        depthPixels[pixelIdx + 3] = 255;       // Alpha
-      } else {
-        // No valid depth - black (0)
-        depthPixels[pixelIdx] = 0;
-        depthPixels[pixelIdx + 1] = 0;
-        depthPixels[pixelIdx + 2] = 0;
-        depthPixels[pixelIdx + 3] = 255;
-      }
-    }
-    
-    console.log('[Depth] Depth visualization created successfully');
-    return depthData;
+    return img;
   }
 
-  function createBasicDepthMap(leftImageData, rightImageData) {
-    // Fallback basic depth computation
-    const width = leftImageData.width;
-    const height = leftImageData.height;
-    const depthData = new ImageData(width, height);
-    
-    const leftData = leftImageData.data;
-    const rightData = rightImageData.data;
-    const depthPixels = depthData.data;
-    
-    console.log(`[Depth] Creating basic depth map: ${width}x${height}`);
-    
-    // Simple block matching for basic depth
-    const blockSize = 7;
-    const halfBlock = Math.floor(blockSize / 2);
-    
-    // First pass: calculate all depth values and find range
-    const depthValues = new Float32Array(width * height);
-    let minValidDepth = Infinity;
-    let maxValidDepth = -Infinity;
-    
-    for (let y = halfBlock; y < height - halfBlock; y++) {
-      for (let x = halfBlock; x < width - halfBlock; x++) {
-        const i = y * width + x;
-        
-        let bestDisparity = 0;
-        let minSSD = Infinity;
-        
-        // Search for best match
-        for (let d = 1; d < Math.min(64, width - x - halfBlock); d++) {
-          let ssd = 0;
-          
-          for (let by = -halfBlock; by <= halfBlock; by++) {
-            for (let bx = -halfBlock; bx <= halfBlock; bx++) {
-              const leftIdx = ((y + by) * width + (x + bx)) * 4;
-              const rightIdx = ((y + by) * width + (x + bx + d)) * 4;
-              
-              if (rightIdx < rightData.length - 3) {
-                const leftGray = (leftData[leftIdx] + leftData[leftIdx + 1] + leftData[leftIdx + 2]) / 3;
-                const rightGray = (rightData[rightIdx] + rightData[rightIdx + 1] + rightData[rightIdx + 2]) / 3;
-                const diff = leftGray - rightGray;
-                ssd += diff * diff;
-              }
-            }
-          }
-          
-          if (ssd < minSSD) {
-            minSSD = ssd;
-            bestDisparity = d;
-          }
-        }
-        
-        // Calculate depth
-        if (bestDisparity > 0) {
-          const depth_mm = (FOCAL_LENGTH_PX * BASELINE_MM) / bestDisparity;
-          depthValues[i] = depth_mm;
-          
-          if (depth_mm > 0 && depth_mm < 1000) {
-            minValidDepth = Math.min(minValidDepth, depth_mm);
-            maxValidDepth = Math.max(maxValidDepth, depth_mm);
-          }
-        } else {
-          depthValues[i] = -1; // Invalid
-        }
-      }
+  // 16-bit PGM with depth in millimetres (0 = no measurement); readable by
+  // OpenCV (cv2.IMREAD_UNCHANGED), ImageJ/Fiji and numpy.
+  function depthToPGM({ depth, width, height }) {
+    const header = new TextEncoder().encode(`P5\n${width} ${height}\n65535\n`);
+    const body = new Uint8Array(width * height * 2);
+    for (let i = 0; i < depth.length; i += 1) {
+      const z = depth[i];
+      const v = Number.isFinite(z) ? Math.min(65535, Math.max(1, Math.round(z))) : 0;
+      body[i * 2] = v >> 8; // big-endian, as PGM requires
+      body[i * 2 + 1] = v & 255;
     }
-    
-    console.log(`[Depth] Basic depth range: ${minValidDepth.toFixed(1)}mm - ${maxValidDepth.toFixed(1)}mm`);
-    
-    // Second pass: render based on actual depth range
-    for (let i = 0; i < width * height; i++) {
-      const idx = i * 4;
-      const depth_mm = depthValues[i];
-      
-      if (depth_mm > 0 && minValidDepth < maxValidDepth) {
-        // Normalize depth to 0-255 range based on actual data
-        const normalizedDepth = (depth_mm - minValidDepth) / (maxValidDepth - minValidDepth);
-        const grayValue = Math.floor(normalizedDepth * 255);
-        
-        depthPixels[idx] = grayValue;
-        depthPixels[idx + 1] = grayValue;
-        depthPixels[idx + 2] = grayValue;
-      } else {
-        // No valid depth - black
-        depthPixels[idx] = 0;
-        depthPixels[idx + 1] = 0;
-        depthPixels[idx + 2] = 0;
-      }
-      depthPixels[idx + 3] = 255; // Alpha
-    }
-    
-    console.log('[Depth] Basic depth map created successfully');
-    return depthData;
+    const out = new Uint8Array(header.length + body.length);
+    out.set(header, 0);
+    out.set(body, header.length);
+    return out;
   }
 
   function drawImageDataToCanvas(canvas, imageData) {
@@ -619,26 +405,22 @@
       drawImageDataToCanvas(rightCanvas, rightImageData);
 
       // Update status to show rectification status
-      if (rectified && !depthComputed) {
+      const depthBtn = document.getElementById('computeDepthBtn');
+      if (depthBtn) depthBtn.disabled = !rectified;
+      if (!depthComputed) {
         const depthCtx = depthCanvas.getContext('2d');
         depthCtx.fillStyle = '#000';
         depthCtx.fillRect(0, 0, depthCanvas.width, depthCanvas.height);
         depthCtx.fillStyle = '#fff';
-        depthCtx.font = '14px Arial';
+        depthCtx.font = '14px sans-serif';
         depthCtx.textAlign = 'center';
-        depthCtx.fillText('Images rectified - Click "Compute Depth" for measurement', depthCanvas.width/2, depthCanvas.height/2);
-        depthCtx.font = '12px Arial';
-        depthCtx.fillText('Depth map: Grayscale based on actual depth values', depthCanvas.width/2, depthCanvas.height/2 + 20);
-      } else if (!rectified && !depthComputed) {
-        const depthCtx = depthCanvas.getContext('2d');
-        depthCtx.fillStyle = '#000';
-        depthCtx.fillRect(0, 0, depthCanvas.width, depthCanvas.height);
-        depthCtx.fillStyle = '#fff';
-        depthCtx.font = '14px Arial';
-        depthCtx.textAlign = 'center';
-        depthCtx.fillText('Basic mode - Click "Compute Depth"', depthCanvas.width/2, depthCanvas.height/2);
-        depthCtx.font = '12px Arial';
-        depthCtx.fillText('(OpenCV not loaded, limited precision)', depthCanvas.width/2, depthCanvas.height/2 + 20);
+        depthCtx.fillText(
+          rectified
+            ? 'Rectified. Click "Compute depth" to measure.'
+            : `Depth needs 1280×480 side-by-side frames (got ${rawCanvas.width}×${rawCanvas.height}).`,
+          depthCanvas.width / 2,
+          depthCanvas.height / 2
+        );
       }
 
     } catch (error) {
@@ -658,14 +440,21 @@
     }
 
     try {
-      setStatus('Computing precision depth map...');
-      
-      const { leftImageData, rightImageData } = splitAndRectifyStereoImage(rawCanvas, rawCtx);
-      const depthImageData = computePrecisionDepthMap(leftImageData, rightImageData);
-      
-      drawImageDataToCanvas(depthCanvas, depthImageData);
+      const { leftImageData, rightImageData, rectified } = splitAndRectifyStereoImage(rawCanvas, rawCtx);
+      if (!rectified) {
+        setStatus('Depth needs the calibrated 1280×480 side-by-side stereo stream.', true);
+        return;
+      }
+      setStatus('Computing depth (block matching)...');
+      await new Promise((resolve) => setTimeout(resolve, 0)); // let the status paint
+      lastDepth = computeDepth(leftImageData, rightImageData);
+      drawImageDataToCanvas(depthCanvas, depthToImageData(lastDepth));
       depthComputed = true;
-      
+      const st = lastDepth.stats;
+      setStatus(
+        `Depth computed: ${(st.validFraction * 100).toFixed(0)}% of pixels measured; median ${st.median_mm.toFixed(0)} mm (5–95%: ${st.p05_mm.toFixed(0)}–${st.p95_mm.toFixed(0)} mm).`
+      );
+
       document.getElementById('captureDepthBtn').disabled = false;
       
     } catch (error) {
@@ -748,21 +537,41 @@
 
     try {
       const depthDataURL = depthCanvas.toDataURL("image/png");
-      zip.file(`${baseName}_depth_precision.png`, depthDataURL.split(",")[1], { base64: true });
+      zip.file(`${baseName}_depth_preview.png`, depthDataURL.split(",")[1], { base64: true });
+      if (lastDepth) {
+        zip.file(`${baseName}_depth_mm.pgm`, depthToPGM(lastDepth));
+        const p = rectification.params;
+        zip.file(
+          `${baseName}_depth.json`,
+          JSON.stringify(
+            {
+              units: "millimetres; 0 in the PGM = no measurement",
+              method: "Bouguet rectification + SAD block matching (stereo_core.js)",
+              focal_px: p.f,
+              baseline_mm: p.baseline,
+              principal_point_px: [p.cx, p.cy],
+              disparity: DISPARITY_OPTIONS,
+              stats: lastDepth.stats,
+            },
+            null,
+            2
+          )
+        );
+      }
 
       const capturesList = document.getElementById("capturesList");
       if (capturesList) {
         const captureDiv = document.createElement("div");
         captureDiv.style.cssText = 'margin: 10px 0; padding: 10px; border: 1px solid var(--ds-line); border-radius: 12px; background: var(--ds-card);';
         captureDiv.innerHTML = `
-          <a href="${depthDataURL}" download="${baseName}_depth_precision.png">${baseName}_depth_precision.png</a>
-          <br><small style="color: var(--ifm-color-emphasis-600);">Precision depth map (grayscale)</small>
+          <a href="${depthDataURL}" download="${baseName}_depth_preview.png">${baseName}_depth_preview.png</a>
+          <br><small style="color: var(--ifm-color-emphasis-600);">Depth preview; the ZIP also holds ${baseName}_depth_mm.pgm (16-bit, mm) and ${baseName}_depth.json</small>
         `;
         capturesList.appendChild(captureDiv);
       }
 
       if (downloadBtnEl) downloadBtnEl.disabled = false;
-      setStatus(`Captured precision depth map: ${baseName}`);
+      setStatus(`Captured depth map: ${baseName}`);
     } catch (error) {
       console.error('Depth map capture failed:', error);
       setStatus('Depth map capture failed', true);
@@ -871,18 +680,12 @@
         console.warn('JSZip preload failed');
       });
 
-      setStatus('Stereo vision system initialized (waiting for OpenCV...)');
-      
-      // Initialize OpenCV when available
-      openCvInitTimer = setTimeout(() => {
-        if (initializeOpenCV()) {
-          setStatus('Stereo vision system ready (high precision mode)');
-        } else {
-          setStatus('Stereo vision system ready (basic mode)');
-        }
-      }, 2000);
-
-      window.addEventListener('opencv-ready', initializeOpenCV);
+      setStatus(
+        window.StereoCore
+          ? 'Stereo vision system ready'
+          : 'Stereo core failed to load; refresh the page.',
+        !window.StereoCore
+      );
       return true;
       
     } catch (error) {
@@ -896,10 +699,6 @@
   window.STEREO_DESTROY = function () {
     if (!initialized) return;
 
-    if (openCvInitTimer) {
-      clearTimeout(openCvInitTimer);
-      openCvInitTimer = null;
-    }
     stopStream();
     document.getElementById("startBtn")?.removeEventListener("click", startStream);
     document.getElementById("stopBtn")?.removeEventListener("click", stopStream);
@@ -912,8 +711,8 @@
       deviceSelectChangeHandler = null;
     }
     navigator.mediaDevices?.removeEventListener?.('devicechange', listVideoDevices);
-    window.removeEventListener('opencv-ready', initializeOpenCV);
-    releaseOpenCvResources();
+    rectification = null;
+    lastDepth = null;
 
     video = rawCanvas = rawCtx = leftCanvas = rightCanvas = depthCanvas = statusEl = null;
     leafIdEl = downloadBtnEl = null;

@@ -27,16 +27,16 @@
 
 免费、在浏览器中运行的工具；除非访客主动用自己的密钥调用 AI 功能，数据都留在访客本机。
 
-- [设备传感器记录仪](https://smiler488.github.io/zh-Hans/app/sensor): 采集手机姿态、定位与太阳几何，生成带时间戳的田间记录，并导出可直接用于科研的 CSV。 [DIG]
+- [设备传感器记录仪](https://smiler488.github.io/zh-Hans/app/sensor): 采集手机姿态、叶倾角、定位与太阳几何，生成带时间戳的田间记录，并导出可直接用于科研的 CSV。 [DIG]
 - [土地测量仪](https://smiler488.github.io/zh-Hans/app/land-survey): 用手动坐标或设备定位构建田块边界，估算面积（平方米、公顷与亩）。 [DIG]
-- [灌溉布局设计器](https://smiler488.github.io/zh-Hans/app/irrigation-designer): 在交互式初步设计工作台中探索滴灌管布局、水力约束与压力损失估算。 [DES]
+- [灌溉布局设计器](https://smiler488.github.io/zh-Hans/app/irrigation-designer): 校核滴灌小区：毛管、支管和干管水头损失，最不利小区压力与灌水器流量偏差，采用经过验证的水力模型。 [DES]
 - [NASA POWER 气象数据下载器](https://smiler488.github.io/zh-Hans/app/weather): 选择地点与日期范围，获取 NASA POWER 农业气象数据，预览或下载整洁的 CSV 结果。 [PRE]
 - [CCO 航线生成器](https://smiler488.github.io/zh-Hans/app/cco): 把 KML 田块边界转成可预览的大疆 CCO 航线包，飞行与相机参数均可配置。 [DIG]
 - [生物样本图像量化](https://smiler488.github.io/zh-Hans/app/image): 打开在线分析工作台，对上传或拍摄的生物样本图像做量化，并导出测量结果。 [DIG]
 - [根系图像预处理器](https://smiler488.github.io/zh-Hans/app/root-processor): 用多边形区域、背景清理、高通增强与精细手动修正来准备根系扫描图像。 [DIG]
-- [双目视觉工作台](https://smiler488.github.io/zh-Hans/app/stereo): 拆分并校正左右并排的相机画面，检查立体像对，并在明确的标定配置下查看深度输出。 [DIG]
-- [标定板生成器](https://smiler488.github.io/zh-Hans/app/targets): 生成可打印的棋盘格与编码圆形标定板，带实时尺寸、校验与 PDF 导出。 [DIG]
-- [AI 数据可视化](https://smiler488.github.io/zh-Hans/app/ai-data-visualizer): 载入表格，生成确定性的本地图表，并可选择用你自己的 AI 服务来协助解读数据模式。 [UND]
+- [双目视觉工作台](https://smiler488.github.io/zh-Hans/app/stereo): 对已标定的并排双目视频流做立体校正，用块匹配计算米制深度，并以毫米导出深度。 [DIG]
+- [标定板生成器](https://smiler488.github.io/zh-Hans/app/targets): 按精确毫米尺寸生成可打印的棋盘格与分段圆形标志，带版面校验与 PDF 导出。 [DIG]
+- [AI 数据可视化](https://smiler488.github.io/zh-Hans/app/ai-data-visualizer): 载入表格并基于全部数据绘图；可选的 AI 服务负责推荐图表类型，组间比较在本地进行方差分析与 Tukey 检验。 [UND]
 - [AI 期刊选择器](https://smiler488.github.io/zh-Hans/app/journal-selector): 用你自己选择的 AI 服务和 API 密钥，将论文摘要与可配置的期刊条件做比对。
 - [多模态 AI 解题器](https://smiler488.github.io/zh-Hans/app/solver): 用文字、相机或截屏提问，把提示词发送到你自行配置的视觉 AI 模型与 API 服务。
 - [加密便签](https://smiler488.github.io/zh-Hans/app/cloudnote): 在浏览器内加密文本便签，通过 URL 片段分享，或在本地存储中保留一份带密码的副本。
