@@ -49,7 +49,7 @@
 - [MCTP：多模态作物表型数据处理平台](https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform): 一个桌面平台，以统一界面、交互式调参、批量处理和结构化导出，处理高光谱、LiDAR、RGB 和热红外表型数据。 [DIG]
 - [基于表型性状预测叶片 BRDF](https://smiler488.github.io/zh-Hans/blog/brdf-paper): 一套由表型性状预测四个物种叶片 BRDF 参数的测量与分析框架，结合方向光谱测量、Cook–Torrance 模型拟合、集成学习和冠层光线追踪（Plant Phenomics，2025）。 [UND]
 - [用 Python 从图像中量化种子、叶片等植物样本](https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial): 一种本地运行的 OpenCV 方法：在均匀背景上分割彼此分离的植物样本，以定标后的物理单位测量尺寸、形状和颜色，并为每张图像输出标注叠加图。 [DIG]
-- [基于 Hunyuan3D-1 的单图像植株三维重建及其与 SfM 的比较](https://smiler488.github.io/zh-Hans/blog/hunyuan3d-plant-reconstruction-guide): 用生成式模型 Hunyuan3D-1 由单张照片生成棉花植株三维模型，并按器官与同一植株的多视角 SfM 重建进行比较。 [DIG]
+- [基于三维生成式人工智能的单图像植株三维重建及其与 SfM 的比较](https://smiler488.github.io/zh-Hans/blog/generative-ai-3d-plant-reconstruction): 用三维生成式人工智能由单张照片生成棉花植株三维模型，并按器官与同一植株的多视角 SfM 重建进行比较评估。 [DIG]
 - [无人机三维作物表型：交叉环绕倾斜采集、SfM 与 CanopyPC](https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping): 面向小区尺度三维作物表型的无人机流程：交叉环绕倾斜航线设计、SfM 重建、基于 CanopyPC 的冠层点云处理，以及作物性状的机器学习建模。 [DIG]
 - [Root Quantify：用 Python 交互式预处理根系图像](https://smiler488.github.io/zh-Hans/blog/root-quantify): 一个交互式 OpenCV 工具：通过多边形 ROI 选择、光照校正、阈值分割和画笔修正，把原始根系扫描图和照片处理为干净的二值图像，可直接用于根系性状软件。 [DIG]
 - [基于三维重建的冠层光合作用模型](https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en): 一个模块化模型：由多视角图像重建作物植株，构建三角面元冠层，用光线追踪模拟冠层光分布，并将叶片光合积分到冠层碳同化。 [UND, PRE]
