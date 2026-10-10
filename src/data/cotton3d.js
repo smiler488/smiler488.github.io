@@ -23,7 +23,7 @@ export const COTTON3D = {
     },
     bytes: 278355,
   },
-  hy3d: {
+  gen: {
     kind: "points",
     count: 60000,
     sourceCount: 177357,

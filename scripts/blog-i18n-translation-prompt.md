@@ -32,7 +32,7 @@
 2023-08-20-canopy-photosynthesis-modeling.md
 2024-05-03-root-quantify.md
 2024-07-07-uav-3d-crop-phenotyping.md
-2025-02-20-hunyuan3d-plant-reconstruction-guide.md
+2025-02-20-generative-ai-3d-plant-reconstruction.md
 2025-06-17-academic-paper-publication-guide.md
 2025-07-13-local-image-quantification-tutorial.md
 2025-08-20-local-ai-agent-deployment.md

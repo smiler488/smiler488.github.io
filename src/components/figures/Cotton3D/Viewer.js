@@ -2,7 +2,7 @@
  * three.js viewer for the cotton 3D datasets (lazy-loaded; see index.js).
  *
  * mode "sfm"     single SfM point cloud, coloured by organ class
- * mode "compare" SfM vs Hunyuan3D (same aligned frame): either cloud by
+ * mode "compare" SfM vs 3D generative AI (same aligned frame): either cloud by
  *                class, or both overlaid and coloured by source
  * mode "canopy"  triangle-facet canopy mesh with leaf / non-leaf classes
  *
@@ -21,7 +21,7 @@ import styles from "./styles.module.css";
 const CLASS_COLORS = { 0: "#D55E00", 1: "#E69F00", 2: "#009E73" };
 const SOURCE_COLORS = {
   sfm: { light: "#1a1a1a", dark: "#e5e5e5" },
-  hy3d: "#0072B2",
+  gen: "#0072B2",
 };
 const LEAF_COLOR = "#3f9a62";
 const NONLEAF_COLOR = "#8a6a4a";
@@ -33,7 +33,7 @@ const COPY = {
       "3D view unavailable in this browser. The image above shows the same data.",
     reset: "Reset view",
     sfm: "SfM",
-    hy3d: "Hunyuan3D",
+    gen: "Generative AI",
     overlay: "Overlay",
     showNonleaf: "Non-leaf organs",
     showEdges: "Triangle edges",
@@ -45,7 +45,7 @@ const COPY = {
     aria: {
       sfm: "Rotatable 3D point cloud of a cotton plant reconstructed with structure from motion.",
       compare:
-        "Rotatable 3D comparison of SfM and Hunyuan3D point clouds of the same cotton plant.",
+        "Rotatable 3D comparison of SfM and 3D generative AI point clouds of the same cotton plant.",
       canopy: "Rotatable 3D triangle-facet model of a 24-plant cotton canopy.",
     },
   },
@@ -54,7 +54,7 @@ const COPY = {
     failed: "当前浏览器无法显示三维视图，上方图片展示的是同一份数据。",
     reset: "重置视角",
     sfm: "SfM",
-    hy3d: "Hunyuan3D",
+    gen: "生成式 AI",
     overlay: "叠加",
     showNonleaf: "非叶器官",
     showEdges: "三角面元边线",
@@ -65,7 +65,7 @@ const COPY = {
     triangles: (n) => `显示 ${n.toLocaleString("zh-CN")} 个三角面元`,
     aria: {
       sfm: "可旋转的棉花单株 SfM 重建三维点云。",
-      compare: "同一棉花单株的 SfM 与 Hunyuan3D 点云三维对比，可旋转。",
+      compare: "同一棉花单株的 SfM 点云与三维生成式人工智能点云对比，可旋转。",
       canopy: "可旋转的 24 株棉花冠层三角面元模型。",
     },
   },
@@ -146,7 +146,7 @@ export default function Cotton3DViewer({ mode }) {
   const [showEdges, setShowEdges] = React.useState(false);
   const urls = {
     sfm: useBaseUrl("/data/cotton3d/sfm.bin"),
-    hy3d: useBaseUrl("/data/cotton3d/hy3d.bin"),
+    gen: useBaseUrl("/data/cotton3d/gen.bin"),
     canopy: useBaseUrl("/data/cotton3d/canopy.bin"),
   };
 
@@ -264,7 +264,7 @@ export default function Cotton3DViewer({ mode }) {
           .union(new THREE.Box3().setFromObject(objects.nonleaf.mesh));
         frame(box);
       } else {
-        const want = mode === "compare" ? ["sfm", "hy3d"] : ["sfm"];
+        const want = mode === "compare" ? ["sfm", "gen"] : ["sfm"];
         const loaded = await Promise.all(
           want.map((id) => loadPoints(urls[id], COTTON3D[id]))
         );
@@ -280,7 +280,7 @@ export default function Cotton3DViewer({ mode }) {
           );
           g.userData.classColors = g.getAttribute("color").array.slice();
           const material = new THREE.PointsMaterial({
-            size: id === "hy3d" ? 0.0022 : 0.0028,
+            size: id === "gen" ? 0.0022 : 0.0028,
             sizeAttenuation: true,
             vertexColors: true,
           });
@@ -337,15 +337,15 @@ export default function Cotton3DViewer({ mode }) {
         objects.leaf.edges.visible = showEdges;
         objects.nonleaf.edges.visible = showEdges && showNonleaf;
       } else if (mode === "compare") {
-        objects.sfm.visible = view !== "hy3d";
-        objects.hy3d.visible = view !== "sfm";
-        ["sfm", "hy3d"].forEach((id) => {
+        objects.sfm.visible = view !== "gen";
+        objects.gen.visible = view !== "sfm";
+        ["sfm", "gen"].forEach((id) => {
           const attr = objects[id].geometry.getAttribute("color");
           if (view === "overlay") {
             const hex =
               id === "sfm"
                 ? SOURCE_COLORS.sfm[isDark() ? "dark" : "light"]
-                : SOURCE_COLORS.hy3d;
+                : SOURCE_COLORS.gen;
             const c = new THREE.Color(hex).convertSRGBToLinear();
             for (let i = 0; i < attr.count; i += 1)
               attr.setXYZ(i, c.r, c.g, c.b);
@@ -377,7 +377,7 @@ export default function Cotton3DViewer({ mode }) {
       : view === "overlay" && mode === "compare"
       ? [
           { color: "var(--ifm-color-emphasis-900)", label: copy.sfm },
-          { color: SOURCE_COLORS.hy3d, label: copy.hy3d },
+          { color: SOURCE_COLORS.gen, label: copy.gen },
         ]
       : Object.entries(POINT_CLASSES).map(([k, name]) => ({
           color: CLASS_COLORS[k],
@@ -390,11 +390,11 @@ export default function Cotton3DViewer({ mode }) {
           COTTON3D.canopy.leaf.triangles +
             (showNonleaf ? COTTON3D.canopy.nonleaf.triangles : 0)
         )
-      : mode === "compare" && view === "hy3d"
-      ? copy.points(COTTON3D.hy3d.count)
+      : mode === "compare" && view === "gen"
+      ? copy.points(COTTON3D.gen.count)
       : mode === "compare" && view === "overlay"
       ? `${copy.points(COTTON3D.sfm.count)} + ${copy.points(
-          COTTON3D.hy3d.count
+          COTTON3D.gen.count
         )}`
       : copy.points(COTTON3D.sfm.count);
 
@@ -403,7 +403,7 @@ export default function Cotton3DViewer({ mode }) {
       <div className={styles.toolbar}>
         {mode === "compare" && (
           <div className={styles.segmented} role="group">
-            {["sfm", "hy3d", "overlay"].map((id) => (
+            {["sfm", "gen", "overlay"].map((id) => (
               <button
                 key={id}
                 type="button"
