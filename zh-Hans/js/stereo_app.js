@@ -1,3 +1,15 @@
+/* Interface text: English here, Chinese in static/js/i18n/stereo.zh.js. */
+function txStereo(text) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var dict = (typeof window !== "undefined" && window.__ZH_STEREO) || {};
+  var zh = typeof document !== "undefined" && document.documentElement.lang === "zh-Hans";
+  var m = String(text).match(/^(\s*)([\s\S]*?)(\s*)$/);
+  var core = zh && dict[m[2]] ? dict[m[2]] : m[2];
+  return (m[1] + core + m[3]).replace(/\{(\d+)\}/g, function (s, i) {
+    return i < args.length ? String(args[i]) : s;
+  });
+}
+
 // High-Precision Stereo Vision System
 // Optimized for depth measurement with calibrated cameras
 
@@ -56,7 +68,7 @@
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
       script.onload = () => resolve(true);
-      script.onerror = () => reject(new Error("Failed to load JSZip"));
+      script.onerror = () => reject(new Error(txStereo("Failed to load JSZip")));
       document.head.appendChild(script);
     });
   }
@@ -242,16 +254,16 @@
       if (videoDevices.length === 0) {
         const option = document.createElement("option");
         option.value = "";
-        option.textContent = "No cameras detected";
+        option.textContent = txStereo("No cameras detected");
         select.appendChild(option);
-        setStatus("No video devices found", true);
+        setStatus(txStereo("No video devices found"), true);
         return;
       }
 
       videoDevices.forEach((device, index) => {
         const option = document.createElement("option");
         option.value = device.deviceId;
-        option.textContent = device.label || `Camera ${index + 1}`;
+        option.textContent = device.label || txStereo("Camera {0}", index + 1);
         if (lastDeviceId && device.deviceId === lastDeviceId) {
           option.selected = true;
         }
@@ -262,10 +274,10 @@
         select.selectedIndex = select.options.length - 1;
       }
 
-      setStatus(`Found ${videoDevices.length} video device(s)`);
+      setStatus(txStereo("Found {0} video device(s)", videoDevices.length));
     } catch (error) {
       console.error('Device enumeration failed:', error);
-      setStatus("Device enumeration failed - check permissions", true);
+      setStatus(txStereo("Device enumeration failed - check permissions"), true);
     }
   }
 
@@ -277,12 +289,12 @@
     const height = parseInt(document.getElementById("heightInput").value, 10) || 480;
 
     if (!video) {
-      setStatus('Video element not found', true);
+      setStatus(txStereo("Video element not found"), true);
       return;
     }
 
     if (!navigator.mediaDevices?.getUserMedia) {
-      setStatus('Camera access is not supported in this browser', true);
+      setStatus(txStereo("Camera access is not supported in this browser"), true);
       return;
     }
 
@@ -310,7 +322,7 @@
     };
 
     try {
-      setStatus('Starting camera...');
+      setStatus(txStereo("Starting camera..."));
       stream = await navigator.mediaDevices.getUserMedia(constraints);
     } catch (exactError) {
       console.warn("Exact device request failed, trying fallback:", exactError);
@@ -321,7 +333,7 @@
         });
       } catch (fallbackError) {
         console.error('Camera access failed:', fallbackError);
-        setStatus("Camera access failed - check permissions and device availability", true);
+        setStatus(txStereo("Camera access failed - check permissions and device availability"), true);
         return;
       }
     }
@@ -332,7 +344,7 @@
       
       const actualWidth = video.videoWidth || width;
       const actualHeight = video.videoHeight || height;
-      setStatus(`Camera stream started: ${actualWidth}×${actualHeight}`);
+      setStatus(txStereo("Camera stream started: {0}×{1}", actualWidth, actualHeight));
 
       document.getElementById("startBtn").disabled = true;
       document.getElementById("stopBtn").disabled = false;
@@ -346,7 +358,7 @@
       drawLoop();
     } catch (error) {
       console.error('Video playback failed:', error);
-      setStatus('Video playback failed', true);
+      setStatus(txStereo("Video playback failed"), true);
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
         stream = null;
@@ -368,7 +380,7 @@
     if (video) video.srcObject = null;
     depthComputed = false;
 
-    setStatus("Camera stopped");
+    setStatus(txStereo("Camera stopped"));
     
     const startBtn = document.getElementById("startBtn");
     const stopBtn = document.getElementById("stopBtn");
@@ -425,7 +437,7 @@
 
     } catch (error) {
       console.error('Rendering error:', error);
-      setStatus(`Rendering error: ${error.message}`, true);
+      setStatus(txStereo("Rendering error: {0}", error.message), true);
     }
 
     animHandle = requestAnimationFrame(drawLoop);
@@ -435,31 +447,31 @@
   
   async function computeDepthFrame() {
     if (!rawCanvas || rawCanvas.width === 0) {
-      setStatus('No image data available', true);
+      setStatus(txStereo("No image data available"), true);
       return;
     }
 
     try {
       const { leftImageData, rightImageData, rectified } = splitAndRectifyStereoImage(rawCanvas, rawCtx);
       if (!rectified) {
-        setStatus('Depth needs the calibrated 1280×480 side-by-side stereo stream.', true);
+        setStatus(txStereo("Depth needs the calibrated 1280×480 side-by-side stereo stream."), true);
         return;
       }
-      setStatus('Computing depth (block matching)...');
+      setStatus(txStereo("Computing depth (block matching)..."));
       await new Promise((resolve) => setTimeout(resolve, 0)); // let the status paint
       lastDepth = computeDepth(leftImageData, rightImageData);
       drawImageDataToCanvas(depthCanvas, depthToImageData(lastDepth));
       depthComputed = true;
       const st = lastDepth.stats;
       setStatus(
-        `Depth computed: ${(st.validFraction * 100).toFixed(0)}% of pixels measured; median ${st.median_mm.toFixed(0)} mm (5–95%: ${st.p05_mm.toFixed(0)}–${st.p95_mm.toFixed(0)} mm).`
+        txStereo("Depth computed: {0}% of pixels measured; median {1} mm (5–95%: {2}–{3} mm).", (st.validFraction * 100).toFixed(0), st.median_mm.toFixed(0), st.p05_mm.toFixed(0), st.p95_mm.toFixed(0))
       );
 
       document.getElementById('captureDepthBtn').disabled = false;
       
     } catch (error) {
       console.error('Depth computation failed:', error);
-      setStatus('Depth computation failed', true);
+      setStatus(txStereo("Depth computation failed"), true);
     }
   }
 
@@ -469,7 +481,7 @@
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('ZIP library loading failed', true);
+      setStatus(txStereo("ZIP library loading failed"), true);
       return;
     }
     
@@ -479,7 +491,7 @@
     const baseName = `${sampleId}_stereo_${String(captureIndex).padStart(3, "0")}`;
 
     if (!leftCanvas || !rightCanvas) {
-      setStatus('No images to capture', true);
+      setStatus(txStereo("No images to capture"), true);
       return;
     }
 
@@ -510,10 +522,10 @@
 
       captureIndex++;
       if (downloadBtnEl) downloadBtnEl.disabled = false;
-      setStatus(`Captured rectified stereo images: ${baseName}`);
+      setStatus(txStereo("Captured rectified stereo images: {0}", baseName));
     } catch (error) {
       console.error('Capture failed:', error);
-      setStatus('Capture failed', true);
+      setStatus(txStereo("Capture failed"), true);
     }
   }
 
@@ -521,7 +533,7 @@
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('ZIP library loading failed', true);
+      setStatus(txStereo("ZIP library loading failed"), true);
       return;
     }
     
@@ -531,7 +543,7 @@
     const baseName = `${sampleId}_depth_${String(captureIndex - 1).padStart(3, "0")}`;
 
     if (!depthCanvas || depthCanvas.width === 0) {
-      setStatus('No depth map to capture', true);
+      setStatus(txStereo("No depth map to capture"), true);
       return;
     }
 
@@ -571,10 +583,10 @@
       }
 
       if (downloadBtnEl) downloadBtnEl.disabled = false;
-      setStatus(`Captured depth map: ${baseName}`);
+      setStatus(txStereo("Captured depth map: {0}", baseName));
     } catch (error) {
       console.error('Depth map capture failed:', error);
-      setStatus('Depth map capture failed', true);
+      setStatus(txStereo("Depth map capture failed"), true);
     }
   }
 
@@ -582,16 +594,16 @@
     try {
       await ensureJSZip();
     } catch (error) {
-      setStatus('ZIP library loading failed', true);
+      setStatus(txStereo("ZIP library loading failed"), true);
       return;
     }
     
     if (!zip) {
-      setStatus('No captured data to download', true);
+      setStatus(txStereo("No captured data to download"), true);
       return;
     }
 
-    setStatus('Generating ZIP file...');
+    setStatus(txStereo("Generating ZIP file..."));
     
     try {
       const blob = await zip.generateAsync({ type: "blob" });
@@ -613,10 +625,10 @@
       );
       
       URL.revokeObjectURL(url);
-      setStatus("ZIP file downloaded successfully");
+      setStatus(txStereo("ZIP file downloaded successfully"));
     } catch (error) {
       console.error('ZIP generation failed:', error);
-      setStatus('ZIP generation failed', true);
+      setStatus(txStereo("ZIP generation failed"), true);
     }
   }
 
@@ -637,7 +649,7 @@
 
       if (!video || !rawCanvas || !rawCtx || !leftCanvas || !rightCanvas || !depthCanvas) {
         console.error('Required DOM elements not found');
-        setStatus('Required DOM elements not found', true);
+        setStatus(txStereo("Required DOM elements not found"), true);
         return false;
       }
 
@@ -658,7 +670,7 @@
           navigator.mediaDevices.addEventListener('devicechange', listVideoDevices);
         }
       } else {
-        setStatus('MediaDevices API not supported', true);
+        setStatus(txStereo("MediaDevices API not supported"), true);
       }
 
       const deviceSelect = document.getElementById("deviceSelect");
@@ -682,15 +694,15 @@
 
       setStatus(
         window.StereoCore
-          ? 'Stereo vision system ready'
-          : 'Stereo core failed to load; refresh the page.',
+          ? txStereo("Stereo vision system ready")
+          : txStereo("Stereo core failed to load; refresh the page."),
         !window.StereoCore
       );
       return true;
       
     } catch (error) {
       console.error('Initialization failed:', error);
-      setStatus('Initialization failed', true);
+      setStatus(txStereo("Initialization failed"), true);
       initialized = false;
       return false;
     }

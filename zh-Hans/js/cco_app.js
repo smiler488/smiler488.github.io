@@ -1,3 +1,15 @@
+/* Interface text: English here, Chinese in static/js/i18n/cco.zh.js. */
+function txCco(text) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var dict = (typeof window !== "undefined" && window.__ZH_CCO) || {};
+  var zh = typeof document !== "undefined" && document.documentElement.lang === "zh-Hans";
+  var m = String(text).match(/^(\s*)([\s\S]*?)(\s*)$/);
+  var core = zh && dict[m[2]] ? dict[m[2]] : m[2];
+  return (m[1] + core + m[3]).replace(/\{(\d+)\}/g, function (s, i) {
+    return i < args.length ? String(args[i]) : s;
+  });
+}
+
 /* cco_app.js — web parity with create_wpml_kml_batch.py */
 
 // ---------- small DOM helpers ----------
@@ -20,12 +32,15 @@ function readNumber(
   { min = -Infinity, max = Infinity, integer = false } = {}
 ) {
   const input = $(id);
+  // Name the field by its visible label (already localized by the page).
+  const label = input?.labels?.[0] || input?.closest?.("label");
+  const name = ((label && label.firstChild?.textContent) || id).trim();
   const value = integer
     ? Number.parseInt(input?.value, 10)
     : Number.parseFloat(input?.value);
-  if (!Number.isFinite(value)) throw new Error(`${id} must be a valid number.`);
+  if (!Number.isFinite(value)) throw new Error(txCco("{0} must be a valid number.", name));
   if (value < min || value > max) {
-    throw new Error(`${id} must be between ${min} and ${max}.`);
+    throw new Error(txCco("{0} must be between {1} and {2}.", name, min, max));
   }
   return value;
 }
@@ -61,7 +76,7 @@ async function readFileAsArrayBuffer(file) {
 function parseKMLPolygonCoords(kmlText) {
   const dom = new DOMParser().parseFromString(kmlText, "text/xml");
   const err = dom.querySelector("parsererror");
-  if (err) throw new Error("Invalid XML/KML");
+  if (err) throw new Error(txCco("Invalid XML/KML"));
 
   let node =
     dom.querySelector("Polygon > outerBoundaryIs > LinearRing > coordinates") ||
@@ -80,7 +95,7 @@ function parseKMLPolygonCoords(kmlText) {
     const lon = parseFloat(lonStr);
     const lat = parseFloat(latStr);
     if (Number.isNaN(lat) || Number.isNaN(lon))
-      throw new Error("Invalid coordinate");
+      throw new Error(txCco("Invalid coordinate"));
     return { lon, lat };
   });
 
@@ -90,10 +105,10 @@ function parseKMLPolygonCoords(kmlText) {
     if (Math.abs(a.lon - b.lon) < 1e-12 && Math.abs(a.lat - b.lat) < 1e-12)
       coords.pop();
   }
-  if (coords.length < 3) throw new Error("Polygon must have ≥3 vertices.");
+  if (coords.length < 3) throw new Error(txCco("Polygon must have ≥3 vertices."));
   if (coords.length > MAX_POLYGON_VERTICES) {
     throw new Error(
-      `Polygon exceeds the ${MAX_POLYGON_VERTICES.toLocaleString()} vertex limit.`
+      txCco("Polygon exceeds the {0} vertex limit.", MAX_POLYGON_VERTICES.toLocaleString())
     );
   }
   return coords;
@@ -286,7 +301,7 @@ function gridCircleCenters(poly, center, step_m, padding_m, bearing_deg = 0.0) {
   const centerCount = xs.length * ys.length;
   if (centerCount > MAX_GRID_CENTERS) {
     throw new Error(
-      `This setup would create ${centerCount.toLocaleString()} grid centers. Increase center step or reduce padding (limit ${MAX_GRID_CENTERS.toLocaleString()}).`
+      txCco("This setup would create {0} grid centers. Increase center step or reduce padding (limit {1}).", centerCount.toLocaleString(), MAX_GRID_CENTERS.toLocaleString())
     );
   }
 
@@ -678,30 +693,30 @@ window.CCO_INIT = function CCO_INIT() {
   if (kmlInput._bound) return; // avoid double-binding
   kmlInput._bound = true;
 
-  setStatus("Ready");
+  setStatus(txCco("Ready"));
 
   kmlInput.addEventListener("change", async (e) => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
     try {
       if (f.size > MAX_KML_BYTES)
-        throw new Error("KML file exceeds the 5 MB limit.");
-      setStatus("Reading KML…");
+        throw new Error(txCco("KML file exceeds the 5 MB limit."));
+      setStatus(txCco("Reading KML…"));
       const txt = await readFileAsText(f);
       polygonCoords = parseKMLPolygonCoords(txt);
       setStatus(
-        `Loaded polygon with ${polygonCoords.length} vertices. Click Preview.`
+        txCco("Loaded polygon with {0} vertices. Click Preview.", polygonCoords.length)
       );
     } catch (err) {
       console.error(err);
-      setStatus(`KML parse error: ${err.message}`);
+      setStatus(txCco("KML parse error: {0}", err.message));
       polygonCoords = null;
     }
   });
 
   previewBtn.addEventListener("click", () => {
     if (!polygonCoords) {
-      setStatus("Please upload a KML first.");
+      setStatus(txCco("Please upload a KML first."));
       return;
     }
 
@@ -750,7 +765,7 @@ window.CCO_INIT = function CCO_INIT() {
       const estimatedPointCount = centersCache.length * PR;
       if (estimatedPointCount > MAX_ROUTE_POINTS) {
         throw new Error(
-          `This setup could create ${estimatedPointCount.toLocaleString()} waypoints. Increase center step or reduce points per circle (limit ${MAX_ROUTE_POINTS.toLocaleString()}).`
+          txCco("This setup could create {0} waypoints. Increase center step or reduce points per circle (limit {1}).", estimatedPointCount.toLocaleString(), MAX_ROUTE_POINTS.toLocaleString())
         );
       }
 
@@ -769,17 +784,17 @@ window.CCO_INIT = function CCO_INIT() {
       );
     } catch (err) {
       console.error(err);
-      setStatus(`Preview error: ${err.message}`);
+      setStatus(txCco("Preview error: {0}", err.message));
     }
   });
 
   generateBtn.addEventListener("click", async () => {
     if (!polygonCoords || routePoints.length === 0) {
-      setStatus("Please Preview first.");
+      setStatus(txCco("Please Preview first."));
       return;
     }
     try {
-      setStatus("Generating files…");
+      setStatus(txCco("Generating files…"));
       const alt = readNumber("alt", { min: 2, max: 500 });
       const speed = readNumber("speed", { min: 0.1, max: 30 });
       const gimbal = readNumber("gimbal", { min: -90, max: 30 });
@@ -852,7 +867,7 @@ window.CCO_INIT = function CCO_INIT() {
         const cuts = chunkSlices(routePoints.length, maxPts);
         const list = document.createElement("div");
         const listTitle = document.createElement("b");
-        listTitle.textContent = `Split parts (${cuts.length})`;
+        listTitle.textContent = txCco("Split parts ({0})", cuts.length);
         list.appendChild(listTitle);
         partsDiv.appendChild(list);
 
@@ -907,7 +922,7 @@ window.CCO_INIT = function CCO_INIT() {
       }
 
       $("downloads").style.display = "block";
-      setStatus("Files ready. Click links to download.");
+      setStatus(txCco("Files ready. Click links to download."));
 
       // Parameter record for the App Lab workbench (DESIGN_SPEC §8.2).
       window.dispatchEvent(
@@ -933,7 +948,7 @@ window.CCO_INIT = function CCO_INIT() {
       );
     } catch (err) {
       console.error(err);
-      setStatus(`Generate error: ${err.message}`);
+      setStatus(txCco("Generate error: {0}", err.message));
     }
   });
 
@@ -941,13 +956,13 @@ window.CCO_INIT = function CCO_INIT() {
     parseDroneBtn.addEventListener("click", async () => {
       const f = kmzDroneInput.files && kmzDroneInput.files[0];
       if (!f) {
-        setStatus("Please upload a DJI KMZ first.");
+        setStatus(txCco("Please upload a DJI KMZ first."));
         return;
       }
       try {
         if (f.size > MAX_KMZ_BYTES)
-          throw new Error("KMZ file exceeds the 25 MB limit.");
-        setStatus("Parsing KMZ for drone/payload…");
+          throw new Error(txCco("KMZ file exceeds the 25 MB limit."));
+        setStatus(txCco("Parsing KMZ for drone/payload…"));
         const device = await parseDeviceFromKMZ(f);
         $("droneEnum").value = device.droneEnum;
         $("droneSubEnum").value = device.droneSubEnum;
@@ -959,14 +974,14 @@ window.CCO_INIT = function CCO_INIT() {
         );
       } catch (err) {
         console.error(err);
-        setStatus(`KMZ parse error: ${err.message}`);
+        setStatus(txCco("KMZ parse error: {0}", err.message));
       }
     });
   }
 
   window.addEventListener("pagehide", clearDownloadUrls, { once: true });
 
-  setStatus("Ready. Upload KML and click Preview.");
+  setStatus(txCco("Ready. Upload KML and click Preview."));
   console.log("[CCO] INIT bound");
 };
 
@@ -974,7 +989,7 @@ window.CCO_INIT = function CCO_INIT() {
 window.dispatchEvent(new Event("cco_ready"));
 
 async function parseDeviceFromKMZ(file) {
-  if (typeof JSZip === "undefined") throw new Error("JSZip not available");
+  if (typeof JSZip === "undefined") throw new Error(txCco("JSZip not available"));
   const buf = await readFileAsArrayBuffer(file);
   const zip = await JSZip.loadAsync(buf);
   const names = Object.keys(zip.files);
@@ -997,14 +1012,14 @@ async function parseDeviceFromKMZ(file) {
     const kml = names.find((n) => n.toLowerCase().endsWith(".kml"));
     target = wpml || kml;
   }
-  if (!target) throw new Error("No KML/WPML found in KMZ");
+  if (!target) throw new Error(txCco("No KML/WPML found in KMZ"));
   const text = await zip.file(target).async("text");
   if (text.length > MAX_EXTRACTED_XML_CHARS) {
-    throw new Error("Extracted KML/WPML exceeds the safe processing limit");
+    throw new Error(txCco("Extracted KML/WPML exceeds the safe processing limit"));
   }
   const doc = new DOMParser().parseFromString(text, "text/xml");
   const err = doc.querySelector("parsererror");
-  if (err) throw new Error("Invalid XML inside KMZ");
+  if (err) throw new Error(txCco("Invalid XML inside KMZ"));
 
   function pickText(sel) {
     const el = doc.querySelector(sel);

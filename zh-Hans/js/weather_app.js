@@ -1,3 +1,15 @@
+/* Interface text: English here, Chinese in static/js/i18n/weather.zh.js. */
+function txWeather(text) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var dict = (typeof window !== "undefined" && window.__ZH_WEATHER) || {};
+  var zh = typeof document !== "undefined" && document.documentElement.lang === "zh-Hans";
+  var m = String(text).match(/^(\s*)([\s\S]*?)(\s*)$/);
+  var core = zh && dict[m[2]] ? dict[m[2]] : m[2];
+  return (m[1] + core + m[3]).replace(/\{(\d+)\}/g, function (s, i) {
+    return i < args.length ? String(args[i]) : s;
+  });
+}
+
 (function () {
   let map;
   let marker;
@@ -53,7 +65,7 @@
       updateCoordinates(lat, lng);
     });
 
-    updateStatus("Map loaded. Please select a point or use current location.");
+    updateStatus(txWeather("Map loaded. Please select a point or use current location."));
 
     if (pendingCoords) {
       const { lat, lng, zoom } = pendingCoords;
@@ -117,28 +129,28 @@
     if (prefaceMsg) {
       updateStatus(prefaceMsg);
     } else {
-      updateStatus("Trying approximate location from your IP address (ipapi.co)...");
+      updateStatus(txWeather("Trying approximate location from your IP address (ipapi.co)..."));
     }
 
     try {
       const res = await fetch("https://ipapi.co/json/");
       if (!res.ok) {
-        throw new Error(`IP lookup HTTP ${res.status}`);
+        throw new Error(txWeather("IP lookup HTTP {0}", res.status));
       }
       const data = await res.json();
       if (!data || data.latitude == null || data.longitude == null) {
-        throw new Error("IP lookup returned no coordinates");
+        throw new Error(txWeather("IP lookup returned no coordinates"));
       }
       const lat = parseFloat(data.latitude);
       const lng = parseFloat(data.longitude);
       updateCoordinates(lat, lng, 5);
       updateStatus(
-        "Approximate location set via IP lookup. Please verify coordinates."
+        txWeather("Approximate location set via IP lookup. Please verify coordinates.")
       );
     } catch (err) {
       console.error(err);
       updateStatus(
-        "Unable to determine location automatically. Please enter coordinates manually."
+        txWeather("Unable to determine location automatically. Please enter coordinates manually.")
       );
     } finally {
       approxLookupInProgress = false;
@@ -147,7 +159,7 @@
 
   function handleGetLocation() {
     if (!navigator.geolocation) {
-      updateStatus("Geolocation is not supported by this browser.");
+      updateStatus(txWeather("Geolocation is not supported by this browser."));
       tryApproximateLocation();
       return;
     }
@@ -159,14 +171,14 @@
       return;
     }
 
-    updateStatus("Getting current location...");
+    updateStatus(txWeather("Getting current location..."));
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
 
         updateCoordinates(lat, lng, 10);
-        updateStatus("Location set from browser GPS.");
+        updateStatus(txWeather("Location set from browser GPS."));
       },
       (err) => {
         console.error(err);
@@ -174,7 +186,7 @@
         if (err && err.code === 1) {
           // Respect the refusal: no IP-based fallback to a third party.
           updateStatus(
-            "Location permission denied. Enter coordinates, search a place, or click the map."
+            txWeather("Location permission denied. Enter coordinates, search a place, or click the map.")
           );
           return;
         } else if (err && err.code === 2) {
@@ -194,7 +206,7 @@
     const query = input.value.trim();
     if (!query) return;
 
-    updateStatus("Searching place...");
+    updateStatus(txWeather("Searching place..."));
     try {
       // Nominatim 简单地理编码
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
@@ -205,20 +217,20 @@
           "Accept-Language": "en",
         },
       });
-      if (!res.ok) throw new Error(`Place search HTTP ${res.status}`);
+      if (!res.ok) throw new Error(txWeather("Place search HTTP {0}", res.status));
       const data = await res.json();
       if (!data || data.length === 0) {
-        updateStatus("No result found for this place.");
+        updateStatus(txWeather("No result found for this place."));
         return;
       }
       const { lat, lon } = data[0];
       const latNum = parseFloat(lat);
       const lonNum = parseFloat(lon);
       updateCoordinates(latNum, lonNum, 10);
-      updateStatus("Place located on the map.");
+      updateStatus(txWeather("Place located on the map."));
     } catch (e) {
       console.error(e);
-      updateStatus("Failed to search place.");
+      updateStatus(txWeather("Failed to search place."));
     }
   }
 
@@ -239,28 +251,28 @@
     const timeStandard = timeStandardEl && timeStandardEl.value ? timeStandardEl.value : "LST";
 
     if (Number.isNaN(lat) || Number.isNaN(lon)) {
-      updateStatus("Please input valid latitude and longitude or pick on map.");
+      updateStatus(txWeather("Please input valid latitude and longitude or pick on map."));
       return;
     }
     if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-      updateStatus("Latitude must be between -90 and 90; longitude between -180 and 180.");
+      updateStatus(txWeather("Latitude must be between -90 and 90; longitude between -180 and 180."));
       return;
     }
     if (!startDate || !endDate) {
-      updateStatus("Please select start and end date.");
+      updateStatus(txWeather("Please select start and end date."));
       return;
     }
 
     const startTime = Date.parse(`${startDate}T00:00:00Z`);
     const endTime = Date.parse(`${endDate}T00:00:00Z`);
     if (!Number.isFinite(startTime) || !Number.isFinite(endTime) || startTime > endTime) {
-      updateStatus("Start date must be on or before the end date.");
+      updateStatus(txWeather("Start date must be on or before the end date."));
       return;
     }
     const spanDays = Math.floor((endTime - startTime) / 86400000) + 1;
     const maximumDays = timeScale === "hourly" ? 366 : 3660;
     if (spanDays > maximumDays) {
-      updateStatus(`Choose ${maximumDays} days or fewer for ${timeScale} data.`);
+      updateStatus(txWeather("Choose {0} days or fewer for {1} data.", maximumDays, timeScale));
       return;
     }
 
@@ -281,8 +293,8 @@
         "PRECTOTCORR",
       ].join(",");
       url = `https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON&time-standard=${timeStandard}`;
-      updateStatus("Requesting NASA POWER hourly data...");
-      showProgress(true, "Requesting hourly data from NASA POWER...");
+      updateStatus(txWeather("Requesting NASA POWER hourly data..."));
+      showProgress(true, txWeather("Requesting hourly data from NASA POWER..."));
       setProgress(10);
     } else {
       params = [
@@ -296,8 +308,8 @@
         "PRECTOTCORR",
       ].join(",");
       url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${params}&community=AG&longitude=${lon}&latitude=${lat}&start=${start}&end=${end}&format=JSON`;
-      updateStatus("Requesting NASA POWER data...");
-      showProgress(true, "Requesting data from NASA POWER...");
+      updateStatus(txWeather("Requesting NASA POWER data..."));
+      showProgress(true, txWeather("Requesting data from NASA POWER..."));
       setProgress(10);
     }
 
@@ -313,7 +325,7 @@
     try {
       const res = await fetch(url, { signal: controller.signal });
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        throw new Error(txWeather("HTTP {0}", res.status));
       }
       setProgress(50);
       const json = await res.json();
@@ -321,7 +333,7 @@
 
       const { records, missing } = parsePowerResponse(json);
       if (!records || records.length === 0) {
-        updateStatus("No data returned for this period.");
+        updateStatus(txWeather("No data returned for this period."));
         showProgress(false);
         return;
       }
@@ -336,13 +348,13 @@
       showProgress(false, "Done.");
       updateStatus(
         missing
-          ? `NASA POWER data downloaded: ${records.length} rows; ${missing} missing values (POWER fill value -999) are left empty.`
-          : `NASA POWER data downloaded: ${records.length} rows, no missing values.`
+          ? txWeather("NASA POWER data downloaded: {0} rows; {1} missing values (POWER fill value -999) are left empty.", records.length, missing)
+          : txWeather("NASA POWER data downloaded: {0} rows, no missing values.", records.length)
       );
     } catch (e) {
       if (e?.name === "AbortError") return;
       console.error(e);
-      updateStatus(`Failed to download NASA POWER data: ${e?.message || "network error"}.`);
+      updateStatus(txWeather("Failed to download NASA POWER data: {0}.", e?.message || "network error"));
       showProgress(false);
     } finally {
       if (activeController === controller) {
@@ -506,7 +518,7 @@
         }
         if (Date.now() - start >= timeoutMs) {
           clearInterval(interval);
-          reject(new Error("Leaflet failed to load within timeout"));
+          reject(new Error(txWeather("Leaflet failed to load within timeout")));
         }
       }, 50);
     });
@@ -529,7 +541,7 @@
       Math.abs(qLon) <= 180
     ) {
       updateCoordinates(qLat, qLon, 14);
-      updateStatus("Location set from the linked field. Choose dates, then get data.");
+      updateStatus(txWeather("Location set from the linked field. Choose dates, then get data."));
     }
 
     waitForLeaflet()
@@ -539,7 +551,7 @@
       .catch((err) => {
         console.error(err);
         updateStatus(
-          "Leaflet library failed to load. Please check network or CDN."
+          txWeather("Leaflet library failed to load. Please check network or CDN.")
         );
       });
     return true;
