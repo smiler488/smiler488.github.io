@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">AI 期刊选择器 | Liangchao Deng</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="algolia-site-verification" content="59BB444E51EBC712"><meta data-rh="true" name="google-site-verification" content="1F_blYF74vUYiqjx5hRpaHBnAHqS5MMkVDRA_utuAxU"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="AI 期刊选择器 | Liangchao Deng"><meta data-rh="true" name="description" content="使用你选择的 AI 服务商和 API 密钥，将稿件摘要与可配置的期刊评估标准进行对比。"><meta data-rh="true" property="og:description" content="使用你选择的 AI 服务商和 API 密钥，将稿件摘要与可配置的期刊评估标准进行对比。"><meta data-rh="true" name="keywords" content="journal,abstract,publication,jcr,ai"><link data-rh="true" rel="icon" href="/zh-Hans/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/journal-selector-tutorial" hreflang="en"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/journal-selector-tutorial" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"应用实验室教程","item":"https://smiler488.github.io/zh-Hans/docs/category/tutorial---apps"},{"@type":"ListItem","position":2,"name":"期刊选择器","item":"https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"}]}</script><link rel="alternate" type="application/rss+xml" href="/zh-Hans/blog/rss.xml" title="Liangchao Deng · Research &amp; Engineering Notes RSS Feed">
-<link rel="alternate" type="application/atom+xml" href="/zh-Hans/blog/atom.xml" title="Liangchao Deng · Research &amp; Engineering Notes Atom Feed"><link rel="stylesheet" href="/zh-Hans/assets/css/styles.c8f11585.css">
-<script src="/zh-Hans/assets/js/runtime~main.6434ccc3.js" defer="defer"></script>
-<script src="/zh-Hans/assets/js/main.f5d59c7d.js" defer="defer"></script>
+<link rel="alternate" type="application/atom+xml" href="/zh-Hans/blog/atom.xml" title="Liangchao Deng · Research &amp; Engineering Notes Atom Feed"><link rel="stylesheet" href="/zh-Hans/assets/css/styles.82f742fa.css">
+<script src="/zh-Hans/assets/js/runtime~main.ad94aab7.js" defer="defer"></script>
+<script src="/zh-Hans/assets/js/main.73fb2b66.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -21,11 +21,13 @@
 <li class="">收集可选关键词和约束，如 OA 政策、期刊类型、审稿速度或版面费限制。</li>
 <li class="">使用 <strong>Local demo</strong> 在不发送数据的情况下检查工作流。</li>
 <li class="">实时分析需要网络访问、服务商/模型和你自己的 API 密钥。</li>
+<li class="">服务商列表涵盖 OpenAI、Anthropic、Google Gemini、xAI、Mistral、Meta；DeepSeek、通义千问、Kimi、智谱 GLM、MiniMax、豆包、混元、文心、阶跃星辰、小米 MiMo；OpenRouter、硅基流动、Groq、Together AI、Hugging Face 等聚合平台；本机运行的 Ollama 或 LM Studio；以及任何兼容 OpenAI 或 Anthropic 格式的接口。每个模型都标明“图像 + 文本”或“仅文本”。</li>
 <li class="">直接浏览器调用取决于服务商的 CORS 策略。</li>
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="快速流程">快速流程<a href="#快速流程" class="hash-link" aria-label="快速流程的直接链接" title="快速流程的直接链接" translate="no">​</a></h2>
 <ol>
 <li class=""><a class="" href="/zh-Hans/app/journal-selector">打开 AI 期刊选择器</a>。</li>
+<li class="">在第一步 <strong>01 · 模型</strong>（期刊分析模型）中，保持本地演示，或选择服务商、模型并填写 API 密钥。</li>
 <li class="">在 <strong>Research abstract</strong>（研究摘要）下粘贴稿件 <strong>Abstract</strong>（摘要）。</li>
 <li class="">填写 <strong>Submission profile</strong>（投稿画像）下有用的字段：<!-- -->
 <ul>
@@ -37,7 +39,6 @@
 <li class=""><strong>Special notes</strong>（特别说明）</li>
 </ul>
 </li>
-<li class="">在 <strong>Journal analysis model</strong>（期刊分析模型）下，保持 Local demo 或选择实时服务商、模型和 API 密钥。</li>
 <li class="">查看 <strong>Indicator reference</strong>（指标参考），如有需要展开 <strong>Review all required indicators</strong>（查看所有必需指标）。</li>
 <li class="">选择 <strong>Generate journal plan</strong>（生成期刊方案）。</li>
 <li class="">查看 <strong>AI summary</strong>（AI 摘要）、候选卡片和完整对比表。</li>
