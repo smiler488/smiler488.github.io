@@ -5,6 +5,7 @@ Every field of the AI Journal Selector's comparison table and CSV export, with t
 - **OpenAlex** and **DOAJ**: retrieved from the database when the search runs.
 - **Match**: computed by the selector from articles similar to the manuscript.
 - **AI**: written by the language model you select, only about journals the search found.
+- **XR Scholar**: zone and position in the 2026 新锐期刊分区表 (XR Scholar journal ranking) for agricultural and forestry sciences, matched by ISSN; empty for journals outside that category.
 - **Manual**: proprietary or unpublished metrics. The column is left for you to fill after checking the named source.
 
 | key | label | source | description |
@@ -28,6 +29,8 @@ Every field of the AI Journal Selector's comparison table and CSV export, with t
 | weeks_to_publication | Weeks to Publication | DOAJ | Average weeks from submission to publication |
 | license | License | DOAJ | Licenses offered to authors |
 | core_focus | Core Topics | OpenAlex | Most frequent research topics of the journal |
+| xr_zone | XR Scholar Zone | XR Scholar | Zone 1–4 and Top flag, 2026 agricultural and forestry sciences ranking |
+| xr_rank | XR Scholar Position | XR Scholar | Position among the 936 journals of that ranking |
 | impact_factor_2024 | Impact Factor | Manual | Journal Citation Reports (Clarivate) |
 | jcr_quartile | JCR Quartile | Manual | Journal Citation Reports (Clarivate) |
 | cas_quartile | CAS Quartile | Manual | CAS journal ranking (fenqubiao.com) |

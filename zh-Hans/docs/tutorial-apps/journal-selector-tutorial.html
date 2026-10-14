@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">AI 期刊选择器 | Liangchao Deng</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://smiler488.github.io/zh-Hans/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="algolia-site-verification" content="59BB444E51EBC712"><meta data-rh="true" name="google-site-verification" content="1F_blYF74vUYiqjx5hRpaHBnAHqS5MMkVDRA_utuAxU"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="AI 期刊选择器 | Liangchao Deng"><meta data-rh="true" name="description" content="根据已发表的相似论文和 OpenAlex、DOAJ 数据，找出发表过同类研究的期刊，并评估你的意向期刊。"><meta data-rh="true" property="og:description" content="根据已发表的相似论文和 OpenAlex、DOAJ 数据，找出发表过同类研究的期刊，并评估你的意向期刊。"><meta data-rh="true" name="keywords" content="journal,abstract,publication,submission,openalex,jcr,ai"><link data-rh="true" rel="icon" href="/zh-Hans/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/journal-selector-tutorial" hreflang="en"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://smiler488.github.io/docs/tutorial-apps/journal-selector-tutorial" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"应用实验室教程","item":"https://smiler488.github.io/zh-Hans/docs/category/tutorial---apps"},{"@type":"ListItem","position":2,"name":"期刊选择器","item":"https://smiler488.github.io/zh-Hans/docs/tutorial-apps/journal-selector-tutorial"}]}</script><link rel="alternate" type="application/rss+xml" href="/zh-Hans/blog/rss.xml" title="Liangchao Deng · Research &amp; Engineering Notes RSS Feed">
-<link rel="alternate" type="application/atom+xml" href="/zh-Hans/blog/atom.xml" title="Liangchao Deng · Research &amp; Engineering Notes Atom Feed"><link rel="stylesheet" href="/zh-Hans/assets/css/styles.c07a302e.css">
-<script src="/zh-Hans/assets/js/runtime~main.1761fa33.js" defer="defer"></script>
-<script src="/zh-Hans/assets/js/main.a8957ef6.js" defer="defer"></script>
+<link rel="alternate" type="application/atom+xml" href="/zh-Hans/blog/atom.xml" title="Liangchao Deng · Research &amp; Engineering Notes Atom Feed"><link rel="stylesheet" href="/zh-Hans/assets/css/styles.8dc422e5.css">
+<script src="/zh-Hans/assets/js/runtime~main.0975d8b1.js" defer="defer"></script>
+<script src="/zh-Hans/assets/js/main.d1763055.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -52,7 +52,7 @@
 <li class=""><strong>03 · 目标：</strong>
 <ul>
 <li class="">在<strong>已有意向的期刊</strong>中最多填写五个期刊，每行一个，填刊名或 ISSN。</li>
-<li class="">设置开放获取要求、版面费上限、出版国家、审稿速度、时间范围和推荐数量。</li>
+<li class="">设置开放获取要求、版面费上限、出版国家、新锐分区、审稿速度、时间范围和推荐数量。</li>
 </ul>
 </li>
 <li class=""><strong>04 · 评价指标</strong> 列出每项数据的来源。</li>
@@ -68,7 +68,7 @@
 <li class="">点击<strong>下载 CSV</strong> 保存候选清单。参数记录会写明设置、检索词和数据来源。</li>
 </ol>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="结果怎么看">结果怎么看<a href="#结果怎么看" class="hash-link" aria-label="结果怎么看的直接链接" title="结果怎么看的直接链接" translate="no">​</a></h2>
-<table><thead><tr><th>项目</th><th>含义</th></tr></thead><tbody><tr><td><strong>匹配度</strong></td><td>该刊论文与你的稿件的相似度之和，相对最佳期刊的比例。发表相关论文很多的大刊可达 100%；专业性强的期刊排名可能靠后，但同样是很好的选择。</td></tr><tr><td><strong>相似论文</strong></td><td>该刊在与你的稿件最相似的 100 篇论文中占几篇。展开<strong>该刊发表的相似论文</strong>即可阅读；这些论文也值得引用，并可在投稿信中提及。</td></tr><tr><td><strong>高度 / 中等 / 较弱匹配</strong>（目标期刊）</td><td>高度：位列检出期刊前五，或匹配度不低于 40% 且有两篇以上相似论文；中等：位列前 15，或匹配度不低于 15%；较弱：至少有一篇相似论文。</td></tr><tr><td><strong>两年篇均被引</strong></td><td>OpenAlex 的两年篇均被引：每篇论文在两年内的平均被引次数，计算方式与影响因子相同，但基于 OpenAlex 数据，并非科睿唯安的影响因子。</td></tr><tr><td><strong>H 指数</strong>、<strong>年发文量</strong></td><td>来自 OpenAlex。发文量反映该刊每年处理的稿件规模。</td></tr><tr><td><strong>版面费</strong></td><td>开放获取期刊取 DOAJ 申报的费用，其他期刊取 OpenAlex 标价；订阅期刊的这一费用是可选的开放获取费。</td></tr><tr><td><strong>投稿至出版周数</strong>、<strong>同行评审</strong></td><td>来自期刊向 DOAJ 的申报，仅限开放获取期刊。超过你期望的审稿速度时会出现提示标签。</td></tr><tr><td><strong>核对</strong></td><td>期刊主页（作者须知）、SCImago、NLM 目录、JCR、中科院分区和 DOAJ。</td></tr></tbody></table>
+<table><thead><tr><th>项目</th><th>含义</th></tr></thead><tbody><tr><td><strong>匹配度</strong></td><td>该刊论文与你的稿件的相似度之和，相对最佳期刊的比例。发表相关论文很多的大刊可达 100%；专业性强的期刊排名可能靠后，但同样是很好的选择。</td></tr><tr><td><strong>相似论文</strong></td><td>该刊在与你的稿件最相似的 100 篇论文中占几篇。展开<strong>该刊发表的相似论文</strong>即可阅读；这些论文也值得引用，并可在投稿信中提及。</td></tr><tr><td><strong>高度 / 中等 / 较弱匹配</strong>（目标期刊）</td><td>高度：位列检出期刊前五，或匹配度不低于 40% 且有两篇以上相似论文；中等：位列前 15，或匹配度不低于 15%；较弱：至少有一篇相似论文。</td></tr><tr><td><strong>两年篇均被引</strong></td><td>OpenAlex 的两年篇均被引：每篇论文在两年内的平均被引次数，计算方式与影响因子相同，但基于 OpenAlex 数据，并非科睿唯安的影响因子。</td></tr><tr><td><strong>H 指数</strong>、<strong>年发文量</strong></td><td>来自 OpenAlex。发文量反映该刊每年处理的稿件规模。</td></tr><tr><td><strong>版面费</strong></td><td>开放获取期刊取 DOAJ 申报的费用，其他期刊取 OpenAlex 标价；订阅期刊的这一费用是可选的开放获取费。</td></tr><tr><td><strong>新锐</strong>分区</td><td>2026 年新锐期刊分区表（农林科学）中的 1–4 区及 Top 标记，按 ISSN 匹配；悬停提示和对比表给出该刊在 936 种期刊中的排名。不属于农林科学大类的期刊不显示分区。设置了<strong>新锐分区</strong>偏好后，只保留 1 区到所选分区的期刊，不在表中的期刊会被排除。</td></tr><tr><td><strong>投稿至出版周数</strong>、<strong>同行评审</strong></td><td>来自期刊向 DOAJ 的申报，仅限开放获取期刊。超过你期望的审稿速度时会出现提示标签。</td></tr><tr><td><strong>核对</strong></td><td>期刊主页（作者须知）、SCImago、NLM 目录、JCR、中科院分区和 DOAJ。</td></tr></tbody></table>
 <p>影响因子、JCR 分区、中科院分区、CiteScore 和录用率属于商业数据或未公开数据，在 CSV 中保留为空列，供你核对后填写。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="选用-ai-模型时">选用 AI 模型时<a href="#选用-ai-模型时" class="hash-link" aria-label="选用 AI 模型时的直接链接" title="选用 AI 模型时的直接链接" translate="no">​</a></h2>
 <p>模型收到的是你的稿件、偏好和检出期刊的数据，并且只评价这些期刊：</p>
@@ -105,6 +105,7 @@
 <ul>
 <li class="">只能找到在所选时间范围内发表过相关论文的期刊。新创刊或刚涉足该主题的期刊可能被漏掉，可放宽时间范围，或把它填为意向期刊。</li>
 <li class="">部分出版社的论文在 OpenAlex 中缺少摘要，这些期刊只能按标题匹配。</li>
+<li class="">新锐分区只覆盖农林科学大类（2026 年版，936 种期刊）。归在其他大类（例如遥感、综合生物学）的期刊在这里不显示分区。</li>
 <li class="">“中国出版”按出版机构所在国判断。CSCD、北大核心等收录情况没有开放数据，需要另行核对。</li>
 <li class="">数据反映检索当时 OpenAlex 和 DOAJ 的记录，可能比期刊官网更新得慢。</li>
 </ul>
