@@ -23,6 +23,10 @@ The analysis runs in the public `smiler488/image-quantifier` Hugging Face Space.
 
 :::
 
+:::info Validation
+Known-answer test of the hosted service (2026-10-14): synthetic leaves of known area next to a 25 mm reference square. With the square upright or rotated 45°, measured areas were within 2% of the true areas. Without a reference, the service reports pixel measurements only. The test script is `scripts/image-quantifier/known-answer.py` in the site repository.
+:::
+
 ## Before you start
 
 - Prepare one clear image with a plain, evenly lit background.
@@ -50,7 +54,7 @@ The analysis runs in the public `smiler488/image-quantifier` Hugging Face Space.
 | Sample type                           | Changes result ordering in the current implementation.                                                                   |
 | Expected count                        | Keeps at most the requested number of detected components.                                                               |
 | Reference mode                        | Shows `auto`, `coin`, and `square`; the current detector uses the same upper-left candidate search for all three labels. |
-| Reference size (mm)                   | Converts the detected reference bounding-box size from pixels to millimetres.                                            |
+| Reference size (mm)                   | Side of the square (or diameter of the coin) used to convert the detected reference's size from pixels to millimetres.   |
 | Min / Max area                        | Rejects connected components outside the selected pixel-area range.                                                      |
 | Color tolerance / HSV H lower / upper | Present in the interface for compatibility; the current foreground detector does not apply these values to its mask.     |
 | Correction mode: set-ref              | Uses the clicked detected component as the reference and recalculates measurements.                                      |
@@ -71,7 +75,7 @@ These color indices are visible-light summaries. They are not NDVI, chlorophyll 
 
 The hosted process downsizes images whose longest side exceeds 1024 pixels. It estimates background color from the four image corners in LAB color space, applies an Otsu threshold and morphological cleanup, and measures the remaining connected components.
 
-The detector treats a plausible upper-left component as the reference, derives scale from its largest bounding-box dimension, and uses PCA-based axes for component length, width, and angle. The expected-count setting then truncates the sorted component list. Corrections recompute the table, annotated image, CSV, and JSON from the selected components.
+The detector treats a plausible upper-left component as the reference. A round reference is measured as the diameter of the circle with the same area; any other shape as the mean side of its minimum-area rotated rectangle, so the scale does not change when the reference is rotated. Components are measured along PCA-based axes for component length, width, and angle. The expected-count setting then truncates the sorted component list. Corrections recompute the table, annotated image, CSV, and JSON from the selected components.
 
 ## Data, privacy & external services
 
@@ -84,7 +88,7 @@ The detector treats a plausible upper-left component as the reference, derives s
 
 :::caution Measurement validity
 
-Absolute dimensions are only as reliable as the detected reference, its entered size, image perspective, focus, and sample placement. If no suitable reference is found, the current service falls back to a nominal scale; those millimetre values must not be treated as calibrated measurements.
+Absolute dimensions are only as reliable as the detected reference, its entered size, image perspective, focus, and sample placement. If no suitable reference is found, the service reports measurements in pixels only and leaves the millimetre columns empty.
 
 :::
 
