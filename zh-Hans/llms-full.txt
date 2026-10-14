@@ -38,6 +38,7 @@
 - [标定板生成器](https://smiler488.github.io/zh-Hans/app/targets): 按精确毫米尺寸生成可打印的棋盘格与分段圆形标志，带版面校验与 PDF 导出。 [DIG]
 - [AI 数据可视化](https://smiler488.github.io/zh-Hans/app/ai-data-visualizer): 载入表格并基于全部数据绘图；可选的 AI 服务负责推荐图表类型，组间比较在本地进行方差分析与 Tukey 检验。 [UND]
 - [AI 期刊选择器](https://smiler488.github.io/zh-Hans/app/journal-selector): 根据已发表的相似论文和 OpenAlex、DOAJ 数据，找出发表过同类研究的期刊，并评估你的意向期刊；可选 AI 模型撰写投稿策略。
+- [数据诚信筛查](https://smiler488.github.io/zh-Hans/app/data-integrity): 对 CSV、TXT、Excel 科研数据筛查重复或近似重复记录、粘贴的数值序列、末位数字偏好、等步长和不可能的均值，并导出可逐个单元格复核的报告。
 - [多模态 AI 解题器](https://smiler488.github.io/zh-Hans/app/solver): 通过截屏、拍照或文字回答实验室安全考试题等问题：给出明确答案和理由，用第二次独立作答核对，并可自测所选模型。
 - [加密便签](https://smiler488.github.io/zh-Hans/app/cloudnote): 在浏览器内加密文本便签，通过 URL 片段分享，或在本地存储中保留一份带密码的副本。
 - [迷宫实验](https://smiler488.github.io/zh-Hans/app/maze): 一个紧凑的 canvas 实验：程序化迷宫生成、键盘与触摸输入、移动轨迹与本地计分。
