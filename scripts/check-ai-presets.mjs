@@ -1,87 +1,69 @@
 #!/usr/bin/env node
 /**
- * Check the AI provider presets (src/lib/aiProviders.js) against the current
- * OpenClaw and models.dev catalogs: every model ID must still exist, must not
- * be deprecated, and its image-input flag must match the catalog. Also lists
- * the most recent models.dev entries per provider that the presets leave out.
+ * Check the AI provider presets (src/lib/aiProviders.js) against the
+ * Universal AI Provider Registry, which merges the OpenClaw catalog and
+ * models.dev. Every preset model must be listed for its provider, must not be
+ * deprecated or retired in any source, and its image-input flag must match.
  *
- * usage: node scripts/check-ai-presets.mjs [openclaw.json models-dev.json]
- *        (downloads both catalogs when no files are given)
+ * usage: node scripts/check-ai-presets.mjs [catalog.json]
+ *        (downloads the registry when no file is given)
  */
 import { readFile } from "node:fs/promises";
 import { AI_PROVIDER_PRESETS } from "../src/lib/aiProviders.js";
 
-const OPENCLAW = "https://catalog.openclaw.ai/models/v2/catalog.json";
-const MODELS_DEV = "https://models.dev/api.json";
+const REGISTRY =
+  "https://smiler488.github.io/universal-ai-provider-registry/v1/catalog.json";
 
-async function load(file, url) {
+async function load(file) {
   if (file) return JSON.parse(await readFile(file, "utf8"));
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`${url}: ${res.status}`);
+  const res = await fetch(REGISTRY);
+  if (!res.ok) throw new Error(`${REGISTRY}: ${res.status}`);
   return res.json();
 }
 
-const [oc, md] = await Promise.all([
-  load(process.argv[2], OPENCLAW),
-  load(process.argv[3], MODELS_DEV),
-]);
+const registry = await load(process.argv[2]);
+console.log(`registry generated ${registry.generated_at}`);
 
-const ocModels = {};
-for (const m of oc.models) (ocModels[m.provider] ||= {})[m.id] = m;
-
-function lookup(source, id) {
-  const [kind, provider] = source.split(":");
-  if (kind === "md") {
-    const m = md[provider]?.models?.[id];
-    return (
-      m && {
-        deprecated: m.status === "deprecated",
-        vision: (m.modalities?.input || []).includes("image"),
-      }
-    );
-  }
-  const m = ocModels[provider]?.[id];
-  return (
-    m && {
-      deprecated: m.status === "deprecated",
-      vision: (m.input || []).includes("image"),
-    }
-  );
+const byProvider = new Map();
+for (const d of registry.deployments) {
+  if (!byProvider.has(d.provider_id)) byProvider.set(d.provider_id, new Map());
+  byProvider.get(d.provider_id).set(d.provider_model_id, d);
 }
 
+const ENDED = new Set(["deprecated", "retired"]);
+const ended = (d) =>
+  ENDED.has(d.lifecycle) || d.observations.some((o) => ENDED.has(o.lifecycle));
+
+let checked = 0;
 let problems = 0;
 for (const preset of AI_PROVIDER_PRESETS) {
-  if (!preset.catalog) continue;
+  if (!preset.registry) continue;
+  const listed = byProvider.get(preset.registry);
+  if (!listed) {
+    console.log(`NO PROVIDER ${preset.id} (registry id ${preset.registry})`);
+    problems += 1;
+    continue;
+  }
   for (const model of preset.models) {
-    const entry = lookup(preset.catalog, model.id);
+    const d = listed.get(model.id);
     const where = `${preset.id} / ${model.id}`;
-    if (!entry) {
+    checked += 1;
+    if (!d) {
       console.log(`MISSING     ${where}`);
       problems += 1;
-    } else if (entry.deprecated) {
+    } else if (ended(d)) {
       console.log(`DEPRECATED  ${where}`);
       problems += 1;
-    } else if (entry.vision !== Boolean(model.vision)) {
-      console.log(`VISION      ${where}: catalog says ${entry.vision}`);
+    } else if ((d.capabilities.vision === "supported") !== !!model.vision) {
+      console.log(`VISION      ${where}: registry ${d.capabilities.vision}`);
       problems += 1;
     }
-  }
-  const [kind, provider] = preset.catalog.split(":");
-  if (kind === "md") {
-    const offered = new Set(preset.models.map((m) => m.id));
-    const newest = Object.values(md[provider]?.models || {})
-      .filter((m) => m.status !== "deprecated" && !offered.has(m.id))
-      .sort((a, b) =>
-        (b.release_date || "").localeCompare(a.release_date || "")
-      )
-      .slice(0, 3)
-      .map((m) => `${m.id} (${m.release_date || "?"})`);
-    if (newest.length)
-      console.log(`not listed  ${preset.id}: ${newest.join(", ")}`);
   }
 }
 
 console.log(
-  problems ? `\n${problems} problem(s)` : "\nAll preset models found."
+  problems
+    ? `\n${problems} problem(s) in ${checked} preset models`
+    : `\nAll ${checked} preset models listed and current.`
 );
 process.exitCode = problems ? 1 : 0;

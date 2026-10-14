@@ -13,8 +13,8 @@ export default {
   "API format": "接口格式",
   Input: "输入",
   "Models and pricing ↗": "模型与价格 ↗",
-  "Provider presets follow the OpenClaw and models.dev catalogs (checked {0}); any other model the provider serves can be entered by ID.":
-    "服务商预设依据 OpenClaw 与 models.dev 模型目录（核对于 {0}）；服务商提供的其他模型可直接填写 ID 使用。",
+  "Provider presets follow the Universal AI Provider Registry, built from the OpenClaw and models.dev catalogs (checked {0}); any other model the provider serves can be entered by ID.":
+    "服务商预设依据 Universal AI Provider Registry（整合 OpenClaw 与 models.dev 模型目录，核对于 {0}）；服务商提供的其他模型可直接填写 ID 使用。",
   Clear: "清除",
   "Paste the key for this tab": "粘贴此标签页使用的密钥",
   "API key": "API 密钥",

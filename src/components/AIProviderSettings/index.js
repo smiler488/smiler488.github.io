@@ -248,7 +248,7 @@ export default function AIProviderSettings({
               "Experimental BYOK: the key is kept only in this tab’s memory, cleared on refresh or exit, and sent only to the endpoint shown above. A static website cannot protect it like a backend can. Use a restricted test key; for production, use your own authenticated proxy."
             )}{" "}
         {tx(
-          "Provider presets follow the OpenClaw and models.dev catalogs (checked {0}); any other model the provider serves can be entered by ID.",
+          "Provider presets follow the Universal AI Provider Registry, built from the OpenClaw and models.dev catalogs (checked {0}); any other model the provider serves can be entered by ID.",
           AI_CATALOG_CHECKED_AT
         )}
       </p>

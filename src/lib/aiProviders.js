@@ -2,11 +2,11 @@
  * AI providers and models offered by the App Lab's AI tools (Journal
  * Selector, AI Data Visualizer, Multimodal AI Solver).
  *
- * Endpoints, API formats and model IDs follow the OpenClaw model catalog
- * (catalog.openclaw.ai/models/v2/catalog.json) and models.dev (api.json);
- * `vision` marks models whose catalog entry lists image input. Checked
- * 2026-10-14; `catalog` names the source entry (md: models.dev provider,
- * oc: OpenClaw provider). Re-check with `node scripts/check-ai-presets.mjs`.
+ * Endpoints, API formats, model IDs and image input follow the Universal AI
+ * Provider Registry (smiler488.github.io/universal-ai-provider-registry),
+ * which merges the OpenClaw catalog and models.dev; `vision` marks models
+ * the registry lists as accepting images. `registry` is the provider ID
+ * there. Checked 2026-10-14; re-check with `node scripts/check-ai-presets.mjs`.
  *
  * protocol:
  *   openai            OpenAI-compatible Chat Completions
@@ -57,7 +57,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://platform.openai.com/docs/models",
-    catalog: "md:openai",
+    registry: "openai",
     description: {
       en: "Official Responses API. Browsers may be blocked by CORS; use your own proxy if so.",
       zh: "官方 Responses API。浏览器直连可能被跨域策略拦截，如遇拦截请使用自己的代理。",
@@ -78,7 +78,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.anthropic.com/v1/messages",
     endpointLocked: true,
     docs: "https://docs.anthropic.com/en/docs/about-claude/models",
-    catalog: "md:anthropic",
+    registry: "anthropic",
     description: {
       en: "Official Messages API with browser access enabled; some organizations disable it.",
       zh: "官方 Messages API，已开启浏览器直连；部分组织会关闭该权限。",
@@ -100,7 +100,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://ai.google.dev/gemini-api/docs/models",
-    catalog: "md:google",
+    registry: "google",
     description: {
       en: "Official Gemini API (generateContent). Restrict the key to this API.",
       zh: "官方 Gemini API（generateContent），请将密钥限制为仅用于该 API。",
@@ -125,7 +125,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.x.ai/v1/responses",
     endpointLocked: true,
     docs: "https://docs.x.ai/docs/models",
-    catalog: "md:xai",
+    registry: "xai",
     description: {
       en: "Official xAI Responses API (OpenAI-compatible).",
       zh: "xAI 官方 Responses API（兼容 OpenAI）。",
@@ -145,7 +145,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://docs.mistral.ai/getting-started/models/",
-    catalog: "md:mistral",
+    registry: "mistral",
     description: {
       en: "Official Mistral chat completions API.",
       zh: "Mistral 官方对话补全接口。",
@@ -172,7 +172,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.meta.ai/v1/responses",
     endpointLocked: true,
     docs: "https://api.meta.ai",
-    catalog: "md:meta",
+    registry: "meta",
     description: {
       en: "Meta's model API (OpenAI Responses format).",
       zh: "Meta 模型 API（OpenAI Responses 格式）。",
@@ -191,7 +191,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://api-docs.deepseek.com/quick_start/pricing",
-    catalog: "md:deepseek",
+    registry: "deepseek",
     description: {
       en: "Official DeepSeek API (OpenAI-compatible).",
       zh: "DeepSeek 官方接口（兼容 OpenAI）。",
@@ -214,7 +214,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://help.aliyun.com/zh/model-studio/models",
-    catalog: "md:alibaba-cn",
+    registry: "alibaba-cn",
     description: {
       en: "Model Studio, Beijing region. Keys are bound to their region.",
       zh: "百炼北京地域接口，密钥与地域绑定。",
@@ -241,7 +241,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://www.alibabacloud.com/help/en/model-studio/models",
-    catalog: "md:alibaba",
+    registry: "alibaba",
     description: {
       en: "Model Studio, Singapore region. Keys are bound to their region.",
       zh: "百炼新加坡地域接口，密钥与地域绑定。",
@@ -262,7 +262,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://platform.moonshot.cn/docs/api/chat",
-    catalog: "md:moonshotai-cn",
+    registry: "moonshotai-cn",
     description: {
       en: "Official Kimi API, mainland platform.",
       zh: "Kimi 官方接口（国内平台）。",
@@ -284,7 +284,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://platform.moonshot.ai/docs/api/chat",
-    catalog: "md:moonshotai",
+    registry: "moonshotai",
     description: {
       en: "Official Kimi API, global platform.",
       zh: "Kimi 官方接口（国际平台）。",
@@ -306,7 +306,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://docs.bigmodel.cn",
-    catalog: "md:zhipuai",
+    registry: "zhipuai",
     description: {
       en: "Official Zhipu GLM API, mainland platform.",
       zh: "智谱 GLM 官方接口（国内平台）。",
@@ -327,7 +327,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://docs.z.ai/guides/overview/pricing",
-    catalog: "md:zai",
+    registry: "zai",
     description: {
       en: "Official GLM API, global platform.",
       zh: "GLM 官方接口（国际平台）。",
@@ -347,7 +347,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.minimax.cn/anthropic/v1/messages",
     endpointLocked: true,
     docs: "https://platform.minimaxi.com/docs/guides/quickstart",
-    catalog: "md:minimax-cn",
+    registry: "minimax-cn",
     description: {
       en: "Official MiniMax API in Anthropic Messages format, mainland platform.",
       zh: "MiniMax 官方接口（Anthropic Messages 格式，国内平台）。",
@@ -366,7 +366,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.minimax.io/anthropic/v1/messages",
     endpointLocked: true,
     docs: "https://platform.minimax.io/docs/guides/quickstart",
-    catalog: "md:minimax",
+    registry: "minimax",
     description: {
       en: "Official MiniMax API in Anthropic Messages format, global platform.",
       zh: "MiniMax 官方接口（Anthropic Messages 格式，国际平台）。",
@@ -385,7 +385,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
     endpointLocked: true,
     docs: "https://www.volcengine.com/docs/82379",
-    catalog: "md:volcengine",
+    registry: "volcengine",
     description: {
       en: "Volcengine Ark, Beijing region. Model IDs carry a version date; endpoint IDs (ep-…) also work.",
       zh: "火山方舟北京地域接口。模型 ID 带版本日期，也可填写推理接入点 ID（ep-…）。",
@@ -410,7 +410,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://tokenhub.tencentmaas.com/v1/chat/completions",
     endpointLocked: true,
     docs: "https://cloud.tencent.com/document/product/1729",
-    catalog: "md:tencent-tokenhub",
+    registry: "tencent-tokenhub",
     description: {
       en: "Tencent TokenHub, Guangzhou region. Keys can be limited by model and quota.",
       zh: "腾讯 TokenHub 广州地域接口，密钥可按模型和额度限制。",
@@ -428,7 +428,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://qianfan.baidubce.com/v2/chat/completions",
     endpointLocked: true,
     docs: "https://cloud.baidu.com/doc/qianfan-api/index.html",
-    catalog: "oc:qianfan",
+    registry: "qianfan",
     description: {
       en: "Baidu Qianfan v2 API (OpenAI-compatible); use a Qianfan API key.",
       zh: "百度千帆 v2 接口（兼容 OpenAI），请使用千帆 API Key。",
@@ -447,7 +447,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.stepfun.com/v1/chat/completions",
     endpointLocked: true,
     docs: "https://platform.stepfun.com/docs/overview/concept",
-    catalog: "md:stepfun",
+    registry: "stepfun",
     description: {
       en: "Official StepFun API (OpenAI-compatible).",
       zh: "阶跃星辰官方接口（兼容 OpenAI）。",
@@ -465,7 +465,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.xiaomimimo.com/v1/chat/completions",
     endpointLocked: true,
     docs: "https://platform.xiaomimimo.com",
-    catalog: "md:xiaomi",
+    registry: "xiaomi",
     description: {
       en: "Official Xiaomi MiMo API (OpenAI-compatible).",
       zh: "小米 MiMo 官方接口（兼容 OpenAI）。",
@@ -483,7 +483,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://openrouter.ai/api/v1/chat/completions",
     endpointLocked: true,
     docs: "https://openrouter.ai/models",
-    catalog: "md:openrouter",
+    registry: "openrouter",
     description: {
       en: "One key for models from many developers; IDs take the form developer/model.",
       zh: "一个密钥调用多家模型，模型 ID 形如“开发方/模型”。",
@@ -516,7 +516,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://docs.siliconflow.cn",
-    catalog: "md:siliconflow-cn",
+    registry: "siliconflow-cn",
     description: {
       en: "Open-weight models hosted in mainland China (OpenAI-compatible).",
       zh: "国内托管的开源权重模型（兼容 OpenAI）。",
@@ -549,7 +549,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://docs.siliconflow.com",
-    catalog: "md:siliconflow",
+    registry: "siliconflow",
     description: {
       en: "Open-weight models, global platform (OpenAI-compatible).",
       zh: "开源权重模型国际平台（兼容 OpenAI）。",
@@ -575,7 +575,7 @@ export const AI_PROVIDER_PRESETS = [
     endpointLocked: true,
     supportsJsonMode: true,
     docs: "https://console.groq.com/docs/models",
-    catalog: "md:groq",
+    registry: "groq",
     description: {
       en: "Low-latency inference of open-weight models.",
       zh: "低延迟的开源权重模型推理服务。",
@@ -583,7 +583,6 @@ export const AI_PROVIDER_PRESETS = [
     models: [
       { id: "qwen/qwen3.8-27b", label: "Qwen3.8 27B", vision: true },
       { id: "openai/gpt-oss-120b", label: "GPT OSS 120B" },
-      { id: "llama-3.3-70b-versatile", label: "Llama 3.3 70B" },
     ],
   },
   {
@@ -594,7 +593,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.together.xyz/v1/chat/completions",
     endpointLocked: true,
     docs: "https://docs.together.ai/docs/serverless-models",
-    catalog: "md:togetherai",
+    registry: "togetherai",
     description: {
       en: "Serverless inference of open-weight models.",
       zh: "开源权重模型的无服务器推理平台。",
@@ -618,7 +617,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.fireworks.ai/inference/v1/chat/completions",
     endpointLocked: true,
     docs: "https://fireworks.ai/models",
-    catalog: "md:fireworks-ai",
+    registry: "fireworks-ai",
     description: {
       en: "Serverless inference of open-weight models.",
       zh: "开源权重模型的无服务器推理平台。",
@@ -651,7 +650,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://api.deepinfra.com/v1/openai/chat/completions",
     endpointLocked: true,
     docs: "https://deepinfra.com/models",
-    catalog: "md:deepinfra",
+    registry: "deepinfra",
     description: {
       en: "Serverless inference of open-weight models.",
       zh: "开源权重模型的无服务器推理平台。",
@@ -676,7 +675,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://integrate.api.nvidia.com/v1/chat/completions",
     endpointLocked: true,
     docs: "https://build.nvidia.com/models",
-    catalog: "md:nvidia",
+    registry: "nvidia",
     description: {
       en: "NVIDIA API catalog. Browsers may be blocked by CORS.",
       zh: "NVIDIA API 目录。浏览器直连可能被跨域策略拦截。",
@@ -706,7 +705,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://router.huggingface.co/v1/chat/completions",
     endpointLocked: true,
     docs: "https://huggingface.co/inference/models",
-    catalog: "md:huggingface",
+    registry: "huggingface",
     description: {
       en: "Routes to partner inference providers; use a token with inference permission.",
       zh: "路由到合作推理服务商，请使用带推理权限的访问令牌。",
@@ -731,7 +730,7 @@ export const AI_PROVIDER_PRESETS = [
     endpoint: "https://ollama.com/v1/chat/completions",
     endpointLocked: true,
     docs: "https://ollama.com/search?c=cloud",
-    catalog: "md:ollama-cloud",
+    registry: "ollama-cloud",
     description: {
       en: "Ollama's hosted models (OpenAI-compatible).",
       zh: "Ollama 云端托管模型（兼容 OpenAI）。",
