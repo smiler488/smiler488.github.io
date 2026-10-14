@@ -2,60 +2,85 @@ import React from "react";
 
 /**
  * CustomCursor — frosted-glass circular cursor with glow ring.
- * Renders a soft blurred dot + an outer glow ring that follows the mouse.
- * Hidden on touch devices and when prefers-reduced-motion is set.
+ *
+ * It switches on from the actual input, not from device detection: the dot
+ * and ring stay hidden (and the system cursor stays visible) until a mouse
+ * pointer moves. Touch or pen input hides them again. This matters on
+ * Windows laptops with touch screens, which report touch support and a fine
+ * pointer at the same time. Skipped entirely with prefers-reduced-motion.
  */
+const ON_CLASS = "custom-cursor-on";
+
 export default function CustomCursor() {
   const dotRef = React.useRef(null);
   const ringRef = React.useRef(null);
 
   React.useEffect(() => {
-    // Detect touch device — skip custom cursor on touch
-    const hasTouch =
-      "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (hasTouch) return undefined;
-
-    // Respect reduced-motion preference
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motionQuery.matches) return undefined;
-
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return undefined;
+    const root = document.documentElement;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+    let mouseX = -100;
+    let mouseY = -100;
     let dotX = mouseX;
     let dotY = mouseY;
     let ringX = mouseX;
     let ringY = mouseY;
     let rafId = 0;
-    let active = true;
-
-    const onMouseMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-
-    const onMouseLeave = () => {
-      // Move cursor off-screen when mouse leaves the window
-      mouseX = -100;
-      mouseY = -100;
-    };
+    let enabled = false; // a mouse is the current input
 
     const animate = () => {
-      if (!active) return;
-
-      // Smooth lerp — dot follows closely, ring trails slightly behind
+      rafId = 0;
+      if (!enabled) return;
+      // Smooth lerp — dot follows closely, ring trails slightly behind.
       dotX += (mouseX - dotX) * 0.18;
       dotY += (mouseY - dotY) * 0.18;
       ringX += (mouseX - ringX) * 0.1;
       ringY += (mouseY - ringY) * 0.1;
-
       dot.style.transform = `translate3d(${dotX - 4}px, ${dotY - 4}px, 0)`;
       ring.style.transform = `translate3d(${ringX - 18}px, ${ringY - 18}px, 0)`;
-
       rafId = requestAnimationFrame(animate);
+    };
+
+    const enable = (x, y) => {
+      if (enabled || motionQuery.matches) return;
+      enabled = true;
+      // Start at the pointer, not at the top-left corner.
+      dotX = ringX = mouseX = x;
+      dotY = ringY = mouseY = y;
+      root.classList.add(ON_CLASS);
+      if (!rafId) rafId = requestAnimationFrame(animate);
+    };
+
+    const disable = () => {
+      enabled = false;
+      root.classList.remove(ON_CLASS);
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = 0;
+    };
+
+    const onPointerMove = (e) => {
+      if (e.pointerType !== "mouse") {
+        disable();
+        return;
+      }
+      if (!enabled) enable(e.clientX, e.clientY);
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const onPointerDown = (e) => {
+      if (e.pointerType !== "mouse") disable();
+    };
+
+    // Leaving the window: park the cursor off-screen.
+    const onMouseOut = (e) => {
+      if (!e.relatedTarget) {
+        mouseX = -100;
+        mouseY = -100;
+      }
     };
 
     // Selector for interactive elements that should trigger hover state
@@ -63,54 +88,38 @@ export default function CustomCursor() {
       "a, button, [role='button'], input, select, textarea, label, [tabindex]:not([tabindex='-1']), [class*='card'], [class*='btn']";
 
     const onMouseOver = (e) => {
-      const target = e.target.closest(INTERACTIVE_SEL);
-      if (target) {
+      if (e.target.closest?.(INTERACTIVE_SEL)) {
         dot.classList.add("hovering");
         ring.classList.add("hovering");
       }
     };
 
-    const onMouseOut = (e) => {
-      const target = e.target.closest(INTERACTIVE_SEL);
-      if (target) {
-        // Only remove if we're truly leaving the interactive element
-        const related = e.relatedTarget;
-        if (!related || !target.contains(related)) {
-          dot.classList.remove("hovering");
-          ring.classList.remove("hovering");
-        }
+    const onHoverOut = (e) => {
+      const target = e.target.closest?.(INTERACTIVE_SEL);
+      if (target && !(e.relatedTarget && target.contains(e.relatedTarget))) {
+        dot.classList.remove("hovering");
+        ring.classList.remove("hovering");
       }
     };
-
-    document.addEventListener("mouseover", onMouseOver, { passive: true });
-    document.addEventListener("mouseout", onMouseOut, { passive: true });
-
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    window.addEventListener("mouseleave", onMouseLeave, { passive: true });
-    rafId = requestAnimationFrame(animate);
 
     const onMotionChange = (e) => {
-      if (e.matches) {
-        active = false;
-        cancelAnimationFrame(rafId);
-        dot.style.opacity = "0";
-        ring.style.opacity = "0";
-      } else {
-        active = true;
-        dot.style.opacity = "";
-        ring.style.opacity = "";
-        rafId = requestAnimationFrame(animate);
-      }
+      if (e.matches) disable();
     };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
+    document.addEventListener("mouseout", onMouseOut, { passive: true });
+    document.addEventListener("mouseover", onMouseOver, { passive: true });
+    document.addEventListener("mouseout", onHoverOut, { passive: true });
     motionQuery.addEventListener("change", onMotionChange);
 
     return () => {
-      active = false;
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseleave", onMouseLeave);
-      document.removeEventListener("mouseover", onMouseOver);
+      disable();
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("mouseout", onMouseOut);
+      document.removeEventListener("mouseover", onMouseOver);
+      document.removeEventListener("mouseout", onHoverOut);
       motionQuery.removeEventListener("change", onMotionChange);
     };
   }, []);

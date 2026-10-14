@@ -1609,6 +1609,13 @@ html {
   will-change: transform;
   border-radius: 50%;
   mix-blend-mode: difference;
+  /* Hidden until a mouse moves (CustomCursor adds .custom-cursor-on). */
+  opacity: 0;
+}
+
+.custom-cursor-on .custom-cursor-dot,
+.custom-cursor-on .custom-cursor-ring {
+  opacity: 1;
 }
 
 .custom-cursor-dot {
@@ -1646,11 +1653,10 @@ html {
   box-shadow: 0 0 20px color-mix(in srgb, var(--ifm-color-primary) 25%, transparent), inset 0 0 12px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
 }
 
-/* Hide default cursor on interactive elements */
-@media (pointer: fine) {
-  a, button, [role="button"], input, select, textarea, label, [tabindex]:not([tabindex="-1"]) {
-    cursor: none !important;
-  }
+/* Hide the system cursor on interactive elements only while the custom
+   cursor is actually following a mouse. */
+.custom-cursor-on :is(a, button, [role="button"], input, select, textarea, label, [tabindex]:not([tabindex="-1"])) {
+  cursor: none !important;
 }
 
 /* NOTE: the global hover "glow" layer (green text-shadow on links, a
@@ -1681,13 +1687,6 @@ html {
   box-shadow: 0 0 28px color-mix(in srgb, var(--ifm-color-primary) 35%, transparent), inset 0 0 16px color-mix(in srgb, var(--ifm-color-primary) 15%, transparent);
 }
 
-/* Hide custom cursor on touch devices */
-@media (pointer: coarse) {
-  .custom-cursor-dot,
-  .custom-cursor-ring {
-    display: none !important;
-  }
-}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
