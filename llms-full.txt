@@ -37,7 +37,7 @@ Free tools that run in the browser; data stays on the visitor's device unless an
 - [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres. [DIG]
 - [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboards and segmented circular markers at exact millimetre sizes, with fit checks and PDF export. [DIG]
 - [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table and chart it from the full data; an optional AI provider suggests the chart, and group comparisons run ANOVA and Tukey tests locally. [UND]
-- [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose.
+- [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data; an AI model you choose can add a written submission strategy.
 - [Multimodal AI Solver](https://smiler488.github.io/app/solver): Ask with text, camera or screen capture and send the prompt to the visual AI model and API provider you configure.
 - [Encrypted Note](https://smiler488.github.io/app/cloudnote): Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage.
 - [Research Maze](https://smiler488.github.io/app/maze): A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores.
