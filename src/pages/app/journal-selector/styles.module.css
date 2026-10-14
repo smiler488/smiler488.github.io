@@ -94,7 +94,6 @@
   grid-column: 1 / -1;
 }
 
-.modelSection,
 .referencePanel,
 .actionPanel,
 .resultsSection,
@@ -274,7 +273,11 @@
   min-width: 0;
   padding: 10px;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--ifm-color-emphasis-100) 72%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--ifm-color-emphasis-100) 72%,
+    transparent
+  );
 }
 
 .quickFacts dt,
@@ -404,4 +407,8 @@
   text-decoration: underline;
   text-decoration-color: var(--ifm-color-emphasis-300);
   text-underline-offset: 3px;
+}
+
+.modelSection {
+  margin-bottom: 18px;
 }

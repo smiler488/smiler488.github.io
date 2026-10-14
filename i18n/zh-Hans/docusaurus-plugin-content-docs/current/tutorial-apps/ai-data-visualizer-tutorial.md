@@ -36,6 +36,7 @@ AI 数据可视化器在浏览器中加载表格，分析其列属性，并创�
 - 接受的文件格式为 CSV、TSV、XLSX、XLS 和 JSON，最大 20 MB。
 - 一个有用的本地图表通常需要至少一个数值列。
 - 实时 AI 分析需要网络访问、服务商/模型和你自己的 API 密钥。
+- 服务商列表涵盖 OpenAI、Anthropic、Google Gemini、xAI、Mistral、Meta；DeepSeek、通义千问、Kimi、智谱 GLM、MiniMax、豆包、混元、文心、阶跃星辰、小米 MiMo；OpenRouter、硅基流动、Groq、Together AI、Hugging Face 等聚合平台；本机运行的 Ollama 或 LM Studio；以及任何兼容 OpenAI 或 Anthropic 格式的接口。每个模型都标明“图像 + 文本”或“仅文本”。
 - 直接浏览器调用仅在该服务商允许跨域请求（CORS）时才能工作。
 
 ## 快速流程

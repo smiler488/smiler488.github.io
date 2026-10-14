@@ -1,131 +1,23 @@
+import {
+  AI_CATALOG_CHECKED_AT,
+  AI_PROVIDER_GROUPS,
+  AI_PROVIDER_PRESETS,
+} from "./aiProviders.js";
+import { IS_ZH, makeToolText } from "./i18n/toolText.js";
+import ZH from "./api_zh.js";
+
+const tx = makeToolText(ZH);
+
 const DEFAULT_SYSTEM_PROMPT =
   "Be accurate, concise, and explicit about uncertainty. Follow the requested output format.";
 
-export const AI_PROVIDER_PRESETS = [
-  {
-    id: "demo",
-    name: "Local demo",
-    protocol: "mock",
-    endpoint: "",
-    description:
-      "Runs a local sample response without sending data or requiring a key.",
-    models: [{ id: "local-demo", label: "Local demo" }],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "openai",
-    name: "OpenAI",
-    protocol: "openai",
-    endpoint: "https://api.openai.com/v1/chat/completions",
-    endpointLocked: true,
-    supportsJsonMode: true,
-    description:
-      "Official OpenAI Chat Completions endpoint. Direct browser use may be blocked.",
-    models: [
-      { id: "gpt-5.6-terra", label: "GPT-5.6 Terra", vision: true },
-      { id: "gpt-5.6-luna", label: "GPT-5.6 Luna", vision: true },
-      { id: "gpt-5.6", label: "GPT-5.6", vision: true },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "anthropic",
-    name: "Anthropic Claude",
-    protocol: "anthropic",
-    endpoint: "https://api.anthropic.com/v1/messages",
-    endpointLocked: true,
-    description:
-      "Official Anthropic Messages endpoint. Some organizations disable browser CORS.",
-    models: [
-      { id: "claude-sonnet-5", label: "Claude Sonnet 5", vision: true },
-      {
-        id: "claude-haiku-4-5-20251001",
-        label: "Claude Haiku 4.5",
-        vision: true,
-      },
-      { id: "claude-opus-4-8", label: "Claude Opus 4.8", vision: true },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "gemini",
-    name: "Google Gemini",
-    protocol: "gemini",
-    endpoint:
-      "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-    endpointLocked: true,
-    supportsJsonMode: true,
-    description:
-      "Official Google generateContent endpoint. Use a restricted key for testing only.",
-    models: [
-      { id: "gemini-3.5-flash", label: "Gemini 3.5 Flash", vision: true },
-      {
-        id: "gemini-3.1-flash-lite",
-        label: "Gemini 3.1 Flash Lite",
-        vision: true,
-      },
-      {
-        id: "gemini-3.1-pro-preview",
-        label: "Gemini 3.1 Pro Preview",
-        vision: true,
-      },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "deepseek",
-    name: "DeepSeek",
-    protocol: "openai",
-    endpoint: "https://api.deepseek.com/chat/completions",
-    endpointLocked: true,
-    description: "DeepSeek OpenAI-compatible API.",
-    models: [
-      { id: "deepseek-v4-flash", label: "DeepSeek V4 Flash" },
-      { id: "deepseek-v4-pro", label: "DeepSeek V4 Pro" },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "qwen",
-    name: "Alibaba Qwen (China)",
-    protocol: "openai",
-    endpoint:
-      "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
-    endpointLocked: true,
-    description:
-      "Alibaba Cloud Model Studio Beijing endpoint. Keys are region-bound.",
-    models: [
-      { id: "qwen3.7-plus", label: "Qwen 3.7 Plus" },
-      { id: "qwen3.7-max", label: "Qwen 3.7 Max" },
-      { id: "qwen3.6-flash", label: "Qwen 3.6 Flash" },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "hunyuan",
-    name: "Tencent Hunyuan",
-    protocol: "openai",
-    endpoint: "https://tokenhub.tencentmaas.com/v1/chat/completions",
-    endpointLocked: true,
-    description:
-      "Tencent TokenHub Guangzhou endpoint. Keys can be limited by model and quota.",
-    models: [
-      { id: "hy3", label: "Hunyuan HY 3" },
-      { id: "hy3-preview", label: "Hunyuan HY 3 Preview" },
-    ],
-    lastVerifiedAt: "2026-07-15",
-  },
-  {
-    id: "custom",
-    name: "Custom compatible API",
-    protocol: "openai",
-    endpoint: "",
-    description:
-      "Advanced: an HTTPS OpenAI-compatible endpoint that you trust.",
-    models: [],
-    lastVerifiedAt: null,
-  },
-];
+export { AI_CATALOG_CHECKED_AT, AI_PROVIDER_GROUPS, AI_PROVIDER_PRESETS };
+
+/** Provider names and descriptions are stored as { en, zh }. */
+export function localized(value) {
+  if (value && typeof value === "object") return IS_ZH ? value.zh : value.en;
+  return value || "";
+}
 
 export function getAIProvider(providerId) {
   return (
@@ -176,12 +68,20 @@ function normalizeImage(input) {
   return null;
 }
 
+function questionText(input) {
+  return (input.question || "").trim() || "Please analyze the provided input.";
+}
+
+function bearerHeaders(apiKey) {
+  const headers = { "Content-Type": "application/json" };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+  return headers;
+}
+
 function buildOpenAIRequest(config, provider, input, options) {
   const image = normalizeImage(input);
-  const content = [];
-  const question =
-    (input.question || "").trim() || "Please analyze the provided input.";
-  content.push({ type: "text", text: question });
+  const question = questionText(input);
+  const content = [{ type: "text", text: question }];
   if (image?.url) {
     content.push({ type: "image_url", image_url: { url: image.url } });
   }
@@ -197,19 +97,32 @@ function buildOpenAIRequest(config, provider, input, options) {
     ],
     stream: false,
   };
-
+  if (options.maxTokens) body.max_tokens = options.maxTokens;
   if (options.jsonMode && provider.supportsJsonMode) {
     body.response_format = { type: "json_object" };
   }
 
-  return {
-    url: config.endpoint,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${config.apiKey}`,
-    },
-    body,
+  return { url: config.endpoint, headers: bearerHeaders(config.apiKey), body };
+}
+
+// OpenAI Responses API (OpenAI, xAI, Meta).
+function buildResponsesRequest(config, provider, input, options) {
+  const image = normalizeImage(input);
+  const content = [{ type: "input_text", text: questionText(input) }];
+  if (image?.url) content.push({ type: "input_image", image_url: image.url });
+
+  const body = {
+    model: config.model,
+    instructions: options.systemPrompt || DEFAULT_SYSTEM_PROMPT,
+    input: [{ role: "user", content }],
+    store: false,
   };
+  if (options.maxTokens) body.max_output_tokens = options.maxTokens;
+  if (options.jsonMode && provider.supportsJsonMode) {
+    body.text = { format: { type: "json_object" } };
+  }
+
+  return { url: config.endpoint, headers: bearerHeaders(config.apiKey), body };
 }
 
 function buildAnthropicRequest(config, input, options) {
@@ -227,19 +140,22 @@ function buildAnthropicRequest(config, input, options) {
   } else if (image?.url) {
     content.push({ type: "image", source: { type: "url", url: image.url } });
   }
-  content.push({
-    type: "text",
-    text: (input.question || "").trim() || "Please analyze the provided input.",
-  });
+  content.push({ type: "text", text: questionText(input) });
+
+  const headers = {
+    "Content-Type": "application/json",
+    "x-api-key": config.apiKey,
+    "anthropic-version": "2023-06-01",
+  };
+  // Anthropic requires this opt-in for browser calls; other servers that
+  // speak the Messages format may reject the unknown header in preflight.
+  if (/^https:\/\/api\.anthropic\.com\//.test(config.endpoint)) {
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+  }
 
   return {
     url: config.endpoint,
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": config.apiKey,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true",
-    },
+    headers,
     body: {
       model: config.model,
       max_tokens: options.maxTokens || 4096,
@@ -260,9 +176,7 @@ function buildGeminiRequest(config, input, options) {
       },
     });
   }
-  parts.push({
-    text: (input.question || "").trim() || "Please analyze the provided input.",
-  });
+  parts.push({ text: questionText(input) });
 
   const body = {
     system_instruction: {
@@ -270,8 +184,11 @@ function buildGeminiRequest(config, input, options) {
     },
     contents: [{ role: "user", parts }],
   };
-  if (options.jsonMode) {
-    body.generationConfig = { responseMimeType: "application/json" };
+  const generationConfig = {};
+  if (options.jsonMode) generationConfig.responseMimeType = "application/json";
+  if (options.maxTokens) generationConfig.maxOutputTokens = options.maxTokens;
+  if (Object.keys(generationConfig).length) {
+    body.generationConfig = generationConfig;
   }
 
   return {
@@ -286,37 +203,49 @@ function buildGeminiRequest(config, input, options) {
 
 export function buildAIRequest(config, input, options = {}) {
   const provider = getAIProvider(config.provider);
-  if (provider.protocol === "anthropic") {
-    return buildAnthropicRequest(config, input, options);
+  switch (provider.protocol) {
+    case "anthropic":
+      return buildAnthropicRequest(config, input, options);
+    case "gemini":
+      return buildGeminiRequest(config, input, options);
+    case "openai-responses":
+      return buildResponsesRequest(config, provider, input, options);
+    default:
+      return buildOpenAIRequest(config, provider, input, options);
   }
-  if (provider.protocol === "gemini") {
-    return buildGeminiRequest(config, input, options);
-  }
-  return buildOpenAIRequest(config, provider, input, options);
+}
+
+function joinText(parts) {
+  return parts
+    .map((part) => part?.text || "")
+    .filter(Boolean)
+    .join("\n");
 }
 
 export function extractAssistantText(data) {
   if (Array.isArray(data?.choices) && data.choices.length > 0) {
     const content = data.choices[0]?.message?.content;
     if (typeof content === "string") return content;
-    if (Array.isArray(content)) {
-      return content
-        .map((part) => part?.text || "")
-        .filter(Boolean)
-        .join("\n");
-    }
+    if (Array.isArray(content)) return joinText(content);
+  }
+  // Responses API: message items carry output_text parts.
+  if (Array.isArray(data?.output)) {
+    return joinText(
+      data.output
+        .filter((item) => item?.type === "message")
+        .flatMap((item) => item.content || [])
+        .filter((part) => part?.type === "output_text")
+    );
   }
   if (Array.isArray(data?.content)) {
-    return data.content
-      .map((part) => part?.text || "")
-      .filter(Boolean)
-      .join("\n");
+    return joinText(data.content.filter((part) => part?.type !== "thinking"));
   }
   if (Array.isArray(data?.candidates)) {
-    return (data.candidates[0]?.content?.parts || [])
-      .map((part) => part?.text || "")
-      .filter(Boolean)
-      .join("\n");
+    return joinText(
+      (data.candidates[0]?.content?.parts || []).filter(
+        (part) => !part?.thought
+      )
+    );
   }
   if (data?.Response && Array.isArray(data.Response.Choices)) {
     return data.Response.Choices[0]?.Message?.Content || "";
@@ -345,17 +274,18 @@ export async function requestAI(config, input, options = {}) {
     return { text: extractAssistantText(raw), raw, usage: extractUsage(raw) };
   }
 
+  const providerName = localized(provider.name);
   const effectiveEndpoint = provider.endpointLocked
     ? provider.endpoint
     : config.endpoint;
   if (!effectiveEndpoint?.trim()) {
-    throw new Error("Enter an API endpoint before sending a request.");
+    throw new Error(tx("Enter an API endpoint before sending a request."));
   }
   if (!config.model?.trim()) {
-    throw new Error("Choose or enter a model before sending a request.");
+    throw new Error(tx("Choose or enter a model before sending a request."));
   }
-  if (!config.apiKey?.trim()) {
-    throw new Error("Enter the API key for the selected provider.");
+  if (!config.apiKey?.trim() && !provider.keyOptional) {
+    throw new Error(tx("Enter the API key for the selected provider."));
   }
 
   const selectedModel = provider.models.find(
@@ -363,35 +293,47 @@ export async function requestAI(config, input, options = {}) {
   );
   if (options.requireVision && selectedModel && !selectedModel.vision) {
     throw new Error(
-      `${selectedModel.label} is not marked as an image-capable model.`
+      tx("{0} does not accept image input.", selectedModel.label)
     );
   }
 
+  assertSafeEndpoint(effectiveEndpoint.trim());
   const request = buildAIRequest(
     {
       ...config,
       endpoint: effectiveEndpoint.trim(),
       model: config.model.trim(),
-      apiKey: config.apiKey.trim(),
+      apiKey: (config.apiKey || "").trim(),
     },
     input,
     options
   );
   assertSafeEndpoint(request.url);
-  const response = await fetch(request.url, {
-    method: "POST",
-    headers: request.headers,
-    body: JSON.stringify(request.body),
-    signal: options.signal,
-  });
+
+  let response;
+  try {
+    response = await fetch(request.url, {
+      method: "POST",
+      headers: request.headers,
+      body: JSON.stringify(request.body),
+      signal: options.signal,
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") throw error;
+    throw new Error(
+      tx(
+        "Could not reach {0}. The browser may have blocked the request (CORS), or the server is offline.",
+        providerName
+      )
+    );
+  }
 
   if (!response.ok) {
     const rawError = await response.text().catch(() => "");
     const detail = sanitizeErrorDetail(rawError, config.apiKey);
     throw new Error(
-      `${provider.name} returned ${response.status}${
-        detail ? `: ${detail}` : ""
-      }`
+      tx("{0} returned {1}", providerName, response.status) +
+        (detail ? `: ${detail}` : "")
     );
   }
 
@@ -404,7 +346,7 @@ function assertSafeEndpoint(value) {
   try {
     url = new URL(value);
   } catch {
-    throw new Error("Enter a valid absolute API endpoint.");
+    throw new Error(tx("Enter a valid absolute API endpoint."));
   }
   const localDevelopmentHost = ["localhost", "127.0.0.1", "[::1]"].includes(
     url.hostname
@@ -414,11 +356,11 @@ function assertSafeEndpoint(value) {
     !(url.protocol === "http:" && localDevelopmentHost)
   ) {
     throw new Error(
-      "API endpoints must use HTTPS (HTTP is allowed only on localhost)."
+      tx("API endpoints must use HTTPS (HTTP is allowed only on localhost).")
     );
   }
   if (url.username || url.password) {
-    throw new Error("Do not place credentials in the API endpoint URL.");
+    throw new Error(tx("Do not place credentials in the API endpoint URL."));
   }
 }
 

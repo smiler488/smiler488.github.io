@@ -36,6 +36,7 @@ Your original file is parsed locally. Use **Local demo** or **Apply field mappin
 - Accepted files are CSV, TSV, XLSX, XLS and JSON, up to 20 MB.
 - A useful local chart normally needs at least one numeric column.
 - Live AI analysis requires network access, a provider/model and your own API key.
+- The provider list covers OpenAI, Anthropic, Google Gemini, xAI, Mistral and Meta; DeepSeek, Qwen, Kimi, GLM, MiniMax, Doubao, Hunyuan, ERNIE, StepFun and MiMo; aggregators such as OpenRouter, SiliconFlow, Groq, Together AI and Hugging Face; Ollama or LM Studio running on your computer; and any OpenAI- or Anthropic-compatible endpoint. Each model is marked as image + text or text only.
 - Direct browser calls work only when that provider permits cross-origin requests (CORS).
 
 ## Quick workflow

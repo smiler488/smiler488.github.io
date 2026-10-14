@@ -1,33 +1,24 @@
 /** Chinese interface text for this tool (src/lib/i18n/toolText.js). */
 export default {
   "Local demo": "本地演示",
-  "Runs a local sample response without sending data or requiring a key.":
-    "在本地生成示例结果，不发送数据，也不需要密钥。",
-  "Official OpenAI Chat Completions endpoint. Direct browser use may be blocked.":
-    "OpenAI 官方 Chat Completions 接口，浏览器直接调用可能被拦截。",
-  "Anthropic Claude": "Anthropic Claude",
-  "Official Anthropic Messages endpoint. Some organizations disable browser CORS.":
-    "Anthropic 官方 Messages 接口，部分组织禁用了浏览器跨域访问。",
-  "Google Gemini": "Google Gemini",
-  "Official Google generateContent endpoint. Use a restricted key for testing only.":
-    "Google 官方 generateContent 接口，请只用受限密钥做测试。",
-  "DeepSeek OpenAI-compatible API.": "DeepSeek 的 OpenAI 兼容接口。",
-  "Alibaba Qwen (China)": "阿里云通义千问（中国区）",
-  "Alibaba Cloud Model Studio Beijing endpoint. Keys are region-bound.":
-    "阿里云百炼北京区接口，密钥与地域绑定。",
-  "Tencent Hunyuan": "腾讯混元",
-  "Tencent TokenHub Guangzhou endpoint. Keys can be limited by model and quota.":
-    "腾讯 TokenHub 广州区接口，密钥可按模型和额度限制。",
-  "Custom compatible API": "自定义兼容接口",
-  "Advanced: an HTTPS OpenAI-compatible endpoint that you trust.":
-    "高级：你信任的 HTTPS OpenAI 兼容接口。",
-  "This preset is not marked as vision-capable. Choose a vision model or use text mode.":
-    "此预设未标注支持视觉输入。请选择视觉模型或使用文字模式。",
+  "This model does not accept image input. Choose a model marked “image + text” or use text mode.":
+    "该模型不支持图像输入。请选择标注为“图像 + 文本”的模型，或改用文字模式。",
+  "image + text": "图像 + 文本",
+  "text only": "仅文本",
+  "Other model ID…": "其他模型 ID…",
+  "Model ID": "模型 ID",
+  "e.g. the model tag you pulled or loaded": "例如已拉取或加载的模型标签",
+  "Enter the provider's model ID": "填写服务商提供的模型 ID",
+  "API key (optional)": "API 密钥（可选）",
+  "API format": "接口格式",
+  Input: "输入",
+  "Models and pricing ↗": "模型与价格 ↗",
+  "Provider presets follow the OpenClaw and models.dev catalogs (checked {0}); any other model the provider serves can be entered by ID.":
+    "服务商预设依据 OpenClaw 与 models.dev 模型目录（核对于 {0}）；服务商提供的其他模型可直接填写 ID 使用。",
   Clear: "清除",
   "Paste the key for this tab": "粘贴此标签页使用的密钥",
   "API key": "API 密钥",
   "API endpoint": "API 地址",
-  "Enter a model ID": "输入模型 ID",
   Model: "模型",
   Provider: "服务商",
   "Bring your own key": "使用自己的密钥",

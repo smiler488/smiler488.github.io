@@ -36,6 +36,7 @@ Local demo 返回一个示例响应，不会识别或推理所拍摄的图像。
 - 屏幕捕获的可用性因浏览器和设备而异，在移动设备上通常受限。
 - 实时摄像头或屏幕分析需要接受图像输入的模型。
 - 实时请求需要你自己的服务商密钥和网络访问。
+- 服务商列表涵盖 OpenAI、Anthropic、Google Gemini、xAI、Mistral、Meta；DeepSeek、通义千问、Kimi、智谱 GLM、MiniMax、豆包、混元、文心、阶跃星辰、小米 MiMo；OpenRouter、硅基流动、Groq、Together AI、Hugging Face 等聚合平台；本机运行的 Ollama 或 LM Studio；以及任何兼容 OpenAI 或 Anthropic 格式的接口。每个模型都标明“图像 + 文本”或“仅文本”。
 - 切勿捕获密码、私人消息、未发表数据或受监管记录，除非已授权将其发送给所选服务商。
 
 ## 快速流程

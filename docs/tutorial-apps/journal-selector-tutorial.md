@@ -35,20 +35,21 @@ The app does not query JCR, CAS, Scopus, Crossref or publisher systems. Model-ge
 - Gather optional keywords and constraints such as OA policy, journal type, review speed or page-charge limits.
 - Use **Local demo** to inspect the workflow without sending data.
 - Live analysis requires network access, a provider/model and your own API key.
+- The provider list covers OpenAI, Anthropic, Google Gemini, xAI, Mistral and Meta; DeepSeek, Qwen, Kimi, GLM, MiniMax, Doubao, Hunyuan, ERNIE, StepFun and MiMo; aggregators such as OpenRouter, SiliconFlow, Groq, Together AI and Hugging Face; Ollama or LM Studio running on your computer; and any OpenAI- or Anthropic-compatible endpoint. Each model is marked as image + text or text only.
 - Direct browser calls depend on the provider's CORS policy.
 
 ## Quick workflow
 
 1. [Open AI Journal Selector](/app/journal-selector).
-2. Paste the manuscript **Abstract** under **Research abstract**.
-3. Complete any useful fields under **Submission profile**:
+2. In step **01 · Model** (**Journal analysis model**), keep Local demo or select a provider, model and API key.
+3. Paste the manuscript **Abstract** under **Research abstract**.
+4. Complete any useful fields under **Submission profile**:
    - **Keywords / Focus**
    - **OA requirement**
    - **Review speed**
    - **Journal type**
    - **Suggestions (3–8)**
    - **Special notes**
-4. Under **Journal analysis model**, keep Local demo or select a live provider, model and API key.
 5. Review **Indicator reference** and expand **Review all required indicators** if needed.
 6. Select **Generate journal plan**.
 7. Review **AI summary**, candidate cards and the complete comparison table.

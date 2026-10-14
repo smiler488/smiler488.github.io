@@ -35,20 +35,21 @@ AI 期刊选择器将稿件摘要和投稿偏好与可配置的 26 字段期刊�
 - 收集可选关键词和约束，如 OA 政策、期刊类型、审稿速度或版面费限制。
 - 使用 **Local demo** 在不发送数据的情况下检查工作流。
 - 实时分析需要网络访问、服务商/模型和你自己的 API 密钥。
+- 服务商列表涵盖 OpenAI、Anthropic、Google Gemini、xAI、Mistral、Meta；DeepSeek、通义千问、Kimi、智谱 GLM、MiniMax、豆包、混元、文心、阶跃星辰、小米 MiMo；OpenRouter、硅基流动、Groq、Together AI、Hugging Face 等聚合平台；本机运行的 Ollama 或 LM Studio；以及任何兼容 OpenAI 或 Anthropic 格式的接口。每个模型都标明“图像 + 文本”或“仅文本”。
 - 直接浏览器调用取决于服务商的 CORS 策略。
 
 ## 快速流程
 
 1. [打开 AI 期刊选择器](/app/journal-selector)。
-2. 在 **Research abstract**（研究摘要）下粘贴稿件 **Abstract**（摘要）。
-3. 填写 **Submission profile**（投稿画像）下有用的字段：
+2. 在第一步 **01 · 模型**（期刊分析模型）中，保持本地演示，或选择服务商、模型并填写 API 密钥。
+3. 在 **Research abstract**（研究摘要）下粘贴稿件 **Abstract**（摘要）。
+4. 填写 **Submission profile**（投稿画像）下有用的字段：
    - **Keywords / Focus**（关键词/焦点）
    - **OA requirement**（OA 要求）
    - **Review speed**（审稿速度）
    - **Journal type**（期刊类型）
    - **Suggestions (3–8)**（建议数 3–8）
    - **Special notes**（特别说明）
-4. 在 **Journal analysis model**（期刊分析模型）下，保持 Local demo 或选择实时服务商、模型和 API 密钥。
 5. 查看 **Indicator reference**（指标参考），如有需要展开 **Review all required indicators**（查看所有必需指标）。
 6. 选择 **Generate journal plan**（生成期刊方案）。
 7. 查看 **AI summary**（AI 摘要）、候选卡片和完整对比表。

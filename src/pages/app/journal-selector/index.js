@@ -571,13 +571,24 @@ export default function JournalSelectorPage() {
   return (
     <AppScaffold appId="journal-selector">
       <section
+        className={styles.modelSection}
+        aria-label={tx("AI model configuration")}
+      >
+        <AIProviderSettings
+          value={aiConfig}
+          onChange={setAiConfig}
+          step={tx("01 · Model")}
+          title={tx("Journal analysis model")}
+        />
+      </section>
+      <section
         className={styles.inputGrid}
         aria-label={tx("Manuscript and journal preferences")}
       >
         <div className={`${styles.glassPanel} ${styles.abstractPanel}`}>
           <div className={styles.panelHeading}>
             <div>
-              <span className={styles.step}>01 · Manuscript</span>
+              <span className={styles.step}>{tx("02 · Manuscript")}</span>
               <Heading as="h2">{tx("Research abstract")}</Heading>
             </div>
             <span className={styles.hint}>
@@ -601,7 +612,7 @@ export default function JournalSelectorPage() {
         <div className={styles.glassPanel}>
           <div className={styles.panelHeading}>
             <div>
-              <span className={styles.step}>02 · Preferences</span>
+              <span className={styles.step}>{tx("03 · Preferences")}</span>
               <Heading as="h2">{tx("Submission profile")}</Heading>
             </div>
           </div>
@@ -708,25 +719,14 @@ export default function JournalSelectorPage() {
         </div>
       </section>
 
-      <section
-        className={styles.modelSection}
-        aria-label={tx("AI model configuration")}
-      >
-        <AIProviderSettings
-          value={aiConfig}
-          onChange={setAiConfig}
-          title={tx("Journal analysis model")}
-        />
-      </section>
-
       <section className={`${styles.glassPanel} ${styles.referencePanel}`}>
         <div className={styles.panelHeading}>
           <div>
-            <span className={styles.step}>03 · Criteria</span>
+            <span className={styles.step}>{tx("04 · Criteria")}</span>
             <Heading as="h2">{tx("Indicator reference")}</Heading>
           </div>
           <span className={styles.metricCount}>
-            {activeIndicatorFields.length} metrics
+            {tx("{0} metrics", activeIndicatorFields.length)}
           </span>
         </div>
         <p className={styles.referenceIntro}>
@@ -749,7 +749,7 @@ export default function JournalSelectorPage() {
 
       <section className={`${styles.glassPanel} ${styles.actionPanel}`}>
         <div>
-          <span className={styles.step}>04 · Generate</span>
+          <span className={styles.step}>{tx("05 · Generate")}</span>
           <Heading as="h2">{tx("Build a journal shortlist")}</Heading>
           <p className={styles.status} role="status" aria-live="polite">
             {status}

@@ -36,6 +36,7 @@ Local demo returns a sample response and does not identify or reason about the c
 - Screen capture availability varies by browser and device and is often limited on mobile.
 - Live camera or screen analysis requires a model that accepts image input.
 - Live requests require your own provider key and network access.
+- The provider list covers OpenAI, Anthropic, Google Gemini, xAI, Mistral and Meta; DeepSeek, Qwen, Kimi, GLM, MiniMax, Doubao, Hunyuan, ERNIE, StepFun and MiMo; aggregators such as OpenRouter, SiliconFlow, Groq, Together AI and Hugging Face; Ollama or LM Studio running on your computer; and any OpenAI- or Anthropic-compatible endpoint. Each model is marked as image + text or text only.
 - Never capture passwords, private messages, unpublished data or regulated records unless sending them to the selected provider is authorized.
 
 ## Quick workflow

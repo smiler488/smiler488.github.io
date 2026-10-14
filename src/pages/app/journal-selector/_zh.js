@@ -15,6 +15,12 @@ export default {
   "Evaluation fields": "评价字段",
   "Indicator reference": "指标参考",
   "Journal analysis model": "期刊分析模型",
+  "01 · Model": "01 · 模型",
+  "{0} metrics": "{0} 项指标",
+  "02 · Manuscript": "02 · 稿件",
+  "03 · Preferences": "03 · 投稿偏好",
+  "04 · Criteria": "04 · 评价指标",
+  "05 · Generate": "05 · 生成",
   "AI model configuration": "AI 模型设置",
   "e.g., need open data compliance, avoiding page charges, prefer Q1.":
     "如：需要符合开放数据要求、避免版面费、优先 Q1。",

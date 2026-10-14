@@ -121,6 +121,26 @@
   grid-column: 1 / -1;
 }
 
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.78rem;
+}
+
+.facts span {
+  margin-right: 0.4rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+.facts a {
+  font-weight: 600;
+}
+
 .description,
 .privacyNote {
   margin: 0.85rem 0 0;
