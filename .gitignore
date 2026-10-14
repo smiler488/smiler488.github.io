@@ -26,3 +26,6 @@ build/
 
 # Local agent scratch
 .workbuddy/
+
+__pycache__/
+*.pyc
