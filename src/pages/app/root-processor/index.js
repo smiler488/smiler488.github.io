@@ -3,25 +3,25 @@ import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AppScaffold from "../../../components/AppScaffold";
 import { recordExport } from "../../../lib/workbench/provenance";
+import {
+  ROOTQUANTIFY_DEFAULTS,
+  processRoi,
+} from "../../../lib/science/rootquantify";
 import { makeToolText } from "@site/src/lib/i18n/toolText";
 import ZH from "./_zh";
 
 const tx = makeToolText(ZH);
 import "./styles.css";
 
-const MAX_CANVAS_SIZE = 1800;
+// Scans are processed at full resolution, as by RootQuantify on the desktop.
 const MAX_BATCH_FILES = 6;
-const MAX_TOTAL_PIXELS = 9000000;
-const MAX_FILE_BYTES = 24 * 1024 * 1024;
+const MAX_IMAGE_PIXELS = 60000000;
+const MAX_TOTAL_PIXELS = 150000000;
+const MAX_FILE_BYTES = 120 * 1024 * 1024;
 const MAX_POINTS = 60;
 const HISTORY_LIMIT = 4;
 
-const defaultSettings = {
-  bgThreshold: 35,
-  noiseKernel: 3,
-  blurRadius: 24,
-  roiThreshold: 15,
-};
+const defaultSettings = { ...ROOTQUANTIFY_DEFAULTS };
 
 const statusToneClass = {
   info: "root-status--info",
@@ -35,7 +35,7 @@ export default function RootProcessorApp() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [interactionMode, setInteractionMode] = useState("polygon");
   const [brushMode, setBrushMode] = useState("draw");
-  const [brushSize, setBrushSize] = useState(14);
+  const [brushSize, setBrushSize] = useState(11);
   const [settings, setSettings] = useState(defaultSettings);
   const [processing, setProcessing] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
@@ -104,8 +104,15 @@ export default function RootProcessorApp() {
         if (!file.type.startsWith("image/"))
           throw new Error(tx("Unsupported file type"));
         if (file.size > MAX_FILE_BYTES)
-          throw new Error(tx("File is larger than 24 MB"));
+          throw new Error(tx("File is larger than 120 MB"));
         const { imageData, width, height } = await loadFileAsImageData(file);
+        if (width * height > MAX_IMAGE_PIXELS) {
+          throw new Error(
+            tx(
+              "Image has more than 60 megapixels; use RootQuantify on the desktop"
+            )
+          );
+        }
         if (totalPixels + width * height > MAX_TOTAL_PIXELS) {
           throw new Error(
             tx("Combined image dimensions exceed the safe browser limit")
@@ -116,7 +123,6 @@ export default function RootProcessorApp() {
           .toString(16)
           .slice(2)}`;
         imageDataRef.current[id] = imageData;
-        previewDataRef.current[id] = cloneImageData(imageData);
         newEntries.push({
           id,
           name: file.name,
@@ -257,6 +263,8 @@ export default function RootProcessorApp() {
     updateStatus(tx("ROI polygon reset."), "info");
   };
 
+  // Shows RootQuantify's background estimate (the morphological closing)
+  // inside the ROI rectangle, to check the kernel size before processing.
   const handlePreviewBackground = async () => {
     if (!currentImage) {
       return;
@@ -265,16 +273,35 @@ export default function RootProcessorApp() {
     if (!original) {
       return;
     }
-    updateStatus(tx("Running fast background cleanup preview..."), "info");
-    await Promise.resolve();
-    const preview = removeBackground(
+    if (!currentImage.isPolygonClosed) {
+      updateStatus(tx("Close the ROI polygon before processing."), "warning");
+      return;
+    }
+    updateStatus(tx("Estimating the background…"), "info");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const { rect, background } = processRoi(
       original,
-      settings.bgThreshold,
-      settings.noiseKernel
+      currentImage.polygonPoints,
+      settings
     );
+    const preview = cloneImageData(original);
+    for (let row = 0; row < rect.h; row += 1) {
+      for (let col = 0; col < rect.w; col += 1) {
+        const v = background[row * rect.w + col];
+        const i = ((rect.y + row) * original.width + rect.x + col) * 4;
+        preview.data[i] = v;
+        preview.data[i + 1] = v;
+        preview.data[i + 2] = v;
+      }
+    }
     previewDataRef.current[currentImage.id] = preview;
     updateImageEntry(currentImage.id, { previewVersion: Date.now() });
-    updateStatus(tx("Background preview updated."), "success");
+    updateStatus(
+      tx(
+        "Background estimate shown inside the ROI rectangle. Roots should disappear from it; if thick roots remain, increase the kernel."
+      ),
+      "success"
+    );
   };
 
   const handleProcessImage = async () => {
@@ -293,31 +320,23 @@ export default function RootProcessorApp() {
     }
     setProcessing(true);
     updateStatus(tx("Processing ROI ... this may take a few seconds."), "info");
-    await Promise.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      const polygonMask = createPolygonMask(
-        original.width,
-        original.height,
-        currentImage.polygonPoints
-      );
-      const backgroundClean = removeBackground(
+      const { rect, binary, diffRange } = processRoi(
         original,
-        settings.bgThreshold,
-        settings.noiseKernel
+        currentImage.polygonPoints,
+        settings
       );
-      previewDataRef.current[currentImage.id] = backgroundClean;
-      const bgMask = backgroundMask(
-        original,
-        settings.bgThreshold,
-        settings.noiseKernel
-      );
-      const processed = emphasizeRoots(
-        original,
-        polygonMask,
-        bgMask,
-        settings.blurRadius,
-        settings.roiThreshold
-      );
+      const processed = new ImageData(rect.w, rect.h);
+      for (let i = 0; i < binary.length; i += 1) {
+        const v = binary[i];
+        processed.data[i * 4] = v;
+        processed.data[i * 4 + 1] = v;
+        processed.data[i * 4 + 2] = v;
+        processed.data[i * 4 + 3] = 255;
+      }
+      delete previewDataRef.current[currentImage.id];
+      updateImageEntry(currentImage.id, { roi: rect, diffRange });
       processedDataRef.current[currentImage.id] = processed;
       historyRef.current[currentImage.id] = [cloneImageData(processed)];
       updateImageEntry(currentImage.id, {
@@ -333,7 +352,7 @@ export default function RootProcessorApp() {
     } catch (error) {
       console.error(error);
       updateStatus(
-        tx("Processing failed. Try lowering the blur radius or image size."),
+        tx("Processing failed. The image may be too large for this browser."),
         "danger"
       );
     } finally {
@@ -350,13 +369,18 @@ export default function RootProcessorApp() {
       updateStatus(tx("Run processing before downloading."), "warning");
       return;
     }
-    const filename = `${stripExtension(currentImage.name)}-processed.png`;
+    // Named as RootQuantify names its output; PNG keeps the mask lossless.
+    const filename = `processed-${stripExtension(currentImage.name)}.png`;
     downloadImageData(processed, filename, (blob) =>
       recordExport({
         files: [{ name: filename, blob }],
         inputs: [{ name: currentImage.name }],
         parameters: {
-          settings,
+          method: "RootQuantify (RootImager.py)",
+          kernel: settings.kernel,
+          threshold: settings.threshold,
+          polygon: currentImage.polygonPoints,
+          roi: currentImage.roi,
           width: processed.width,
           height: processed.height,
         },
@@ -422,6 +446,17 @@ export default function RootProcessorApp() {
     }
     const ctx = canvas.getContext("2d");
     const snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    // Anti-aliased stroke edges are snapped to black or white so the
+    // exported image stays a strict binary mask.
+    const px = snapshot.data;
+    for (let i = 0; i < px.length; i += 4) {
+      const v = px[i] < 128 ? 0 : 255;
+      px[i] = v;
+      px[i + 1] = v;
+      px[i + 2] = v;
+      px[i + 3] = 255;
+    }
+    ctx.putImageData(snapshot, 0, 0);
     processedDataRef.current[currentImage.id] = snapshot;
     const history = historyRef.current[currentImage.id] || [];
     history.push(cloneImageData(snapshot));
@@ -459,10 +494,11 @@ export default function RootProcessorApp() {
       ctx.strokeStyle = brushMode === "draw" ? "#000000" : "#ffffff";
       ctx.lineWidth = brushSize;
 
-      const point = getCanvasCoordinates(event, canvas);
-      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
+      const pixel = getCanvasCoordinates(event, canvas);
+      if (!Number.isFinite(pixel.x) || !Number.isFinite(pixel.y)) {
         return;
       }
+      const point = { x: pixel.x + 0.5, y: pixel.y + 0.5 };
 
       if (!isDrawingRef.current) {
         isDrawingRef.current = true;
@@ -606,7 +642,7 @@ export default function RootProcessorApp() {
         </div>
         <p style={{ margin: "12px 0 24px" }}>
           {tx(
-            "Combine automated background removal with ROI high-pass filtering and manual cleanup directly in the browser."
+            "RootQuantify in the browser: trace the root region, run its background subtraction and threshold at full resolution, then correct by hand."
           )}
         </p>
 
@@ -632,8 +668,9 @@ export default function RootProcessorApp() {
               <p>
                 {tx("Choose up to ")}
                 {MAX_BATCH_FILES}
-                {tx(" JPG/PNG files. Images larger than")} {MAX_CANVAS_SIZE}
-                {tx("px on the longest edge are scaled.")}
+                {tx(
+                  " JPG/PNG files. Scans are processed at full resolution (up to 60 megapixels each)."
+                )}
               </p>
             </div>
 
@@ -674,70 +711,48 @@ export default function RootProcessorApp() {
             <div className="root-settings">
               <Heading as="h3">{tx("Automation Settings")}</Heading>
               <label>
-                {tx("Background threshold (")}
-                {settings.bgThreshold})
+                {tx("Background kernel ({0} px)", settings.kernel)}
                 <input
                   type="range"
                   min="5"
-                  max="120"
-                  value={settings.bgThreshold}
+                  max="201"
+                  value={settings.kernel}
                   onChange={(e) =>
-                    handleSettingsChange("bgThreshold", Number(e.target.value))
+                    handleSettingsChange("kernel", Number(e.target.value))
                   }
                 />
               </label>
               <label>
-                {tx("Noise kernel (")}
-                {settings.noiseKernel})
+                {tx("Threshold ({0} of 255)", settings.threshold)}
                 <input
                   type="range"
                   min="1"
-                  max="9"
-                  step="2"
-                  value={settings.noiseKernel}
+                  max="254"
+                  value={settings.threshold}
                   onChange={(e) =>
-                    handleSettingsChange(
-                      "noiseKernel",
-                      Number(e.target.value) || 1
-                    )
+                    handleSettingsChange("threshold", Number(e.target.value))
                   }
                 />
               </label>
-              <label>
-                {tx("Blur radius (")}
-                {settings.blurRadius}
-                {tx("px)")}
-                <input
-                  type="range"
-                  min="5"
-                  max="50"
-                  value={settings.blurRadius}
-                  onChange={(e) =>
-                    handleSettingsChange("blurRadius", Number(e.target.value))
-                  }
-                />
-              </label>
-              <label>
-                {tx("Root contrast (")}
-                {settings.roiThreshold}
-                {tx(" grey levels)")}
-                <input
-                  type="range"
-                  min="2"
-                  max="60"
-                  value={settings.roiThreshold}
-                  onChange={(e) =>
-                    handleSettingsChange("roiThreshold", Number(e.target.value))
-                  }
-                />
-              </label>
+              <p className="root-muted">
+                {tx(
+                  "Defaults are RootQuantify's: a 50 × 50 px closing estimates the background, and pixels whose normalized difference exceeds 30 are roots. The kernel should be wider than the thickest root."
+                )}
+              </p>
+              <button
+                type="button"
+                className="root-button ghost"
+                onClick={() => setSettings({ ...ROOTQUANTIFY_DEFAULTS })}
+              >
+                {tx("Restore RootQuantify defaults")}
+              </button>
               <button
                 type="button"
                 className="root-button ghost"
                 onClick={handlePreviewBackground}
                 disabled={!currentImage}
               >
-                {tx("Preview Background Cleanup")}
+                {tx("Preview background estimate")}
               </button>
             </div>
           </aside>
@@ -822,7 +837,7 @@ export default function RootProcessorApp() {
                 <Heading as="h4">{tx("Automation")}</Heading>
                 <p>
                   {tx(
-                    "Background removal (0_tranbg) and ROI enhancement (1_process) are combined. Use the sliders to tune the binary mask before running."
+                    "Runs RootQuantify's processing on the ROI: background by morphological closing, subtraction, min–max normalization and threshold. The result is the ROI rectangle with roots black on white, as the desktop tool saves it."
                   )}
                 </p>
                 <button
@@ -893,8 +908,8 @@ export default function RootProcessorApp() {
                     {tx("px)")}
                     <input
                       type="range"
-                      min="4"
-                      max="60"
+                      min="1"
+                      max="101"
                       value={brushSize}
                       onChange={(e) => setBrushSize(Number(e.target.value))}
                     />
@@ -972,10 +987,14 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
   ctx.putImageData(imageData, 0, 0);
 
   if (polygonPoints.length) {
+    // Overlay sizes in screen pixels: full-resolution scans are displayed
+    // much smaller than their pixel size.
+    const shown = canvas.clientWidth || canvas.width;
+    const unit = Math.max(1, canvas.width / shown);
     ctx.save();
     ctx.strokeStyle = "#2188ff";
     ctx.fillStyle = "rgba(33,136,255,0.12)";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * unit;
     ctx.beginPath();
     ctx.moveTo(polygonPoints[0].x, polygonPoints[0].y);
     polygonPoints.forEach((pt) => ctx.lineTo(pt.x, pt.y));
@@ -987,7 +1006,7 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
 
     polygonPoints.forEach((pt) => {
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+      ctx.arc(pt.x, pt.y, 4 * unit, 0, Math.PI * 2);
       ctx.fillStyle = "#ffffff";
       ctx.fill();
       ctx.strokeStyle = "#2188ff";
@@ -1000,16 +1019,13 @@ function drawOnCanvas(canvas, imageData, polygonPoints = [], isClosed = false) {
 async function loadFileAsImageData(file) {
   const resource = await createImageResource(file);
   try {
-    const scale = Math.min(
-      1,
-      MAX_CANVAS_SIZE / Math.max(resource.width, resource.height)
-    );
-    const width = Math.max(1, Math.round(resource.width * scale));
-    const height = Math.max(1, Math.round(resource.height * scale));
+    // Full resolution: the kernel size and any later measurement refer to
+    // the scan's own pixels.
+    const { width, height } = resource;
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) throw new Error(tx("Canvas is unavailable"));
     ctx.drawImage(resource.element, 0, 0, width, height);
     const imageData = ctx.getImageData(0, 0, width, height);
@@ -1022,7 +1038,11 @@ async function loadFileAsImageData(file) {
 function createImageResource(file) {
   return new Promise((resolve, reject) => {
     if ("createImageBitmap" in window) {
-      createImageBitmap(file)
+      // No colour-profile conversion: OpenCV reads the stored pixel values.
+      createImageBitmap(file, {
+        colorSpaceConversion: "none",
+        premultiplyAlpha: "none",
+      })
         .then((bitmap) => {
           resolve({
             element: bitmap,
@@ -1052,13 +1072,23 @@ function createImageResource(file) {
   });
 }
 
+// The image pixel under the pointer (as OpenCV's mouse callback reports it).
 function getCanvasCoordinates(event, canvas) {
+  // Content box: the canvas border is not part of the image.
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
+  const style = window.getComputedStyle(canvas);
+  const bl = parseFloat(style.borderLeftWidth) || 0;
+  const br = parseFloat(style.borderRightWidth) || 0;
+  const bt = parseFloat(style.borderTopWidth) || 0;
+  const bb = parseFloat(style.borderBottomWidth) || 0;
+  const left = rect.left + bl;
+  const top = rect.top + bt;
+  const scaleX = canvas.width / (rect.width - bl - br);
+  const scaleY = canvas.height / (rect.height - bt - bb);
+  const clamp = (v, max) => Math.min(max - 1, Math.max(0, Math.floor(v)));
   return {
-    x: Math.round((event.clientX - rect.left) * scaleX),
-    y: Math.round((event.clientY - rect.top) * scaleY),
+    x: clamp((event.clientX - left) * scaleX, canvas.width),
+    y: clamp((event.clientY - top) * scaleY, canvas.height),
   };
 }
 
@@ -1073,176 +1103,6 @@ function cloneImageData(imageData) {
     imageData.width,
     imageData.height
   );
-}
-
-// Foreground mask: pixels brighter than the threshold (the tray or paper);
-// darker surroundings are background. A morphological opening removes specks.
-function backgroundMask(imageData, threshold, kernelSize) {
-  const { width, height } = imageData;
-  const gray = toGrayscale(imageData);
-  const binary = new Uint8Array(gray.length);
-  for (let i = 0; i < gray.length; i += 1) {
-    binary[i] = gray[i] > threshold ? 255 : 0;
-  }
-  return kernelSize > 1
-    ? openBinaryMask(binary, width, height, kernelSize)
-    : binary;
-}
-
-function removeBackground(imageData, threshold, kernelSize) {
-  const { width, height, data } = imageData;
-  const cleaned = backgroundMask(imageData, threshold, kernelSize);
-  const result = new ImageData(width, height);
-  const out = result.data;
-
-  for (let i = 0; i < cleaned.length; i += 1) {
-    const srcIndex = i * 4;
-    if (cleaned[i]) {
-      out[srcIndex] = data[srcIndex];
-      out[srcIndex + 1] = data[srcIndex + 1];
-      out[srcIndex + 2] = data[srcIndex + 2];
-    } else {
-      out[srcIndex] = 255;
-      out[srcIndex + 1] = 255;
-      out[srcIndex + 2] = 255;
-    }
-    out[srcIndex + 3] = 255;
-  }
-  return result;
-}
-
-function toGrayscale(imageData) {
-  const { data, width, height } = imageData;
-  const gray = new Float32Array(width * height);
-  for (let i = 0; i < gray.length; i += 1) {
-    const idx = i * 4;
-    gray[i] = data[idx] * 0.299 + data[idx + 1] * 0.587 + data[idx + 2] * 0.114;
-  }
-  return gray;
-}
-
-function openBinaryMask(mask, width, height, kernelSize) {
-  const eroded = erodeMask(mask, width, height, kernelSize);
-  return dilateMask(eroded, width, height, kernelSize);
-}
-
-function erodeMask(mask, width, height, kernelSize) {
-  const radius = Math.max(1, Math.floor(kernelSize / 2));
-  const output = new Uint8Array(mask.length);
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      let keep = 255;
-      for (let ky = -radius; ky <= radius && keep; ky += 1) {
-        const ny = y + ky;
-        if (ny < 0 || ny >= height) {
-          keep = 0;
-          break;
-        }
-        for (let kx = -radius; kx <= radius; kx += 1) {
-          const nx = x + kx;
-          if (nx < 0 || nx >= width || !mask[ny * width + nx]) {
-            keep = 0;
-            break;
-          }
-        }
-      }
-      output[y * width + x] = keep;
-    }
-  }
-  return output;
-}
-
-function dilateMask(mask, width, height, kernelSize) {
-  const radius = Math.max(1, Math.floor(kernelSize / 2));
-  const output = new Uint8Array(mask.length);
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      let set = 0;
-      for (let ky = -radius; ky <= radius && !set; ky += 1) {
-        const ny = y + ky;
-        if (ny < 0 || ny >= height) {
-          continue;
-        }
-        for (let kx = -radius; kx <= radius; kx += 1) {
-          const nx = x + kx;
-          if (nx >= 0 && nx < width && mask[ny * width + nx]) {
-            set = 255;
-            break;
-          }
-        }
-      }
-      output[y * width + x] = set;
-    }
-  }
-  return output;
-}
-
-function createPolygonMask(width, height, points) {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.moveTo(points[0].x, points[0].y);
-  points.forEach((pt) => ctx.lineTo(pt.x, pt.y));
-  ctx.closePath();
-  ctx.fill();
-  const data = ctx.getImageData(0, 0, width, height).data;
-  const mask = new Uint8Array(width * height);
-  for (let i = 0; i < mask.length; i += 1) {
-    mask[i] = data[i * 4];
-  }
-  return mask;
-}
-
-// High-pass root detection: a pixel is root when it is darker than its
-// blurred neighbourhood by more than `roiThreshold` grey levels (absolute,
-// so the same setting means the same contrast in every image), inside the
-// ROI and not in the background mask.
-function emphasizeRoots(
-  original,
-  polygonMask,
-  bgMask,
-  blurRadius,
-  roiThreshold
-) {
-  const blurred = blurImageData(original, blurRadius);
-  const grayOriginal = toGrayscale(original);
-  const grayBlurred = toGrayscale(blurred);
-  const { width, height } = original;
-  const output = new ImageData(width, height);
-  const out = output.data;
-  for (let i = 0; i < grayOriginal.length; i += 1) {
-    const contrast = grayBlurred[i] - grayOriginal[i];
-    const isRoot = polygonMask[i] && bgMask[i] && contrast > roiThreshold;
-    const value = isRoot ? 0 : 255;
-    const idx = i * 4;
-    out[idx] = value;
-    out[idx + 1] = value;
-    out[idx + 2] = value;
-    out[idx + 3] = 255;
-  }
-  return output;
-}
-
-function blurImageData(imageData, blurRadius) {
-  if (blurRadius <= 0) {
-    return cloneImageData(imageData);
-  }
-  const { width, height } = imageData;
-  const sourceCanvas = document.createElement("canvas");
-  sourceCanvas.width = width;
-  sourceCanvas.height = height;
-  sourceCanvas.getContext("2d").putImageData(imageData, 0, 0);
-
-  const blurCanvas = document.createElement("canvas");
-  blurCanvas.width = width;
-  blurCanvas.height = height;
-  const blurCtx = blurCanvas.getContext("2d");
-  blurCtx.filter = `blur(${blurRadius}px)`;
-  blurCtx.drawImage(sourceCanvas, 0, 0);
-  return blurCtx.getImageData(0, 0, width, height);
 }
 
 function downloadImageData(imageData, filename, onBlob) {
