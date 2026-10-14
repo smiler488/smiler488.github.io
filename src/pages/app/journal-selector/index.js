@@ -24,6 +24,7 @@ import {
   searchWorks,
   usage,
 } from "../../../lib/journals/sources";
+import { XR_RANKING, xrRank } from "../../../lib/journals/rankings";
 import styles from "./styles.module.css";
 import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
 import ZH from "./_zh";
@@ -54,11 +55,22 @@ const SPEED_OPTIONS = [
 
 const YEAR_OPTIONS = [3, 5, 10];
 
+// 新锐期刊分区表 (agricultural and forestry sciences): keep journals ranked
+// in zone 1 to the chosen zone; unranked journals are left out.
+const XR_OPTIONS = [
+  { value: "", label: tx("No requirement") },
+  { value: "1", label: tx("Zone 1 only") },
+  { value: "2", label: tx("Zones 1–2") },
+  { value: "3", label: tx("Zones 1–3") },
+  { value: "4", label: tx("Any zone (ranked journals only)") },
+];
+
 const SORTS = [
   { value: "fit", label: tx("Fit") },
   { value: "citedness", label: tx("2-year mean citedness") },
   { value: "h", label: tx("H-index") },
   { value: "apc", label: tx("Lowest APC") },
+  { value: "xr", label: tx("XR Scholar zone") },
 ];
 
 const SOURCE_LABELS = {
@@ -66,6 +78,7 @@ const SOURCE_LABELS = {
   OpenAlex: "OpenAlex",
   DOAJ: "DOAJ",
   AI: tx("Language model"),
+  "XR Scholar": tx("XR Scholar ranking 2026 (agricultural sciences)"),
   Manual: tx("Check manually"),
 };
 
@@ -245,6 +258,13 @@ function filterReasons(journal, prefs) {
   if (prefs.region === "international" && journal.country === "CN") {
     reasons.push(tx("published in China"));
   }
+  if (prefs.xrMax) {
+    if (!journal.xr) {
+      reasons.push(tx("not in the XR Scholar agricultural sciences ranking"));
+    } else if (journal.xr.zone > Number(prefs.xrMax)) {
+      reasons.push(tx("XR Scholar zone {0}", journal.xr.zone));
+    }
+  }
   return reasons;
 }
 
@@ -253,8 +273,17 @@ function slowerThanWanted(journal, speed) {
   return Boolean(speed) && Number.isFinite(weeks) && weeks > Number(speed);
 }
 
+function xrText(xr) {
+  if (!xr) return "";
+  return xr.top ? tx("Zone {0} · Top", xr.zone) : tx("Zone {0}", xr.zone);
+}
+
 function indicatorValue(key, j, ai) {
   switch (key) {
+    case "xr_zone":
+      return xrText(j.xr);
+    case "xr_rank":
+      return j.xr ? `${j.xr.rank} / ${XR_RANKING.size}` : "";
     case "serial_number":
       return j.rank ?? "";
     case "journal_name":
@@ -328,6 +357,7 @@ function verificationLinks(journal) {
     { label: tx("CAS ranking"), href: "https://www.fenqubiao.com/" }
   );
   if (journal.doaj?.url) links.push({ label: "DOAJ", href: journal.doaj.url });
+  if (journal.xr) links.push({ label: tx("XR Scholar"), href: journal.xr.url });
   return links;
 }
 
@@ -381,13 +411,15 @@ function assessmentPrompt({ title, abstract, prefs, candidates, targets }) {
     open_access: j.isOa,
     apc: apcText(j),
     weeks_to_publication: j.doaj?.weeksToPublication ?? null,
+    xr_scholar_zone: j.xr ? j.xr.zone : null,
+    xr_scholar_top: j.xr ? j.xr.top : null,
     topics: j.topics.slice(0, 4),
     similar_titles: j.articles.slice(0, 3).map((a) => a.title),
   });
   const language = IS_ZH
     ? "Write every text value in Simplified Chinese; keep journal names as given."
     : "Write every text value in English.";
-  return `You advise a researcher on where to submit a manuscript. The journals below were found from articles similar to the manuscript in OpenAlex; their figures are from OpenAlex and DOAJ. Base every judgement on the manuscript and these data only.
+  return `You advise a researcher on where to submit a manuscript. The journals below were found from articles similar to the manuscript in OpenAlex; their figures are from OpenAlex and DOAJ. "xr_scholar_zone" is the journal's zone (1 = highest, 4 = lowest) in the 2026 XR Scholar ranking (新锐期刊分区表) for agricultural and forestry sciences, with "xr_scholar_top" marking its Top journals; null means the journal is not in that category. Base every judgement on the manuscript and these data only.
 
 Manuscript title: ${title || "(none)"}
 Abstract:
@@ -395,7 +427,9 @@ ${abstract}
 
 Author preferences: open access ${prefs.oa}; maximum APC ${
     prefs.maxApc || "none"
-  } USD; country ${prefs.region}; review speed ${
+  } USD; country ${prefs.region}; XR Scholar zone ${
+    prefs.xrMax ? `1–${prefs.xrMax}` : "no requirement"
+  }; review speed ${
     prefs.speed ? `about ${prefs.speed} weeks` : "flexible"
   }; notes: ${prefs.notes || "none"}.
 
@@ -417,7 +451,7 @@ Return JSON only:
 
 Rules:
 1. Use only the keys listed above. Every candidate appears in "journals"; every target in "targets".
-2. Tiers: "reach" = strong scope fit in journals with clearly higher citedness than the rest; "match" = the best scope fit; "safe" = good fit with broader scope. Each candidate in at most one tier.
+2. Tiers: "reach" = strong scope fit in journals with clearly higher citedness or a better XR Scholar zone than the rest; "match" = the best scope fit; "safe" = good fit with broader scope. Each candidate in at most one tier.
 3. Do not state impact factors, quartiles, acceptance rates or review times that are not in the data.
 4. ${language}`;
 }
@@ -488,6 +522,18 @@ function JournalCard({ j, ai, speed, fromYear, children, badge }) {
         </div>
       </div>
       <div className={styles.tagRow}>
+        {j.xr && (
+          <span
+            className={`${styles.tag} ${styles.tagRank}`}
+            title={tx(
+              "XR Scholar ranking 2026, agricultural and forestry sciences: {0} of {1}",
+              j.xr.rank,
+              XR_RANKING.size
+            )}
+          >
+            {tx("XR")} {xrText(j.xr)}
+          </span>
+        )}
         {j.isOa && <span className={styles.tag}>{tx("Open access")}</span>}
         {j.inDoaj && <span className={styles.tag}>DOAJ</span>}
         {slowerThanWanted(j, speed) && (
@@ -555,6 +601,7 @@ export default function JournalSelectorPage() {
   const [oaPreference, setOaPreference] = useState("flexible");
   const [maxApc, setMaxApc] = useState("");
   const [region, setRegion] = useState("any");
+  const [xrMax, setXrMax] = useState("");
   const [years, setYears] = useState(5);
   const [reviewSpeed, setReviewSpeed] = useState("");
   const [maxResults, setMaxResults] = useState("10");
@@ -579,6 +626,7 @@ export default function JournalSelectorPage() {
     oa: oaPreference,
     maxApc,
     region,
+    xrMax,
     speed: reviewSpeed,
     notes: extraNotes,
   };
@@ -747,6 +795,7 @@ export default function JournalSelectorPage() {
         .filter((j) => records.get(j.id)?.type === "journal")
         .map((j) => ({
           ...records.get(j.id),
+          xr: xrRank(records.get(j.id).issns),
           fit: j.fit,
           similarCount: j.articles.length,
           articles: j.articles,
@@ -784,8 +833,9 @@ export default function JournalSelectorPage() {
           fitInfo = targetFit(manuscript, ranking, own);
         }
         const shown = candidates.find((j) => j.id === record.id);
+        const withRank = { ...record, xr: xrRank(record.issns) };
         targets.push({
-          ...record,
+          ...withRank,
           fit: fitInfo.fit,
           similarCount: fitInfo.similarCount,
           articles: fitInfo.articles,
@@ -795,7 +845,7 @@ export default function JournalSelectorPage() {
             inPool ? all.indexOf(inPool) + 1 : null
           ),
           candidateRank: shown?.rank ?? null,
-          outside: filterReasons(record, prefs),
+          outside: filterReasons(withRank, prefs),
           query,
           key: `T${i + 1}`,
         });
@@ -856,6 +906,9 @@ export default function JournalSelectorPage() {
       list.sort((a, b) => num(b.citedness2y, -1) - num(a.citedness2y, -1));
     } else if (sortBy === "h") {
       list.sort((a, b) => num(b.hIndex, -1) - num(a.hIndex, -1));
+    } else if (sortBy === "xr") {
+      const zone = (j) => (j.xr ? j.xr.zone * 1000 + j.xr.rank : Infinity);
+      list.sort((a, b) => zone(a) - zone(b));
     } else if (sortBy === "apc") {
       const apc = (j) =>
         j.doaj && !j.doaj.hasApc ? 0 : num(j.apcUsd, Infinity);
@@ -899,9 +952,10 @@ export default function JournalSelectorPage() {
         openAccess: oaPreference,
         maxApcUsd: maxApc === "" ? null : Number(maxApc),
         region,
+        xrScholarZoneMax: xrMax ? Number(xrMax) : null,
         reviewSpeedWeeks: reviewSpeed || null,
         targets: result?.targets.map((t) => t.name || t.query),
-        sources: ["OpenAlex", "DOAJ"],
+        sources: ["OpenAlex", "DOAJ", "XR Scholar ranking 2026 (农林科学)"],
         ai: usesModel
           ? { provider: aiConfig.provider, model: aiConfig.model }
           : null,
@@ -1048,6 +1102,23 @@ export default function JournalSelectorPage() {
                 onChange={(e) => setRegion(e.target.value)}
               >
                 {REGION_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className={styles.label} htmlFor="journal-xr">
+                {tx("XR Scholar zone (agricultural sciences)")}
+              </label>
+              <select
+                id="journal-xr"
+                value={xrMax}
+                onChange={(e) => setXrMax(e.target.value)}
+              >
+                {XR_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>

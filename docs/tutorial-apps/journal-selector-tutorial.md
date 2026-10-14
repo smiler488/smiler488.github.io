@@ -67,7 +67,7 @@ The other journals on the list are usually reasonable alternatives rather than e
 3. **02 · Manuscript:** enter the **Title**, **Abstract** and optional **Keywords** (separated by semicolons).
 4. **03 · Goal:**
    - Under **Journals you have in mind**, enter up to five journals, one per line, by name or ISSN.
-   - Set the open-access requirement, maximum APC, publisher country, review speed, period and number of suggestions.
+   - Set the open-access requirement, maximum APC, publisher country, XR Scholar zone, review speed, period and number of suggestions.
 5. **04 · Criteria** shows where each figure comes from.
 6. **05 · Search:** select **Find journals**.
 7. Read the results:
@@ -87,6 +87,7 @@ The other journals on the list are usually reasonable alternatives rather than e
 | **2-yr citedness** | OpenAlex 2-year mean citedness: citations per article over two years, constructed like the impact factor but from OpenAlex data. It is not the Clarivate impact factor. |
 | **H-index**, **Articles in (year)** | From OpenAlex. Volume indicates how many papers the journal handles each year. |
 | **APC** | DOAJ's declared charge for open-access journals. Otherwise the OpenAlex list price; for subscription journals this is the optional open-access fee. |
+| **XR** zone | Zone 1–4 and the Top flag in the 2026 XR Scholar ranking (新锐期刊分区表) for agricultural and forestry sciences, matched by ISSN; the tooltip and the table give the position among its 936 journals. Journals outside that category show no zone. The **XR Scholar zone** preference keeps only journals in zone 1 up to the chosen zone, so unranked journals are left out while it is set. |
 | **Weeks to publication**, **Peer review** | Declared to DOAJ, so open-access journals only. A tag appears when the time exceeds your review-speed preference. |
 | **Check** | Homepage (author guidelines), SCImago, NLM Catalog, JCR, CAS ranking and DOAJ. |
 
@@ -125,6 +126,7 @@ The provider list covers:
 
 - The search can only find journals that have published related articles in the chosen period. A new journal, or a journal new to the topic, can be missed. Widen the period or add it as a target.
 - Abstracts in OpenAlex are incomplete for some publishers; such journals are matched on titles only.
+- The XR Scholar zones cover the agricultural and forestry sciences category only (2026 edition, 936 journals). Journals ranked in other categories, such as remote sensing or general biology, show no zone here.
 - Publisher country stands in for "Chinese journal". CSCD and PKU core status are not available in open data and must be checked separately.
 - Figures reflect OpenAlex and DOAJ at the time of the search and can lag a journal's own site.
 

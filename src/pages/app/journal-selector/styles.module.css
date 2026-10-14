@@ -481,6 +481,12 @@
   font-size: 0.74rem;
 }
 
+.tagRank {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-emphasis-900);
+  font-weight: 600;
+}
+
 .tagWarn {
   border-color: var(--ds-warn);
   color: var(--ifm-color-emphasis-900);
