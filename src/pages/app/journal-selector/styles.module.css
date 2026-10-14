@@ -97,7 +97,8 @@
 .referencePanel,
 .actionPanel,
 .resultsSection,
-.rawPanel {
+.rawPanel,
+.infoPanel {
   margin-top: 18px;
 }
 
@@ -232,8 +233,10 @@
 }
 
 .resultCards {
-  display: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  margin-bottom: 18px;
 }
 
 .resultCard {
@@ -380,8 +383,10 @@
     gap: 8px;
   }
 
-  .resultCards {
-    display: grid;
+  .resultCards,
+  .tierGrid,
+  .termsRow {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .tableScroll {
@@ -411,4 +416,206 @@
 
 .modelSection {
   margin-bottom: 18px;
+}
+
+.modelNote {
+  margin: 10px 4px 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.textInput {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-900);
+  font: inherit;
+}
+
+.termsRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.warningNote {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--ds-warn);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--ds-warn) 7%, transparent);
+  font-size: 0.84rem;
+}
+
+.sourceGroups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 20px;
+}
+
+.sourceTitle {
+  margin: 0 0 8px;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tag {
+  padding: 2px 9px;
+  border: 1px solid var(--ds-line);
+  border-radius: 999px;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.74rem;
+}
+
+.tagWarn {
+  border-color: var(--ds-warn);
+  color: var(--ifm-color-emphasis-900);
+}
+
+.fitMeter {
+  height: 6px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-200);
+}
+
+.fitMeter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ifm-color-primary);
+}
+
+.fitText {
+  margin: 6px 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.slow {
+  color: var(--ds-warn);
+}
+
+.topics {
+  margin: 10px 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.aiNote,
+.verdictBox {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.aiNote p,
+.verdictBox ul {
+  margin: 0;
+}
+
+.verdictBox ul {
+  padding-left: 1.1rem;
+}
+
+.articleList {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.articleList li + li {
+  margin-top: 4px;
+}
+
+.articleList span {
+  color: var(--ifm-color-emphasis-500);
+}
+
+.tierGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0 8px;
+}
+
+.tier {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--ds-line);
+  border-radius: 12px;
+}
+
+.tier span {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.78rem;
+}
+
+.tier ul {
+  margin: 6px 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+}
+
+.subHeading {
+  margin: 16px 0 6px;
+  font-size: 1rem;
+}
+
+.checklist {
+  margin: 0 0 10px;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.sortControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.84rem;
+}
+
+.sortControl select {
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--ifm-border-color);
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+  color: inherit;
+  font: inherit;
+}
+
+.resultsTable th small {
+  display: block;
+  margin-top: 2px;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.68rem;
+  font-weight: 500;
 }

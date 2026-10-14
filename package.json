@@ -19,7 +19,7 @@
     "lint:fix": "npm run lint -- --fix",
     "stylelint": "stylelint \"src/**/*.css\"",
     "stylelint:fix": "npm run stylelint -- --fix",
-    "test:science": "node --test \"src/lib/*.test.js\" \"src/lib/science/*.test.js\" \"packages/lab-mcp/test/*.test.mjs\"",
+    "test:science": "node --test \"src/lib/*.test.js\" \"src/lib/journals/*.test.js\" \"src/lib/science/*.test.js\" \"packages/lab-mcp/test/*.test.mjs\"",
     "check": "npm run lint && npm run stylelint && npm run test:science && npm run build"
   },
   "dependencies": {

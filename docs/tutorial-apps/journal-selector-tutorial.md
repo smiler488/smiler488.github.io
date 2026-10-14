@@ -1,6 +1,6 @@
 ---
 title: "AI Journal Selector"
-description: "Compare a manuscript abstract with configurable journal criteria using the AI provider and API key you choose."
+description: "Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data."
 sidebar_label: "Journal Selector"
 sidebar_position: 11
 hide_title: true
@@ -8,111 +8,130 @@ keywords:
   - "journal"
   - "abstract"
   - "publication"
+  - "submission"
+  - "openalex"
   - "jcr"
   - "ai"
 app_route: "/app/journal-selector"
 app_icon: "JCR"
 app_category: "AI & research"
-app_runtime: "Uses your selected AI provider"
+app_runtime: "OpenAlex and DOAJ; AI optional"
 app_tone: "blue"
 app_badges:
-  - "BYOK AI"
-  - "Custom criteria"
+  - "Evidence-based"
+  - "Target check"
   - "CSV export"
 ---
 
 ## What it does
 
-AI Journal Selector compares a manuscript abstract and submission preferences with a configurable 26-field journal evaluation schema. It presents candidate cards, a full comparison table and a CSV export. The default **Local demo** demonstrates the interface; live recommendations use the AI provider and API key you choose.
+AI Journal Selector helps you decide where to submit a manuscript.
 
-:::caution Not a live journal database
-The app does not query JCR, CAS, Scopus, Crossref or publisher systems. Model-generated rankings, fees, acceptance rates and review times may be missing, outdated or fabricated. Verify every candidate on authoritative sources before submitting.
+- **First submission or a new field:** paste the title and abstract, and the selector proposes the journals that have recently published the articles most similar to yours.
+- **Journals already in mind:** name up to five. Each is scored on the same scale as the suggestions and shown with the similar articles it has published, so you can judge whether your manuscript belongs there.
+
+Every journal is backed by real articles, and every figure comes from OpenAlex or DOAJ at the time of the search. An AI model is optional. With one selected, the selector also:
+- writes English search terms (needed for Chinese abstracts);
+- assesses the fit with each journal;
+- sorts the suggestions into reach, best-match and safe tiers;
+- gives a verdict with cover-letter points for each target journal.
+
+## How the journals are found
+
+1. **Search terms.** Key phrases are taken from the title and abstract, with your keywords first. With a model selected, the model writes them instead.
+2. **Similar articles.** OpenAlex returns the 200 journal articles from the chosen period whose titles and abstracts best match those terms.
+3. **Comparison with your abstract.** Each article is compared with your title and abstract by TF-IDF cosine similarity.
+4. **Journal score.** Each journal scores the summed similarity of its articles among your manuscript's 100 nearest neighbours. **Fit** is that score relative to the best journal, and the cards list the articles behind it.
+5. **Journal data.** Journal data comes from OpenAlex, and DOAJ adds details for open-access journals.
+
+The approach follows JANE (Schuemie & Kors, 2008): a journal is a good candidate when it has published articles like yours.
+
+:::info Validation
+The selector was tested on 24 recent articles from core journals in six fields: agriculture and biology, biochemistry, computer science, environmental science, materials science and medicine. Each article's title and abstract went through the pipeline, with the article itself excluded.
+- The journal that published the article was the first suggestion for 5 articles and in the top 10 for 9.
+- When that journal had published related work in the period searched, it ranked in the top 10 for 9 of 12.
+
+The other journals on the list are usually reasonable alternatives rather than errors, because several journals fit most manuscripts. The benchmark script and results are in the site repository (`scripts/journal-benchmark.mjs`, `scripts/benchmarks/`).
 :::
 
 ## Before you start
 
-- Prepare an abstract with the objective, methods, data and novelty; 200–400 words is a practical starting point.
-- Gather optional keywords and constraints such as OA policy, journal type, review speed or page-charge limits.
-- Use **Local demo** to inspect the workflow without sending data.
-- Live analysis requires network access, a provider/model and your own API key.
-- The provider list covers OpenAI, Anthropic, Google Gemini, xAI, Mistral and Meta; DeepSeek, Qwen, Kimi, GLM, MiniMax, Doubao, Hunyuan, ERNIE, StepFun and MiMo; aggregators such as OpenRouter, SiliconFlow, Groq, Together AI and Hugging Face; Ollama or LM Studio running on your computer; and any OpenAI- or Anthropic-compatible endpoint. Each model is marked as image + text or text only.
-- Direct browser calls depend on the provider's CORS policy.
+- Prepare the title and abstract. English text works best because OpenAlex indexes English titles and abstracts. For a Chinese abstract, add English keywords or select a model.
+- Searching needs no account or key. Anonymous OpenAlex use allows about 100 searches a day per network, and repeated searches in the same tab are free.
+- A model is optional. To use one, choose a provider and model and enter your own API key. See [model providers](#model-providers).
 
 ## Quick workflow
 
 1. [Open AI Journal Selector](/app/journal-selector).
-2. In step **01 · Model** (**Journal analysis model**), keep Local demo or select a provider, model and API key.
-3. Paste the manuscript **Abstract** under **Research abstract**.
-4. Complete any useful fields under **Submission profile**:
-   - **Keywords / Focus**
-   - **OA requirement**
-   - **Review speed**
-   - **Journal type**
-   - **Suggestions (3–8)**
-   - **Special notes**
-5. Review **Indicator reference** and expand **Review all required indicators** if needed.
-6. Select **Generate journal plan**.
-7. Review **AI summary**, candidate cards and the complete comparison table.
-8. Select **Download CSV** or expand **View raw AI response**.
+2. **01 · Model:** keep **Local demo** for search only, or choose a provider, model and API key.
+3. **02 · Manuscript:** enter the **Title**, **Abstract** and optional **Keywords** (separated by semicolons).
+4. **03 · Goal:**
+   - Under **Journals you have in mind**, enter up to five journals, one per line, by name or ISSN.
+   - Set the open-access requirement, maximum APC, publisher country, review speed, period and number of suggestions.
+5. **04 · Criteria** shows where each figure comes from.
+6. **05 · Search:** select **Find journals**.
+7. Read the results:
+   - **How the journals were found**, where you can edit the search terms and select **Search again**;
+   - **Submission strategy** (with a model);
+   - **Your targets**;
+   - **Suggested journals** and the comparison table.
+8. Select **Download CSV** to keep the shortlist. The parameter record lists the settings, search terms and data sources.
 
-## Controls & outputs
+## Reading the results
 
-| Control or output         | Purpose                                                                                                                                   |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Abstract**              | Required manuscript text sent to the selected model in live mode.                                                                         |
-| **Keywords / Focus**      | Adds subject terms or target scope.                                                                                                       |
-| **OA requirement**        | Chooses no preference, OA required or subscription preferred.                                                                             |
-| **Review speed**          | Adds a preferred turnaround window to the prompt.                                                                                         |
-| **Journal type**          | Chooses no preference, Chinese core preference or SCI/international preference.                                                           |
-| **Suggestions (3–8)**     | Limits the number of model results processed by the app.                                                                                  |
-| **Special notes**         | Adds constraints such as compliance, fees or quartile preference.                                                                         |
-| **Indicator reference**   | Shows the schema loaded from the [journal evaluation file](https://smiler488.github.io/app/journal-selector/journal-indicator-system.md). |
-| Candidate cards           | Summarize journal name, publisher, IF field, JCR/CAS quartile and OA type.                                                                |
-| Complete comparison table | Shows all 26 normalized fields for every returned candidate.                                                                              |
-| **Download CSV**          | Exports the same schema and column order used by the table.                                                                               |
+| Item | Meaning |
+| --- | --- |
+| **Fit** | Summed similarity of the journal's articles to your manuscript, relative to the best journal. A large journal with many related articles reaches 100%. A specialised journal can rank lower and still be an excellent venue. |
+| **Similar articles** | Number of the journal's articles among the 100 closest to yours. Open **Similar articles it published** to read them; they are also worth citing and mentioning in a cover letter. |
+| **Strong / moderate / weak fit** (targets) | Strong: among the five best journals found, or a fit of at least 40% with two or more similar articles. Moderate: among the best 15, or a fit of at least 15%. Weak: at least one similar article. |
+| **2-yr citedness** | OpenAlex 2-year mean citedness: citations per article over two years, constructed like the impact factor but from OpenAlex data. It is not the Clarivate impact factor. |
+| **H-index**, **Articles in (year)** | From OpenAlex. Volume indicates how many papers the journal handles each year. |
+| **APC** | DOAJ's declared charge for open-access journals. Otherwise the OpenAlex list price; for subscription journals this is the optional open-access fee. |
+| **Weeks to publication**, **Peer review** | Declared to DOAJ, so open-access journals only. A tag appears when the time exceeds your review-speed preference. |
+| **Check** | Homepage (author guidelines), SCImago, NLM Catalog, JCR, CAS ranking and DOAJ. |
 
-## How it works
+Impact factor, JCR quartile, CAS quartile, CiteScore and acceptance rate are proprietary or unpublished. They stay as empty columns in the CSV for you to fill after checking.
 
-The app loads the journal evaluation file from the static site. If it cannot be loaded or parsed, it uses the same 26-field default schema built into the page.
+## With an AI model
 
-The prompt contains the full abstract, keywords, submission preferences, special notes and indicator schema. It asks the selected model for strict JSON containing an overview and journal array. The surrounding instructions are written in Chinese for model alignment, while the indicator file is included without translation and most output values are requested in English.
+The model receives your manuscript, your preferences and the data of the journals found. It writes only about those journals:
+- **Submission strategy:**
+  - reach (strong fit, higher citedness);
+  - best match (closest scope);
+  - safe (good fit, broader scope);
+  - plus a checklist for preparing the submission.
+- **For each journal:** how the manuscript matches its scope, what to emphasize and what to watch out for.
+- **For each target journal:** a verdict (good target, strengthen the fit first, or reconsider), the reasons, points for the cover letter and alternatives from the list.
 
-Returned candidates are limited to the selected count and normalized to all schema fields. Missing values display as `-`; serial numbers are filled locally when absent. CSV column labels are English, but model-generated values are not guaranteed to be English. Values beginning with spreadsheet formula characters are neutralized during CSV export.
+The model is told not to state metrics that are not in the data. Its text is advice and does not guarantee acceptance. On the Chinese site it answers in Chinese.
 
-Local demo makes no network request and currently returns one illustrative candidate with deliberately unverified metrics.
+### Model providers
+
+The provider list covers:
+- OpenAI, Anthropic, Google Gemini, xAI, Mistral and Meta;
+- DeepSeek, Qwen, Kimi, GLM, MiniMax, Doubao, Hunyuan, ERNIE, StepFun and MiMo;
+- aggregators such as OpenRouter, SiliconFlow, Groq, Together AI and Hugging Face;
+- Ollama or LM Studio running on your computer;
+- any OpenAI- or Anthropic-compatible endpoint.
 
 ## Data, privacy & external services
 
-In live mode, the full abstract, keywords, preferences, notes and indicator reference are sent to the endpoint shown in **Journal analysis model**. Do not submit confidential manuscript text unless the provider and its data policy are acceptable for your work.
-
-The API key remains only in the current tab's memory, is cleared on provider change, refresh or page exit, and is sent to the displayed endpoint. A static site cannot secure it like a backend. Use a restricted test key and an authenticated server-side proxy for production use.
-
-Provider CORS rules, regional endpoints, model access, billing and quota all affect whether a direct browser request succeeds.
-
-:::info Time-sensitive fields
-The current schema includes **Impact Factor (2024)** as a fixed field name. Treat it as a schema snapshot, not proof that a value is current. Verify IF, quartiles, APC, OA status and timelines on the publisher and relevant indexing services.
-:::
+- **OpenAlex** receives the search terms, not the abstract. **DOAJ** receives ISSNs.
+- With a model selected, the title, abstract, preferences, notes and journal data go to the endpoint shown under **01 · Model**. Do not send a confidential manuscript to a provider whose data policy you have not accepted.
+- The API key stays in the tab's memory and is cleared on refresh, provider change or page exit.
+- Search results are cached in the tab session only.
 
 ## Limitations
 
-- The interface does not enforce an abstract length, but provider context limits still apply.
-- A requested count of 3–8 does not guarantee that the model returns that many valid candidates.
-- Local demo is illustrative and returns only one candidate.
-- The app cannot verify whether a journal is active, indexed, predatory or suitable for a specific institution.
-- AI output can be incomplete even though missing fields are normalized in the UI.
-- CSV is a planning aid, not evidence of current journal metrics.
+- The search can only find journals that have published related articles in the chosen period. A new journal, or a journal new to the topic, can be missed. Widen the period or add it as a target.
+- Abstracts in OpenAlex are incomplete for some publishers; such journals are matched on titles only.
+- Publisher country stands in for "Chinese journal". CSCD and PKU core status are not available in open data and must be checked separately.
+- Figures reflect OpenAlex and DOAJ at the time of the search and can lag a journal's own site.
 
 ## Troubleshooting
 
-- **Please paste the abstract first:** the Abstract field is empty.
-- **AI response could not be parsed:** regenerate or choose a model that reliably returns strict JSON.
-- **Only one candidate appears in Local demo:** this is expected; switch to a live provider for an actual model request.
-- **Many fields show a dash:** the model omitted those values; do not infer that the metric is zero.
-- **401, 403, 404 or 429:** verify provider, model ID, key permissions, billing and quota.
-- **CORS or network failure:** use Local demo or your authenticated backend proxy.
-- **Indicator file is unavailable:** the app automatically uses its built-in 26-field schema.
-- **CSV differs from a publisher page:** treat the publisher or indexing service as authoritative and correct your research record manually.
-
-[Open AI Journal Selector →](/app/journal-selector)
-
-[← Back to App Lab](/app)
+- **"OpenAlex's free allowance … is used up":** wait for the daily reset. Results already shown remain in the tab.
+- **Irrelevant journals:** remove broad terms such as single common words under **Search terms** and select **Search again**, or add precise keywords.
+- **A target is "Not found in OpenAlex":** enter its ISSN.
+- **Chinese abstract gives no results:** add English keywords or select a model.
+- **401, 403, 404 or 429 from the model:** check the provider, model ID, key permissions and quota. The journal search itself still works in Local demo.

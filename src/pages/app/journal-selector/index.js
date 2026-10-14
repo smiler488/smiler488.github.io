@@ -1,19 +1,37 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AIProviderSettings from "../../../components/AIProviderSettings";
 import AppScaffold from "../../../components/AppScaffold";
 import { recordExport } from "../../../lib/workbench/provenance";
-import { createDefaultAIConfig, requestAI } from "../../../lib/api";
+import {
+  createDefaultAIConfig,
+  getAIProvider,
+  requestAI,
+} from "../../../lib/api";
+import {
+  fitLevel,
+  hasCjk,
+  rankJournals,
+  searchTerms,
+  targetFit,
+} from "../../../lib/journals/match";
+import {
+  addDoajDetails,
+  findJournal,
+  getJournals,
+  searchWorks,
+  usage,
+} from "../../../lib/journals/sources";
 import styles from "./styles.module.css";
-import { makeToolText } from "@site/src/lib/i18n/toolText";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
 import ZH from "./_zh";
 
 const tx = makeToolText(ZH);
 const INDICATOR_FILE_PATH = "/app/journal-selector/journal-indicator-system.md";
-
-const BASE_COLUMNS = [];
+const MAX_TARGETS = 5;
+const CANDIDATE_POOL = 60;
 
 const OA_OPTIONS = [
   { value: "flexible", label: tx("No preference (OA or subscription)") },
@@ -21,143 +39,72 @@ const OA_OPTIONS = [
   { value: "not_required", label: tx("Subscription journal preferred") },
 ];
 
-const SPEED_OPTIONS = [
-  "4 weeks",
-  "6-8 weeks",
-  "10-12 weeks",
-  tx("Flexible / not specified"),
+const REGION_OPTIONS = [
+  { value: "any", label: tx("Any country") },
+  { value: "international", label: tx("Published outside China") },
+  { value: "cn", label: tx("Published in China") },
 ];
 
-const JOURNAL_PREF_OPTIONS = [
-  { value: "any", label: tx("No preference (Chinese or international)") },
-  { value: "cn", label: tx("Prefer Chinese core journals (CSCD/PKU core)") },
-  { value: "sci", label: tx("Prefer SCI / international English journals") },
+const SPEED_OPTIONS = [
+  { value: "", label: tx("Flexible / not specified") },
+  { value: "8", label: tx("Within about 8 weeks") },
+  { value: "12", label: tx("Within about 12 weeks") },
+  { value: "20", label: tx("Within about 20 weeks") },
 ];
+
+const YEAR_OPTIONS = [3, 5, 10];
+
+const SORTS = [
+  { value: "fit", label: tx("Fit") },
+  { value: "citedness", label: tx("2-year mean citedness") },
+  { value: "h", label: tx("H-index") },
+  { value: "apc", label: tx("Lowest APC") },
+];
+
+const SOURCE_LABELS = {
+  Match: tx("Computed from similar articles"),
+  OpenAlex: "OpenAlex",
+  DOAJ: "DOAJ",
+  AI: tx("Language model"),
+  Manual: tx("Check manually"),
+};
 
 const DEFAULT_INDICATOR_FIELDS = [
+  { key: "serial_number", label: "Rank", source: "Match" },
+  { key: "journal_name", label: "Journal Name", source: "OpenAlex" },
+  { key: "issn", label: "ISSN", source: "OpenAlex" },
+  { key: "publisher", label: "Publisher", source: "OpenAlex" },
+  { key: "fit_score", label: "Fit (%)", source: "Match" },
+  { key: "similar_articles", label: "Similar Articles", source: "Match" },
   {
-    key: "serial_number",
-    label: tx("Serial Number"),
-    description: tx("Auto-increment ranking (1,2,3...)"),
+    key: "two_year_mean_citedness",
+    label: "2-year Mean Citedness",
+    source: "OpenAlex",
   },
+  { key: "h_index", label: "H-index", source: "OpenAlex" },
+  { key: "oa_type", label: "Open Access", source: "OpenAlex" },
+  { key: "apc_usd", label: "APC List Price (USD)", source: "OpenAlex" },
   {
-    key: "journal_name",
-    label: tx("Journal Name"),
-    description: tx("Official full name"),
+    key: "weeks_to_publication",
+    label: "Weeks to Publication",
+    source: "DOAJ",
   },
-  { key: "issn", label: "ISSN", description: tx("Print or electronic ISSN") },
-  {
-    key: "publisher",
-    label: tx("Publisher"),
-    description: tx("Publishing group or organization"),
-  },
-  {
-    key: "established_year",
-    label: tx("Year Established"),
-    description: tx("Year the journal was founded"),
-  },
-  {
-    key: "publication_frequency",
-    label: tx("Publication Frequency"),
-    description: tx("Monthly / Quarterly / Continuous etc."),
-  },
-  {
-    key: "oa_type",
-    label: tx("Open Access (OA)"),
-    description: tx("Gold / Hybrid / Subscription"),
-  },
-  {
-    key: "apc_usd",
-    label: tx("OA Fee (USD)"),
-    description: tx("Article processing charge"),
-  },
-  {
-    key: "impact_factor_2024",
-    label: tx("Impact Factor (2024)"),
-    description: tx("Latest Journal Impact Factor"),
-  },
-  {
-    key: "five_year_if",
-    label: tx("Five-year Impact Factor"),
-    description: tx("Five-year IF"),
-  },
-  {
-    key: "jcr_quartile",
-    label: tx("JCR Quartile"),
-    description: tx("Q1–Q4 ranking"),
-  },
-  {
-    key: "cas_quartile",
-    label: tx("CAS Quartile"),
-    description: tx("Chinese Academy of Sciences division"),
-  },
-  { key: "citescore", label: "CiteScore", description: tx("Scopus CiteScore") },
-  {
-    key: "h_index",
-    label: "H-index",
-    description: tx("Scopus or Google Scholar H-index"),
-  },
-  {
-    key: "self_citation_rate",
-    label: tx("Self-citation Rate (%)"),
-    description: tx("Percentage of self-citations"),
-  },
-  {
-    key: "annual_publication_volume",
-    label: tx("Annual Publications"),
-    description: tx("Articles published per year"),
-  },
-  {
-    key: "acceptance_rate",
-    label: tx("Acceptance Rate (%)"),
-    description: tx("Estimated acceptance probability"),
-  },
-  {
-    key: "initial_review_weeks",
-    label: tx("Initial Review Cycle (weeks)"),
-    description: tx("Desk review duration"),
-  },
-  {
-    key: "submission_to_acceptance_weeks",
-    label: tx("Submission-to-Acceptance (weeks)"),
-    description: tx("Full peer review cycle"),
-  },
-  {
-    key: "publication_timeline",
-    label: tx("Publication Timeline"),
-    description: tx("Time from acceptance to publication"),
-  },
-  {
-    key: "discipline_scope",
-    label: tx("Discipline Scope"),
-    description: tx("Primary research area"),
-  },
-  {
-    key: "core_focus",
-    label: tx("Core Focus Areas"),
-    description: tx("Key topics or domains"),
-  },
-  {
-    key: "special_sections",
-    label: tx("Special Sections"),
-    description: tx("Unique columns or sections"),
-  },
-  {
-    key: "strengths",
-    label: tx("Strengths"),
-    description: tx("Competitive advantages"),
-  },
-  {
-    key: "submission_advice",
-    label: tx("Submission Advice"),
-    description: tx("Tailored recommendations"),
-  },
-  {
-    key: "warning_status",
-    label: tx("Warning Status"),
-    description: tx("Any alerts or risk flags"),
-  },
+  { key: "impact_factor_2024", label: "Impact Factor", source: "Manual" },
+  { key: "submission_advice", label: "Submission Advice", source: "AI" },
 ];
+
+const FIT_LABELS = {
+  strong: tx("Strong fit"),
+  moderate: tx("Moderate fit"),
+  weak: tx("Weak fit"),
+  none: tx("No similar articles found"),
+};
+
+const VERDICT_LABELS = {
+  submit: tx("Good target — submit"),
+  strengthen_first: tx("Possible — strengthen the fit first"),
+  reconsider: tx("Reconsider — scope match is weak"),
+};
 
 function cleanupJsonText(rawText) {
   if (!rawText) return "";
@@ -171,56 +118,24 @@ function cleanupJsonText(rawText) {
   return text;
 }
 
-function tryParseJson(rawText) {
-  if (!rawText) return null;
-  const cleaned = cleanupJsonText(rawText);
-
-  const direct = safeParse(cleaned);
-  if (direct) return direct;
-
-  const braceStart = cleaned.indexOf("{");
-  const braceEnd = cleaned.lastIndexOf("}");
-  if (braceStart !== -1 && braceEnd !== -1 && braceEnd > braceStart) {
-    const snippet = cleaned.slice(braceStart, braceEnd + 1);
-    const parsed = safeParse(snippet);
-    if (parsed) return parsed;
-  }
-
-  const arrayStart = cleaned.indexOf("[");
-  const arrayEnd = cleaned.lastIndexOf("]");
-  if (arrayStart !== -1 && arrayEnd !== -1 && arrayEnd > arrayStart) {
-    const snippet = cleaned.slice(arrayStart, arrayEnd + 1);
-    const parsed = safeParse(snippet);
-    if (parsed) {
-      return { journals: parsed };
-    }
-  }
-
-  return null;
-}
-
 function safeParse(text) {
   try {
     return JSON.parse(text);
-  } catch (err) {
+  } catch {
     return null;
   }
 }
 
-function toCsv(rows, columns) {
-  const header = columns.map((col) => `"${col.label}"`);
-  const lines = rows.map((row) =>
-    columns.map((col) => escapeCsvValue(row[col.key])).join(",")
-  );
-  return [header.join(","), ...lines].join("\n");
-}
-
-function escapeCsvValue(value) {
-  if (value === undefined || value === null) return '""';
-  const str = formatCellValue(value);
-  const spreadsheetSafe = /^[=+\-@]/.test(str.trimStart()) ? `'${str}` : str;
-  const escaped = spreadsheetSafe.replace(/"/g, '""');
-  return `"${escaped}"`;
+function tryParseJson(rawText) {
+  if (!rawText) return null;
+  const cleaned = cleanupJsonText(rawText);
+  const direct = safeParse(cleaned);
+  if (direct) return direct;
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start !== -1 && end > start)
+    return safeParse(cleaned.slice(start, end + 1));
+  return null;
 }
 
 function formatCellValue(value) {
@@ -237,9 +152,24 @@ function formatCellValue(value) {
   return String(value);
 }
 
+function escapeCsvValue(value) {
+  const str = formatCellValue(value);
+  const spreadsheetSafe = /^[=+\-@]/.test(str.trimStart()) ? `'${str}` : str;
+  return `"${spreadsheetSafe.replace(/"/g, '""')}"`;
+}
+
+function toCsv(rows, columns) {
+  const header = columns.map((col) => escapeCsvValue(tx(col.label)));
+  const lines = rows.map((row) =>
+    columns.map((col) => escapeCsvValue(row[col.key])).join(",")
+  );
+  return [header.join(","), ...lines].join("\n");
+}
+
 function downloadCsv(text, filename) {
   if (typeof window === "undefined" || !text) return;
-  const blob = new Blob([text], { type: "text/csv;charset=utf-8;" });
+  // BOM so that spreadsheet software reads Chinese text correctly.
+  const blob = new Blob([`﻿${text}`], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -250,102 +180,142 @@ function downloadCsv(text, filename) {
   URL.revokeObjectURL(url);
 }
 
+/** Rows of the indicator table: | key | label | source | description |. */
 function parseIndicatorFields(text) {
-  if (!text) return [];
   const rows = [];
-  const lines = text.split(/\r?\n/);
-  lines.forEach((line) => {
-    const match = line.match(
-      /^\|\s*([a-zA-Z0-9_]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+)\s*\|/
-    );
-    if (!match) return;
-    const key = match[1].trim();
-    if (!key || key.toLowerCase() === "key") return;
-    const label = match[2].trim();
-    const description = match[3].trim();
-    rows.push({ key, label, description });
-  });
+  for (const line of String(text || "").split(/\r?\n/)) {
+    const cells = line
+      .split("|")
+      .slice(1, -1)
+      .map((c) => c.trim());
+    if (cells.length < 4 || !/^[a-z0-9_]+$/.test(cells[0])) continue;
+    const [key, label, source, description] = cells;
+    if (key === "key") continue;
+    rows.push({ key, label, source, description });
+  }
   return rows;
 }
 
-function buildJournalPrompt({
-  abstractText,
-  keywordHints,
-  oaPreference,
-  reviewSpeed,
-  maxResults,
-  extraNotes,
-  journalPreference,
-  indicatorFields,
-  indicatorText,
-}) {
-  const indicatorChunk = indicatorText?.trim()
-    ? indicatorText.trim().slice(0, 8000)
-    : "(指标文件为空，请参考常见指标：期刊名称、ISSN、出版商、Open Access、影响因子、审稿周期、录用率、特色栏目等)。";
-  const indicatorList =
-    indicatorFields && indicatorFields.length > 0
-      ? indicatorFields
-          .map(
-            ({ key, label, description }) =>
-              `- ${key}: "${label}"${description ? ` —— ${description}` : ""}`
-          )
-          .join("\n")
-      : DEFAULT_INDICATOR_FIELDS.map(
-          ({ key, label, description }) =>
-            `- ${key}: "${label}"${description ? ` —— ${description}` : ""}`
-        ).join("\n");
-
-  return `角色：资深学术出版顾问
-任务：基于下列摘要和偏好，推荐 ${maxResults} 个投稿期刊。请严格遵循“期刊综合评价指标体系”，使用中文提示完成推理，但所有字段的内容（除期刊名称、出版社等专有名词外）请尽量使用英文表达。
-
-【摘要】
-${abstractText.trim()}
-
-【作者关键词提示】${keywordHints || "未提供"}
-【OA需求】${oaPreference}
-【期望审稿速度】${reviewSpeed}
-【期刊类型偏好】${journalPreference}
-【特殊要求】${extraNotes || "未提供"}
-
-【指标原文（不要翻译，直接视为背景知识）】
-${indicatorChunk}
-
-【必须输出的 JSON 字段（严格使用以下 key，若缺数据填 "-"，所有值仍然用英文描述）】
-${indicatorList}
-
-【输出格式】
-{
-  "overview": {
-    "abstract_summary": "英文两句摘要回顾",
-    "alignment_summary": "英文解释：为何这些期刊符合指标体系"
-  },
-  "journals": [
-    {
-      "...上述每一个 key...": "对应的英文值"
-    }
-  ],
-  "notes": "如有额外提醒，用英文给出"
+function round(value, digits = 1) {
+  return Number.isFinite(value) ? Number(value.toFixed(digits)) : null;
 }
 
-【规则】
-1. 仅返回 JSON，不要 Markdown 代码块。
-2. journal_name、publisher 可保持官方语言，其余字段优先使用英文。
-3. 确保所有 JSON key 与上方列表完全一致，并且每一条期刊都包含全部字段。
-4. 根据“期刊类型偏好”选择对应的中文核心或 SCI 期刊。
-5. 只推荐确实存在的期刊，journal_name 使用期刊官方全称，issn 填写真实 ISSN。
-6. 影响因子、分区、审稿周期、录用率、版面费等数值，只有在确知时才填写；不确定时填 "-"，不得估计或编造。`;
+function shortId(id) {
+  return String(id || "").replace("https://openalex.org/", "");
 }
 
-// Links where each recommended journal's facts can be checked; the metrics
-// in the table come from the language model and must be verified.
-function verificationLinks(row) {
-  const name = formatCellValue(row.journal_name) || "";
-  const issnMatch = String(formatCellValue(row.issn) || "").match(
-    /\b\d{4}-\d{3}[\dXx]\b/
-  );
-  const query = encodeURIComponent(issnMatch ? issnMatch[0] : name);
-  if (!query) return [];
-  return [
+function articleLink(article) {
+  return article.doi || `https://openalex.org/${shortId(article.id)}`;
+}
+
+function apcText(journal) {
+  if (journal.doaj) {
+    if (!journal.doaj.hasApc) return tx("No APC (DOAJ)");
+    return journal.doaj.apc.map((p) => `${p.price} ${p.currency}`).join(" / ");
+  }
+  if (Number.isFinite(journal.apcUsd)) {
+    // A subscription journal's APC is the optional open-access fee.
+    return journal.isOa
+      ? `${journal.apcUsd} USD`
+      : tx("{0} USD (optional OA)", journal.apcUsd);
+  }
+  return "—";
+}
+
+function filterReasons(journal, prefs) {
+  const reasons = [];
+  if (prefs.oa === "required" && !journal.isOa) {
+    reasons.push(tx("not fully open access"));
+  }
+  if (prefs.oa === "not_required" && journal.isOa) {
+    reasons.push(tx("fully open access"));
+  }
+  const maxApc = Number(prefs.maxApc);
+  if (
+    prefs.maxApc !== "" &&
+    Number.isFinite(maxApc) &&
+    Number.isFinite(journal.apcUsd) &&
+    journal.apcUsd > maxApc
+  ) {
+    reasons.push(tx("APC above {0} USD", maxApc));
+  }
+  if (prefs.region === "cn" && journal.country !== "CN") {
+    reasons.push(tx("published outside China"));
+  }
+  if (prefs.region === "international" && journal.country === "CN") {
+    reasons.push(tx("published in China"));
+  }
+  return reasons;
+}
+
+function slowerThanWanted(journal, speed) {
+  const weeks = journal.doaj?.weeksToPublication;
+  return Boolean(speed) && Number.isFinite(weeks) && weeks > Number(speed);
+}
+
+function indicatorValue(key, j, ai) {
+  switch (key) {
+    case "serial_number":
+      return j.rank ?? "";
+    case "journal_name":
+      return j.name;
+    case "issn":
+      return [j.issnL, ...j.issns.filter((x) => x !== j.issnL)]
+        .filter(Boolean)
+        .join(", ");
+    case "publisher":
+      return j.publisher || "";
+    case "country":
+      return j.country || "";
+    case "homepage":
+      return j.homepage || "";
+    case "fit_score":
+      return Math.round(j.fit * 100);
+    case "similar_articles":
+      return j.similarCount;
+    case "example_articles":
+      return j.articles
+        .slice(0, 3)
+        .map((a) => a.title)
+        .join("; ");
+    case "two_year_mean_citedness":
+      return round(j.citedness2y, 2) ?? "";
+    case "h_index":
+      return j.hIndex ?? "";
+    case "annual_publication_volume":
+      return j.articlesLastYear ?? "";
+    case "oa_type":
+      return j.isOa ? tx("Open access") : tx("Subscription or hybrid");
+    case "apc_usd":
+      return j.apcUsd ?? "";
+    case "doaj_apc":
+      return j.doaj ? apcText(j) : "";
+    case "peer_review":
+      return j.doaj?.review.join(", ") || "";
+    case "weeks_to_publication":
+      return j.doaj?.weeksToPublication ?? "";
+    case "license":
+      return j.doaj?.licenses.join(", ") || "";
+    case "core_focus":
+      return j.topics.join("; ");
+    case "ai_fit_assessment":
+      return ai?.fit || "";
+    case "submission_advice":
+      return ai?.advice || "";
+    case "risk_notes":
+      return ai?.risks || "";
+    default:
+      return ""; // Manual fields: left for the author to fill in.
+  }
+}
+
+function verificationLinks(journal) {
+  const query = encodeURIComponent(journal.issnL || journal.name);
+  const links = [];
+  if (journal.homepage) {
+    links.push({ label: tx("Homepage"), href: journal.homepage });
+  }
+  links.push(
     {
       label: "SCImago",
       href: `https://www.scimagojr.com/journalsearch.php?q=${query}`,
@@ -354,219 +324,595 @@ function verificationLinks(row) {
       label: tx("NLM Catalog"),
       href: `https://www.ncbi.nlm.nih.gov/nlmcatalog/?term=${query}`,
     },
-    {
-      label: "DOAJ",
-      href: `https://doaj.org/search/journals?ref=quick-search&kw=${query}`,
-    },
-  ];
+    { label: "JCR", href: "https://jcr.clarivate.com/" },
+    { label: tx("CAS ranking"), href: "https://www.fenqubiao.com/" }
+  );
+  if (journal.doaj?.url) links.push({ label: "DOAJ", href: journal.doaj.url });
+  return links;
+}
+
+function sourceErrorMessage(error) {
+  switch (error?.code) {
+    case "rate":
+      return tx(
+        "OpenAlex's free allowance for this network is used up for today (about 100 searches). It resets within 24 hours; searches already run stay available in this tab."
+      );
+    case "timeout":
+      return tx(
+        "OpenAlex took too long to answer. Remove a broad search term and try again."
+      );
+    case "network":
+      return tx(
+        "Could not reach {0}. Check the network connection.",
+        error.message
+      );
+    case "http":
+      return tx("The journal database returned an error ({0}).", error.message);
+    default:
+      return error?.message || tx("The search failed.");
+  }
+}
+
+function termsPrompt({ title, abstract, keywords }) {
+  return `Give search terms for finding journal articles on the same topic as this manuscript in a bibliographic database (OpenAlex, English titles and abstracts).
+
+Title: ${title || "(none)"}
+Keywords: ${keywords || "(none)"}
+Abstract:
+${abstract}
+
+Rules:
+- 6 to 8 English terms, each 1–3 words, most specific first.
+- Cover the organism or material, the method or technique, and the measured property or outcome.
+- Use the wording authors in this field use in titles; no generic words such as "method", "analysis", "novel".
+- If the manuscript is not in English, translate the concepts.
+Return JSON only: {"terms": ["...", "..."]}`;
+}
+
+function assessmentPrompt({ title, abstract, prefs, candidates, targets }) {
+  const journalLine = (j) => ({
+    key: j.key,
+    name: j.name,
+    publisher: j.publisher,
+    fit_percent: Math.round(j.fit * 100),
+    similar_articles: j.similarCount,
+    two_year_mean_citedness: round(j.citedness2y, 2),
+    h_index: j.hIndex,
+    open_access: j.isOa,
+    apc: apcText(j),
+    weeks_to_publication: j.doaj?.weeksToPublication ?? null,
+    topics: j.topics.slice(0, 4),
+    similar_titles: j.articles.slice(0, 3).map((a) => a.title),
+  });
+  const language = IS_ZH
+    ? "Write every text value in Simplified Chinese; keep journal names as given."
+    : "Write every text value in English.";
+  return `You advise a researcher on where to submit a manuscript. The journals below were found from articles similar to the manuscript in OpenAlex; their figures are from OpenAlex and DOAJ. Base every judgement on the manuscript and these data only.
+
+Manuscript title: ${title || "(none)"}
+Abstract:
+${abstract}
+
+Author preferences: open access ${prefs.oa}; maximum APC ${
+    prefs.maxApc || "none"
+  } USD; country ${prefs.region}; review speed ${
+    prefs.speed ? `about ${prefs.speed} weeks` : "flexible"
+  }; notes: ${prefs.notes || "none"}.
+
+Candidate journals (key J…):
+${JSON.stringify(candidates.map(journalLine))}
+
+Target journals named by the author (key T…):
+${JSON.stringify(targets.map(journalLine))}
+
+Return JSON only:
+{
+  "summary": "two or three sentences on where this manuscript fits",
+  "tiers": { "reach": ["J…"], "match": ["J…"], "safe": ["J…"] },
+  "tier_note": "one sentence on how the tiers were chosen",
+  "journals": [{ "key": "J…", "fit": "how the manuscript matches the journal's scope", "advice": "what to emphasize for this journal", "risks": "scope or format concerns, or empty" }],
+  "targets": [{ "key": "T…", "verdict": "submit | strengthen_first | reconsider", "reasons": "why", "emphasize": ["points for the cover letter"], "alternatives": ["J…"] }],
+  "checklist": ["preparation steps before submitting"]
+}
+
+Rules:
+1. Use only the keys listed above. Every candidate appears in "journals"; every target in "targets".
+2. Tiers: "reach" = strong scope fit in journals with clearly higher citedness than the rest; "match" = the best scope fit; "safe" = good fit with broader scope. Each candidate in at most one tier.
+3. Do not state impact factors, quartiles, acceptance rates or review times that are not in the data.
+4. ${language}`;
+}
+
+function JournalFacts({ j, speed }) {
+  return (
+    <dl className={styles.quickFacts}>
+      <div>
+        <dt>{tx("2-yr citedness")}</dt>
+        <dd>{round(j.citedness2y, 2) ?? "—"}</dd>
+      </div>
+      <div>
+        <dt>{tx("H-index")}</dt>
+        <dd>{j.hIndex ?? "—"}</dd>
+      </div>
+      <div>
+        <dt>{tx("Articles in {0}", j.articlesYear)}</dt>
+        <dd>{j.articlesLastYear ?? "—"}</dd>
+      </div>
+      <div>
+        <dt>{tx("APC")}</dt>
+        <dd>{apcText(j)}</dd>
+      </div>
+      <div>
+        <dt>{tx("Weeks to publication")}</dt>
+        <dd className={slowerThanWanted(j, speed) ? styles.slow : undefined}>
+          {j.doaj?.weeksToPublication ?? "—"}
+        </dd>
+      </div>
+      <div>
+        <dt>{tx("Peer review")}</dt>
+        <dd>{j.doaj?.review.join(", ") || "—"}</dd>
+      </div>
+    </dl>
+  );
+}
+
+function SimilarArticles({ articles, years }) {
+  if (!articles.length) return null;
+  return (
+    <details className={styles.resultDetails}>
+      <summary>{tx("Similar articles it published ({0}–now)", years)}</summary>
+      <ol className={styles.articleList}>
+        {articles.slice(0, 5).map((a) => (
+          <li key={a.id}>
+            <Link to={articleLink(a)}>{a.title || a.id}</Link>{" "}
+            <span>{a.year}</span>
+          </li>
+        ))}
+      </ol>
+    </details>
+  );
+}
+
+function JournalCard({ j, ai, speed, fromYear, children, badge }) {
+  return (
+    <article className={styles.resultCard}>
+      <div className={styles.resultCardHeader}>
+        <span className={styles.rank}>{badge}</span>
+        <div>
+          <Heading as="h3">
+            {j.homepage ? <Link to={j.homepage}>{j.name}</Link> : j.name}
+          </Heading>
+          <p>
+            {[j.publisher, j.country].filter(Boolean).join(" · ") ||
+              tx("Publisher not provided")}
+          </p>
+        </div>
+      </div>
+      <div className={styles.tagRow}>
+        {j.isOa && <span className={styles.tag}>{tx("Open access")}</span>}
+        {j.inDoaj && <span className={styles.tag}>DOAJ</span>}
+        {slowerThanWanted(j, speed) && (
+          <span className={`${styles.tag} ${styles.tagWarn}`}>
+            {tx("Slower than your preference")}
+          </span>
+        )}
+      </div>
+      <div
+        className={styles.fitMeter}
+        role="img"
+        aria-label={tx("Fit {0}%", Math.round(j.fit * 100))}
+      >
+        <span style={{ width: `${Math.max(2, Math.round(j.fit * 100))}%` }} />
+      </div>
+      <p className={styles.fitText}>
+        {tx(
+          "Fit {0}% · {1} similar articles",
+          Math.round(j.fit * 100),
+          j.similarCount
+        )}
+      </p>
+      <JournalFacts j={j} speed={speed} />
+      {j.topics.length > 0 && (
+        <p className={styles.topics}>
+          {tx("Topics:")} {j.topics.slice(0, 3).join(" · ")}
+        </p>
+      )}
+      {children}
+      {ai && (ai.fit || ai.advice || ai.risks) && (
+        <div className={styles.aiNote}>
+          {ai.fit && <p>{ai.fit}</p>}
+          {ai.advice && (
+            <p>
+              <strong>{tx("Emphasize:")}</strong> {ai.advice}
+            </p>
+          )}
+          {ai.risks && (
+            <p>
+              <strong>{tx("Watch out:")}</strong> {ai.risks}
+            </p>
+          )}
+        </div>
+      )}
+      <SimilarArticles articles={j.articles} years={fromYear} />
+      <p className={styles.verifyLinks}>
+        {tx("Check:")}{" "}
+        {verificationLinks(j).map((link, i) => (
+          <React.Fragment key={link.label}>
+            {i > 0 && " · "}
+            <Link to={link.href}>{link.label}</Link>
+          </React.Fragment>
+        ))}
+      </p>
+    </article>
+  );
 }
 
 export default function JournalSelectorPage() {
+  const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
+  const [title, setTitle] = useState("");
   const [abstractText, setAbstractText] = useState("");
   const [keywordHints, setKeywordHints] = useState("");
+  const [targetText, setTargetText] = useState("");
   const [oaPreference, setOaPreference] = useState("flexible");
-  const [reviewSpeed, setReviewSpeed] = useState(SPEED_OPTIONS[1]);
-  const [maxResults, setMaxResults] = useState("5");
+  const [maxApc, setMaxApc] = useState("");
+  const [region, setRegion] = useState("any");
+  const [years, setYears] = useState(5);
+  const [reviewSpeed, setReviewSpeed] = useState("");
+  const [maxResults, setMaxResults] = useState("10");
   const [extraNotes, setExtraNotes] = useState("");
-  const [journalPreference, setJournalPreference] = useState("any");
-
-  const [aiConfig, setAiConfig] = useState(createDefaultAIConfig);
 
   const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState(tx("Waiting for an abstract…"));
-  const [journals, setJournals] = useState([]);
-  const [overview, setOverview] = useState(null);
-  const [csvText, setCsvText] = useState("");
+  const [stage, setStage] = useState("");
+  const [status, setStatus] = useState(
+    tx("Paste an abstract to find journals that publish similar work.")
+  );
+  const [result, setResult] = useState(null);
+  const [termsDraft, setTermsDraft] = useState("");
+  const [sortBy, setSortBy] = useState("fit");
   const [rawText, setRawText] = useState("");
-  const [indicatorText, setIndicatorText] = useState("");
   const [indicatorFields, setIndicatorFields] = useState(
     DEFAULT_INDICATOR_FIELDS
+  );
+  const abortRef = useRef(null);
+
+  const usesModel = getAIProvider(aiConfig.provider).protocol !== "mock";
+  const prefs = {
+    oa: oaPreference,
+    maxApc,
+    region,
+    speed: reviewSpeed,
+    notes: extraNotes,
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(INDICATOR_FILE_PATH, { cache: "no-store" })
+      .then((resp) => (resp.ok ? resp.text() : ""))
+      .then((text) => {
+        const parsed = parseIndicatorFields(text);
+        if (!cancelled && parsed.length) setIndicatorFields(parsed);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+      abortRef.current?.abort();
+    };
+  }, []);
+
+  const indicatorGroups = useMemo(() => {
+    const groups = new Map();
+    for (const field of indicatorFields) {
+      if (!groups.has(field.source)) groups.set(field.source, []);
+      groups.get(field.source).push(field);
+    }
+    return [...groups.entries()];
+  }, [indicatorFields]);
+
+  async function modelTerms(signal) {
+    const response = await requestAI(
+      aiConfig,
+      {
+        question: termsPrompt({
+          title,
+          abstract: abstractText,
+          keywords: keywordHints,
+        }),
+      },
+      { jsonMode: true, maxTokens: 400, signal }
+    );
+    const parsed = tryParseJson(response.text);
+    const list = Array.isArray(parsed?.terms) ? parsed.terms : [];
+    return list
+      .map((t) => String(t).trim())
+      .filter((t) => t && t.length < 60)
+      .slice(0, 8);
+  }
+
+  async function modelAssessment(candidates, targets, signal) {
+    const response = await requestAI(
+      aiConfig,
+      {
+        question: assessmentPrompt({
+          title,
+          abstract: abstractText,
+          prefs,
+          candidates,
+          targets,
+        }),
+      },
+      {
+        jsonMode: true,
+        maxTokens: 4000,
+        signal,
+        systemPrompt:
+          "You are an experienced academic editor. Return only strict JSON. Never invent journal metrics.",
+      }
+    );
+    setRawText(response.text);
+    const parsed = tryParseJson(response.text);
+    if (!parsed) throw new Error(tx("The model's answer could not be read."));
+    const known = new Set([
+      ...candidates.map((j) => j.key),
+      ...targets.map((j) => j.key),
+    ]);
+    const keep = (list) =>
+      (Array.isArray(list) ? list : []).filter((k) => known.has(k));
+    const byKey = {};
+    for (const item of [
+      ...(parsed.journals || []),
+      ...(parsed.targets || []),
+    ]) {
+      if (item && known.has(item.key)) byKey[item.key] = item;
+    }
+    return {
+      summary: typeof parsed.summary === "string" ? parsed.summary : "",
+      tiers: {
+        reach: keep(parsed.tiers?.reach),
+        match: keep(parsed.tiers?.match),
+        safe: keep(parsed.tiers?.safe),
+      },
+      tierNote: typeof parsed.tier_note === "string" ? parsed.tier_note : "",
+      checklist: Array.isArray(parsed.checklist)
+        ? parsed.checklist.map(String).slice(0, 10)
+        : [],
+      byKey,
+    };
+  }
+
+  async function handleRun(editedTerms = null) {
+    if (!abstractText.trim()) {
+      setStatus(tx("Please paste the abstract first."));
+      return;
+    }
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const { signal } = controller;
+    setBusy(true);
+    setRawText("");
+    const notes = [];
+    const manuscript = `${title}. ${abstractText}`;
+    const fromYear = new Date().getFullYear() - years + 1;
+
+    try {
+      let terms = editedTerms;
+      if (!terms && usesModel) {
+        setStage(tx("Asking the model for search terms…"));
+        try {
+          terms = await modelTerms(signal);
+        } catch (error) {
+          if (error?.name === "AbortError") throw error;
+          notes.push(
+            tx(
+              "The model gave no search terms ({0}); terms were extracted locally.",
+              error.message
+            )
+          );
+        }
+      }
+      if (!terms?.length) {
+        terms = searchTerms({
+          title,
+          abstract: abstractText,
+          keywords: keywordHints,
+        });
+      }
+      if (!terms.length) {
+        throw new Error(
+          hasCjk(`${title}${abstractText}`)
+            ? tx(
+                "OpenAlex indexes English titles and abstracts. For a Chinese abstract, add English keywords or choose an AI model to translate the key terms."
+              )
+            : tx("No search terms could be found. Add keywords and try again.")
+        );
+      }
+
+      setStage(tx("Searching OpenAlex for similar articles…"));
+      const { total, works } = await searchWorks(terms, { years, signal });
+      if (!works.length) {
+        throw new Error(
+          tx(
+            "No similar articles were found. Edit the search terms or widen the time window."
+          )
+        );
+      }
+      const ranking = rankJournals(manuscript, works);
+
+      setStage(tx("Retrieving journal data…"));
+      const pool = ranking.journals.slice(0, CANDIDATE_POOL);
+      const records = await getJournals(
+        pool.map((j) => j.id),
+        { signal }
+      );
+      const all = pool
+        .filter((j) => records.get(j.id)?.type === "journal")
+        .map((j) => ({
+          ...records.get(j.id),
+          fit: j.fit,
+          similarCount: j.articles.length,
+          articles: j.articles,
+        }));
+      const passing = all.filter((j) => !filterReasons(j, prefs).length);
+      const count = Math.min(20, Math.max(3, Number(maxResults) || 10));
+      const candidates = passing
+        .slice(0, count)
+        .map((j, i) => ({ ...j, rank: i + 1, key: `J${i + 1}` }));
+
+      const targetQueries = targetText
+        .split(/\n+/)
+        .map((t) => t.trim())
+        .filter(Boolean)
+        .slice(0, MAX_TARGETS);
+      const targets = [];
+      for (const [i, query] of targetQueries.entries()) {
+        setStage(tx("Checking target journal: {0}", query));
+        const record = await findJournal(query, { signal });
+        if (!record) {
+          targets.push({ query, missing: true, key: `T${i + 1}` });
+          continue;
+        }
+        const inPool = all.find((j) => j.id === record.id);
+        let fitInfo;
+        if (inPool) {
+          fitInfo = inPool;
+        } else {
+          const { works: own } = await searchWorks(terms, {
+            years,
+            sourceId: shortId(record.id),
+            perPage: 50,
+            signal,
+          });
+          fitInfo = targetFit(manuscript, ranking, own);
+        }
+        const shown = candidates.find((j) => j.id === record.id);
+        targets.push({
+          ...record,
+          fit: fitInfo.fit,
+          similarCount: fitInfo.similarCount,
+          articles: fitInfo.articles,
+          level: fitLevel(
+            fitInfo.fit,
+            fitInfo.similarCount,
+            inPool ? all.indexOf(inPool) + 1 : null
+          ),
+          candidateRank: shown?.rank ?? null,
+          outside: filterReasons(record, prefs),
+          query,
+          key: `T${i + 1}`,
+        });
+      }
+      const found = targets.filter((t) => !t.missing);
+
+      setStage(tx("Adding DOAJ details…"));
+      await addDoajDetails([...candidates, ...found], { signal });
+
+      let ai = null;
+      if (usesModel) {
+        setStage(tx("The model is writing the assessment…"));
+        try {
+          ai = await modelAssessment(candidates, found, signal);
+        } catch (error) {
+          if (error?.name === "AbortError") throw error;
+          notes.push(tx("Written assessment unavailable: {0}", error.message));
+        }
+      }
+
+      setResult({
+        terms,
+        total,
+        analysed: works.length,
+        fromYear,
+        candidates,
+        hidden: all.length - passing.length,
+        targets,
+        ai,
+        notes,
+        speed: reviewSpeed,
+      });
+      setTermsDraft(terms.join("; "));
+      setSortBy("fit");
+      setStatus(
+        tx(
+          "Found {0} journals from {1} similar articles.",
+          candidates.length,
+          works.length
+        )
+      );
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+      setStatus(sourceErrorMessage(error));
+    } finally {
+      if (abortRef.current === controller) {
+        setBusy(false);
+        setStage("");
+      }
+    }
+  }
+
+  const sortedCandidates = useMemo(() => {
+    if (!result) return [];
+    const list = [...result.candidates];
+    const num = (v, fallback) => (Number.isFinite(v) ? v : fallback);
+    if (sortBy === "citedness") {
+      list.sort((a, b) => num(b.citedness2y, -1) - num(a.citedness2y, -1));
+    } else if (sortBy === "h") {
+      list.sort((a, b) => num(b.hIndex, -1) - num(a.hIndex, -1));
+    } else if (sortBy === "apc") {
+      const apc = (j) =>
+        j.doaj && !j.doaj.hasApc ? 0 : num(j.apcUsd, Infinity);
+      list.sort((a, b) => apc(a) - apc(b));
+    }
+    return list;
+  }, [result, sortBy]);
+
+  const tableRows = useMemo(() => {
+    if (!result) return [];
+    const rows = [
+      ...result.targets.filter((t) => !t.missing),
+      ...result.candidates,
+    ];
+    return rows.map((j) => {
+      const row = {};
+      for (const field of indicatorFields) {
+        row[field.key] = indicatorValue(field.key, j, result.ai?.byKey[j.key]);
+      }
+      if (j.key.startsWith("T")) row.serial_number = tx("Target");
+      return row;
+    });
+  }, [result, indicatorFields]);
+
+  const csvText = useMemo(
+    () => (tableRows.length ? toCsv(tableRows, indicatorFields) : ""),
+    [tableRows, indicatorFields]
   );
 
   // CSV download plus a parameter record. The abstract is recorded only as a
   // checksum (it may be an unpublished manuscript); API keys are never stored.
   const downloadPlan = () => {
-    const filename = "journal-recommendations.csv";
+    const filename = "journal-shortlist.csv";
     downloadCsv(csvText, filename);
     recordExport({
       files: [{ name: filename, text: csvText }],
-      inputs: [{ name: "abstract.txt", text: abstractText }],
+      inputs: [{ name: "abstract.txt", text: `${title}\n${abstractText}` }],
       parameters: {
-        keywordHints: keywordHints || null,
+        searchTerms: result?.terms,
+        years,
         openAccess: oaPreference,
-        reviewSpeed,
-        maxResults: Number(maxResults),
-        journalPreference,
-        indicatorFields,
-        ai: { provider: aiConfig.provider, model: aiConfig.model },
+        maxApcUsd: maxApc === "" ? null : Number(maxApc),
+        region,
+        reviewSpeedWeeks: reviewSpeed || null,
+        targets: result?.targets.map((t) => t.name || t.query),
+        sources: ["OpenAlex", "DOAJ"],
+        ai: usesModel
+          ? { provider: aiConfig.provider, model: aiConfig.model }
+          : null,
       },
     });
   };
-  useEffect(() => {
-    let cancelled = false;
 
-    async function loadIndicator() {
-      try {
-        const resp = await fetch(INDICATOR_FILE_PATH, { cache: "no-store" });
-        if (!resp.ok) throw new Error(tx("fetch failed"));
-        const text = await resp.text();
-        if (!cancelled) {
-          setIndicatorText(text);
-          const parsed = parseIndicatorFields(text);
-          setIndicatorFields(
-            parsed.length > 0 ? parsed : DEFAULT_INDICATOR_FIELDS
-          );
-        }
-      } catch {
-        if (!cancelled) {
-          setIndicatorText("");
-          setIndicatorFields(DEFAULT_INDICATOR_FIELDS);
-        }
-      }
-    }
-
-    loadIndicator();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const activeIndicatorFields =
-    indicatorFields && indicatorFields.length > 0
-      ? indicatorFields
-      : DEFAULT_INDICATOR_FIELDS;
-
-  const allColumns = useMemo(
-    () => [
-      ...BASE_COLUMNS,
-      ...activeIndicatorFields.map(({ key, label }) => ({
-        key,
-        label,
-      })),
-    ],
-    [activeIndicatorFields]
-  );
-
-  async function callAi(prompt) {
-    const result = await requestAI(
-      aiConfig,
-      { question: prompt },
-      {
-        jsonMode: true,
-        mockTag: "journal-selector",
-        systemPrompt:
-          "Return only strict JSON. Treat journal metrics as time-sensitive and clearly mark any value that is not verified.",
-      }
-    );
-    return { text: result.text, data: result.raw };
-  }
-
-  async function handleGenerate() {
-    if (!abstractText.trim()) {
-      setStatus(tx("Please paste the abstract first."));
-      return;
-    }
-
-    setBusy(true);
-    setStatus(tx("Preparing prompt…"));
-    setJournals([]);
-    setCsvText("");
-    setOverview(null);
-    setRawText("");
-
-    try {
-      const normalizedMaxResults = Math.min(
-        8,
-        Math.max(3, Number(maxResults) || 5)
-      );
-      const prompt = buildJournalPrompt({
-        abstractText,
-        keywordHints,
-        oaPreference:
-          OA_OPTIONS.find((opt) => opt.value === oaPreference)?.label ||
-          oaPreference,
-        reviewSpeed,
-        maxResults: normalizedMaxResults,
-        extraNotes,
-        journalPreference:
-          JOURNAL_PREF_OPTIONS.find((opt) => opt.value === journalPreference)
-            ?.label || journalPreference,
-        indicatorFields: activeIndicatorFields,
-        indicatorText,
-      });
-
-      setStatus(tx("Calling AI…"));
-      const { text: aiText } = await callAi(prompt);
-      setRawText(aiText);
-
-      const parsed = tryParseJson(aiText);
-      if (!parsed || !Array.isArray(parsed.journals)) {
-        setStatus(
-          tx(
-            "AI response could not be parsed. Please adjust the prompt or try again."
-          )
-        );
-        return;
-      }
-
-      const rows = parsed.journals
-        .slice(0, normalizedMaxResults)
-        .map((row, idx) => {
-          const sourceRow =
-            row && typeof row === "object" && !Array.isArray(row)
-              ? row
-              : { journal_name: formatCellValue(row) };
-          const normalized = {};
-
-          activeIndicatorFields.forEach((field) => {
-            const key = field.key;
-            let value =
-              sourceRow[key] ??
-              sourceRow[field.label] ??
-              sourceRow?.indicators?.[key] ??
-              sourceRow?.indicators?.[field.label];
-
-            if (
-              (value === undefined || value === null || value === "") &&
-              key === "serial_number"
-            ) {
-              value = idx + 1;
-            }
-            if (
-              (value === undefined || value === null || value === "") &&
-              key === "journal_name"
-            ) {
-              value = sourceRow.journal_name || `Candidate Journal ${idx + 1}`;
-            }
-            if (
-              (value === undefined || value === null || value === "") &&
-              key === "publisher"
-            ) {
-              value = sourceRow.publisher || "-";
-            }
-
-            normalized[key] =
-              value === undefined || value === null || value === ""
-                ? "-"
-                : value;
-          });
-
-          return normalized;
-        });
-
-      const csv = toCsv(rows, allColumns);
-      setCsvText(csv);
-      setJournals(rows);
-      setOverview(parsed.overview || null);
-      setStatus(tx("Generated {0} journal suggestions.", rows.length));
-    } catch (err) {
-      setStatus(err?.message || tx("Generation failed"));
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  const canDownload = !!csvText && journals.length > 0;
+  const nameOf = (key) =>
+    [...(result?.candidates || []), ...(result?.targets || [])].find(
+      (j) => j.key === key
+    )?.name || key;
 
   return (
     <AppScaffold appId="journal-selector">
@@ -580,7 +926,13 @@ export default function JournalSelectorPage() {
           step={tx("01 · Model")}
           title={tx("Journal analysis model")}
         />
+        <p className={styles.modelNote}>
+          {tx(
+            "Journal search and all journal figures come from OpenAlex and DOAJ and need no model. A model adds English search terms (needed for Chinese abstracts), a written fit assessment, reach / match / safe tiers and a verdict on each target journal."
+          )}
+        </p>
       </section>
+
       <section
         className={styles.inputGrid}
         aria-label={tx("Manuscript and journal preferences")}
@@ -589,12 +941,22 @@ export default function JournalSelectorPage() {
           <div className={styles.panelHeading}>
             <div>
               <span className={styles.step}>{tx("02 · Manuscript")}</span>
-              <Heading as="h2">{tx("Research abstract")}</Heading>
+              <Heading as="h2">{tx("Your manuscript")}</Heading>
             </div>
             <span className={styles.hint}>
-              {tx("Recommended 200–400 words")}
+              {tx("English title and abstract work best")}
             </span>
           </div>
+          <label className={styles.label} htmlFor="journal-title">
+            {tx("Title")}
+          </label>
+          <input
+            id="journal-title"
+            className={styles.textInput}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={tx("Manuscript title (optional, improves matching)")}
+          />
           <label className={styles.label} htmlFor="journal-abstract">
             {tx("Abstract")}
           </label>
@@ -603,31 +965,44 @@ export default function JournalSelectorPage() {
             value={abstractText}
             onChange={(e) => setAbstractText(e.target.value)}
             placeholder={tx(
-              "Paste a 200–400 word abstract covering objective, method, data, and novelty."
+              "Paste the abstract: objective, methods, data and main findings."
             )}
             className={styles.abstractInput}
+          />
+          <label className={styles.label} htmlFor="journal-keywords">
+            {tx("Keywords")}
+          </label>
+          <input
+            id="journal-keywords"
+            className={styles.textInput}
+            value={keywordHints}
+            onChange={(e) => setKeywordHints(e.target.value)}
+            placeholder={tx(
+              "e.g., cotton; point cloud; light interception (separate with ;)"
+            )}
           />
         </div>
 
         <div className={styles.glassPanel}>
           <div className={styles.panelHeading}>
             <div>
-              <span className={styles.step}>{tx("03 · Preferences")}</span>
-              <Heading as="h2">{tx("Submission profile")}</Heading>
+              <span className={styles.step}>{tx("03 · Goal")}</span>
+              <Heading as="h2">{tx("Targets and preferences")}</Heading>
             </div>
           </div>
           <div className={styles.fieldGrid}>
             <div className={styles.fieldFull}>
-              <label className={styles.label} htmlFor="journal-keywords">
-                {tx("Keywords / Focus")}
+              <label className={styles.label} htmlFor="journal-targets">
+                {tx("Journals you have in mind (optional)")}
               </label>
-              <input
-                id="journal-keywords"
-                value={keywordHints}
-                onChange={(e) => setKeywordHints(e.target.value)}
+              <textarea
+                id="journal-targets"
+                value={targetText}
+                onChange={(e) => setTargetText(e.target.value)}
                 placeholder={tx(
-                  "e.g., precision agriculture; hyperspectral imaging; maize"
+                  "One per line, name or ISSN, up to 5. Each is checked against your manuscript."
                 )}
+                className={styles.notesInput}
               />
             </div>
 
@@ -649,6 +1024,38 @@ export default function JournalSelectorPage() {
             </div>
 
             <div>
+              <label className={styles.label} htmlFor="journal-apc">
+                {tx("Maximum APC (USD)")}
+              </label>
+              <input
+                id="journal-apc"
+                type="number"
+                min={0}
+                step={100}
+                value={maxApc}
+                onChange={(e) => setMaxApc(e.target.value)}
+                placeholder={tx("No limit")}
+              />
+            </div>
+
+            <div>
+              <label className={styles.label} htmlFor="journal-region">
+                {tx("Publisher country")}
+              </label>
+              <select
+                id="journal-region"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+              >
+                {REGION_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <label className={styles.label} htmlFor="journal-speed">
                 {tx("Review speed")}
               </label>
@@ -658,23 +1065,6 @@ export default function JournalSelectorPage() {
                 onChange={(e) => setReviewSpeed(e.target.value)}
               >
                 {SPEED_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className={styles.label} htmlFor="journal-type">
-                {tx("Journal type")}
-              </label>
-              <select
-                id="journal-type"
-                value={journalPreference}
-                onChange={(e) => setJournalPreference(e.target.value)}
-              >
-                {JOURNAL_PREF_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -683,19 +1073,36 @@ export default function JournalSelectorPage() {
             </div>
 
             <div>
+              <label className={styles.label} htmlFor="journal-years">
+                {tx("Articles from the last")}
+              </label>
+              <select
+                id="journal-years"
+                value={years}
+                onChange={(e) => setYears(Number(e.target.value))}
+              >
+                {YEAR_OPTIONS.map((y) => (
+                  <option key={y} value={y}>
+                    {tx("{0} years", y)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <label className={styles.label} htmlFor="journal-count">
-                {tx("Suggestions (3–8)")}
+                {tx("Suggestions (3–20)")}
               </label>
               <input
                 id="journal-count"
                 type="number"
                 min={3}
-                max={8}
+                max={20}
                 value={maxResults}
                 onChange={(e) => setMaxResults(e.target.value)}
                 onBlur={() =>
                   setMaxResults(
-                    String(Math.min(8, Math.max(3, Number(maxResults) || 5)))
+                    String(Math.min(20, Math.max(3, Number(maxResults) || 10)))
                   )
                 }
               />
@@ -703,14 +1110,14 @@ export default function JournalSelectorPage() {
 
             <div className={styles.fieldFull}>
               <label className={styles.label} htmlFor="journal-notes">
-                {tx("Special notes")}
+                {tx("Notes for the model")}
               </label>
               <textarea
                 id="journal-notes"
                 value={extraNotes}
                 onChange={(e) => setExtraNotes(e.target.value)}
                 placeholder={tx(
-                  "e.g., need open data compliance, avoiding page charges, prefer Q1."
+                  "e.g., first submission of a PhD student; data must be open; avoid page charges."
                 )}
                 className={styles.notesInput}
               />
@@ -723,56 +1130,61 @@ export default function JournalSelectorPage() {
         <div className={styles.panelHeading}>
           <div>
             <span className={styles.step}>{tx("04 · Criteria")}</span>
-            <Heading as="h2">{tx("Indicator reference")}</Heading>
+            <Heading as="h2">{tx("Where each figure comes from")}</Heading>
           </div>
           <span className={styles.metricCount}>
-            {tx("{0} metrics", activeIndicatorFields.length)}
+            {tx("{0} metrics", indicatorFields.length)}
           </span>
         </div>
         <p className={styles.referenceIntro}>
-          {indicatorText.trim()
-            ? tx(
-                "Each suggested journal is scored against these fields. The full indicator schema is sent with your request."
-              )
-            : tx(
-                "The indicator file is missing, so the default journal evaluation schema is used."
-              )}
+          {tx(
+            "Journals are proposed from articles similar to your manuscript, never by the language model. Impact factor, JCR and CAS quartiles are proprietary and stay as columns for you to check."
+          )}
         </p>
-        <ul className={styles.metricChips} aria-label={tx("Evaluation fields")}>
-          {activeIndicatorFields.map((field) => (
-            <li key={field.key} title={field.description || undefined}>
-              {tx(field.label)}
-            </li>
+        <div className={styles.sourceGroups}>
+          {indicatorGroups.map(([source, fields]) => (
+            <div key={source}>
+              <Heading as="h3" className={styles.sourceTitle}>
+                {SOURCE_LABELS[source] || source}
+              </Heading>
+              <ul className={styles.metricChips}>
+                {fields.map((field) => (
+                  <li key={field.key} title={field.description || undefined}>
+                    {tx(field.label)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section className={`${styles.glassPanel} ${styles.actionPanel}`}>
         <div>
-          <span className={styles.step}>{tx("05 · Generate")}</span>
+          <span className={styles.step}>{tx("05 · Search")}</span>
           <Heading as="h2">{tx("Build a journal shortlist")}</Heading>
           <p className={styles.status} role="status" aria-live="polite">
-            {status}
+            {busy && stage ? stage : status}
           </p>
           <p className={styles.disclaimer}>
             {tx(
-              "Journal suggestions and the metrics shown with them come from the language model and are not looked up in a database. Each result links to SCImago, the NLM Catalog and DOAJ for checking; confirm impact factor and quartiles in Journal Citation Reports and fees and review times on the publisher's site before submission."
+              "Candidates are the journals that published the articles most similar to your abstract in OpenAlex; figures come from OpenAlex and DOAJ at the time of the search. Confirm scope and author guidelines on the journal's site before submitting."
             )}
           </p>
         </div>
         <div className={styles.actionButtons}>
           <button
             type="button"
-            onClick={handleGenerate}
+            onClick={() => handleRun()}
             disabled={busy}
             className={styles.primaryButton}
           >
-            {busy ? tx("Generating…") : tx("Generate journal plan")}
+            {busy ? tx("Searching…") : tx("Find journals")}
           </button>
           <button
             type="button"
             onClick={downloadPlan}
-            disabled={!canDownload}
+            disabled={!csvText}
             className={styles.secondaryButton}
           >
             {tx("Download CSV")}
@@ -780,23 +1192,203 @@ export default function JournalSelectorPage() {
         </div>
       </section>
 
-      {overview && (
-        <section className={styles.glassPanel}>
-          <Heading as="h2">{tx("AI summary")}</Heading>
-          <div className={styles.summaryGrid}>
+      {result && (
+        <section
+          className={`${styles.glassPanel} ${styles.infoPanel}`}
+          aria-label={tx("Search details")}
+        >
+          <Heading as="h2">{tx("How the journals were found")}</Heading>
+          <p className={styles.referenceIntro}>
+            {tx(
+              "{0} journal articles from {1} onward matched the search terms; the {2} most relevant were compared with your abstract.",
+              result.total.toLocaleString(),
+              result.fromYear,
+              result.analysed
+            )}{" "}
+            {result.hidden > 0 &&
+              tx(
+                "{0} matching journals were left out by your filters.",
+                result.hidden
+              )}{" "}
+            {Number.isFinite(usage.remaining) &&
+              tx(
+                "OpenAlex allowance left today on this network: about {0} searches.",
+                Math.floor(usage.remaining / 10)
+              )}
+          </p>
+          <label className={styles.label} htmlFor="journal-terms">
+            {tx("Search terms (edit and search again)")}
+          </label>
+          <div className={styles.termsRow}>
+            <input
+              id="journal-terms"
+              className={styles.textInput}
+              value={termsDraft}
+              onChange={(e) => setTermsDraft(e.target.value)}
+            />
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              disabled={busy || !termsDraft.trim()}
+              onClick={() =>
+                handleRun(
+                  termsDraft
+                    .split(/[;；]+/)
+                    .map((t) => t.trim())
+                    .filter(Boolean)
+                    .slice(0, 10)
+                )
+              }
+            >
+              {tx("Search again")}
+            </button>
+          </div>
+          {result.notes.map((note) => (
+            <p key={note} className={styles.warningNote}>
+              {note}
+            </p>
+          ))}
+        </section>
+      )}
+
+      {result?.ai && (
+        <section
+          className={`${styles.glassPanel} ${styles.infoPanel}`}
+          aria-label={tx("Model assessment")}
+        >
+          <Heading as="h2">{tx("Submission strategy")}</Heading>
+          {result.ai.summary && (
+            <p className={styles.referenceIntro}>{result.ai.summary}</p>
+          )}
+          <div className={styles.tierGrid}>
+            {[
+              ["reach", tx("Reach"), tx("Higher citedness, strong fit")],
+              ["match", tx("Best match"), tx("Closest scope fit")],
+              ["safe", tx("Safe choice"), tx("Good fit, broader scope")],
+            ].map(([key, label, hint]) => (
+              <div key={key} className={styles.tier}>
+                <strong>{label}</strong>
+                <span>{hint}</span>
+                <ul>
+                  {result.ai.tiers[key].map((k) => (
+                    <li key={k}>{nameOf(k)}</li>
+                  ))}
+                  {!result.ai.tiers[key].length && <li>—</li>}
+                </ul>
+              </div>
+            ))}
+          </div>
+          {result.ai.tierNote && (
+            <p className={styles.hint}>{result.ai.tierNote}</p>
+          )}
+          {result.ai.checklist.length > 0 && (
+            <>
+              <Heading as="h3" className={styles.subHeading}>
+                {tx("Before you submit")}
+              </Heading>
+              <ul className={styles.checklist}>
+                {result.ai.checklist.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </>
+          )}
+          <p className={styles.hint}>
+            {tx(
+              "Written by the selected model from the journal data shown below; it is advice, not a guarantee of acceptance."
+            )}
+          </p>
+        </section>
+      )}
+
+      {result && result.targets.length > 0 && (
+        <section
+          className={styles.resultsSection}
+          aria-labelledby="journal-targets-title"
+        >
+          <div className={styles.resultsHeading}>
             <div>
-              <strong>{tx("Abstract recap:")}</strong>
-              <p>{formatCellValue(overview.abstract_summary) || "—"}</p>
+              <span className={styles.step}>{tx("Your targets")}</span>
+              <Heading as="h2" id="journal-targets-title">
+                {tx("How well your manuscript fits")}
+              </Heading>
             </div>
-            <div>
-              <strong>{tx("Alignment:")}</strong>
-              <p>{formatCellValue(overview.alignment_summary) || "—"}</p>
-            </div>
+          </div>
+          <div className={styles.resultCards}>
+            {result.targets.map((t) =>
+              t.missing ? (
+                <article className={styles.resultCard} key={t.key}>
+                  <Heading as="h3">{t.query}</Heading>
+                  <p className={styles.hint}>
+                    {tx(
+                      "Not found in OpenAlex. Check the spelling, or enter the ISSN."
+                    )}
+                  </p>
+                </article>
+              ) : (
+                <JournalCard
+                  key={t.key}
+                  j={t}
+                  ai={result.ai?.byKey[t.key]}
+                  speed={result.speed}
+                  fromYear={result.fromYear}
+                  badge={tx("Target")}
+                >
+                  <div className={styles.verdictBox}>
+                    <strong>{FIT_LABELS[t.level]}</strong>
+                    <span>
+                      {t.candidateRank
+                        ? tx(
+                            "Ranked {0} among the suggestions.",
+                            t.candidateRank
+                          )
+                        : tx("Not among the suggestions below.")}
+                    </span>
+                    {t.outside.length > 0 && (
+                      <span>
+                        {tx(
+                          "Outside your preferences: {0}.",
+                          t.outside.join(", ")
+                        )}
+                      </span>
+                    )}
+                    {result.ai?.byKey[t.key] && (
+                      <>
+                        <strong>
+                          {VERDICT_LABELS[result.ai.byKey[t.key].verdict] ||
+                            result.ai.byKey[t.key].verdict}
+                        </strong>
+                        {result.ai.byKey[t.key].reasons && (
+                          <span>{result.ai.byKey[t.key].reasons}</span>
+                        )}
+                        {Array.isArray(result.ai.byKey[t.key].emphasize) &&
+                          result.ai.byKey[t.key].emphasize.length > 0 && (
+                            <ul>
+                              {result.ai.byKey[t.key].emphasize.map((p) => (
+                                <li key={p}>{p}</li>
+                              ))}
+                            </ul>
+                          )}
+                        {Array.isArray(result.ai.byKey[t.key].alternatives) &&
+                          result.ai.byKey[t.key].alternatives.length > 0 && (
+                            <span>
+                              {tx("Alternatives:")}{" "}
+                              {result.ai.byKey[t.key].alternatives
+                                .map(nameOf)
+                                .join(" · ")}
+                            </span>
+                          )}
+                      </>
+                    )}
+                  </div>
+                </JournalCard>
+              )
+            )}
           </div>
         </section>
       )}
 
-      {journals.length > 0 && (
+      {result && (
         <section
           className={styles.resultsSection}
           aria-labelledby="journal-results-title"
@@ -805,100 +1397,75 @@ export default function JournalSelectorPage() {
             <div>
               <span className={styles.step}>{tx("Results")}</span>
               <Heading as="h2" id="journal-results-title">
-                {tx("Recommended journals")}
+                {tx("Suggested journals")}
               </Heading>
             </div>
-            <span className={styles.metricCount}>
-              {journals.length} candidates
-            </span>
+            <label className={styles.sortControl}>
+              <span>{tx("Sort by")}</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                {SORTS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
+          {sortedCandidates.length === 0 && (
+            <p className={styles.hint}>
+              {tx(
+                "No journal passed your filters. Relax the OA, APC or country preference."
+              )}
+            </p>
+          )}
+
           <div className={styles.resultCards}>
-            {journals.map((row, idx) => (
-              <article
-                className={styles.resultCard}
-                key={`${formatCellValue(row.journal_name)}-${idx}`}
-              >
-                <div className={styles.resultCardHeader}>
-                  <span className={styles.rank}>#{idx + 1}</span>
-                  <div>
-                    <Heading as="h3">
-                      {formatCellValue(row.journal_name) ||
-                        tx("Candidate Journal {0}", idx + 1)}
-                    </Heading>
-                    <p>
-                      {formatCellValue(row.publisher) ||
-                        tx("Publisher not provided")}
-                    </p>
-                  </div>
-                </div>
-                <dl className={styles.quickFacts}>
-                  {[
-                    "impact_factor_2024",
-                    "jcr_quartile",
-                    "cas_quartile",
-                    "oa_type",
-                  ].map((key) => {
-                    const column = allColumns.find((item) => item.key === key);
-                    return column ? (
-                      <div key={key}>
-                        <dt>{tx(column.label)}</dt>
-                        <dd>{formatCellValue(row[key]) || "—"}</dd>
-                      </div>
-                    ) : null;
-                  })}
-                </dl>
-                <p className={styles.verifyLinks}>
-                  {tx("Verify:")}{" "}
-                  {verificationLinks(row).map((link, i) => (
-                    <React.Fragment key={link.label}>
-                      {i > 0 && " · "}
-                      <Link to={link.href}>{link.label}</Link>
-                    </React.Fragment>
-                  ))}
-                </p>
-                <details className={styles.resultDetails}>
-                  <summary>{tx("View all evaluation fields")}</summary>
-                  <dl>
-                    {allColumns.map((col) => (
-                      <div key={col.key}>
-                        <dt>{tx(col.label)}</dt>
-                        <dd>{formatCellValue(row[col.key]) || "—"}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </details>
-              </article>
+            {sortedCandidates.map((j) => (
+              <JournalCard
+                key={j.id}
+                j={j}
+                ai={result.ai?.byKey[j.key]}
+                speed={result.speed}
+                fromYear={result.fromYear}
+                badge={`#${j.rank}`}
+              />
             ))}
           </div>
 
-          <div
-            className={styles.tableScroll}
-            tabIndex="0"
-            role="region"
-            aria-label={tx("Complete journal comparison table")}
-          >
-            <table className={styles.resultsTable}>
-              <thead>
-                <tr>
-                  {allColumns.map((col) => (
-                    <th key={col.key} scope="col">
-                      {tx(col.label)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {journals.map((row, idx) => (
-                  <tr key={row.journal_name + idx}>
-                    {allColumns.map((col) => (
-                      <td key={col.key}>{formatCellValue(row[col.key])}</td>
+          {tableRows.length > 0 && (
+            <div
+              className={styles.tableScroll}
+              tabIndex="0"
+              role="region"
+              aria-label={tx("Complete journal comparison table")}
+            >
+              <table className={styles.resultsTable}>
+                <thead>
+                  <tr>
+                    {indicatorFields.map((col) => (
+                      <th key={col.key} scope="col">
+                        {tx(col.label)}
+                        <small>{SOURCE_LABELS[col.source] || col.source}</small>
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {tableRows.map((row, idx) => (
+                    <tr key={`${row.journal_name}-${idx}`}>
+                      {indicatorFields.map((col) => (
+                        <td key={col.key}>{formatCellValue(row[col.key])}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
       )}
 

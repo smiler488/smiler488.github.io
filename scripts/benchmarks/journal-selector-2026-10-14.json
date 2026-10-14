@@ -1,0 +1,472 @@
+{
+  "date": "2026-10-14",
+  "summary": {
+    "year": 2025,
+    "perField": 4,
+    "overall": {
+      "top1": {
+        "hits": 5,
+        "n": 24,
+        "rate": 0.20833333333333334
+      },
+      "top5": {
+        "hits": 8,
+        "n": 24,
+        "rate": 0.3333333333333333
+      },
+      "top10": {
+        "hits": 9,
+        "n": 24,
+        "rate": 0.375
+      }
+    },
+    "byField": {
+      "Agricultural and Biological Sciences": {
+        "top1": 0,
+        "top5": 0,
+        "top10": 0,
+        "n": 4
+      },
+      "Biochemistry, Genetics and Molecular Biology": {
+        "top1": 0.5,
+        "top5": 0.5,
+        "top10": 0.5,
+        "n": 4
+      },
+      "Computer Science": {
+        "top1": 0,
+        "top5": 0.25,
+        "top10": 0.25,
+        "n": 4
+      },
+      "Environmental Science": {
+        "top1": 0.25,
+        "top5": 0.5,
+        "top10": 0.5,
+        "n": 4
+      },
+      "Materials Science": {
+        "top1": 0,
+        "top5": 0.25,
+        "top10": 0.5,
+        "n": 4
+      },
+      "Medicine": {
+        "top1": 0.5,
+        "top5": 0.5,
+        "top10": 0.5,
+        "n": 4
+      }
+    }
+  },
+  "rows": [
+    {
+      "field": "Agricultural and Biological Sciences",
+      "work": "https://openalex.org/W4406780912",
+      "journal": "Investigaciones Geográficas",
+      "terms": [
+        "crassipes",
+        "eichhornia crassipes",
+        "las bandas espectrales",
+        "crassipes fueron",
+        "las regiones del",
+        "distribuci",
+        "espacio-temporal",
+        "laguna"
+      ],
+      "rank": null,
+      "candidates": 88
+    },
+    {
+      "field": "Agricultural and Biological Sciences",
+      "work": "https://openalex.org/W4416818551",
+      "journal": "Future Foods",
+      "terms": [
+        "human consumption",
+        "fish",
+        "pelagic fish",
+        "optimize protein availability",
+        "direct human",
+        "direct consumption",
+        "fish oil",
+        "food"
+      ],
+      "rank": null,
+      "candidates": 82
+    },
+    {
+      "field": "Agricultural and Biological Sciences",
+      "work": "https://openalex.org/W4412878203",
+      "journal": "Current Microbiology",
+      "terms": [
+        "identical agricultural practices",
+        "soils",
+        "environmental",
+        "bacterial communities",
+        "soil microbial communities",
+        "environmental variables",
+        "soil properties",
+        "changing environmental"
+      ],
+      "rank": null,
+      "candidates": 59
+    },
+    {
+      "field": "Agricultural and Biological Sciences",
+      "work": "https://openalex.org/W4413222248",
+      "journal": "Small-scale Forestry",
+      "terms": [
+        "prunus africana",
+        "climate",
+        "indigenous adaptation strategies",
+        "mount cameroon",
+        "indigenous communities",
+        "medicinal plant",
+        "local farmers plant",
+        "forest-dependent communities"
+      ],
+      "rank": null,
+      "candidates": 88
+    },
+    {
+      "field": "Biochemistry, Genetics and Molecular Biology",
+      "work": "https://openalex.org/W4410571239",
+      "journal": "Frontiers in Immunology",
+      "terms": [
+        "otu family members",
+        "tumor",
+        "tumor progression",
+        "family proteins",
+        "tumor domain",
+        "otu domain",
+        "immune",
+        "immune escape"
+      ],
+      "rank": 1,
+      "candidates": 66
+    },
+    {
+      "field": "Biochemistry, Genetics and Molecular Biology",
+      "work": "https://openalex.org/W4414233765",
+      "journal": "PLoS ONE",
+      "terms": [
+        "seven livestock farms",
+        "kdr allele frequencies",
+        "stomoxys calcitrans",
+        "insecticide resistance",
+        "single pcr-sequencing",
+        "stable fly",
+        "resistance alleles",
+        "genotypic pyrethroid insecticide"
+      ],
+      "rank": null,
+      "candidates": 66
+    },
+    {
+      "field": "Biochemistry, Genetics and Molecular Biology",
+      "work": "https://openalex.org/W4416982428",
+      "journal": "Journal of Molecular Modeling",
+      "terms": [
+        "surfactant protein",
+        "simulation",
+        "closed conformation protein",
+        "molecular dynamics",
+        "replicate simulation",
+        "hydrophobic",
+        "hydrophobic solvent",
+        "open conformation structure"
+      ],
+      "rank": null,
+      "candidates": 69
+    },
+    {
+      "field": "Biochemistry, Genetics and Molecular Biology",
+      "work": "https://openalex.org/W4414487419",
+      "journal": "Frontiers in Oncology",
+      "terms": [
+        "cell lung cancer",
+        "pirna",
+        "nsclc",
+        "piwi",
+        "piwi-interacting rnas",
+        "non-small cell",
+        "piwi proteins",
+        "therapeutic targets"
+      ],
+      "rank": 1,
+      "candidates": 76
+    },
+    {
+      "field": "Computer Science",
+      "work": "https://openalex.org/W4409171639",
+      "journal": "International Journal of Advanced Computer Science and Applications",
+      "terms": [
+        "deep learning ordinal",
+        "ordinal classification",
+        "ordinal relationships",
+        "ordinal constraints",
+        "ordinal classifier",
+        "modeling ordinal",
+        "ordinal structure",
+        "incorporating ordinal"
+      ],
+      "rank": null,
+      "candidates": 85
+    },
+    {
+      "field": "Computer Science",
+      "work": "https://openalex.org/W4407382636",
+      "journal": "Computers, materials & continua/Computers, materials & continua (Print)",
+      "terms": [
+        "sarcasm detection",
+        "pkme-mlm",
+        "multimodal",
+        "model",
+        "natural language processing",
+        "non-textual emotional expressions",
+        "tech science press",
+        "social media"
+      ],
+      "rank": 2,
+      "candidates": 74
+    },
+    {
+      "field": "Computer Science",
+      "work": "https://openalex.org/W4412623370",
+      "journal": "IEEE Transactions on Dependable and Secure Computing",
+      "terms": [
+        "dynamic alert prioritization",
+        "hidden markov model",
+        "belief",
+        "real-time situational awareness",
+        "false alert",
+        "belief mse",
+        "active learning",
+        "choosing alerts"
+      ],
+      "rank": null,
+      "candidates": 87
+    },
+    {
+      "field": "Computer Science",
+      "work": "https://openalex.org/W4409424102",
+      "journal": "BioScience Trends",
+      "terms": [
+        "colorectal cancer",
+        "cancer liver metastases",
+        "precision medicine",
+        "artificial intelligence",
+        "classification",
+        "crlm",
+        "metastatic colorectal",
+        "clinical oncology"
+      ],
+      "rank": null,
+      "candidates": 82
+    },
+    {
+      "field": "Environmental Science",
+      "work": "https://openalex.org/W4406781968",
+      "journal": "Journal of Natural History",
+      "terms": [
+        "leptosphaeroma gyoja",
+        "genus leptosphaeroma",
+        "species",
+        "japan",
+        "crustacea",
+        "isopoda",
+        "sphaeromatidae",
+        "zoobank"
+      ],
+      "rank": 2,
+      "candidates": 39
+    },
+    {
+      "field": "Environmental Science",
+      "work": "https://openalex.org/W4415412771",
+      "journal": "New Forests",
+      "terms": [
+        "abies alba seedlings",
+        "drought",
+        "silver fir seedlings",
+        "drought tolerance",
+        "follow geographic gradients",
+        "summer droughts",
+        "30-day drought",
+        "drought scenarios"
+      ],
+      "rank": null,
+      "candidates": 69
+    },
+    {
+      "field": "Environmental Science",
+      "work": "https://openalex.org/W4414218289",
+      "journal": "Aquatic Conservation Marine and Freshwater Ecosystems",
+      "terms": [
+        "species",
+        "endangered sturgeons species",
+        "sturgeon habitats",
+        "habitat preferences",
+        "habitat suitability",
+        "suitable habitats",
+        "habitat loss",
+        "persicus"
+      ],
+      "rank": null,
+      "candidates": 73
+    },
+    {
+      "field": "Environmental Science",
+      "work": "https://openalex.org/W4415609847",
+      "journal": "Atmospheric chemistry and physics",
+      "terms": [
+        "clouds",
+        "cloud radiative",
+        "cloud optical depth",
+        "cirrus clouds",
+        "cre",
+        "three-dimensional radiative",
+        "ice clouds",
+        "cloud sides"
+      ],
+      "rank": 1,
+      "candidates": 35
+    },
+    {
+      "field": "Materials Science",
+      "work": "https://openalex.org/W4410359396",
+      "journal": "Molecular Crystals and Liquid Crystals",
+      "terms": [
+        "dispersion",
+        "thin films",
+        "abnormal dispersion",
+        "dispersion properties",
+        "surface morphology",
+        "znga",
+        "normal dispersion",
+        "dispersion parameters"
+      ],
+      "rank": 2,
+      "candidates": 82
+    },
+    {
+      "field": "Materials Science",
+      "work": "https://openalex.org/W4417426995",
+      "journal": "ACS Macro Letters",
+      "terms": [
+        "oil droplets",
+        "blocks oil",
+        "oleophilic surfaces",
+        "release",
+        "absorbing oil",
+        "oil access",
+        "oleophilic substrate",
+        "block-copolymer-grafted surfaces"
+      ],
+      "rank": null,
+      "candidates": 74
+    },
+    {
+      "field": "Materials Science",
+      "work": "https://openalex.org/W4414012919",
+      "journal": "ChemistrySelect",
+      "terms": [
+        "biofilm formation",
+        "epidermidis biofilm",
+        "nanofibers",
+        "pcl",
+        "biofilm surfaces",
+        "grafted polycaprolactone nanofibers",
+        "hybrid nanofibers",
+        "inhibit biofilm"
+      ],
+      "rank": null,
+      "candidates": 83
+    },
+    {
+      "field": "Materials Science",
+      "work": "https://openalex.org/W4413192334",
+      "journal": "Chemical Science",
+      "terms": [
+        "excited states",
+        "learning radical excited",
+        "organic radicals",
+        "excited electronic",
+        "electronic states",
+        "radical geometries",
+        "state energies",
+        "model"
+      ],
+      "rank": 7,
+      "candidates": 57
+    },
+    {
+      "field": "Medicine",
+      "work": "https://openalex.org/W4411149252",
+      "journal": "Ocular Oncology and Pathology",
+      "terms": [
+        "stallard",
+        "stallard lecture",
+        "uveal melanoma treatment",
+        "bristow stallard",
+        "melanoma brachytherapy",
+        "his",
+        "choroidal melanomas",
+        "iris melanoma"
+      ],
+      "rank": 1,
+      "candidates": 78
+    },
+    {
+      "field": "Medicine",
+      "work": "https://openalex.org/W4412409153",
+      "journal": "Journal of Addiction Medicine",
+      "terms": [
+        "treating pain",
+        "cannabis",
+        "pain conditions",
+        "chronic pain",
+        "clinical",
+        "clinical conditions",
+        "cannabinoids",
+        "products"
+      ],
+      "rank": 65,
+      "candidates": 83
+    },
+    {
+      "field": "Medicine",
+      "work": "https://openalex.org/W7117238088",
+      "journal": "Alzheimer s & Dementia",
+      "terms": [
+        "depressive symptoms",
+        "amygdala novelty responses",
+        "tau",
+        "tau pathology",
+        "amygdala function",
+        "tau burden",
+        "csf tau",
+        "tau accumulation"
+      ],
+      "rank": 1,
+      "candidates": 42
+    },
+    {
+      "field": "Medicine",
+      "work": "https://openalex.org/W4417157040",
+      "journal": "Journal of Oral Pathology and Medicine",
+      "terms": [
+        "spocd1",
+        "spocd1 suppressed cell",
+        "spocd1 expression",
+        "spocd1 aggravates tumor",
+        "spocd1 promotes oscc",
+        "squamous cell carcinoma",
+        "spocd1 knockdown",
+        "oscc cells"
+      ],
+      "rank": null,
+      "candidates": 79
+    }
+  ]
+}

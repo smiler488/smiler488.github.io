@@ -402,37 +402,6 @@ export async function postJson(url, json, extraHeaders = {}) {
       };
       return mockResponse(payload);
     }
-    if (tag === "journal-selector" || tag === "journal-scout") {
-      const mockBody = {
-        overview: {
-          abstract_summary: json?.question?.slice(0, 120) || "N/A",
-          alignment_summary:
-            "Local demo response. Add your own provider key for live journal analysis.",
-        },
-        journals: [
-          {
-            journal_name: "Demo Journal of Digital Agriculture",
-            publisher: "Demo Publisher",
-            discipline_scope: "Plant phenotyping and agricultural AI",
-            impact_factor_2024: "N/A",
-            jcr_quartile: "N/A",
-            acceptance_rate: "N/A",
-            initial_review_weeks: 6,
-            oa_type: "Unknown",
-            apc_usd: null,
-            submission_advice:
-              "Validate all journal metrics on the official journal website.",
-            warning_status: "Demo data — not publication advice",
-          },
-        ],
-        notes:
-          "This local demo intentionally avoids presenting fabricated current metrics.",
-      };
-      const payload = {
-        choices: [{ message: { content: JSON.stringify(mockBody, null, 2) } }],
-      };
-      return mockResponse(payload);
-    }
     if (tag === "ai-solver" || tag === "solver") {
       const q = json?.question || "No question provided";
       const hasImage = !!json?.imageBase64 || !!json?.imageUrl;
