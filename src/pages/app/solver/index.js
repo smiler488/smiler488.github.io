@@ -3,12 +3,70 @@ import AppScaffold from "../../../components/AppScaffold";
 import Heading from "@theme/Heading";
 import CitationNotice from "../../../components/CitationNotice";
 import AIProviderSettings from "../../../components/AIProviderSettings";
-import { createDefaultAIConfig, requestAI } from "../../../lib/api";
+import {
+  createDefaultAIConfig,
+  getAIProvider,
+  requestAI,
+} from "../../../lib/api";
+import {
+  answerLabel,
+  examPrompt,
+  examSystemPrompt,
+  matchesKey,
+  parseExamAnswer,
+  sameAnswer,
+} from "../../../lib/solver/exam";
 import styles from "./styles.module.css";
-import { makeToolText } from "@site/src/lib/i18n/toolText";
+import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
 import ZH from "./_zh";
 
 const tx = makeToolText(ZH);
+
+const EXAM_PRESET = "lab_exam";
+const PRESET_STORAGE_KEY = "solver:preset";
+const SELFTEST_PATH = "/app/solver/lab-safety-selftest.json";
+
+const TYPE_LABELS = {
+  single: tx("Single choice"),
+  multiple: tx("Multiple choice"),
+  true_false: tx("True / false"),
+  fill: tx("Fill in the blank"),
+  short: tx("Short answer"),
+};
+
+const CONFIDENCE_LABELS = {
+  high: tx("High confidence"),
+  medium: tx("Medium confidence"),
+  low: tx("Low confidence"),
+};
+
+function readStoredPreset() {
+  try {
+    return window.localStorage.getItem(PRESET_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function storePreset(id) {
+  try {
+    window.localStorage.setItem(PRESET_STORAGE_KEY, id);
+  } catch {
+    // Storage blocked: the choice is simply not remembered.
+  }
+}
+
+// Self-test question as text, the way it appears in an exam.
+function selfTestText(q) {
+  if (q.type === "true_false") {
+    return `判断题：${q.question}（正确还是错误？）`;
+  }
+  const kind = q.type === "multiple" ? "多选题" : "单选题";
+  const options = Object.entries(q.options)
+    .map(([k, v]) => `${k}. ${v}`)
+    .join("\n");
+  return `${kind}：${q.question}\n${options}`;
+}
 
 const INPUT_MODES = [
   { id: "camera", label: tx("Camera") },
@@ -165,6 +223,14 @@ export default function SolverAppPage() {
   // Preset prompt list
   // Preset prompt list — full English version
   const promptPresets = [
+    {
+      id: EXAM_PRESET,
+      name: tx("Lab Safety Exam"),
+      prompt: "",
+      description: tx(
+        "Answers lab safety exam questions (single choice, multiple choice, true/false) with the reason and the rule behind it, and checks each answer with a second independent answer."
+      ),
+    },
     {
       id: "default",
       name: tx("Intelligent Analysis Assistant"),
@@ -518,8 +584,18 @@ OUTPUT:
     },
   ];
 
-  const [selectedPreset, setSelectedPreset] = useState("default");
-  const [question, setQuestion] = useState(promptPresets[0].prompt);
+  const [selectedPreset, setSelectedPreset] = useState(EXAM_PRESET);
+  const [question, setQuestion] = useState("");
+  const [examResult, setExamResult] = useState(null);
+  const [doubleCheck, setDoubleCheck] = useState(true);
+  const [sharing, setSharing] = useState(false);
+  const [hasArea, setHasArea] = useState(false);
+  const shareRef = useRef(null);
+  const lastBoxRef = useRef(null);
+  const [selfTest, setSelfTest] = useState(null);
+  const selfTestAbortRef = useRef(null);
+  const isExam = selectedPreset === EXAM_PRESET;
+  const usesModel = getAIProvider(aiConfig.provider).protocol !== "mock";
   const [respText, setRespText] = useState("");
   const [busy, setBusy] = useState(false);
   const [lastSizeKB, setLastSizeKB] = useState(null);
@@ -536,25 +612,102 @@ OUTPUT:
     if (captureMode !== "camera") stopCamera();
   }, [captureMode, stopCamera]);
 
+  useEffect(() => {
+    const stored = readStoredPreset();
+    if (stored && promptPresets.some((p) => p.id === stored)) {
+      choosePreset(stored);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function choosePreset(id) {
+    setSelectedPreset(id);
+    storePreset(id);
+    setExamResult(null);
+    const preset = promptPresets.find((p) => p.id === id);
+    if (preset) setQuestion(preset.id === "custom" ? "" : preset.prompt);
+  }
+
   useEffect(
     () => () => {
       dragCleanupRef.current?.();
       requestControllerRef.current?.abort();
+      selfTestAbortRef.current?.abort();
+      shareRef.current?.stream.getTracks().forEach((track) => track.stop());
     },
     []
   );
+
+  // Lab safety exam: a structured answer, optionally checked by a second
+  // independent answer (asked to weigh each option first).
+  async function askExam({ text = "", imageBase64 = null }, signal) {
+    const ask = (variant) =>
+      requestAI(
+        aiConfig,
+        { question: examPrompt({ text, variant }), imageBase64 },
+        {
+          mockTag: "ai-solver",
+          jsonMode: true,
+          maxTokens: 1200,
+          systemPrompt: examSystemPrompt(IS_ZH),
+          requireVision: Boolean(imageBase64),
+          signal,
+        }
+      );
+    const checking = doubleCheck && usesModel;
+    const [main, check] = await Promise.allSettled([
+      ask("main"),
+      checking ? ask("check") : Promise.resolve(null),
+    ]);
+    if (main.status === "rejected") throw main.reason;
+    const mainAnswer = parseExamAnswer(main.value.text);
+    const checkAnswer =
+      check.status === "fulfilled" && check.value
+        ? parseExamAnswer(check.value.text)
+        : null;
+    return {
+      main: mainAnswer,
+      check: checkAnswer,
+      checkFailed: checking && !checkAnswer,
+      agree:
+        mainAnswer && checkAnswer
+          ? sameAnswer(mainAnswer.answer, checkAnswer.answer)
+          : null,
+      raw: main.value,
+    };
+  }
 
   // 通用的发送到AI的函数
   async function sendToAI(payload) {
     requestControllerRef.current?.abort();
     const controller = new AbortController();
     requestControllerRef.current = controller;
+    setExamResult(null);
     try {
-      const result = await requestAI(aiConfig, payload, {
-        mockTag: "ai-solver",
-        requireVision: Boolean(payload.imageBase64 || payload.imageUrl),
-        signal: controller.signal,
-      });
+      if (isExam) {
+        const result = await askExam(
+          { text: payload.text || "", imageBase64: payload.imageBase64 },
+          controller.signal
+        );
+        setExamResult(result);
+        setRespText(formatAiResponse(result.raw));
+        return;
+      }
+      const preset = promptPresets.find((p) => p.id === selectedPreset);
+      const result = await requestAI(
+        aiConfig,
+        payload.imageBase64
+          ? { imageBase64: payload.imageBase64, question }
+          : { question: payload.text },
+        {
+          mockTag: "ai-solver",
+          requireVision: Boolean(payload.imageBase64),
+          // Text mode applies the preset as the system instructions.
+          systemPrompt:
+            !payload.imageBase64 && preset?.prompt ? preset.prompt : undefined,
+          signal: controller.signal,
+        }
+      );
       setRespText(formatAiResponse(result));
     } catch (error) {
       if (error?.name === "AbortError") return;
@@ -567,8 +720,74 @@ OUTPUT:
 
   // 发送图片到AI
   async function sendImageToAI(base64) {
-    const payload = { imageBase64: base64, question };
-    await sendToAI(payload);
+    await sendToAI({ imageBase64: base64 });
+  }
+
+  // Run the self-test bank with the configured model.
+  async function runSelfTest() {
+    selfTestAbortRef.current?.abort();
+    const controller = new AbortController();
+    selfTestAbortRef.current = controller;
+    try {
+      const bank = await (await fetch(SELFTEST_PATH)).json();
+      const state = {
+        running: true,
+        done: 0,
+        total: bank.questions.length,
+        correct: 0,
+        misses: [],
+      };
+      setSelfTest({ ...state });
+      for (const q of bank.questions) {
+        if (controller.signal.aborted) break;
+        let parsed = null;
+        let failure = null;
+        try {
+          const response = await requestAI(
+            aiConfig,
+            { question: examPrompt({ text: selfTestText(q) }) },
+            {
+              mockTag: "ai-solver",
+              jsonMode: true,
+              maxTokens: 800,
+              systemPrompt: examSystemPrompt(true),
+              signal: controller.signal,
+            }
+          );
+          parsed = parseExamAnswer(response.text);
+        } catch (error) {
+          if (error?.name === "AbortError") break;
+          failure = getSafeAiErrorMessage(error);
+        }
+        if (parsed && matchesKey(parsed.answer, q.answer)) {
+          state.correct += 1;
+        } else {
+          state.misses.push({
+            id: q.id,
+            question: q.question,
+            key: q.answer,
+            got: parsed ? parsed.answer : null,
+            basis: q.basis,
+            error: failure,
+          });
+        }
+        state.done += 1;
+        setSelfTest({ ...state, misses: [...state.misses] });
+      }
+      setSelfTest({ ...state, running: false, misses: [...state.misses] });
+    } catch (error) {
+      setSelfTest({
+        running: false,
+        done: 0,
+        total: 0,
+        correct: 0,
+        misses: [],
+        failed: error?.message || String(error),
+      });
+    } finally {
+      if (selfTestAbortRef.current === controller)
+        selfTestAbortRef.current = null;
+    }
   }
 
   // Send text to AI
@@ -583,12 +802,7 @@ OUTPUT:
       );
 
       if (preset) {
-        setSelectedPreset(preset.id);
-        if (preset.id === "custom") {
-          setQuestion("");
-        } else {
-          setQuestion(preset.prompt);
-        }
+        choosePreset(preset.id);
         setRespText(
           tx(
             "Switched to preset: {0}\n\nDescription: {1}",
@@ -609,8 +823,7 @@ OUTPUT:
       }
     }
 
-    const payload = { question: text };
-    await sendToAI(payload);
+    await sendToAI({ text });
   }
 
   // 处理文本提问
@@ -631,74 +844,142 @@ OUTPUT:
     }
   }
 
-  // 截图功能 - 第一步：捕获整个屏幕
-  async function handleScreenshot() {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-      setRespText("Error: The browser does not support screen capture");
-      return;
-    }
+  // Screen sharing stays open between questions: share once, then each
+  // "Capture & ask" grabs the same area of the shared screen.
+  function stopSharing() {
+    shareRef.current?.stream.getTracks().forEach((track) => track.stop());
+    shareRef.current = null;
+    setSharing(false);
+  }
 
+  async function ensureShare() {
+    if (shareRef.current) return shareRef.current;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      throw new Error(tx("The browser does not support screen capture."));
+    }
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: true,
+      audio: false,
+    });
+    const video = document.createElement("video");
+    video.srcObject = stream;
+    video.muted = true;
+    video.playsInline = true;
+    if (video.readyState < 1) {
+      await new Promise((resolve, reject) => {
+        video.onloadedmetadata = resolve;
+        video.onerror = () =>
+          reject(new Error(tx("The shared screen could not be read.")));
+      });
+    }
+    await video.play();
+    stream.getVideoTracks()[0]?.addEventListener("ended", stopSharing);
+    shareRef.current = { stream, video };
+    setSharing(true);
+    return shareRef.current;
+  }
+
+  function grabFrame({ video }) {
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx || !canvas.width || !canvas.height) {
+      throw new Error(
+        tx("The shared screen did not provide a usable video frame.")
+      );
+    }
+    ctx.drawImage(video, 0, 0);
+    return { canvas, width: canvas.width, height: canvas.height };
+  }
+
+  async function cropToBase64(canvas, box) {
+    const crop = document.createElement("canvas");
+    crop.width = Math.round(box.width);
+    crop.height = Math.round(box.height);
+    const ctx = crop.getContext("2d");
+    if (!ctx)
+      throw new Error(tx("Canvas rendering is not available in this browser."));
+    ctx.drawImage(
+      canvas,
+      box.x,
+      box.y,
+      box.width,
+      box.height,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+    // PNG keeps small exam text sharp; JPEG for large areas.
+    const type =
+      crop.width * crop.height > 1600 * 1200 ? "image/jpeg" : "image/png";
+    const blob = await new Promise((resolve) =>
+      crop.toBlob((b) => resolve(b), type, 0.9)
+    );
+    if (!blob)
+      throw new Error(tx("The browser could not encode the selected area."));
+    setLastSizeKB(Math.round(blob.size / 1024));
+    const dataUrl = await new Promise((res) => {
+      const fr = new FileReader();
+      fr.onload = () => res(fr.result);
+      fr.readAsDataURL(blob);
+    });
+    return String(dataUrl);
+  }
+
+  // Capture the shared screen and choose (or adjust) the area.
+  async function handleScreenshot() {
     setRespText("");
     setBusy(true);
-    let stream = null;
     try {
-      stream = await navigator.mediaDevices.getDisplayMedia({
-        video: { mediaSource: "screen" },
-        audio: false,
+      const frame = grabFrame(await ensureShare());
+      setScreenshotData({
+        ...frame,
+        dataUrl: frame.canvas.toDataURL("image/jpeg", 0.85),
       });
-
-      const video = document.createElement("video");
-      video.srcObject = stream;
-      video.muted = true;
-      video.playsInline = true;
-      if (video.readyState < 1) {
-        await new Promise((resolve, reject) => {
-          video.onloadedmetadata = resolve;
-          video.onerror = () =>
-            reject(new Error(tx("The shared screen could not be read.")));
+      const last = lastBoxRef.current;
+      if (
+        last &&
+        last.x + last.width <= frame.width &&
+        last.y + last.height <= frame.height
+      ) {
+        setSelectionBox(last);
+      } else {
+        const size = Math.min(frame.width, frame.height) * 0.5;
+        setSelectionBox({
+          x: (frame.width - size) / 2,
+          y: (frame.height - size) / 2,
+          width: size,
+          height: size,
         });
       }
-      await video.play();
-
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx || !canvas.width || !canvas.height) {
-        throw new Error(
-          tx("The shared screen did not provide a usable video frame.")
-        );
-      }
-      ctx.drawImage(video, 0, 0);
-
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-
-      // 保存截图数据，进入选择模式
-      setScreenshotData({
-        dataUrl,
-        width: canvas.width,
-        height: canvas.height,
-        canvas,
-      });
-
-      // 初始化选择框（默认选择中间区域）
-      const defaultSize = Math.min(canvas.width, canvas.height) * 0.5;
-      setSelectionBox({
-        x: (canvas.width - defaultSize) / 2,
-        y: (canvas.height - defaultSize) / 2,
-        width: defaultSize,
-        height: defaultSize,
-      });
-
       setIsSelecting(true);
     } catch (e) {
       if (e.name === "NotAllowedError") {
-        setRespText("Error: The user canceled screen sharing permission");
+        setRespText(tx("Error: screen sharing was not allowed."));
       } else {
-        setRespText("Error: " + (e?.message || String(e)));
+        setRespText(tx("Error: {0}", e?.message || String(e)));
       }
     } finally {
-      stream?.getTracks().forEach((track) => track.stop());
+      setBusy(false);
+    }
+  }
+
+  // One click per question: the same area of the shared screen.
+  async function handleQuickCapture() {
+    const box = lastBoxRef.current;
+    if (!box) return handleScreenshot();
+    setRespText("");
+    setExamResult(null);
+    setBusy(true);
+    try {
+      const frame = grabFrame(await ensureShare());
+      const dataUrl = await cropToBase64(frame.canvas, box);
+      await sendImageToAI(dataUrl);
+    } catch (e) {
+      setRespText(tx("Error: {0}", e?.message || String(e)));
+    } finally {
       setBusy(false);
     }
   }
@@ -706,55 +987,18 @@ OUTPUT:
   // 确认选择区域并发送给AI
   async function handleConfirmSelection() {
     if (!screenshotData || !selectionBox) return;
-
     setBusy(true);
+    setExamResult(null);
     try {
-      // 创建新的canvas来裁剪选中区域
-      const cropCanvas = document.createElement("canvas");
-      cropCanvas.width = selectionBox.width;
-      cropCanvas.height = selectionBox.height;
-      const cropCtx = cropCanvas.getContext("2d");
-      if (!cropCtx)
-        throw new Error(
-          tx("Canvas rendering is not available in this browser.")
-        );
-
-      // 从原始canvas裁剪选中区域
-      cropCtx.drawImage(
-        screenshotData.canvas,
-        selectionBox.x,
-        selectionBox.y,
-        selectionBox.width,
-        selectionBox.height,
-        0,
-        0,
-        selectionBox.width,
-        selectionBox.height
-      );
-
-      const blob = await new Promise((resolve) =>
-        cropCanvas.toBlob((b) => resolve(b), "image/jpeg", 0.85)
-      );
-      if (!blob)
-        throw new Error(tx("The browser could not encode the selected area."));
-
-      setLastSizeKB(Math.round(blob.size / 1024));
-
-      const dataUrl = await new Promise((res) => {
-        const fr = new FileReader();
-        fr.onload = () => res(fr.result);
-        fr.readAsDataURL(blob);
-      });
-      const base64 = String(dataUrl).split(",")[1];
-
-      await sendImageToAI(base64);
-
-      // 清理状态
+      lastBoxRef.current = selectionBox;
+      setHasArea(true);
+      const dataUrl = await cropToBase64(screenshotData.canvas, selectionBox);
       setScreenshotData(null);
       setSelectionBox(null);
       setIsSelecting(false);
+      await sendImageToAI(dataUrl);
     } catch (e) {
-      setRespText("Error: " + (e?.message || String(e)));
+      setRespText(tx("Error: {0}", e?.message || String(e)));
     } finally {
       setBusy(false);
     }
@@ -1023,23 +1267,58 @@ OUTPUT:
                   <>
                     <div className={styles.stage}>
                       <span className={styles.stageHint}>
-                        {tx("No screen captured yet")}
+                        {sharing && hasArea
+                          ? tx("Screen shared · area set")
+                          : tx("No screen captured yet")}
                       </span>
                     </div>
                     <div className={styles.note}>
-                      {tx(
-                        "Capture your screen, then drag to select the area to analyze."
-                      )}
+                      {sharing && hasArea
+                        ? tx(
+                            "Sharing stays on: show the next question in the shared window, then press Capture & ask. The same area is captured each time."
+                          )
+                        : tx(
+                            "Share the window with the questions once, drag the box over the question area, and analyze. After that, each question is one click."
+                          )}
                     </div>
                     <div className={styles.actions}>
-                      <button
-                        type="button"
-                        className="button button--primary"
-                        onClick={handleScreenshot}
-                        disabled={busy}
-                      >
-                        {busy ? tx("Processing…") : tx("Capture screen")}
-                      </button>
+                      {sharing && hasArea ? (
+                        <>
+                          <button
+                            type="button"
+                            className="button button--primary"
+                            onClick={handleQuickCapture}
+                            disabled={busy}
+                          >
+                            {busy ? tx("Processing…") : tx("Capture & ask")}
+                          </button>
+                          <button
+                            type="button"
+                            className="button button--secondary"
+                            onClick={handleScreenshot}
+                            disabled={busy}
+                          >
+                            {tx("Adjust area")}
+                          </button>
+                          <button
+                            type="button"
+                            className="button button--secondary"
+                            onClick={stopSharing}
+                            disabled={busy}
+                          >
+                            {tx("Stop sharing")}
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          className="button button--primary"
+                          onClick={handleScreenshot}
+                          disabled={busy}
+                        >
+                          {busy ? tx("Processing…") : tx("Capture screen")}
+                        </button>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -1308,6 +1587,33 @@ OUTPUT:
               </div>
             )}
 
+            {examResult?.main && (
+              <p
+                className={
+                  examResult.agree === false || examResult.checkFailed
+                    ? styles.quickAnswerWarn
+                    : styles.quickAnswer
+                }
+                role="status"
+              >
+                {tx("Answer:")}{" "}
+                <strong>
+                  {answerLabel(examResult.main.answer, {
+                    yes: tx("True"),
+                    no: tx("False"),
+                  })}
+                </strong>
+                {" · "}
+                {examResult.agree === true
+                  ? tx("both answers agree")
+                  : examResult.agree === false
+                  ? tx("answers differ — check it yourself")
+                  : examResult.checkFailed
+                  ? tx("not checked")
+                  : tx("single answer")}
+              </p>
+            )}
+
             {lastSizeKB != null && (
               <div className={styles.meta}>
                 {tx("Last image size: ")}
@@ -1342,19 +1648,7 @@ OUTPUT:
                   {tx("Prompt preset")}
                   <select
                     value={selectedPreset}
-                    onChange={(e) => {
-                      setSelectedPreset(e.target.value);
-                      const preset = promptPresets.find(
-                        (p) => p.id === e.target.value
-                      );
-                      if (preset) {
-                        if (preset.id === "custom") {
-                          setQuestion("");
-                        } else {
-                          setQuestion(preset.prompt);
-                        }
-                      }
-                    }}
+                    onChange={(e) => choosePreset(e.target.value)}
                     className={styles.select}
                   >
                     {promptPresets.map((preset) => (
@@ -1369,6 +1663,114 @@ OUTPUT:
                     ?.description || ""}
                 </div>
               </div>
+
+              {isExam && (
+                <div className={styles.examTools}>
+                  <label className={styles.checkRow}>
+                    <input
+                      type="checkbox"
+                      checked={doubleCheck}
+                      onChange={(e) => setDoubleCheck(e.target.checked)}
+                    />
+                    <span>
+                      {tx(
+                        "Check each answer with a second independent answer (two requests per question)"
+                      )}
+                    </span>
+                  </label>
+                  <div className={styles.selfTest}>
+                    <strong>{tx("Self-test")}</strong>
+                    <p className={styles.note}>
+                      {tx(
+                        "Before an exam, measure how well the selected model answers 32 lab safety questions with settled answers."
+                      )}
+                    </p>
+                    <div className={styles.actions}>
+                      {selfTest?.running ? (
+                        <button
+                          type="button"
+                          className="button button--secondary"
+                          onClick={() => selfTestAbortRef.current?.abort()}
+                        >
+                          {tx("Stop ({0}/{1})", selfTest.done, selfTest.total)}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="button button--secondary"
+                          onClick={runSelfTest}
+                          disabled={!usesModel || busy}
+                          title={
+                            usesModel
+                              ? undefined
+                              : tx("Choose a model provider first.")
+                          }
+                        >
+                          {tx("Run self-test")}
+                        </button>
+                      )}
+                    </div>
+                    {selfTest && !selfTest.failed && selfTest.done > 0 && (
+                      <div className={styles.selfTestResult} role="status">
+                        <p>
+                          {tx(
+                            "{0} of {1} correct ({2}%)",
+                            selfTest.correct,
+                            selfTest.done,
+                            Math.round((100 * selfTest.correct) / selfTest.done)
+                          )}
+                          {selfTest.running ? " …" : ""}
+                        </p>
+                        {selfTest.misses.length > 0 && (
+                          <details>
+                            <summary>
+                              {tx(
+                                "Questions answered wrongly ({0})",
+                                selfTest.misses.length
+                              )}
+                            </summary>
+                            <ol>
+                              {selfTest.misses.map((m) => (
+                                <li key={m.id}>
+                                  {m.question}{" "}
+                                  <span>
+                                    {tx(
+                                      "Key: {0}",
+                                      answerLabel(
+                                        typeof m.key === "boolean"
+                                          ? { kind: "bool", value: m.key }
+                                          : { kind: "letters", letters: m.key },
+                                        { yes: tx("True"), no: tx("False") }
+                                      )
+                                    )}
+                                    {" · "}
+                                    {m.error
+                                      ? m.error
+                                      : tx(
+                                          "Model: {0}",
+                                          m.got
+                                            ? answerLabel(m.got, {
+                                                yes: tx("True"),
+                                                no: tx("False"),
+                                              })
+                                            : tx("no answer")
+                                        )}
+                                  </span>
+                                </li>
+                              ))}
+                            </ol>
+                          </details>
+                        )}
+                      </div>
+                    )}
+                    {selfTest?.failed && (
+                      <p className={styles.note}>
+                        {tx("Self-test failed: {0}", selfTest.failed)}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {selectedPreset === "custom" ? (
                 <label className={styles.fieldLabel}>
@@ -1406,19 +1808,91 @@ OUTPUT:
               {tx("Response")}
             </Heading>
           </div>
-          <div
-            role="status"
-            aria-live="polite"
-            aria-busy={busy}
-            tabIndex={0}
-            className={styles.response}
-          >
-            {respText || (
-              <span className={styles.empty}>
-                {tx("The answer appears here after you capture or ask.")}
-              </span>
-            )}
-          </div>
+          {examResult && (
+            <div className={styles.answerCard} role="status">
+              {examResult.main ? (
+                <>
+                  <div className={styles.answerTop}>
+                    <span className={styles.answerValue}>
+                      {answerLabel(examResult.main.answer, {
+                        yes: tx("True"),
+                        no: tx("False"),
+                      })}
+                    </span>
+                    <span className={styles.answerMeta}>
+                      {[
+                        TYPE_LABELS[examResult.main.type],
+                        CONFIDENCE_LABELS[examResult.main.confidence],
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </div>
+                  {examResult.agree === true && (
+                    <p className={styles.agree}>
+                      {tx("A second, independent answer agrees.")}
+                    </p>
+                  )}
+                  {examResult.agree === false && (
+                    <p className={styles.disagree}>
+                      {tx(
+                        "The second answer differs ({0}). Read the question again and decide yourself.",
+                        answerLabel(examResult.check.answer, {
+                          yes: tx("True"),
+                          no: tx("False"),
+                        })
+                      )}
+                    </p>
+                  )}
+                  {examResult.checkFailed && (
+                    <p className={styles.disagree}>
+                      {tx("The second answer could not be obtained.")}
+                    </p>
+                  )}
+                  {examResult.main.question && (
+                    <p className={styles.readQuestion}>
+                      <strong>{tx("Question as read:")}</strong>{" "}
+                      {examResult.main.question}
+                    </p>
+                  )}
+                  {examResult.main.reason && <p>{examResult.main.reason}</p>}
+                  {examResult.main.basis && (
+                    <p className={styles.note}>
+                      {tx("Basis:")} {examResult.main.basis}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className={styles.disagree}>
+                  {tx(
+                    "No answer could be read from the model's reply; see the full reply below."
+                  )}
+                </p>
+              )}
+            </div>
+          )}
+          {examResult ? (
+            <details className={styles.rawReply}>
+              <summary>{tx("Full model reply")}</summary>
+              <div className={styles.response}>{respText}</div>
+            </details>
+          ) : (
+            <div
+              role="status"
+              aria-live="polite"
+              aria-busy={busy}
+              tabIndex={0}
+              className={styles.response}
+            >
+              {respText || (
+                <span className={styles.empty}>
+                  {busy
+                    ? tx("Waiting for the model…")
+                    : tx("The answer appears here after you capture or ask.")}
+                </span>
+              )}
+            </div>
+          )}
         </section>
         <CitationNotice />
       </div>

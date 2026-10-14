@@ -403,6 +403,21 @@ export async function postJson(url, json, extraHeaders = {}) {
       return mockResponse(payload);
     }
     if (tag === "ai-solver" || tag === "solver") {
+      if (String(json?.question || "").includes('"question_type"')) {
+        const demo = {
+          question: "Demo — no model is connected, so this is a sample answer.",
+          question_type: "single",
+          answer: "B",
+          reason:
+            "Local demo. Choose a provider and enter your own key to answer real questions.",
+          basis: "",
+          confidence: "low",
+        };
+        return mockResponse({
+          choices: [{ message: { content: JSON.stringify(demo) } }],
+          mock: true,
+        });
+      }
       const q = json?.question || "No question provided";
       const hasImage = !!json?.imageBase64 || !!json?.imageUrl;
       const content = `${

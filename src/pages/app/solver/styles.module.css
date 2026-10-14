@@ -227,3 +227,136 @@
     transition: none;
   }
 }
+
+.examTools {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.checkRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.checkRow input {
+  margin-top: 0.2rem;
+}
+
+.selfTest {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--ds-line);
+  border-radius: 12px;
+}
+
+.selfTest strong {
+  font-size: 0.9rem;
+}
+
+.selfTestResult {
+  margin-top: 0.6rem;
+  font-size: 0.86rem;
+}
+
+.selfTestResult p {
+  margin: 0 0 0.3rem;
+  font-weight: 600;
+}
+
+.selfTestResult ol {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+  line-height: 1.5;
+}
+
+.selfTestResult li span {
+  display: block;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.answerCard {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--ds-line);
+  border-radius: 14px;
+  background: var(--ifm-background-surface-color);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.answerCard p {
+  margin: 0;
+}
+
+.answerTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.9rem;
+}
+
+.answerValue {
+  color: var(--ifm-color-emphasis-900);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.answerMeta {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.82rem;
+}
+
+.agree {
+  color: var(--ifm-color-success-darkest, #1a7f37);
+  font-weight: 600;
+}
+
+.disagree {
+  padding: 0.5rem 0.7rem;
+  border-left: 2px solid var(--ds-warn);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--ds-warn) 8%, transparent);
+  font-weight: 600;
+}
+
+.readQuestion {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.85rem;
+}
+
+.rawReply summary {
+  margin-bottom: 0.5rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.quickAnswer,
+.quickAnswerWarn {
+  margin: 0.8rem 0 0;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.quickAnswer {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+}
+
+.quickAnswerWarn {
+  border-left: 2px solid var(--ds-warn);
+  background: color-mix(in srgb, var(--ds-warn) 8%, transparent);
+}
+
+.quickAnswer strong,
+.quickAnswerWarn strong {
+  font-size: 1.2rem;
+}
