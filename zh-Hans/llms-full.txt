@@ -33,7 +33,7 @@
 - [NASA POWER 气象数据下载器](https://smiler488.github.io/zh-Hans/app/weather): 选择地点与日期范围，获取 NASA POWER 农业气象数据，预览或下载整洁的 CSV 结果。 [PRE]
 - [CCO 航线生成器](https://smiler488.github.io/zh-Hans/app/cco): 把 KML 田块边界转成可预览的大疆 CCO 航线包，飞行与相机参数均可配置。 [DIG]
 - [生物样本图像量化](https://smiler488.github.io/zh-Hans/app/image): 打开在线分析工作台，对上传或拍摄的生物样本图像做量化，并导出测量结果。 [DIG]
-- [根系图像预处理器](https://smiler488.github.io/zh-Hans/app/root-processor): 用多边形区域、背景清理、高通增强与精细手动修正来准备根系扫描图像。 [DIG]
+- [根系图像预处理器](https://smiler488.github.io/zh-Hans/app/root-processor): 浏览器版 RootQuantify：圈出根系区域，用形态学闭运算去除背景，按原始分辨率阈值分割，再手动修正。 [DIG]
 - [双目视觉工作台](https://smiler488.github.io/zh-Hans/app/stereo): 对已标定的并排双目视频流做立体校正，用块匹配计算米制深度，并以毫米导出深度。 [DIG]
 - [标定板生成器](https://smiler488.github.io/zh-Hans/app/targets): 按精确毫米尺寸生成可打印的棋盘格与分段圆形标志，带版面校验与 PDF 导出。 [DIG]
 - [AI 数据可视化](https://smiler488.github.io/zh-Hans/app/ai-data-visualizer): 载入表格并基于全部数据绘图；可选的 AI 服务负责推荐图表类型，组间比较在本地进行方差分析与 Tukey 检验。 [UND]
