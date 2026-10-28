@@ -22,23 +22,30 @@ const CONTENT = {
       {
         mark: "I",
         tag: "Digitize",
-        comic: "/img/comic1.png",
-        alt: "Digital crop phenotyping — multi-view 3D reconstruction and UAV imaging",
+        comic: "/img/research/layer-1-digitize.webp",
+        alt: "Digitize the physical crop: multi-sensor field imaging (RGB, multispectral, thermal, LiDAR) and UAV scanning turned into 3D reconstructions and organ-level traits",
         href: "/research?layer=DIG",
       },
       {
         mark: "II",
         tag: "Understand",
-        comic: "/img/comic2.png",
-        alt: "AI-powered phenomic analysis — computer vision and scientific AI",
+        comic: "/img/research/layer-2-understand.webp",
+        alt: "Understand its mechanisms: how leaf optics, canopy light distribution, 3D plant structure, gas exchange and physiology determine photosynthesis and growth",
         href: "/research?layer=UND",
       },
       {
-        mark: "III–IV",
-        tag: "Predict & Design",
-        comic: "/img/comic3.png",
-        alt: "Canopy photosynthesis and breeding — crop modeling and design",
+        mark: "III",
+        tag: "Predict",
+        comic: "/img/research/layer-3-predict.webp",
+        alt: "Predict its future: crop growth models and AI combining weather, soil, management, genotype and remote sensing to forecast photosynthesis and yield under future climates",
         href: "/research?layer=PRE",
+      },
+      {
+        mark: "IV",
+        tag: "Design",
+        comic: "/img/research/layer-4-design.webp",
+        alt: "Design what it should become: ideotype design, in silico evaluation and multi-objective optimization for high yield, resilience and resource efficiency",
+        href: "/research?layer=DES",
       },
     ],
     labEyebrow: "Featured tools",
@@ -93,23 +100,30 @@ const CONTENT = {
       {
         mark: "I",
         tag: "数字化",
-        comic: "/img/comic1.png",
-        alt: "数字作物表型——多视角三维重建与无人机成像",
+        comic: "/img/research/layer-1-digitize.webp",
+        alt: "把物理作物数字化：田间多传感器成像（RGB、多光谱、热红外、激光雷达）与无人机扫描，转化为三维重建和器官级性状",
         href: "/research?layer=DIG",
       },
       {
         mark: "II",
         tag: "理解",
-        comic: "/img/comic2.png",
-        alt: "AI 驱动的表型组分析——计算机视觉与科学智能",
+        comic: "/img/research/layer-2-understand.webp",
+        alt: "理解其机理：叶片光学特性、冠层光分布、三维株型、气体交换与生理过程如何共同决定光合与生长",
         href: "/research?layer=UND",
       },
       {
-        mark: "III–IV",
-        tag: "预测与设计",
-        comic: "/img/comic3.png",
-        alt: "冠层光合与育种——作物建模与设计",
+        mark: "III",
+        tag: "预测",
+        comic: "/img/research/layer-3-predict.webp",
+        alt: "预测其未来：作物生长模型与人工智能融合气象、土壤、管理、基因型和遥感数据，预测未来气候下的光合与产量",
         href: "/research?layer=PRE",
+      },
+      {
+        mark: "IV",
+        tag: "设计",
+        comic: "/img/research/layer-4-design.webp",
+        alt: "设计它应有的样子：理想株型设计、计算机模拟评估与多目标优化，面向高产、抗逆与资源高效",
+        href: "/research?layer=DES",
       },
     ],
     labEyebrow: "精选工具",
@@ -156,10 +170,7 @@ const CONTENT = {
 
 function ComicCard({ item }) {
   return (
-    <Link
-      className={styles.comicCard}
-      to={item.href}
-    >
+    <Link className={styles.comicCard} to={item.href}>
       <img
         className={styles.comicImg}
         src={item.comic}
@@ -179,10 +190,7 @@ function ComicCard({ item }) {
 
 function LabCard({ item }) {
   return (
-    <Link
-      className={styles.labCard}
-      to={item.href}
-    >
+    <Link className={styles.labCard} to={item.href}>
       <div className={styles.labCardTop}>
         <span className={styles.labGlyph} aria-hidden="true" />
         <span className={styles.labNumber}>{item.number}</span>
@@ -251,7 +259,17 @@ export default function HomepageFeatures() {
                 {isChinese ? "快捷入口" : "Portals"}
               </span>
               <Link className={styles.portalLink} to="/blog">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ marginRight: "0.2rem" }}
+                >
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                   <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -261,14 +279,34 @@ export default function HomepageFeatures() {
                 {isChinese ? "研究笔记" : "Research Notes"}
               </Link>
               <Link className={styles.portalLink} to="/resources">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ marginRight: "0.2rem" }}
+                >
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
                 {isChinese ? "学习资源" : "Resources"}
               </Link>
               <Link className={styles.portalLink} to="/cv">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.2rem' }}>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ marginRight: "0.2rem" }}
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                   <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
