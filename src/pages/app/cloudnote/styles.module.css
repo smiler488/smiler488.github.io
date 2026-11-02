@@ -165,7 +165,7 @@
   min-height: 2.5rem;
   padding: 0 1rem;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-pill);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;

@@ -100,7 +100,7 @@
   min-height: 2rem;
   padding: 0 0.8rem;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--ds-radius-pill);
   color: var(--ifm-color-emphasis-900);
   background: var(--ds-surface);
   font-family: inherit;

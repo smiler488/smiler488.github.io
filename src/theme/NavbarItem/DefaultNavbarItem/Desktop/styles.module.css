@@ -20,8 +20,8 @@
     transform var(--ds-dur-press) var(--ds-ease);
 }
 
-.navbarNavLink:hover,
-.navbarNavLink:active {
+.navbarNavLink:active,
+.navbarNavLink[data-touch-label] {
   color: var(--ds-text);
   text-decoration: none;
   background: var(--ds-surface);
@@ -54,16 +54,16 @@
   transform: scale(0.9);
 }
 
-.navbarNavLink:hover .iconSolid,
 .navbarNavLink:active .iconSolid,
+.navbarNavLink[data-touch-label] .iconSolid,
 .navbarNavLink:focus-visible .iconSolid,
 .navbarNavLinkActive .iconSolid {
   opacity: 1;
   transform: scale(1);
 }
 
-.navbarNavLink:hover .iconOutline,
 .navbarNavLink:active .iconOutline,
+.navbarNavLink[data-touch-label] .iconOutline,
 .navbarNavLink:focus-visible .iconOutline,
 .navbarNavLinkActive .iconOutline {
   opacity: 0;
@@ -108,17 +108,40 @@
 /* Mouse: on hover. Keyboard: on focus. Finger: while pressed, so a press
    and hold reads the label before the page opens on release. */
 .iconOnly:focus-visible .tooltip,
-.iconOnly:active .tooltip {
+.iconOnly:active .tooltip,
+.iconOnly[data-touch-label] .tooltip {
   opacity: 1;
   transform: translate(-50%, 0);
 }
 
+/* Only devices that really hover get hover states; on touch screens a
+   tapped link would otherwise keep a "stuck" hover look. */
 @media (hover: hover) {
+  .navbarNavLink:hover {
+    color: var(--ds-text);
+    text-decoration: none;
+    background: var(--ds-surface);
+  }
+
+  .navbarNavLink:hover .iconSolid {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .navbarNavLink:hover .iconOutline {
+    opacity: 0;
+  }
+
   .iconOnly:hover .tooltip {
     opacity: 1;
     transform: translate(-50%, 0);
     transition-delay: 120ms;
   }
+}
+
+/* Escape hides a visible label (the navbar sets data-labels-dismissed) */
+:global([data-labels-dismissed]) .tooltip {
+  opacity: 0 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

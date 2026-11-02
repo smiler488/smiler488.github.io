@@ -313,11 +313,23 @@ function draw(ctx, size, geo, st, now) {
   ctx.fill();
 }
 
-export default function LayerMorph({ steps, label, evidenceHrefs, evidenceLabel }) {
+export default function LayerMorph({
+  steps,
+  label,
+  evidenceHrefs,
+  evidenceLabel,
+  onActiveChange,
+}) {
   const wrapRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const [active, setActive] = React.useState(0);
   const api = React.useRef({ select: () => {} });
+
+  // Lets the page show content for the current layer (the homepage swaps
+  // its illustration), switching at the same moment as the stepper.
+  React.useEffect(() => {
+    onActiveChange?.(active);
+  }, [active, onActiveChange]);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;

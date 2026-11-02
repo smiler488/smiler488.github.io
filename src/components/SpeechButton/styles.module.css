@@ -6,7 +6,7 @@
   margin-left: 5px;
   color: var(--ifm-color-primary);
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: var(--ds-radius-pill);
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;

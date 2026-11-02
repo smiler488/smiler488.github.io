@@ -44,9 +44,57 @@ function NavbarItems({ items }) {
   );
 }
 
+/**
+ * Label behaviour for the icon buttons (muse-design v1.1): Escape hides a
+ * visible label until the pointer or focus moves again; a touch keeps the
+ * tapped control's label (and filled icon) until the next tap elsewhere.
+ * The click itself is untouched, so one tap still acts.
+ */
+function useIconLabels(ref) {
+  React.useEffect(() => {
+    const bar = ref.current;
+    if (!bar) return undefined;
+    const clearTouch = () =>
+      bar
+        .querySelectorAll("[data-touch-label]")
+        .forEach((el) => delete el.dataset.touchLabel);
+    const onKey = (event) => {
+      if (event.key === "Escape") {
+        bar.dataset.labelsDismissed = "true";
+        clearTouch();
+      }
+    };
+    const restore = () => delete bar.dataset.labelsDismissed;
+    const onPointerDown = (event) => {
+      clearTouch();
+      if (event.pointerType !== "touch") return;
+      const control = event.target.closest?.("a, button");
+      if (control && bar.contains(control)) control.dataset.touchLabel = "true";
+    };
+    const onPointerMove = (event) => {
+      if (event.pointerType === "mouse") restore();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointerDown);
+    bar.addEventListener("pointermove", onPointerMove);
+    bar.addEventListener("focusin", restore);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+      bar.removeEventListener("pointermove", onPointerMove);
+      bar.removeEventListener("focusin", restore);
+    };
+  }, [ref]);
+}
+
 function NavbarContentLayout({ left, right }) {
+  const barRef = React.useRef(null);
+  useIconLabels(barRef);
   return (
-    <div className={clsx("navbar__inner", styles.navbarSurface)}>
+    <div
+      ref={barRef}
+      className={clsx("navbar__inner", styles.navbarSurface)}
+    >
       <div
         className={clsx(
           ThemeClassNames.layout.navbar.containerLeft,

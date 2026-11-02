@@ -190,7 +190,7 @@
 .secondaryButton {
   min-height: 46px;
   padding: 10px 16px;
-  border-radius: 14px;
+  border-radius: var(--ds-radius-pill);
   font: inherit;
   font-weight: 600;
   cursor: pointer;

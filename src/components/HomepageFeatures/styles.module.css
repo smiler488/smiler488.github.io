@@ -67,26 +67,49 @@
   line-height: 1.5;
 }
 
-/* ── Four-layer architecture: morph (LayerMorph) + comic drawings ─────── */
-.comicGrid {
+/* ── Four-layer architecture: the morph steps through the layers and the
+   drawing beside it switches with it ─────────────────────────────────── */
+.layerStage {
   display: grid;
-  /* Two columns: the drawings carry small labelled panels. */
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.8vw, 1.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+/* The morph sizes itself for a full-width row; in the stage it fills its column */
+.layerStage > :first-child {
+  width: 100%;
+  margin: 0;
+}
+
+.showcase {
+  display: grid;
+  width: 100%;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-surface);
+  overflow: hidden;
 }
 
 .comicCard {
   position: relative;
   display: block;
+  grid-area: 1 / 1;
   min-width: 0;
-  overflow: hidden;
-  border-radius: var(--ds-radius-lg);
-  background: var(--ds-surface);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 420ms var(--ds-ease), visibility 0s linear 420ms;
+}
+
+.comicCurrent {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 420ms var(--ds-ease), visibility 0s;
 }
 
 .comicImg {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   transition: transform var(--ds-dur-panel) var(--ds-ease);
@@ -98,7 +121,7 @@
 
 .comicCard:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: -2px;
 }
 
 /* The tag floats over the drawing, so it is a raised control-like pill. */
@@ -138,10 +161,20 @@
 }
 
 @media (max-width: 860px) {
-  .comicGrid {
-    grid-template-columns: 1fr;
+  .layerStage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .showcase {
     width: min(30rem, 100%);
     margin-inline: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comicCard,
+  .comicCurrent {
+    transition: none;
   }
 }
 

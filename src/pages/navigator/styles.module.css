@@ -265,7 +265,7 @@
   background: color-mix(in srgb, var(--navigator-accent) 8%, transparent);
   border: 1px solid
     color-mix(in srgb, var(--navigator-accent) 25%, var(--navigator-line));
-  border-radius: 0.8rem;
+  border-radius: var(--ds-radius-pill);
   cursor: pointer;
   font-size: 0.72rem;
   font-weight: 600;
@@ -359,7 +359,7 @@
   background: transparent;
   border: 1px solid transparent;
   border-bottom-color: var(--navigator-line);
-  border-radius: 0.85rem;
+  border-radius: var(--ds-radius-sm);
   cursor: pointer;
   scroll-margin-inline: 0.55rem;
   transition: color 180ms var(--ease-smooth),
@@ -864,7 +864,7 @@
     gap: 0.45rem;
     padding: 0.3rem 0.55rem 0.3rem 0.38rem;
     border: 1px solid transparent;
-    border-radius: 0.82rem;
+    border-radius: var(--ds-radius-sm);
     white-space: nowrap;
   }
 

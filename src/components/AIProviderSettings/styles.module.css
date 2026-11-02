@@ -99,7 +99,7 @@
   min-height: 44px;
   padding: 0.65rem 0.9rem;
   border: 1px solid var(--ds-line);
-  border-radius: var(--radius-md, 14px);
+  border-radius: var(--ds-radius-pill);
   background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
   color: var(--ifm-color-emphasis-800);
   font: inherit;

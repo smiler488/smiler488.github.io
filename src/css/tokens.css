@@ -26,6 +26,8 @@
   --ds-accent-rgb: 0, 100, 212;
   --ds-success: #237a39;
   --ds-success-soft: #eaf5ec;
+  /* AI4Plant mark only (the green "4" and leaf); never a UI action colour */
+  --ds-brand-leaf: #237a39;
   --ds-warn: #c98a12;
   --ds-danger: #b42318;
   --ds-danger-soft: #fff0ee;
@@ -191,6 +193,7 @@ html[data-theme='dark'] {
   --ds-accent-rgb: 94, 163, 255;
   --ds-success: #6fd28a;
   --ds-success-soft: #15281a;
+  --ds-brand-leaf: #6fd28a;
   --ds-danger: #ff8a7a;
   --ds-danger-soft: #3a1b17;
   --ds-shadow-xs: 0 0 0 transparent;

@@ -73,7 +73,7 @@
   min-height: 44px;
   padding: 9px 16px;
   border: 1px solid var(--ds-primary);
-  border-radius: 13px;
+  border-radius: var(--ds-radius-pill);
   background: var(--ds-primary);
   color: var(--ds-on-primary);
   font: inherit;
@@ -150,7 +150,7 @@
   height: 48px;
   padding: 0;
   border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-color);
   color: var(--ifm-color-emphasis-800);
   font-size: 1rem;

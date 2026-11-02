@@ -89,7 +89,7 @@
 
 .button {
   padding: 10px 16px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-pill);
   font-weight: 600;
   cursor: pointer;
   border: none;

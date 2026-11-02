@@ -3,6 +3,7 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import styles from "./index.module.css";
 import { PersonJsonLd } from "@site/src/components/ds";
@@ -15,10 +16,12 @@ const HOME_COPY = {
     particleText: "Liangchao Deng",
     eyebrow: "Liangchao Deng · Personal site",
     title: "Intelligent systems for crops, built to be explored.",
-    role: "AI4Plant",
+    emblemAlt:
+      "AI4Plant emblem: a researcher with a tablet in a crop field, framed by satellite and drone remote sensing, 3D plant reconstruction, leaf BRDF and root growth panels.",
     intro:
       "I connect computer vision, crop models, and scientific AI to turn complex plant data into reproducible research tools.",
     chips: ["Plant Phenotyping", "Crop Modeling", "AI for Science"],
+    chipsLabel: "Research areas",
     primaryAction: "Explore the research",
     appAction: "Open App Lab",
     cvAction: "View CV",
@@ -31,10 +34,12 @@ const HOME_COPY = {
     particleText: "邓良超",
     eyebrow: "邓良超 · 个人主页",
     title: "把作物科学，构建成可以探索的智能系统。",
-    role: "AI4Plant",
+    emblemAlt:
+      "AI4Plant 标志：田间手持平板的研究者，周围是卫星与无人机遥感、三维植株重建、叶片 BRDF 与根系生长等画面。",
     intro:
       "连接计算机视觉、作物模型与科学智能，把复杂的植物数据转化为可复现、可使用的科研工具。",
     chips: ["作物表型", "作物模型", "科学智能"],
+    chipsLabel: "研究领域",
     primaryAction: "探索研究方向",
     appAction: "进入应用实验室",
     cvAction: "查看简历",
@@ -49,6 +54,8 @@ function HomepageHeader() {
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? HOME_COPY.zh : HOME_COPY.en;
   const [showLoveEasterEgg, setShowLoveEasterEgg] = React.useState(false);
+  const emblem = useBaseUrl("/img/ai4plant-emblem-360.webp");
+  const emblem2x = useBaseUrl("/img/ai4plant-emblem-720.webp");
 
   const handleEasterEggTrigger = () => {
     setShowLoveEasterEgg(true);
@@ -83,14 +90,34 @@ function HomepageHeader() {
         data-particle-obstacle
         aria-labelledby="home-hero-title"
       >
+        {/* Identity: the emblem as a round avatar with its name capsule */}
+        <div className={styles.identity}>
+          <img
+            className={styles.emblem}
+            src={emblem}
+            srcSet={`${emblem} 360w, ${emblem2x} 720w`}
+            sizes="(max-width: 700px) 144px, 176px"
+            width="176"
+            height="176"
+            alt={copy.emblemAlt}
+          />
+          <span className={styles.identityTag}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M5 19C5 10.5 11 5 20 5c0 8.5-6 14-15 14Z" />
+              <path d="M5 19 13 11" />
+            </svg>
+            <span>
+              AI<span className={styles.four}>4</span>Plant
+            </span>
+          </span>
+        </div>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <Heading as="h1" id="home-hero-title" className={styles.heroTitle}>
           {copy.title}
         </Heading>
-        <p className={styles.heroRole}>{copy.role}</p>
         <p className={styles.heroIntro}>{copy.intro}</p>
 
-        <ul className={styles.chipList} aria-label={copy.role}>
+        <ul className={styles.chipList} aria-label={copy.chipsLabel}>
           {copy.chips.map((chip) => (
             <li key={chip}>{chip}</li>
           ))}

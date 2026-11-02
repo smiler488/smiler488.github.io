@@ -168,13 +168,32 @@ const CONTENT = {
   },
 };
 
-function ComicCard({ item }) {
+// The four layer drawings stacked in one frame; only the current layer is
+// visible and reachable. The others stay mounted so switching is instant.
+function LayerShowcase({ items, active }) {
   return (
-    <Link className={styles.comicCard} to={item.href}>
+    <div className={styles.showcase}>
+      {items.map((item, index) => (
+        <ComicSlide key={item.mark} item={item} current={index === active} />
+      ))}
+    </div>
+  );
+}
+
+function ComicSlide({ item, current }) {
+  return (
+    <Link
+      className={`${styles.comicCard} ${current ? styles.comicCurrent : ""}`}
+      to={item.href}
+      aria-hidden={current ? undefined : true}
+      tabIndex={current ? undefined : -1}
+    >
       <img
         className={styles.comicImg}
         src={item.comic}
         alt={item.alt}
+        width="1254"
+        height="1254"
         loading="lazy"
         decoding="async"
       />
@@ -208,6 +227,7 @@ export default function HomepageFeatures() {
   const { i18n } = useDocusaurusContext();
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? CONTENT.zh : CONTENT.en;
+  const [layer, setLayer] = React.useState(0);
 
   return (
     <>
@@ -224,16 +244,15 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <LayerMorph
-            steps={copy.steps}
-            label={copy.researchTitle}
-            evidenceHrefs={LAYER_EVIDENCE}
-            evidenceLabel={copy.stepEvidence}
-          />
-          <div className={styles.comicGrid}>
-            {copy.research.map((item) => (
-              <ComicCard key={item.mark} item={item} />
-            ))}
+          <div className={styles.layerStage}>
+            <LayerMorph
+              steps={copy.steps}
+              label={copy.researchTitle}
+              evidenceHrefs={LAYER_EVIDENCE}
+              evidenceLabel={copy.stepEvidence}
+              onActiveChange={setLayer}
+            />
+            <LayerShowcase items={copy.research} active={layer} />
           </div>
         </div>
       </section>

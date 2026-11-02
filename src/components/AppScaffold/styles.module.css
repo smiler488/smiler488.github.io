@@ -3,9 +3,11 @@
 
 .page {
   --app-accent: var(--ifm-color-primary);
-  --app-accent-rgb: 16, 163, 127;
-  --app-radius: 16px;
-  --app-control-radius: 10px;
+  --app-accent-rgb: var(--ds-accent-rgb);
+  --app-radius: var(--ds-radius-lg);
+  /* Fields are rounded rectangles; buttons are capsules (DESIGN_SPEC §5.4) */
+  --app-control-radius: var(--ds-radius-sm);
+  --app-button-radius: var(--ds-radius-pill);
   --app-border: var(--ds-line);
   --app-surface: var(--ifm-background-color);
   --app-subtle: var(--ifm-background-surface-color);
@@ -158,7 +160,7 @@
   min-height: 2.5rem;
   padding: 0 1.05rem;
   border: 1px solid transparent;
-  border-radius: var(--app-control-radius);
+  border-radius: var(--app-button-radius);
   color: var(--ifm-color-emphasis-900);
   background: var(--ds-surface);
   font-size: 0.86rem;
@@ -321,10 +323,10 @@
   height: 2rem;
   margin-right: 0.75rem;
   padding: 0 0.9rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--app-button-radius);
   color: var(--ifm-color-emphasis-900);
-  background: var(--app-surface);
+  background: var(--ds-surface);
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 600;
@@ -333,7 +335,7 @@
 }
 
 .workspace :global(input[type="file"]::file-selector-button:hover) {
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ds-surface-warm);
 }
 
 /* Checkboxes, radios, sliders */
@@ -352,7 +354,7 @@
 /* Buttons */
 :where(.workspace) :global(:where(button, .button)) {
   min-height: 2.5rem;
-  border-radius: var(--app-control-radius);
+  border-radius: var(--app-button-radius);
   font-family: inherit;
   font-weight: 600;
   touch-action: manipulation;

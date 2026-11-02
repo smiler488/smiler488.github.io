@@ -202,7 +202,7 @@
   height: 2.2rem;
   padding: 0;
   border: 0;
-  border-radius: 0.7rem;
+  border-radius: var(--ds-radius-pill);
   color: var(--lab-muted);
   background: transparent;
   font-size: 1.15rem;
@@ -237,7 +237,7 @@
   z-index: 0;
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
-  border-radius: 0.82rem;
+  border-radius: var(--ds-radius-pill);
   box-shadow: var(--ds-shadow-float);
   pointer-events: none;
   transition: left 0.28s cubic-bezier(0.25, 1, 0.5, 1),
@@ -252,7 +252,7 @@
   min-height: 2.65rem;
   padding: 0.62rem 0.9rem;
   border: 1px solid transparent;
-  border-radius: 0.82rem;
+  border-radius: var(--ds-radius-pill);
   color: var(--lab-muted);
   background: transparent;
   font-size: 0.78rem;

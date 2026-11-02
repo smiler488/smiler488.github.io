@@ -123,6 +123,7 @@
 }
 
 .iconButton:has(:focus-visible)::after,
+.iconButton:has([data-touch-label])::after,
 .iconButton:active::after {
   opacity: 1;
   transform: translate(-50%, 0);
@@ -134,6 +135,11 @@
     transform: translate(-50%, 0);
     transition-delay: 120ms;
   }
+}
+
+/* Escape hides a visible label */
+.navbarSurface[data-labels-dismissed] .iconButton::after {
+  opacity: 0;
 }
 
 /* No tooltip while the search field is open and being typed in */
