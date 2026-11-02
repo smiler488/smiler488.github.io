@@ -15,7 +15,6 @@ const HOME_COPY = {
     pageTitle: "AI4Plant · Plant Phenotyping & Crop Modeling",
     particleText: "Liangchao Deng",
     eyebrow: "Liangchao Deng · Personal site",
-    title: "Intelligent systems for crops, built to be explored.",
     emblemAlt:
       "AI4Plant emblem: a researcher with a tablet in a crop field, framed by satellite and drone remote sensing, 3D plant reconstruction, leaf BRDF and root growth panels.",
     intro:
@@ -33,7 +32,6 @@ const HOME_COPY = {
     pageTitle: "AI4Plant · 作物表型与作物模型",
     particleText: "邓良超",
     eyebrow: "邓良超 · 个人主页",
-    title: "把作物科学，构建成可以探索的智能系统。",
     emblemAlt:
       "AI4Plant 标志：田间手持平板的研究者，周围是卫星与无人机遥感、三维植株重建、叶片 BRDF 与根系生长等画面。",
     intro:
@@ -111,9 +109,9 @@ function HomepageHeader() {
             </span>
           </span>
         </div>
-        <p className={styles.eyebrow}>{copy.eyebrow}</p>
-        <Heading as="h1" id="home-hero-title" className={styles.heroTitle}>
-          {copy.title}
+        {/* The name is the page heading; the emblem above carries the visual weight */}
+        <Heading as="h1" id="home-hero-title" className={styles.heroName}>
+          {copy.eyebrow}
         </Heading>
         <p className={styles.heroIntro}>{copy.intro}</p>
 
