@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400..600&display=swap');
 
 /**
- * OpenAI-inspired system: light, flat, editorial. Solid surfaces, hairline
- * borders, generous whitespace, one geometric-grotesk family, green used
- * sparingly as an accent.
+ * Muse-inspired system (design/DESIGN_SPEC.md §5): near-white surfaces, cool
+ * neutral greys, calm content without shadows, one restrained blue for
+ * actions, and soft shadows only on floating controls and panels.
  */
 
 /* Tech-style component enhancements */
@@ -92,7 +92,42 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 
 .navbar__link:hover,
 .navbar__link--active {
-  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+  background: var(--ds-surface);
+}
+
+/* Menus: a floating panel near their trigger */
+.dropdown__menu {
+  padding: 0.4rem;
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-panel);
+  transition: opacity var(--ds-dur-menu) var(--ds-ease),
+    transform var(--ds-dur-menu) var(--ds-ease),
+    visibility var(--ds-dur-menu) var(--ds-ease);
+}
+
+/* The custom navbar item renders menu entries as plain links: stack them as rows */
+.dropdown__menu > a,
+.dropdown__menu .dropdown__link {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  margin: 0;
+  color: var(--ds-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  box-shadow: none;
+}
+
+.dropdown__menu > a:hover,
+.dropdown__menu > a[class*="dropdown__link--active"],
+.dropdown__link:hover,
+.dropdown__link--active {
+  color: var(--ds-text);
+  background: var(--ds-surface);
 }
 
 /* Hide external link icon for GitHub navbar item */
@@ -106,24 +141,19 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 .DocSearch-Button {
   background: var(--ds-card) !important;
   border: 1px solid var(--ds-line) !important;
-  border-radius: 8px !important;
-  transition: all 0.3s var(--ease-smooth) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 transparent !important;
+  border-radius: var(--ds-radius-pill) !important;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    border-color var(--ds-dur-fast) var(--ds-ease) !important;
+  box-shadow: none !important;
   padding: 0 12px !important;
   height: 36px !important;
   margin: 0 !important;
 }
 
 .DocSearch-Button:hover {
-  background: var(--ds-card) !important;
-  border-color: var(--ifm-color-emphasis-400) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 transparent !important;
-  transform: translateY(-1px);
-}
-
-.DocSearch-Button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 transparent !important;
+  background: var(--ds-surface) !important;
+  border-color: var(--ds-line) !important;
+  box-shadow: none !important;
 }
 
 .DocSearch-Search-Icon {
@@ -149,7 +179,7 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   color: var(--ifm-navbar-link-color) !important;
   border: 1px solid var(--ds-line) !important;
   border-radius: 4px !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: none !important;
   padding: 2px 6px !important;
   font-size: 0.75rem !important;
   min-width: 20px !important;
@@ -157,13 +187,12 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 
 /* 暗色模式下的搜索框 */
 html[data-theme='dark'] .DocSearch-Button {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: var(--ds-surface) !important;
+  border-color: var(--ds-line) !important;
 }
 
 html[data-theme='dark'] .DocSearch-Button:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: var(--ds-surface-warm) !important;
 }
 
 /* 确保搜索框在导航栏右侧正确显示 */
@@ -209,91 +238,46 @@ html[data-theme='dark'] .DocSearch-Button:hover {
   }
 }
 
-/* Card improvements with hover animation */
+/* Cards are content: hairline and spacing, no shadow or lift */
 .card {
   border: 1px solid var(--ds-line);
-  border-radius: var(--radius-xl);
-  /* 玻璃态卡片 */
+  border-radius: var(--ds-radius-lg);
   background: var(--ds-card);
-  transition: all 0.4s var(--ease-smooth);
+  transition: border-color var(--ds-dur-fast) var(--ds-ease);
   overflow: hidden;
   position: relative;
-  box-shadow: var(--ds-shadow-xs);
-}
-
-/* 卡片内部高光 */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: transparent;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: 1;
+  box-shadow: none;
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--ds-shadow-float);
-  border-color: transparent;
+  border-color: var(--ifm-color-emphasis-300);
 }
 
-.card:hover::before {
-  opacity: 1;
-}
-
-/* Button improvements */
+/* Buttons: pill shape, instant press feedback */
 .button {
   min-height: 44px;
-  border-radius: var(--radius-md);
+  border-radius: var(--ds-radius-pill);
   font-weight: 600;
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    border-color var(--ds-dur-fast) var(--ds-ease),
+    color var(--ds-dur-fast) var(--ds-ease),
+    transform var(--ds-dur-press) var(--ds-ease);
   border: 1px solid transparent;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   position: relative;
   overflow: hidden;
-}
-
-/* 按钮内部光效 */
-.button::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: var(--glow-light);
-  transform: translate(-50%, -50%);
-  transition: width 0.4s var(--ease-smooth), height 0.4s var(--ease-smooth);
-  opacity: 0;
-  z-index: 0;
-}
-
-.button:hover::before {
-  width: 200%;
-  height: 200%;
-  opacity: 0.2;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 .button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(0.98);
 }
 
 /* Code block improvements */
 pre {
-  border-radius: var(--radius-lg);
+  border-radius: var(--ds-radius-md);
   border: 1px solid var(--ifm-border-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: none;
 }
 
 .app-container {
@@ -330,37 +314,12 @@ pre {
 }
 
 .app-card {
-  /* 玻璃态应用卡片 */
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
-  border-radius: var(--radius-xl);
+  border-radius: var(--ds-radius-lg);
   padding: 20px;
-  box-shadow: var(--ds-shadow-xs);
-  transition: all 0.4s var(--ease-smooth);
+  box-shadow: none;
   position: relative;
-}
-
-/* 卡片内部高光 */
-.app-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: transparent;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.app-card:hover {
-  box-shadow: var(--ds-shadow-float);
-  transform: translateY(-4px);
-  border-color: transparent;
-}
-
-.app-card:hover::before {
-  opacity: 1;
 }
 
 .app-section-title {
@@ -380,8 +339,8 @@ pre {
   gap: 16px;
 }
 
-:where(button, a, input, select, textarea):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--ifm-color-primary) 42%, transparent);
+:where(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ds-primary);
   outline-offset: 2px;
 }
 
@@ -400,10 +359,8 @@ pre {
   }
 }
 
-@media (hover: none) {
-  .card:hover,
-  .app-card:hover,
-  .button:hover {
+@media (prefers-reduced-motion: reduce) {
+  .button:active {
     transform: none;
   }
 }
@@ -460,8 +417,7 @@ code {
   width: 100%;
   max-width: 820px;
   border: 1px solid var(--ifm-border-color);
-  border-radius: 8px;
-  box-shadow: var(--ifm-global-shadow-lw);
+  border-radius: var(--ds-radius-md);
 }
 
 .footer {
@@ -528,7 +484,7 @@ a {
 }
 
 a:hover {
-  color: var(--ifm-color-primary-dark);
+  color: var(--ds-primary-hover);
 }
 
 /* Responsive improvements */
@@ -546,9 +502,9 @@ a:hover {
     width: min(85vw, 360px);
     max-width: 420px;
     background: var(--ifm-navbar-background-color);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--ds-shadow-panel);
     transform: translateX(-100%);
-    transition: transform 240ms ease;
+    transition: transform var(--ds-dur-panel) var(--ds-ease);
     z-index: 1100;
     /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
 backdrop-filter: blur(12px);
@@ -563,11 +519,11 @@ backdrop-filter: blur(12px);
   .navbar-sidebar__backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.45);
+    background: var(--ds-scrim);
     z-index: 1095;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 240ms ease;
+    transition: opacity var(--ds-dur-panel) var(--ds-ease);
     /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
 backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -632,10 +588,11 @@ backdrop-filter: blur(12px);
     font-size: 1rem;
     font-weight: 500;
     color: var(--ifm-navbar-link-color);
-    border-radius: 8px;
+    border-radius: var(--ds-radius-sm);
     border: 1px solid transparent;
     margin-bottom: 4px;
-    transition: all 0.2s ease;
+    transition: background-color var(--ds-dur-fast) var(--ds-ease),
+      color var(--ds-dur-fast) var(--ds-ease);
     width: 100%;
     box-sizing: border-box;
     background: transparent; /* 确保背景透明，除非悬停 */
@@ -647,8 +604,8 @@ backdrop-filter: blur(12px);
   .navbar-sidebar__item .navbar__link:hover,
   .navbar-sidebar__item .menu__link:hover,
   .navbar-sidebar__item .menu__link--active {
-    color: var(--ifm-color-primary);
-    background: var(--ifm-color-emphasis-100);
+    color: var(--ds-text);
+    background: var(--ds-surface);
     text-decoration: none;
     border-color: transparent;
   }
@@ -662,8 +619,8 @@ backdrop-filter: blur(12px);
   [data-theme='dark'] .navbar-sidebar__item .navbar__link:hover,
   [data-theme='dark'] .navbar-sidebar__item .menu__link:hover,
   [data-theme='dark'] .navbar-sidebar__item .menu__link--active {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--ds-white);
+    background: var(--ds-surface);
+    color: var(--ds-text);
   }
 
   /* 修复 Languages 子菜单的箭头样式 */
@@ -708,7 +665,7 @@ html[data-theme='dark'] .navbar-sidebar__item .navbar__link {
 }
 
 html[data-theme='dark'] .navbar-sidebar__backdrop {
-  background: rgba(2, 6, 23, 0.65);
+  background: var(--ds-scrim);
 }
 
 /* ── 文档侧边栏 — resources 卡片导轨风格 ── */
@@ -843,11 +800,9 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
 }
 
 button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
-  color: var(--ifm-color-primary);
-  background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
-  border-color: color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+  color: var(--ds-text);
+  background: var(--ds-surface);
+  border-color: transparent;
 }
 
 /* 确保收起按钮内部的图标不会被误伤 */
@@ -968,17 +923,10 @@ article a:not(.button):not(.card):not([class*="Link"]):hover {
   text-underline-offset: 3px;
 }
 
-/* 图片悬停效果 */
+/* 图片：内容保持静止 */
 article img,
 .markdown img {
-  transition: all 0.3s var(--ease-smooth);
-  border-radius: 8px;
-}
-
-article img:hover,
-.markdown img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: var(--ds-radius-md);
 }
 
 /* 表格增强 */
@@ -1034,48 +982,30 @@ code:hover {
 input:not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
-  transition: all 0.2s var(--ease-smooth);
-  border-radius: 8px;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease),
+    box-shadow var(--ds-dur-fast) var(--ds-ease);
+  border-radius: var(--ds-radius-sm);
 }
 
 input:not([type="checkbox"]):not([type="radio"]):focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 3px var(--glow-subtle);
-  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px var(--ds-primary-soft);
+  border-color: var(--ds-primary);
 }
 
 /* Badge和标签悬停 */
 .badge,
 .tag {
-  transition: all 0.2s var(--ease-smooth);
-}
-
-.badge:hover,
-.tag:hover {
-  transform: scale(1.05);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* 分页按钮增强 */
-.pagination-nav__link {
-  transition: all 0.3s var(--ease-smooth);
-  border: 1px solid var(--ds-line);
-  background: var(--ds-card);
-}
-
-.pagination-nav__link:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--ds-shadow-xs);
-  border-color: transparent;
-}
-
-/* 面包屑悬停 */
+/* 面包屑 */
 .breadcrumbs__link {
-  transition: all 0.2s var(--ease-smooth);
-}
-
-.breadcrumbs__link:hover {
-  transform: translateX(2px);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* ===== 统一 TOC (Table of Contents) 样式 ===== */
@@ -1087,7 +1017,7 @@ select:focus {
   margin-left: 0;
 }
 
-/* TOC links: a quiet rail; the current section gets an ink line, no fill or shift */
+/* TOC links: a quiet rail; the current section gets a primary line, no fill or shift */
 .table-of-contents__link {
   display: block;
   padding: 0.3rem 0.5rem 0.3rem 1rem;
@@ -1095,7 +1025,8 @@ select:focus {
   line-height: 1.45;
   color: var(--ifm-color-emphasis-600);
   border-left: 1px solid transparent;
-  transition: color 160ms ease, border-color 160ms ease;
+  transition: color var(--ds-dur-fast) var(--ds-ease),
+    border-color var(--ds-dur-fast) var(--ds-ease);
   margin-left: -1px; /* Overlap container border */
   position: relative;
 }
@@ -1106,35 +1037,31 @@ select:focus {
 }
 
 .table-of-contents__link--active {
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-text);
   font-weight: 600;
-  border-left-color: var(--ifm-color-emphasis-900);
+  border-left-color: var(--ds-primary);
 }
 
 /* ===== 统一 Back To Top 按钮样式 ===== */
 .clean-btn.theme-back-to-top-button {
-  background-color: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-border-color);
+  background-color: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 50%;
-  box-shadow: var(--ifm-global-shadow-md);
+  box-shadow: var(--ds-shadow-float);
   width: 2.8rem;
   height: 2.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    opacity var(--ds-dur-fast) var(--ds-ease);
   bottom: 2rem;
   right: 2rem;
-  opacity: 0.8;
   z-index: 100;
 }
 
 .clean-btn.theme-back-to-top-button:hover {
-  background-color: var(--ifm-color-primary);
-  color: var(--ds-white);
-  transform: translateY(-3px);
-  box-shadow: var(--ifm-global-shadow-tl);
-  opacity: 1;
+  background-color: var(--ds-surface);
 }
 
 /* 移动端优化 */
@@ -1145,13 +1072,10 @@ select:focus {
   }
 }
 
-/* 侧边栏菜单项动画 */
+/* 侧边栏菜单项：只变底色 */
 .menu__link {
-  transition: all 0.2s var(--ease-smooth);
-}
-
-.menu__link:hover {
-  transform: translateX(4px);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* 平滑滚动 */
@@ -1333,25 +1257,25 @@ html {
 .theme-admonition.alert {
   --ifm-alert-border-width: 0;
   --ifm-alert-border-left-width: 2px;
-  --ifm-alert-border-radius: 0 10px 10px 0;
+  --ifm-alert-border-radius: var(--ds-radius-md);
   --ifm-alert-padding-vertical: 0.85rem;
   --ifm-alert-padding-horizontal: 1.1rem;
   --ifm-alert-shadow: none;
   --ifm-alert-foreground-color: var(--ifm-color-emphasis-800);
-  --ifm-alert-background-color: var(--ifm-background-surface-color);
+  --ifm-alert-background-color: var(--ds-surface);
   --ifm-alert-background-color-highlight: var(--ifm-color-emphasis-200);
-  --ifm-alert-border-color: var(--ifm-color-emphasis-300);
+  --ifm-alert-border-color: var(--ifm-color-emphasis-500);
 
   margin: 1.5rem 0;
   border: 0;
-  border-left: 2px solid var(--ifm-alert-border-color);
-  border-radius: 0 10px 10px 0;
+  border-radius: var(--ds-radius-md);
   box-shadow: none;
 }
 
+.theme-admonition.alert--tip,
 .theme-admonition.alert--success {
-  --ifm-alert-border-color: var(--ds-accent);
-  --ifm-alert-background-color: color-mix(in srgb, var(--ds-accent) 6%, var(--ifm-background-color));
+  --ifm-alert-border-color: var(--ds-success);
+  --ifm-alert-background-color: var(--ds-success-soft);
 }
 
 .theme-admonition.alert--warning {
@@ -1361,7 +1285,7 @@ html {
 
 .theme-admonition.alert--danger {
   --ifm-alert-border-color: var(--ds-danger);
-  --ifm-alert-background-color: color-mix(in srgb, var(--ds-danger) 6%, var(--ifm-background-color));
+  --ifm-alert-background-color: var(--ds-danger-soft);
 }
 
 .theme-admonition [class*="admonitionHeading"] {
@@ -1382,8 +1306,8 @@ html {
 }
 
 .theme-admonition a {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration-color: var(--ifm-color-emphasis-400);
+  color: var(--ds-primary);
+  text-decoration-color: currentColor;
 }
 
 /* 4. Code blocks: hairline, no shadow */
@@ -1397,11 +1321,12 @@ html {
 
 /* 5. Prev/next pager: quiet outline cards */
 .pagination-nav__link {
-  border-radius: 12px;
+  border-radius: var(--ds-radius-md);
   border: 1px solid var(--ifm-color-emphasis-200) !important;
   background: var(--ifm-background-color) !important;
   box-shadow: none;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease),
+    background var(--ds-dur-fast) var(--ds-ease);
   padding: 1rem 1.1rem;
 }
 
@@ -1478,34 +1403,29 @@ html {
   justify-content: center;
   width: 48px;
   height: 48px;
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-900);
-  border: 0;
+  color: var(--ds-text);
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
   border-radius: 50%;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--ds-shadow-float);
   cursor: pointer;
-  transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s ease,
-    background 0.2s ease;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    transform var(--ds-dur-press) var(--ds-ease);
   text-decoration: none !important;
 }
 
 .wechat-float-btn:hover {
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-800);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  color: var(--ds-text);
+  background: var(--ds-surface);
+}
+
+.wechat-float-btn:active {
+  transform: scale(0.96);
 }
 
 .wechat-float-btn:focus-visible {
-  outline: 2px solid var(--ifm-color-emphasis-900);
+  outline: 2px solid var(--ds-primary);
   outline-offset: 3px;
-}
-
-.wechat-float-btn-icon {
-  transition: transform 0.25s var(--ease-smooth);
-}
-
-.wechat-float-container:hover .wechat-float-btn-icon {
-  transform: scale(1.08);
 }
 
 /* Compact QR card — hidden until hover / focus */
@@ -1520,20 +1440,20 @@ html {
   padding: 0.85rem 0.85rem 0.7rem;
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--ds-shadow-xs);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-panel);
   opacity: 0;
-  transform: translateY(8px) scale(0.96);
+  transform: translateY(6px);
   transform-origin: bottom right;
   pointer-events: none;
-  transition: opacity 0.22s var(--ease-smooth),
-    transform 0.22s var(--ease-smooth);
+  transition: opacity var(--ds-dur-menu) var(--ds-ease),
+    transform var(--ds-dur-menu) var(--ds-ease);
 }
 
 .wechat-float-container:hover .wechat-float-qr,
 .wechat-float-container:focus-within .wechat-float-qr {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   pointer-events: auto;
 }
 
@@ -1649,6 +1569,9 @@ html {
 .custom-cursor-ring.hovering {
   width: 52px;
   height: 52px;
+  /* Over a control the ring stays clear, so the icon's hover change is visible */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   border-color: color-mix(in srgb, var(--ifm-color-primary) 50%, rgba(255, 255, 255, 0.5));
   box-shadow: 0 0 20px color-mix(in srgb, var(--ifm-color-primary) 25%, transparent), inset 0 0 12px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
 }
@@ -1697,31 +1620,30 @@ html {
 }
 
 
-/* ── Unified primary button — ink, not green (OpenAI-style) ───────────── */
-/* Auto-inverts per theme: ink on light, near-white on dark. */
+/* ── Primary button: the one blue action of a group ─────────────────── */
 .button--primary {
-  --ifm-button-background-color: var(--ifm-color-emphasis-900);
-  --ifm-button-border-color: var(--ifm-color-emphasis-900);
-  --ifm-button-color: var(--ifm-color-emphasis-0);
-  --ifm-button-hover-background-color: var(--ifm-color-emphasis-800);
-  --ifm-button-hover-border-color: var(--ifm-color-emphasis-800);
+  --ifm-button-background-color: var(--ds-primary);
+  --ifm-button-border-color: var(--ds-primary);
+  --ifm-button-color: var(--ds-on-primary);
+  --ifm-button-hover-background-color: var(--ds-primary-hover);
+  --ifm-button-hover-border-color: var(--ds-primary-hover);
 
-  color: var(--ifm-color-emphasis-0);
+  color: var(--ds-on-primary);
 }
 .button--primary:hover {
-  color: var(--ifm-color-emphasis-0);
+  color: var(--ds-on-primary);
 }
 
-/* Unified secondary button — quiet outline, pairs with the ink primary. */
+/* Secondary button: soft grey fill, no outline. */
 .button--secondary {
-  --ifm-button-background-color: var(--ifm-background-color);
-  --ifm-button-border-color: var(--ifm-color-emphasis-300);
-  --ifm-button-color: var(--ifm-color-emphasis-900);
-  --ifm-button-hover-background-color: var(--ifm-color-emphasis-100);
-  --ifm-button-hover-border-color: var(--ifm-color-emphasis-400);
+  --ifm-button-background-color: var(--ds-surface);
+  --ifm-button-border-color: var(--ds-surface);
+  --ifm-button-color: var(--ds-text);
+  --ifm-button-hover-background-color: var(--ds-surface-warm);
+  --ifm-button-hover-border-color: var(--ds-surface-warm);
 
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-text);
 }
 .button--secondary:hover {
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-text);
 }

@@ -1,6 +1,6 @@
 # smiler488 设计技术规范 · Design Spec v1.0
 
-> **状态**：执行路线图（plan of record）· **版本** 1.6 · **日期** 2026-10-09 · **维护** Liangchao Deng（邓良超）
+> **状态**：执行路线图（plan of record）· **版本** 1.7 · **日期** 2026-11-02 · **维护** Liangchao Deng（邓良超）
 > **范围**：https://smiler488.github.io 全站（en + zh-Hans）。Docusaurus 3 静态站，托管于 GitHub Pages。
 > **目标**：把网站从"个人作品集"升级为**一个研究计划的门户**，成为 AI4Science 个人网站的范例：对人可读、可操作，对机器可解析，结果可复现。
 
@@ -203,25 +203,35 @@ updated: 2026-10-09
 
 ---
 
-## 5. 视觉设计系统 v2
+## 5. 视觉设计系统 v3（Muse 风格，D-016）
+
+自 2026-11 起采用 muse-design 技能（`github.com/smiler488/muse-design-skill`）的视觉与交互规则：接近白色的底、冷中性灰、克制的蓝色动作色、柔和的浮层，内容保持平静，细节按需展开。这是参照公开图片整理的实现，不是 Meta 官方设计系统。
 
 ### 5.1 设计令牌
 
-**必须**：所有颜色、圆角、动效值只在 `src/css/tokens.css` 中定义，组件只引用语义令牌。新令牌统一用 `--ds-` 前缀，现有 Docusaurus `--ifm-*` 变量从令牌派生。
+**必须**：所有颜色、圆角、阴影、动效值只在 `src/css/tokens.css` 中定义，组件只引用语义令牌。新令牌统一用 `--ds-` 前缀，现有 Docusaurus `--ifm-*` 变量从令牌派生。`npm run check:tokens`（`scripts/check-design-tokens.mjs`，`npm run check` 已包含）检查浅色与深色下的关键色对。
 
 | 语义令牌 | 浅色 | 深色 | 用途 |
 |---|---|---|---|
-| `--ds-bg` | `#ffffff` | `#0d0d0d` | 页面底色 |
-| `--ds-surface` | `#faf9f7` | `#171717` | 次级区块、输入框、提示框 |
-| `--ds-surface-warm` | `#f1f0ec` | `#1d1d1c` | 排版封面、图标底块 |
-| `--ds-line` | `#e8e7e3` | `#2a2a2a` | 细线、卡片边框 |
-| `--ds-line-strong` | emphasis-300 | emphasis-300 | 表头分隔、按钮描边 |
-| `--ds-text` | `#0d0d0d` | `#f5f5f5` | 正文、标题 |
-| `--ds-text-muted` | `#525252` | `#a3a3a3` | 说明、标签、元信息 |
-| `--ds-accent` | `#10a37f` | `#10a37f` | 链接、状态点、单个强调（克制使用） |
+| `--ds-bg` | `#fcfcfc` | `#111112` | 页面底色 |
+| `--ds-card` | `#ffffff` | `#1b1c1e` | 浮层、输入框、菜单、卡片 |
+| `--ds-surface` | `#f3f4f5` | `#232427` | 次级按钮、芯片、状态容器、柔和面板 |
+| `--ds-surface-warm` | `#edeef0` | `#26272a` | 次级按钮悬停、图标底块 |
+| `--ds-line` | `#e3e3e3` | `#2f3033` | 装饰细线 |
+| `--ds-control-border` | `#828589` | `#8a8d92` | 必须可辨识的控件边界（≥3:1） |
+| `--ds-text` | `#111112` | `#f3f4f5` | 正文、标题、线性图标 |
+| `--ds-text-muted` | `#67696c` | `#a6a9ad` | 摘要、说明、元信息 |
+| `--ds-primary` | `#0064d4` | `#5ea3ff` | 主要动作、文字链接、焦点环（`--ds-accent` 为其别名） |
+| `--ds-primary-hover` | `#0058bd` | `#7ab4ff` | 主按钮悬停 |
+| `--ds-primary-soft` | `#e8f2ff` | `#13263f` | 选中态浅底（不承担正文颜色） |
+| `--ds-on-primary` | `#ffffff` | `#111112` | 主按钮文字 |
+| `--ds-success` / `-soft` | `#237a39` / `#eaf5ec` | `#6fd28a` / `#15281a` | 完成、稳定、可用 |
+| `--ds-danger` / `-soft` | `#b42318` / `#fff0ee` | `#ff8a7a` / `#3a1b17` | 错误、破坏性操作 |
 | `--ds-warn` | `#c98a12` | `#c98a12` | 警告类提示框 |
-| `--ds-danger` | `#d14343` | `#d14343` | 错误 |
-| `--ds-ink` / `--ds-on-ink` | emphasis-900 / emphasis-0 | 自动反转 | 主按钮 |
+| `--ds-title-page` / `--ds-title-section` | `clamp(2rem, 4.4vw, 2.75rem)` / `clamp(1.5rem, 2.6vw, 2rem)` | 同 | 页面标题 32–44px、章节标题 24–32px |
+
+- 颜色分工：大面积保持中性；蓝色只用于可识别的交互重点；绿色、红色只表示状态。深色模式是本站的扩展，不是 Muse 实测值。
+- 图表与工具画布的数据色（`--ds-data-1`、`--app-*`）属于内容，不随界面主色变化。
 
 ### 5.2 字体排版
 
@@ -258,26 +268,31 @@ updated: 2026-10-09
 
 ### 5.4 形状与层次
 
-| 元素 | 圆角 |
-|---|---|
-| 标签、徽章 | 6px |
-| 输入框、提示框 | 10px |
-| 图片、代码块、表格容器 | 12px |
-| 卡片、面板 | 16px |
-| 按钮、Chip | 999px |
+| 元素 | 圆角 | 令牌 |
+|---|---|---|
+| 标签、徽章 | 6px | `--ds-radius-xs` |
+| 输入框、提示框、图片、代码块、菜单项 | 12px | `--ds-radius-sm` / `--ds-radius-md` |
+| 卡片、菜单、大幅插图 | 20px | `--ds-radius-lg` |
+| 大面板（合作区、访客地图带） | 28px | `--ds-radius-xl` |
+| 按钮、Chip、浮动导航 | 999px | `--ds-radius-pill` |
 
-- **阴影只用于悬浮元素**：导航栏、下拉菜单、微信悬浮按钮。卡片一律用 1px 细线，不加阴影。
+- **阴影只用于浮动控件与面板**：浮动导航与浮动标签用 `--ds-shadow-float`；下拉菜单、弹层、移动端侧栏用 `--ds-shadow-panel`。内容卡片与列表不加阴影（`--ds-shadow-xs` 已置空），层级靠对齐、留白、细线与柔和底色。
 - **必须**：边框最多嵌套一层（不允许"框里套框"）。
 
 ### 5.5 动效
 
 | 令牌 | 值 | 用途 |
 |---|---|---|
-| `--ds-dur-fast` | 160ms ease | 悬停、颜色变化 |
-| `--ds-dur-glide` | 800ms | 叙事过渡（如 LayerMorph） |
-| `--ds-ease-glide` | `cubic-bezier(.45,0,.15,1)` | 叙事缓动 |
+| `--ds-ease` | `cubic-bezier(.22,1,.36,1)` | 默认缓动（`--ease-smooth` 等旧名已指向它） |
+| `--ds-dur-press` | 120ms | 按下反馈，最多 `scale(.98)` |
+| `--ds-dur-fast` | 160ms | 悬停、颜色变化 |
+| `--ds-dur-menu` | 180ms | 菜单出现，4–8px 位移 + 透明度 |
+| `--ds-dur-panel` | 280ms | 侧面板、移动端菜单 |
+| `--ds-dur-glide` / `--ds-ease-glide` | 800ms / `cubic-bezier(.45,0,.15,1)` | 叙事过渡（如 LayerMorph） |
 
 - 悬停只改变颜色、边框或底色，**不做位移**（`translateY` 只允许出现在图片缩放等媒体内部）。
+- 展开控件使用真实 button 与 `aria-expanded`；浮层支持 Escape，关闭后焦点回到触发入口。
+- **导航用纯图标按钮**（D-017）：桌面导航的页面链接、搜索、语言、GitHub、主题均为 40px 圆形图标按钮。鼠标悬停、键盘聚焦或手指按住时，图标由线性变为填充（`src/components/NavIcon` 每个图标有两种形态），并在下方出现胶囊文字提示；当前页面保持填充图标。文字仍是链接的可访问名称。移动端菜单保留文字。
 - **必须**：所有持续动画都支持 `prefers-reduced-motion`（给出静态帧），并在离开视口时暂停（参照 `LayerMorph` 的 IntersectionObserver 写法）。
 
 ### 5.6 硬性规则
@@ -285,9 +300,9 @@ updated: 2026-10-09
 1. 按钮、链接、卡片上不使用箭头字符（`→ ↗ ↓ ←`）。唯一例外：Navigator 外链目录和 mPicks 的"访问站点"。
 2. 标签一律用句首大写（sentence case），禁止全大写标签。
 3. 不使用装饰性光晕（radial-gradient 光斑）、玻璃模糊（backdrop-filter）、渐变文字、装饰圆环、点阵背景。例外：导航栏、移动端菜单与遮罩层这类悬浮层可以保留轻度模糊；Hologram 特效页作为独立的视觉实验页，不受此条约束。
-4. 绿色强调要克制：一个视口内绿色元素不超过 2 处，且不能作为大面积底色。
+4. 蓝色强调要克制：每个操作组只有一个蓝色主动作；蓝色不能作为大面积底色。列表中逐条重复的动作用柔和次级按钮。
 5. 视觉素材优先用真实数据（田间影像、三维重建、真实工具截图），而不是抽象插画。漫画是叙事资产，可以保留。
-6. 一个页面只有一个主按钮（墨色），其余按钮用描边样式。
+6. 一个操作组只有一个主按钮（`--ds-primary`），其余用柔和灰底次级按钮（`--ds-surface`），文字链接用主色。
 
 ### 5.7 组件库
 
@@ -767,6 +782,8 @@ flowchart LR
 | D-013 | 2026-10 | 交互图优先用服务端可渲染的 SVG；数据配色用共享常量而非 ECharts 主题注册 | SSR 输出即 poster，无需额外图片；共享常量对 ECharts、SVG、Canvas 都适用 |
 | D-014 | 2026-10 | 参数记录用“导出事件 + 外壳面板”，不自动触发第二次下载 | 浏览器会拦截或提示多文件下载；事件机制让 React 工具与静态脚本共用一套接口 |
 | D-015 | 2026-10 | MCP 服务器零依赖手写 stdio JSON-RPC，暂不发布 npm | 避免引入第三方依赖；发布到 npm 属对外公开行为，需作者决定 |
+| D-016 | 2026-11 | 采用 muse-design 技能的 Muse 风格（§5 v3）：近白底、冷灰、蓝色 `#0064d4` 作为唯一动作色，绿色只表示状态；取代 D-001 的视觉部分与 D-004 | 作者要求按该技能改造全站，保留框架、内容、路由与中英文切换；作者未要求保留绿色品牌色，按技能默认采用蓝色并重算对比 |
+| D-017 | 2026-11 | 桌面导航改为纯图标按钮，悬停/按住时图标变为填充并出现文字提示；对外身份统一为 AI4Plant，博士后身份只在 About/CV/Now 页出现 | 作者对 Muse 的理解：按键只有图标，悬停时图案变化并出现文字说明；作者认为 AI4Plant 比 “AI for Plant Phenotyping & Crop Modeling” 更好。页面标题保留 “Plant Phenotyping & Crop Modeling” 作为搜索关键词 |
 
 ---
 
@@ -787,7 +804,7 @@ flowchart LR
 
 | 用途 | 路径 |
 |---|---|
-| 全局样式（待拆出 `tokens.css`） | `src/css/custom.css` |
+| 设计令牌、全局样式、令牌对比检查 | `src/css/tokens.css`、`src/css/custom.css`、`scripts/check-design-tokens.mjs` |
 | 站点配置、导航 | `docusaurus.config.js` |
 | 首页 | `src/pages/index.js`、`src/components/HomepageFeatures/`、`src/components/LayerMorph/` |
 | CV 与论文数据 | `src/data/cvData.js`、`src/pages/cv/` |

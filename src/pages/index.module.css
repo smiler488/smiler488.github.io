@@ -1,84 +1,56 @@
 .heroBanner {
   position: relative;
-  display: grid;
-  min-height: calc(100svh - var(--ifm-navbar-height));
-  padding: clamp(6rem, 14vh, 10rem) clamp(1.25rem, 5vw, 4.5rem)
-    clamp(5rem, 12vh, 8rem);
-  overflow: hidden;
-  color: var(--ifm-color-emphasis-900);
-  background: linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
-    var(--ifm-background-color);
-  background-size: 40px 40px, 40px 40px, auto;
-  border-bottom: 1px solid var(--ds-line);
+  padding: clamp(4.5rem, 12vh, 7.5rem) 16px clamp(2rem, 5vh, 3.5rem);
+  color: var(--ds-text);
+  background: var(--ds-bg);
   isolation: isolate;
-}
-
-.heroBanner::after {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 2;
-  height: 20%;
-  background: linear-gradient(180deg, transparent, rgba(238, 244, 250, 0.5));
-  pointer-events: none;
-  content: "";
-}
-
-.heroBackdrop {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
 }
 
 .heroContent {
   position: relative;
-  z-index: 3;
-  align-self: center;
-  justify-self: center;
-  width: min(880px, 100%);
+  width: min(760px, 100%);
+  margin: 0 auto;
   text-align: center;
 }
 
 .eyebrow {
-  margin: 0 0 1.1rem;
-  color: var(--ifm-color-emphasis-500);
-  font-size: 0.82rem;
+  margin: 0 0 1rem;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  line-height: 1.5;
 }
 
 .heroTitle {
   margin: 0 auto;
-  max-width: 18ch;
-  color: var(--ifm-color-emphasis-900);
-  font-size: clamp(2.3rem, 5vw, 4.1rem);
+  max-width: 20ch;
+  color: var(--ds-text);
+  font-size: clamp(2rem, 4.6vw, 2.75rem);
   font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: -0.035em;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 :global(html[lang="zh-Hans"]) .heroTitle {
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .heroRole {
-  margin: 1.2rem 0 0;
-  color: var(--ifm-color-emphasis-800);
-  font-size: clamp(0.92rem, 1.5vw, 1.05rem);
-  font-weight: 600;
+  margin: 1.25rem 0 0;
+  color: var(--ds-text);
+  font-size: 1rem;
+  font-weight: 500;
   line-height: 1.5;
 }
 
 .heroIntro {
-  max-width: 58ch;
-  margin: 0.65rem auto 0;
-  color: var(--ifm-color-emphasis-600);
-  font-size: clamp(0.92rem, 1.4vw, 1.02rem);
-  line-height: 1.7;
+  max-width: 60ch;
+  margin: 0.5rem auto 0;
+  color: var(--ds-text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.65;
 }
 
 .chipList {
@@ -86,29 +58,28 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
-  margin: 1.3rem 0 0;
+  margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
 }
 
 .chipList li {
-  padding: 0.42rem 0.85rem;
-  color: var(--ifm-color-emphasis-700);
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1;
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--ds-line);
-  border-radius: 999px;
+  padding: 0.375rem 0.75rem;
+  color: var(--ds-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  background: var(--ds-surface);
+  border-radius: var(--ds-radius-pill);
 }
 
 .actionRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.75rem;
   align-items: center;
   justify-content: center;
-  margin-top: 1.7rem;
+  margin-top: 2rem;
 }
 
 .primaryAction,
@@ -118,60 +89,61 @@
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
-  font-size: 0.88rem;
+  min-height: 44px;
+  font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
-  border-radius: 999px;
-  transition: transform 0.25s var(--ease-smooth),
-    box-shadow 0.25s var(--ease-smooth), background-color 0.25s var(--ease-smooth);
+  border-radius: var(--ds-radius-pill);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease),
+    color var(--ds-dur-fast) var(--ds-ease),
+    transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .primaryAction {
-  padding: 0.8rem 1.6rem;
-  color: var(--ifm-color-emphasis-0) !important;
-  background: var(--ifm-color-emphasis-900);
-  border: 1px solid var(--ifm-color-emphasis-900);
+  padding: 0.75rem 1.5rem;
+  color: var(--ds-on-primary) !important;
+  background: var(--ds-primary);
 }
 
 .secondaryAction {
-  padding: 0.8rem 1.6rem;
-  color: var(--ifm-color-emphasis-800) !important;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.75rem 1.5rem;
+  color: var(--ds-text) !important;
+  background: var(--ds-surface);
 }
 
 .textAction {
-  padding: 0.8rem 0.6rem;
-  color: var(--ifm-color-emphasis-700);
+  padding: 0.75rem 0.75rem;
+  color: var(--ds-primary);
 }
 
 .primaryAction:hover,
 .secondaryAction:hover,
 .textAction:hover {
   text-decoration: none;
-  transform: translateY(-1px);
 }
 
 .primaryAction:hover {
-  background: var(--ifm-color-emphasis-800);
+  background: var(--ds-primary-hover);
 }
 
 .secondaryAction:hover {
-  background: var(--ifm-color-emphasis-100) !important;
-  border-color: var(--ifm-color-emphasis-400) !important;
+  background: var(--ds-surface-warm);
 }
 
 .textAction:hover {
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-primary-hover);
+}
+
+.primaryAction:active,
+.secondaryAction:active {
+  transform: scale(0.98);
 }
 
 .primaryAction:focus-visible,
 .secondaryAction:focus-visible,
 .textAction:focus-visible {
-  outline: 3px solid
-    color-mix(in srgb, var(--ifm-color-primary) 38%, transparent);
+  outline: 2px solid var(--ds-primary);
   outline-offset: 3px;
 }
 
@@ -181,74 +153,30 @@
   align-items: center;
   justify-content: center;
   margin: 1.5rem 0 0;
-  color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
-  font-weight: 500;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  font-weight: 400;
 }
 
 .availability span {
-  width: 7px;
-  height: 7px;
-  background: var(--ds-accent);
+  width: 8px;
+  height: 8px;
+  background: var(--ds-success);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(var(--ds-accent-rgb), 0.12);
 }
 
 .homeMain {
   position: relative;
-  overflow: hidden;
-  background: var(--ifm-background-color);
-}
-
-:global(html[data-theme="dark"]) .heroBanner {
-  background: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    var(--ifm-background-color);
-  background-size: 40px 40px, 40px 40px, auto;
-}
-
-:global(html[data-theme="dark"]) .heroBanner::after {
-  background: linear-gradient(180deg, transparent, rgba(23, 23, 23, 0.7));
-}
-
-:global(html[data-theme="dark"]) .chipList li,
-:global(html[data-theme="dark"]) .secondaryAction {
-  background: var(--ds-card);
-  border-color: var(--ds-line);
-}
-
-:global(html[data-theme="dark"]) .secondaryAction:hover {
-  background: color-mix(in srgb, var(--ifm-color-primary) 8%, var(--ifm-background-surface-color)) !important;
-}
-
-@supports not (backdrop-filter: blur(2px)) {
-  .chipList li,
-  .secondaryAction {
-    background: var(--ifm-background-surface-color);
-  }
+  background: var(--ds-bg);
 }
 
 @media (max-width: 700px) {
   .heroBanner {
-    padding: max(12rem, 32svh) 1rem 2rem;
-  }
-
-  .heroTitle {
-    font-size: clamp(1.95rem, 8.6vw, 2.6rem);
-    line-height: 1.08;
-  }
-
-  :global(html[lang="zh-Hans"]) .heroTitle {
-    line-height: 1.22;
-  }
-
-  .heroRole {
-    margin-top: 0.9rem;
+    padding: 3rem 16px 3rem;
   }
 
   .heroIntro {
-    font-size: 0.88rem;
-    line-height: 1.6;
+    font-size: 1rem;
   }
 
   .actionRow {
@@ -262,14 +190,6 @@
 }
 
 @media (max-width: 390px) {
-  .eyebrow {
-    font-size: 0.66rem;
-  }
-
-  .chipList li {
-    font-size: 0.7rem;
-  }
-
   .actionRow {
     gap: 0.5rem;
   }
@@ -280,15 +200,6 @@
   }
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .chipList li,
-  .secondaryAction {
-    background: var(--ifm-background-surface-color);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .primaryAction,
   .secondaryAction,
@@ -296,9 +207,8 @@
     transition: none;
   }
 
-  .primaryAction:hover,
-  .secondaryAction:hover,
-  .textAction:hover {
+  .primaryAction:active,
+  .secondaryAction:active {
     transform: none;
   }
 }
@@ -311,7 +221,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.25);
+  background: var(--ds-scrim);
   /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -322,11 +232,11 @@
 
 .easterEggCard {
   background: var(--ds-card);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 28px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-xl);
   padding: 2.25rem 3rem;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), var(--ds-shadow-xs);
+  box-shadow: var(--ds-shadow-panel);
   transform: scale(0.9) translateY(10px);
   animation: scaleUpEasterEgg 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards;
   max-width: 90%;

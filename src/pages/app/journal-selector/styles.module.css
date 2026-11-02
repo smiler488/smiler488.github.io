@@ -197,9 +197,9 @@
 }
 
 .primaryButton {
-  border: 1px solid var(--ifm-color-emphasis-900);
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  border: 1px solid var(--ds-primary);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
 }
 
 .secondaryButton {

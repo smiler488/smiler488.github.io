@@ -34,9 +34,9 @@
 }
 
 .segmentActive {
-  background: var(--ds-bg);
+  background: var(--ds-card);
   color: var(--ifm-color-emphasis-900);
-  box-shadow: var(--ds-shadow-xs);
+  box-shadow: var(--ds-shadow-float);
 }
 
 .toggles {

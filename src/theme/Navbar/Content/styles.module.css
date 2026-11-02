@@ -15,29 +15,16 @@
   min-height: 48px;
   margin: 0 auto;
   padding: 0 0.5rem;
-  background: color-mix(in srgb, var(--ds-card) 92%, transparent);
-  border: 1px solid
-    color-mix(in srgb, var(--ds-line) 78%, transparent);
-  border-radius: 18px;
-  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1),
-    0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 transparent;
+  background: var(--ifm-navbar-background-color);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-pill);
+  box-shadow: var(--ds-shadow-float);
   /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
   -webkit-backdrop-filter: blur(24px) saturate(165%);
   backdrop-filter: blur(24px) saturate(165%);
   /* stylelint-enable declaration-property-value-disallowed-list */
-  transition: border-color 180ms ease, box-shadow 180ms ease,
-    background-color 180ms ease;
-}
-
-.navbarSurface:focus-within {
-  border-color: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 34%,
-    var(--ds-line)
-  );
-  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.12),
-    0 0 0 3px color-mix(in srgb, var(--ifm-color-primary) 10%, transparent),
-    inset 0 1px 0 transparent;
+  transition: border-color var(--ds-dur-menu) var(--ds-ease),
+    background-color var(--ds-dur-menu) var(--ds-ease);
 }
 
 .leftRail,
@@ -55,13 +42,14 @@
 .leftRail,
 .rightRail {
   height: 100%;
-  gap: 0.3rem;
+  gap: 0.25rem;
   background: transparent !important;
 }
 
+/* Visible overflow so the icon tooltips can hang below the bar */
 .leftRail {
   flex: 1 1 auto;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .rightRail {
@@ -71,159 +59,195 @@
 .brand {
   flex: 0 0 auto;
   height: 100%;
+  overflow: hidden;
 }
 
 .brand :global(.navbar__brand) {
   min-width: 0;
-  margin-right: 0.25rem;
-  padding: 0.2rem 0.42rem;
-  border-radius: 12px;
+  margin-right: 0.5rem;
+  padding: 0.2rem 0.5rem 0.2rem 0.25rem;
+  border-radius: var(--ds-radius-pill);
 }
 
 .brand :global(.navbar__logo) {
-  height: 27px;
-  margin-right: 0.42rem;
+  height: 28px;
+  margin-right: 0.5rem;
 }
 
 .brand :global(.navbar__title) {
   overflow: hidden;
-  color: var(--ifm-navbar-link-color);
-  font-size: 0.88rem;
+  color: var(--ds-text);
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .primaryNav,
-.rightItems {
-  gap: 0.12rem;
-}
-
-.primaryNav {
-  overflow: hidden;
-}
-
-.primaryNav > a,
-.rightItems > a,
-.rightItems > :global(.navbar__item) > :global(.navbar__link),
-.rightItems > :global(.navbar__item) > :global(.dropdown__link) {
-  min-height: 36px;
-  padding: 0.42rem 0.62rem !important;
-  color: var(--ifm-navbar-link-color) !important;
-  background: transparent !important;
-  border-color: transparent !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  transform: none !important;
-}
-
-.primaryNav > a:hover,
-.rightItems > a:hover,
-.rightItems > :global(.navbar__item) > :global(.navbar__link):hover {
-  color: var(--ifm-color-primary) !important;
-  background: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 9%,
-    transparent
-  ) !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.primaryNav > a[class*="navbarNavLinkActive"],
-.primaryNav > a:global(.navbar__link--active),
-.rightItems > a[class*="navbarNavLinkActive"],
-.rightItems > a:global(.navbar__link--active) {
-  color: var(--ifm-color-primary) !important;
-  background: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 12%,
-    var(--ds-card)
-  ) !important;
-  border-color: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 18%,
-    transparent
-  ) !important;
-  box-shadow: inset 0 1px 0 transparent !important;
-}
-
-.primaryNav :global([class*="navbarNavIcon"]),
-.rightItems :global([class*="navbarNavIcon"]) {
-  width: 17px;
-  height: 17px;
-}
-
-.primaryNav > a:hover :global([class*="navbarNavIcon"]),
-.rightItems > a:hover :global([class*="navbarNavIcon"]) {
-  transform: none !important;
-}
-
+.rightItems,
 .utilityNav {
-  gap: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
+/* ---------- Icon buttons that are not navbar links ---------- */
+.iconButton {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Tooltip for the search and theme buttons (the nav links render their own) */
+.iconButton::after {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 10;
+  padding: 0.3rem 0.75rem;
+  color: var(--ds-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-pill);
+  box-shadow: var(--ds-shadow-float);
+  content: attr(data-tooltip);
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  pointer-events: none;
+  transition: opacity var(--ds-dur-menu) var(--ds-ease),
+    transform var(--ds-dur-menu) var(--ds-ease);
+}
+
+.iconButton:has(:focus-visible)::after,
+.iconButton:active::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (hover: hover) {
+  .iconButton:hover::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    transition-delay: 120ms;
+  }
+}
+
+/* No tooltip while the search field is open and being typed in */
+.searchSlot:focus-within::after {
+  display: none;
+}
+
+/* ---------- Language: an icon that opens its menu on hover or click ---------- */
+.rightItems > :global(.navbar__item.dropdown) {
+  padding: 0;
+}
+
+.rightItems > :global(.navbar__item.dropdown) > :global(.navbar__link) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  /* The visible label is the language name; it stays for screen readers */
+  font-size: 0;
+  color: var(--ds-text) !important;
+  background: transparent;
+  border-radius: var(--ds-radius-pill);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
+}
+
+.rightItems > :global(.navbar__item.dropdown) > :global(.navbar__link)::after {
+  display: none;
+}
+
+.rightItems > :global(.navbar__item.dropdown) > :global(.navbar__link) svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 !important;
+}
+
+.rightItems > :global(.navbar__item.dropdown):hover > :global(.navbar__link),
+.rightItems > :global(.navbar__item.dropdown) > :global(.navbar__link):focus-visible {
+  background: var(--ds-surface);
+}
+
+/* ---------- Search: an icon that opens into a field ---------- */
 .searchSlot :global(.navbar__search) {
   margin: 0;
 }
 
 .searchSlot :global(.navbar__search-input) {
-  width: clamp(8.5rem, 13vw, 12rem);
-  height: 36px;
-  color: var(--ifm-navbar-link-color);
-  background-color: color-mix(in srgb, var(--ds-card) 82%, transparent);
-  border: 1px solid var(--ds-line);
-  border-radius: 12px;
-  box-shadow: inset 0 1px 0 transparent;
-  transition: width 180ms ease, border-color 180ms ease,
-    background-color 180ms ease, box-shadow 180ms ease;
+  width: 40px;
+  height: 40px;
+  padding-right: 0;
+  color: var(--ds-text);
+  background-color: transparent;
+  background-position: 11px center;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-pill);
+  box-shadow: none;
+  cursor: pointer;
+  transition: width var(--ds-dur-menu) var(--ds-ease),
+    border-color var(--ds-dur-menu) var(--ds-ease),
+    background-color var(--ds-dur-menu) var(--ds-ease),
+    box-shadow var(--ds-dur-menu) var(--ds-ease);
+}
+
+.searchSlot :global(.navbar__search-input):hover {
+  background-color: var(--ds-surface);
+}
+
+/* Collapsed to an icon: keep the placeholder and key hint from peeking out */
+.searchSlot :global(.navbar__search-input):not(:focus)::placeholder {
+  color: transparent;
+}
+
+.searchSlot :global([class*="searchHintContainer"]) {
+  display: none;
 }
 
 .searchSlot :global(.navbar__search-input):focus {
-  width: clamp(10rem, 16vw, 14rem);
-  background-color: color-mix(in srgb, var(--ds-card) 96%, transparent);
-  border-color: color-mix(
-    in srgb,
-    var(--ifm-color-primary) 44%,
-    var(--ds-line)
-  );
-  box-shadow: 0 0 0 3px
-      color-mix(in srgb, var(--ifm-color-primary) 12%, transparent),
-    inset 0 1px 0 transparent;
+  width: 15rem;
+  padding-right: 0.75rem;
+  cursor: text;
+  background-color: var(--ds-card);
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 3px var(--ds-primary-soft);
   outline: 0;
 }
 
+/* ---------- Theme switch ---------- */
 .colorModeToggle {
   flex: 0 0 auto;
   margin: 0 !important;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-pill);
 }
 
 .colorModeToggle > button {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ds-radius-pill);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-@media (max-width: 1380px) and (min-width: 997px) {
-  .primaryNav > a,
-  .rightItems > a,
-  .rightItems > :global(.navbar__item) > :global(.navbar__link) {
-    padding-inline: 0.48rem !important;
-  }
+.colorModeToggle > button:hover,
+.colorModeToggle > button:active {
+  background: var(--ds-surface);
+}
 
-  .primaryNav :global([class*="navbarNavIcon"]),
-  .rightItems :global([class*="navbarNavIcon"]) {
-    display: none;
-  }
+.colorModeToggle > button svg {
+  transition: transform var(--ds-dur-panel) var(--ds-ease);
+}
 
-  .searchSlot :global(.navbar__search-input) {
-    width: 8.5rem;
-  }
+/* The sun and moon turn a little on hover or press: the icon answers */
+.colorModeToggle > button:hover svg,
+.colorModeToggle > button:active svg {
+  transform: rotate(-20deg);
 }
 
 @media (max-width: 996px) {
@@ -235,7 +259,7 @@
     height: 48px;
     min-height: 48px;
     padding: 0 0.38rem;
-    border-radius: 17px;
+    border-radius: var(--ds-radius-pill);
   }
 
   .leftRail,
@@ -253,7 +277,7 @@
     min-width: 40px !important;
     margin: 0 !important;
     padding: 0 !important;
-    border-radius: 12px;
+    border-radius: var(--ds-radius-pill);
   }
 
   .brand :global(.navbar__brand) {
@@ -281,27 +305,13 @@
     gap: 0;
   }
 
-  .searchSlot :global(.navbar__search-input) {
-    width: 40px !important;
-    height: 40px;
-    padding-right: 0;
-    border-color: transparent;
-    background-color: transparent;
-    box-shadow: none;
-    cursor: pointer;
+  .searchSlot :global(.navbar__search-input):focus {
+    width: min(15rem, calc(100vw - 12rem));
+    min-width: 8.5rem;
   }
 
-  .searchSlot :global(.navbar__search-input):focus {
-    width: min(15rem, calc(100vw - 12rem)) !important;
-    min-width: 8.5rem;
-    padding-right: 0.75rem;
-    cursor: text;
-    background-color: var(--ifm-background-surface-color);
-    border-color: color-mix(
-      in srgb,
-      var(--ifm-color-primary) 44%,
-      var(--ds-line)
-    );
+  .iconButton::after {
+    display: none;
   }
 }
 
@@ -335,8 +345,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .navbarSurface,
-  .searchSlot :global(.navbar__search-input) {
+  .searchSlot :global(.navbar__search-input),
+  .iconButton::after,
+  .colorModeToggle > button svg {
     transition: none;
+  }
+
+  .colorModeToggle > button:hover svg {
+    transform: none;
   }
 }
 

@@ -5,29 +5,56 @@
  */
 
 :root {
-  /* Semantic design tokens (design/DESIGN_SPEC.md §5.1). Components use these. */
-  --ds-bg: #ffffff;
-  --ds-surface: #faf9f7;
-  --ds-surface-warm: #f1f0ec;
+  /*
+   * Semantic design tokens (design/DESIGN_SPEC.md §5.1), in the Muse-inspired
+   * system: near-white surfaces, cool neutral greys, one restrained blue for
+   * actions, links and focus; green and red only for status.
+   */
+  --ds-bg: #fcfcfc;
   --ds-card: #ffffff;
-  --ds-line: #e8e7e3;
-  --ds-accent: #10a37f;
-  --ds-accent-rgb: 16, 163, 127;
+  --ds-surface: #f3f4f5;
+  --ds-surface-warm: #edeef0;
+  --ds-line: #e3e3e3;
+  --ds-control-border: #828589;
+  --ds-text: #111112;
+  --ds-text-muted: #67696c;
+  --ds-primary: #0064d4;
+  --ds-primary-hover: #0058bd;
+  --ds-primary-soft: #e8f2ff;
+  --ds-on-primary: #ffffff;
+  --ds-accent: var(--ds-primary);
+  --ds-accent-rgb: 0, 100, 212;
+  --ds-success: #237a39;
+  --ds-success-soft: #eaf5ec;
   --ds-warn: #c98a12;
-  --ds-danger: #d14343;
+  --ds-danger: #b42318;
+  --ds-danger-soft: #fff0ee;
   /* First data series colour (Okabe–Ito blue); data only, never UI. */
   --ds-data-1: #0072b2;
-  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --ds-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.06);
+  /* Content stays flat; only floating controls and panels cast a shadow.
+     --ds-shadow-xs is the legacy content-card shadow, now deliberately empty. */
+  --ds-shadow-xs: 0 0 0 transparent;
+  --ds-shadow-float: 0 2px 6px rgba(17, 17, 18, 0.04), 0 10px 28px rgba(17, 17, 18, 0.06);
+  --ds-shadow-panel: 0 8px 24px rgba(17, 17, 18, 0.08), 0 24px 64px rgba(17, 17, 18, 0.1);
+  /* Shape: small blocks, media, menus, panels, pills. */
   --ds-radius-xs: 6px;
-  --ds-radius-sm: 10px;
+  --ds-radius-sm: 12px;
   --ds-radius-md: 12px;
-  --ds-radius-lg: 16px;
+  --ds-radius-lg: 20px;
+  --ds-radius-xl: 28px;
   --ds-radius-pill: 999px;
   --ds-white: #ffffff;
   --ds-black: #000000;
-  --ds-scrim: rgba(13, 13, 13, 0.68);
+  --ds-scrim: rgba(17, 17, 18, 0.56);
+  /* Motion: quick feedback, short travel, natural deceleration. */
+  --ds-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ds-dur-press: 120ms;
   --ds-dur-fast: 160ms;
+  --ds-dur-menu: 180ms;
+  --ds-dur-panel: 280ms;
+  /* Type: page titles 32–44px, section titles 24–32px, both 600 weight. */
+  --ds-title-page: clamp(2rem, 4.4vw, 2.75rem);
+  --ds-title-section: clamp(1.5rem, 2.6vw, 2rem);
 
   /* Tables: horizontal hairlines only, no stripes or tinted header */
   --ifm-table-stripe-background: transparent;
@@ -35,37 +62,42 @@
   --ifm-table-border-color: var(--ds-line);
   --ds-ease-glide: cubic-bezier(0.45, 0, 0.15, 1);
 
-  /* ChatGPT signature brand green & slate colors */
-  --ifm-color-primary: var(--ds-accent);
-  --ifm-color-primary-dark: #0d8a6a;
-  --ifm-color-primary-darker: #0a6f55;
-  --ifm-color-primary-darkest: #085440;
-  --ifm-color-primary-light: #12be94;
-  --ifm-color-primary-lighter: #17dcae;
-  --ifm-color-primary-lightest: #e2f9f3;
+  /* Primary ramp derived from --ds-primary */
+  --ifm-color-primary: var(--ds-primary);
+  --ifm-color-primary-dark: #005abf;
+  --ifm-color-primary-darker: #0055b4;
+  --ifm-color-primary-darkest: #004694;
+  --ifm-color-primary-light: #0072f2;
+  --ifm-color-primary-lighter: #0279ff;
+  --ifm-color-primary-lightest: #2e91ff;
+  --ifm-link-color: var(--ds-primary);
+  --ifm-link-hover-color: var(--ds-primary-hover);
 
-  /* 背景颜色 — OpenAI white base + warm-neutral surface */
+  /* 背景颜色 — near-white page, soft grey secondary surfaces */
   --ifm-background-color: var(--ds-bg);
   --ifm-background-surface-color: var(--ds-surface);
 
-  /* 文本颜色 — neutral near-black ramp (no slate/blue tint) */
-  --ifm-color-emphasis-900: #0d0d0d;
-  --ifm-color-emphasis-800: #1a1a1a;
-  --ifm-color-emphasis-700: #333333;
-  --ifm-color-emphasis-600: #525252;
-  --ifm-color-emphasis-500: #737373;
-  --ifm-color-emphasis-400: #a3a3a3;
-  --ifm-color-emphasis-300: #d4d4d4;
+  /* 文本颜色 — cool neutral ramp; 500 and darker pass 4.5:1 on --ds-bg */
+  --ifm-color-emphasis-900: var(--ds-text);
+  --ifm-color-emphasis-800: #1d1e20;
+  --ifm-color-emphasis-700: #3a3c3f;
+  --ifm-color-emphasis-600: var(--ds-text-muted);
+  --ifm-color-emphasis-500: #6b6d71;
+  --ifm-color-emphasis-400: #a3a6aa;
+  --ifm-color-emphasis-300: #d3d5d8;
   --ifm-color-emphasis-200: var(--ds-line);
-  --ifm-color-emphasis-100: #f5f4f1;
-  --ifm-color-emphasis-0: #ffffff;
-  --ifm-font-color-base: #1a1a1a;
+  --ifm-color-emphasis-100: var(--ds-surface);
+  --ifm-color-emphasis-0: var(--ds-card);
+  --ifm-font-color-base: var(--ds-text);
 
   /* 边框和阴影 */
-  --ifm-border-color: rgba(0, 0, 0, 0.08);
-  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --ifm-border-color: var(--ds-line);
+  --ifm-global-shadow-lw: var(--ds-shadow-xs);
+  --ifm-global-shadow-md: var(--ds-shadow-float);
+  --ifm-global-shadow-tl: var(--ds-shadow-panel);
+  --ifm-global-radius: var(--ds-radius-sm);
+  --ifm-button-border-radius: var(--ds-radius-pill);
+  --ifm-dropdown-background-color: var(--ds-card);
 
   /* 字体设置 */
   --ifm-font-family-base: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -75,15 +107,15 @@
 
   /* 代码块 */
   --ifm-code-font-size: 90%;
-  --ifm-pre-background: #f5f5f5;
-  --ifm-pre-color: #111111;
-  --docusaurus-highlighted-code-line-bg: rgba(68, 68, 68, 0.08);
+  --ifm-pre-background: var(--ds-surface);
+  --ifm-pre-color: var(--ds-text);
+  --docusaurus-highlighted-code-line-bg: rgba(17, 17, 18, 0.06);
 
   /* 导航栏 */
-  --ifm-navbar-background-color: rgba(250, 250, 252, 0.72);
-  --ifm-navbar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-  --ifm-navbar-link-color: #111111;
-  --ifm-navbar-link-hover-color: #444444;
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.92);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-link-color: var(--ds-text);
+  --ifm-navbar-link-hover-color: var(--ds-text);
 
   /* 文档侧边栏 */
   --doc-sidebar-background: rgba(255, 255, 255, 0.95);
@@ -92,14 +124,14 @@
   --doc-sidebar-active-bg: rgba(15, 23, 42, 0.06);
 
   /* 页脚 */
-  --ifm-footer-background-color: #f5f5f7;
-  --ifm-footer-color: #444444;
-  --ifm-footer-link-color: #666666;
-  --ifm-footer-link-hover-color: #444444;
+  --ifm-footer-background-color: var(--ds-bg);
+  --ifm-footer-color: var(--ds-text);
+  --ifm-footer-link-color: var(--ds-text-muted);
+  --ifm-footer-link-hover-color: var(--ds-text);
 
   /* 英雄部分 */
-  --ifm-hero-background-color: #f5f5f5;
-  --ifm-hero-text-color: #111111;
+  --ifm-hero-background-color: var(--ds-bg);
+  --ifm-hero-text-color: var(--ds-text);
   --home-grid-bg: #e6e7ea;
   --home-grid-line: #c8c9cc;
   --home-grid-letter: #000000;
@@ -120,12 +152,13 @@
   --scrollbar-thumb: rgba(0, 0, 0, 0.25);
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
 
+  /* Legacy radius names, mapped onto the --ds-radius scale */
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
-  --card-radius: 16px;
+  --radius-md: var(--ds-radius-md);
+  --radius-lg: var(--ds-radius-md);
+  --radius-xl: var(--ds-radius-lg);
+  --radius-2xl: var(--ds-radius-xl);
+  --card-radius: var(--ds-radius-lg);
 
 
   /* 柔和发光效果 - 黑白灰色调 */
@@ -134,21 +167,36 @@
   --glow-subtle: rgba(150, 150, 150, 0.2);
 
   /* 动画缓动函数 */
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --ease-openai: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: var(--ds-ease);
+  --ease-bounce: var(--ds-ease);
+  --ease-spring: var(--ds-ease);
+  --ease-openai: var(--ds-ease);
 }
 
 /* 深色模式 - OpenAI 风格科技深色主题 */
 html[data-theme='dark'] {
-  --ds-bg: #0d0d0d;
-  --ds-surface: #171717;
-  --ds-surface-warm: #1d1d1c;
-  --ds-card: #171717;
-  --ds-line: #2a2a2a;
-  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --ds-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
+  /* The project's own dark extension of the palette, not a Muse sample. */
+  --ds-bg: #111112;
+  --ds-card: #1b1c1e;
+  --ds-surface: #232427;
+  --ds-surface-warm: #26272a;
+  --ds-line: #2f3033;
+  --ds-control-border: #8a8d92;
+  --ds-text: #f3f4f5;
+  --ds-text-muted: #a6a9ad;
+  --ds-primary: #5ea3ff;
+  --ds-primary-hover: #7ab4ff;
+  --ds-primary-soft: #13263f;
+  --ds-on-primary: #111112;
+  --ds-accent-rgb: 94, 163, 255;
+  --ds-success: #6fd28a;
+  --ds-success-soft: #15281a;
+  --ds-danger: #ff8a7a;
+  --ds-danger-soft: #3a1b17;
+  --ds-shadow-xs: 0 0 0 transparent;
+  --ds-shadow-float: 0 2px 6px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.36);
+  --ds-shadow-panel: 0 8px 24px rgba(0, 0, 0, 0.4), 0 24px 64px rgba(0, 0, 0, 0.48);
+  --ds-scrim: rgba(0, 0, 0, 0.64);
   --ds-data-1: #56b4e9;
 
   /* Infima re-declares these for dark mode, so they must be repeated here. */
@@ -156,55 +204,58 @@ html[data-theme='dark'] {
   --ifm-table-head-background: transparent;
   --ifm-table-border-color: var(--ds-line);
 
-  --ifm-color-primary: var(--ds-accent);
-  --ifm-color-primary-dark: #0d8a6a;
-  --ifm-color-primary-darker: #0a6f55;
-  --ifm-color-primary-darkest: #085440;
-  --ifm-color-primary-light: #2ac09b;
-  --ifm-color-primary-lighter: #4ee2bd;
-  --ifm-color-primary-lightest: #a2eed9;
+  --ifm-color-primary: var(--ds-primary);
+  --ifm-color-primary-dark: #3b8fff;
+  --ifm-color-primary-darker: #2a85ff;
+  --ifm-color-primary-darkest: #0069f4;
+  --ifm-color-primary-light: #6eacff;
+  --ifm-color-primary-lighter: #76b1ff;
+  --ifm-color-primary-lightest: #8ebfff;
+  --ifm-link-color: var(--ds-primary);
+  --ifm-link-hover-color: var(--ds-primary-hover);
 
   --ifm-background-color: var(--ds-bg);
   --ifm-background-surface-color: var(--ds-surface);
 
-  --ifm-color-emphasis-900: #f5f5f5;
-  --ifm-color-emphasis-800: #e5e5e5;
-  --ifm-color-emphasis-700: #d4d4d4;
-  --ifm-color-emphasis-600: #a3a3a3;
-  --ifm-color-emphasis-500: #737373;
-  --ifm-color-emphasis-400: #525252;
-  --ifm-color-emphasis-300: #404040;
+  --ifm-color-emphasis-900: var(--ds-text);
+  --ifm-color-emphasis-800: #e3e4e6;
+  --ifm-color-emphasis-700: #c9cbce;
+  --ifm-color-emphasis-600: var(--ds-text-muted);
+  --ifm-color-emphasis-500: #8a8d92;
+  --ifm-color-emphasis-400: #5c5f63;
+  --ifm-color-emphasis-300: #45474b;
   --ifm-color-emphasis-200: var(--ds-line);
-  --ifm-color-emphasis-100: #1f1f1f;
-  --ifm-color-emphasis-0: #0d0d0d;
-  --ifm-font-color-base: #ededed;
+  --ifm-color-emphasis-100: #1f2022;
+  --ifm-color-emphasis-0: var(--ds-bg);
+  --ifm-font-color-base: var(--ds-text);
 
-  --ifm-border-color: rgba(255, 255, 255, 0.08);
-  --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --ifm-global-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
-  --ifm-global-shadow-tl: 0 12px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
+  --ifm-border-color: var(--ds-line);
+  --ifm-global-shadow-lw: var(--ds-shadow-xs);
+  --ifm-global-shadow-md: var(--ds-shadow-float);
+  --ifm-global-shadow-tl: var(--ds-shadow-panel);
+  --ifm-dropdown-background-color: var(--ds-card);
 
-  --ifm-pre-background: #1e1e1e;
-  --ifm-pre-color: #f8fafc;
+  --ifm-pre-background: var(--ds-card);
+  --ifm-pre-color: var(--ds-text);
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
 
-  --ifm-navbar-background-color: rgba(13, 13, 13, 0.85);
-  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-  --ifm-navbar-link-color: #cbd5e1;
-  --ifm-navbar-link-hover-color: #ffffff;
+  --ifm-navbar-background-color: rgba(27, 28, 30, 0.92);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-link-color: var(--ds-text);
+  --ifm-navbar-link-hover-color: var(--ds-text);
 
   --doc-sidebar-background: rgba(13, 13, 13, 0.85);
   --doc-sidebar-border: rgba(255, 255, 255, 0.08);
   --doc-sidebar-link-color: #cbd5e1;
   --doc-sidebar-active-bg: rgba(255, 255, 255, 0.06);
 
-  --ifm-footer-background-color: #080808;
-  --ifm-footer-color: #cbd5e1;
-  --ifm-footer-link-color: #94a3b8;
-  --ifm-footer-link-hover-color: #ffffff;
+  --ifm-footer-background-color: var(--ds-bg);
+  --ifm-footer-color: var(--ds-text);
+  --ifm-footer-link-color: var(--ds-text-muted);
+  --ifm-footer-link-hover-color: var(--ds-text);
 
-  --ifm-hero-background-color: #0d0d0d;
-  --ifm-hero-text-color: #ffffff;
+  --ifm-hero-background-color: var(--ds-bg);
+  --ifm-hero-text-color: var(--ds-text);
   --home-grid-bg: #1e1e24;
   --home-grid-line: #3f3f46;
   --home-grid-letter: #ffffff;
@@ -215,9 +266,6 @@ html[data-theme='dark'] {
   --app-previewer-bg: var(--ifm-background-surface-color);
   --app-polygon-fill: rgba(16, 163, 127, 0.28);
   --app-overlay-bg: rgba(0, 0, 0, 0.7);
-
-  --card-radius: 16px;
-
 
   /* 柔和发光效果 - 暗色模式 */
   --glow-light: rgba(255, 255, 255, 0.15);

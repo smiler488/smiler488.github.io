@@ -161,7 +161,7 @@ const COPY = {
     eyebrow: "Research · Software · Collaboration",
     title: "Making plant science measurable with AI.",
     description:
-      "Postdoctoral research across plant phenotyping, computer vision, remote sensing, and process-based crop modeling.",
+      "AI4Plant research across plant phenotyping, computer vision, remote sensing, and process-based crop modeling.",
     profile: "View research profile",
     elsewhere: "Elsewhere",
     footerLabel: "Liangchao Deng site footer",
@@ -188,7 +188,7 @@ const COPY = {
     eyebrow: "研究 · 软件 · 合作",
     title: "用人工智能让植物科学可测量。",
     description:
-      "围绕作物表型、计算机视觉、遥感与过程驱动作物模型开展博士后研究。",
+      "AI4Plant：围绕作物表型、计算机视觉、遥感与过程驱动作物模型开展研究。",
     profile: "查看研究履历",
     elsewhere: "其他平台",
     footerLabel: "邓良超个人网站页脚",

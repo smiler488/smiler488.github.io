@@ -28,7 +28,7 @@ const COPY = {
   en: {
     pageTitle: "Research",
     pageDescription:
-      "A four-layer research program in AI for plant phenotyping and crop modeling: digitize, understand, predict and design crops, with the evidence behind each layer.",
+      "A four-layer AI4Plant research program for plant phenotyping and crop modeling: digitize, understand, predict and design crops, with the evidence behind each layer.",
     eyebrow: "Research program",
     title: "From sensing crops to designing crops.",
     lead: "Four layers turn multi-source observations into a crop that is measurable, explainable, predictable and, eventually, designable. Each layer below links to the projects, papers, notes and tools that support it.",
@@ -41,7 +41,7 @@ const COPY = {
     layersEyebrow: "Architecture",
     layersTitle: "Four layers of crop intelligence",
     layersDescription:
-      "My PhD built Layers I–II. My postdoc focuses on the jump from II to III: making crop state not only observable and explainable, but projectable.",
+      "My PhD built Layers I–II. Current work focuses on the jump from II to III: making crop state not only observable and explainable, but projectable.",
     layerCounts: (p, n, t) => `${p} projects · ${n} notes · ${t} tools`,
     projectsEyebrow: "Projects",
     projectsTitle: "Selected projects",
@@ -71,7 +71,7 @@ const COPY = {
     layersEyebrow: "研究架构",
     layersTitle: "作物智能的四个层次",
     layersDescription:
-      "博士阶段构建了第 I–II 层；博士后聚焦从 II 到 III 的跃迁：让作物状态不仅可观测、可解释，而且可预测。",
+      "博士阶段构建了第 I–II 层；当前工作聚焦从 II 到 III 的跃迁：让作物状态不仅可观测、可解释，而且可预测。",
     layerCounts: (p, n, t) => `${p} 个项目 · ${n} 篇笔记 · ${t} 个工具`,
     projectsEyebrow: "项目",
     projectsTitle: "代表性项目",

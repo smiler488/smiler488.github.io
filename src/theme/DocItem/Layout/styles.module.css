@@ -114,10 +114,10 @@
 .tutorialHeroCopy h1 {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
 }
 
 .tutorialHeroCopy p {
@@ -161,16 +161,16 @@
   min-height: 2.65rem;
   padding: 0.6rem 1.15rem;
   border-radius: 999px;
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
   font-size: 0.9rem;
   font-weight: 500;
   transition: background 160ms ease;
 }
 
 .openAppButton:hover {
-  background: var(--ifm-color-emphasis-800);
-  color: var(--ifm-color-emphasis-0);
+  background: var(--ds-primary-hover);
+  color: var(--ds-on-primary);
   text-decoration: none;
 }
 

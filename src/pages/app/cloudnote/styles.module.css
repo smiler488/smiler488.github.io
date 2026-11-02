@@ -178,13 +178,13 @@
 }
 
 .btnPrimary {
-  border-color: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-900);
+  border-color: var(--ds-primary);
+  color: var(--ds-on-primary);
+  background: var(--ds-primary);
 }
 
 .btnPrimary:not(:disabled):hover {
-  background: var(--ifm-color-emphasis-800);
+  background: var(--ds-primary-hover);
 }
 
 .btnSecondary {

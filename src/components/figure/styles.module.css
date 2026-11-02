@@ -21,10 +21,10 @@
 .loadButton {
   min-height: 38px;
   padding: 0.45rem 1.1rem;
-  border: 1px solid var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ds-primary);
   border-radius: var(--ds-radius-pill);
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
   font: inherit;
   font-size: 0.88rem;
   font-weight: 500;
@@ -32,7 +32,7 @@
 }
 
 .loadButton:hover {
-  background: var(--ifm-color-emphasis-800);
+  background: var(--ds-primary-hover);
 }
 
 .loadButton:disabled {

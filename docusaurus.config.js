@@ -26,7 +26,7 @@ const config = {
     },
   },
   title: "Liangchao Deng",
-  tagline: "Postdoctoral Researcher · AI for Plant Phenotyping & Crop Modeling",
+  tagline: "AI4Plant · Plant Phenotyping & Crop Modeling",
   favicon: "img/favicon.ico",
   url: "https://smiler488.github.io",
   baseUrl: "/",

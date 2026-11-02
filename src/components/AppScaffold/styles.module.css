@@ -107,10 +107,10 @@
   max-width: 20ch;
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.02;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
@@ -157,10 +157,10 @@
   justify-content: center;
   min-height: 2.5rem;
   padding: 0 1.05rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  border: 1px solid transparent;
   border-radius: var(--app-control-radius);
   color: var(--ifm-color-emphasis-900);
-  background: var(--app-surface);
+  background: var(--ds-surface);
   font-size: 0.86rem;
   font-weight: 600;
   text-decoration: none;
@@ -168,9 +168,9 @@
 }
 
 .guideLink:hover {
-  border-color: var(--ifm-color-emphasis-400);
+  border-color: transparent;
   color: var(--ifm-color-emphasis-900);
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ds-surface-warm);
   text-decoration: none;
 }
 

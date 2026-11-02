@@ -161,10 +161,10 @@
 .heroTitle {
   margin: 1rem 0 0.35rem;
   color: var(--cv-text);
-  font-size: clamp(2.7rem, 5vw, 4.7rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
-  letter-spacing: -0.065em;
-  line-height: 0.96;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .heroTitle span {
@@ -311,9 +311,9 @@
 
 .heroActionPrimary {
   grid-column: 1 / -1;
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-900);
-  border-color: var(--ifm-color-emphasis-900);
+  color: var(--ds-on-primary);
+  background: var(--ds-primary);
+  border-color: var(--ds-primary);
 }
 
 .actionArrow {
@@ -356,10 +356,10 @@
 .sectionTitle {
   margin: 0.8rem 0 0;
   color: var(--cv-text);
-  font-size: clamp(1.9rem, 3vw, 3rem);
+  font-size: var(--ds-title-section);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.05;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .contactGrid {
@@ -1029,7 +1029,7 @@
   }
 
   .heroActionPrimary:hover {
-    background: var(--ifm-color-emphasis-800);
+    background: var(--ds-primary-hover);
   }
 
   .contactCard:hover,
@@ -1144,7 +1144,7 @@
   }
 
   .heroTitle {
-    font-size: clamp(2.6rem, 12vw, 4rem);
+    font-size: var(--ds-title-page);
   }
 
   .heroUtility {
@@ -1222,7 +1222,7 @@
 
   .heroTitle {
     margin-top: 0.85rem;
-    font-size: clamp(2.3rem, 11vw, 2.8rem);
+    font-size: var(--ds-title-page);
   }
 
   .heroStats {

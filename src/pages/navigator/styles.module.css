@@ -81,10 +81,10 @@
 .heroTitle {
   margin: 0;
   color: var(--navigator-text);
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 1;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .heroDescription {

@@ -25,7 +25,7 @@
 }
 
 .title {
-  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--ifm-color-emphasis-900);
@@ -69,7 +69,7 @@
     border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Unified accent: every card uses the primary green glow. */
+/* Unified accent: every card uses the primary colour. */
 .card[data-tint="blue"],
 .card[data-tint="green"],
 .card[data-tint="violet"],
@@ -78,11 +78,7 @@
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--ds-line));
-  box-shadow: 0 16px 36px
-      color-mix(in srgb, var(--card-glow) 8%, rgba(0, 0, 0, 0.04)),
-    var(--ds-shadow-xs);
+  border-color: var(--ifm-color-emphasis-300);
 }
 
 .cardInner {
@@ -182,15 +178,14 @@
   font-weight: 600;
   text-decoration: none !important;
   border-radius: 999px;
-  color: var(--ifm-color-emphasis-0) !important;
-  background: var(--ifm-color-emphasis-900);
-  border: 1px solid var(--ifm-color-emphasis-900);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  color: var(--ds-text) !important;
+  background: var(--ds-surface);
+  border: 0;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .cardLink:hover {
-  transform: translateY(-1px);
-  background: var(--ifm-color-emphasis-800);
+  background: var(--ds-surface-warm);
 }
 
 @media (max-width: 768px) {

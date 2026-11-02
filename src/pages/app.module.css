@@ -42,10 +42,10 @@
   max-width: 14ch;
   margin: 0;
   color: var(--lab-ink);
-  font-size: clamp(2.6rem, 5.8vw, 5rem);
+  font-size: var(--ds-title-page);
   font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 1;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
@@ -127,10 +127,10 @@
 .catalogHeader h2 {
   margin: 0;
   color: var(--lab-ink);
-  font-size: clamp(1.85rem, 4vw, 3rem);
+  font-size: var(--ds-title-section);
   font-weight: 600;
-  letter-spacing: -0.052em;
-  line-height: 1;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .catalogHeader p:not(.sectionEyebrow) {
@@ -238,7 +238,7 @@
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
   border-radius: 0.82rem;
-  box-shadow: var(--ds-shadow-xs);
+  box-shadow: var(--ds-shadow-float);
   pointer-events: none;
   transition: left 0.28s cubic-bezier(0.25, 1, 0.5, 1),
     width 0.28s cubic-bezier(0.25, 1, 0.5, 1),
@@ -287,7 +287,6 @@
 
 .appCard {
   --card-accent: var(--ds-accent);
-  --card-accent-rgb: 16, 163, 127;
 
   position: relative;
   display: flex;
@@ -295,28 +294,23 @@
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--ds-line);
-  border-radius: var(--card-radius, 20px);
+  border-radius: var(--ds-radius-lg);
   color: inherit;
   background: var(--ds-card);
-  box-shadow: var(--ds-shadow-xs);
+  box-shadow: none;
   text-decoration: none;
-  transform: translateZ(0);
-  transition: transform 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
-    border-color 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1)),
-    box-shadow 400ms var(--ease-openai, cubic-bezier(0.16, 1, 0.3, 1));
+  transition: border-color var(--ds-dur-fast) var(--ds-ease),
+    background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .appCard:hover {
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: var(--ifm-color-emphasis-300);
   color: inherit;
-  box-shadow: inset 0 1px 0 transparent,
-    0 16px 40px rgba(0, 0, 0, 0.3);
   text-decoration: none;
-  transform: translateY(-3px);
 }
 
 .appCard:focus-visible {
-  outline: 3px solid rgba(var(--card-accent-rgb), 0.35);
+  outline: 2px solid var(--ds-primary);
   outline-offset: 3px;
 }
 
@@ -426,9 +420,9 @@
 }
 
 .emptyState button {
-  border-color: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
-  background: var(--ifm-color-emphasis-900);
+  border-color: var(--ds-primary);
+  color: var(--ds-on-primary);
+  background: var(--ds-primary);
 }
 
 .trustStrip {
@@ -501,7 +495,7 @@
 
   .title {
     max-width: 12ch;
-    font-size: clamp(2.4rem, 11vw, 3.4rem);
+    font-size: var(--ds-title-page);
   }
 
   .stats {

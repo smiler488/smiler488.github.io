@@ -6,7 +6,7 @@
 }
 
 .shell {
-  width: min(100%, 1180px);
+  width: min(100%, 1120px);
   margin: 0 auto;
 }
 
@@ -30,15 +30,15 @@
 }
 
 .backLink {
-  color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  color: var(--ds-primary);
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+  color: var(--ds-primary-hover);
+  text-decoration: underline;
 }
 
 .metaRow {
@@ -52,33 +52,34 @@
 .metaText,
 .eyebrow {
   margin: 0;
-  color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 .projectTitle {
-  max-width: 20ch;
+  max-width: 24ch;
   margin: 0;
-  color: var(--ifm-color-emphasis-900);
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: var(--ds-text);
+  font-size: clamp(2rem, 4.4vw, 2.75rem);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.04;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 :global(html[lang="zh-Hans"]) .projectTitle {
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: 0;
+  line-height: 1.25;
 }
 
 .finding {
-  max-width: 60ch;
-  margin: 0 0 0.6rem;
-  color: var(--ifm-color-emphasis-700);
-  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-  line-height: 1.55;
+  max-width: 62ch;
+  margin: 0 0 0.5rem;
+  color: var(--ds-text-muted);
+  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+  line-height: 1.6;
   text-wrap: pretty;
 }
 
@@ -99,13 +100,13 @@
 .cover figcaption {
   max-width: 72ch;
   margin-top: 0.75rem;
-  color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
 .cover figcaption strong {
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-text);
   font-weight: 600;
 }
 
@@ -120,17 +121,18 @@
 
 .body {
   min-width: 0;
-  color: var(--ifm-color-emphasis-800);
-  font-size: clamp(1rem, 1.3vw, 1.06rem);
-  line-height: 1.75;
+  color: var(--ds-text);
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 .body h2 {
   margin: 2.75rem 0 1rem;
-  color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  color: var(--ds-text);
+  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .body h2:first-child {
@@ -139,10 +141,11 @@
 
 .body h3 {
   margin: 2rem 0 0.75rem;
-  color: var(--ifm-color-emphasis-900);
-  font-size: 1.15rem;
+  color: var(--ds-text);
+  font-size: 1.1875rem;
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 
 .body strong {
@@ -199,16 +202,15 @@
 
 .noteLink {
   justify-self: start;
-  color: var(--ifm-color-emphasis-900);
+  color: var(--ds-primary);
   font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: var(--ifm-color-emphasis-300);
-  text-underline-offset: 3px;
+  text-decoration: none;
 }
 
 .noteLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration-color: currentColor;
+  color: var(--ds-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .relatedRow {
@@ -230,16 +232,17 @@
   align-items: center;
   padding: 0.3rem 0.85rem;
   border-radius: var(--ds-radius-pill);
-  background: var(--ifm-color-emphasis-100);
-  color: var(--ifm-color-emphasis-800);
-  font-size: 0.86rem;
+  background: var(--ds-surface);
+  color: var(--ds-text);
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .relatedLink:hover {
-  background: var(--ifm-color-emphasis-200);
-  color: var(--ifm-color-emphasis-900);
+  background: var(--ds-surface-warm);
+  color: var(--ds-text);
   text-decoration: none;
 }
 

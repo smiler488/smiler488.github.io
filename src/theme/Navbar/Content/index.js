@@ -75,6 +75,7 @@ export default function NavbarContent() {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
   const hasConfiguredSearch = items.some((item) => item.type === "search");
+  const isChinese = i18n.currentLocale === "zh-Hans";
 
   return (
     <NavbarContentLayout
@@ -86,9 +87,7 @@ export default function NavbarContent() {
           </div>
           <nav
             className={styles.primaryNav}
-            aria-label={
-              i18n.currentLocale === "zh-Hans" ? "主要页面" : "Primary pages"
-            }
+            aria-label={isChinese ? "主要页面" : "Primary pages"}
           >
             <NavbarItems items={leftItems} />
           </nav>
@@ -97,7 +96,10 @@ export default function NavbarContent() {
       right={
         <div className={styles.utilityNav}>
           {!hasConfiguredSearch && (
-            <div className={styles.searchSlot}>
+            <div
+              className={clsx(styles.searchSlot, styles.iconButton)}
+              data-tooltip={isChinese ? "搜索" : "Search"}
+            >
               <NavbarSearch>
                 <SearchBar />
               </NavbarSearch>
@@ -106,7 +108,12 @@ export default function NavbarContent() {
           <div className={styles.rightItems}>
             <NavbarItems items={rightItems} />
           </div>
-          <NavbarColorModeToggle className={styles.colorModeToggle} />
+          <span
+            className={styles.iconButton}
+            data-tooltip={isChinese ? "浅色 / 深色" : "Light / dark"}
+          >
+            <NavbarColorModeToggle className={styles.colorModeToggle} />
+          </span>
         </div>
       }
     />

@@ -99,10 +99,10 @@
 .copyButton {
   min-height: 2rem;
   padding: 0 0.8rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  border: 1px solid transparent;
   border-radius: 8px;
   color: var(--ifm-color-emphasis-900);
-  background: var(--ifm-background-color);
+  background: var(--ds-surface);
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
@@ -111,8 +111,8 @@
 }
 
 .copyButton:hover {
-  border-color: var(--ifm-color-emphasis-400);
-  background: var(--ifm-color-emphasis-100);
+  border-color: transparent;
+  background: var(--ds-surface-warm);
 }
 
 .copyButton:focus-visible {

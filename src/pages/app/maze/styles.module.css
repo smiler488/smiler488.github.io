@@ -72,10 +72,10 @@
 .newGameButton {
   min-height: 44px;
   padding: 9px 16px;
-  border: 1px solid var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ds-primary);
   border-radius: 13px;
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
   font: inherit;
   font-weight: 600;
   cursor: pointer;

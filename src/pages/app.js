@@ -16,11 +16,11 @@ const COPY = {
   en: {
     pageTitle: "App Lab — Free Browser Tools for Plant Science and AI",
     pageDescription:
-      "Fourteen free browser tools for field data, crop research, imaging, visualization and AI-assisted workflows. Nothing to install.",
+      "Fifteen free browser tools for field data, crop research, imaging, visualization and AI-assisted workflows. Nothing to install.",
     eyebrow: "Digital plant phenotyping platform",
     title: "A focused lab for field data, imaging and AI.",
     subtitle:
-      "Fourteen practical browser tools shaped around plant science workflows. Each workspace now shares one calm, responsive interface while keeping its specialist controls close at hand.",
+      "Fifteen practical browser tools shaped around plant science workflows. Each workspace now shares one calm, responsive interface while keeping its specialist controls close at hand.",
     statsLabel: "App Lab overview",
     statTools: "browser tools",
     statAreas: "workflow areas",
@@ -60,11 +60,11 @@ const COPY = {
   zh: {
     pageTitle: "应用实验室 —— 植物科学与 AI 的免费浏览器工具",
     pageDescription:
-      "十四个免费浏览器工具，覆盖田间数据、作物研究、图像处理、可视化与 AI 辅助工作流。无需安装。",
+      "十五个免费浏览器工具，覆盖田间数据、作物研究、图像处理、可视化与 AI 辅助工作流。无需安装。",
     eyebrow: "数字植物表型平台",
     title: "面向田间数据、成像与 AI 的专注工作台。",
     subtitle:
-      "十四个围绕植物科学工作流打造的实用浏览器工具。每个工作台共用同一套克制、响应式的界面，同时把各自的专业控件放在触手可及的位置。",
+      "十五个围绕植物科学工作流打造的实用浏览器工具。每个工作台共用同一套克制、响应式的界面，同时把各自的专业控件放在触手可及的位置。",
     statsLabel: "应用实验室概览",
     statTools: "个浏览器工具",
     statAreas: "个工作流领域",

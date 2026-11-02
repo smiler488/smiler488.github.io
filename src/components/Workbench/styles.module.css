@@ -31,8 +31,8 @@
 }
 
 .maturity_stable {
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  background: var(--ds-success-soft);
+  color: var(--ds-success);
 }
 
 .maturity_beta {
@@ -111,25 +111,25 @@
 }
 
 .primary {
-  border: 1px solid var(--ifm-color-emphasis-900);
-  background: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
+  border: 1px solid var(--ds-primary);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
 }
 
 .primary:hover {
-  border-color: var(--ifm-color-emphasis-800);
-  background: var(--ifm-color-emphasis-800);
+  border-color: var(--ds-primary-hover);
+  background: var(--ds-primary-hover);
 }
 
 .secondary {
-  border: 1px solid var(--ifm-color-emphasis-300);
-  background: var(--ds-bg);
+  border: 1px solid transparent;
+  background: var(--ds-surface);
   color: var(--ifm-color-emphasis-900);
 }
 
 .secondary:hover {
-  border-color: var(--ifm-color-emphasis-400);
-  background: var(--ifm-color-emphasis-100);
+  border-color: transparent;
+  background: var(--ds-surface-warm);
 }
 
 .details summary {
