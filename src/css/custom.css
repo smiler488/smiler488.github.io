@@ -1529,12 +1529,12 @@ html {
   will-change: transform;
   border-radius: 50%;
   mix-blend-mode: difference;
-  /* Hidden until a mouse moves (CustomCursor adds .custom-cursor-on). */
+  /* Hidden until a mouse moves (CustomCursor sets data-custom-cursor on <html>). */
   opacity: 0;
 }
 
-.custom-cursor-on .custom-cursor-dot,
-.custom-cursor-on .custom-cursor-ring {
+[data-custom-cursor] .custom-cursor-dot,
+[data-custom-cursor] .custom-cursor-ring {
   opacity: 1;
 }
 
@@ -1578,7 +1578,7 @@ html {
 
 /* Hide the system cursor on interactive elements only while the custom
    cursor is actually following a mouse. */
-.custom-cursor-on :is(a, button, [role="button"], input, select, textarea, label, [tabindex]:not([tabindex="-1"])) {
+[data-custom-cursor] :is(a, button, [role="button"], input, select, textarea, label, [tabindex]:not([tabindex="-1"])) {
   cursor: none !important;
 }
 

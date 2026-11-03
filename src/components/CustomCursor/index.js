@@ -8,8 +8,12 @@ import React from "react";
  * pointer moves. Touch or pen input hides them again. This matters on
  * Windows laptops with touch screens, which report touch support and a fine
  * pointer at the same time. Skipped entirely with prefers-reduced-motion.
+ *
+ * The on-state is a data attribute on <html>, not a class: Docusaurus
+ * rewrites the <html> class list on every route change, which used to wipe
+ * the cursor after the first navigation.
  */
-const ON_CLASS = "custom-cursor-on";
+const ON_ATTR = "data-custom-cursor";
 
 export default function CustomCursor() {
   const dotRef = React.useRef(null);
@@ -50,13 +54,13 @@ export default function CustomCursor() {
       // Start at the pointer, not at the top-left corner.
       dotX = ringX = mouseX = x;
       dotY = ringY = mouseY = y;
-      root.classList.add(ON_CLASS);
+      root.setAttribute(ON_ATTR, "");
       if (!rafId) rafId = requestAnimationFrame(animate);
     };
 
     const disable = () => {
       enabled = false;
-      root.classList.remove(ON_CLASS);
+      root.removeAttribute(ON_ATTR);
       if (rafId) cancelAnimationFrame(rafId);
       rafId = 0;
     };
@@ -67,6 +71,8 @@ export default function CustomCursor() {
         return;
       }
       if (!enabled) enable(e.clientX, e.clientY);
+      // Restore the flag if anything else rewrote <html> attributes
+      else if (!root.hasAttribute(ON_ATTR)) root.setAttribute(ON_ATTR, "");
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
@@ -87,11 +93,12 @@ export default function CustomCursor() {
     const INTERACTIVE_SEL =
       "a, button, [role='button'], input, select, textarea, label, [tabindex]:not([tabindex='-1']), [class*='card'], [class*='btn']";
 
+    // Decided on every mouseover, so a link that unmounts under the pointer
+    // (route change) can't leave the ring stuck in its hover state.
     const onMouseOver = (e) => {
-      if (e.target.closest?.(INTERACTIVE_SEL)) {
-        dot.classList.add("hovering");
-        ring.classList.add("hovering");
-      }
+      const over = Boolean(e.target.closest?.(INTERACTIVE_SEL));
+      dot.classList.toggle("hovering", over);
+      ring.classList.toggle("hovering", over);
     };
 
     const onHoverOut = (e) => {

@@ -17,12 +17,8 @@
   margin-inline: auto;
 }
 
-/* Unboxed hero: copy on the left, a mosaic of real tool screens on the right. */
+/* Unboxed hero: copy and stats only; the tool covers live on the cards below. */
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(1.5rem, 5vw, 4rem) clamp(0rem, 2vw, 1.5rem) clamp(2.5rem, 5vw, 4rem);
 }
 
@@ -83,28 +79,6 @@
   color: var(--lab-muted);
   font-size: 0.84rem;
   font-weight: 500;
-}
-
-.heroVisual {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.6rem, 1.2vw, 0.9rem);
-}
-
-.heroVisual img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 12px;
-  background: var(--ifm-background-surface-color);
-}
-
-/* Offset the right column so the grid reads as a composed mosaic. */
-.heroVisual img:nth-child(even) {
-  transform: translateY(clamp(1rem, 2.4vw, 1.75rem));
 }
 
 .catalog {
@@ -232,8 +206,6 @@
 
 .glassSlider {
   position: absolute;
-  top: 0;
-  bottom: 0;
   z-index: 0;
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
@@ -241,6 +213,7 @@
   box-shadow: var(--ds-shadow-float);
   pointer-events: none;
   transition: left 0.28s cubic-bezier(0.25, 1, 0.5, 1),
+    top 0.28s cubic-bezier(0.25, 1, 0.5, 1),
     width 0.28s cubic-bezier(0.25, 1, 0.5, 1),
     opacity 0.2s ease;
 }
@@ -473,10 +446,6 @@
 }
 
 @media (max-width: 1080px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr);
-  }
-
   .appGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -488,8 +457,6 @@
   }
 
   .hero {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
     padding: 1.5rem 0 2rem;
   }
 
@@ -514,10 +481,6 @@
 
   .stats dd {
     font-size: 0.76rem;
-  }
-
-  .heroVisual img:nth-child(even) {
-    transform: translateY(0.75rem);
   }
 
   .catalog {

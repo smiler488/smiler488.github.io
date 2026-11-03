@@ -401,10 +401,15 @@
   transition: opacity 400ms var(--ease-openai);
 }
 
-.contactCard:nth-child(4),
-.contactCard:nth-child(5) {
-  grid-column: span 3;
-  min-height: 6.5rem;
+/* Wide layout only: the 6-column grid seats 3 + 2 cards. Narrower grids have
+   fewer columns, and a span of 3 there would add implicit columns and crush
+   every card. */
+@media (min-width: 1121px) {
+  .contactCard:nth-child(4),
+  .contactCard:nth-child(5) {
+    grid-column: span 3;
+    min-height: 6.5rem;
+  }
 }
 
 .contactCardFeatured {

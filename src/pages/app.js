@@ -10,7 +10,6 @@ import { APP_CATEGORIES, APP_MANIFEST, localizeApp } from "../data/appManifest";
 import styles from "./app.module.css";
 
 // Four real tool screens stand in for an abstract hero graphic.
-const HERO_SHOTS = ["land-survey", "ai-data-visualizer", "stereo", "journal-selector"];
 
 const COPY = {
   en: {
@@ -152,24 +151,36 @@ export default function AppHub() {
   const filtersRef = useRef(null);
   const [sliderStyle, setSliderStyle] = useState({
     left: 0,
+    top: 0,
     width: 0,
+    height: 0,
     opacity: 0,
   });
 
+  // The slider sits under the active filter. The filters wrap into several
+  // rows on narrow screens, so it takes the button's full box (not just its
+  // x-position) and is measured again whenever the row reflows.
   useEffect(() => {
-    if (!filtersRef.current) return;
-    const activeEl = filtersRef.current.querySelector(
-      `.${styles.filterActive}`
-    );
-    if (activeEl) {
-      setSliderStyle({
-        left: activeEl.offsetLeft,
-        width: activeEl.offsetWidth,
-        opacity: 1,
-      });
-    } else {
-      setSliderStyle((prev) => ({ ...prev, opacity: 0 }));
-    }
+    const container = filtersRef.current;
+    if (!container) return undefined;
+    const measure = () => {
+      const activeEl = container.querySelector(`.${styles.filterActive}`);
+      if (activeEl) {
+        setSliderStyle({
+          left: activeEl.offsetLeft,
+          top: activeEl.offsetTop,
+          width: activeEl.offsetWidth,
+          height: activeEl.offsetHeight,
+          opacity: 1,
+        });
+      } else {
+        setSliderStyle((prev) => ({ ...prev, opacity: 0 }));
+      }
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(container);
+    return () => observer.disconnect();
   }, [activeCategory]);
 
   const visibleApps = useMemo(() => {
@@ -235,18 +246,6 @@ export default function AppHub() {
             </dl>
           </div>
 
-          <div className={styles.heroVisual} aria-hidden="true">
-            {HERO_SHOTS.map((id) => (
-              <img
-                key={id}
-                src={`/img/app-shots/${id}.jpg`}
-                alt=""
-                width="800"
-                height="500"
-                decoding="async"
-              />
-            ))}
-          </div>
         </section>
 
         <section className={styles.catalog} aria-labelledby="catalog-title">
@@ -291,7 +290,9 @@ export default function AppHub() {
                 className={styles.glassSlider}
                 style={{
                   left: `${sliderStyle.left}px`,
+                  top: `${sliderStyle.top}px`,
                   width: `${sliderStyle.width}px`,
+                  height: `${sliderStyle.height}px`,
                   opacity: sliderStyle.opacity,
                 }}
               />
