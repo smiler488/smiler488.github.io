@@ -3,6 +3,7 @@ import clsx from "clsx";
 import {
   ErrorCauseBoundary,
   ThemeClassNames,
+  useColorMode,
   useThemeConfig,
 } from "@docusaurus/theme-common";
 import {
@@ -17,6 +18,13 @@ import NavbarSearch from "@theme/Navbar/Search";
 import SearchBar from "@theme/SearchBar";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import styles from "./styles.module.css";
+
+// Tooltip for the theme button: names the current choice, since a click
+// cycles system → light → dark and the icon alone doesn't say which is next.
+const THEME_LABEL = {
+  en: { system: "Theme: system", light: "Theme: light", dark: "Theme: dark" },
+  zh: { system: "主题：跟随系统", light: "主题：浅色", dark: "主题：深色" },
+};
 
 function useNavbarItems() {
   return useThemeConfig().navbar.items;
@@ -124,6 +132,10 @@ export default function NavbarContent() {
   const [leftItems, rightItems] = splitNavbarItems(items);
   const hasConfiguredSearch = items.some((item) => item.type === "search");
   const isChinese = i18n.currentLocale === "zh-Hans";
+  const { colorModeChoice } = useColorMode();
+  const themeLabel = (isChinese ? THEME_LABEL.zh : THEME_LABEL.en)[
+    colorModeChoice ?? "system"
+  ];
 
   return (
     <NavbarContentLayout
@@ -158,7 +170,7 @@ export default function NavbarContent() {
           </div>
           <span
             className={styles.iconButton}
-            data-tooltip={isChinese ? "浅色 / 深色" : "Light / dark"}
+            data-tooltip={themeLabel}
           >
             <NavbarColorModeToggle className={styles.colorModeToggle} />
           </span>

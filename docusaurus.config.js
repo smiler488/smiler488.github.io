@@ -138,7 +138,9 @@ const config = {
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
-      respectPrefersColorScheme: false,
+      // Three-state toggle: system → light → dark. "system" follows the OS
+      // setting; defaultMode only applies where the OS reports no preference.
+      respectPrefersColorScheme: true,
     },
 
     docs: {
