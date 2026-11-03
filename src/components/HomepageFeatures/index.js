@@ -54,31 +54,28 @@ const CONTENT = {
       "Launch these crop analyses, field data capture, and scientific visualization tools directly.",
     lab: [
       {
-        number: "01",
         title: "Sensor Recorder",
+        shot: "/img/app-shots/sensor.jpg",
         description:
           "Capture device orientation, solar geometry, and GPS coordinates for leaf field measurements.",
         href: "/app/sensor",
         action: "Open tool",
-        accent: "green",
       },
       {
-        number: "02",
         title: "AI Data Visualizer",
+        shot: "/img/app-shots/ai-data-visualizer.jpg",
         description:
           "Upload and analyze crop datasets interactively with publication-ready scientific plotting.",
         href: "/app/ai-data-visualizer",
         action: "Open tool",
-        accent: "blue",
       },
       {
-        number: "03",
         title: "Root Preprocessor",
+        shot: "/img/app-shots/root-processor.jpg",
         description:
           "Clean, segment, and preprocess root system imagery to extract morphology phenotypes.",
         href: "/app/root-processor",
         action: "Open tool",
-        accent: "orange",
       },
     ],
     collaborationEyebrow: "Work together",
@@ -131,31 +128,28 @@ const CONTENT = {
     labIntro: "直接启动以下作物分析、数据规划与科学可视化应用。",
     lab: [
       {
-        number: "01",
         title: "Sensor Recorder",
+        shot: "/img/app-shots/sensor.jpg",
         description:
           "获取手机姿态、太阳入射角与定位信息，辅助田间叶片测量与数据采集。",
         href: "/app/sensor",
         action: "打开工具",
-        accent: "green",
       },
       {
-        number: "02",
         title: "AI Data Visualizer",
+        shot: "/img/app-shots/ai-data-visualizer.jpg",
         description:
           "交互式上传分析作物科学数据集，快速生成可供发表的学术图表。",
         href: "/app/ai-data-visualizer",
         action: "打开工具",
-        accent: "blue",
       },
       {
-        number: "03",
         title: "Root Preprocessor",
+        shot: "/img/app-shots/root-processor.jpg",
         description:
           "清理、分割与处理作物根系图像，快速提取和量化根系形态学特征。",
         href: "/app/root-processor",
         action: "打开工具",
-        accent: "orange",
       },
     ],
     collaborationEyebrow: "一起工作",
@@ -210,10 +204,15 @@ function ComicSlide({ item, current }) {
 function LabCard({ item }) {
   return (
     <Link className={styles.labCard} to={item.href}>
-      <div className={styles.labCardTop}>
-        <span className={styles.labGlyph} aria-hidden="true" />
-        <span className={styles.labNumber}>{item.number}</span>
-      </div>
+      <img
+        className={styles.labShot}
+        src={item.shot}
+        alt=""
+        width="800"
+        height="500"
+        loading="lazy"
+        decoding="async"
+      />
       <div className={styles.labCardBody}>
         <Heading as="h3">{item.title}</Heading>
         <p>{item.description}</p>

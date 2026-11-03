@@ -53,14 +53,14 @@
 }
 
 .title {
-  max-width: 13ch;
+  max-width: 18ch;
   margin: 0;
   padding: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-size: clamp(1.375rem, 2vw, 1.625rem);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.04;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
   border: 0;
 }
 
@@ -326,10 +326,10 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   max-width: 19ch;
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 .globeBandCopy p {
@@ -515,8 +515,7 @@ html[data-theme="dark"] .footer {
   }
 
   .title {
-    max-width: 16ch;
-    font-size: clamp(1.7rem, 9vw, 2.35rem);
+    max-width: 18ch;
   }
 
   .description {
