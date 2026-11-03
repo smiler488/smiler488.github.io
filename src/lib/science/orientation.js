@@ -20,3 +20,33 @@ export function inclinationFromOrientation(beta, gamma) {
   // |c| folds face-down readings onto the same 0–90° plane inclination.
   return (Math.acos(Math.min(1, Math.abs(c))) * 180) / Math.PI;
 }
+
+/**
+ * Fallback for browsers that deliver devicemotion but no usable
+ * deviceorientation angles (seen on HarmonyOS ArkWeb): recover beta and gamma
+ * from the gravity reaction in accelerationIncludingGravity, device frame,
+ * m/s². With the W3C Z-X'-Y'' rotation the reaction vector is
+ *   x = −sin γ · cos β,  y = sin β,  z = cos γ · cos β
+ * (flat and face up: 0, 0, +9.81; upright in portrait: 0, +9.81, 0).
+ * Gravity carries no heading, so alpha cannot be recovered.
+ *
+ * @returns {{beta: number, gamma: number}|null} degrees; beta in [−180, 180],
+ *   gamma in [−90, 90]; null when the vector is missing or ~zero (free fall)
+ */
+export function orientationFromGravity(x, y, z) {
+  if (![x, y, z].every((v) => typeof v === "number" && Number.isFinite(v))) {
+    return null;
+  }
+  // Below ~1 m/s² the direction is noise (free fall, or a sensor at rest
+  // reporting zeros), not gravity.
+  if (Math.hypot(x, y, z) < 1) return null;
+  const deg = 180 / Math.PI;
+  // −x / z = tan γ: cos β cancels, so gamma comes straight out in (−90°, 90°).
+  // On edge (z = 0) it is ±90°, toward the side x points away from.
+  const gamma = z === 0 ? (x <= 0 ? 90 : -90) : Math.atan(-x / z) * deg;
+  // √(x² + z²) = |cos β|; since cos γ ≥ 0, z carries the sign of cos β. That
+  // sign separates "tipped past vertical toward face down" from face up.
+  const cosBeta = (z < 0 ? -1 : 1) * Math.hypot(x, z);
+  const beta = Math.atan2(y, cosBeta) * deg;
+  return { beta, gamma };
+}

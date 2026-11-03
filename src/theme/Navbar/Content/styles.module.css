@@ -142,6 +142,11 @@
   opacity: 0;
 }
 
+/* No tooltip while the theme menu is open */
+.iconButton:has([aria-expanded="true"])::after {
+  display: none;
+}
+
 /* No tooltip while the search field is open and being typed in */
 .searchSlot:focus-within::after {
   display: none;

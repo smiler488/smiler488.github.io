@@ -13,6 +13,9 @@ export default {
   "No data yet. Enter ID and click “Capture Sample”.":
     "暂无数据。输入编号后点击“采集样本”。",
   "Motion access:": "运动权限：",
+  "Sensor source:": "数据来源：",
+  "Motion access is on, but no sensor reading arrived. On HarmonyOS, allow motion sensors for this site in the browser's site settings, then reload; if it still fails, try Huawei Browser or Chrome.":
+    "运动权限已开启，但没有收到传感器读数。鸿蒙设备请在浏览器的网站设置中允许本站使用运动传感器，然后刷新页面；仍不行的话，请换用华为浏览器或 Chrome。",
   "Recorded rows:": "已记录行数：",
   "Session status": "会话状态",
   "Refresh Location": "刷新定位",

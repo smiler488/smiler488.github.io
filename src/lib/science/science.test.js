@@ -14,6 +14,7 @@ import {
   BRDF_BOUNDS,
   fieldArea,
   inclinationFromOrientation,
+  orientationFromGravity,
   polygonArea,
   polygonIssues,
   polygonPerimeter,
@@ -100,6 +101,39 @@ test("inclinationFromOrientation gives the screen-plane tilt", () => {
     near(inclinationFromOrientation(35, -20), (Math.acos(zUp) * 180) / Math.PI)
   );
   assert.equal(inclinationFromOrientation(null, 0), null);
+});
+
+test("orientationFromGravity inverts the W3C gravity reaction", () => {
+  const rad = Math.PI / 180;
+  // Forward model: reaction vector for a given beta/gamma (see orientation.js)
+  const reaction = (beta, gamma, g = 9.81) => [
+    -Math.sin(gamma * rad) * Math.cos(beta * rad) * g,
+    Math.sin(beta * rad) * g,
+    Math.cos(gamma * rad) * Math.cos(beta * rad) * g,
+  ];
+  const cases = [
+    [0, 0], // flat, face up
+    [90, 0], // upright portrait
+    [35, -20],
+    [-60, 45],
+    [150, 30], // tipped past vertical, toward face down
+    [-120, -70],
+  ];
+  for (const [beta, gamma] of cases) {
+    const out = orientationFromGravity(...reaction(beta, gamma));
+    assert.ok(out, `no result for beta ${beta}, gamma ${gamma}`);
+    assert.ok(angleDiff(out.beta, beta) < 1e-6, `beta ${beta} -> ${out.beta}`);
+    assert.ok(Math.abs(out.gamma - gamma) < 1e-6, `gamma ${gamma} -> ${out.gamma}`);
+    // The inclination the tool reports must not depend on which path ran
+    assert.ok(
+      Math.abs(
+        inclinationFromOrientation(out.beta, out.gamma) -
+          inclinationFromOrientation(beta, gamma)
+      ) < 1e-6
+    );
+  }
+  assert.equal(orientationFromGravity(0, 0, 0), null); // free fall
+  assert.equal(orientationFromGravity(null, 9.81, 0), null);
 });
 
 test("fieldArea converts units and polygonCentroid averages vertices", () => {

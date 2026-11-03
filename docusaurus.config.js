@@ -32,6 +32,18 @@ const config = {
   baseUrl: "/",
   trailingSlash: false,
 
+  // One-time reset of a light/dark choice saved by the old two-state toggle,
+  // so every visitor starts on "follow the system" (DESIGN_SPEC D-020). Runs
+  // in <head>, before Docusaurus reads the stored theme.
+  headTags: [
+    {
+      tagName: "script",
+      attributes: {},
+      innerHTML:
+        'try{var k="theme-system-default";if(!localStorage.getItem(k)){localStorage.removeItem("theme");localStorage.setItem(k,"1")}}catch(e){}',
+    },
+  ],
+
   markdown: {
     mermaid: true,
     hooks: {

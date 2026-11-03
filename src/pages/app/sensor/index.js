@@ -7,7 +7,10 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { recordExport } from "../../../lib/workbench/provenance";
 import { saveArtifact } from "../../../lib/workbench/workspace";
 import { solarPosition } from "../../../lib/science/solar.js";
-import { inclinationFromOrientation } from "../../../lib/science/orientation.js";
+import {
+  inclinationFromOrientation,
+  orientationFromGravity,
+} from "../../../lib/science/orientation.js";
 import styles from "./styles.module.css";
 import { IS_ZH, makeToolText } from "@site/src/lib/i18n/toolText";
 import ZH from "./_zh";
@@ -24,44 +27,75 @@ const tx = makeToolText(ZH);
  * Notes:
  * - On iOS/Safari you must request motion permission via a user gesture
  * - Geolocation uses high accuracy and may take a moment to resolve
+ * - Some browsers (HarmonyOS ArkWeb among them) send only
+ *   deviceorientationabsolute, or orientation events with null angles; the
+ *   hook then falls back to the gravity vector from devicemotion
  */
+
+// Where the angles came from, shown so a field user can tell which path ran.
+const SOURCE_LABEL = {
+  orientation: "deviceorientation",
+  absolute: "deviceorientationabsolute",
+  gravity: "devicemotion (gravity)",
+};
 
 function useOrientation(enabled) {
   const [ori, setOri] = useState({
     alpha: null,
     beta: null,
     gamma: null,
+    source: null,
     receivedAt: null,
   });
   const latestRef = useRef(ori);
-  const handlerRef = useRef(null);
 
   useEffect(() => {
     if (!enabled) return undefined;
     let frame = null;
-    let latestEvent = null;
-    handlerRef.current = (e) => {
-      latestEvent = e;
+    let pending = null;
+    // Time of the last orientation event with real angles; while recent, the
+    // gravity fallback stays quiet.
+    let lastAnglesAt = 0;
+
+    const publish = (reading) => {
+      pending = reading;
       if (frame !== null) return;
       frame = window.requestAnimationFrame(() => {
-        const reading = {
-          alpha:
-            typeof latestEvent?.alpha === "number" ? latestEvent.alpha : null,
-          beta: typeof latestEvent?.beta === "number" ? latestEvent.beta : null,
-          gamma:
-            typeof latestEvent?.gamma === "number" ? latestEvent.gamma : null,
-          receivedAt: Date.now(),
-        };
-        latestRef.current = reading;
-        setOri(reading);
+        latestRef.current = pending;
+        setOri(pending);
         frame = null;
       });
     };
-    window.addEventListener("deviceorientation", handlerRef.current);
+
+    const onOrientation = (source) => (e) => {
+      if (typeof e.beta !== "number" || typeof e.gamma !== "number") return;
+      lastAnglesAt = Date.now();
+      publish({
+        alpha: typeof e.alpha === "number" ? e.alpha : null,
+        beta: e.beta,
+        gamma: e.gamma,
+        source,
+        receivedAt: lastAnglesAt,
+      });
+    };
+    const onRelative = onOrientation("orientation");
+    const onAbsolute = onOrientation("absolute");
+
+    const onMotion = (e) => {
+      if (Date.now() - lastAnglesAt <= MAX_READING_AGE_MS) return;
+      const g = e.accelerationIncludingGravity;
+      const angles = g && orientationFromGravity(g.x, g.y, g.z);
+      if (!angles) return;
+      publish({ alpha: null, ...angles, source: "gravity", receivedAt: Date.now() });
+    };
+
+    window.addEventListener("deviceorientation", onRelative);
+    window.addEventListener("deviceorientationabsolute", onAbsolute);
+    window.addEventListener("devicemotion", onMotion);
     return () => {
-      if (handlerRef.current) {
-        window.removeEventListener("deviceorientation", handlerRef.current);
-      }
+      window.removeEventListener("deviceorientation", onRelative);
+      window.removeEventListener("deviceorientationabsolute", onAbsolute);
+      window.removeEventListener("devicemotion", onMotion);
       if (frame !== null) window.cancelAnimationFrame(frame);
     };
   }, [enabled]);
@@ -88,42 +122,38 @@ function waitForOrientation(latestRef, timeout = 1800) {
   });
 }
 
-async function requestMotionPermissionIfNeeded() {
-  try {
-    let tried = false;
-    let granted = false;
-
-    if (
-      typeof DeviceMotionEvent !== "undefined" &&
-      typeof DeviceMotionEvent.requestPermission === "function"
-    ) {
-      tried = true;
-      const s = await DeviceMotionEvent.requestPermission();
-      if (s === "granted") {
-        granted = true;
-      }
-    }
-
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
-      tried = true;
-      const s = await DeviceOrientationEvent.requestPermission();
-      if (s === "granted") {
-        granted = true;
-      }
-    }
-
-    // If neither API requires explicit permission, assume OK (desktop browsers, etc.)
-    if (!tried) return true;
-
-    return granted;
-  } catch (e) {
-    // If an error occurs (e.g., security error), treat as not granted.
-    console.error("Motion permission request failed:", e);
-    return false;
+// iOS asks through requestPermission(). Other browsers may expose the
+// method yet throw when it is called; a throw is not a refusal. Either way
+// the caller attaches the listeners and lets the first reading decide.
+async function requestOnePermission(EventType) {
+  if (
+    typeof EventType === "undefined" ||
+    typeof EventType.requestPermission !== "function"
+  ) {
+    return null; // nothing to ask
   }
+  try {
+    return (await EventType.requestPermission()) === "granted";
+  } catch (e) {
+    console.warn("Motion permission request failed:", e);
+    return null;
+  }
+}
+
+async function requestMotionPermissionIfNeeded() {
+  const answers = [
+    await requestOnePermission(
+      typeof DeviceMotionEvent === "undefined" ? undefined : DeviceMotionEvent
+    ),
+    await requestOnePermission(
+      typeof DeviceOrientationEvent === "undefined"
+        ? undefined
+        : DeviceOrientationEvent
+    ),
+  ];
+  if (answers.includes(true)) return true;
+  // Only an explicit "denied" counts as a refusal.
+  return !answers.includes(false);
 }
 
 function getCurrentGeo(onError) {
@@ -188,8 +218,10 @@ function toFixedMaybe(v, d = 6) {
 export default function SensorPage() {
   const [leafId, setLeafId] = useState("");
   const [permission, setPermission] = useState(null); // null | 'granted' | 'denied'
+  // Listeners go on at the first request, whatever the browser answers.
+  const [listening, setListening] = useState(false);
   const { orientation, latestRef: latestOrientationRef } = useOrientation(
-    permission === "granted"
+    listening
   );
   const [geo, setGeo] = useState({
     latitude: null,
@@ -271,7 +303,13 @@ export default function SensorPage() {
 
     // Request motion/orientation permission where required (iOS Safari, etc.)
     const motionOk = await requestMotionPermissionIfNeeded();
-    if (!motionOk) {
+    setListening(true);
+    // A refusal is not always final: some browsers answer "denied" yet still
+    // deliver events (HarmonyOS ArkWeb has been reported to). Readings decide.
+    const delivering =
+      motionOk ||
+      Boolean(await waitForOrientation(latestOrientationRef, 2500));
+    if (!delivering) {
       setPermission("denied");
       setError(
         tx(
@@ -340,12 +378,27 @@ export default function SensorPage() {
     }
   }
 
+  // Permission alone proves little on some browsers; confirm that a reading
+  // actually arrives and say what to check if none does.
+  async function confirmReadings() {
+    const reading = await waitForOrientation(latestOrientationRef, 2500);
+    if (!reading) {
+      setError(
+        tx(
+          "Motion access is on, but no sensor reading arrived. On HarmonyOS, allow motion sensors for this site in the browser's site settings, then reload; if it still fails, try Huawei Browser or Chrome."
+        )
+      );
+    }
+    return Boolean(reading);
+  }
+
   async function enableSensors() {
     setError(null);
     const ok = await ensurePermissions();
     if (!ok) return;
     const g = await getCurrentGeo(handleGeoError);
     setGeo(g);
+    await confirmReadings();
   }
 
   // Hand the GPS fixes to other tools through the local workspace.
@@ -553,6 +606,14 @@ export default function SensorPage() {
                 </strong>
               </div>
               <div className={styles.row}>
+                <span>{tx("Sensor source:")}</span>
+                <strong>
+                  {orientation.source
+                    ? SOURCE_LABEL[orientation.source]
+                    : "N/A"}
+                </strong>
+              </div>
+              <div className={styles.row}>
                 <span>{wb.inclination}</span>
                 <strong>
                   {liveInclination == null
@@ -570,6 +631,7 @@ export default function SensorPage() {
                         "Please allow motion/orientation access in browser settings."
                       )
                     );
+                  else await confirmReadings();
                 }}
                 className={`${styles.button} ${styles.buttonPrimary}`}
                 style={{ marginTop: 8, width: "100%" }}
