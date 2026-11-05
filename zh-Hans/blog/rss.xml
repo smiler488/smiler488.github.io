@@ -106,66 +106,17 @@
             <guid>https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform</guid>
             <pubDate>Fri, 07 Nov 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[一个桌面平台，以统一界面、交互式调参、批量处理和结构化导出，处理高光谱、LiDAR、RGB 和热红外表型数据。]]></description>
-            <content:encoded><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="概述">概述<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E6%A6%82%E8%BF%B0" class="hash-link" aria-label="概述的直接链接" title="概述的直接链接" translate="no">​</a></h2>
-<p><img decoding="async" loading="lazy" alt="MCTP 启动界面与四个模态模块" src="https://smiler488.github.io/zh-Hans/assets/images/mctp-a3e2c193dfe7f2e1f79851d669e02789.png" width="685" height="471" class="img_ev3q"></p>
-<p>使用步行式平台开展田间表型调查时，每个小区都会产生四类差异很大的数据：高光谱数据立方体、LiDAR 点云、RGB 图像和热红外图像。它们通常各自需要不同的软件、参数约定和导出格式，使多模态性状分析既慢又难以复现。</p>
-<p><strong>MCTP（Multi-modal Crop Trait Processing，多模态作物性状处理平台）</strong> 把四种模态整合进一个桌面平台，提供统一界面、交互式参数调节、批量处理和结构化导出。平台为黍峰生物的田间步行式表型平台开发，我负责系统优化以及数据处理与分析方法。</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="功能模块">功能模块<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97" class="hash-link" aria-label="功能模块的直接链接" title="功能模块的直接链接" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="高光谱hypervis">高光谱（HyperVis）<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E9%AB%98%E5%85%89%E8%B0%B1hypervis" class="hash-link" aria-label="高光谱（HyperVis）的直接链接" title="高光谱（HyperVis）的直接链接" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="高光谱模块" src="https://smiler488.github.io/zh-Hans/assets/images/hyper-0ddc08d8ad83a43adae4d9d5f873a87d.png" width="689" height="458" class="img_ev3q"></p>
+            <content:encoded><![CDATA[<p><img decoding="async" loading="lazy" alt="MCTP 启动界面与四个模态模块" src="https://smiler488.github.io/zh-Hans/assets/images/mctp-a3e2c193dfe7f2e1f79851d669e02789.png" width="685" height="471" class="img_ev3q"></p>
+<p><strong>MCTP（Multi-modal Crop Trait Processing，多模态作物性状处理平台）</strong> 是一个桌面平台，以统一界面、交互式调参、批量处理和结构化的 JSON/CSV 导出，处理高光谱、LiDAR、RGB 和热红外表型数据。平台为黍峰生物的田间步行式表型平台开发，我负责系统优化以及数据处理与分析方法。</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="覆盖内容">覆盖内容<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E8%A6%86%E7%9B%96%E5%86%85%E5%AE%B9" class="hash-link" aria-label="覆盖内容的直接链接" title="覆盖内容的直接链接" translate="no">​</a></h2>
 <ul>
-<li class="">读取 ENVI HDR/SPE 文件对，解析波长元数据；</li>
-<li class="">根据波长自动识别植被指数所需波段；</li>
-<li class="">计算 NDVI，以近红外阈值构建植株掩膜，并用分位数掩膜去除镜面反光；</li>
-<li class="">导出叶片区域平均光谱（CSV）和统计摘要（JSON）；</li>
-<li class="">以标签页展示 RGB 快视图、NDVI、掩膜对比、光谱曲线和统计结果；</li>
-<li class="">对整个目录的 HDR/SPE 文件对批量处理。</li>
+<li class=""><strong>高光谱：</strong> NDVI 植株掩膜、去除反光、叶片区域平均光谱，支持批量处理。</li>
+<li class=""><strong>LiDAR：</strong> RANSAC 重定地面、DBSCAN 分割植株，计算覆盖度、体素占有率、凸包体积和高度分位数 H10/H50/H90 等冠层性状。</li>
+<li class=""><strong>RGB：</strong> 基于三种颜色指数分割植被，并标记单株。</li>
+<li class=""><strong>热红外：</strong> 基于 Otsu 方法和分位数给出建议温度阈值，提供叠加图和热图预览。</li>
 </ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="lidar">LiDAR<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#lidar" class="hash-link" aria-label="LiDAR的直接链接" title="LiDAR的直接链接" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="LiDAR 读取与预处理" src="https://smiler488.github.io/zh-Hans/assets/images/lidar1-598d07870bada0169d278c122bc51a54.png" width="688" height="418" class="img_ev3q"></p>
-<p><img decoding="async" loading="lazy" alt="LiDAR 分割与性状调参" src="https://smiler488.github.io/zh-Hans/assets/images/lidar2-86def58667ed07be8849d16abd26f5c6.png" width="684" height="439" class="img_ev3q"></p>
-<ul>
-<li class="">读取 PLY、LAS、LAZ 和文本格式点云；</li>
-<li class="">用 RANSAC 重定地面，再进行体素降采样、裁剪和按高度着色；</li>
-<li class="">用 DBSCAN 分割植株，并在 SegTuner 窗口中交互调参；</li>
-<li class="">计算冠层与植株性状：地面覆盖度、体素占有率、凸包体积，以及高度分位数 H10、H50、H90；</li>
-<li class="">导出裁剪后的点云和 JSON 性状报告。</li>
-</ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="rgb">RGB<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#rgb" class="hash-link" aria-label="RGB的直接链接" title="RGB的直接链接" translate="no">​</a></h3>
-<ul>
-<li class="">联合 ExG、CIVE、VDI 三种颜色指数并统一阈值，分割植被；</li>
-<li class="">抑制水面和塑料反光，去除标签和边框；</li>
-<li class="">通过自适应形态学运算和骨架增强保留细小植株；</li>
-<li class="">通过分水岭和连通域标记区分单株；</li>
-<li class="">导出叠加图像、小区级 JSON 指标和单株 CSV 表。</li>
-</ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="热红外">热红外<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E7%83%AD%E7%BA%A2%E5%A4%96" class="hash-link" aria-label="热红外的直接链接" title="热红外的直接链接" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="热红外模块" src="https://smiler488.github.io/zh-Hans/assets/images/thermal-c0b862fb6c4d2ec659997e4273d6b314.png" width="688" height="457" class="img_ev3q"></p>
-<ul>
-<li class="">读取 BMP 图像及其 DDT 温度矩阵，支持翻转和标定；</li>
-<li class="">基于 Otsu 方法和分位数给出建议阈值；</li>
-<li class="">通过滑块调节温度阈值、HSV 范围和形态学参数；</li>
-<li class="">提供叠加图、热图和仅植株三种预览；</li>
-<li class="">导出 PNG、NPY、CSV 和 JSON 结果。</li>
-</ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="统一设计">统一设计<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E7%BB%9F%E4%B8%80%E8%AE%BE%E8%AE%A1" class="hash-link" aria-label="统一设计的直接链接" title="统一设计的直接链接" translate="no">​</a></h2>
-<ul>
-<li class=""><strong>统一界面：</strong> 四种模态采用相同布局的控制面板、实时预览和处理日志；</li>
-<li class=""><strong>交互调参：</strong> 滑块、建议阈值和实时预览，使参数依据数据本身设定；</li>
-<li class=""><strong>批量处理：</strong> 高光谱和 RGB 数据可批量处理；LiDAR 和热红外数据可在样本间复用已保存的参数；</li>
-<li class=""><strong>结构化输出：</strong> JSON 和 CSV 格式，可直接用于 R 或 Python 统计分析及性状—产量建模。</li>
-</ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="推荐使用流程">推荐使用流程<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B" class="hash-link" aria-label="推荐使用流程的直接链接" title="推荐使用流程的直接链接" translate="no">​</a></h2>
-<ol>
-<li class="">原样归档原始数据和采集元数据；</li>
-<li class="">打开一个代表性样本，确认文件配对、方向和单位；</li>
-<li class="">在预览中调节参数，并检查困难样本；</li>
-<li class="">先处理一小批并与原始数据比对，再扩大规模；</li>
-<li class="">将阈值、体素大小、聚类参数和软件版本与结果一并保存。</li>
-</ol>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与后续计划">适用范围与后续计划<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%90%8E%E7%BB%AD%E8%AE%A1%E5%88%92" class="hash-link" aria-label="适用范围与后续计划的直接链接" title="适用范围与后续计划的直接链接" translate="no">​</a></h2>
-<p>四个模块分别处理各自的模态，并在参数和导出上采用统一约定，目前尚未在模态之间进行配准。后续工作包括跨模态配准、跨调查批次的时间序列分析、统一的项目配置模板，以及在服务器端批量处理并生成报告。</p>
-<p>如需试用 MCTP 或获取示例数据，请见 <a class="" href="https://smiler488.github.io/zh-Hans/cv">CV 页面</a> 中的联系方式。</p>]]></content:encoded>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="延伸阅读">延伸阅读<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB" class="hash-link" aria-label="延伸阅读的直接链接" title="延伸阅读的直接链接" translate="no">​</a></h2>
+<p><strong><a class="" href="https://smiler488.github.io/zh-Hans/research/mctp-workspace">项目页</a></strong> 介绍了每个模块（附截图）、推荐流程和后续计划。如需试用 MCTP 或获取示例数据，请见<a class="" href="https://smiler488.github.io/zh-Hans/cv">个人简历页</a>中的联系方式。</p>]]></content:encoded>
             <category>Plant Phenotyping</category>
             <category>Image Analysis</category>
             <category>Data Analysis</category>
@@ -177,10 +128,8 @@
             <guid>https://smiler488.github.io/zh-Hans/blog/brdf-paper</guid>
             <pubDate>Thu, 30 Oct 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[一套由表型性状预测四个物种叶片 BRDF 参数的测量与分析框架，结合方向光谱测量、Cook–Torrance 模型拟合、集成学习和冠层光线追踪（Plant Phenomics，2025）。]]></description>
-            <content:encoded><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="概述">概述<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E6%A6%82%E8%BF%B0" class="hash-link" aria-label="概述的直接链接" title="概述的直接链接" translate="no">​</a></h2>
-<p><img decoding="async" loading="lazy" alt="方向光谱测量与 BRDF 预测流程" src="https://smiler488.github.io/zh-Hans/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
-<p>叶片并不是向各个方向均匀反射光。叶片的解剖结构、色素和表面微观粗糙度决定了光的散射方式，进而决定了光在冠层内的分布；但多数冠层模型仍把叶片当作朗伯反射体处理。而逐片测量叶片的方向反射又难以实现。</p>
-<p>本研究建立了一套由易测表型性状预测叶片光学特性的框架：结合自主研制的<strong>方向光谱检测仪（DSDI）</strong>、Cook–Torrance **双向反射分布函数（BRDF）**模型拟合、表型测量和集成学习，并通过冠层光线追踪量化预测的光学特性对冠层光分布的影响。</p>
+            <content:encoded><![CDATA[<p><img decoding="async" loading="lazy" alt="方向光谱测量与 BRDF 预测流程" src="https://smiler488.github.io/zh-Hans/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
+<p>我们关于由表型性状预测叶片 BRDF 的研究已发表于 <em>Plant Phenomics</em>（2025）。叶片的方向反射可以由易测的表型性状预测，叶片光学特性的差异会改变模拟冠层内的光分布。这套框架结合了自主研制的方向光谱检测仪（DSDI）、Cook–Torrance BRDF 模型拟合、集成学习和冠层光线追踪。</p>
 <div class="altmetric-embed brdfAltmetric" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="false"></div>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="要点">要点<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E8%A6%81%E7%82%B9" class="hash-link" aria-label="要点的直接链接" title="要点的直接链接" translate="no">​</a></h2>
 <ul>
@@ -190,38 +139,11 @@
 <li class=""><strong>预测模型：</strong> 由支持向量回归、随机森林和梯度提升回归构成的堆叠集成模型。</li>
 <li class=""><strong>性能：</strong> BRDF 拟合 $R^2 &gt; 0.95$；集成模型预测 $R^2 = 0.83$–$0.99$（因参数而异）。</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="测量与建模">测量与建模<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E6%B5%8B%E9%87%8F%E4%B8%8E%E5%BB%BA%E6%A8%A1" class="hash-link" aria-label="测量与建模的直接链接" title="测量与建模的直接链接" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-方向反射测量">1. 方向反射测量<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#1-%E6%96%B9%E5%90%91%E5%8F%8D%E5%B0%84%E6%B5%8B%E9%87%8F" class="hash-link" aria-label="1. 方向反射测量的直接链接" title="1. 方向反射测量的直接链接" translate="no">​</a></h3>
-<p>DSDI 由氙灯光源、光纤光谱仪以及机械控制的入射角和观测角组成。叶片测量前用朗伯白板标定反射率。叶片近轴面和远轴面均进行测量，因为两面的表皮结构和光学响应不同。</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-brdf-模型拟合">2. BRDF 模型拟合<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#2-brdf-%E6%A8%A1%E5%9E%8B%E6%8B%9F%E5%90%88" class="hash-link" aria-label="2. BRDF 模型拟合的直接链接" title="2. BRDF 模型拟合的直接链接" translate="no">​</a></h3>
-<p>Cook–Torrance 模型用三个随波长变化的参数描述漫反射和镜面反射：</p>
-<table><thead><tr><th>参数</th><th>物理含义</th><th>相关叶片特性</th></tr></thead><tbody><tr><td>$\sigma(\lambda)$</td><td>微面元粗糙度</td><td>表皮纹理与表面起伏</td></tr><tr><td>$k(\lambda)$</td><td>漫反射系数</td><td>叶内散射及其对反射的漫反射贡献</td></tr><tr><td>$n(\lambda)$</td><td>折射率</td><td>折射与界面反射，受组织成分影响</td></tr></tbody></table>
-<p>采用自适应网格搜索结合最小二乘优化，将三个参数拟合到实测方向光谱。</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-由性状预测光学参数">3. 由性状预测光学参数<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#3-%E7%94%B1%E6%80%A7%E7%8A%B6%E9%A2%84%E6%B5%8B%E5%85%89%E5%AD%A6%E5%8F%82%E6%95%B0" class="hash-link" aria-label="3. 由性状预测光学参数的直接链接" title="3. 由性状预测光学参数的直接链接" translate="no">​</a></h3>
-<p>输入变量包括叶片厚度、比叶重、色素含量、显微图像得到的表面粗糙度以及波长。堆叠模型由以下部分组成：</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="延伸阅读">延伸阅读<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB" class="hash-link" aria-label="延伸阅读的直接链接" title="延伸阅读的直接链接" translate="no">​</a></h2>
 <ul>
-<li class="">支持向量回归（SVR）</li>
-<li class="">随机森林回归（RFR）</li>
-<li class="">梯度提升回归树（GBRT）</li>
-<li class="">以线性回归作为元学习器</li>
-</ul>
-<p>该模型把实测表型性状与 BRDF 参数直接联系起来，无需方向光谱测量即可估计叶片光学特性。</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-冠层尺度效应">4. 冠层尺度效应<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#4-%E5%86%A0%E5%B1%82%E5%B0%BA%E5%BA%A6%E6%95%88%E5%BA%94" class="hash-link" aria-label="4. 冠层尺度效应的直接链接" title="4. 冠层尺度效应的直接链接" translate="no">​</a></h3>
-<p>将预测的 BRDF 参数引入基于 <strong>fastTracer</strong> 的水稻冠层光线追踪。模拟结果表明，粗糙度、漫反射和折射特性的变化会改变冠层内光的垂直分布和角度分布。</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="主要结论">主要结论<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E4%B8%BB%E8%A6%81%E7%BB%93%E8%AE%BA" class="hash-link" aria-label="主要结论的直接链接" title="主要结论的直接链接" translate="no">​</a></h2>
-<ol>
-<li class="">基于物理的 BRDF 模型能够准确描述叶片的方向反射；</li>
-<li class="">叶片的结构与生化性状包含预测 BRDF 参数所需的信息；</li>
-<li class="">叶片光学特性的差异会显著改变冠层内的模拟光场，因此应在模型中显式表示叶片光学特性，而不是假设其均一。</li>
-</ol>
-<p>这些结果把叶片尺度的表型测量与辐射传输模型、冠层光合模型联系了起来。</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
-<p>模型基于覆盖四个物种、两个冠层位置和叶片两面的 <strong>270 条数据</strong>建立，适用于已测的性状范围和波长范围（400–1000 nm）；用于新物种和新条件时，需要补充测量以扩展模型。冠层模拟量化了光分布的变化，与田间产量的联系是下一步工作。将数据扩展到更多基因型、环境、发育阶段和水分状况，是本研究的后续方向。</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="代码与数据">代码与数据<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E4%BB%A3%E7%A0%81%E4%B8%8E%E6%95%B0%E6%8D%AE" class="hash-link" aria-label="代码与数据的直接链接" title="代码与数据的直接链接" translate="no">​</a></h2>
-<ul>
+<li class=""><strong><a class="" href="https://smiler488.github.io/zh-Hans/research/brdf-traits">项目页</a></strong>：完整的问题、方法、结果与局限，并附交互演示，可查看粗糙度、漫反射系数和折射率如何改变反射分布。</li>
 <li class=""><a href="https://github.com/PlantSystemsBiology/brdf" target="_blank" rel="noopener noreferrer" class="">BRDF 拟合脚本与粗糙度计算器</a></li>
 <li class=""><a href="https://github.com/PlantSystemsBiology/fastTracerPublic" target="_blank" rel="noopener noreferrer" class="">fastTracer 冠层光线追踪软件</a></li>
-<li class="">如论文所述，研究数据可向通讯作者合理索取。</li>
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="引用">引用<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E5%BC%95%E7%94%A8" class="hash-link" aria-label="引用的直接链接" title="引用的直接链接" translate="no">​</a></h2>
 <p>Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., &amp; Zhu, X.-G. (2025). <strong>Leaf bidirectional reflectance distribution function (BRDF) prediction with phenotypic traits in four species: Development of a novel measuring and analyzing framework.</strong> <em>Plant Phenomics, 7</em>(4), 100135. <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></p>]]></content:encoded>

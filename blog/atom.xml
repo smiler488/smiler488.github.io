@@ -113,66 +113,17 @@
         <link href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform"/>
         <updated>2025-11-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A desktop platform that processes hyperspectral, LiDAR, RGB and thermal phenotyping data with one interface, interactive parameter tuning, batch processing and structured exports.]]></summary>
-        <content type="html"><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="overview">Overview<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
-<p><img decoding="async" loading="lazy" alt="MCTP launcher with the four modality modules" src="https://smiler488.github.io/assets/images/mctp-a3e2c193dfe7f2e1f79851d669e02789.png" width="685" height="471" class="img_ev3q"></p>
-<p>A field phenotyping campaign with a walking platform produces four very different data types for every plot: hyperspectral cubes, LiDAR point clouds, RGB images and thermal images. Each normally needs its own software, parameter conventions and export format, which makes multi-modal trait analysis slow and hard to reproduce.</p>
-<p><strong>MCTP (Multi-modal Crop Trait Processing)</strong> puts the four modalities into one desktop platform with a shared interface, interactive parameter tuning, batch processing and structured exports. It was developed for the field walking phenotyping platform of Shufeng Bio; I was responsible for system optimization and for the data-processing and analysis methods.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="modules">Modules<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#modules" class="hash-link" aria-label="Direct link to Modules" title="Direct link to Modules" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="hyperspectral-hypervis">Hyperspectral (HyperVis)<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#hyperspectral-hypervis" class="hash-link" aria-label="Direct link to Hyperspectral (HyperVis)" title="Direct link to Hyperspectral (HyperVis)" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="Hyperspectral module" src="https://smiler488.github.io/assets/images/hyper-0ddc08d8ad83a43adae4d9d5f873a87d.png" width="689" height="458" class="img_ev3q"></p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="MCTP launcher with the four modality modules" src="https://smiler488.github.io/assets/images/mctp-a3e2c193dfe7f2e1f79851d669e02789.png" width="685" height="471" class="img_ev3q"></p>
+<p><strong>MCTP (Multi-modal Crop Trait Processing)</strong> is a desktop platform that processes hyperspectral, LiDAR, RGB and thermal phenotyping data with one interface, interactive parameter tuning, batch processing and structured JSON/CSV exports. It was developed for the field walking phenotyping platform of Shufeng Bio; I was responsible for system optimization and for the data-processing and analysis methods.</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="what-it-covers">What it covers<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#what-it-covers" class="hash-link" aria-label="Direct link to What it covers" title="Direct link to What it covers" translate="no">​</a></h2>
 <ul>
-<li class="">Reads ENVI HDR/SPE pairs and parses wavelength metadata.</li>
-<li class="">Detects the bands needed for vegetation indices from the wavelengths.</li>
-<li class="">Computes NDVI, builds plant masks with NIR thresholding, and removes specular glare with a percentile mask.</li>
-<li class="">Exports the leaf-region mean spectrum (CSV) and summary statistics (JSON).</li>
-<li class="">Shows RGB quicklook, NDVI, mask comparison, spectral curves and statistics in tabs.</li>
-<li class="">Processes whole directories of HDR/SPE pairs in batch.</li>
+<li class=""><strong>Hyperspectral:</strong> NDVI plant masks, glare removal and leaf-region mean spectra, processed in batch.</li>
+<li class=""><strong>LiDAR:</strong> RANSAC ground rebasing, DBSCAN plant segmentation and canopy traits: coverage, voxel occupancy, convex-hull volume and height percentiles H10/H50/H90.</li>
+<li class=""><strong>RGB:</strong> vegetation segmentation from three colour indices and labelling of individual plants.</li>
+<li class=""><strong>Thermal:</strong> temperature thresholds suggested from Otsu's method and percentiles, with overlay and heatmap previews.</li>
 </ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="lidar">LiDAR<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#lidar" class="hash-link" aria-label="Direct link to LiDAR" title="Direct link to LiDAR" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="LiDAR loading and preprocessing" src="https://smiler488.github.io/assets/images/lidar1-598d07870bada0169d278c122bc51a54.png" width="688" height="418" class="img_ev3q"></p>
-<p><img decoding="async" loading="lazy" alt="LiDAR segmentation and trait tuning" src="https://smiler488.github.io/assets/images/lidar2-86def58667ed07be8849d16abd26f5c6.png" width="684" height="439" class="img_ev3q"></p>
-<ul>
-<li class="">Reads PLY, LAS, LAZ and text point clouds.</li>
-<li class="">Rebases the ground plane with RANSAC, then voxel-downsamples, crops and colours by height.</li>
-<li class="">Segments plants with DBSCAN, tuned interactively in the SegTuner window.</li>
-<li class="">Computes canopy and plant traits: ground coverage, voxel occupancy, convex-hull volume and height percentiles H10, H50 and H90.</li>
-<li class="">Exports cropped point clouds and JSON trait reports.</li>
-</ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="rgb">RGB<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#rgb" class="hash-link" aria-label="Direct link to RGB" title="Direct link to RGB" translate="no">​</a></h3>
-<ul>
-<li class="">Segments vegetation by combining three colour indices, ExG, CIVE and VDI, with a joint threshold.</li>
-<li class="">Suppresses glare from water and plastic, and removes labels and borders.</li>
-<li class="">Keeps thin plants with adaptive morphology and skeleton enhancement.</li>
-<li class="">Separates individual plants with watershed and connected-component labelling.</li>
-<li class="">Exports overlay images, plot-level JSON metrics and per-plant CSV tables.</li>
-</ul>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="thermal">Thermal<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#thermal" class="hash-link" aria-label="Direct link to Thermal" title="Direct link to Thermal" translate="no">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="Thermal module" src="https://smiler488.github.io/assets/images/thermal-c0b862fb6c4d2ec659997e4273d6b314.png" width="688" height="457" class="img_ev3q"></p>
-<ul>
-<li class="">Loads BMP images with their DDT temperature matrices, with flipping and calibration.</li>
-<li class="">Suggests thresholds from Otsu's method and percentiles.</li>
-<li class="">Tunes temperature thresholds, HSV range and morphology with sliders.</li>
-<li class="">Previews overlay, heatmap and plant-only views.</li>
-<li class="">Exports PNG, NPY, CSV and JSON results.</li>
-</ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="shared-design">Shared design<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#shared-design" class="hash-link" aria-label="Direct link to Shared design" title="Direct link to Shared design" translate="no">​</a></h2>
-<ul>
-<li class=""><strong>One interface</strong> for all four modalities: control panel, live preview and processing log in the same layout.</li>
-<li class=""><strong>Interactive tuning</strong> with sliders, suggested thresholds and real-time previews, so parameters are set by inspecting the data.</li>
-<li class=""><strong>Batch processing</strong> for hyperspectral and RGB data; saved parameters are reused across samples for LiDAR and thermal data.</li>
-<li class=""><strong>Structured outputs</strong> in JSON and CSV, ready for statistics in R or Python and for trait–yield modelling.</li>
-</ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="recommended-use">Recommended use<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#recommended-use" class="hash-link" aria-label="Direct link to Recommended use" title="Direct link to Recommended use" translate="no">​</a></h2>
-<ol>
-<li class="">Archive the raw data and acquisition metadata unchanged.</li>
-<li class="">Open a representative sample and confirm file pairing, orientation and units.</li>
-<li class="">Tune parameters on the preview and check the difficult cases.</li>
-<li class="">Process a small batch and compare with the raw data, then scale up.</li>
-<li class="">Store thresholds, voxel sizes, clustering settings and the software version with the results.</li>
-</ol>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="scope-and-roadmap">Scope and roadmap<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#scope-and-roadmap" class="hash-link" aria-label="Direct link to Scope and roadmap" title="Direct link to Scope and roadmap" translate="no">​</a></h2>
-<p>The four modules process each modality separately and share conventions for parameters and exports; they do not yet register the modalities to each other. The next steps are cross-modal registration, time-series analysis across campaigns, shared project configuration templates, and batch processing and reporting on a server.</p>
-<p>To try MCTP or obtain sample data, see the contact details on the <a class="" href="https://smiler488.github.io/cv">CV page</a>.</p>]]></content>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="read-more">Read more<a href="https://smiler488.github.io/blog/mctp-unified-phenotyping-platform#read-more" class="hash-link" aria-label="Direct link to Read more" title="Direct link to Read more" translate="no">​</a></h2>
+<p>The <strong><a class="" href="https://smiler488.github.io/research/mctp-workspace">project page</a></strong> describes each module with screenshots, the recommended workflow and the roadmap. To try MCTP or obtain sample data, see the contact details on the <a class="" href="https://smiler488.github.io/cv">CV page</a>.</p>]]></content>
         <author>
             <name>Liangchao Deng</name>
             <uri>https://github.com/smiler488</uri>
@@ -188,10 +139,8 @@
         <link href="https://smiler488.github.io/blog/brdf-paper"/>
         <updated>2025-10-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A measuring and analysis framework that predicts leaf BRDF parameters from phenotypic traits in four species, combining directional spectroscopy, Cook–Torrance fitting, ensemble learning and canopy ray tracing (Plant Phenomics, 2025).]]></summary>
-        <content type="html"><![CDATA[<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="overview">Overview<a href="https://smiler488.github.io/blog/brdf-paper#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
-<p><img decoding="async" loading="lazy" alt="Directional spectrum measurement and BRDF prediction workflow" src="https://smiler488.github.io/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
-<p>Leaves do not reflect light equally in all directions. Their anatomy, pigments and microscopic surface roughness determine how light is scattered, and therefore how it is distributed inside a canopy, yet most canopy models treat leaves as Lambertian reflectors. Measuring the directional reflectance of every leaf is impractical.</p>
-<p>This study develops a framework that predicts leaf optical properties from traits that are easy to measure. It combines a custom-built <strong>Directional Spectrum Detection Instrument (DSDI)</strong>, Cook–Torrance <strong>bidirectional reflectance distribution function (BRDF)</strong> fitting, phenotypic measurements and ensemble learning, and then uses canopy ray tracing to quantify how the predicted optical properties change light distribution in a canopy.</p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="Directional spectrum measurement and BRDF prediction workflow" src="https://smiler488.github.io/assets/images/brdf_cover-5aabff311ab2865f0245b78b6754f1ad.jpg" width="2236" height="1696" class="img_ev3q"></p>
+<p>Our study on predicting leaf BRDF from phenotypic traits is published in <em>Plant Phenomics</em> (2025). Leaf directional reflectance can be predicted from traits that are easy to measure, and the resulting differences in leaf optics change how light is distributed inside a simulated canopy. The framework combines a custom-built Directional Spectrum Detection Instrument (DSDI), Cook–Torrance BRDF fitting, ensemble learning and canopy ray tracing.</p>
 <div class="altmetric-embed brdfAltmetric" data-badge-type="donut" data-doi="10.1016/j.plaphe.2025.100135" data-hide-no-mentions="false"></div>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="at-a-glance">At a glance<a href="https://smiler488.github.io/blog/brdf-paper#at-a-glance" class="hash-link" aria-label="Direct link to At a glance" title="Direct link to At a glance" translate="no">​</a></h2>
 <ul>
@@ -201,39 +150,11 @@
 <li class=""><strong>Predictive model:</strong> a stacking ensemble built from support vector, random forest, and gradient boosting regressors.</li>
 <li class=""><strong>Performance:</strong> BRDF fitting $R^2 &gt; 0.95$; ensemble prediction $R^2 = 0.83$–$0.99$, depending on the parameter.</li>
 </ul>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="measurement-and-modeling-workflow">Measurement and modeling workflow<a href="https://smiler488.github.io/blog/brdf-paper#measurement-and-modeling-workflow" class="hash-link" aria-label="Direct link to Measurement and modeling workflow" title="Direct link to Measurement and modeling workflow" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="1-measure-directional-reflectance">1. Measure directional reflectance<a href="https://smiler488.github.io/blog/brdf-paper#1-measure-directional-reflectance" class="hash-link" aria-label="Direct link to 1. Measure directional reflectance" title="Direct link to 1. Measure directional reflectance" translate="no">​</a></h3>
-<p>The DSDI uses a xenon light source, a fiber spectrometer, and mechanically controlled illumination and viewing angles. A Lambertian white reference is used to calibrate reflectance before leaf measurements.</p>
-<p>Both adaxial and abaxial surfaces were measured, since the two differ in epidermal structure and optical response.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-fit-the-brdf-model">2. Fit the BRDF model<a href="https://smiler488.github.io/blog/brdf-paper#2-fit-the-brdf-model" class="hash-link" aria-label="Direct link to 2. Fit the BRDF model" title="Direct link to 2. Fit the BRDF model" translate="no">​</a></h3>
-<p>The Cook–Torrance formulation represents diffuse and specular reflection with three wavelength-dependent parameters:</p>
-<table><thead><tr><th>Parameter</th><th>Physical interpretation</th><th>Related leaf properties</th></tr></thead><tbody><tr><td>$\sigma(\lambda)$</td><td>Microfacet roughness</td><td>Epidermal texture and surface irregularity</td></tr><tr><td>$k(\lambda)$</td><td>Diffuse reflection coefficient</td><td>Internal scattering and the diffuse contribution to reflectance</td></tr><tr><td>$n(\lambda)$</td><td>Refractive index</td><td>Refraction and interface reflection, influenced by tissue composition</td></tr></tbody></table>
-<p>Adaptive grid search and least-squares optimization were used to fit these parameters to the measured directional spectra.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-predict-optical-parameters-from-traits">3. Predict optical parameters from traits<a href="https://smiler488.github.io/blog/brdf-paper#3-predict-optical-parameters-from-traits" class="hash-link" aria-label="Direct link to 3. Predict optical parameters from traits" title="Direct link to 3. Predict optical parameters from traits" translate="no">​</a></h3>
-<p>The input variables included leaf thickness, specific leaf weight, pigment measurements, microscopy-derived surface roughness, and wavelength. The stacking model combines:</p>
+<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="read-more">Read more<a href="https://smiler488.github.io/blog/brdf-paper#read-more" class="hash-link" aria-label="Direct link to Read more" title="Direct link to Read more" translate="no">​</a></h2>
 <ul>
-<li class="">Support Vector Regression (SVR)</li>
-<li class="">Random Forest Regression (RFR)</li>
-<li class="">Gradient Boosting Regression Trees (GBRT)</li>
-<li class="">Linear regression as the meta-learner</li>
-</ul>
-<p>The model links measured phenotypic traits directly to BRDF parameters, so that leaf optical properties can be estimated without directional spectral measurement.</p>
-<h3 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="4-canopy-scale-effects">4. Canopy-scale effects<a href="https://smiler488.github.io/blog/brdf-paper#4-canopy-scale-effects" class="hash-link" aria-label="Direct link to 4. Canopy-scale effects" title="Direct link to 4. Canopy-scale effects" translate="no">​</a></h3>
-<p>Predicted BRDF parameters were introduced into a rice-canopy ray-tracing workflow based on <strong>fastTracer</strong>. The simulations show that changing roughness, diffuse reflection, or refractive behavior can alter the vertical and angular distribution of light inside a canopy.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="main-findings">Main findings<a href="https://smiler488.github.io/blog/brdf-paper#main-findings" class="hash-link" aria-label="Direct link to Main findings" title="Direct link to Main findings" translate="no">​</a></h2>
-<ol>
-<li class="">Directional leaf reflectance can be represented accurately with a physically based BRDF model.</li>
-<li class="">Structural and biochemical leaf traits contain useful information for predicting BRDF parameters.</li>
-<li class="">Differences in leaf optical properties substantially change the simulated light field inside a canopy, so leaf optics should be represented explicitly rather than assumed uniform.</li>
-</ol>
-<p>Together these results connect leaf-scale phenotyping to radiative-transfer and canopy-photosynthesis models.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="scope-and-limitations">Scope and limitations<a href="https://smiler488.github.io/blog/brdf-paper#scope-and-limitations" class="hash-link" aria-label="Direct link to Scope and limitations" title="Direct link to Scope and limitations" translate="no">​</a></h2>
-<p>The model was built from <strong>270 data entries</strong> covering four species, two canopy positions and both leaf surfaces, and applies within the measured trait and wavelength ranges (400–1000 nm); new species and conditions require new measurements to extend it. The canopy simulations quantify changes in light distribution; linking them to field yield is a subsequent step. Extending the dataset to more genotypes, environments, developmental stages and water status is the next step of this work.</p>
-<h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="code-and-data-availability">Code and data availability<a href="https://smiler488.github.io/blog/brdf-paper#code-and-data-availability" class="hash-link" aria-label="Direct link to Code and data availability" title="Direct link to Code and data availability" translate="no">​</a></h2>
-<ul>
+<li class=""><strong><a class="" href="https://smiler488.github.io/research/brdf-traits">Project page</a></strong>: the full problem, method, results and limitations, with an interactive explorer showing how roughness, diffuse reflection and refractive index shape the reflectance pattern.</li>
 <li class=""><a href="https://github.com/PlantSystemsBiology/brdf" target="_blank" rel="noopener noreferrer" class="">BRDF fitting scripts and Roughness Calculator</a></li>
 <li class=""><a href="https://github.com/PlantSystemsBiology/fastTracerPublic" target="_blank" rel="noopener noreferrer" class="">fastTracer canopy ray-tracing software</a></li>
-<li class="">The study data are available from the corresponding author upon reasonable request, as stated in the published article.</li>
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="citation">Citation<a href="https://smiler488.github.io/blog/brdf-paper#citation" class="hash-link" aria-label="Direct link to Citation" title="Direct link to Citation" translate="no">​</a></h2>
 <p>Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., &amp; Zhu, X.-G. (2025). <strong>Leaf bidirectional reflectance distribution function (BRDF) prediction with phenotypic traits in four species: Development of a novel measuring and analyzing framework.</strong> <em>Plant Phenomics, 7</em>(4), 100135. <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></p>]]></content>
