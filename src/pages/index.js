@@ -82,15 +82,39 @@ function HomepageHeader() {
         data-particle-obstacle
         aria-labelledby="home-hero-title"
       >
-        {/* Identity: the emblem as a round avatar with its name capsule */}
-        <div className={styles.identity}>
+        {/* Copy column: eyebrow, the name as the page heading, intro, one
+            blue action and two circled-arrow links (muse-design page layer) */}
+        <div className={styles.heroCopy}>
+          <p className={styles.heroEyebrow}>
+            AI<span className={styles.four}>4</span>Plant
+          </p>
+          <Heading as="h1" id="home-hero-title" className={styles.heroName}>
+            {copy.eyebrow}
+          </Heading>
+          <p className={styles.heroIntro}>{copy.intro}</p>
+
+          <div className={styles.actionRow}>
+            <Link className={styles.primaryAction} to="#research-heading">
+              {copy.primaryAction}
+            </Link>
+            <Link className={styles.arrowAction} to="/app">
+              {copy.appAction}
+            </Link>
+            <Link className={styles.arrowAction} to="/cv">
+              {copy.cvAction}
+            </Link>
+          </div>
+        </div>
+
+        {/* Media column: the emblem in a soft panel, with its name capsule */}
+        <div className={styles.heroMedia}>
           <img
             className={styles.emblem}
             src={emblem}
             srcSet={`${emblem} 360w, ${emblem2x} 720w`}
-            sizes="(max-width: 700px) 144px, 176px"
-            width="176"
-            height="176"
+            sizes="(max-width: 860px) 60vw, 360px"
+            width="360"
+            height="360"
             alt={copy.emblemAlt}
           />
           <span className={styles.identityTag}>
@@ -102,23 +126,6 @@ function HomepageHeader() {
               AI<span className={styles.four}>4</span>Plant
             </span>
           </span>
-        </div>
-        {/* The name is the page heading */}
-        <Heading as="h1" id="home-hero-title" className={styles.heroName}>
-          {copy.eyebrow}
-        </Heading>
-        <p className={styles.heroIntro}>{copy.intro}</p>
-
-        <div className={styles.actionRow}>
-          <Link className={styles.primaryAction} to="#research-heading">
-            {copy.primaryAction}
-          </Link>
-          <Link className={styles.secondaryAction} to="/app">
-            {copy.appAction}
-          </Link>
-          <Link className={styles.textAction} to="/cv">
-            {copy.cvAction}
-          </Link>
         </div>
       </div>
 

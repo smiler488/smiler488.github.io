@@ -11,11 +11,54 @@
   font-variant-numeric: tabular-nums;
 }
 
-.validationNote {
+/* "How it was validated": a quiet disclosure under the status line */
+.validation {
   flex-basis: 100%;
-  max-width: 72ch;
-  color: var(--ifm-color-emphasis-700);
-  line-height: 1.5;
+  max-width: 44rem;
+  margin-top: 0.25rem;
+}
+
+.validation summary {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: fit-content;
+  color: var(--ds-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.validation summary::-webkit-details-marker {
+  display: none;
+}
+
+.validation summary::before {
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(currentcolor 0 0) center / 12px 1.5px no-repeat,
+    linear-gradient(currentcolor 0 0) center / 1.5px 12px no-repeat;
+  content: "";
+  transition: background-size var(--ds-dur-menu) var(--ds-ease);
+}
+
+.validation[open] summary::before {
+  background-size: 12px 1.5px, 1.5px 0;
+}
+
+.validation summary:focus-visible {
+  outline: 2px solid var(--ds-primary);
+  outline-offset: 3px;
+  border-radius: var(--ds-radius-xs);
+}
+
+.validation p {
+  margin: 0.5rem 0 0;
+  color: var(--ds-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
 }
 
 .maturity {

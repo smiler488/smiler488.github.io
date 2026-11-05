@@ -5,8 +5,14 @@
 .labSection,
 .collaborationSection {
   position: relative;
-  padding: clamp(3.5rem, 7vw, 5.5rem) 16px;
+  padding: var(--ds-section-y) 0;
   background: var(--ds-bg);
+}
+
+/* Sections are split by full-width hairlines, not boxes (D-023) */
+.researchSection,
+.labSection {
+  border-top: 1px solid var(--ds-line);
 }
 
 .collaborationSection {
@@ -16,7 +22,7 @@
 
 .sectionShell,
 .collaborationCard {
-  width: min(1120px, 100%);
+  width: min(100% - 2 * var(--ds-gutter), var(--ds-wide));
   margin: 0 auto;
 }
 
@@ -71,20 +77,111 @@
 .layerStage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
 }
 
-/* The morph sizes itself for a full-width row; in the stage it fills its column */
-.layerStage > :first-child {
+/* Layer list: hairline rows, light titles, +/−; one row always open */
+.layerList {
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.layerItem {
+  border-top: 1px solid var(--ds-line);
+}
+
+.layerTrigger {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
   width: 100%;
+  padding: 1.5rem 0;
+  color: var(--ds-text);
+  font: inherit;
+  font-size: var(--ds-title-item);
+  font-weight: 300;
+  line-height: 1.25;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.layerTrigger::after {
+  flex: none;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  background:
+    linear-gradient(currentcolor 0 0) center / 16px 1.5px no-repeat,
+    linear-gradient(currentcolor 0 0) center / 1.5px 16px no-repeat;
+  content: "";
+  transition: background-size var(--ds-dur-menu) var(--ds-ease);
+}
+
+.layerTrigger[aria-expanded="true"]::after {
+  background-size: 16px 1.5px, 1.5px 0;
+}
+
+.layerTrigger:focus-visible {
+  outline: 2px solid var(--ds-primary);
+  outline-offset: 2px;
+}
+
+.layerIndex {
+  min-width: 2rem;
+  color: var(--ds-primary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.layerPanel {
+  padding: 0 0 1.75rem 3rem;
+}
+
+.layerPanel p {
+  max-width: 30rem;
   margin: 0;
+  color: var(--ds-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.layerLink {
+  display: inline-flex;
+  gap: 0.625rem;
+  align-items: center;
+  margin-top: 1rem;
+  color: var(--ds-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.layerLink::before {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--ds-line);
+  border-radius: 50%;
+  background: center / 12px no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%230457cb' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 2.5 8 6l-3.5 3.5'/%3E%3C/svg%3E");
+  content: "";
+}
+
+.layerLink:hover {
+  color: var(--ds-primary-hover);
+  text-decoration: none;
 }
 
 .showcase {
   display: grid;
   width: 100%;
   border-radius: var(--ds-radius-lg);
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
   background: var(--ds-surface);
   overflow: hidden;
 }
@@ -457,4 +554,9 @@
   .botAction:active {
     transform: none;
   }
+}
+
+/* The chevron is an image, so dark mode needs its own light-blue copy */
+:global(html[data-theme="dark"]) .layerLink::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%235ea3ff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 2.5 8 6l-3.5 3.5'/%3E%3C/svg%3E");
 }

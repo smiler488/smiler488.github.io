@@ -287,3 +287,50 @@
   color: var(--ifm-color-emphasis-600);
   line-height: 1;
 }
+
+/* ── Page layer (muse-design v1.2, D-025) ─────────────────────────────
+   Left-aligned header like the other pages: blue uppercase eyebrow,
+   48px title, slate lead, a hairline before the cards. */
+.container {
+  width: min(100% - 2 * var(--ds-gutter), var(--ds-wide));
+  max-width: none;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 var(--ds-section-y);
+}
+
+.header {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  text-align: left;
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.eyebrow {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 22ch;
+  margin-bottom: 0;
+  color: var(--ds-text);
+  line-height: 1.17;
+}
+
+.subtitle,
+.disclosure {
+  max-width: var(--ds-measure);
+  margin-inline: 0;
+}
+
+.subtitle {
+  margin-top: 1rem;
+  color: var(--ds-text-muted);
+  font-size: var(--ds-text-lead);
+  line-height: 1.45;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+}

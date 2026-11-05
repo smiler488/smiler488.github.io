@@ -48,6 +48,7 @@ const COPY = {
     version: "Version",
     validated: (d) => `Validated ${d}`,
     notValidated: "Validation pending",
+    howValidated: "How it was validated",
     fair: "FAIR export (MIAPPE)",
     fairHint:
       "Download these observations as a MIAPPE spreadsheet: trait, method and unit carry ontology accessions (Plant Trait Ontology, Plant Ontology, PATO, UO), ready for repositories that accept MIAPPE.",
@@ -87,6 +88,7 @@ const COPY = {
     version: "版本",
     validated: (d) => `验证于 ${d}`,
     notValidated: "待验证",
+    howValidated: "验证方法",
     fair: "FAIR 导出（MIAPPE）",
     fairHint:
       "把这些观测导出为 MIAPPE 表格：性状、方法与单位都带本体编号（植物性状本体 TO、植物本体 PO、PATO、UO），可直接提交给接受 MIAPPE 的数据仓库。",
@@ -142,8 +144,12 @@ export function ToolStatus({ app }) {
       <span>
         {app.validatedAt ? copy.validated(app.validatedAt) : copy.notValidated}
       </span>
+      {/* The method stays one click away; the status line carries the verdict */}
       {app.validation?.[locale] && (
-        <span className={styles.validationNote}>{app.validation[locale]}</span>
+        <details className={styles.validation}>
+          <summary>{copy.howValidated}</summary>
+          <p>{app.validation[locale]}</p>
+        </details>
       )}
     </div>
   );

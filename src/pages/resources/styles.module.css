@@ -1190,3 +1190,44 @@
     border: 1px solid CanvasText;
   }
 }
+
+/* ── Page layer (muse-design v1.2, D-025) ─────────────────────────────
+   Wide page, narrow text, a lead in slate, weight-500 numbers, and the
+   two sections split by full-width hairlines. */
+.page {
+  padding: clamp(1rem, 3vw, 2.5rem) 0 var(--ds-section-y);
+  background: var(--ds-bg);
+}
+
+.shell {
+  width: min(100% - 2 * var(--ds-gutter), var(--ds-wide));
+}
+
+.heroTitle {
+  max-width: 22ch;
+}
+
+.heroDescription {
+  max-width: var(--ds-measure);
+  margin-top: 1rem;
+  font-size: var(--ds-text-lead);
+  line-height: 1.45;
+}
+
+.heroStats dd {
+  font-size: var(--ds-title-card);
+  font-weight: var(--ds-weight-heading);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.pathsSection,
+.catalogSection {
+  margin-top: 0;
+  padding-top: var(--ds-section-y);
+}
+
+.catalogSection {
+  margin-top: var(--ds-section-y);
+  border-top: 1px solid var(--ds-line);
+}

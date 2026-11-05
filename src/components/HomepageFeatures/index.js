@@ -2,12 +2,8 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
-import LayerMorph from "@site/src/components/LayerMorph";
-
-// Each animation step links to the research hub filtered to that layer.
-const LAYER_EVIDENCE = ["DIG", "UND", "PRE", "DES"].map(
-  (id) => `/research?layer=${id}`
-);
+import { LAYERS } from "@site/src/data/publications";
+import { useLocalize } from "@site/src/components/ds";
 import styles from "./styles.module.css";
 
 const CONTENT = {
@@ -18,6 +14,7 @@ const CONTENT = {
       "A four-layer architecture for crop intelligence — digitize the physical crop, understand its mechanisms, predict its future, and design what it should become.",
     steps: ["Digitize", "Understand", "Predict", "Design"],
     stepEvidence: (step) => `Evidence for ${step}`,
+    seeEvidence: "See the evidence",
     research: [
       {
         mark: "I",
@@ -105,6 +102,7 @@ const CONTENT = {
       "作物智能的四层架构——把物理作物数字化、理解其机理、预测其未来，并设计它应有的样子。",
     steps: ["数字化", "理解", "预测", "设计"],
     stepEvidence: (step) => `查看「${step}」层的证据`,
+    seeEvidence: "查看证据",
     research: [
       {
         mark: "I",
@@ -185,6 +183,44 @@ const CONTENT = {
     botAction: "微信咨询机器人",
   },
 };
+
+/**
+ * The four layers as a disclosure list paired with their drawing (the
+ * product page's "features" pattern, D-025): one row is always open, and the
+ * drawing beside it follows. Names and summaries come from LAYERS, the same
+ * source as /research.
+ */
+function LayerFeatures({ items, active, onSelect, evidenceLabel }) {
+  const localize = useLocalize();
+  return (
+    <div className={styles.layerList}>
+      {LAYERS.map((layer, index) => {
+        const open = index === active;
+        const panelId = `layer-panel-${layer.id}`;
+        return (
+          <div key={layer.id} className={styles.layerItem}>
+            <button
+              type="button"
+              className={styles.layerTrigger}
+              aria-expanded={open}
+              aria-controls={panelId}
+              onClick={() => onSelect(index)}
+            >
+              <span className={styles.layerIndex}>{layer.index}</span>
+              <span>{localize(layer.name)}</span>
+            </button>
+            <div id={panelId} className={styles.layerPanel} hidden={!open}>
+              <p>{localize(layer.summary)}</p>
+              <Link className={styles.layerLink} to={items[index].href}>
+                {evidenceLabel}
+              </Link>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // The four layer drawings stacked in one frame; only the current layer is
 // visible and reachable. The others stay mounted so switching is instant.
@@ -269,12 +305,11 @@ export default function HomepageFeatures() {
             <p>{copy.researchIntro}</p>
           </div>
           <div className={styles.layerStage}>
-            <LayerMorph
-              steps={copy.steps}
-              label={copy.researchTitle}
-              evidenceHrefs={LAYER_EVIDENCE}
-              evidenceLabel={copy.stepEvidence}
-              onActiveChange={setLayer}
+            <LayerFeatures
+              items={copy.research}
+              active={layer}
+              onSelect={setLayer}
+              evidenceLabel={copy.seeEvidence}
             />
             <LayerShowcase items={copy.research} active={layer} />
           </div>

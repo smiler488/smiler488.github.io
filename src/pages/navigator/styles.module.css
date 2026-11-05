@@ -1077,3 +1077,81 @@
     border: 1px solid CanvasText;
   }
 }
+
+/* ── Page layer (muse-design v1.2, D-025) ─────────────────────────────
+   Unboxed header with a plain blue eyebrow, a soft rail, and an unboxed
+   directory whose groups are split by hairlines. Overrides the panel
+   styling above; the layout and behaviour are unchanged. */
+.page {
+  padding: clamp(1rem, 3vw, 2.5rem) 0 var(--ds-section-y);
+  background: var(--ds-bg);
+}
+
+.shell {
+  width: min(100% - 2 * var(--ds-gutter), var(--ds-wide));
+}
+
+.hero {
+  padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(2rem, 4vw, 3rem);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--ds-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.eyebrow {
+  min-height: 0;
+  padding: 0;
+  color: var(--ds-primary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  background: none;
+  border: 0;
+  text-transform: uppercase;
+}
+
+.updatedPill {
+  min-height: 0;
+  padding: 0;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  font-weight: 400;
+  background: none;
+  border: 0;
+}
+
+.heroDescription {
+  max-width: var(--ds-measure);
+  margin-top: 1rem;
+  font-size: var(--ds-text-lead);
+  line-height: 1.45;
+}
+
+.categoryRail {
+  background: var(--ds-surface);
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  box-shadow: none;
+}
+
+.directoryLayout {
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.directoryPanel {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.groupHeader {
+  margin-inline: 0;
+  border-bottom-color: var(--ds-line);
+}
+
+.groupIcon {
+  border-radius: 50%;
+}
