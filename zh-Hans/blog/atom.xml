@@ -375,7 +375,7 @@
 <li class="">光照、相机、背景、作物或生育期改变后，需要重新检查参数。</li>
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="相关浏览器工具">相关浏览器工具<a href="https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial#%E7%9B%B8%E5%85%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E5%85%B7" class="hash-link" aria-label="相关浏览器工具的直接链接" title="相关浏览器工具的直接链接" translate="no">​</a></h2>
-<p>实验室中的<a class="" href="https://smiler488.github.io/zh-Hans/app/image">生物样本量化器</a>通过托管服务在浏览器中提供同类分析（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/image-quantifier-tutorial">教程</a>）；与本地脚本不同，它需要上传图像进行处理。</p>]]></content>
+<p>实验室中的<a class="" href="https://smiler488.github.io/zh-Hans/app/image">图像量化器</a>通过托管服务在浏览器中提供同类分析（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/image-quantifier-tutorial">教程</a>）；与本地脚本不同，它需要上传图像进行处理。</p>]]></content>
         <author>
             <name>Liangchao Deng</name>
             <uri>https://github.com/smiler488</uri>
@@ -552,7 +552,7 @@
 <p><img decoding="async" loading="lazy" alt="CCO 航线设计示意" src="https://smiler488.github.io/zh-Hans/assets/images/cco-a3f05a0205f19eef2bf776ea0594921f.png" width="416" height="244" class="img_ev3q"></p>
 <p>CCO 在农田上空沿交叉方向飞行多组环绕倾斜航线。冠层中每个点都能从多个方位角、两个及以上观测角度被拍到，从而加强 SfM 的几何约束，补全垂直航测难以拍到的冠层侧面。另加一组网格航线，为正射影像提供均匀覆盖。航向和旁向重叠率高于正射测图的要求，因为目标是三维重建而不是二维拼接。</p>
 <p>飞行高度、环绕半径、相机俯仰角和重叠率根据所需地面采样距离、冠层高度和需要分辨的最小结构确定，并在正式采集前用试验区块检验。尺度与地理参考来自地面控制点（GCP）或 RTK/PPK 定位。</p>
-<p>浏览器中的 <a class="" href="https://smiler488.github.io/zh-Hans/app/cco">CCO 航线生成器</a> 可将 KML 田块边界转换为兼容大疆的 KML、WPML 和 KMZ 任务文件，用法见<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/cco-mission-planner-tutorial">教程</a>。</p>
+<p>浏览器中的 <a class="" href="https://smiler488.github.io/zh-Hans/app/cco">CCO 航线规划器</a> 可将 KML 田块边界转换为兼容大疆的 KML、WPML 和 KMZ 任务文件，用法见<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/cco-mission-planner-tutorial">教程</a>。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="2-图像采集">2. 图像采集<a href="https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping#2-%E5%9B%BE%E5%83%8F%E9%87%87%E9%9B%86" class="hash-link" aria-label="2. 图像采集的直接链接" title="2. 图像采集的直接链接" translate="no">​</a></h2>
 <p>采集时锁定曝光和对焦，快门速度足以冻结飞机运动和叶片摆动。选择风小、光照稳定的时段飞行，离开田间前以原始分辨率检查代表性图像。每次飞行记录飞机、相机、航线几何、坐标系、天气和时间。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="3-空间参考正射影像dsm-与点云">3. 空间参考：正射影像、DSM 与点云<a href="https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping#3-%E7%A9%BA%E9%97%B4%E5%8F%82%E8%80%83%E6%AD%A3%E5%B0%84%E5%BD%B1%E5%83%8Fdsm-%E4%B8%8E%E7%82%B9%E4%BA%91" class="hash-link" aria-label="3. 空间参考：正射影像、DSM 与点云的直接链接" title="3. 空间参考：正射影像、DSM 与点云的直接链接" translate="no">​</a></h2>
@@ -647,7 +647,7 @@
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/root-quantify#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
 <p>阈值分割对阴影、反光、基质和重叠根系敏感，这正是工具保留人工修正环节的原因；而人工修正会引入操作者差异，因此修改应尽量少并留有记录。二值输出不保留颜色和灰度信息。交互式设计面向实验规模图像集的精细处理，而非无人值守的高通量处理；性状测量本身在下游软件中完成。</p>
-<p>实验室中另有浏览器版本：<a class="" href="https://smiler488.github.io/zh-Hans/app/root-processor">根系图像预处理器</a>（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/root-preprocessor-tutorial">教程</a>）。</p>]]></content>
+<p>实验室中另有浏览器版本：<a class="" href="https://smiler488.github.io/zh-Hans/app/root-processor">根系预处理器</a>（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/root-preprocessor-tutorial">教程</a>）。</p>]]></content>
         <author>
             <name>Liangchao Deng</name>
             <uri>https://github.com/smiler488</uri>

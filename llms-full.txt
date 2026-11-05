@@ -34,19 +34,19 @@ Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](htt
 
 Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
 
-- [Device Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, leaf inclination, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
+- [Sensor Recorder](https://smiler488.github.io/app/sensor): Capture phone orientation, leaf inclination, location and solar geometry as timestamped field records, then export a research-ready CSV. [DIG]
 - [Land Surveyor](https://smiler488.github.io/app/land-survey): Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu. [DIG]
-- [Irrigation Layout Designer](https://smiler488.github.io/app/irrigation-designer): Check a drip-irrigation block: lateral, submain and mainline losses, pressure at the farthest subunit and emitter flow variation, with a validated model. [DES]
-- [NASA POWER Weather Downloader](https://smiler488.github.io/app/weather): Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results. [PRE]
-- [CCO Waylines Builder](https://smiler488.github.io/app/cco): Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings. [DIG]
-- [Biological Sample Quantifier](https://smiler488.github.io/app/image): Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements. [DIG]
-- [Root Image Preprocessor](https://smiler488.github.io/app/root-processor): RootQuantify in the browser: trace the root region, remove the background by morphological closing, threshold at full resolution and correct by hand. [DIG]
-- [Stereo Vision Workspace](https://smiler488.github.io/app/stereo): Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres. [DIG]
-- [Calibration Targets Generator](https://smiler488.github.io/app/targets): Generate printable checkerboards and segmented circular markers at exact millimetre sizes, with fit checks and PDF export. [DIG]
+- [Irrigation Designer](https://smiler488.github.io/app/irrigation-designer): Check a drip-irrigation block: lateral, submain and mainline losses, pressure at the farthest subunit and emitter flow variation, with a validated model. [DES]
+- [Weather Downloader](https://smiler488.github.io/app/weather): Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results. [PRE]
+- [CCO Mission Planner](https://smiler488.github.io/app/cco): Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings. [DIG]
+- [Image Quantifier](https://smiler488.github.io/app/image): Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements. [DIG]
+- [Root Preprocessor](https://smiler488.github.io/app/root-processor): RootQuantify in the browser: trace the root region, remove the background by morphological closing, threshold at full resolution and correct by hand. [DIG]
+- [Stereo Vision](https://smiler488.github.io/app/stereo): Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres. [DIG]
+- [Calibration Target Generator](https://smiler488.github.io/app/targets): Generate printable checkerboards and segmented circular markers at exact millimetre sizes, with fit checks and PDF export. [DIG]
 - [AI Data Visualizer](https://smiler488.github.io/app/ai-data-visualizer): Load a table and chart it from the full data; an optional AI provider suggests the chart, and group comparisons run ANOVA and Tukey tests locally. [UND]
-- [AI Journal Selector](https://smiler488.github.io/app/journal-selector): Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data; an AI model you choose can add a written submission strategy.
+- [Journal Selector](https://smiler488.github.io/app/journal-selector): Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data; an AI model you choose can add a written submission strategy.
 - [Data Integrity Screen](https://smiler488.github.io/app/data-integrity): Screen CSV, TXT or Excel research data for duplicated or near-identical records, pasted runs of values, uneven final digits, equal increments and impossible means, and export a report a reviewer can check cell by cell.
-- [Multimodal AI Solver](https://smiler488.github.io/app/solver): Answer lab safety exam questions and other problems from a screen capture, photo or text: a clear answer with its reason, a second independent answer as a check, and a self-test of your model.
+- [AI Solver](https://smiler488.github.io/app/solver): Answer lab safety exam questions and other problems from a screen capture, photo or text: a clear answer with its reason, a second independent answer as a check, and a self-test of your model.
 - [Encrypted Note](https://smiler488.github.io/app/cloudnote): Encrypt a text note in the browser, share it through a URL fragment or keep a password-protected copy in local storage.
 - [Research Maze](https://smiler488.github.io/app/maze): A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores.
 
@@ -522,7 +522,7 @@ Save exclusions rather than silently deleting them.
 
 ## Related browser tool
 
-The [Biological Sample Quantifier](/app/image) in the App Lab offers the same kind of analysis in the browser through a hosted service ([tutorial](/docs/tutorial-apps/image-quantifier-tutorial)); unlike the local script, it uploads images for processing.
+The [Image Quantifier](/app/image) in the App Lab offers the same kind of analysis in the browser through a hosted service ([tutorial](/docs/tutorial-apps/image-quantifier-tutorial)); unlike the local script, it uploads images for processing.
 
 
 ---
@@ -644,7 +644,7 @@ CCO flies sets of circular oblique paths in crossing directions over the field. 
 
 Flight altitude, circle radius, camera pitch and overlap are chosen from the required ground sampling distance, the canopy height and the smallest structure that must be resolved, and are tested on a pilot block before a campaign. Scale and geo-reference come from ground control points (GCPs) or RTK/PPK positioning.
 
-The browser-based [CCO Waylines Builder](/app/cco) turns a KML field boundary into DJI-compatible KML, WPML and KMZ mission files; the [tutorial](/docs/tutorial-apps/cco-mission-planner-tutorial) explains its use.
+The browser-based [CCO Mission Planner](/app/cco) turns a KML field boundary into DJI-compatible KML, WPML and KMZ mission files; the [tutorial](/docs/tutorial-apps/cco-mission-planner-tutorial) explains its use.
 
 ## 2. Image acquisition
 
@@ -797,7 +797,7 @@ For reproducible work, save the following alongside the outputs:
 
 Threshold segmentation is sensitive to shadows, reflections, substrate and overlapping roots, which is why the tool includes manual correction; correction in turn introduces operator variability, so edits are kept minimal and logged. The binary output drops colour and intensity information. The interactive design targets careful processing of experiment-sized image sets rather than unattended high-throughput runs; trait measurement itself is done in the downstream software.
 
-A browser version is available in the App Lab: [Root Image Preprocessor](/app/root-processor) ([tutorial](/docs/tutorial-apps/root-preprocessor-tutorial)).
+A browser version is available in the App Lab: [Root Preprocessor](/app/root-processor) ([tutorial](/docs/tutorial-apps/root-preprocessor-tutorial)).
 
 
 ---
