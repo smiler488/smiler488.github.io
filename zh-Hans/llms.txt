@@ -23,6 +23,13 @@
 - [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. 同行评议论文. DOI 10.1016/j.plaphe.2025.100135. [UND]
 - [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. 科研软件. DOI 10.5281/zenodo.17544584. [DIG]
 
+## 数据集
+
+- [转台摄影测量（SfM）重建的盆栽棉花点云](https://smiler488.github.io/zh-Hans/data#cotton-sfm-pointcloud): 一株生长室盆栽棉花（样本 cotton_20240109-84-5），以运动恢复结构（SfM）重建，并按器官标注。 39,765 个点 · 3 类器官. https://smiler488.github.io/data/cotton3d/sfm.bin. [DIG]
+- [单图像三维生成式人工智能重建的棉花点云](https://smiler488.github.io/zh-Hans/data#cotton-generative-pointcloud): 同一株棉花由单张图像经三维生成式人工智能重建，用于与 SfM 参考点云对比。 60,000 个点（由 177,357 个点按类别体素降采样）· 3 类器官. https://smiler488.github.io/data/cotton3d/gen.bin. [DIG]
+- [带叶片光学属性的棉花冠层三角面元模型](https://smiler488.github.io/zh-Hans/data#cotton-canopy-mesh): 由同一株重建植株复制排布而成的 24 株冠层，按光学类别赋反射率与透射率，用于冠层光分布与光合建模。 完整模型 1,613,632 个三角面元（网页文件 119,999 个）· 叶面积 1.2745 m² · 高度 0.414 m. https://smiler488.github.io/data/cotton3d/canopy.bin. [UND, PRE]
+- [叶片方向光谱、BRDF 参数与表型性状](https://smiler488.github.io/zh-Hans/data#leaf-brdf-traits): 玉米、水稻、棉花和杨树叶片的方向反射光谱（400–1000 nm）、拟合的 Cook–Torrance 参数，以及用于预测这些参数的表型性状。 270 条数据 · 4 个物种 · 2 个冠层位置 · 叶片正反两面. 可向作者申请获取. [UND]
+
 ## 浏览器工具（App Lab）
 
 免费、在浏览器中运行的工具；除非访客主动用自己的密钥调用 AI 功能，数据都留在访客本机。

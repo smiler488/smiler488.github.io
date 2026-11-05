@@ -23,6 +23,13 @@ Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](htt
 - [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. Peer-reviewed article. DOI 10.1016/j.plaphe.2025.100135. [UND]
 - [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. Research software. DOI 10.5281/zenodo.17544584. [DIG]
 
+## Datasets
+
+- [Potted cotton point cloud from turntable photogrammetry (SfM)](https://smiler488.github.io/data#cotton-sfm-pointcloud): One growth-chamber cotton plant (sample cotton_20240109-84-5) reconstructed by structure from motion and labelled by organ. 39,765 points · 3 organ classes. https://smiler488.github.io/data/cotton3d/sfm.bin. [DIG]
+- [Cotton point cloud from single-image 3D generative AI](https://smiler488.github.io/data#cotton-generative-pointcloud): The same plant reconstructed from a single image with 3D generative AI, for comparison against the SfM reference. 60,000 points (voxel-downsampled from 177,357) · 3 organ classes. https://smiler488.github.io/data/cotton3d/gen.bin. [DIG]
+- [Cotton canopy triangle mesh with leaf optical properties](https://smiler488.github.io/data#cotton-canopy-mesh): A 24-plant canopy built from one reconstructed plant, with reflectance and transmittance per optical class, as used for canopy light and photosynthesis modelling. 1,613,632 triangles in the full model (119,999 in the web file) · leaf area 1.2745 m² · height 0.414 m. https://smiler488.github.io/data/cotton3d/canopy.bin. [UND, PRE]
+- [Leaf directional spectra, BRDF parameters and phenotypic traits](https://smiler488.github.io/data#leaf-brdf-traits): Directional reflectance (400–1000 nm) of maize, rice, cotton and poplar leaves with fitted Cook–Torrance parameters and the measured traits used to predict them. 270 entries · 4 species · 2 canopy positions · both leaf surfaces. available from the author on request. [UND]
+
 ## Browser tools (App Lab)
 
 Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
@@ -150,7 +157,7 @@ Layers: DIG
 
 ## Overview
 
-![Source plant images and the corresponding white-background outputs](/img/botanical-extract-ai-pro.png)
+![Source plant images and the corresponding white-background outputs](/img/botanical-extract-ai-pro.webp)
 
 Plant images taken in greenhouses, growth chambers and fields carry cluttered backgrounds: soil, pots, walls, labels and neighbouring plants. Removing them is the first step of most image-based phenotyping, and manual segmentation is slow, while trained segmentation models need annotated data for each species and setting.
 
@@ -270,7 +277,7 @@ The **[project page](/research/mctp-workspace)** describes each module with scre
 Source: https://smiler488.github.io/blog/brdf-paper
 Layers: UND
 
-![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.jpg)
+![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.webp)
 
 Our study on predicting leaf BRDF from phenotypic traits is published in *Plant Phenomics* (2025). Leaf directional reflectance can be predicted from traits that are easy to measure, and the resulting differences in leaf optics change how light is distributed inside a simulated canopy. The framework combines a custom-built Directional Spectrum Detection Instrument (DSDI), Cook–Torrance BRDF fitting, ensemble learning and canopy ray tracing.
 
@@ -531,7 +538,7 @@ Multi-view reconstruction gives accurate plant geometry, but it needs dozens to 
 
 This work applies a 3D generative AI model to cotton images and evaluates the generated plants against independent multi-view SfM reconstructions of the same specimens, organ by organ.
 
-![Single-image 3D generation of potted cotton plants](/img/i23d.png)
+![Single-image 3D generation of potted cotton plants](/img/i23d.webp)
 
 ## Method
 
@@ -661,7 +668,7 @@ Plot polygons, combined with the experimental layout, are used to crop the point
 
 **SfM point cloud.** SfM reconstruction gives the canopy point cloud used for all metric traits: height distribution, spatial heterogeneity and structure at population scale. Reconstructions are checked for GCP/RTK residuals on independent checkpoints, reprojection error, holes under dense upper foliage, floating points and consistency of registration across dates. With CCO acquisition the reconstruction reaches centimetre-level accuracy.
 
-![SfM point-cloud reconstruction](/img/f3dr.png)
+![SfM point-cloud reconstruction](/img/f3dr.webp)
 
 **3D Gaussian Splatting.** On top of the SfM camera poses, 3DGS gives a continuous, high-fidelity representation of the canopy for interactive 3D inspection of fine structures such as leaf–branch intersections. Metric traits are computed from the SfM point cloud; geometry extracted from 3DGS is validated separately before being used for measurement.
 

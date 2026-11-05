@@ -23,6 +23,13 @@ Profiles: [ORCID](https://orcid.org/0000-0002-5194-0655) · [Google Scholar](htt
 - [Leaf Bidirectional Reflectance Distribution Function (BRDF) Prediction with Phenotypic Traits in Four Species: Development of a Novel Measuring and Analyzing Framework](https://doi.org/10.1016/j.plaphe.2025.100135): Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., Zhu, X.-G. (2025). Plant Phenomics. Peer-reviewed article. DOI 10.1016/j.plaphe.2025.100135. [UND]
 - [Digital Plant Phenotyping Platform (v25.0)](https://doi.org/10.5281/zenodo.17544584): Deng, L. (2025). Zenodo. Research software. DOI 10.5281/zenodo.17544584. [DIG]
 
+## Datasets
+
+- [Potted cotton point cloud from turntable photogrammetry (SfM)](https://smiler488.github.io/data#cotton-sfm-pointcloud): One growth-chamber cotton plant (sample cotton_20240109-84-5) reconstructed by structure from motion and labelled by organ. 39,765 points · 3 organ classes. https://smiler488.github.io/data/cotton3d/sfm.bin. [DIG]
+- [Cotton point cloud from single-image 3D generative AI](https://smiler488.github.io/data#cotton-generative-pointcloud): The same plant reconstructed from a single image with 3D generative AI, for comparison against the SfM reference. 60,000 points (voxel-downsampled from 177,357) · 3 organ classes. https://smiler488.github.io/data/cotton3d/gen.bin. [DIG]
+- [Cotton canopy triangle mesh with leaf optical properties](https://smiler488.github.io/data#cotton-canopy-mesh): A 24-plant canopy built from one reconstructed plant, with reflectance and transmittance per optical class, as used for canopy light and photosynthesis modelling. 1,613,632 triangles in the full model (119,999 in the web file) · leaf area 1.2745 m² · height 0.414 m. https://smiler488.github.io/data/cotton3d/canopy.bin. [UND, PRE]
+- [Leaf directional spectra, BRDF parameters and phenotypic traits](https://smiler488.github.io/data#leaf-brdf-traits): Directional reflectance (400–1000 nm) of maize, rice, cotton and poplar leaves with fitted Cook–Torrance parameters and the measured traits used to predict them. 270 entries · 4 species · 2 canopy positions · both leaf surfaces. available from the author on request. [UND]
+
 ## Browser tools (App Lab)
 
 Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.
