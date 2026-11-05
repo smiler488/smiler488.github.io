@@ -2,7 +2,10 @@
   --morph-ease: cubic-bezier(0.45, 0, 0.15, 1);
 
   width: min(52rem, 100%);
-  margin: clamp(1.2rem, 2.6vw, 1.8rem) auto clamp(1.7rem, 3.4vw, 2.6rem);
+  margin: var(
+    --morph-margin,
+    clamp(1.2rem, 2.6vw, 1.8rem) auto clamp(1.7rem, 3.4vw, 2.6rem)
+  );
 }
 
 .canvasWrap {
@@ -12,7 +15,7 @@
 .canvas {
   display: block;
   width: 100%;
-  height: clamp(190px, 30vw, 300px);
+  height: var(--morph-height, clamp(190px, 30vw, 300px));
 }
 
 .stepper {

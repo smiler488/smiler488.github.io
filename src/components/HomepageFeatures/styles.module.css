@@ -74,11 +74,30 @@
 
 /* ── Four-layer architecture: the morph steps through the layers and the
    drawing beside it switches with it ─────────────────────────────────── */
+/* Particles | layer list | drawing, top-aligned. The drawing and the
+   particle canvas are as tall as the list with one row open (measured
+   454px at 1440–1600, 443–468px at 1280), so the three columns share their
+   top and bottom edges. */
 .layerStage {
+  --layer-stage-h: 28.375rem;
+
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, var(--layer-stage-h));
+  grid-template-areas: "morph list art";
+  gap: clamp(1.5rem, 3.5vw, 3rem);
   align-items: start;
+}
+
+.morphSlot {
+  --morph-height: var(--layer-stage-h);
+  --morph-margin: 0;
+
+  grid-area: morph;
+  min-width: 0;
+}
+
+.layerList {
+  grid-area: list;
 }
 
 /* Layer list: hairline rows, light titles, +/−; one row always open */
@@ -178,10 +197,9 @@
 
 .showcase {
   display: grid;
+  grid-area: art;
   width: 100%;
   border-radius: var(--ds-radius-lg);
-  position: sticky;
-  top: calc(var(--ifm-navbar-height) + 1.5rem);
   background: var(--ds-surface);
   overflow: hidden;
 }
@@ -256,14 +274,31 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Narrower: particles across the top, list and drawing below */
+@media (max-width: 1180px) {
+  .layerStage {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+    grid-template-areas:
+      "morph morph"
+      "list art";
+  }
+
+  .morphSlot {
+    --morph-height: clamp(12rem, 24vw, 16rem);
+  }
+}
+
 @media (max-width: 860px) {
   .layerStage {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "morph"
+      "list"
+      "art";
   }
 
   .showcase {
-    width: min(30rem, 100%);
-    margin-inline: auto;
+    width: min(26rem, 100%);
   }
 }
 
@@ -324,15 +359,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-}
-
-/* Which research layer the tool stands for */
-.labLayer {
-  display: block;
-  margin-bottom: 0.25rem;
-  color: var(--ds-primary);
-  font-size: 0.8125rem;
-  font-weight: 600;
 }
 
 .labCard h3 {

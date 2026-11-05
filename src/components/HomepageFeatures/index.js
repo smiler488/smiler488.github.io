@@ -2,6 +2,7 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Heading from "@theme/Heading";
+import LayerMorph from "@site/src/components/LayerMorph";
 import { LAYERS } from "@site/src/data/publications";
 import { useLocalize } from "@site/src/components/ds";
 import styles from "./styles.module.css";
@@ -45,13 +46,12 @@ const CONTENT = {
         href: "/research?layer=DES",
       },
     ],
-    labEyebrow: "Featured tools · one per layer",
+    labEyebrow: "Featured tools",
     labTitle: "Interactive computing, built to run in your browser.",
     labIntro:
-      "From capturing a crop to designing its management: one runnable entry point for each research layer.",
+      "Field capture, leaf optics, weather data and irrigation design, ready to run in your browser.",
     lab: [
       {
-        layer: "I · Digitize",
         title: "Sensor Recorder",
         shot: "/img/app-shots/sensor.jpg",
         description:
@@ -60,7 +60,6 @@ const CONTENT = {
         action: "Open tool",
       },
       {
-        layer: "II · Understand",
         title: "Leaf BRDF Explorer",
         shot: "/img/app-shots/brdf-explorer.webp",
         description:
@@ -69,7 +68,6 @@ const CONTENT = {
         action: "Open explorer",
       },
       {
-        layer: "III · Predict",
         title: "Weather Downloader",
         shot: "/img/app-shots/weather.jpg",
         description:
@@ -78,7 +76,6 @@ const CONTENT = {
         action: "Open tool",
       },
       {
-        layer: "IV · Design",
         title: "Irrigation Designer",
         shot: "/img/app-shots/irrigation-designer.jpg",
         description:
@@ -133,12 +130,11 @@ const CONTENT = {
         href: "/research?layer=DES",
       },
     ],
-    labEyebrow: "精选工具 · 每层一个",
+    labEyebrow: "精选工具",
     labTitle: "交互式计算，在浏览器中即点即用。",
-    labIntro: "从采集作物到设计管理方案：每个研究层一个可直接运行的入口。",
+    labIntro: "田间采集、叶片光学、气象数据与灌溉设计，打开浏览器即可使用。",
     lab: [
       {
-        layer: "I · 数字化",
         title: "传感器记录仪",
         shot: "/img/app-shots/sensor.jpg",
         description:
@@ -147,7 +143,6 @@ const CONTENT = {
         action: "打开工具",
       },
       {
-        layer: "II · 理解",
         title: "叶片 BRDF 探索器",
         shot: "/img/app-shots/brdf-explorer.webp",
         description:
@@ -156,7 +151,6 @@ const CONTENT = {
         action: "打开探索器",
       },
       {
-        layer: "III · 预测",
         title: "气象数据下载器",
         shot: "/img/app-shots/weather.jpg",
         description:
@@ -165,7 +159,6 @@ const CONTENT = {
         action: "打开工具",
       },
       {
-        layer: "IV · 设计",
         title: "灌溉设计器",
         shot: "/img/app-shots/irrigation-designer.jpg",
         description:
@@ -274,7 +267,6 @@ function LabCard({ item }) {
         decoding="async"
       />
       <div className={styles.labCardBody}>
-        <span className={styles.labLayer}>{item.layer}</span>
         <Heading as="h3">{item.title}</Heading>
         <p>{item.description}</p>
       </div>
@@ -288,6 +280,7 @@ export default function HomepageFeatures() {
   const isChinese = i18n.currentLocale === "zh-Hans";
   const copy = isChinese ? CONTENT.zh : CONTENT.en;
   const [layer, setLayer] = React.useState(0);
+  const [hold, setHold] = React.useState(false);
 
   return (
     <>
@@ -304,7 +297,30 @@ export default function HomepageFeatures() {
             </Heading>
             <p>{copy.researchIntro}</p>
           </div>
-          <div className={styles.layerStage}>
+          {/* Particles, list and drawing move together (D-027): the morph
+              autoplays and the list and drawing follow; choosing a row glides
+              the morph there; pointer or focus inside holds the autoplay */}
+          <div
+            className={styles.layerStage}
+            onPointerEnter={() => setHold(true)}
+            onPointerLeave={() => setHold(false)}
+            onFocus={() => setHold(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setHold(false);
+              }
+            }}
+          >
+            <div className={styles.morphSlot}>
+              <LayerMorph
+                steps={copy.steps}
+                label={copy.researchTitle}
+                active={layer}
+                paused={hold}
+                showControls={false}
+                onActiveChange={setLayer}
+              />
+            </div>
             <LayerFeatures
               items={copy.research}
               active={layer}

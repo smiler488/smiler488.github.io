@@ -19,7 +19,38 @@ const GLIDE = 800; // ms
 const HOLD = 1500; // ms
 const STAGGER = 160; // ms of left-to-right delay inside a glide
 const RESUME_AFTER_CLICK = 8000; // ms before autoplay resumes
-const GREEN = [16, 163, 127];
+
+// Colours come from the theme tokens (D-027): points in --ds-text, the
+// scan line, growth curve and designed plant in --ds-primary. Read once per
+// theme, since getComputedStyle every frame would be wasteful.
+const palette = { theme: null, ink: [10, 19, 23], accent: [4, 87, 203] };
+
+function parseColor(value, fallback) {
+  const v = value.trim();
+  const hex = v.match(/^#([0-9a-f]{6})$/i);
+  if (hex) {
+    const n = parseInt(hex[1], 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  const rgb = v.match(/rgba?\(([^)]+)\)/);
+  if (rgb) return rgb[1].split(",").slice(0, 3).map((x) => parseFloat(x));
+  return fallback;
+}
+
+function themeColors() {
+  const root = document.documentElement;
+  const theme = root.dataset.theme || "light";
+  if (palette.theme !== theme) {
+    const cs = getComputedStyle(root);
+    palette.theme = theme;
+    palette.ink = parseColor(cs.getPropertyValue("--ds-text"), palette.ink);
+    palette.accent = parseColor(
+      cs.getPropertyValue("--ds-primary"),
+      palette.accent
+    );
+  }
+  return palette;
+}
 
 function cubicBezier(p1x, p1y, p2x, p2y) {
   const cx = 3 * p1x;
@@ -205,8 +236,7 @@ function overlayAlpha(k, st, p) {
 
 function draw(ctx, size, geo, st, now) {
   const { W, H, dpr } = size;
-  const dark = document.documentElement.dataset.theme === "dark";
-  const ink = dark ? [245, 245, 245] : [13, 13, 13];
+  const { ink, accent: ACCENT } = themeColors();
   const S = H * 0.42;
   const ox = W / 2;
   const oy = H / 2;
@@ -224,7 +254,7 @@ function draw(ctx, size, geo, st, now) {
   const a0 = overlayAlpha(0, st, p);
   if (a0 > 0) {
     const sweep = ((now % 2400) / 2400) * 2.1 - 1.05;
-    ctx.strokeStyle = rgba(GREEN, 0.4 * a0);
+    ctx.strokeStyle = rgba(ACCENT, 0.4 * a0);
     ctx.beginPath();
     ctx.moveTo(px(-0.95), py(sweep));
     ctx.lineTo(px(0.95), py(sweep));
@@ -262,7 +292,7 @@ function draw(ctx, size, geo, st, now) {
     ctx.moveTo(px(-X), py(0.84));
     ctx.lineTo(px(-X), py(-0.84));
     ctx.stroke();
-    ctx.strokeStyle = rgba(GREEN, 0.9 * a2);
+    ctx.strokeStyle = rgba(ACCENT, 0.9 * a2);
     ctx.lineWidth = 1.6;
     ctx.beginPath();
     for (let i = 0; i <= 64; i += 1) {
@@ -288,10 +318,10 @@ function draw(ctx, size, geo, st, now) {
     ctx.setLineDash([]);
   }
 
-  // Points: colour glides from ink to green as the plant becomes designed.
+  // Points: colour glides from ink to the accent as the plant becomes designed.
   const ep = ease(p);
-  const c0 = st.from === 3 ? GREEN : ink;
-  const c1 = st.to === 3 ? GREEN : ink;
+  const c0 = st.from === 3 ? ACCENT : ink;
+  const c1 = st.to === 3 ? ACCENT : ink;
   const col = c0.map((v, i) => Math.round(v + (c1[i] - v) * ep));
   ctx.fillStyle = rgba(col, 0.88);
   const R = W < 520 ? 1.8 : 2.1;
@@ -313,17 +343,41 @@ function draw(ctx, size, geo, st, now) {
   ctx.fill();
 }
 
+/**
+ * Optional props for pairing with another control (the homepage layer list):
+ *   active       — layer chosen outside; the morph glides to it
+ *   paused       — hold the current layer (e.g. while the list is read)
+ *   showControls — false hides the built-in stepper and evidence link
+ */
 export default function LayerMorph({
   steps,
   label,
   evidenceHrefs,
   evidenceLabel,
   onActiveChange,
+  active: requested,
+  paused = false,
+  showControls = true,
 }) {
   const wrapRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const [active, setActive] = React.useState(0);
-  const api = React.useRef({ select: () => {} });
+  const api = React.useRef({ select: () => {}, hold: () => {} });
+  const activeRef = React.useRef(0);
+  React.useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  // A layer chosen outside: glide there (no-op if it is already shown).
+  React.useEffect(() => {
+    if (typeof requested === "number" && requested !== activeRef.current) {
+      api.current.select(requested);
+    }
+  }, [requested]);
+
+  React.useEffect(() => {
+    api.current.hold(paused);
+  }, [paused]);
 
   // Lets the page show content for the current layer (the homepage swaps
   // its illustration), switching at the same moment as the stepper.
@@ -430,8 +484,15 @@ export default function LayerMorph({
 
     api.current.select = (k) => {
       const now = performance.now();
-      st.pausedUntil = now + RESUME_AFTER_CLICK;
+      st.pausedUntil = Math.max(st.pausedUntil, now + RESUME_AFTER_CLICK);
       glideTo(k, now);
+    };
+
+    // Hold: no autoplay until released; resume shortly after release.
+    api.current.hold = (on) => {
+      const now = performance.now();
+      st.pausedUntil = on ? Infinity : now + 1500;
+      st.holdStart = Math.min(st.holdStart, now);
     };
 
     const ro = new ResizeObserver(resize);
@@ -449,7 +510,10 @@ export default function LayerMorph({
     io.observe(wrap);
 
     // Redraw on theme change when not animating (reduced motion / off-screen).
-    const mo = new MutationObserver(() => render(performance.now()));
+    const mo = new MutationObserver(() => {
+      palette.theme = null;
+      render(performance.now());
+    });
     mo.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-theme"],
@@ -480,6 +544,7 @@ export default function LayerMorph({
       <div className={styles.canvasWrap} ref={wrapRef}>
         <canvas className={styles.canvas} ref={canvasRef} aria-hidden="true" />
       </div>
+      {showControls && (
       <ol className={styles.stepper} aria-label={label}>
         {steps.map((step, index) => (
           <li
@@ -504,7 +569,8 @@ export default function LayerMorph({
           </li>
         ))}
       </ol>
-      {evidenceHrefs?.[active] && (
+      )}
+      {showControls && evidenceHrefs?.[active] && (
         <Link className={styles.evidenceLink} to={evidenceHrefs[active]}>
           {evidenceLabel ? evidenceLabel(steps[active]) : steps[active]}
         </Link>
