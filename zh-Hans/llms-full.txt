@@ -541,7 +541,7 @@ Layers: DIG
 ## 方法
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[植株照片] --> B[背景去除]
   B --> C[三维生成式人工智能]
   C --> D[带纹理网格]
@@ -623,7 +623,7 @@ Layers: DIG
 ## 流程
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[CCO 航线设计] --> B[多视角 RGB 采集]
   B --> C[结合 GCP / RTK 的 SfM 对齐]
   C --> D[正射影像、DSM 与稠密点云]
