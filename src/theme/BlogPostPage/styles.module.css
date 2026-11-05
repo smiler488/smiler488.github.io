@@ -202,3 +202,85 @@
   }
 }
 
+
+/* ── Page layer (muse-design v1.2, D-026) ─────────────────────────────
+   A centred reading column (46rem) with the contents beside it, so a wide
+   screen no longer leaves the right half empty. */
+.page {
+  padding-inline: 0;
+}
+
+.layout {
+  width: min(100% - 2 * var(--ds-gutter), 46rem);
+}
+
+/* Two columns only where the contents rail is shown */
+@media (min-width: 997px) {
+  .layout {
+    width: min(100% - 2 * var(--ds-gutter), 1240px);
+    grid-template-columns: minmax(0, 46rem) minmax(12rem, 15rem);
+    justify-content: center;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+}
+
+.layoutWithoutToc {
+  width: min(100% - 2 * var(--ds-gutter), 46rem);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tocColumn {
+  padding-top: clamp(1.5rem, 5vw, 3rem);
+}
+
+.tocSurface > p {
+  color: var(--ds-primary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.tocSurface :global(.table-of-contents) {
+  border-left-color: var(--ds-line);
+  font-size: 0.875rem;
+}
+
+.tocSurface :global(.table-of-contents__link) {
+  color: var(--ds-text-muted);
+}
+
+.tocSurface :global(.table-of-contents__link--active) {
+  color: var(--ds-primary);
+  font-weight: 500;
+  box-shadow: -1.5px 0 0 var(--ds-primary);
+}
+
+.paginatorSurface :global(.pagination-nav__link) {
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-surface);
+}
+
+.paginatorSurface :global(.pagination-nav__link:hover) {
+  background: var(--ds-surface-warm);
+}
+
+.paginatorSurface :global(.pagination-nav__label) {
+  font-weight: var(--ds-weight-heading);
+}
+
+.paginatorSurface,
+.commentSurface {
+  max-width: none;
+}
+
+.commentSurface {
+  border-top-color: var(--ds-line);
+}
+
+.mobileToc {
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-surface);
+}

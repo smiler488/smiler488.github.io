@@ -274,9 +274,10 @@ html[data-theme='dark'] .DocSearch-Button:hover {
 }
 
 /* Code block improvements */
+/* Code blocks: soft fill, no outline (D-026) */
 pre {
   border-radius: var(--ds-radius-md);
-  border: 1px solid var(--ifm-border-color);
+  border: 0;
   box-shadow: none;
 }
 

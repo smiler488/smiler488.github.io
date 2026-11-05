@@ -25,7 +25,7 @@ This work applies a 3D generative AI model to cotton images and evaluates the ge
 ## Method
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Plant photograph] --> B[Background removal]
   B --> C[3D generative AI]
   C --> D[Textured mesh]

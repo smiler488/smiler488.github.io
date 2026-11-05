@@ -20,7 +20,7 @@ article_type: 参考资料
 ## 发表流程
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[研究记录] --> B[稿件与支撑材料]
   B --> C[选刊]
   C --> D[投稿]

@@ -376,3 +376,171 @@
     margin-top: 2.25rem;
   }
 }
+
+/* ── Post page, page layer (muse-design v1.2, D-026) ──────────────────
+   Header: back link → blue eyebrow (category · type) → 48px title → slate
+   lead → author/meta → quiet tags, then a hairline. Body: 17px/1.75 text,
+   headings by size (500), soft code and media, hairline tables. */
+.postHero {
+  border-bottom-color: var(--ds-line);
+}
+
+.backLink {
+  gap: 0.5rem;
+  color: var(--ds-text);
+}
+
+.backLink::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-bottom: 1.5px solid currentcolor;
+  border-left: 1.5px solid currentcolor;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.backLink:hover {
+  color: var(--ds-primary);
+  text-decoration: none;
+}
+
+.postLabels {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+  color: var(--ds-primary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.postLabels span + span::before {
+  color: var(--ds-primary);
+}
+
+.postHero h1 {
+  margin-top: 0.5rem;
+  color: var(--ds-text);
+  line-height: 1.17;
+  text-wrap: balance;
+}
+
+.postDescription {
+  max-width: none;
+  margin-top: 1rem;
+  color: var(--ds-text-muted);
+  font-size: var(--ds-text-lead);
+  line-height: 1.5;
+}
+
+.author strong {
+  font-weight: 500;
+}
+
+.heroTags a {
+  min-height: 30px;
+  padding: 0.25rem 0.75rem;
+  color: var(--ds-text);
+  font-size: 0.8125rem;
+  background: var(--ds-surface);
+}
+
+.heroTags a:hover {
+  color: var(--ds-text);
+  background: var(--ds-surface-warm);
+}
+
+.content {
+  max-width: none;
+  color: var(--ds-text);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.content :global(p),
+.content :global(li) {
+  color: var(--ifm-color-emphasis-800);
+}
+
+.content :global(h2) {
+  margin: 3.5rem 0 1rem;
+  font-size: var(--ds-title-card);
+  line-height: 1.25;
+  letter-spacing: 0;
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1.5rem);
+}
+
+.content :global(h3) {
+  margin: 2.25rem 0 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1.5rem);
+}
+
+.content :global(img) {
+  width: 100%;
+  margin: 2rem 0;
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-surface);
+}
+
+.content :global(blockquote) {
+  border-left-color: var(--ds-primary);
+  color: var(--ds-text-muted);
+}
+
+.content :global(pre),
+.content :global(.theme-code-block) {
+  border: 0;
+  border-radius: var(--ds-radius-md);
+  box-shadow: none;
+}
+
+.content :global(.theme-code-block) {
+  margin: 1.75rem 0;
+}
+
+/* Diagrams sit centred on a soft panel and keep their natural size */
+.content :global(.docusaurus-mermaid-container) {
+  margin: 2rem 0;
+  padding: clamp(1rem, 3vw, 2rem);
+  text-align: center;
+  background: var(--ds-surface);
+  border-radius: var(--ds-radius-lg);
+}
+
+.content :global(table) {
+  margin: 1.75rem 0;
+  font-size: 0.9375rem;
+  border-collapse: collapse;
+}
+
+.content :global(th),
+.content :global(td) {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.content :global(thead th) {
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom-color: var(--ifm-color-emphasis-300);
+}
+
+.content :global(tr) {
+  background: transparent;
+  border: 0;
+}
+
+.content :global(hr) {
+  margin: 3rem 0;
+  border-top: 1px solid var(--ds-line);
+}
+
+.contentSurface :global(footer) {
+  max-width: none;
+  border-top-color: var(--ds-line);
+}

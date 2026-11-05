@@ -25,7 +25,7 @@ import { CottonCompareFigure } from '@site/src/components/figures/Cotton3D';
 ## 方法
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[植株照片] --> B[背景去除]
   B --> C[三维生成式人工智能]
   C --> D[带纹理网格]

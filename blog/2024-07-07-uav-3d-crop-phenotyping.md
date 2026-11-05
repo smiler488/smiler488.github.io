@@ -20,7 +20,7 @@ This workflow is built for 3D. It uses a **Cross-Circular Oblique (CCO)** flight
 ## Workflow
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[CCO flight design] --> B[Multi-view RGB acquisition]
   B --> C[SfM alignment with GCP / RTK]
   C --> D[Orthomosaic, DSM and dense point cloud]

@@ -168,6 +168,24 @@ const config = {
     //   apiKey: 'YOUR_SEARCH_API_KEY',
     //   indexName: 'YOUR_INDEX_NAME',
     // },
+    // Diagrams in the site palette: white nodes with a blue outline, slate
+    // connectors (light); Mermaid's own dark theme in dark mode (D-026).
+    mermaid: {
+      theme: { light: "base", dark: "dark" },
+      options: {
+        fontFamily: "Hanken Grotesk, -apple-system, sans-serif",
+        themeVariables: {
+          primaryColor: "#ffffff",
+          primaryBorderColor: "#0457cb",
+          primaryTextColor: "#0a1317",
+          lineColor: "#5d6c7b",
+          secondaryColor: "#f1f4f7",
+          tertiaryColor: "#f1f4f7",
+          fontSize: "15px",
+        },
+        flowchart: { curve: "basis", padding: 14 },
+      },
+    },
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,

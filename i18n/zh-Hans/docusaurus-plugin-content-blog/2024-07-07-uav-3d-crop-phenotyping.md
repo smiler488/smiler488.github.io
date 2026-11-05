@@ -20,7 +20,7 @@ article_type: "研究项目"
 ## 流程
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[CCO 航线设计] --> B[多视角 RGB 采集]
   B --> C[结合 GCP / RTK 的 SfM 对齐]
   C --> D[正射影像、DSM 与稠密点云]

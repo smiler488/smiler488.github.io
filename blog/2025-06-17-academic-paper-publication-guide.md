@@ -20,7 +20,7 @@ This guide provides a publisher-neutral workflow. Exact status labels, DOI timin
 ## Publication workflow
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Research record] --> B[Manuscript and artifacts]
   B --> C[Journal fit check]
   C --> D[Submission]
