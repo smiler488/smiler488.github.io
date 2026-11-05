@@ -19,10 +19,10 @@
 .eyebrow {
   display: block;
   margin-bottom: 0.2rem;
-  color: var(--ifm-color-emphasis-500);
+  color: var(--ds-primary);
   font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   text-transform: none;
 }
 

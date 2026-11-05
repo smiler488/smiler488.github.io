@@ -36,6 +36,6 @@ export default {
   "Camera configuration": "相机设置",
   "Capture setup": "采集设置",
   "Calibration profile:": "标定参数：",
-  "Loading the stereo workspace…": "正在加载双目视觉工作台…",
+  "Loading the stereo workspace…": "正在加载双目视觉…",
   "System status": "系统状态",
 };

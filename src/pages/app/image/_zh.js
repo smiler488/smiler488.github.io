@@ -1,7 +1,7 @@
 /** Chinese interface text for this tool (src/lib/i18n/toolText.js). */
 export default {
-  "Biological Sample Quantifier hosted workspace":
-    "生物样本图像量化：在线分析工作台",
+  "Image Quantifier hosted workspace":
+    "图像量化器：在线分析工作台",
   "Loading analysis workspace…": "正在加载分析工作台…",
   "Hosted biological sample analysis workspace": "在线生物样本分析工作台",
   "Images selected inside the embedded workspace are processed by the hosted Space, not by this static website. Do not upload sensitive material without reviewing the hosted service first.":

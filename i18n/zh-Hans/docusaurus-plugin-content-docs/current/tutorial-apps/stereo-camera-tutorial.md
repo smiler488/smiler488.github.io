@@ -1,7 +1,7 @@
 ---
-title: 双目视觉工作台
+title: "双目视觉"
 description: "对已标定的并排双目视频流做立体校正，用块匹配计算米制深度，并以毫米为单位导出深度。"
-sidebar_label: 双目视觉
+sidebar_label: "双目视觉"
 sidebar_position: 8
 hide_title: true
 keywords: [stereo, camera, depth, rectification, block matching]
@@ -15,7 +15,7 @@ app_badges: ["Camera input", "Stereo pair", "Metric depth"]
 
 ## 功能简介
 
-双目视觉工作台读取左右并排的双目相机视频流，用该相机组的标定参数对两路图像做立体校正，再通过块匹配计算以毫米为单位的深度图。可以保存校正后的图像对、深度预览图和米制深度（16 位 PGM 及记录参数的 JSON），并打包为 ZIP。全部处理在浏览器中完成。
+双目视觉读取左右并排的双目相机视频流，用该相机组的标定参数对两路图像做立体校正，再通过块匹配计算以毫米为单位的深度图。可以保存校正后的图像对、深度预览图和米制深度（16 位 PGM 及记录参数的 JSON），并打包为 ZIP。全部处理在浏览器中完成。
 
 ## 准备工作
 
@@ -92,6 +92,6 @@ sample_depth_001_depth.json          # 焦距、基线、匹配参数和深度�
 | 校正后左右行不对齐 | 相机组已与标定参数不符（镜头移动、重新对焦），需要重新标定。 |
 | 无法下载 ZIP | 先采集至少一组图像对或深度图，并确认 JSZip 已加载。 |
 
-[打开双目视觉工作台](/app/stereo)
+[打开双目视觉](/app/stereo)
 
 [返回实验室](/app)

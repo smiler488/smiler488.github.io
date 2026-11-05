@@ -1,5 +1,5 @@
 ---
-title: "Multimodal AI Solver"
+title: "AI Solver"
 description: "Answer lab safety exam questions and other problems from a screen capture, camera photo or text, with structured answers, a second-answer check and a self-test of your model."
 sidebar_label: "AI Solver"
 sidebar_position: 12
@@ -24,7 +24,7 @@ app_badges:
 
 ## What it does
 
-Multimodal AI Solver sends a question to the AI model you choose and shows its answer. The question can come from:
+AI Solver sends a question to the AI model you choose and shows its answer. The question can come from:
 - a selected area of your screen;
 - a camera photo;
 - typed text.
@@ -60,7 +60,7 @@ These are covered by automated tests and were run end to end against a reference
 
 ## Lab safety exams: quick workflow
 
-1. [Open Multimodal AI Solver](/app/solver). **Prompt preset** shows **Lab Safety Exam**; the page remembers your choice.
+1. [Open AI Solver](/app/solver). **Prompt preset** shows **Lab Safety Exam**; the page remembers your choice.
 2. Under **Solver model**, choose a provider, an image + text model and your API key.
 3. Optional, recommended once per model: select **Run self-test** and read the score and the questions it got wrong.
 4. Open the exam in another window. In the solver, choose **Screen** and select **Capture screen**. Share the exam window, drag the box over the question and its options, and select **Analyze selection**.
@@ -126,6 +126,6 @@ Follow the rules of the exam you take. Safety rules differ between institutions;
 - **401, 403, 404 or 429:** check the provider, key, model ID, permissions and quota.
 - **Could not reach the provider:** the provider blocks direct browser access; choose another provider or use your own proxy.
 
-[Open Multimodal AI Solver →](/app/solver)
+[Open AI Solver →](/app/solver)
 
 [← Back to App Lab](/app)

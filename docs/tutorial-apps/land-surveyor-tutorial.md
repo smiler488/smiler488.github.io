@@ -1,7 +1,7 @@
 ---
-title: Land Surveyor
+title: "Land Surveyor"
 description: Build a field boundary from manual coordinates or device location and estimate area in square metres, hectares and mu.
-sidebar_label: Land Surveyor
+sidebar_label: "Land Surveyor"
 sidebar_position: 2
 hide_title: true
 keywords:

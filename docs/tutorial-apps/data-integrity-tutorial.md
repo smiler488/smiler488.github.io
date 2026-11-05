@@ -1,7 +1,7 @@
 ---
 title: "Data Integrity Screen"
 description: "Screen CSV, TXT or Excel research data for duplicated records, pasted runs, uneven final digits, equal increments and impossible means, and export a report that can be checked cell by cell."
-sidebar_label: "Integrity Screen"
+sidebar_label: "Data Integrity Screen"
 sidebar_position: 11.5
 hide_title: true
 keywords:

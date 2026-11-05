@@ -1,5 +1,5 @@
 ---
-title: "AI Journal Selector"
+title: "Journal Selector"
 description: "Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data."
 sidebar_label: "Journal Selector"
 sidebar_position: 11
@@ -25,7 +25,7 @@ app_badges:
 
 ## What it does
 
-AI Journal Selector helps you decide where to submit a manuscript.
+Journal Selector helps you decide where to submit a manuscript.
 
 - **First submission or a new field:** paste the title and abstract, and the selector proposes the journals that have recently published the articles most similar to yours.
 - **Journals already in mind:** name up to five. Each is scored on the same scale as the suggestions and shown with the similar articles it has published, so you can judge whether your manuscript belongs there.
@@ -62,7 +62,7 @@ The other journals on the list are usually reasonable alternatives rather than e
 
 ## Quick workflow
 
-1. [Open AI Journal Selector](/app/journal-selector).
+1. [Open Journal Selector](/app/journal-selector).
 2. **01 · Model:** keep **Local demo** for search only, or choose a provider, model and API key.
 3. **02 · Manuscript:** enter the **Title**, **Abstract** and optional **Keywords** (separated by semicolons).
 4. **03 · Goal:**

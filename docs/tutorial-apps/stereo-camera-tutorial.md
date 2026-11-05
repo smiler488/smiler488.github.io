@@ -1,7 +1,7 @@
 ---
-title: Stereo Vision Workspace
+title: "Stereo Vision"
 description: "Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres."
-sidebar_label: Stereo Vision
+sidebar_label: "Stereo Vision"
 sidebar_position: 8
 hide_title: true
 keywords: [stereo, camera, depth, rectification, block matching]
@@ -15,7 +15,7 @@ app_badges: ["Camera input", "Stereo pair", "Metric depth"]
 
 ## What it does
 
-Stereo Vision Workspace reads a side-by-side stereo camera stream, rectifies the two views with the rig's calibration, and computes a depth map in millimetres by block matching. Stereo pairs, a depth preview and the metric depth (16-bit PGM plus a JSON record of the parameters) can be saved and packaged as a ZIP. All processing runs in the browser.
+Stereo Vision reads a side-by-side stereo camera stream, rectifies the two views with the rig's calibration, and computes a depth map in millimetres by block matching. Stereo pairs, a depth preview and the metric depth (16-bit PGM plus a JSON record of the parameters) can be saved and packaged as a ZIP. All processing runs in the browser.
 
 ## Before you start
 
@@ -92,6 +92,6 @@ The implementation (`static/js/stereo_core.js`) is validated on a synthetic scen
 | Rectified rows do not line up     | The rig no longer matches its calibration (moved lens, refocus); recalibrate.                                   |
 | ZIP download is unavailable       | Capture at least one stereo pair or depth map and check that JSZip loaded.                                      |
 
-[Open Stereo Vision Workspace](/app/stereo)
+[Open Stereo Vision](/app/stereo)
 
 [Back to App Lab](/app)

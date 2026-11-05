@@ -1,7 +1,7 @@
 ---
-title: NASA POWER 气象数据下载器
+title: "气象数据下载器"
 description: 选择位置和日期范围，获取 NASA POWER 农业气象数据，预览或下载整洁的 CSV 结果。
-sidebar_label: 气象数据下载器
+sidebar_label: "气象数据下载器"
 sidebar_position: 4
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## 功能简介
 
-NASA POWER 气象数据下载器为一个坐标和日期范围请求固定的每日或每小时农业气象变量。你可以手动选择坐标，在地图上选择，通过地点搜索或使用浏览器定位，预览最多 100 行返回数据，并下载完整响应为 CSV。
+气象数据下载器为一个坐标和日期范围请求固定的每日或每小时农业气象变量。你可以手动选择坐标，在地图上选择，通过地点搜索或使用浏览器定位，预览最多 100 行返回数据，并下载完整响应为 CSV。
 
 :::info 原始 POWER 记录
 当前应用导出 NASA POWER 返回的变量。它不会将其转换为 PCSE/WOFOST 字段、填充缺失值、计算 ET₀ 或生成图表。
@@ -114,6 +114,6 @@ T2M, T2MDEW, RH2M, WS10M, U10M, V10M, PS, PRECTOTCORR
 | NASA POWER 返回错误或无数据行     | 重新检查坐标和日期，缩短范围，确认 POWER 服务可用后重试。                                    |
 | CSV 包含缺失或异常值              | 检查 POWER 元数据，在分析工作流中清理或转换导出数据。                                        |
 
-[打开 NASA POWER 气象数据下载器](/app/weather)
+[打开 气象数据下载器](/app/weather)
 
 [浏览全部应用](/app)

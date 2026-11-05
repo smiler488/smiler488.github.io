@@ -99,7 +99,6 @@ const WeatherPage = () => {
               backgroundColor: "var(--ifm-background-surface-color)",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "var(--ifm-global-shadow-md)",
               marginBottom: "30px",
             }}
           >
@@ -311,9 +310,9 @@ const WeatherPage = () => {
                   id="searchBtn"
                   style={{
                     padding: "10px 16px",
-                    backgroundColor: "var(--ifm-color-emphasis-900)",
-                    color: "var(--ifm-color-emphasis-0)",
-                    border: "1px solid var(--ifm-color-emphasis-900)",
+                    backgroundColor: "var(--ds-card)",
+                    color: "var(--ds-text)",
+                    border: "1px solid transparent",
                     borderRadius: "999px",
                     cursor: "pointer",
                     fontSize: "14px",
@@ -351,13 +350,13 @@ const WeatherPage = () => {
                 id="getLocationBtn"
                 style={{
                   padding: "12px 24px",
-                  backgroundColor: "var(--ifm-color-emphasis-900)",
-                  color: "var(--ifm-color-emphasis-0)",
-                  border: "1px solid var(--ifm-color-emphasis-900)",
+                  backgroundColor: "var(--ds-card)",
+                  color: "var(--ds-text)",
+                  border: "1px solid transparent",
                   borderRadius: "999px",
                   cursor: "pointer",
                   fontSize: "14px",
-                  fontWeight: "500",
+                  fontWeight: "600",
                 }}
                 disabled={false}
               >
@@ -368,13 +367,13 @@ const WeatherPage = () => {
                 id="getDataBtn"
                 style={{
                   padding: "12px 24px",
-                  backgroundColor: "var(--ifm-color-emphasis-900)",
-                  color: "var(--ifm-color-emphasis-0)",
-                  border: "1px solid var(--ifm-color-emphasis-900)",
+                  backgroundColor: "var(--ds-primary)",
+                  color: "var(--ds-on-primary)",
+                  border: "1px solid var(--ds-primary)",
                   borderRadius: "999px",
                   cursor: "pointer",
                   fontSize: "14px",
-                  fontWeight: "500",
+                  fontWeight: "600",
                 }}
                 disabled={false}
               >
@@ -390,7 +389,6 @@ const WeatherPage = () => {
               backgroundColor: "var(--ifm-background-color)",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "var(--ifm-global-shadow-md)",
               marginBottom: "30px",
             }}
           >
@@ -442,7 +440,7 @@ const WeatherPage = () => {
                   style={{
                     width: "0%",
                     height: "100%",
-                    backgroundColor: "var(--ifm-color-emphasis-900)",
+                    backgroundColor: "var(--ds-primary)",
                     transition: "width 0.3s ease",
                   }}
                 ></div>
@@ -468,7 +466,6 @@ const WeatherPage = () => {
               backgroundColor: "var(--ifm-background-color)",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "var(--ifm-global-shadow-md)",
               marginBottom: "30px",
               display: "none",
             }}
@@ -508,12 +505,12 @@ const WeatherPage = () => {
                 style={{
                   display: "none",
                   padding: "12px 24px",
-                  backgroundColor: "var(--ifm-color-emphasis-900)",
-                  color: "var(--ifm-color-emphasis-0)",
+                  backgroundColor: "var(--ds-primary)",
+                  color: "var(--ds-on-primary)",
                   textDecoration: "none",
-                  borderRadius: "6px",
+                  borderRadius: "999px",
                   fontSize: "14px",
-                  fontWeight: "500",
+                  fontWeight: "600",
                 }}
               >
                 {tx("Download CSV")}
@@ -528,7 +525,6 @@ const WeatherPage = () => {
               backgroundColor: "var(--ifm-background-color)",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "var(--ifm-global-shadow-md)",
             }}
           >
             <Heading

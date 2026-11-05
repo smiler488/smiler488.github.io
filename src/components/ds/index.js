@@ -79,6 +79,51 @@ export function SectionHeader({ id, eyebrow, title, description, as = "h2" }) {
   );
 }
 
+/**
+ * Disclosure list (muse-design v1.2): hairline rows, light titles, +/−.
+ * items: [{ id, title, meta?, content }]. `single` keeps one row open.
+ * Panels stay in the DOM (hidden) so the content is indexed and printable.
+ */
+export function Accordion({ items, single = false, defaultOpen = [] }) {
+  const [open, setOpen] = React.useState(() => new Set(defaultOpen));
+  const baseId = React.useId();
+  const toggle = (id) =>
+    setOpen((prev) => {
+      const next = new Set(single ? [] : prev);
+      if (!prev.has(id)) next.add(id);
+      return next;
+    });
+  return (
+    <div className={styles.accordion}>
+      {items.map((item) => {
+        const isOpen = open.has(item.id);
+        const panelId = `${baseId}-${item.id}`;
+        return (
+          <div key={item.id} className={styles.accordionItem}>
+            <button
+              type="button"
+              className={styles.accordionTrigger}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => toggle(item.id)}
+            >
+              <span>
+                {item.title}
+                {item.meta && (
+                  <span className={styles.accordionMeta}>{item.meta}</span>
+                )}
+              </span>
+            </button>
+            <div id={panelId} className={styles.accordionPanel} hidden={!isOpen}>
+              {item.content}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /** Row of plain statistics. items: [{ value, label }] */
 export function Stats({ items }) {
   return (

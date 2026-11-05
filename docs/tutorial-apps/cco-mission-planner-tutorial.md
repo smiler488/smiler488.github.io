@@ -1,7 +1,7 @@
 ---
-title: CCO Waylines Builder
+title: "CCO Mission Planner"
 description: Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings.
-sidebar_label: CCO Mission Planner
+sidebar_label: "CCO Mission Planner"
 sidebar_position: 5
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## What it does
 
-CCO Waylines Builder reads a KML polygon, places a rotated grid of circular route centres around it, builds a snake-ordered sequence of camera-facing waypoints and exports KML, WPML and, when JSZip is available, KMZ files. It can also read drone and payload enum values from an existing DJI KMZ.
+CCO Mission Planner reads a KML polygon, places a rotated grid of circular route centres around it, builds a snake-ordered sequence of camera-facing waypoints and exports KML, WPML and, when JSZip is available, KMZ files. It can also read drone and payload enum values from an existing DJI KMZ.
 
 :::caution Flight-planning preview
 Validate route geometry, altitude interpretation, device enums, payload actions, obstacles, airspace and local flight rules in DJI software before operating an aircraft.
@@ -108,6 +108,6 @@ JSZip is loaded from jsDelivr. If it is unavailable, plain KML and WPML generati
 | KMZ parsing fails                            | Confirm the file is under 25 MB, contains KML/WPML and that the JSZip CDN loaded. Enter enum values manually if needed.   |
 | Generated files are rejected by DJI software | Verify device enums, altitude, speed, payload position, WPML expectations and route size in the target DJI version.       |
 
-[Open CCO Waylines Builder](/app/cco)
+[Open CCO Mission Planner](/app/cco)
 
 [Browse all apps](/app)

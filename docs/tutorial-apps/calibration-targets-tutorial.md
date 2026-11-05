@@ -1,7 +1,7 @@
 ---
-title: Calibration Targets Generator
+title: "Calibration Target Generator"
 description: "Generate printable checkerboard and coded circular calibration targets with live dimensions, validation and PDF export."
-sidebar_label: Calibration Targets
+sidebar_label: "Calibration Target Generator"
 sidebar_position: 9
 hide_title: true
 keywords: [calibration, checkerboard, agisoft, camera, pdf]
@@ -15,7 +15,7 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 
 ## What it does
 
-Calibration Targets Generator creates an on-page SVG preview and a printable PDF for two target families: an OpenCV-style checkerboard and a grid of segmented circular markers for ground control points and manual marking. Inputs use physical millimetre units and include fit and range validation.
+Calibration Target Generator creates an on-page SVG preview and a printable PDF for two target families: an OpenCV-style checkerboard and a grid of segmented circular markers for ground control points and manual marking. Inputs use physical millimetre units and include fit and range validation.
 
 :::caution Print scale is part of calibration
 
@@ -110,6 +110,6 @@ For segmented circular markers, it arranges labeled markers in the requested gri
 | Printed dimensions are wrong                  | Print at Actual size, disable all fitting, check the printer driver, and measure the output.                           |
 | Calibration software cannot detect the target | Confirm its supported target type and count convention, improve focus and lighting, and validate the printed geometry. |
 
-[Open Calibration Targets Generator](/app/targets)
+[Open Calibration Target Generator](/app/targets)
 
 [Back to App Lab](/app)

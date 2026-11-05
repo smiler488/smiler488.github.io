@@ -17,17 +17,17 @@
 .eyebrow {
   display: inline-block;
   margin-bottom: 0.9rem;
-  color: var(--ifm-color-emphasis-500);
+  color: var(--ds-primary);
   font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   text-transform: none;
 }
 
 .title {
   font-size: var(--ds-title-page);
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-weight: var(--ds-weight-heading);
+  letter-spacing: -0.01em;
   color: var(--ifm-color-emphasis-900);
   margin-bottom: 1rem;
 }
@@ -61,10 +61,10 @@
   --card-glow: var(--ifm-color-primary);
 
   position: relative;
-  background: var(--ds-card);
-  border: 1px solid var(--ds-line);
-  border-radius: var(--card-radius);
-  box-shadow: var(--ds-shadow-xs);
+  background: var(--ds-surface);
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  box-shadow: none;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -78,7 +78,7 @@
 }
 
 .card:hover {
-  border-color: var(--ifm-color-emphasis-300);
+  background: var(--ds-surface-warm);
 }
 
 .cardInner {
@@ -132,7 +132,7 @@
 
 .cardTitle {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
   color: var(--ifm-color-emphasis-900);
   margin: 0;
 }

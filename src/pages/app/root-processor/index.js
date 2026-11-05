@@ -632,7 +632,7 @@ export default function RootProcessorApp() {
             )}
             <button
               type="button"
-              className="root-button secondary"
+              className="root-button primary"
               onClick={() => fileInputRef.current?.click()}
               disabled={loadingFiles || images.length >= MAX_BATCH_FILES}
             >

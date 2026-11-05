@@ -5,9 +5,9 @@
 .introCard,
 .glassPanel {
   min-width: 0;
-  border: 1px solid var(--ds-line) !important;
+  border: 0;
   border-radius: 16px !important;
-  background: var(--ifm-background-color) !important;
+  background: var(--ds-surface) !important;
 }
 
 .introCard {

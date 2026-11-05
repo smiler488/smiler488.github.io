@@ -272,7 +272,7 @@ Store this record with evaluation results and deployment configuration.
 
 ## Related App Lab tool
 
-[Multimodal AI Solver](/app/solver) is a browser client for user-supplied AI-provider credentials and multimodal requests. Its [tutorial](/docs/tutorial-apps/ai-solver-tutorial) describes provider, model, browser-permission, screen-capture, and privacy boundaries. It is not a local offline model runtime.
+[AI Solver](/app/solver) is a browser client for user-supplied AI-provider credentials and multimodal requests. Its [tutorial](/docs/tutorial-apps/ai-solver-tutorial) describes provider, model, browser-permission, screen-capture, and privacy boundaries. It is not a local offline model runtime.
 
 ## Final checklist
 

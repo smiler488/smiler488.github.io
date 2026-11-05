@@ -99,4 +99,4 @@ For reproducible work, save the following alongside the outputs:
 
 Threshold segmentation is sensitive to shadows, reflections, substrate and overlapping roots, which is why the tool includes manual correction; correction in turn introduces operator variability, so edits are kept minimal and logged. The binary output drops colour and intensity information. The interactive design targets careful processing of experiment-sized image sets rather than unattended high-throughput runs; trait measurement itself is done in the downstream software.
 
-A browser version is available in the App Lab: [Root Image Preprocessor](/app/root-processor) ([tutorial](/docs/tutorial-apps/root-preprocessor-tutorial)).
+A browser version is available in the App Lab: [Root Preprocessor](/app/root-processor) ([tutorial](/docs/tutorial-apps/root-preprocessor-tutorial)).

@@ -80,9 +80,9 @@
   gap: clamp(1rem, 2.5vw, 1.5rem);
 }
 
-/* One neutral tile for every tool; the tone prop is intentionally ignored. */
+/* The old text tile is retired, as on the tool pages (D-024). */
 .tutorialIcon {
-  display: grid;
+  display: none;
   flex: 0 0 auto;
   place-items: center;
   width: clamp(3.5rem, 7vw, 4.5rem);
@@ -95,16 +95,14 @@
   letter-spacing: -0.01em;
 }
 
-:global(html[data-theme="dark"]) .tutorialIcon {
-  background: var(--ds-surface-warm);
-}
-
 .tutorialEyebrow {
   display: block;
   margin: 0.1rem 0 0.55rem;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ds-primary);
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
 .tutorialHeroCopy {
@@ -115,17 +113,17 @@
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .tutorialHeroCopy p {
-  max-width: 46rem;
-  margin: 0.9rem 0 0;
-  color: var(--ifm-color-emphasis-700);
-  font-size: clamp(1rem, 1.6vw, 1.12rem);
-  line-height: 1.6;
+  max-width: var(--ds-measure);
+  margin: 1rem 0 0;
+  color: var(--ds-text-muted);
+  font-size: var(--ds-text-lead);
+  line-height: 1.45;
 }
 
 .tutorialHeroFooter {
@@ -144,13 +142,13 @@
 }
 
 .tutorialBadges li {
-  padding: 0.38rem 0.7rem;
-  border-radius: 999px;
-  background: var(--ifm-color-emphasis-100);
-  color: var(--ifm-color-emphasis-700);
-  font-size: 0.78rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-surface);
+  color: var(--ds-text);
+  font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.3;
 }
 
 .openAppButton {
@@ -158,14 +156,30 @@
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  min-height: 2.65rem;
-  padding: 0.6rem 1.15rem;
-  border-radius: 999px;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.125rem 0 1.375rem;
+  border-radius: var(--ds-radius-pill);
   background: var(--ds-primary);
   color: var(--ds-on-primary);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background 160ms ease;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
+}
+
+/* Arrow that moves forward on hover: the pair of the guide's opening book */
+.openAppArrow {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 1.75px solid currentcolor;
+  border-right: 1.75px solid currentcolor;
+  transform: rotate(45deg);
+  transition: transform var(--ds-dur-fast) var(--ds-ease);
+}
+
+.openAppButton:hover .openAppArrow,
+.openAppButton:focus-visible .openAppArrow {
+  transform: translateX(3px) rotate(45deg);
 }
 
 .openAppButton:hover {
@@ -176,7 +190,7 @@
 
 .openAppButton:focus-visible,
 .tutorialBackLink:focus-visible {
-  outline: 2px solid var(--ifm-color-emphasis-900);
+  outline: 2px solid var(--ds-primary);
   outline-offset: 3px;
 }
 
@@ -202,9 +216,9 @@
   border-top: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.4rem, 2.4vw, 1.7rem);
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .tutorialArticle :global(.theme-doc-markdown > h2:first-child) {
@@ -215,7 +229,7 @@
   margin-top: 2rem;
   color: var(--ifm-color-emphasis-900);
   font-size: 1.14rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
   letter-spacing: -0.012em;
 }
 

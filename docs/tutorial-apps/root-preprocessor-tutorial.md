@@ -1,7 +1,7 @@
 ---
-title: Root Image Preprocessor
+title: "Root Preprocessor"
 description: "RootQuantify in the browser: trace the root region, remove the background by morphological closing, threshold at full resolution and correct by hand."
-sidebar_label: Root Preprocessor
+sidebar_label: "Root Preprocessor"
 sidebar_position: 7
 hide_title: true
 keywords: [root, scan, roi, segmentation, image, rootquantify]
@@ -15,7 +15,7 @@ app_badges: ["Matches RootQuantify", "Full resolution", "PNG export"]
 
 ## What it does
 
-Root Image Preprocessor is the browser version of [RootQuantify](https://github.com/smiler488/RootQuantify) (`RootImager.py`). It turns a root scan into a black-on-white root image ready for measurement in WinRHIZO, RhizoVision Explorer or ImageJ:
+Root Preprocessor is the browser version of [RootQuantify](https://github.com/smiler488/RootQuantify) (`RootImager.py`). It turns a root scan into a black-on-white root image ready for measurement in WinRHIZO, RhizoVision Explorer or ImageJ:
 1. You trace the root region as a polygon.
 2. The tool runs RootQuantify's background subtraction and threshold on that region at full resolution.
 3. You correct the result with a brush and export it.
@@ -115,6 +115,6 @@ The processed image is the input to root measurement, not a measurement itself. 
 | Speckles or shadows become roots | Raise **Threshold**, tighten the polygon, or erase them with **Erase (white)**. |
 | Polygon editing is blocked | Select **Reset Processed Result**, and **Reset Polygon** for a new boundary. |
 
-[Open Root Image Preprocessor](/app/root-processor)
+[Open Root Preprocessor](/app/root-processor)
 
 [Back to App Lab](/app)

@@ -1,7 +1,7 @@
 ---
-title: Research Maze
+title: "Research Maze"
 description: "A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores."
-sidebar_label: Maze
+sidebar_label: "Research Maze"
 sidebar_position: 14
 hide_title: true
 keywords: [maze, canvas, game, physics, keyboard]

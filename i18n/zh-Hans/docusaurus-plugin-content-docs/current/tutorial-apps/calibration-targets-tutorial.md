@@ -1,7 +1,7 @@
 ---
-title: 标定靶生成器
+title: "标定板生成器"
 description: "生成可打印的棋盘格和编码圆形标定靶，支持实时尺寸预览、验证和 PDF 导出。"
-sidebar_label: 标定靶
+sidebar_label: "标定板生成器"
 sidebar_position: 9
 hide_title: true
 keywords: [calibration, checkerboard, agisoft, camera, pdf]
@@ -15,7 +15,7 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 
 ## 功能简介
 
-标定靶生成器为两类靶标创建页面内 SVG 预览和可打印 PDF：OpenCV 风格棋盘格和用于地面控制点或人工标记的分段圆形标记网格。输入使用物理毫米单位，并包含适配和范围验证。
+标定板生成器为两类靶标创建页面内 SVG 预览和可打印 PDF：OpenCV 风格棋盘格和用于地面控制点或人工标记的分段圆形标记网格。输入使用物理毫米单位，并包含适配和范围验证。
 
 :::caution 打印比例是标定的一部分
 
@@ -110,6 +110,6 @@ app_badges: ["Live preview", "Print scale", "PDF export"]
 | 打印尺寸错误                           | 以实际尺寸打印，禁用所有缩放，检查打印机驱动程序，并测量输出。                              |
 | 标定软件无法检测靶标                   | 确认其支持的靶标类型和计数约定，改善对焦和照明，并验证打印的几何。                        |
 
-[打开标定靶生成器](/app/targets)
+[打开标定板生成器](/app/targets)
 
 [返回应用实验室](/app)

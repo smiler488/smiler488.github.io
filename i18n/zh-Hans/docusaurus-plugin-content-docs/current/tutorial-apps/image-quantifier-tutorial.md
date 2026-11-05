@@ -1,7 +1,7 @@
 ---
-title: 生物样本量化器
+title: "图像量化器"
 description: "打开托管分析工作区，从上传或拍摄的图像中量化生物样本，并导出测量数据。"
-sidebar_label: 图像量化器
+sidebar_label: "图像量化器"
 sidebar_position: 6
 hide_title: true
 keywords: [image, leaf, phenotype, quantify, camera]
@@ -15,7 +15,7 @@ app_badges: ["Hosted runtime", "Camera input", "Measurements"]
 
 ## 功能简介
 
-生物样本量化器打开一个托管 Gradio 工作区，用于测量单张图像中分离的叶片、种子或谷粒。它检测前景组件，估算其几何形状和颜色，显示带标注的预览，并将测量结果导出为 CSV 和 JSON。
+图像量化器打开一个托管 Gradio 工作区，用于测量单张图像中分离的叶片、种子或谷粒。它检测前景组件，估算其几何形状和颜色，显示带标注的预览，并将测量结果导出为 CSV 和 JSON。
 
 :::info 托管分析
 
@@ -110,6 +110,6 @@ app_badges: ["Hosted runtime", "Camera input", "Measurements"]
 | 公制尺寸看起来不合理    | 确认参考被检测到，输入其实际尺寸，保持在样本平面，避免透视畸变。                      |
 | 摄像头输入不可用        | 上传本地图像或单独打开 Space；嵌入式摄像头支持因浏览器和运行时而异。                  |
 
-[打开生物样本量化器](/app/image)
+[打开图像量化器](/app/image)
 
 [返回应用实验室](/app)

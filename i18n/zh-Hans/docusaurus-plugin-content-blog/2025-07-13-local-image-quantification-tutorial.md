@@ -232,4 +232,4 @@ python quantify_samples.py samples.jpg --px-per-mm 12.4 --min-area 500
 
 ## 相关浏览器工具
 
-实验室中的[生物样本量化器](/app/image)通过托管服务在浏览器中提供同类分析（[教程](/docs/tutorial-apps/image-quantifier-tutorial)）；与本地脚本不同，它需要上传图像进行处理。
+实验室中的[图像量化器](/app/image)通过托管服务在浏览器中提供同类分析（[教程](/docs/tutorial-apps/image-quantifier-tutorial)）；与本地脚本不同，它需要上传图像进行处理。

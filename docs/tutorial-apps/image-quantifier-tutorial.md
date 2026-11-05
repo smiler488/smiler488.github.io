@@ -1,7 +1,7 @@
 ---
-title: Biological Sample Quantifier
+title: "Image Quantifier"
 description: "Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements."
-sidebar_label: Image Quantifier
+sidebar_label: "Image Quantifier"
 sidebar_position: 6
 hide_title: true
 keywords: [image, leaf, phenotype, quantify, camera]
@@ -15,7 +15,7 @@ app_badges: ["Hosted runtime", "Camera input", "Measurements"]
 
 ## What it does
 
-Biological Sample Quantifier opens a hosted Gradio workspace for measuring separated leaves, seeds, or grains in one image. It detects foreground components, estimates their geometry and color, displays an annotated preview, and exports the measurements as CSV and JSON.
+Image Quantifier opens a hosted Gradio workspace for measuring separated leaves, seeds, or grains in one image. It detects foreground components, estimates their geometry and color, displays an annotated preview, and exports the measurements as CSV and JSON.
 
 :::info Hosted analysis
 
@@ -110,6 +110,6 @@ Absolute dimensions are only as reliable as the detected reference, its entered 
 | Metric dimensions look implausible   | Confirm the reference is detected, enter its actual size, keep it in the sample plane, and avoid perspective distortion. |
 | Camera input is unavailable          | Upload a local image or open the Space separately; embedded camera support varies by browser and runtime.                |
 
-[Open Biological Sample Quantifier](/app/image)
+[Open Image Quantifier](/app/image)
 
 [Back to App Lab](/app)

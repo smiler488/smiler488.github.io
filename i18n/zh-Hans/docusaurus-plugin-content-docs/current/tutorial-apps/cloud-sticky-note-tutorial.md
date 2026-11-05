@@ -1,7 +1,7 @@
 ---
-title: "加密笔记"
+title: "加密便签"
 description: "在浏览器中加密文本笔记，通过 URL 片段分享或在本地存储中保留密码保护的副本。"
-sidebar_label: "加密笔记"
+sidebar_label: "加密便签"
 sidebar_position: 13
 hide_title: true
 keywords:
@@ -23,7 +23,7 @@ app_badges:
 
 ## 功能简介
 
-加密笔记在浏览器中加密文本笔记，并将加密载荷放入可分享的 URL 片段中。你可以使用随机密钥链接或添加密码。密码保护的载荷也会以笔记名称存储在此浏览器的本地存储中。
+加密便签在浏览器中加密文本笔记，并将加密载荷放入可分享的 URL 片段中。你可以使用随机密钥链接或添加密码。密码保护的载荷也会以笔记名称存储在此浏览器的本地存储中。
 
 :::info 纯文本工具
 当前应用接受笔记名称和最多 3,000 个字符的文本。它不支持文件附件、账户或内置的跨设备同步。
@@ -39,7 +39,7 @@ app_badges:
 
 ## 快速流程
 
-1. [打开加密笔记](/app/cloudnote)。
+1. [打开加密便签](/app/cloudnote)。
 2. 在 **Create New Note**（创建新笔记）下，输入 **Note Name**（笔记名称）和 **Content**（内容）。
 3. 可选设置 **Expires**（过期时间）、**Password Protection**（密码保护）和 **Read-only link**（只读链接）。
 4. 选择 **Generate Share Link**（生成分享链接），然后 **Copy Link**（复制链接）。
@@ -106,6 +106,6 @@ app_badges:
 - **生成的 URL 被截断：** 缩短笔记或通过保留长 URL 片段的渠道分享链接。
 - **编辑后旧链接仍可打开：** 这是预期行为；分发新链接并将旧链接视为仍然有效。
 
-[打开加密笔记 →](/app/cloudnote)
+[打开加密便签 →](/app/cloudnote)
 
 [← 返回应用实验室](/app)

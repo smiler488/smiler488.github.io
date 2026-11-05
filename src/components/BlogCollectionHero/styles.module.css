@@ -16,10 +16,11 @@
 
 .eyebrow {
   margin: 0 0 1.1rem;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ds-primary);
   font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .hero h1 {
@@ -28,8 +29,8 @@
   border: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-weight: var(--ds-weight-heading);
+  letter-spacing: -0.01em;
   line-height: 1.15;
 }
 

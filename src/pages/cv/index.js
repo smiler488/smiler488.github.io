@@ -357,8 +357,6 @@ export default function CurriculumVitaePage() {
     <Layout title={copy.meta.title} description={copy.meta.description}>
       <PersonJsonLd />
       <main className={styles.page}>
-        <div className={styles.ambientOne} aria-hidden="true" />
-        <div className={styles.ambientTwo} aria-hidden="true" />
 
         <div ref={contentRef} className={styles.shell}>
           <header className={styles.hero}>

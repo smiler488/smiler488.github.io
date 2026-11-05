@@ -13,8 +13,8 @@
 }
 
 .panel {
-  border: 1px solid var(--ds-line);
-  background: var(--ifm-background-color);
+  border: 0;
+  background: var(--ds-surface);
 }
 
 .preliminaryNotice {

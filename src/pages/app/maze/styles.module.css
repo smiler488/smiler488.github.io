@@ -8,10 +8,10 @@
 .gameCard,
 .leaderboard {
   min-width: 0;
-  border: 1px solid var(--ds-line);
+  border: 0;
   border-radius: 16px;
-  background: var(--ds-card);
-  box-shadow: var(--ds-shadow-xs);
+  background: var(--ds-surface);
+  box-shadow: none;
 }
 
 .gameCard {

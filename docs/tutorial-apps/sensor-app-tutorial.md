@@ -1,7 +1,7 @@
 ---
-title: Device Sensor Recorder
+title: "Sensor Recorder"
 description: Capture phone orientation, location and solar geometry as timestamped field records, then export a research-ready CSV.
-sidebar_label: Sensor Recorder
+sidebar_label: "Sensor Recorder"
 sidebar_position: 1
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## What it does
 
-Device Sensor Recorder captures one timestamped browser sensor record at a time. Each row can contain a sample ID, phone orientation, device location and an approximate solar elevation and azimuth, and the session can be exported as CSV.
+Sensor Recorder captures one timestamped browser sensor record at a time. Each row can contain a sample ID, phone orientation, device location and an approximate solar elevation and azimuth, and the session can be exported as CSV.
 
 :::info Measurement scope
 The app records raw browser orientation angles. It does not calibrate the phone to a leaf, derive a leaf-normal vector or certify measurement accuracy. Use a repeatable physical placement protocol and validate it for your experiment.
@@ -103,6 +103,6 @@ Motion and geolocation are protected browser capabilities. The browser and opera
 | Solar fields are empty         | A valid latitude and longitude are required for the solar calculation.                                            |
 | Export is disabled             | Capture at least one sample row first.                                                                            |
 
-[Open Device Sensor Recorder](/app/sensor)
+[Open Sensor Recorder](/app/sensor)
 
 [Browse all apps](/app)

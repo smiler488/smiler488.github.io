@@ -14,9 +14,9 @@
 
 .panel,
 .statusPanel {
-  border: 1px solid var(--ds-line);
+  border: 0;
   border-radius: 16px;
-  background: var(--ifm-background-color);
+  background: var(--ds-surface);
 }
 
 .panel {
@@ -85,9 +85,11 @@
 
 .kicker {
   margin-bottom: 0.25rem !important;
-  color: var(--ifm-color-emphasis-500);
+  color: var(--ds-primary);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
 .configGrid {

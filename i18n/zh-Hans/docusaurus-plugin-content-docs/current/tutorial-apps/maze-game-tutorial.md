@@ -1,7 +1,7 @@
 ---
-title: 科研迷宫
+title: "科研迷宫"
 description: "一个紧凑的 Canvas 实验，包含程序化迷宫生成、键盘和触摸输入、移动轨迹和本地计分。"
-sidebar_label: 迷宫
+sidebar_label: "科研迷宫"
 sidebar_position: 14
 hide_title: true
 keywords: [maze, canvas, game, physics, keyboard]

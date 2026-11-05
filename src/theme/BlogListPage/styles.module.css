@@ -23,8 +23,8 @@
   border: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-  font-weight: 600;
-  letter-spacing: -0.035em;
+  font-weight: var(--ds-weight-heading);
+  letter-spacing: -0.01em;
   line-height: 1.08;
 }
 
@@ -37,9 +37,11 @@
 
 .kicker {
   margin: 0 0 0.65rem;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ds-primary);
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
 /* Research notes / guides: a filter over every page, not just this one */

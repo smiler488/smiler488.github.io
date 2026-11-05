@@ -39,7 +39,7 @@ CCO 在农田上空沿交叉方向飞行多组环绕倾斜航线。冠层中每�
 
 飞行高度、环绕半径、相机俯仰角和重叠率根据所需地面采样距离、冠层高度和需要分辨的最小结构确定，并在正式采集前用试验区块检验。尺度与地理参考来自地面控制点（GCP）或 RTK/PPK 定位。
 
-浏览器中的 [CCO 航线生成器](/app/cco) 可将 KML 田块边界转换为兼容大疆的 KML、WPML 和 KMZ 任务文件，用法见[教程](/docs/tutorial-apps/cco-mission-planner-tutorial)。
+浏览器中的 [CCO 航线规划器](/app/cco) 可将 KML 田块边界转换为兼容大疆的 KML、WPML 和 KMZ 任务文件，用法见[教程](/docs/tutorial-apps/cco-mission-planner-tutorial)。
 
 ## 2. 图像采集
 

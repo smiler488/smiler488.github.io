@@ -234,4 +234,4 @@ Save exclusions rather than silently deleting them.
 
 ## Related browser tool
 
-The [Biological Sample Quantifier](/app/image) in the App Lab offers the same kind of analysis in the browser through a hosted service ([tutorial](/docs/tutorial-apps/image-quantifier-tutorial)); unlike the local script, it uploads images for processing.
+The [Image Quantifier](/app/image) in the App Lab offers the same kind of analysis in the browser through a hosted service ([tutorial](/docs/tutorial-apps/image-quantifier-tutorial)); unlike the local script, it uploads images for processing.

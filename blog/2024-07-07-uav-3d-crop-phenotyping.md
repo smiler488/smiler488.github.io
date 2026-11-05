@@ -39,7 +39,7 @@ CCO flies sets of circular oblique paths in crossing directions over the field. 
 
 Flight altitude, circle radius, camera pitch and overlap are chosen from the required ground sampling distance, the canopy height and the smallest structure that must be resolved, and are tested on a pilot block before a campaign. Scale and geo-reference come from ground control points (GCPs) or RTK/PPK positioning.
 
-The browser-based [CCO Waylines Builder](/app/cco) turns a KML field boundary into DJI-compatible KML, WPML and KMZ mission files; the [tutorial](/docs/tutorial-apps/cco-mission-planner-tutorial) explains its use.
+The browser-based [CCO Mission Planner](/app/cco) turns a KML field boundary into DJI-compatible KML, WPML and KMZ mission files; the [tutorial](/docs/tutorial-apps/cco-mission-planner-tutorial) explains its use.
 
 ## 2. Image acquisition
 

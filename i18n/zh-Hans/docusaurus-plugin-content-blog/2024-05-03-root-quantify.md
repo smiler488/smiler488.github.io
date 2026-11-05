@@ -99,4 +99,4 @@ python RootImager.py
 
 阈值分割对阴影、反光、基质和重叠根系敏感，这正是工具保留人工修正环节的原因；而人工修正会引入操作者差异，因此修改应尽量少并留有记录。二值输出不保留颜色和灰度信息。交互式设计面向实验规模图像集的精细处理，而非无人值守的高通量处理；性状测量本身在下游软件中完成。
 
-实验室中另有浏览器版本：[根系图像预处理器](/app/root-processor)（[教程](/docs/tutorial-apps/root-preprocessor-tutorial)）。
+实验室中另有浏览器版本：[根系预处理器](/app/root-processor)（[教程](/docs/tutorial-apps/root-preprocessor-tutorial)）。

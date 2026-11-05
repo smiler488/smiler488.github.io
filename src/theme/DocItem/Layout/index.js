@@ -96,7 +96,9 @@ function AppTutorialHero({ metadata, frontMatter }) {
           <span className={styles.tutorialEyebrow}>
             {category} · {t.guide}
           </span>
-          <Heading as="h1">{metadata.title}</Heading>
+          {/* The tool's one name comes from the manifest, so the Lab card,
+              the tool page and this guide can never drift apart */}
+          <Heading as="h1">{localizeApp(app?.name, isChinese) || metadata.title}</Heading>
           <p>{metadata.description}</p>
         </div>
       </div>
@@ -110,7 +112,8 @@ function AppTutorialHero({ metadata, frontMatter }) {
           </ul>
         )}
         <Link className={styles.openAppButton} to={frontMatter.app_route}>
-          {t.open}
+          <span>{t.open}</span>
+          <span className={styles.openAppArrow} aria-hidden="true" />
         </Link>
       </div>
     </header>

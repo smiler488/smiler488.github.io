@@ -131,7 +131,7 @@ function BiologicalWorkspace() {
         <iframe
           key={`${retryKey}-${colorMode}`}
           src={frameUrl}
-          title={tx("Biological Sample Quantifier hosted workspace")}
+          title={tx("Image Quantifier hosted workspace")}
           className={styles.frame}
           allow="camera; clipboard-write"
           referrerPolicy="strict-origin-when-cross-origin"

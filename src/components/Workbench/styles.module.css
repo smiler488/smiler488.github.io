@@ -54,17 +54,17 @@
 .panel {
   display: grid;
   gap: 0.9rem;
-  padding: clamp(1rem, 2.5vw, 1.4rem);
-  border: 1px solid var(--ds-line);
+  padding: clamp(1.125rem, 2.5vw, 1.5rem);
+  border: 0;
   border-radius: var(--ds-radius-lg);
-  background: var(--ds-bg);
+  background: var(--ds-surface);
 }
 
 .panelHead h2 {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
   letter-spacing: -0.01em;
 }
 
@@ -256,7 +256,7 @@
   margin: 0;
   color: var(--ds-text);
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
 }
 
 .fairGrid {

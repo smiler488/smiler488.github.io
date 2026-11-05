@@ -1,7 +1,7 @@
 ---
-title: CCO 航线构建器
+title: "CCO 航线规划器"
 description: 将 KML 田块边界转换为可预览的 DJI 兼容 CCO 航线包，支持可配置的飞行和相机设置。
-sidebar_label: CCO 任务规划器
+sidebar_label: "CCO 航线规划器"
 sidebar_position: 5
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## 功能简介
 
-CCO 航线构建器读取 KML 多边形，在其周围放置旋转的圆形航线中心点网格，构建蛇形排序的相机朝向航点序列，并导出 KML、WPML 以及在 JSZip 可用时导出 KMZ 文件。它还可以从现有 DJI KMZ 中读取无人机和载荷枚举值。
+CCO 航线规划器读取 KML 多边形，在其周围放置旋转的圆形航线中心点网格，构建蛇形排序的相机朝向航点序列，并导出 KML、WPML 以及在 JSZip 可用时导出 KMZ 文件。它还可以从现有 DJI KMZ 中读取无人机和载荷枚举值。
 
 :::caution 飞行规划预览
 在操作飞行器之前，请在 DJI 软件中验证航线几何、高度解释、设备枚举值、载荷动作、障碍物、空域和当地飞行法规。
@@ -108,6 +108,6 @@ JSZip 从 jsDelivr 加载。如果不可用，纯 KML 和 WPML 生成仍可工�
 | KMZ 解析失败                          | 确认文件低于 25 MB，包含 KML/WPML，且 JSZip CDN 已加载。如有需要，手动输入枚举值。         |
 | 生成的文件被 DJI 软件拒绝             | 在目标 DJI 版本中验证设备枚举值、高度、速度、载荷位置、WPML 预期和航线大小。               |
 
-[打开 CCO 航线构建器](/app/cco)
+[打开 CCO 航线规划器](/app/cco)
 
 [浏览全部应用](/app)

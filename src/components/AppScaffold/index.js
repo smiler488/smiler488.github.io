@@ -18,7 +18,7 @@ const FALLBACK = {
     back: "App Lab",
     nav: "App Lab navigation",
     capabilities: "Tool capabilities",
-    guide: "Guide",
+    guide: "Read the guide",
   },
   zh: {
     title: "科研工具",
@@ -27,9 +27,33 @@ const FALLBACK = {
     back: "应用实验室",
     nav: "应用实验室导航",
     capabilities: "工具能力",
-    guide: "教程",
+    guide: "使用教程",
   },
 };
+
+/** Book icon: closed at rest, open on hover and focus (muse icon rule). */
+function GuideIcon() {
+  const line = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.75,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+  return (
+    <span className={styles.guideIcon} aria-hidden="true">
+      <svg className={styles.guideClosed} viewBox="0 0 24 24" {...line}>
+        <path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5Z" />
+        <path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3" />
+        <path d="M9 7h6" />
+      </svg>
+      <svg className={styles.guideOpen} viewBox="0 0 24 24" {...line}>
+        <path d="M12 6.5C10.4 5 8 4.5 3 4.5v13c5 0 7.4.5 9 2 1.6-1.5 4-2 9-2v-13c-5 0-7.4.5-9 2Z" />
+        <path d="M12 6.5v13" />
+      </svg>
+    </span>
+  );
+}
 
 export default function AppScaffold({
   appId,
@@ -123,7 +147,8 @@ export default function AppScaffold({
               <div className={styles.heroActions}>
                 {tutorialHref && (
                   <Link className={styles.guideLink} to={tutorialHref}>
-                    {t.guide}
+                    <GuideIcon />
+                    <span>{t.guide}</span>
                   </Link>
                 )}
                 {actions}

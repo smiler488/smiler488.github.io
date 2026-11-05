@@ -1,7 +1,7 @@
 ---
-title: 根系图像预处理器
+title: "根系预处理器"
 description: "浏览器版 RootQuantify：圈出根系区域，用形态学闭运算去除背景，按原始分辨率阈值分割，再手动修正。"
-sidebar_label: 根系预处理
+sidebar_label: "根系预处理器"
 sidebar_position: 7
 hide_title: true
 keywords: [root, scan, roi, segmentation, image, rootquantify]
@@ -15,7 +15,7 @@ app_badges: ["Matches RootQuantify", "Full resolution", "PNG export"]
 
 ## 功能简介
 
-根系图像预处理器是 [RootQuantify](https://github.com/smiler488/RootQuantify)（`RootImager.py`）的浏览器版本，把根系扫描图处理成白底黑根的图像，供 WinRHIZO、RhizoVision Explorer 或 ImageJ 测量：
+根系预处理器是 [RootQuantify](https://github.com/smiler488/RootQuantify)（`RootImager.py`）的浏览器版本，把根系扫描图处理成白底黑根的图像，供 WinRHIZO、RhizoVision Explorer 或 ImageJ 测量：
 1. 用多边形圈出根系区域。
 2. 工具按原始分辨率对该区域执行 RootQuantify 的背景扣除和阈值分割。
 3. 用画笔修正后导出。
@@ -115,6 +115,6 @@ app_badges: ["Matches RootQuantify", "Full resolution", "PNG export"]
 | 斑点或阴影被识别为根 | 提高**阈值**、把多边形圈紧，或用**擦除（白）**去掉。 |
 | 无法编辑多边形 | 点击**重置处理结果**；需要新边界时再点击**重置多边形**。 |
 
-[打开根系图像预处理器](/app/root-processor)
+[打开根系预处理器](/app/root-processor)
 
 [返回应用实验室](/app)

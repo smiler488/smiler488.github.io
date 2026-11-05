@@ -1,7 +1,7 @@
 ---
-title: "AI 数据可视化器"
+title: "AI 数据可视化"
 description: "加载表格，创建确定性的本地图表，并可选地使用你选择的 AI 服务商来帮助解读数据规律。"
-sidebar_label: "AI 数据可视化器"
+sidebar_label: "AI 数据可视化"
 sidebar_position: 10
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## 功能简介
 
-AI 数据可视化器在浏览器中加载表格，分析其列属性，并创建交互式 ECharts 可视化。默认的 **Local demo**（本地演示）直接根据上传的行数据构建确定性图表，无需网络请求。你也可以选择将一份精简的数据集摘要和分析目标发送给你配置的 AI 服务商。
+AI 数据可视化在浏览器中加载表格，分析其列属性，并创建交互式 ECharts 可视化。默认的 **Local demo**（本地演示）直接根据上传的行数据构建确定性图表，无需网络请求。你也可以选择将一份精简的数据集摘要和分析目标发送给你配置的 AI 服务商。
 
 :::info 本地优先工作流
 原始文件在本地解析。当你需要直接基于行数据生成图表，而非由模型生成图表规格时，请使用 **Local demo** 或 **Apply field mapping**（应用字段映射）。
@@ -41,7 +41,7 @@ AI 数据可视化器在浏览器中加载表格，分析其列属性，并创�
 
 ## 快速流程
 
-1. [打开 AI 数据可视化器](/app/ai-data-visualizer)。
+1. [打开 AI 数据可视化](/app/ai-data-visualizer)。
 2. 在 **Upload data**（上传数据）中，选择一个 CSV、TSV、Excel 或 JSON 文件。如果 Excel 工作簿包含多个工作表，请选择一个 **Excel sheet**（Excel 工作表）。
 3. 在继续之前，检查预览和 **Dataset summary sent to AI**（发送给 AI 的数据集摘要）。
 4. 输入 **Analysis goal**（分析目标）。
@@ -112,6 +112,6 @@ API 密钥仅保存在当前标签页的 React 状态中，在切换服务商、
 - **图表渲染失败：** 手动设置 X 和 Y 字段，再点击 **Apply field mapping**。
 - **Download PNG 不可用：** 等待图表渲染并检查其上方是否有运行时错误。
 
-[打开 AI 数据可视化器 →](/app/ai-data-visualizer)
+[打开 AI 数据可视化 →](/app/ai-data-visualizer)
 
 [← 返回应用实验室](/app)

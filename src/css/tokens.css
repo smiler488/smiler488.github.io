@@ -6,24 +6,27 @@
 
 :root {
   /*
-   * Semantic design tokens (design/DESIGN_SPEC.md §5.1), in the Muse-inspired
-   * system: near-white surfaces, cool neutral greys, one restrained blue for
-   * actions, links and focus; green and red only for status.
+   * Semantic design tokens (design/DESIGN_SPEC.md §5.1, D-023): the
+   * muse-design v1.2 product-page layer, measured on the official Muse page —
+   * white page, blue-black headings, slate copy, one blue for actions, links,
+   * eyebrows and focus; soft borderless cards; hairline section dividers.
+   * Green and red only for status.
    */
-  --ds-bg: #fcfcfc;
+  --ds-bg: #ffffff;
   --ds-card: #ffffff;
-  --ds-surface: #f3f4f5;
-  --ds-surface-warm: #edeef0;
-  --ds-line: #e3e3e3;
-  --ds-control-border: #828589;
-  --ds-text: #111112;
-  --ds-text-muted: #67696c;
-  --ds-primary: #0064d4;
-  --ds-primary-hover: #0058bd;
-  --ds-primary-soft: #e8f2ff;
+  --ds-surface: #f1f4f7;
+  --ds-surface-warm: #e7ebef;
+  --ds-band: #f6f6f6;
+  --ds-line: #dadde1;
+  --ds-control-border: #828a92;
+  --ds-text: #0a1317;
+  --ds-text-muted: #5d6c7b;
+  --ds-primary: #0457cb;
+  --ds-primary-hover: #0349ae;
+  --ds-primary-soft: #e6effb;
   --ds-on-primary: #ffffff;
   --ds-accent: var(--ds-primary);
-  --ds-accent-rgb: 0, 100, 212;
+  --ds-accent-rgb: 4, 87, 203;
   --ds-success: #237a39;
   --ds-success-soft: #eaf5ec;
   /* AI4Plant mark only (the green "4" and leaf); never a UI action colour */
@@ -36,27 +39,39 @@
   /* Content stays flat; only floating controls and panels cast a shadow.
      --ds-shadow-xs is the legacy content-card shadow, now deliberately empty. */
   --ds-shadow-xs: 0 0 0 transparent;
-  --ds-shadow-float: 0 2px 6px rgba(17, 17, 18, 0.04), 0 10px 28px rgba(17, 17, 18, 0.06);
-  --ds-shadow-panel: 0 8px 24px rgba(17, 17, 18, 0.08), 0 24px 64px rgba(17, 17, 18, 0.1);
-  /* Shape: small blocks, media, menus, panels, pills. */
+  --ds-shadow-float: 0 2px 6px rgba(10, 19, 23, 0.04), 0 10px 28px rgba(10, 19, 23, 0.06);
+  --ds-shadow-panel: 0 8px 24px rgba(10, 19, 23, 0.08), 0 24px 64px rgba(10, 19, 23, 0.1);
+  /* Shape: small blocks, media, menus, cards (24), feature media (32), pills. */
   --ds-radius-xs: 6px;
   --ds-radius-sm: 12px;
-  --ds-radius-md: 12px;
-  --ds-radius-lg: 20px;
-  --ds-radius-xl: 28px;
+  --ds-radius-md: 16px;
+  --ds-radius-lg: 24px;
+  --ds-radius-xl: 32px;
   --ds-radius-pill: 999px;
   --ds-white: #ffffff;
   --ds-black: #000000;
-  --ds-scrim: rgba(17, 17, 18, 0.56);
+  --ds-scrim: rgba(10, 19, 23, 0.56);
   /* Motion: quick feedback, short travel, natural deceleration. */
   --ds-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ds-dur-press: 120ms;
   --ds-dur-fast: 160ms;
   --ds-dur-menu: 180ms;
   --ds-dur-panel: 280ms;
-  /* Type: page titles 32–44px, section titles 24–32px, both 600 weight. */
-  --ds-title-page: clamp(2rem, 4.4vw, 2.75rem);
-  --ds-title-section: clamp(1.5rem, 2.6vw, 2rem);
+  /* Type (muse-design v1.2 product page): hierarchy from size, not weight.
+     Hero 64 · page 48 · section 36 · card 28 · disclosure 24 (light) ·
+     lead 18 · body 16 · eyebrow 14 uppercase blue. Headings weigh 500. */
+  --ds-title-hero: clamp(2.5rem, 4.6vw, 4rem);
+  --ds-title-page: clamp(2.25rem, 3.4vw, 3rem);
+  --ds-title-section: clamp(1.75rem, 2.5vw, 2.25rem);
+  --ds-title-card: clamp(1.375rem, 1.95vw, 1.75rem);
+  --ds-title-item: clamp(1.25rem, 1.7vw, 1.5rem);
+  --ds-text-lead: 1.125rem;
+  --ds-weight-heading: 500;
+  /* Layout: a wide page (1376 at 1440) with narrow text columns. */
+  --ds-wide: 1376px;
+  --ds-gutter: clamp(16px, 2.3vw, 32px);
+  --ds-section-y: clamp(3rem, 5.6vw, 5rem);
+  --ds-measure: 52rem;
 
   /* Tables: horizontal hairlines only, no stripes or tinted header */
   --ifm-table-stripe-background: transparent;
@@ -66,12 +81,12 @@
 
   /* Primary ramp derived from --ds-primary */
   --ifm-color-primary: var(--ds-primary);
-  --ifm-color-primary-dark: #005abf;
-  --ifm-color-primary-darker: #0055b4;
-  --ifm-color-primary-darkest: #004694;
-  --ifm-color-primary-light: #0072f2;
-  --ifm-color-primary-lighter: #0279ff;
-  --ifm-color-primary-lightest: #2e91ff;
+  --ifm-color-primary-dark: #044eb7;
+  --ifm-color-primary-darker: #034aad;
+  --ifm-color-primary-darkest: #033d8e;
+  --ifm-color-primary-light: #0a63de;
+  --ifm-color-primary-lighter: #1a6ee6;
+  --ifm-color-primary-lightest: #4a8ff0;
   --ifm-link-color: var(--ds-primary);
   --ifm-link-hover-color: var(--ds-primary-hover);
 
@@ -79,14 +94,14 @@
   --ifm-background-color: var(--ds-bg);
   --ifm-background-surface-color: var(--ds-surface);
 
-  /* 文本颜色 — cool neutral ramp; 500 and darker pass 4.5:1 on --ds-bg */
+  /* 文本颜色 — cool slate ramp; 500 and darker pass 4.5:1 on --ds-bg */
   --ifm-color-emphasis-900: var(--ds-text);
-  --ifm-color-emphasis-800: #1d1e20;
-  --ifm-color-emphasis-700: #3a3c3f;
+  --ifm-color-emphasis-800: #1c2b33;
+  --ifm-color-emphasis-700: #344450;
   --ifm-color-emphasis-600: var(--ds-text-muted);
-  --ifm-color-emphasis-500: #6b6d71;
-  --ifm-color-emphasis-400: #a3a6aa;
-  --ifm-color-emphasis-300: #d3d5d8;
+  --ifm-color-emphasis-500: #5f6e7c;
+  --ifm-color-emphasis-400: #a1acb7;
+  --ifm-color-emphasis-300: #ccd3da;
   --ifm-color-emphasis-200: var(--ds-line);
   --ifm-color-emphasis-100: var(--ds-surface);
   --ifm-color-emphasis-0: var(--ds-card);
@@ -105,13 +120,14 @@
   --ifm-font-family-base: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --ifm-font-size-base: 16px;
-  --ifm-line-height-base: 1.65;
+  --ifm-line-height-base: 1.6;
+  --ifm-heading-font-weight: var(--ds-weight-heading);
 
   /* 代码块 */
   --ifm-code-font-size: 90%;
   --ifm-pre-background: var(--ds-surface);
   --ifm-pre-color: var(--ds-text);
-  --docusaurus-highlighted-code-line-bg: rgba(17, 17, 18, 0.06);
+  --docusaurus-highlighted-code-line-bg: rgba(10, 19, 23, 0.06);
 
   /* 导航栏 */
   --ifm-navbar-background-color: rgba(255, 255, 255, 0.92);
@@ -178,18 +194,19 @@
 /* 深色模式 - OpenAI 风格科技深色主题 */
 html[data-theme='dark'] {
   /* The project's own dark extension of the palette, not a Muse sample. */
-  --ds-bg: #111112;
-  --ds-card: #1b1c1e;
-  --ds-surface: #232427;
-  --ds-surface-warm: #26272a;
-  --ds-line: #2f3033;
-  --ds-control-border: #8a8d92;
-  --ds-text: #f3f4f5;
-  --ds-text-muted: #a6a9ad;
+  --ds-bg: #0b1014;
+  --ds-card: #151b20;
+  --ds-surface: #1a2127;
+  --ds-surface-warm: #222a31;
+  --ds-band: #11171b;
+  --ds-line: #2a333b;
+  --ds-control-border: #87929c;
+  --ds-text: #f1f4f7;
+  --ds-text-muted: #a2afbb;
   --ds-primary: #5ea3ff;
   --ds-primary-hover: #7ab4ff;
   --ds-primary-soft: #13263f;
-  --ds-on-primary: #111112;
+  --ds-on-primary: #0a1317;
   --ds-accent-rgb: 94, 163, 255;
   --ds-success: #6fd28a;
   --ds-success-soft: #15281a;
@@ -221,14 +238,14 @@ html[data-theme='dark'] {
   --ifm-background-surface-color: var(--ds-surface);
 
   --ifm-color-emphasis-900: var(--ds-text);
-  --ifm-color-emphasis-800: #e3e4e6;
-  --ifm-color-emphasis-700: #c9cbce;
+  --ifm-color-emphasis-800: #e1e6eb;
+  --ifm-color-emphasis-700: #c6ced6;
   --ifm-color-emphasis-600: var(--ds-text-muted);
-  --ifm-color-emphasis-500: #8a8d92;
-  --ifm-color-emphasis-400: #5c5f63;
-  --ifm-color-emphasis-300: #45474b;
+  --ifm-color-emphasis-500: #8b98a4;
+  --ifm-color-emphasis-400: #5b6670;
+  --ifm-color-emphasis-300: #414b54;
   --ifm-color-emphasis-200: var(--ds-line);
-  --ifm-color-emphasis-100: #1f2022;
+  --ifm-color-emphasis-100: #182026;
   --ifm-color-emphasis-0: var(--ds-bg);
   --ifm-font-color-base: var(--ds-text);
 
@@ -242,7 +259,7 @@ html[data-theme='dark'] {
   --ifm-pre-color: var(--ds-text);
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
 
-  --ifm-navbar-background-color: rgba(27, 28, 30, 0.92);
+  --ifm-navbar-background-color: rgba(21, 27, 32, 0.92);
   --ifm-navbar-shadow: none;
   --ifm-navbar-link-color: var(--ds-text);
   --ifm-navbar-link-hover-color: var(--ds-text);

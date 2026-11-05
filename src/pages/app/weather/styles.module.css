@@ -1,12 +1,12 @@
 .panel {
   margin-bottom: 1rem !important;
   padding: clamp(1rem, 2.5vw, 1.5rem) !important;
-  border: 1px solid var(--ds-line);
+  border: 0;
   border-radius: 16px !important;
-  background: var(--ds-card) !important;
+  background: var(--ds-surface) !important;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: var(--ds-shadow-xs), inset 0 1px 0 transparent !important;
+  box-shadow: none;
 }
 
 .searchLabel {

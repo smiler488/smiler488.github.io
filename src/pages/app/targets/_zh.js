@@ -61,7 +61,7 @@ export default {
   "Generate high-precision printable calibration targets for camera calibration and photogrammetry. Print at":
     "生成可打印的高精度标定板，用于相机标定和摄影测量。请按",
   "The target generator script could not be loaded. Refresh and try again.":
-    "标定板生成脚本加载失败，请刷新后重试。",
+    "标定板生成器脚本加载失败，请刷新后重试。",
   "Initialization failed. Check console for details.":
     "初始化失败，详情请查看控制台。",
   "Calibration targets generator ready": "标定板生成器已就绪",

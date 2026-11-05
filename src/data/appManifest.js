@@ -10,7 +10,7 @@ export const APP_CATEGORIES = [
 export const APP_MANIFEST = [
   {
     id: "sensor",
-    name: { en: "Device Sensor Recorder", zh: "设备传感器记录仪" },
+    name: { en: "Sensor Recorder", zh: "传感器记录仪" },
     shortName: { en: "Sensor Recorder", zh: "传感器记录仪" },
     description: {
       en: "Capture phone orientation, leaf inclination, location and solar geometry as timestamped field records, then export a research-ready CSV.",
@@ -76,7 +76,7 @@ export const APP_MANIFEST = [
   },
   {
     id: "irrigation-designer",
-    name: { en: "Irrigation Layout Designer", zh: "灌溉布局设计器" },
+    name: { en: "Irrigation Designer", zh: "灌溉设计器" },
     shortName: { en: "Irrigation Designer", zh: "灌溉设计器" },
     description: {
       en: "Check a drip-irrigation block: lateral, submain and mainline losses, pressure at the farthest subunit and emitter flow variation, with a validated model.",
@@ -108,10 +108,7 @@ export const APP_MANIFEST = [
   },
   {
     id: "weather",
-    name: {
-      en: "NASA POWER Weather Downloader",
-      zh: "NASA POWER 气象数据下载器",
-    },
+    name: { en: "Weather Downloader", zh: "气象数据下载器" },
     shortName: { en: "Weather Downloader", zh: "气象数据下载器" },
     description: {
       en: "Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results.",
@@ -143,8 +140,8 @@ export const APP_MANIFEST = [
   },
   {
     id: "cco",
-    name: { en: "CCO Waylines Builder", zh: "CCO 航线生成器" },
-    shortName: { en: "CCO Mission Planner", zh: "CCO 航线规划" },
+    name: { en: "CCO Mission Planner", zh: "CCO 航线规划器" },
+    shortName: { en: "CCO Mission Planner", zh: "CCO 航线规划器" },
     description: {
       en: "Turn KML field boundaries into previewable DJI-compatible CCO wayline packages with configurable flight and camera settings.",
       zh: "把 KML 田块边界转成可预览的大疆 CCO 航线包，飞行与相机参数均可配置。",
@@ -175,8 +172,8 @@ export const APP_MANIFEST = [
   },
   {
     id: "image",
-    name: { en: "Biological Sample Quantifier", zh: "生物样本图像量化" },
-    shortName: { en: "Image Quantifier", zh: "图像量化工具" },
+    name: { en: "Image Quantifier", zh: "图像量化器" },
+    shortName: { en: "Image Quantifier", zh: "图像量化器" },
     description: {
       en: "Open the hosted analysis workspace to quantify biological samples from uploaded or captured images and export measurements.",
       zh: "打开在线分析工作台，对上传或拍摄的生物样本图像做量化，并导出测量结果。",
@@ -207,8 +204,8 @@ export const APP_MANIFEST = [
   },
   {
     id: "root-processor",
-    name: { en: "Root Image Preprocessor", zh: "根系图像预处理器" },
-    shortName: { en: "Root Preprocessor", zh: "根系预处理" },
+    name: { en: "Root Preprocessor", zh: "根系预处理器" },
+    shortName: { en: "Root Preprocessor", zh: "根系预处理器" },
     description: {
       en: "RootQuantify in the browser: trace the root region, remove the background by morphological closing, threshold at full resolution and correct by hand.",
       zh: "浏览器版 RootQuantify：圈出根系区域，用形态学闭运算去除背景，按原始分辨率阈值分割，再手动修正。",
@@ -239,7 +236,7 @@ export const APP_MANIFEST = [
   },
   {
     id: "stereo",
-    name: { en: "Stereo Vision Workspace", zh: "双目视觉工作台" },
+    name: { en: "Stereo Vision", zh: "双目视觉" },
     shortName: { en: "Stereo Vision", zh: "双目视觉" },
     description: {
       en: "Rectify a calibrated side-by-side stereo stream, compute metric depth by block matching and export depth in millimetres.",
@@ -271,8 +268,8 @@ export const APP_MANIFEST = [
   },
   {
     id: "targets",
-    name: { en: "Calibration Targets Generator", zh: "标定板生成器" },
-    shortName: { en: "Calibration Targets", zh: "标定板生成" },
+    name: { en: "Calibration Target Generator", zh: "标定板生成器" },
+    shortName: { en: "Calibration Target Generator", zh: "标定板生成器" },
     description: {
       en: "Generate printable checkerboards and segmented circular markers at exact millimetre sizes, with fit checks and PDF export.",
       zh: "按精确毫米尺寸生成可打印的棋盘格与分段圆形标志，带版面校验与 PDF 导出。",
@@ -339,7 +336,7 @@ export const APP_MANIFEST = [
   },
   {
     id: "journal-selector",
-    name: { en: "AI Journal Selector", zh: "AI 期刊选择器" },
+    name: { en: "Journal Selector", zh: "期刊选择器" },
     shortName: { en: "Journal Selector", zh: "期刊选择器" },
     description: {
       en: "Find journals that publish work like yours and check the journals you have in mind, from similar published articles and OpenAlex and DOAJ data; an AI model you choose can add a written submission strategy.",
@@ -384,7 +381,7 @@ export const APP_MANIFEST = [
   {
     id: "data-integrity",
     name: { en: "Data Integrity Screen", zh: "数据诚信筛查" },
-    shortName: { en: "Integrity Screen", zh: "数据诚信筛查" },
+    shortName: { en: "Data Integrity Screen", zh: "数据诚信筛查" },
     description: {
       en: "Screen CSV, TXT or Excel research data for duplicated or near-identical records, pasted runs of values, uneven final digits, equal increments and impossible means, and export a report a reviewer can check cell by cell.",
       zh: "对 CSV、TXT、Excel 科研数据筛查重复或近似重复记录、粘贴的数值序列、末位数字偏好、等步长和不可能的均值，并导出可逐个单元格复核的报告。",
@@ -428,7 +425,7 @@ export const APP_MANIFEST = [
   },
   {
     id: "solver",
-    name: { en: "Multimodal AI Solver", zh: "多模态 AI 解题器" },
+    name: { en: "AI Solver", zh: "AI 解题器" },
     shortName: { en: "AI Solver", zh: "AI 解题器" },
     description: {
       en: "Answer lab safety exam questions and other problems from a screen capture, photo or text: a clear answer with its reason, a second independent answer as a check, and a self-test of your model.",
@@ -504,8 +501,8 @@ export const APP_MANIFEST = [
   },
   {
     id: "maze",
-    name: { en: "Research Maze", zh: "迷宫实验" },
-    shortName: { en: "Maze", zh: "迷宫" },
+    name: { en: "Research Maze", zh: "科研迷宫" },
+    shortName: { en: "Research Maze", zh: "科研迷宫" },
     description: {
       en: "A compact canvas experiment in procedural maze generation, keyboard and touch input, movement trails and local scores.",
       zh: "一个紧凑的 canvas 实验：程序化迷宫生成、键盘与触摸输入、移动轨迹与本地计分。",

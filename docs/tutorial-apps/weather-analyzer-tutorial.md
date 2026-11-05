@@ -1,7 +1,7 @@
 ---
-title: NASA POWER Weather Downloader
+title: "Weather Downloader"
 description: Select a location and date range, retrieve NASA POWER agrometeorological data and preview or download clean CSV results.
-sidebar_label: Weather Downloader
+sidebar_label: "Weather Downloader"
 sidebar_position: 4
 hide_title: true
 keywords:
@@ -24,7 +24,7 @@ app_badges:
 
 ## What it does
 
-NASA POWER Weather Downloader requests fixed daily or hourly agrometeorological variables for one coordinate and date range. You can select the coordinate manually, on a map, through place search or with browser location, preview up to 100 returned rows and download the complete response as CSV.
+Weather Downloader requests fixed daily or hourly agrometeorological variables for one coordinate and date range. You can select the coordinate manually, on a map, through place search or with browser location, preview up to 100 returned rows and download the complete response as CSV.
 
 :::info Raw POWER records
 The current app exports the variables returned by NASA POWER. It does not convert them to PCSE/WOFOST fields, fill missing values, calculate ET₀ or generate charts.
@@ -114,6 +114,6 @@ The downloaded records remain in browser memory until replaced or the page is cl
 | NASA POWER returns an error or no rows     | Recheck coordinates and dates, shorten the range and retry after confirming POWER service availability.                        |
 | The CSV contains missing or unusual values | Inspect the POWER metadata and clean or transform the exported data in your analysis workflow.                                 |
 
-[Open NASA POWER Weather Downloader](/app/weather)
+[Open Weather Downloader](/app/weather)
 
 [Browse all apps](/app)

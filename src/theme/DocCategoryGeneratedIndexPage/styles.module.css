@@ -85,7 +85,7 @@
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .heroCopy > p {
@@ -157,9 +157,9 @@
   gap: 0.75rem;
   align-items: baseline;
   padding: 0.9rem 1rem;
-  border: 1px solid var(--ds-line);
-  border-radius: var(--radius-lg);
-  background: rgb(255 255 255 / 24%);
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-surface);
 }
 
 .heroStats dt {
@@ -196,7 +196,7 @@
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-section);
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .directoryIntro p,
@@ -224,13 +224,13 @@
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: clamp(1.35rem, 2.4vw, 1.8rem);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .groupHeading span {
   color: var(--ifm-color-emphasis-500);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
 }
 
 .tutorialGrid {
@@ -290,7 +290,7 @@
   margin: 1.2rem 0 0;
   font-size: 1.22rem;
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .cardCopy h3 a {

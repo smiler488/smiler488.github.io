@@ -1,5 +1,5 @@
 .container {
-  max-width: 1200px;
+  max-width: none;
   margin: 0 auto;
   padding: 0;
 }
@@ -27,10 +27,10 @@
 .permissionCard {
   margin-bottom: 12px;
   padding: 16px;
-  background: var(--ds-card);
+  background: var(--ds-surface);
   border-radius: 16px;
-  border: 1px solid var(--ds-line);
-  box-shadow: var(--ds-shadow-xs);
+  border: 0;
+  box-shadow: none;
 }
 
 .permissionContent {
@@ -99,9 +99,14 @@
 }
 
 .buttonPrimary {
-  background-color: var(--ifm-color-emphasis-900);
-  color: var(--ifm-color-emphasis-0);
-  border: 1px solid var(--ifm-color-emphasis-900);
+  background-color: var(--ds-primary);
+  color: var(--ds-on-primary);
+  border: 1px solid var(--ds-primary);
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  background-color: var(--ds-primary-hover);
+  border-color: var(--ds-primary-hover);
 }
 
 .buttonPrimary:disabled {
@@ -111,10 +116,9 @@
 }
 
 .buttonSecondary {
-  /* Using Docusaurus button classes usually, but for custom styling */
-  background: transparent;
-  border: 1px solid var(--ifm-color-primary);
-  color: var(--ifm-color-primary);
+  background: var(--ds-card);
+  border: 1px solid transparent;
+  color: var(--ds-text);
 }
 
 .grid {
@@ -126,10 +130,10 @@
 
 .card {
   padding: 16px;
-  background: var(--ds-card);
+  background: var(--ds-surface);
   border-radius: 16px;
-  border: 1px solid var(--ds-line);
-  box-shadow: var(--ds-shadow-xs);
+  border: 0;
+  box-shadow: none;
 }
 
 .cardTitle {
@@ -181,9 +185,9 @@
 
 .formulaBox {
   background: var(--ds-card);
-  border: 1px solid var(--ds-line);
+  border: 0;
   border-radius: 16px;
-  box-shadow: var(--ds-shadow-xs);
+  box-shadow: none;
   overflow: hidden;
   margin-top: 24px;
 }

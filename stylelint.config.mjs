@@ -30,13 +30,13 @@ export default {
     "shorthand-property-no-redundant-values": null,
     "value-keyword-case": null,
 
-    // Design-system guardrails (design/DESIGN_SPEC.md §5.6, §5.8).
-    // Colours come from src/css/tokens.css; no frosted glass, no all-caps labels,
-    // no decorative radial glows.
+    // Design-system guardrails (design/DESIGN_SPEC.md §5.6, §5.8, D-023).
+    // Colours come from src/css/tokens.css; no frosted glass, no decorative
+    // radial glows. Uppercase is allowed for the blue eyebrow labels of the
+    // muse-design v1.2 page layer.
     "color-no-hex": true,
     "declaration-property-value-disallowed-list": [
       {
-        "text-transform": ["uppercase"],
         background: ["/radial-gradient/"],
         "background-image": ["/radial-gradient/"],
         "backdrop-filter": ["/blur/"],
@@ -44,12 +44,26 @@ export default {
       },
       {
         message:
-          "Sentence case, no decorative glows, no frosted glass (DESIGN_SPEC §5.6). Floating layers opt out with a commented stylelint-disable.",
+          "No decorative glows, no frosted glass (DESIGN_SPEC §5.6). Floating layers opt out with a commented stylelint-disable.",
       },
     ],
     "declaration-property-value-allowed-list": [
-      { "font-weight": ["400", "500", "600", "normal", "inherit"] },
-      { message: "Use font weights 400 / 500 / 600 only (DESIGN_SPEC §5.2)." },
+      {
+        "font-weight": [
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "normal",
+          "inherit",
+          "var(--ds-weight-heading)",
+        ],
+      },
+      {
+        message:
+          "Font weights: headings var(--ds-weight-heading) (500), disclosure titles 300, body 400, UI 500/600, primary capsule 700 (DESIGN_SPEC §5.2, D-023).",
+      },
     ],
   },
   overrides: [

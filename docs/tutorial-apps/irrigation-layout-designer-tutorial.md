@@ -1,7 +1,7 @@
 ---
-title: Irrigation Layout Designer
+title: "Irrigation Designer"
 description: Check the hydraulics of a drip-irrigation block — lateral, submain and mainline losses, pressure at the farthest subunit and emitter flow variation — with a validated model.
-sidebar_label: Irrigation Designer
+sidebar_label: "Irrigation Designer"
 sidebar_position: 3
 hide_title: true
 keywords:
@@ -23,7 +23,7 @@ app_badges:
 
 ## What it does
 
-Irrigation Layout Designer checks the hydraulics of a rectangular drip-irrigation block. It draws the layout to scale and computes, for the farthest subunit of the worst-case shift: friction losses in the mainline, submains and drip laterals, elevation effects, the pressure available at the submain inlet against the pressure the subunit needs, pressure variation within the subunit, and the resulting emitter flow variation. Warnings flag velocities, pump flow, pressure deficits and excessive variation.
+Irrigation Designer checks the hydraulics of a rectangular drip-irrigation block. It draws the layout to scale and computes, for the farthest subunit of the worst-case shift: friction losses in the mainline, submains and drip laterals, elevation effects, the pressure available at the submain inlet against the pressure the subunit needs, pressure variation within the subunit, and the resulting emitter flow variation. Warnings flag velocities, pump flow, pressure deficits and excessive variation.
 
 ## Before you start
 
@@ -76,6 +76,6 @@ All inputs, calculations and SVG generation run locally in the browser. The desi
 | Velocity warnings                    | Enlarge the pipe or reduce the flow it carries.                                            |
 | SVG does not download                | Allow browser downloads and try **Export SVG** again.                                      |
 
-[Open Irrigation Layout Designer](/app/irrigation-designer)
+[Open Irrigation Designer](/app/irrigation-designer)
 
 [Browse all apps](/app)

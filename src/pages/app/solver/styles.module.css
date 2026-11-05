@@ -21,9 +21,9 @@
 .panel {
   min-width: 0;
   padding: clamp(1.1rem, 2.4vw, 1.4rem);
-  border: 1px solid var(--ds-line);
+  border: 0;
   border-radius: 16px;
-  background: var(--ifm-background-color);
+  background: var(--ds-surface);
 }
 
 .panelHead {
@@ -39,7 +39,7 @@
   margin: 0;
   color: var(--ifm-color-emphasis-900);
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: var(--ds-weight-heading);
 }
 
 /* Segmented mode control (real radios, visually a pill switch) */
