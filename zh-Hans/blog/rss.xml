@@ -51,9 +51,9 @@
 <p>手机传感器不是测绘或实验室仪器。叶倾角读数取决于手机与叶片的贴合方式；消费级 GPS 存在米级误差，因此面积测量适用于地块和田块，而不适用于小样方。气象数值来自服务商的站点或格点，而非植株处的传感器。基于颜色的图像性状在未经参考测量标定时为相对值。发送到后端和 AI 模型的数据会离开手机，敏感数据需相应处理。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="获取方式">获取方式<a href="https://smiler488.github.io/zh-Hans/blog/phenohub-wechat-miniapp#%E8%8E%B7%E5%8F%96%E6%96%B9%E5%BC%8F" class="hash-link" aria-label="获取方式的直接链接" title="获取方式的直接链接" translate="no">​</a></h2>
 <p>源代码托管在微信 Git，可申请访问。如需获取或合作，请见 <a class="" href="https://smiler488.github.io/zh-Hans/cv">CV 页面</a> 中的联系方式。</p>]]></content:encoded>
-            <category>Plant Phenotyping</category>
-            <category>Artificial Intelligence</category>
-            <category>Data Analysis</category>
+            <category>植物表型</category>
+            <category>人工智能</category>
+            <category>数据分析</category>
         </item>
         <item>
             <title><![CDATA[Botanical Extract AI Pro：基于多模态模型的零样本植株背景去除]]></title>
@@ -95,10 +95,10 @@
 <p>每个输出都与未改动的原图并排保存。用于表型分析时，将输出与原图按相同比例叠加，检查细茎、叶尖、孔洞和花盆边缘。由于背景是均匀的纯白，通过简单阈值即可得到植株二值掩膜，从而在验证子集上与人工标注掩膜进行比较。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/botanical-extract-ai-pro#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
 <p>模型是在编辑图像而不是对像素分类，因此细茎、叶缘、小花等精细结构可能被改变或丢失，重复请求或更换模型版本也可能得到不同结果。对于叶面积、病斑面积等需要像素级精确掩膜的测量，输出需与标注掩膜核对，或改用训练过的分割模型。图像由模型服务商处理，研究图像适用服务商的数据政策；API 密钥保存在服务端或环境变量中，不写入客户端代码。</p>]]></content:encoded>
-            <category>Artificial Intelligence</category>
-            <category>Computer Vision</category>
-            <category>Image Analysis</category>
-            <category>Plant Phenotyping</category>
+            <category>人工智能</category>
+            <category>计算机视觉</category>
+            <category>图像分析</category>
+            <category>植物表型</category>
         </item>
         <item>
             <title><![CDATA[MCTP：多模态作物表型数据处理平台]]></title>
@@ -117,10 +117,10 @@
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="延伸阅读">延伸阅读<a href="https://smiler488.github.io/zh-Hans/blog/mctp-unified-phenotyping-platform#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB" class="hash-link" aria-label="延伸阅读的直接链接" title="延伸阅读的直接链接" translate="no">​</a></h2>
 <p><strong><a class="" href="https://smiler488.github.io/zh-Hans/research/mctp-workspace">项目页</a></strong> 介绍了每个模块（附截图）、推荐流程和后续计划。如需试用 MCTP 或获取示例数据，请见<a class="" href="https://smiler488.github.io/zh-Hans/cv">个人简历页</a>中的联系方式。</p>]]></content:encoded>
-            <category>Plant Phenotyping</category>
-            <category>Image Analysis</category>
-            <category>Data Analysis</category>
-            <category>Remote Sensing</category>
+            <category>植物表型</category>
+            <category>图像分析</category>
+            <category>数据分析</category>
+            <category>遥感</category>
         </item>
         <item>
             <title><![CDATA[基于表型性状预测叶片 BRDF]]></title>
@@ -147,10 +147,10 @@
 </ul>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="引用">引用<a href="https://smiler488.github.io/zh-Hans/blog/brdf-paper#%E5%BC%95%E7%94%A8" class="hash-link" aria-label="引用的直接链接" title="引用的直接链接" translate="no">​</a></h2>
 <p>Deng, L., Yu, L. X., Mao, L., Wang, Y., Guo, X., Wang, M., Zhang, Y., Song, Q., &amp; Zhu, X.-G. (2025). <strong>Leaf bidirectional reflectance distribution function (BRDF) prediction with phenotypic traits in four species: Development of a novel measuring and analyzing framework.</strong> <em>Plant Phenomics, 7</em>(4), 100135. <a href="https://doi.org/10.1016/j.plaphe.2025.100135" target="_blank" rel="noopener noreferrer" class="">https://doi.org/10.1016/j.plaphe.2025.100135</a></p>]]></content:encoded>
-            <category>Plant Phenotyping</category>
-            <category>Remote Sensing</category>
-            <category>Machine Learning</category>
-            <category>Crop Modeling</category>
+            <category>植物表型</category>
+            <category>遥感</category>
+            <category>机器学习</category>
+            <category>作物模型</category>
         </item>
         <item>
             <title><![CDATA[本地 AI 助手与智能体：安全部署指南]]></title>
@@ -283,9 +283,9 @@
 <li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->日志已脱敏，访问受控</li>
 <li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->回滚和紧急停止流程已演练</li>
 </ul>]]></content:encoded>
-            <category>Artificial Intelligence</category>
-            <category>Local AI</category>
-            <category>Reproducible Research</category>
+            <category>人工智能</category>
+            <category>本地 AI</category>
+            <category>可复现研究</category>
             <category>Python</category>
         </item>
         <item>
@@ -358,9 +358,9 @@
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="相关浏览器工具">相关浏览器工具<a href="https://smiler488.github.io/zh-Hans/blog/local-image-quantification-tutorial#%E7%9B%B8%E5%85%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E5%85%B7" class="hash-link" aria-label="相关浏览器工具的直接链接" title="相关浏览器工具的直接链接" translate="no">​</a></h2>
 <p>实验室中的<a class="" href="https://smiler488.github.io/zh-Hans/app/image">生物样本量化器</a>通过托管服务在浏览器中提供同类分析（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/image-quantifier-tutorial">教程</a>）；与本地脚本不同，它需要上传图像进行处理。</p>]]></content:encoded>
             <category>Python</category>
-            <category>Computer Vision</category>
-            <category>Image Analysis</category>
-            <category>Plant Phenotyping</category>
+            <category>计算机视觉</category>
+            <category>图像分析</category>
+            <category>植物表型</category>
         </item>
         <item>
             <title><![CDATA[从投稿到发表：论文发表实用指南]]></title>
@@ -462,9 +462,9 @@
 <p>明确贡献 → 按契合度选刊 → 保留数据来源 → 用证据写作 → 规范投稿 → 如实回复 → 核对出版记录 → 持续维护成果。</p>
 <p><strong>引用本文</strong></p>
 <p>Deng, L. (2025). <em>From manuscript to publication: A practical guide for researchers.</em> Digital Crop Photosynthesis Phenotyping Platform.</p>]]></content:encoded>
-            <category>Scientific Writing</category>
-            <category>Reproducible Research</category>
-            <category>Productivity</category>
+            <category>科研写作</category>
+            <category>可复现研究</category>
+            <category>效率</category>
         </item>
         <item>
             <title><![CDATA[基于三维生成式人工智能的单图像植株三维重建及其与 SfM 的比较]]></title>
@@ -501,10 +501,10 @@
 <div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"sample_id"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"plant-001"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"source_image"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"plant-001.png"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"model_version"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"&lt;model-version&gt;"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"settings"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"&lt;generation-settings&gt;"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"seed"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">0</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">"status"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"success"</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></div></code></pre></div></div>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/generative-ai-3d-plant-reconstruction#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
 <p>单张图像观测不到植株背面、绝对尺度以及被叶片遮挡的器官，这些都由模型推断。因此，生成的几何都与独立的、带尺度的重建进行比较评估，尺度取自参考重建而非模型本身。细薄叶片、叶柄、分枝连接处和浓密冠层是最难的情形。</p>]]></content:encoded>
-            <category>Artificial Intelligence</category>
-            <category>Computer Vision</category>
-            <category>3D Reconstruction</category>
-            <category>Plant Phenotyping</category>
+            <category>人工智能</category>
+            <category>计算机视觉</category>
+            <category>三维重建</category>
+            <category>植物表型</category>
         </item>
         <item>
             <title><![CDATA[无人机三维作物表型：交叉环绕倾斜采集、SfM 与 CanopyPC]]></title>
@@ -561,10 +561,10 @@
 <p>三维性状组合为多尺度特征，用随机森林、梯度提升等回归方法与生物量、叶面积指数或产量等作物性状建立关系。验证时将相关样本放在同一组：按小区、地点和日期分组，保证测试集中没有训练时见过的小区或航次。结果按作物、生育期和地点分别报告，误差指标带物理单位，并与简单基线模型比较。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/uav-3d-crop-phenotyping#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
 <p>浓密的上层冠层会遮挡下层器官，因此随着冠层郁闭，冠层深处的叶面积会被低估。风会破坏摄影测量的静态场景假设；多期比较需要稳定的地面参考和配准。在一个田块训练的模型，用于新的作物、地点或季节之前需重新验证。</p>]]></content:encoded>
-            <category>UAV</category>
-            <category>Remote Sensing</category>
-            <category>3D Reconstruction</category>
-            <category>Plant Phenotyping</category>
+            <category>无人机</category>
+            <category>遥感</category>
+            <category>三维重建</category>
+            <category>植物表型</category>
         </item>
         <item>
             <title><![CDATA[Root Quantify：用 Python 交互式预处理根系图像]]></title>
@@ -614,8 +614,8 @@
 <p>阈值分割对阴影、反光、基质和重叠根系敏感，这正是工具保留人工修正环节的原因；而人工修正会引入操作者差异，因此修改应尽量少并留有记录。二值输出不保留颜色和灰度信息。交互式设计面向实验规模图像集的精细处理，而非无人值守的高通量处理；性状测量本身在下游软件中完成。</p>
 <p>实验室中另有浏览器版本：<a class="" href="https://smiler488.github.io/zh-Hans/app/root-processor">根系图像预处理器</a>（<a class="" href="https://smiler488.github.io/zh-Hans/docs/tutorial-apps/root-preprocessor-tutorial">教程</a>）。</p>]]></content:encoded>
             <category>Python</category>
-            <category>Image Analysis</category>
-            <category>Plant Phenotyping</category>
+            <category>图像分析</category>
+            <category>植物表型</category>
         </item>
         <item>
             <title><![CDATA[本地大模型：运行、微调与部署]]></title>
@@ -718,10 +718,10 @@
 <li class=""><a href="https://github.com/oobabooga/text-generation-webui" target="_blank" rel="noopener noreferrer" class="">Text Generation WebUI</a></li>
 <li class=""><a href="https://huggingface.co/Qwen/Qwen2-7B" target="_blank" rel="noopener noreferrer" class="">Hugging Face 模型库</a></li>
 </ul>]]></content:encoded>
-            <category>Artificial Intelligence</category>
-            <category>Machine Learning</category>
-            <category>Local AI</category>
-            <category>Reproducible Research</category>
+            <category>人工智能</category>
+            <category>机器学习</category>
+            <category>本地 AI</category>
+            <category>可复现研究</category>
         </item>
         <item>
             <title><![CDATA[基于三维重建的冠层光合作用模型]]></title>
@@ -784,10 +784,10 @@
 <li class=""><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank" rel="noopener noreferrer" class="">3D Gaussian Splatting</a></li>
 <li class=""><a href="https://www.open3d.org/docs/latest/tutorial/Advanced/surface_reconstruction.html" target="_blank" rel="noopener noreferrer" class="">Open3D 曲面重建</a></li>
 </ul>]]></content:encoded>
-            <category>Crop Modeling</category>
-            <category>Plant Phenotyping</category>
-            <category>3D Reconstruction</category>
-            <category>Computer Vision</category>
+            <category>作物模型</category>
+            <category>植物表型</category>
+            <category>三维重建</category>
+            <category>计算机视觉</category>
         </item>
         <item>
             <title><![CDATA[用 WebODM 与 QGIS 将大疆 P4 多光谱影像处理为小区尺度性状]]></title>
@@ -941,10 +941,10 @@
 <li class=""><a href="https://docs.opendronemap.org/arguments/" target="_blank" rel="noopener noreferrer" class="">ODM 选项与参数</a></li>
 <li class=""><a href="https://docs.qgis.org/" target="_blank" rel="noopener noreferrer" class="">QGIS 文档</a></li>
 </ul>]]></content:encoded>
-            <category>UAV</category>
-            <category>Remote Sensing</category>
-            <category>Plant Phenotyping</category>
-            <category>Data Analysis</category>
+            <category>无人机</category>
+            <category>遥感</category>
+            <category>植物表型</category>
+            <category>数据分析</category>
         </item>
         <item>
             <title><![CDATA[面向科研的 PyTorch 学习路线]]></title>
@@ -1059,10 +1059,10 @@
 <li class=""><a href="https://discuss.pytorch.org/" target="_blank" rel="noopener noreferrer" class="">PyTorch 论坛</a></li>
 <li class=""><a href="https://github.com/pytorch/pytorch/issues" target="_blank" rel="noopener noreferrer" class="">PyTorch GitHub issues</a></li>
 </ul>]]></content:encoded>
-            <category>Machine Learning</category>
-            <category>Artificial Intelligence</category>
+            <category>机器学习</category>
+            <category>人工智能</category>
             <category>Python</category>
-            <category>Computer Vision</category>
+            <category>计算机视觉</category>
         </item>
         <item>
             <title><![CDATA[基于转台摄影测量的盆栽棉花三维重建]]></title>
@@ -1132,10 +1132,10 @@
 <p>使用 Python、Open3D 和 NumPy 提取株高、冠幅、体积和叶倾角。每株植物的记录包括原始视频、选帧清单、掩膜、标定记录、Metashape 工程与软件版本、尺度约束、验证测量、米制单位的导出模型，以及性状提取所用的脚本和参数。带器官标签的点云即<a class="" href="https://smiler488.github.io/zh-Hans/blog/canopy-photosynthesis-modeling-en">冠层光合模型</a>中三角面元冠层的输入。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="适用范围与局限">适用范围与局限<a href="https://smiler488.github.io/zh-Hans/blog/growth-chamber-cotton-3d#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%E4%B8%8E%E5%B1%80%E9%99%90" class="hash-link" aria-label="适用范围与局限的直接链接" title="适用范围与局限的直接链接" translate="no">​</a></h2>
 <p>转台摄影测量假设植株为刚体：旋转中的叶片摆动、细薄叶缘、相互重叠的叶片和缺乏纹理的表面是几何缺失或错误的主要来源。本方案适用于尺寸不超过转台直径的盆栽植株；更大的植株和田间冠层需要采用移动相机或无人机采集。</p>]]></content:encoded>
-            <category>Plant Phenotyping</category>
-            <category>3D Reconstruction</category>
-            <category>Image Analysis</category>
-            <category>Computer Vision</category>
+            <category>植物表型</category>
+            <category>三维重建</category>
+            <category>图像分析</category>
+            <category>计算机视觉</category>
         </item>
         <item>
             <title><![CDATA[用 VS Code、Miniconda 和 Git 构建可复现的科研工作流]]></title>
@@ -1223,10 +1223,10 @@
 <p>除非实际测试过，不要声称跨平台逐位一致。更实际、也更有意义的目标是：按照记录的流程，能在规定的误差范围内复现科学结论。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="常见问题">常见问题<a href="https://smiler488.github.io/zh-Hans/blog/workflow-vscode-miniconda-git#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="hash-link" aria-label="常见问题的直接链接" title="常见问题的直接链接" translate="no">​</a></h2>
 <table><thead><tr><th>问题</th><th>处理方法</th></tr></thead><tbody><tr><td>VS Code 用错了 Python</td><td>执行 <strong>Python: Select Interpreter</strong>，再用 <code>python -c "import sys; print(sys.executable)"</code> 确认。</td></tr><tr><td>Notebook 找不到内核</td><td>在环境中安装 <code>ipykernel</code> 并注册内核。</td></tr><tr><td>Conda 无法解析依赖</td><td>去掉不必要的版本限制，新建环境，并记录最终解析出的版本。</td></tr><tr><td>推送时认证失败</td><td>使用 GitHub CLI、凭据管理器、个人访问令牌或 SSH；Git 推送不接受账号密码。</td></tr><tr><td>误提交了大数据集</td><td>先停下，确认这段历史是否已推送，再按仓库规定的流程删除数据。</td></tr></tbody></table>]]></content:encoded>
-            <category>Reproducible Research</category>
+            <category>可复现研究</category>
             <category>Python</category>
             <category>Git</category>
-            <category>Data Analysis</category>
+            <category>数据分析</category>
         </item>
         <item>
             <title><![CDATA[Git 与 GitHub 入门指南]]></title>
@@ -1340,8 +1340,8 @@
 </ul>
 <p>更多内容请参阅官方 <a href="https://git-scm.com/doc" target="_blank" rel="noopener noreferrer" class="">Git 文档</a>和 <a href="https://docs.github.com/" target="_blank" rel="noopener noreferrer" class="">GitHub 文档</a>。</p>]]></content:encoded>
             <category>Git</category>
-            <category>Reproducible Research</category>
-            <category>Web Development</category>
+            <category>可复现研究</category>
+            <category>网站开发</category>
         </item>
         <item>
             <title><![CDATA[macOS 常用键盘快捷键]]></title>
@@ -1424,8 +1424,8 @@
 <p>电源键的行为因键盘类型（是否带触控 ID、是否外接）和 macOS 版本而不同。只要系统还能响应，优先通过 <strong>苹果菜单 → 关机</strong> 或 <strong>重新启动</strong> 操作。</p>
 <h2 class="anchor anchorTargetHideOnScrollNavbar_vjPI" id="官方资料">官方资料<a href="https://smiler488.github.io/zh-Hans/blog/macOS-shortcuts#%E5%AE%98%E6%96%B9%E8%B5%84%E6%96%99" class="hash-link" aria-label="官方资料的直接链接" title="官方资料的直接链接" translate="no">​</a></h2>
 <p>完整、最新的列表见苹果官方的 <a href="https://support.apple.com/zh-cn/102650" target="_blank" rel="noopener noreferrer" class="">Mac 键盘快捷键</a>。</p>]]></content:encoded>
-            <category>Productivity</category>
-            <category>Reproducible Research</category>
+            <category>效率</category>
+            <category>可复现研究</category>
         </item>
         <item>
             <title><![CDATA[用 Docusaurus 和 GitHub Pages 搭建并发布个人网站]]></title>
@@ -1515,9 +1515,9 @@
 <li class=""><a href="https://docusaurus.io/docs/deployment" target="_blank" rel="noopener noreferrer" class="">Docusaurus 部署</a></li>
 <li class=""><a href="https://docs.github.com/pages" target="_blank" rel="noopener noreferrer" class="">GitHub Pages 文档</a></li>
 </ul>]]></content:encoded>
-            <category>Web Development</category>
+            <category>网站开发</category>
             <category>Git</category>
-            <category>Reproducible Research</category>
+            <category>可复现研究</category>
         </item>
     </channel>
 </rss>
