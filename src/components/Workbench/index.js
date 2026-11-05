@@ -14,6 +14,11 @@ import {
   buildProvenance,
 } from "@site/src/lib/workbench/provenance";
 import {
+  buildMiappeSheets,
+  missingMeta,
+  writeMiappeWorkbook,
+} from "@site/src/lib/workbench/fair";
+import {
   WORKSPACE_EVENT,
   clearWorkspace,
   deleteArtifact,
@@ -43,6 +48,23 @@ const COPY = {
     version: "Version",
     validated: (d) => `Validated ${d}`,
     notValidated: "Validation pending",
+    fair: "FAIR export (MIAPPE)",
+    fairHint:
+      "Download these observations as a MIAPPE spreadsheet: trait, method and unit carry ontology accessions (Plant Trait Ontology, Plant Ontology, PATO, UO), ready for repositories that accept MIAPPE.",
+    fairFields: {
+      investigationTitle: "Investigation title",
+      studyTitle: "Study title",
+      personName: "Your name",
+      contactInst: "Institution",
+      locationCountry: "Country",
+      siteName: "Site name",
+      genus: "Genus",
+      species: "Species",
+      license: "License (optional, e.g. CC-BY-4.0)",
+    },
+    fairMissing: (n) => `${n} required field${n === 1 ? "" : "s"} left`,
+    fairDownload: "Download MIAPPE .xlsx",
+    fairRemember: "These details stay in this browser for the next export.",
   },
   zh: {
     record: "参数记录",
@@ -65,6 +87,23 @@ const COPY = {
     version: "版本",
     validated: (d) => `验证于 ${d}`,
     notValidated: "待验证",
+    fair: "FAIR 导出（MIAPPE）",
+    fairHint:
+      "把这些观测导出为 MIAPPE 表格：性状、方法与单位都带本体编号（植物性状本体 TO、植物本体 PO、PATO、UO），可直接提交给接受 MIAPPE 的数据仓库。",
+    fairFields: {
+      investigationTitle: "调查（Investigation）标题",
+      studyTitle: "研究（Study）标题",
+      personName: "姓名",
+      contactInst: "单位",
+      locationCountry: "国家",
+      siteName: "试验地点",
+      genus: "属",
+      species: "种",
+      license: "许可协议（可选，如 CC-BY-4.0）",
+    },
+    fairMissing: (n) => `还有 ${n} 项必填`,
+    fairDownload: "下载 MIAPPE 表格（.xlsx）",
+    fairRemember: "这些信息只保存在当前浏览器，供下次导出复用。",
   },
 };
 
@@ -115,6 +154,7 @@ function ParameterRecord({ app }) {
   const copy = COPY[locale];
   const { siteConfig } = useDocusaurusContext();
   const [record, setRecord] = React.useState(null);
+  const [fair, setFair] = React.useState(null);
   const [copied, setCopied] = React.useState(false);
 
   React.useEffect(() => {
@@ -126,7 +166,10 @@ function ParameterRecord({ app }) {
         build: siteConfig.customFields?.build,
         siteUrl: siteConfig.url,
       });
-      if (alive) setRecord(next);
+      if (alive) {
+        setRecord(next);
+        setFair(event.detail?.fair ?? null);
+      }
     }
     window.addEventListener(EXPORT_EVENT, onExport);
     return () => {
@@ -200,11 +243,123 @@ function ParameterRecord({ app }) {
             <summary>{copy.view}</summary>
             <pre>{json}</pre>
           </details>
+          {fair && (
+            <FairExport
+              app={app}
+              fair={fair}
+              record={record}
+              baseName={baseName}
+              copy={copy}
+              siteUrl={siteConfig.url}
+            />
+          )}
         </div>
       ) : (
         <p className={styles.muted}>{copy.recordEmpty}</p>
       )}
     </section>
+  );
+}
+
+const FAIR_META_KEY = "lab:fair-meta";
+const FAIR_FIELDS = [
+  "investigationTitle",
+  "studyTitle",
+  "personName",
+  "contactInst",
+  "locationCountry",
+  "siteName",
+  "genus",
+  "species",
+  "license",
+];
+
+function readFairMeta(defaults) {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(FAIR_META_KEY));
+    return { ...defaults, ...(saved ?? {}) };
+  } catch {
+    return defaults;
+  }
+}
+
+/** MIAPPE spreadsheet for exports that carry observations (`fair`). */
+function FairExport({ app, fair, record, baseName, copy, siteUrl }) {
+  const [meta, setMeta] = React.useState(() =>
+    readFairMeta({ ...(fair.defaults ?? {}) })
+  );
+  const missing = missingMeta(meta);
+
+  function update(key, value) {
+    setMeta((prev) => {
+      const next = { ...prev, [key]: value };
+      try {
+        window.localStorage.setItem(FAIR_META_KEY, JSON.stringify(next));
+      } catch {
+        // Storage unavailable (private mode): the form still works
+      }
+      return next;
+    });
+  }
+
+  async function download() {
+    const sheets = buildMiappeSheets({
+      meta: { ...meta, organism: fair.defaults?.organism },
+      fair,
+      tool: {
+        name: app.name?.en ?? app.id,
+        url: `${siteUrl.replace(/\/$/, "")}${app.route}`,
+        version: app.version,
+      },
+      createdAt: record.createdAt,
+    });
+    const blob = await writeMiappeWorkbook(sheets);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${baseName}.miappe.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <div className={styles.fair}>
+      <Heading as="h3" className={styles.fairTitle}>
+        {copy.fair}
+      </Heading>
+      <p className={styles.muted}>{copy.fairHint}</p>
+      <div className={styles.fairGrid}>
+        {FAIR_FIELDS.map((key) => (
+          <label key={key} className={styles.fairField}>
+            <span>
+              {copy.fairFields[key]}
+              {key !== "license" && <span aria-hidden="true"> *</span>}
+            </span>
+            <input
+              type="text"
+              value={meta[key] ?? ""}
+              required={key !== "license"}
+              onChange={(event) => update(key, event.target.value)}
+            />
+          </label>
+        ))}
+      </div>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.primary}
+          disabled={missing.length > 0}
+          onClick={download}
+        >
+          {copy.fairDownload}
+        </button>
+        <span className={styles.muted} aria-live="polite">
+          {missing.length ? copy.fairMissing(missing.length) : copy.fairRemember}
+        </span>
+      </div>
+    </div>
   );
 }
 

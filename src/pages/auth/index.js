@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+import Heading from "@theme/Heading";
+import useIsBrowser from "@docusaurus/useIsBrowser";
 import { getSupabase } from "../../lib/supabaseClient";
 
 export default function AccountPage() {
   const [supabaseUser, setSupabaseUser] = useState(null);
-  const [available, setAvailable] = useState(null);
+  // null while server-rendering; then whether Supabase is configured
+  const isBrowser = useIsBrowser();
+  const available = isBrowser ? Boolean(getSupabase()) : null;
   const [tab, setTab] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +18,6 @@ export default function AccountPage() {
 
   useEffect(() => {
     const sb = getSupabase();
-    setAvailable(Boolean(sb));
     if (!sb) return undefined;
     sb.auth.getUser().then(({ data }) => {
       if (data?.user) {
@@ -84,7 +88,7 @@ export default function AccountPage() {
     <Layout title="Account">
       <div className="app-container" style={{ maxWidth: 560 }}>
         <div className="app-header" style={{ marginBottom: 12 }}>
-          <h1 className="app-title">Account</h1>
+          <Heading as="h1" className="app-title">Account</Heading>
           {available && (
             <div style={{ display: "flex", gap: 8 }}>
               <button
@@ -197,9 +201,9 @@ export default function AccountPage() {
           <div className="app-card" style={{ display: "grid", gap: 12 }}>
             <div>Signed in as {supabaseUser?.email}</div>
             <div style={{ display: "flex", gap: 8 }}>
-              <a className="button button--secondary" href="/app">
+              <Link className="button button--secondary" to="/app">
                 Go to Apps
-              </a>
+              </Link>
               <button className="button button--secondary" onClick={doLogout}>
                 Logout
               </button>

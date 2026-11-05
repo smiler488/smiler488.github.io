@@ -19,8 +19,8 @@ import SearchBar from "@theme/SearchBar";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import styles from "./styles.module.css";
 
-// Tooltip for the theme button: names the current choice, since a click
-// cycles system → light → dark and the icon alone doesn't say which is next.
+// Tooltip for the theme button: names the current choice (the button opens
+// a system / light / dark menu, DESIGN_SPEC D-020).
 const THEME_LABEL = {
   en: { system: "Theme: system", light: "Theme: light", dark: "Theme: dark" },
   zh: { system: "主题：跟随系统", light: "主题：浅色", dark: "主题：深色" },

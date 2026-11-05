@@ -28,13 +28,14 @@ export const PROJECTS = [
     layers: ["UND"],
     status: "published",
     year: 2025,
-    cover: "/img/brdf_cover.jpg",
+    cover: "/img/brdf_cover.webp",
     coverAlt: {
       en: "Directional spectrum measurement and BRDF prediction workflow",
       zh: "方向光谱测量与 BRDF 预测流程",
     },
     publications: ["deng2025brdf"],
     code: "https://github.com/PlantSystemsBiology/brdf",
+    data: "/data#leaf-brdf-traits",
     note: "/blog/brdf-paper",
   },
   {

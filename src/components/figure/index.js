@@ -107,11 +107,12 @@ export function InteractiveFigure({
   loadProps,
   poster,
   posterAlt,
+  id,
 }) {
   const isChinese = useIsChinese();
   const copy = isChinese ? COPY.zh : COPY.en;
   return (
-    <figure className={styles.figure}>
+    <figure className={styles.figure} id={id}>
       <div className={styles.frame}>
         {load ? (
           <LazyBody

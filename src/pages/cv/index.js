@@ -365,7 +365,7 @@ export default function CurriculumVitaePage() {
             <div className={styles.heroIdentity}>
               <div className={styles.avatarFrame}>
                 <img
-                  src="/img/cv_person.png?v=2"
+                  src="/img/cv_person.webp"
                   alt={copy.hero.name}
                   className={styles.avatar}
                   width="168"
@@ -459,7 +459,17 @@ export default function CurriculumVitaePage() {
                   {copy.contacts.title}
                 </Heading>
               </div>
-              <p>{copy.contacts.description}</p>
+              <div>
+                <p>{copy.contacts.description}</p>
+                <p className={styles.contactStart}>
+                  {copy.contacts.startHere}{" "}
+                  <Link to="/now">{copy.contacts.nowLink}</Link>
+                  {" · "}
+                  <Link to="/open-problems">{copy.contacts.problemsLink}</Link>
+                  {" · "}
+                  <Link to="/data">{copy.contacts.dataLink}</Link>
+                </p>
+              </div>
             </div>
 
             <div className={styles.contactGrid}>

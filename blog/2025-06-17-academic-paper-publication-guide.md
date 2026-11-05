@@ -4,7 +4,7 @@ title: "From Manuscript to Publication: A Practical Guide for Researchers"
 description: "A concise, publisher-neutral guide to journal selection, manuscript preparation, submission, peer review, publication status, research integrity, and post-publication maintenance."
 authors: [liangchao]
 tags: [scientific-writing, reproducible-research, productivity]
-image: /img/write_paper.png
+image: /img/write_paper.webp
 category: Research practice
 article_type: Reference
 ---
@@ -13,7 +13,7 @@ Publishing a scientific paper is not a single submission event. It is a document
 
 This guide provides a publisher-neutral workflow. Exact status labels, DOI timing, accepted-manuscript policies, and indexing practices vary by journal, so always follow the current instructions for the selected venue.
 
-![Academic paper workflow illustration](/img/write_paper.png)
+![Academic paper workflow illustration](/img/write_paper.webp)
 
 <!-- truncate -->
 

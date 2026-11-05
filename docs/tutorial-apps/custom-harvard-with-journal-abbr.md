@@ -1,7 +1,6 @@
 # Custom Harvard With Journal Abbr (CSL)
 
 A Zotero/Mendeley CSL style that formats in-text citations as (Author, Journal Abbr, Year) and uses journal abbreviations.
-# Custom Zotero Citation Style for Academic Presentations
 
 This tutorial shows how to create, install, and configure a **custom Zotero citation style** for generating concise, standardized references in PowerPoint or Beamer presentations.  
 It is based on a *Harvard-style format with journal abbreviations*, producing outputs such as:

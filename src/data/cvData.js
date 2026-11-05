@@ -63,6 +63,10 @@ export const cvContent = {
       title: "Choose the right way to get in touch.",
       description:
         "Academic correspondence, commercial projects, and administrative communication are kept separate for faster replies.",
+      startHere: "Before writing:",
+      nowLink: "what I am working on now",
+      problemsLink: "open problems where collaboration could start",
+      dataLink: "datasets",
       academic: "Academic email",
       academicHint: "Research & collaboration",
       business: "Business inquiries",
@@ -358,6 +362,10 @@ export const cvContent = {
       title: "根据事项选择合适的联系渠道。",
       description:
         "学术交流、商业合作与行政协调分别使用独立邮箱，便于更快处理与回复。",
+      startHere: "联系之前可以先看：",
+      nowLink: "我目前在做的事",
+      problemsLink: "可以从这里开始合作的开放问题",
+      dataLink: "数据集",
       academic: "学术邮箱",
       academicHint: "科研交流与合作",
       business: "商业合作",

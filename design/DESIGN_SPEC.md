@@ -176,7 +176,7 @@ erDiagram
 | Project 项目 | 元数据：`src/data/projects.js`；正文：MDX 页面 | `src/pages/research/<id>.mdx`（front matter `project: <id>`，由 `src/theme/MDXPage` 选择项目模板） | `i18n/zh-Hans/docusaurus-plugin-content-pages/research/<id>.mdx` |
 | Publication 论文 | JS 数据 | `src/data/publications.js`（从 `cvData.js` 抽出合并） | 字段级 `{ en, zh }` |
 | Tool 工具 | JS 数据 | `src/data/appManifest.js` v2（见 §10.1） | 字段级 `{ en, zh }`（已有） |
-| Dataset 数据集 | JS 数据 | `src/data/datasets.js`（新增） | 字段级 `{ en, zh }` |
+| Dataset 数据集 | JS 数据 | `src/data/datasets.js`（已建，`/data`） | 字段级 `{ en, zh }` |
 | Note 笔记 | Markdown | `blog/` | 现有翻译流程 |
 
 ### 4.4 项目页 front matter 规范
@@ -498,6 +498,14 @@ updated: 2026-10-09
 
 ---
 
+
+### 8.4 FAIR 表型导出（MIAPPE）
+
+- 工具在 `lab:export` 事件里附带 `fair: { variables, observations, obsUnitType }`，工具外壳的参数记录面板就会出现“FAIR 导出（MIAPPE）”表单，生成 `.miappe.xlsx`。
+- 表名与列名取自官方 MIAPPE 最小模板（github.com/MIAPPE/MIAPPE `Templates/MIAPPE_Minimal_Spreadsheet_Template.xlsx`），另加 `Data` 表存放观测本身，`Data file` 表以 `sheet:Data` 指向它。逻辑在 `src/lib/workbench/fair.js`（纯函数，`npm run test:science` 覆盖）。
+- **必须**：本体编号只用在 EBI OLS 查证过的条目（`FAIR_VARIABLES` 注释写明查证日期）。已用：TO:0000206 leaf angle、PO:0025034 leaf、PATO:0002326 angle、UO:0000185 degree。
+- 已接入：Sensor Recorder（叶倾角）。后续可接入 Root Preprocessor（如 TO:0000227 root length，接入前同样需查证）、Stereo 等产生性状的工具。
+- 表单内容（标题、单位、物种等）只存在访客浏览器的 localStorage，下次导出复用。
 ## 9. 机器可读层（面向 AI agent）
 
 ### 9.1 JSON-LD
@@ -790,6 +798,7 @@ flowchart LR
 | D-019 | 2026-11 | 首页字号层级自上而下递减：首屏名字用 `--ds-title-page` 作唯一 h1，页脚标题降到区块标题以下；首屏只留标志、名字、简介、按钮（去掉与简介重复的标签和与合作区重复的状态行）；区块标题改为单列左对齐；精选工具用各自封面图代替通用图形 | 作者反馈首页"看起来有点难受"：原页脚标题比首屏名字大，首屏七段碎块居中堆叠，区块标题左右两栏错位 |
 | D-020 | 2026-11 | 取代 D-003：主题按钮改为图标 + 三项菜单（跟随系统 / 浅色 / 深色，当前项打勾），默认跟随系统；旧版两态按钮留下的 light/dark 记录一次性清除（`headTags` 脚本，键 `theme-system-default`）；系统未声明偏好时仍为浅色 | 作者要求加入"跟随系统"；深色 token 已与浅色同样完整校验（`check:tokens` 两套主题均通过） |
 | D-021 | 2026-11 | 工具箱（学习资源、网址导航、好物推荐）作为图标下拉放进导航右侧工具区，左侧研究身份导航仍为 4 项；Research 与 Notes 不合并，改为分工（见 §4.1）：Research 只列最近 4 篇笔记，Notes 加“研究笔记 / 教程”筛选；BRDF、MCTP 以项目页为完整版本，博客改为发布说明，独有截图移入项目页 | 作者发现两页内容重合、工具箱入口难找；合并会淹没四层结构或打断博客 RSS、标签和已收录的地址 |
+| D-022 | 2026-11 | 一批整改与新增：分享卡片改为 AI4Plant 中英两张（`static/img/social-card*.jpg`，按 `DOCUSAURUS_CURRENT_LOCALE` 选择）；引入 KaTeX；大图转 WebP、站点图标缩到 64px；新增 `/data`（`src/data/datasets.js`，schema.org Dataset，DOI 与许可证待作者存档后填写，不猜测）；Now 与 Open problems 正式发布，About 联系区加入口；论文页加“报告与媒体”（`TALKS` 待作者提供）；首页精选改为每层一个；FAIR 导出（§8.4） | 作者在扫描清单中勾选；`static/files` 中未被引用的文件按作者决定保持不动 |
 
 ---
 

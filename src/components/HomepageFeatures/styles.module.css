@@ -178,7 +178,7 @@
 /* ── Featured tools: content items, not boxed cards ──────────────────── */
 .labGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(0.5rem, 1.5vw, 1rem);
 }
 
@@ -225,6 +225,15 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+/* Which research layer the tool stands for */
+.labLayer {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--ds-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 
 .labCard h3 {
@@ -373,6 +382,12 @@
 .commercialAction:active,
 .botAction:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 1100px) {
+  .labGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 996px) {

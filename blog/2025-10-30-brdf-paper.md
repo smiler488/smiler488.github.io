@@ -6,12 +6,12 @@ category: Plant phenotyping
 article_type: Research project
 tags: [plant-phenotyping, remote-sensing, machine-learning, crop-modeling]
 layers: [UND]
-image: /img/brdf_cover.jpg
+image: /img/brdf_cover.webp
 description: A measuring and analysis framework that predicts leaf BRDF parameters from phenotypic traits in four species, combining directional spectroscopy, Cook–Torrance fitting, ensemble learning and canopy ray tracing (Plant Phenomics, 2025).
 ---
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 
-![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.jpg)
+![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.webp)
 
 Our study on predicting leaf BRDF from phenotypic traits is published in *Plant Phenomics* (2025). Leaf directional reflectance can be predicted from traits that are easy to measure, and the resulting differences in leaf optics change how light is distributed inside a simulated canopy. The framework combines a custom-built Directional Spectrum Detection Instrument (DSDI), Cook–Torrance BRDF fitting, ensemble learning and canopy ray tracing.
 

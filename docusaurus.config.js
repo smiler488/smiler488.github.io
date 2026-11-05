@@ -1,5 +1,13 @@
 import { execSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { themes as prismThemes } from "prism-react-renderer";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
+const require = createRequire(import.meta.url);
+
+// $…$ and $$…$$ in Markdown render as KaTeX (blog, docs and MDX pages).
+const math = { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] };
 
 // Short commit hash, stamped into tool parameter records (DESIGN_SPEC §8.2).
 function buildStamp() {
@@ -88,11 +96,13 @@ const config = {
       "classic",
       {
         docs: {
+          ...math,
           sidebarPath: "./sidebars.js",
           editUrl:
             "https://github.com/smiler488/smiler488.github.io/tree/master/",
         },
         blog: {
+          ...math,
           showReadingTime: true,
           blogTitle: "Research & Engineering Notes",
           blogDescription:
@@ -112,8 +122,14 @@ const config = {
           onInlineAuthors: "warn",
           onUntruncatedBlogPosts: "warn",
         },
+        pages: math,
         theme: {
-          customCss: ["./src/css/tokens.css", "./src/css/custom.css"],
+          // KaTeX fonts download only on pages that contain a formula
+          customCss: [
+            "./src/css/tokens.css",
+            "./src/css/custom.css",
+            require.resolve("katex/dist/katex.min.css"),
+          ],
         },
         sitemap: {
           // Demo and utility routes should not be advertised to crawlers.
@@ -133,7 +149,12 @@ const config = {
   ],
 
   themeConfig: {
-    image: "img/docusaurus-social-card.jpg",
+    // Link-preview card per locale (1200×630); the old Docusaurus default
+    // card stays in static/ only so cached previews don't 404.
+    image:
+      process.env.DOCUSAURUS_CURRENT_LOCALE === "zh-Hans"
+        ? "img/social-card-zh.jpg"
+        : "img/social-card.jpg",
     metadata: [
       { name: "algolia-site-verification", content: "59BB444E51EBC712" },
       {
@@ -169,7 +190,7 @@ const config = {
       hideOnScroll: true,
       title: "Liangchao Deng",
       logo: {
-        alt: "Liangchao Deng · Personal site",
+        alt: "Liangchao Deng · AI4Plant",
         src: "img/logo.svg",
       },
       items: [

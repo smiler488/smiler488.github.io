@@ -24,6 +24,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* A word, not a year: smaller so it fits the 150px label column */
+.talksTitle {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
 .list {
   display: grid;
   gap: 2rem;

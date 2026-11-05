@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Link from "@docusaurus/Link";
+import useIsBrowser from "@docusaurus/useIsBrowser";
 import { getSupabase } from "../lib/supabaseClient";
 
 export default function RequireAuthBanner({ children }) {
   const [authed, setAuthed] = useState(false);
-  const [available, setAvailable] = useState(null);
+  const isBrowser = useIsBrowser();
+  const available = isBrowser ? Boolean(getSupabase()) : null;
   useEffect(() => {
     const sb = getSupabase();
-    setAvailable(Boolean(sb));
     if (sb) {
       sb.auth.getUser().then(({ data }) => {
         const ok = !!data?.user;

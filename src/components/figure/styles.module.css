@@ -1,6 +1,7 @@
 /* Figure shell (design/DESIGN_SPEC.md §7.1). */
 
 .figure {
+  scroll-margin-top: 5rem;
   margin: 2.25rem 0;
 }
 

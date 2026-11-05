@@ -18,7 +18,7 @@ import { CottonCompareFigure } from '@site/src/components/figures/Cotton3D';
 
 本工作将三维生成式人工智能模型应用于棉花图像，并以同一植株独立的多视角 SfM 重建为参照，按器官逐一评估生成结果。
 
-![盆栽棉花的单图像三维生成](/img/i23d.png)
+![盆栽棉花的单图像三维生成](/img/i23d.webp)
 
 <!-- truncate -->
 

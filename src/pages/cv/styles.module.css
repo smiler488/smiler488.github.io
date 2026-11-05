@@ -345,11 +345,17 @@
   margin-bottom: 1.25rem;
 }
 
-.contactHeading > p {
+.contactHeading > div > p {
   margin: 0;
   color: var(--cv-muted);
   font-size: 0.96rem;
   line-height: 1.7;
+}
+
+/* Collaborator entry points: Now, Open problems, Data (DESIGN_SPEC §6.7) */
+.contactHeading > div > .contactStart {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .contactTitle,
@@ -1450,7 +1456,7 @@
   .heroSummary,
   .heroInstitution,
   .sectionDescription,
-  .contactHeading > p,
+  .contactHeading > div > p,
   .researchCard p,
   .detailList dd,
   .outputAuthors,

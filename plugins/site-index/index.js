@@ -17,6 +17,7 @@ import {
   doiUrl,
 } from "../../src/data/publications.js";
 import { PROJECTS } from "../../src/data/projects.js";
+import { DATASETS } from "../../src/data/datasets.js";
 import { APP_MANIFEST } from "../../src/data/appManifest.js";
 import { cvContent, cvIdentity } from "../../src/data/cvData.js";
 
@@ -44,6 +45,8 @@ const COPY = {
     layers: "Research layers",
     projects: "Research projects",
     publications: "Publications and software",
+    datasets: "Datasets",
+    onRequest: "available from the author on request",
     tools: "Browser tools (App Lab)",
     toolNote:
       "Free tools that run in the browser; data stays on the visitor's device unless an AI feature is explicitly used with the visitor's own key.",
@@ -58,6 +61,8 @@ const COPY = {
     layers: "研究分层",
     projects: "研究项目",
     publications: "论文与软件",
+    datasets: "数据集",
+    onRequest: "可向作者申请获取",
     tools: "浏览器工具（App Lab）",
     toolNote:
       "免费、在浏览器中运行的工具；除非访客主动用自己的密钥调用 AI 功能，数据都留在访客本机。",
@@ -179,6 +184,21 @@ export default function siteIndexPlugin(context) {
           }). ${pub.venue}. ${PUBLICATION_KIND[pub.type][locale]}. DOI ${
             pub.doi
           }. [${pub.layers.join(", ")}]`
+        );
+      }
+      lines.push("");
+
+      lines.push(`## ${t.datasets}`);
+      lines.push("");
+      for (const dataset of DATASETS) {
+        const files = dataset.files.length
+          ? dataset.files.map((file) => `${site}${file.href}`).join(", ")
+          : t.onRequest;
+        lines.push(
+          `- [${pick(dataset.title, locale)}](${abs(`/data#${dataset.id}`)}): ${pick(
+            dataset.summary,
+            locale
+          )} ${pick(dataset.records, locale)}. ${files}. [${dataset.layers.join(", ")}]`
         );
       }
       lines.push("");

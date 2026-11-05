@@ -180,6 +180,7 @@ export default function BrdfExplorer() {
 
   return (
     <InteractiveFigure
+      id="brdf-explorer"
       number={2}
       title={copy.title}
       caption={copy.caption}

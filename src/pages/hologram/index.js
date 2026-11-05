@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '@theme/Layout'
+import Heading from '@theme/Heading'
 import HologramParticles from '@site/src/components/HologramParticles'
 
 export default function HologramPage() {
@@ -9,7 +10,7 @@ export default function HologramPage() {
     <Layout title="Hologram" description="Holographic gesture interaction">
       <div className="app-card" style={{ margin: 16 }}>
         <div className="app-header">
-          <h2 className="app-title">Holographic Interaction</h2>
+          <Heading as="h2" className="app-title">Holographic Interaction</Heading>
           <div className="app-muted">Camera permission required</div>
         </div>
         <HologramParticles text="Liangchao Deng" onStatusChange={setStatus} onHandDetect={setHand} />

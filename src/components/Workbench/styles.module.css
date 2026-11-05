@@ -242,3 +242,62 @@
   outline: 2px solid var(--ifm-color-emphasis-900);
   outline-offset: 3px;
 }
+
+/* ---------- FAIR export (MIAPPE) ---------- */
+.fair {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ds-line);
+}
+
+.fairTitle {
+  margin: 0;
+  color: var(--ds-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.fairGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+
+.fairField {
+  display: grid;
+  gap: 0.3rem;
+  color: var(--ds-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.fairField input {
+  min-height: 40px;
+  padding: 0 0.75rem;
+  color: var(--ds-text);
+  font: inherit;
+  font-size: 0.9375rem;
+  background: var(--ds-card);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-sm);
+}
+
+.fairField input:focus-visible {
+  border-color: var(--ds-primary);
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--ds-primary-soft);
+}
+
+.actions > .muted {
+  align-self: center;
+  margin: 0;
+}
+
+.primary:disabled {
+  border-color: var(--ds-line);
+  background: var(--ds-surface);
+  color: var(--ds-text-muted);
+  cursor: not-allowed;
+}

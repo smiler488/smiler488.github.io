@@ -63,7 +63,7 @@ Plot polygons, combined with the experimental layout, are used to crop the point
 
 **SfM point cloud.** SfM reconstruction gives the canopy point cloud used for all metric traits: height distribution, spatial heterogeneity and structure at population scale. Reconstructions are checked for GCP/RTK residuals on independent checkpoints, reprojection error, holes under dense upper foliage, floating points and consistency of registration across dates. With CCO acquisition the reconstruction reaches centimetre-level accuracy.
 
-![SfM point-cloud reconstruction](/img/f3dr.png)
+![SfM point-cloud reconstruction](/img/f3dr.webp)
 
 **3D Gaussian Splatting.** On top of the SfM camera poses, 3DGS gives a continuous, high-fidelity representation of the canopy for interactive 3D inspection of fine structures such as leaf–branch intersections. Metric traits are computed from the SfM point cloud; geometry extracted from 3DGS is validated separately before being used for measurement.
 

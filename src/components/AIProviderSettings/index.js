@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import Link from "@docusaurus/Link";
+import Heading from "@theme/Heading";
 import {
   AI_CATALOG_CHECKED_AT,
   AI_PROVIDER_GROUPS,
@@ -93,9 +94,9 @@ export default function AIProviderSettings({
           <span className={styles.eyebrow}>
             {step || tx("Bring your own key")}
           </span>
-          <h3 id={titleId} className={styles.title}>
+          <Heading as="h3" id={titleId} className={styles.title}>
             {title}
-          </h3>
+          </Heading>
         </div>
         <span className={styles.status}>
           {isDemo ? tx("Private demo") : tx("Experimental API")}

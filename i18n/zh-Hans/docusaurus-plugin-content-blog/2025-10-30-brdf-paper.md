@@ -6,12 +6,12 @@ category: 植物表型
 article_type: 研究项目
 tags: [plant-phenotyping, remote-sensing, machine-learning, crop-modeling]
 layers: [UND]
-image: /img/brdf_cover.jpg
+image: /img/brdf_cover.webp
 description: 一套由表型性状预测四个物种叶片 BRDF 参数的测量与分析框架，结合方向光谱测量、Cook–Torrance 模型拟合、集成学习和冠层光线追踪（Plant Phenomics，2025）。
 ---
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 
-![方向光谱测量与 BRDF 预测流程](/img/brdf_cover.jpg)
+![方向光谱测量与 BRDF 预测流程](/img/brdf_cover.webp)
 
 我们关于由表型性状预测叶片 BRDF 的研究已发表于 *Plant Phenomics*（2025）。叶片的方向反射可以由易测的表型性状预测，叶片光学特性的差异会改变模拟冠层内的光分布。这套框架结合了自主研制的方向光谱检测仪（DSDI）、Cook–Torrance BRDF 模型拟合、集成学习和冠层光线追踪。
 

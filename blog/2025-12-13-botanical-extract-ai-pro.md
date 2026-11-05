@@ -6,13 +6,13 @@ category: AI & machine learning
 article_type: "Research project"
 tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
 layers: [DIG]
-image: /img/botanical-extract-ai-pro.png
+image: /img/botanical-extract-ai-pro.webp
 description: "A web application and batch pipeline that removes plant-image backgrounds without task-specific training, using a multimodal image model with a structured prompt, aspect-ratio matching and file-signature format detection."
 ---
 
 ## Overview
 
-![Source plant images and the corresponding white-background outputs](/img/botanical-extract-ai-pro.png)
+![Source plant images and the corresponding white-background outputs](/img/botanical-extract-ai-pro.webp)
 
 Plant images taken in greenhouses, growth chambers and fields carry cluttered backgrounds: soil, pots, walls, labels and neighbouring plants. Removing them is the first step of most image-based phenotyping, and manual segmentation is slow, while trained segmentation models need annotated data for each species and setting.
 

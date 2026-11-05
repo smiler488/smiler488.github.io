@@ -4,7 +4,7 @@ title: "从投稿到发表：论文发表实用指南"
 description: "适用于各出版社的论文发表流程：选刊、准备稿件、投稿、同行评审、稿件状态、学术规范和发表后的维护。"
 authors: [liangchao]
 tags: [scientific-writing, reproducible-research, productivity]
-image: /img/write_paper.png
+image: /img/write_paper.webp
 category: 科研实践
 article_type: 参考资料
 ---
@@ -13,7 +13,7 @@ article_type: 参考资料
 
 本文介绍一套适用于各出版社的通用流程。具体的稿件状态名称、DOI 分配时间、录用稿政策和数据库收录规则因期刊而异，请以目标期刊最新的作者须知为准。
 
-![论文发表流程示意图](/img/write_paper.png)
+![论文发表流程示意图](/img/write_paper.webp)
 
 <!-- truncate -->
 

@@ -18,7 +18,7 @@ Multi-view reconstruction gives accurate plant geometry, but it needs dozens to 
 
 This work applies a 3D generative AI model to cotton images and evaluates the generated plants against independent multi-view SfM reconstructions of the same specimens, organ by organ.
 
-![Single-image 3D generation of potted cotton plants](/img/i23d.png)
+![Single-image 3D generation of potted cotton plants](/img/i23d.webp)
 
 <!-- truncate -->
 

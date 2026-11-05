@@ -100,6 +100,31 @@ export const PUBLICATION_KIND = {
   software: { en: "Research software", zh: "科研软件", mark: "SW" },
 };
 
+/**
+ * Talks, posters and recorded videos, newest first. Shape:
+ *   { id, date: "2026-05", kind: "talk" | "poster" | "video",
+ *     title: { en, zh }, event: { en, zh }, place?: { en, zh },
+ *     url?: "…" (recording or event page), slides?: "…" }
+ * Entries come from the author; none are inferred.
+ */
+export const TALKS = [];
+
+export const TALK_KIND = {
+  talk: { en: "Talk", zh: "报告" },
+  poster: { en: "Poster", zh: "海报" },
+  video: { en: "Video", zh: "视频" },
+};
+
+/** Video channels where recordings are published. */
+export const MEDIA_CHANNELS = [
+  { name: "Bilibili", href: "https://space.bilibili.com/16062789" },
+  {
+    name: "YouTube",
+    href: "https://www.youtube.com/channel/UCmz7DQ3nEPRxj4rvEQUCvAg",
+  },
+  { name: { en: "Douyin", zh: "抖音" }, href: "https://v.douyin.com/-1moIAdEYpg/" },
+];
+
 export function doiUrl(doi) {
   return `https://doi.org/${doi}`;
 }

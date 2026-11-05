@@ -13,7 +13,10 @@ const NAV_GROUPS = [
     links: [
       { to: "/research", en: "Overview", zh: "研究概览" },
       { to: "/publications", en: "Publications", zh: "论文" },
+      { to: "/data", en: "Data", zh: "数据" },
       { to: "/blog", en: "Research notes", zh: "研究笔记" },
+      { to: "/now", en: "Now", zh: "近况" },
+      { to: "/open-problems", en: "Open problems", zh: "开放问题" },
       { to: "/cv", en: "Curriculum vitae", zh: "个人简历" },
     ],
   },

@@ -244,6 +244,9 @@
 }
 
 .moreRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
   margin-top: 1.25rem;
 }
 

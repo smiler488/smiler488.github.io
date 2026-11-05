@@ -5,6 +5,7 @@ import AppScaffold from "../../../components/AppScaffold";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { recordExport } from "../../../lib/workbench/provenance";
+import { FAIR_VARIABLES } from "../../../lib/workbench/fair";
 import { saveArtifact } from "../../../lib/workbench/workspace";
 import { solarPosition } from "../../../lib/science/solar.js";
 import {
@@ -491,6 +492,21 @@ export default function SensorPage() {
     recordExport({
       files: [{ name: filename, blob }],
       parameters: { records: rows.length, fields: headers },
+      // Leaf inclination as a MIAPPE observed variable (FAIR export)
+      fair: {
+        variables: [FAIR_VARIABLES.leafInclination],
+        obsUnitType: "leaf",
+        observations: rows
+          .filter((r) => typeof r.inclination === "number")
+          .map((r, index) => ({
+            obsUnitId: r.leafId || `leaf-${index + 1}`,
+            timestamp: r.timestamp,
+            latitude: r.latitude,
+            longitude: r.longitude,
+            altitude: r.altitude,
+            values: { [FAIR_VARIABLES.leafInclination.variableId]: r.inclination },
+          })),
+      },
     });
     document.body.appendChild(a);
     a.click();

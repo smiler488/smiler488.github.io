@@ -8,8 +8,11 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import {
+  MEDIA_CHANNELS,
   PUBLICATIONS,
   PUBLICATION_KIND,
+  TALKS,
+  TALK_KIND,
   doiUrl,
 } from "@site/src/data/publications";
 import { getProject } from "@site/src/data/projects";
@@ -39,6 +42,9 @@ const COPY = {
     statSoftware: "software releases",
     project: "Project page",
     profiles: "Full record",
+    talksTitle: "Talks and media",
+    channels: "Recordings and science videos:",
+    slides: "Slides",
   },
   zh: {
     pageTitle: "论文",
@@ -52,6 +58,9 @@ const COPY = {
     statSoftware: "个软件版本",
     project: "项目页",
     profiles: "完整记录",
+    talksTitle: "报告与媒体",
+    channels: "报告录像与科普视频：",
+    slides: "幻灯片",
   },
 };
 
@@ -178,6 +187,58 @@ export default function PublicationsPage() {
               </ol>
             </section>
           ))}
+
+          <section className={styles.year} aria-labelledby="talks">
+            <Heading
+              as="h2"
+              id="talks"
+              className={`${styles.yearTitle} ${styles.talksTitle}`}
+            >
+              {copy.talksTitle}
+            </Heading>
+            <div className={styles.list}>
+              {TALKS.length > 0 && (
+                <ol className={styles.list}>
+                  {TALKS.map((talk) => (
+                    <li key={talk.id} className={styles.item}>
+                      <div className={styles.itemMeta}>
+                        <span>{talk.date}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{TALK_KIND[talk.kind][locale]}</span>
+                      </div>
+                      <Heading as="h3" className={styles.itemTitle}>
+                        {talk.url ? (
+                          <Link href={talk.url}>{localize(talk.title)}</Link>
+                        ) : (
+                          localize(talk.title)
+                        )}
+                      </Heading>
+                      <p className={styles.description}>
+                        {localize(talk.event)}
+                        {talk.place && ` · ${localize(talk.place)}`}
+                      </p>
+                      {talk.slides && (
+                        <div className={styles.actions}>
+                          <Link className={styles.projectLink} href={talk.slides}>
+                            {copy.slides}
+                          </Link>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              )}
+              <p className={styles.description}>
+                {copy.channels}{" "}
+                {MEDIA_CHANNELS.map((channel, index) => (
+                  <React.Fragment key={channel.href}>
+                    {index > 0 && " · "}
+                    <Link href={channel.href}>{localize(channel.name)}</Link>
+                  </React.Fragment>
+                ))}
+              </p>
+            </div>
+          </section>
         </div>
       </main>
     </Layout>

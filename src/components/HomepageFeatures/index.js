@@ -48,33 +48,45 @@ const CONTENT = {
         href: "/research?layer=DES",
       },
     ],
-    labEyebrow: "Featured tools",
+    labEyebrow: "Featured tools · one per layer",
     labTitle: "Interactive computing, built to run in your browser.",
     labIntro:
-      "Launch these crop analyses, field data capture, and scientific visualization tools directly.",
+      "From capturing a crop to designing its management: one runnable entry point for each research layer.",
     lab: [
       {
+        layer: "I · Digitize",
         title: "Sensor Recorder",
         shot: "/img/app-shots/sensor.jpg",
         description:
-          "Capture device orientation, solar geometry, and GPS coordinates for leaf field measurements.",
+          "Capture phone orientation, leaf inclination, location and solar geometry as timestamped field records.",
         href: "/app/sensor",
         action: "Open tool",
       },
       {
-        title: "AI Data Visualizer",
-        shot: "/img/app-shots/ai-data-visualizer.jpg",
+        layer: "II · Understand",
+        title: "Leaf BRDF Explorer",
+        shot: "/img/app-shots/brdf-explorer.webp",
         description:
-          "Upload and analyze crop datasets interactively with publication-ready scientific plotting.",
-        href: "/app/ai-data-visualizer",
+          "See how roughness, diffuse reflection and refractive index shape leaf reflectance, computed with the published study's model.",
+        href: "/research/brdf-traits#brdf-explorer",
+        action: "Open explorer",
+      },
+      {
+        layer: "III · Predict",
+        title: "Weather Downloader",
+        shot: "/img/app-shots/weather.jpg",
+        description:
+          "Retrieve NASA POWER agrometeorological data for a field and date range: the driving data for crop growth scenarios.",
+        href: "/app/weather",
         action: "Open tool",
       },
       {
-        title: "Root Preprocessor",
-        shot: "/img/app-shots/root-processor.jpg",
+        layer: "IV · Design",
+        title: "Irrigation Designer",
+        shot: "/img/app-shots/irrigation-designer.jpg",
         description:
-          "Clean, segment, and preprocess root system imagery to extract morphology phenotypes.",
-        href: "/app/root-processor",
+          "Check a drip-irrigation layout: head losses, pressure at the farthest subunit and emitter flow variation.",
+        href: "/app/irrigation-designer",
         action: "Open tool",
       },
     ],
@@ -123,32 +135,44 @@ const CONTENT = {
         href: "/research?layer=DES",
       },
     ],
-    labEyebrow: "精选工具",
+    labEyebrow: "精选工具 · 每层一个",
     labTitle: "交互式计算，在浏览器中即点即用。",
-    labIntro: "直接启动以下作物分析、数据规划与科学可视化应用。",
+    labIntro: "从采集作物到设计管理方案：每个研究层一个可直接运行的入口。",
     lab: [
       {
-        title: "Sensor Recorder",
+        layer: "I · 数字化",
+        title: "传感器记录仪",
         shot: "/img/app-shots/sensor.jpg",
         description:
-          "获取手机姿态、太阳入射角与定位信息，辅助田间叶片测量与数据采集。",
+          "采集手机姿态、叶倾角、定位与太阳几何，生成带时间戳的田间记录。",
         href: "/app/sensor",
         action: "打开工具",
       },
       {
-        title: "AI Data Visualizer",
-        shot: "/img/app-shots/ai-data-visualizer.jpg",
+        layer: "II · 理解",
+        title: "叶片 BRDF 探索器",
+        shot: "/img/app-shots/brdf-explorer.webp",
         description:
-          "交互式上传分析作物科学数据集，快速生成可供发表的学术图表。",
-        href: "/app/ai-data-visualizer",
+          "查看粗糙度、漫反射系数和折射率如何塑造叶片反射，计算采用已发表研究的模型。",
+        href: "/research/brdf-traits#brdf-explorer",
+        action: "打开探索器",
+      },
+      {
+        layer: "III · 预测",
+        title: "气象数据下载器",
+        shot: "/img/app-shots/weather.jpg",
+        description:
+          "获取任意田块与时段的 NASA POWER 农业气象数据，作为作物生长情景的驱动数据。",
+        href: "/app/weather",
         action: "打开工具",
       },
       {
-        title: "Root Preprocessor",
-        shot: "/img/app-shots/root-processor.jpg",
+        layer: "IV · 设计",
+        title: "灌溉设计器",
+        shot: "/img/app-shots/irrigation-designer.jpg",
         description:
-          "清理、分割与处理作物根系图像，快速提取和量化根系形态学特征。",
-        href: "/app/root-processor",
+          "校核滴灌布局：水头损失、最不利小区压力与灌水器流量偏差。",
+        href: "/app/irrigation-designer",
         action: "打开工具",
       },
     ],
@@ -214,6 +238,7 @@ function LabCard({ item }) {
         decoding="async"
       />
       <div className={styles.labCardBody}>
+        <span className={styles.labLayer}>{item.layer}</span>
         <Heading as="h3">{item.title}</Heading>
         <p>{item.description}</p>
       </div>

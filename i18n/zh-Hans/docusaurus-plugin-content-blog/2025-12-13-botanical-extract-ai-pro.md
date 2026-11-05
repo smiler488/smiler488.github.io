@@ -6,13 +6,13 @@ category: 人工智能与机器学习
 article_type: "研究项目"
 tags: [artificial-intelligence, computer-vision, image-analysis, plant-phenotyping]
 layers: [DIG]
-image: /img/botanical-extract-ai-pro.png
+image: /img/botanical-extract-ai-pro.webp
 description: "一个网页应用与批处理流程，借助多模态图像模型、结构化提示词、宽高比匹配和文件头格式识别，在不针对任务训练的情况下去除植株图像背景。"
 ---
 
 ## 概述
 
-![原始植株图像与对应的白底输出](/img/botanical-extract-ai-pro.png)
+![原始植株图像与对应的白底输出](/img/botanical-extract-ai-pro.webp)
 
 温室、人工气候室和田间拍摄的植株图像背景复杂，包括土壤、花盆、墙面、标签和相邻植株。去除背景是大多数图像表型分析的第一步：人工分割耗时，而训练分割模型又需要针对每个物种和场景标注数据。
 

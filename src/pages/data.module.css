@@ -1,0 +1,154 @@
+/* /data: one column of dataset entries, the same rhythm as /publications */
+.page {
+  padding: 0 1rem clamp(4rem, 8vw, 6rem);
+}
+
+.shell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 820px;
+  padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+  border-bottom: 1px solid var(--ds-line);
+  scroll-margin-top: 5rem;
+}
+
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.itemTitle {
+  margin: 0;
+  color: var(--ds-text);
+  font-size: clamp(1.15rem, 1.9vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.summary {
+  margin: 0;
+  color: var(--ds-text);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.records {
+  margin: 0;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.primary,
+.secondary,
+.badge {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--ds-radius-pill);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
+}
+
+.primary {
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
+}
+
+.primary:hover {
+  background: var(--ds-primary-hover);
+  color: var(--ds-on-primary);
+  text-decoration: none;
+}
+
+.secondary {
+  background: var(--ds-surface);
+  color: var(--ds-text);
+}
+
+.secondary:hover {
+  background: var(--ds-surface-warm);
+  color: var(--ds-text);
+  text-decoration: none;
+}
+
+.badge {
+  background: var(--ds-primary-soft);
+  color: var(--ds-primary);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--ds-primary);
+  outline-offset: 3px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.details {
+  margin-top: 0.25rem;
+  color: var(--ds-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.details summary {
+  width: fit-content;
+  color: var(--ds-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.details p {
+  margin: 0.5rem 0 0;
+}
+
+.reuse {
+  max-width: 820px;
+  margin: 2rem 0 0;
+  color: var(--ds-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary,
+  .secondary {
+    transition: none;
+  }
+}

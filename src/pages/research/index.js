@@ -12,6 +12,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import { LAYERS, PUBLICATIONS } from "@site/src/data/publications";
 import { PROJECTS, PROJECT_STATUS } from "@site/src/data/projects";
 import { APP_MANIFEST } from "@site/src/data/appManifest";
+import { DATASETS } from "@site/src/data/datasets";
 import {
   Chip,
   JsonLd,
@@ -35,6 +36,7 @@ const COPY = {
     statProjects: "projects",
     statPublications: "publications and software",
     statNotes: "research notes",
+    statData: "datasets",
     filterHint: "Select a layer to filter the projects, notes and tools below.",
     filtered: (name) => `Showing work in ${name}.`,
     all: "Show all layers",
@@ -53,6 +55,7 @@ const COPY = {
     notesEmpty: "No research notes in this layer yet.",
     toolsTitle: "Tools in the Lab",
     morePublications: "All publications",
+    moreData: "Datasets",
     moreNotes: "All notes",
     moreLab: "Open the Lab",
   },
@@ -66,6 +69,7 @@ const COPY = {
     statProjects: "个项目",
     statPublications: "篇论文与软件",
     statNotes: "篇研究笔记",
+    statData: "个数据集",
     filterHint: "点选某一层，可筛选下方的项目、笔记与工具。",
     filtered: (name) => `正在显示“${name}”层的工作。`,
     all: "显示全部",
@@ -83,6 +87,7 @@ const COPY = {
     notesEmpty: "这一层暂时还没有研究笔记。",
     toolsTitle: "实验室中的工具",
     morePublications: "全部论文",
+    moreData: "数据集",
     moreNotes: "全部笔记",
     moreLab: "进入实验室",
   },
@@ -183,6 +188,7 @@ export default function ResearchHub() {
                 { value: PROJECTS.length, label: copy.statProjects },
                 { value: PUBLICATIONS.length, label: copy.statPublications },
                 { value: researchNotes.length, label: copy.statNotes },
+                { value: DATASETS.length, label: copy.statData },
               ]}
             />
           </PageHero>
@@ -264,6 +270,9 @@ export default function ResearchHub() {
             <div className={styles.moreRow}>
               <Link className={styles.moreLink} to="/publications">
                 {copy.morePublications}
+              </Link>
+              <Link className={styles.moreLink} to="/data">
+                {copy.moreData}
               </Link>
             </div>
           </section>
