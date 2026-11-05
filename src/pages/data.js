@@ -8,7 +8,7 @@ import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import useBaseUrl from "@docusaurus/useBaseUrl";
-import { DATASETS } from "@site/src/data/datasets";
+import { DATASETS, LICENSES } from "@site/src/data/datasets";
 import { getPublication, doiUrl } from "@site/src/data/publications";
 import { cvIdentity } from "@site/src/data/cvData";
 import {
@@ -43,8 +43,9 @@ const COPY = {
     project: "Project page",
     paper: "Paper",
     code: "Code",
+    license: "License",
     reuse:
-      "Reuse and citation: please get in touch before reusing the files, so the right version and reference can be agreed.",
+      "Files downloadable here are licensed CC BY-NC 4.0: free to reuse for non-commercial work with attribution to Liangchao Deng and a link to this page. For commercial use, or to agree on a citable version, get in touch.",
   },
   zh: {
     pageTitle: "数据",
@@ -66,7 +67,9 @@ const COPY = {
     project: "项目页",
     paper: "论文",
     code: "代码",
-    reuse: "复用与引用：复用文件前请先联系作者，以便确定对应的版本与引用方式。",
+    license: "许可协议",
+    reuse:
+      "本站可下载的文件采用 CC BY-NC 4.0 许可：非商业用途可自由复用，需署名邓良超并链接本页。商业用途或需要确定可引用的版本，请联系作者。",
   },
 };
 
@@ -100,7 +103,18 @@ function DatasetItem({ dataset, copy, localize }) {
         {localize(dataset.title)}
       </Heading>
       <p className={styles.summary}>{localize(dataset.summary)}</p>
-      <p className={styles.records}>{localize(dataset.records)}</p>
+      <p className={styles.records}>
+        {localize(dataset.records)}
+        {dataset.license && (
+          <>
+            {" · "}
+            {copy.license}{" "}
+            <Link href={LICENSES[dataset.license].url}>
+              {LICENSES[dataset.license].name}
+            </Link>
+          </>
+        )}
+      </p>
 
       <div className={styles.actions}>
         {dataset.access === "download" ? (
@@ -177,6 +191,9 @@ export default function DataPage() {
             datePublished: String(dataset.year),
             keywords: ["plant phenotyping", "AI4Plant", ...dataset.layers],
             isAccessibleForFree: dataset.access === "download",
+            ...(dataset.license
+              ? { license: LICENSES[dataset.license].url }
+              : {}),
             ...(dataset.files.length
               ? {
                   distribution: dataset.files.map((file) => ({

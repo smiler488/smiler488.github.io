@@ -11,9 +11,32 @@ import BlogPostItems from "@theme/BlogPostItems";
 import Unlisted from "@theme/ContentVisibility/Unlisted";
 import Layout from "@theme/Layout";
 import SearchMetadata from "@theme/SearchMetadata";
+import { useIsChinese } from "@site/src/components/ds";
 import styles from "./styles.module.css";
 
+const COPY = {
+  en: {
+    metaTitle: (label) => `${label} notes`,
+    eyebrow: "Topic collection",
+    fallback: (label) => `Research notes connected by ${label}.`,
+    notes: (n) => (n === 1 ? "field note" : "field notes"),
+    curated: "Curated",
+    collection: "topic collection",
+    articles: (label) => `${label} articles`,
+  },
+  zh: {
+    metaTitle: (label) => `${label} · 笔记`,
+    eyebrow: "主题合集",
+    fallback: (label) => `与「${label}」相关的研究笔记。`,
+    notes: () => "篇笔记",
+    curated: "精选",
+    collection: "主题合集",
+    articles: (label) => `「${label}」相关文章`,
+  },
+};
+
 export default function BlogTagsPostsPage({ tag, items, listMetadata }) {
+  const copy = useIsChinese() ? COPY.zh : COPY.en;
   return (
     <HtmlClassNameProvider
       className={clsx(
@@ -22,7 +45,7 @@ export default function BlogTagsPostsPage({ tag, items, listMetadata }) {
       )}
     >
       <PageMetadata
-        title={`${tag.label} notes`}
+        title={copy.metaTitle(tag.label)}
         description={tag.description}
       />
       <SearchMetadata tag="blog_tags_posts" />
@@ -31,23 +54,23 @@ export default function BlogTagsPostsPage({ tag, items, listMetadata }) {
         <main className={styles.page}>
           <BlogCollectionHero
             compact
-            eyebrow="Topic collection"
+            eyebrow={copy.eyebrow}
             title={tag.label}
             description={
-              tag.description || `Research notes connected by ${tag.label}.`
+              tag.description || copy.fallback(tag.label)
             }
             stats={[
               {
                 value: String(tag.count),
-                label: tag.count === 1 ? "field note" : "field notes",
+                label: copy.notes(tag.count),
               },
-              { value: "Curated", label: "topic collection" },
+              { value: copy.curated, label: copy.collection },
             ]}
           />
 
           <section
             className={styles.collection}
-            aria-label={`${tag.label} articles`}
+            aria-label={copy.articles(tag.label)}
           >
             <div className={styles.grid}>
               <BlogPostItems items={items} />

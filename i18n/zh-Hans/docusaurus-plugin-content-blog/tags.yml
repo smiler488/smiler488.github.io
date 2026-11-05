@@ -1,0 +1,86 @@
+# Chinese labels and descriptions for blog/tags.yml. Keys and permalinks must
+# stay identical to the English file: they define the /blog/tags/<tag> routes.
+web-development:
+  label: 网站开发
+  permalink: /web-development
+  description: 在网上构建、发布与维护科研软件。
+
+productivity:
+  label: 效率
+  permalink: /productivity
+  description: 专注工作与可靠日常计算的实用流程。
+
+git:
+  label: Git
+  permalink: /git
+  description: 版本控制与协作开发实践。
+
+reproducible-research:
+  label: 可复现研究
+  permalink: /reproducible-research
+  description: 科研工作中可追溯的环境、数据、代码与验证。
+
+python:
+  label: Python
+  permalink: /python
+  description: 科研计算中的 Python 工具与实现模式。
+
+artificial-intelligence:
+  label: 人工智能
+  permalink: /artificial-intelligence
+  description: 明确证据、隐私与验证边界的应用 AI 系统。
+
+machine-learning:
+  label: 机器学习
+  permalink: /machine-learning
+  description: 面向科学应用的模型开发、评估与部署。
+
+computer-vision:
+  label: 计算机视觉
+  permalink: /computer-vision
+  description: 图像理解、分割、重建与测量流程。
+
+plant-phenotyping:
+  label: 植物表型
+  permalink: /plant-phenotyping
+  description: 可观测、可量化的作物与植物性状的方法与系统。
+
+three-dimensional-reconstruction:
+  label: 三维重建
+  permalink: /3d-reconstruction
+  description: 基于多视角图像、点云与模型的几何采集与重建。
+
+remote-sensing:
+  label: 遥感
+  permalink: /remote-sensing
+  description: 面向作物研究的经过标定的航空与光谱观测。
+
+crop-modeling:
+  label: 作物模型
+  permalink: /crop-modeling
+  description: 作物结构与功能的机理模型与数据驱动表示。
+
+data-analysis:
+  label: 数据分析
+  permalink: /data-analysis
+  description: 透明的数据处理、质量控制、可视化与解读。
+
+uav:
+  label: 无人机
+  permalink: /uav
+  description: 面向田间尺度观测的无人机成像流程。
+
+scientific-writing:
+  label: 科研写作
+  permalink: /scientific-writing
+  description: 论文规划、发表、数据可用性与科研传播。
+
+local-ai:
+  label: 本地 AI
+  permalink: /local-ai
+  description: 本地运行的模型、检索系统与注重隐私的 AI 流程。
+
+image-analysis:
+  label: 图像分析
+  permalink: /image-analysis
+  description: 从科学图像中可复现地提取并验证信息。

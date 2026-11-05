@@ -17,7 +17,7 @@ import {
   doiUrl,
 } from "../../src/data/publications.js";
 import { PROJECTS } from "../../src/data/projects.js";
-import { DATASETS } from "../../src/data/datasets.js";
+import { DATASETS, LICENSES } from "../../src/data/datasets.js";
 import { APP_MANIFEST } from "../../src/data/appManifest.js";
 import { cvContent, cvIdentity } from "../../src/data/cvData.js";
 
@@ -198,7 +198,9 @@ export default function siteIndexPlugin(context) {
           `- [${pick(dataset.title, locale)}](${abs(`/data#${dataset.id}`)}): ${pick(
             dataset.summary,
             locale
-          )} ${pick(dataset.records, locale)}. ${files}. [${dataset.layers.join(", ")}]`
+          )} ${pick(dataset.records, locale)}. ${files}.${
+            dataset.license ? ` ${LICENSES[dataset.license].name}.` : ""
+          } [${dataset.layers.join(", ")}]`
         );
       }
       lines.push("");

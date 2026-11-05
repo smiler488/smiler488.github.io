@@ -78,7 +78,7 @@
 | CSS 中的十六进制颜色（工具页之外 / 工具页内） | 146 / 23 | 0 / 允许（工具专属的画布与图表色，P3 再收敛） |
 | 写死的 `backdrop-filter` 模糊 | 约 50 处 | 仅保留导航栏、移动端菜单、遮罩层与 Hologram 特效页 |
 | 论文数据重复（`cvData.js` 中英文各存一份） | 2 份 | 1 份数据源 + 本地化字段 |
-| 博客外框（日期、标签、页头）中文化 | 未完成 | 已在独立任务中进行 |
+| 博客外框（日期、标签、页头）中文化 | 未完成 | **已完成（2026-11）**：列表、归档、主题、文章页界面文字双语；中文标签名放在 `i18n/zh-Hans/docusaurus-plugin-content-blog/tags.yml`，键与 permalink 与英文一致 |
 | 字重种类 | 22 种（400–850） | 仅 400 / 500 / 600 |
 
 ### 3.3 现有功能清单（全部保留）
@@ -694,7 +694,7 @@ flowchart LR
   - 已上线：`src/components/ds/`（PageHero、SectionHeader、Stats、Chip、Notice、LayerBadge、EvidenceBar、ToolboxLinks、JsonLd、PersonJsonLd）；导航 v2（研究 / 实验室 / 笔记 / 关于）；页脚“工具箱”分组；About（CV）与 Lab 页底部的工具箱入口；`/research` Hub（按层筛选，URL 参数 `?layer=`）；两个项目页（BRDF、MCTP，内容取自已发表的笔记）；`/publications`；首页四层动画与漫画卡片链接到对应层的证据；JSON-LD（Person、ResearchProject、ItemList、SoftwareApplication、CollectionPage）；`llms.txt` / `llms-full.txt`（中英文）。
   - 待作者确认：
     1. 博客与工具的层标注（见 `blog/*.md` 的 `layers` 与 `appManifest.js` 的 `layers`）。
-    2. MCTP 是否就是 Zenodo 上的 Digital Plant Phenotyping Platform v25.0；若是，在 `projects.js` 中给 MCTP 加上该 DOI。
+    2. ~~MCTP 是否就是 Zenodo 上的 Digital Plant Phenotyping Platform v25.0~~：作者确认（2026-11）**不是**同一个平台，两者保持独立，MCTP 不挂该 DOI。
     3. `/now` 与 `/open-problems` 两个草稿；确认后去掉 `unlisted` 并加入页脚。
   - 已知问题：站点未启用数学公式插件，博客中的 `$\sigma(\lambda)$` 等以原文显示（§6.6 计划按需引入 KaTeX）。
 - **验收**：
@@ -798,7 +798,7 @@ flowchart LR
 | D-019 | 2026-11 | 首页字号层级自上而下递减：首屏名字用 `--ds-title-page` 作唯一 h1，页脚标题降到区块标题以下；首屏只留标志、名字、简介、按钮（去掉与简介重复的标签和与合作区重复的状态行）；区块标题改为单列左对齐；精选工具用各自封面图代替通用图形 | 作者反馈首页"看起来有点难受"：原页脚标题比首屏名字大，首屏七段碎块居中堆叠，区块标题左右两栏错位 |
 | D-020 | 2026-11 | 取代 D-003：主题按钮改为图标 + 三项菜单（跟随系统 / 浅色 / 深色，当前项打勾），默认跟随系统；旧版两态按钮留下的 light/dark 记录一次性清除（`headTags` 脚本，键 `theme-system-default`）；系统未声明偏好时仍为浅色 | 作者要求加入"跟随系统"；深色 token 已与浅色同样完整校验（`check:tokens` 两套主题均通过） |
 | D-021 | 2026-11 | 工具箱（学习资源、网址导航、好物推荐）作为图标下拉放进导航右侧工具区，左侧研究身份导航仍为 4 项；Research 与 Notes 不合并，改为分工（见 §4.1）：Research 只列最近 4 篇笔记，Notes 加“研究笔记 / 教程”筛选；BRDF、MCTP 以项目页为完整版本，博客改为发布说明，独有截图移入项目页 | 作者发现两页内容重合、工具箱入口难找；合并会淹没四层结构或打断博客 RSS、标签和已收录的地址 |
-| D-022 | 2026-11 | 一批整改与新增：分享卡片改为 AI4Plant 中英两张（`static/img/social-card*.jpg`，按 `DOCUSAURUS_CURRENT_LOCALE` 选择）；引入 KaTeX；大图转 WebP、站点图标缩到 64px；新增 `/data`（`src/data/datasets.js`，schema.org Dataset，DOI 与许可证待作者存档后填写，不猜测）；Now 与 Open problems 正式发布，About 联系区加入口；论文页加“报告与媒体”（`TALKS` 待作者提供）；首页精选改为每层一个；FAIR 导出（§8.4） | 作者在扫描清单中勾选；`static/files` 中未被引用的文件按作者决定保持不动 |
+| D-022 | 2026-11 | 一批整改与新增：分享卡片改为 AI4Plant 中英两张（`static/img/social-card*.jpg`，按 `DOCUSAURUS_CURRENT_LOCALE` 选择）；引入 KaTeX；大图转 WebP、站点图标缩到 64px；新增 `/data`（`src/data/datasets.js`，schema.org Dataset，可下载的三个数据集按作者选择采用 CC BY-NC 4.0，BRDF 数据按论文说明“可申请获取”；DOI 待存档后填写，不猜测）；Now 与 Open problems 正式发布，About 联系区加入口；论文页加“报告与媒体”（`TALKS` 待作者提供）；首页精选改为每层一个；FAIR 导出（§8.4） | 作者在扫描清单中勾选；`static/files` 中未被引用的文件按作者决定保持不动 |
 
 ---
 

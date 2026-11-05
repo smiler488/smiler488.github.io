@@ -5,9 +5,17 @@
  *
  * access: "download" — files are served from static/data on this site;
  *         "request"  — available from the author, as stated in the paper.
- * `doi` and `license` stay null until the author archives a dataset (for
- * example on Zenodo) and chooses a license; nothing is filled in by guess.
+ * `license`: the author's choice (2026-11): CC BY-NC 4.0 for the files served
+ * here; data available on request keep the terms stated in the paper.
+ * `doi` stays null until a dataset is archived (for example on Zenodo).
  */
+
+export const LICENSES = {
+  "CC-BY-NC-4.0": {
+    name: "CC BY-NC 4.0",
+    url: "https://creativecommons.org/licenses/by-nc/4.0/",
+  },
+};
 import { COTTON3D } from "./cotton3d";
 
 const WEB_POINTS_FORMAT = {
@@ -38,7 +46,7 @@ export const DATASETS = [
     bounds: { min: COTTON3D.sfm.min, max: COTTON3D.sfm.max, unit: "m" },
     note: "/blog/growth-chamber-cotton-3d",
     doi: null,
-    license: null,
+    license: "CC-BY-NC-4.0",
   },
   {
     id: "cotton-generative-pointcloud",
@@ -62,7 +70,7 @@ export const DATASETS = [
     bounds: { min: COTTON3D.gen.min, max: COTTON3D.gen.max, unit: "m" },
     note: "/blog/generative-ai-3d-plant-reconstruction",
     doi: null,
-    license: null,
+    license: "CC-BY-NC-4.0",
   },
   {
     id: "cotton-canopy-mesh",
@@ -89,7 +97,7 @@ export const DATASETS = [
     bounds: { min: COTTON3D.canopy.min, max: COTTON3D.canopy.max, unit: "m" },
     note: "/blog/canopy-photosynthesis-modeling-en",
     doi: null,
-    license: null,
+    license: "CC-BY-NC-4.0",
   },
   {
     id: "leaf-brdf-traits",
