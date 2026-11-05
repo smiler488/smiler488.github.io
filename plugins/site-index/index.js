@@ -2,8 +2,8 @@
  * site-index: one local plugin, two jobs (design/DESIGN_SPEC.md §4.3, §9.2).
  *
  * 1. allContentLoaded: exposes a light index of blog posts (title, permalink,
- *    date, layers) as global data, so the /research hub can list the notes
- *    behind each research layer without duplicating titles.
+ *    date, layers, card fields) as global data, so the /research hub can list
+ *    the notes behind each research layer and /blog can filter across pages.
  * 2. postBuild: writes llms.txt and llms-full.txt for the current locale from
  *    the same data files the pages use, so machine-readable facts never drift
  *    from what visitors see.
@@ -107,6 +107,13 @@ export default function siteIndexPlugin(context) {
           date: post.metadata.date,
           layers: post.metadata.frontMatter.layers ?? [],
           articleType: post.metadata.frontMatter.article_type ?? null,
+          // Card fields, so /blog can show a filtered view across pages
+          category: post.metadata.frontMatter.category ?? null,
+          image: post.metadata.frontMatter.image ?? null,
+          tags: post.metadata.tags.map(({ label, permalink }) => ({
+            label,
+            permalink,
+          })),
           content: post.content,
         }));
       actions.setGlobalData({

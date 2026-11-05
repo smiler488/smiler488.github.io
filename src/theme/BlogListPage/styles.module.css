@@ -42,6 +42,20 @@
   font-weight: 500;
 }
 
+/* Research notes / guides: a filter over every page, not just this one */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+}
+
+.filterCount {
+  margin-left: 0.4rem;
+  color: var(--ds-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

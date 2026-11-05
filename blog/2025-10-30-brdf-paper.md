@@ -11,13 +11,9 @@ description: A measuring and analysis framework that predicts leaf BRDF paramete
 ---
 import AltmetricBadge from '@site/src/components/AltmetricBadge';
 
-## Overview
-
 ![Directional spectrum measurement and BRDF prediction workflow](/img/brdf_cover.jpg)
 
-Leaves do not reflect light equally in all directions. Their anatomy, pigments and microscopic surface roughness determine how light is scattered, and therefore how it is distributed inside a canopy, yet most canopy models treat leaves as Lambertian reflectors. Measuring the directional reflectance of every leaf is impractical.
-
-This study develops a framework that predicts leaf optical properties from traits that are easy to measure. It combines a custom-built **Directional Spectrum Detection Instrument (DSDI)**, Cook–Torrance **bidirectional reflectance distribution function (BRDF)** fitting, phenotypic measurements and ensemble learning, and then uses canopy ray tracing to quantify how the predicted optical properties change light distribution in a canopy.
+Our study on predicting leaf BRDF from phenotypic traits is published in *Plant Phenomics* (2025). Leaf directional reflectance can be predicted from traits that are easy to measure, and the resulting differences in leaf optics change how light is distributed inside a simulated canopy. The framework combines a custom-built Directional Spectrum Detection Instrument (DSDI), Cook–Torrance BRDF fitting, ensemble learning and canopy ray tracing.
 
 <!-- truncate -->
 
@@ -31,58 +27,11 @@ This study develops a framework that predicts leaf optical properties from trait
 - **Predictive model:** a stacking ensemble built from support vector, random forest, and gradient boosting regressors.
 - **Performance:** BRDF fitting $R^2 > 0.95$; ensemble prediction $R^2 = 0.83$–$0.99$, depending on the parameter.
 
-## Measurement and modeling workflow
+## Read more
 
-### 1. Measure directional reflectance
-
-The DSDI uses a xenon light source, a fiber spectrometer, and mechanically controlled illumination and viewing angles. A Lambertian white reference is used to calibrate reflectance before leaf measurements.
-
-Both adaxial and abaxial surfaces were measured, since the two differ in epidermal structure and optical response.
-
-### 2. Fit the BRDF model
-
-The Cook–Torrance formulation represents diffuse and specular reflection with three wavelength-dependent parameters:
-
-| Parameter | Physical interpretation | Related leaf properties |
-| --- | --- | --- |
-| $\sigma(\lambda)$ | Microfacet roughness | Epidermal texture and surface irregularity |
-| $k(\lambda)$ | Diffuse reflection coefficient | Internal scattering and the diffuse contribution to reflectance |
-| $n(\lambda)$ | Refractive index | Refraction and interface reflection, influenced by tissue composition |
-
-Adaptive grid search and least-squares optimization were used to fit these parameters to the measured directional spectra.
-
-### 3. Predict optical parameters from traits
-
-The input variables included leaf thickness, specific leaf weight, pigment measurements, microscopy-derived surface roughness, and wavelength. The stacking model combines:
-
-- Support Vector Regression (SVR)
-- Random Forest Regression (RFR)
-- Gradient Boosting Regression Trees (GBRT)
-- Linear regression as the meta-learner
-
-The model links measured phenotypic traits directly to BRDF parameters, so that leaf optical properties can be estimated without directional spectral measurement.
-
-### 4. Canopy-scale effects
-
-Predicted BRDF parameters were introduced into a rice-canopy ray-tracing workflow based on **fastTracer**. The simulations show that changing roughness, diffuse reflection, or refractive behavior can alter the vertical and angular distribution of light inside a canopy.
-
-## Main findings
-
-1. Directional leaf reflectance can be represented accurately with a physically based BRDF model.
-2. Structural and biochemical leaf traits contain useful information for predicting BRDF parameters.
-3. Differences in leaf optical properties substantially change the simulated light field inside a canopy, so leaf optics should be represented explicitly rather than assumed uniform.
-
-Together these results connect leaf-scale phenotyping to radiative-transfer and canopy-photosynthesis models.
-
-## Scope and limitations
-
-The model was built from **270 data entries** covering four species, two canopy positions and both leaf surfaces, and applies within the measured trait and wavelength ranges (400–1000 nm); new species and conditions require new measurements to extend it. The canopy simulations quantify changes in light distribution; linking them to field yield is a subsequent step. Extending the dataset to more genotypes, environments, developmental stages and water status is the next step of this work.
-
-## Code and data availability
-
+- **[Project page](/research/brdf-traits)**: the full problem, method, results and limitations, with an interactive explorer showing how roughness, diffuse reflection and refractive index shape the reflectance pattern.
 - [BRDF fitting scripts and Roughness Calculator](https://github.com/PlantSystemsBiology/brdf)
 - [fastTracer canopy ray-tracing software](https://github.com/PlantSystemsBiology/fastTracerPublic)
-- The study data are available from the corresponding author upon reasonable request, as stated in the published article.
 
 ## Citation
 

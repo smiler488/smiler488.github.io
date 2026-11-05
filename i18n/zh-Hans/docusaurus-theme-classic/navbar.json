@@ -26,5 +26,21 @@
   "item.label.About": {
     "message": "关于",
     "description": "Navbar item with label About"
+  },
+  "item.label.Toolbox": {
+    "message": "工具箱",
+    "description": "Navbar item with label Toolbox"
+  },
+  "item.label.Learning resources": {
+    "message": "学习资源",
+    "description": "Navbar item with label Learning resources"
+  },
+  "item.label.Navigator": {
+    "message": "网址导航",
+    "description": "Navbar item with label Navigator"
+  },
+  "item.label.mPicks": {
+    "message": "好物推荐",
+    "description": "Navbar item with label mPicks"
   }
 }

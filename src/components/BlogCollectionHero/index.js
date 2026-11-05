@@ -1,43 +1,58 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
+import { useIsChinese } from "@site/src/components/ds";
 import styles from "./styles.module.css";
 
-const defaultStats = [
-  { value: "19", label: "field notes" },
-  {
-    value: `2021–${new Date().getUTCFullYear()}`,
-    label: "research timeline",
+const DEFAULTS = {
+  en: {
+    eyebrow: "Research notebook",
+    title: "Research notes for measurable, reproducible science.",
+    description:
+      "Practical field notes at the intersection of artificial intelligence, plant phenotyping, imaging, and scientific software.",
+    shortcuts: "Blog shortcuts",
+    latest: "Browse latest notes",
+    archive: "Explore archive",
+    topics: "Browse topics",
   },
-  { value: "5", label: "focus areas" },
-];
+  zh: {
+    eyebrow: "研究笔记本",
+    title: "为可度量、可复现的科学而写的研究笔记。",
+    description: "人工智能、植物表型、成像与科研软件交汇处的实用笔记。",
+    shortcuts: "笔记快捷入口",
+    latest: "浏览最新笔记",
+    archive: "查看归档",
+    topics: "按主题浏览",
+  },
+};
 
 export default function BlogCollectionHero({
-  eyebrow = "Research notebook",
-  title = "Research notes for measurable, reproducible science.",
-  description = "Practical field notes at the intersection of artificial intelligence, plant phenotyping, imaging, and scientific software.",
-  stats = defaultStats,
+  eyebrow,
+  title,
+  description,
+  stats = [],
   compact = false,
 }) {
+  const t = useIsChinese() ? DEFAULTS.zh : DEFAULTS.en;
   return (
     <header className={`${styles.hero} ${compact ? styles.compact : ""}`}>
       <div className={styles.content}>
         <p className={styles.eyebrow}>
-          {eyebrow}
+          {eyebrow ?? t.eyebrow}
         </p>
-        <Heading as="h1">{title}</Heading>
-        <p className={styles.description}>{description}</p>
+        <Heading as="h1">{title ?? t.title}</Heading>
+        <p className={styles.description}>{description ?? t.description}</p>
 
         {!compact && (
-          <div className={styles.actions} aria-label="Blog shortcuts">
+          <div className={styles.actions} aria-label={t.shortcuts}>
             <Link className={styles.primaryAction} to="#latest-notes">
-              Browse latest notes
+              {t.latest}
             </Link>
             <Link className={styles.secondaryAction} to="/blog/archive">
-              Explore archive
+              {t.archive}
             </Link>
             <Link className={styles.secondaryAction} to="/blog/tags">
-              Browse topics
+              {t.topics}
             </Link>
           </div>
         )}

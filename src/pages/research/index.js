@@ -49,6 +49,7 @@ const COPY = {
       "No project page in this layer yet. The notes below cover the work so far.",
     notesEyebrow: "Notes",
     notesTitle: "Research notes",
+    notesLatest: (n, total) => `The latest ${n} of ${total}. Select a layer above to see all of its notes.`,
     notesEmpty: "No research notes in this layer yet.",
     toolsTitle: "Tools in the Lab",
     morePublications: "All publications",
@@ -78,6 +79,7 @@ const COPY = {
     projectsEmpty: "这一层暂时还没有项目页，下面的笔记记录了目前的工作。",
     notesEyebrow: "笔记",
     notesTitle: "研究笔记",
+    notesLatest: (n, total) => `最近 ${n} 篇，共 ${total} 篇。点选上方某一层，可查看这一层的全部笔记。`,
     notesEmpty: "这一层暂时还没有研究笔记。",
     toolsTitle: "实验室中的工具",
     morePublications: "全部论文",
@@ -87,6 +89,10 @@ const COPY = {
 };
 
 const LAYER_IDS = LAYERS.map((layer) => layer.id);
+
+// The hub points into the notes rather than repeating /blog: the latest few
+// across all layers, or every note once a layer is chosen.
+const LATEST_NOTES = 4;
 
 function useLayerFilter() {
   const location = useLocation();
@@ -135,7 +141,8 @@ export default function ResearchHub() {
   const activeLayer = LAYERS.find((layer) => layer.id === active);
   const inLayer = (item) => !active || item.layers?.includes(active);
   const projects = PROJECTS.filter(inLayer);
-  const visibleNotes = researchNotes.filter(inLayer);
+  const layerNotes = researchNotes.filter(inLayer);
+  const visibleNotes = active ? layerNotes : layerNotes.slice(0, LATEST_NOTES);
   const tools = APP_MANIFEST.filter(
     (app) => app.layers?.length && inLayer(app)
   );
@@ -266,6 +273,11 @@ export default function ResearchHub() {
               id="notes-title"
               eyebrow={copy.notesEyebrow}
               title={copy.notesTitle}
+              description={
+                !active && researchNotes.length > LATEST_NOTES
+                  ? copy.notesLatest(LATEST_NOTES, researchNotes.length)
+                  : undefined
+              }
             />
             {visibleNotes.length ? (
               <ol className={styles.noteList}>
@@ -286,7 +298,7 @@ export default function ResearchHub() {
               <p className={styles.empty}>{copy.notesEmpty}</p>
             )}
             <div className={styles.moreRow}>
-              <Link className={styles.moreLink} to="/blog">
+              <Link className={styles.moreLink} to="/blog?kind=research">
                 {copy.moreNotes}
               </Link>
             </div>

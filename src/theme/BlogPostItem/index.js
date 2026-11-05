@@ -4,6 +4,7 @@ import { useBlogPost } from "@docusaurus/plugin-content-blog/client";
 import BlogPostItemContent from "@theme/BlogPostItem/Content";
 import BlogPostItemFooter from "@theme/BlogPostItem/Footer";
 import Heading from "@theme/Heading";
+import NoteCard from "@site/src/components/NoteCard";
 import styles from "./styles.module.css";
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
@@ -31,67 +32,19 @@ function ReadingMeta({ date, readingTime }) {
   );
 }
 
-function TopicVisual({ image, category }) {
-  const useImage = image && !image.includes("blog-default");
-
-  return (
-    <div className={styles.visual} aria-hidden="true">
-      {useImage ? (
-        <img src={image} alt="" loading="lazy" />
-      ) : (
-        <div className={styles.typeCover}>
-          <span>{category || "Research note"}</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function ListCard() {
   const { metadata, assets } = useBlogPost();
-  const {
-    title,
-    description,
-    permalink,
-    date,
-    tags,
-    frontMatter,
-  } = metadata;
-  const category = frontMatter.category || "Research note";
-
+  const { title, description, permalink, date, tags, frontMatter } = metadata;
   return (
-    <article className={styles.card}>
-      <Link
-        className={styles.visualLink}
-        to={permalink}
-        aria-label={`Read ${title}`}
-      >
-        <TopicVisual
-          image={assets.image || frontMatter.image}
-          category={category}
-        />
-      </Link>
-      <div className={styles.cardBody}>
-        <div className={styles.cardTypeRow}>
-          <span>{category}</span>
-          <span aria-hidden="true">·</span>
-          <time dateTime={date}>{formatDate(date)}</time>
-        </div>
-        <Heading as="h2">
-          <Link to={permalink}>{title}</Link>
-        </Heading>
-        <p className={styles.cardDescription}>{description}</p>
-        {tags.length > 0 && (
-          <div className={styles.cardTags} aria-label="Topics">
-            {tags.slice(0, 3).map((tag) => (
-              <Link key={tag.permalink} to={tag.permalink}>
-                {tag.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    </article>
+    <NoteCard
+      title={title}
+      description={description}
+      permalink={permalink}
+      date={date}
+      image={assets.image || frontMatter.image}
+      category={frontMatter.category}
+      tags={tags}
+    />
   );
 }
 

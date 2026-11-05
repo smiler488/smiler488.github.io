@@ -174,12 +174,23 @@ const config = {
       },
       items: [
         // Primary navigation: research identity only (DESIGN_SPEC §4.1).
-        // Tutorials, Resources, Navigator and mPicks stay reachable from the
-        // footer, the Lab hub and the About page.
         { to: "/research", label: "Research", position: "left" },
         { to: "/app", label: "Lab", position: "left" },
         { to: "/blog", label: "Notes", position: "left" },
         { to: "/cv", label: "About", position: "left" },
+        // Utility pages sit with the utility icons on the right (D-021); the
+        // footer, the Lab hub and the About page keep their links too.
+        {
+          type: "dropdown",
+          label: "Toolbox",
+          position: "right",
+          className: "navbar-toolbox",
+          items: [
+            { to: "/resources", label: "Learning resources" },
+            { to: "/navigator", label: "Navigator" },
+            { to: "/mpicks", label: "mPicks" },
+          ],
+        },
         { type: "localeDropdown", position: "right" },
         {
           href: "https://github.com/smiler488",

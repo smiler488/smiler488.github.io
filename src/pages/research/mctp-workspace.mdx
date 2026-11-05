@@ -17,9 +17,15 @@ One platform hosts four modality modules with the same interface: a control pane
 
 ### Hyperspectral
 
+![Hyperspectral module](/img/hyper.png)
+
 ENVI HDR/SPE reading and wavelength parsing; automatic band detection for vegetation indices; NDVI with NIR-threshold plant masks and percentile glare masks; leaf-region mean spectra (CSV) and summary statistics (JSON); batch processing of whole directories.
 
 ### LiDAR
+
+![LiDAR loading and preprocessing](/img/lidar1.png)
+
+![LiDAR segmentation and trait tuning](/img/lidar2.png)
 
 PLY, LAS, LAZ and text input; RANSAC ground rebasing, voxel downsampling, cropping and height colouring; DBSCAN plant segmentation tuned interactively in the SegTuner window; coverage, voxel occupancy, convex-hull volume and height percentiles H10/H50/H90; cropped point-cloud and JSON report export.
 
@@ -28,6 +34,8 @@ PLY, LAS, LAZ and text input; RANSAC ground rebasing, voxel downsampling, croppi
 Vegetation segmentation from three colour indices (ExG, CIVE, VDI) with a joint threshold; glare, label and border removal; adaptive morphology and skeleton enhancement for thin plants; watershed and connected-component labelling of individual plants; overlay images, plot-level JSON metrics and per-plant CSV tables.
 
 ### Thermal
+
+![Thermal module](/img/thermal.png)
 
 BMP images with DDT temperature matrices, with flipping and calibration; threshold suggestions from Otsu's method and percentiles; sliders for temperature threshold, HSV range and morphology; overlay, heatmap and plant-only previews; PNG, NPY, CSV and JSON export.
 
@@ -44,3 +52,5 @@ MCTP turns four separate processing chains into one consistent path from raw fil
 ## Limitations
 
 Each module processes its own modality; the modalities are not yet registered to each other. Results depend on calibration, ground selection, point density, occlusion and thresholds, which is why every module exposes its parameters and previews. The next steps are cross-modal registration, time-series analysis across campaigns, shared project configuration templates, and server-side batch processing and reporting.
+
+To try MCTP or obtain sample data, see the contact details on the [CV page](/cv).
