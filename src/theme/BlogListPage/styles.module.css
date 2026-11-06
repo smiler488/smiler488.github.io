@@ -39,7 +39,7 @@
   margin: 0 0 0.65rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
 }
@@ -83,7 +83,7 @@
 
 .paginator :global(.pagination-nav__link:hover) {
   border-color: var(--ifm-color-emphasis-300);
-  background: var(--ifm-background-surface-color);
+  background-image: var(--ds-hover-layer);
 }
 
 @media (max-width: 900px) {

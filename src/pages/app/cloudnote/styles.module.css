@@ -196,7 +196,7 @@
 
 .btnSecondary:not(:disabled):hover,
 .btnGhost:not(:disabled):hover {
-  background: var(--ifm-color-emphasis-100);
+  background-image: var(--ds-hover-layer);
 }
 
 .btnGhost {

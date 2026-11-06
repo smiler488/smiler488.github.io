@@ -25,7 +25,7 @@
   margin: 0 0 0.75rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   line-height: 20px;
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);

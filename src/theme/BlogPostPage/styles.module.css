@@ -93,7 +93,7 @@
 
 .paginatorSurface :global(.pagination-nav__link:hover) {
   border-color: var(--ifm-color-emphasis-300);
-  background: var(--ifm-background-surface-color);
+  background-image: var(--ds-hover-layer);
 }
 
 .paginatorSurface :global(.pagination-nav__sublabel) {
@@ -237,7 +237,7 @@
 .tocSurface > p {
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
 }
@@ -264,7 +264,7 @@
 }
 
 .paginatorSurface :global(.pagination-nav__link:hover) {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 .paginatorSurface :global(.pagination-nav__label) {

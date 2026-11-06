@@ -280,7 +280,7 @@
 }
 
 .root-button.secondary:not(:disabled):hover {
-  background: #555555;
+  background-image: var(--ds-hover-layer);
 }
 
 .root-button.ghost:not(:disabled):hover {

@@ -4,7 +4,7 @@
   margin: 0 0 0.5rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   line-height: 20px;
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
@@ -202,7 +202,7 @@
 }
 
 .chip:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ds-text);
   text-decoration: none;
 }
@@ -277,7 +277,7 @@
 }
 
 a.layerBadge:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ds-text);
   text-decoration: none;
 }
@@ -337,7 +337,7 @@ a.layerBadge:hover {
 }
 
 .evidenceLink:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ds-text);
   text-decoration: none;
 }
@@ -399,7 +399,7 @@ a.layerBadge:hover {
 }
 
 .toolboxList a:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   text-decoration: none;
 }
 

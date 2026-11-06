@@ -67,7 +67,7 @@
   align-items: center;
   width: fit-content;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   line-height: 20px;
   color: var(--ds-primary);
   text-transform: uppercase;
@@ -232,7 +232,7 @@
 .pathEyebrow {
   color: var(--ds-primary);
   font-size: 0.8125rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
 }
@@ -305,7 +305,7 @@
 }
 
 .pathAction:hover {
-  background: var(--ifm-color-emphasis-100);
+  background-image: var(--ds-hover-layer);
   border-color: var(--ifm-color-emphasis-400);
 }
 
@@ -412,7 +412,7 @@
 
 .railButton:hover {
   color: var(--resource-text);
-  background: color-mix(in srgb, var(--resource-text) 4%, transparent);
+  background-image: var(--ds-hover-layer);
 }
 
 .railButtonActive {
@@ -852,7 +852,7 @@
 
 .resourceAction:hover {
   color: var(--ifm-color-emphasis-900);
-  background: var(--ifm-color-emphasis-100);
+  background-image: var(--ds-hover-layer);
   border-color: var(--ifm-color-emphasis-400);
   text-decoration: none;
 }
@@ -975,7 +975,7 @@
 @media (hover: hover) and (pointer: fine) {
   .pathCard:hover,
   .resourceCard:hover {
-    background: var(--ds-surface-warm);
+    background-image: var(--ds-hover-layer);
   }
 }
 

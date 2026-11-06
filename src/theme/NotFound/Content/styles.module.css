@@ -71,7 +71,7 @@
 
 .secondary:hover {
   border-color: transparent;
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ifm-color-emphasis-900);
   text-decoration: none;
 }

@@ -143,9 +143,9 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 }
 
 .DocSearch-Button:hover {
-  background: var(--ds-surface) !important;
-  border-color: var(--ds-line) !important;
+  background-image: var(--ds-hover-layer) !important;
   box-shadow: none !important;
+  border-color: var(--ds-line) !important;
 }
 
 .DocSearch-Search-Icon {
@@ -183,9 +183,6 @@ html[data-theme='dark'] .DocSearch-Button {
   border-color: var(--ds-line) !important;
 }
 
-html[data-theme='dark'] .DocSearch-Button:hover {
-  background: var(--ds-surface-warm) !important;
-}
 
 /* 确保搜索框在导航栏右侧正确显示 */
 #docsearch {
@@ -696,7 +693,7 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   margin-top: 0.5rem;
   color: var(--ds-primary);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   letter-spacing: var(--ds-tracking-caps);
   text-transform: uppercase;
   background: none;
@@ -731,7 +728,6 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
 
 .theme-doc-sidebar-menu .menu__list .menu__link:hover {
   color: var(--ifm-color-emphasis-900);
-  background: color-mix(in srgb, var(--ifm-color-emphasis-900) 4%, transparent);
   border-color: transparent;
   box-shadow: none;
 }
@@ -795,7 +791,7 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
 
 button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
   color: var(--ds-text);
-  background: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
   border-color: transparent;
 }
 
@@ -845,9 +841,8 @@ button[class*="collapseSidebarButton"][class*="expandButton"] svg {
 button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
   color: var(--ifm-color-primary) !important;
   border-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent) !important;
-  background: var(--ds-card) !important;
+  background-image: var(--ds-hover-layer) !important;
   transform: scale(1.15) !important;
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--ifm-color-primary) 18%, transparent) !important;
 }
 
 /* 隐藏面包屑导航中的首页图标 — 与顶栏 logo 重复 */
@@ -939,16 +934,12 @@ table tbody tr {
 }
 
 table tbody tr:hover {
-  background: var(--ifm-color-emphasis-100);
+  background-image: var(--ds-hover-layer);
 }
 
 /* 代码块增强 */
 code {
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
-}
-
-code:hover {
-  background: var(--ifm-color-emphasis-200);
 }
 
 /* 滚动条美化 */
@@ -1050,7 +1041,7 @@ select:focus {
 }
 
 .clean-btn.theme-back-to-top-button:hover {
-  background-color: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
 }
 
 /* 移动端优化 */
@@ -1318,7 +1309,7 @@ select:focus {
 
 .pagination-nav__link:hover {
   border-color: var(--ifm-color-emphasis-300) !important;
-  background: var(--ifm-background-surface-color) !important;
+  background-image: var(--ds-hover-layer) !important;
 }
 
 .pagination-nav__sublabel {
@@ -1401,7 +1392,7 @@ select:focus {
 
 .wechat-float-btn:hover {
   color: var(--ds-text);
-  background: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
 }
 
 .wechat-float-btn:active {

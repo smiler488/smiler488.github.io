@@ -36,7 +36,7 @@
 }
 
 .layerCard:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 /* Selected layer: the soft blue fill, like a selected chip */

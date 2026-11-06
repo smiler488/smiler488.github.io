@@ -78,7 +78,7 @@
 }
 
 .card:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 .cardInner {
@@ -185,7 +185,7 @@
 }
 
 .cardLink:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 @media (max-width: 768px) {

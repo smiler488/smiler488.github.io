@@ -117,7 +117,7 @@
   .navbarNavLink:hover {
     color: var(--ds-text);
     text-decoration: none;
-    background: var(--ds-surface);
+    background-image: var(--ds-hover-layer);
   }
 
   .navbarNavLink:hover .iconSolid {

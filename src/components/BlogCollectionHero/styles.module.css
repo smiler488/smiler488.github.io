@@ -18,7 +18,7 @@
   margin: 0 0 1.1rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   letter-spacing: var(--ds-tracking-caps);
   text-transform: uppercase;
 }
@@ -88,7 +88,7 @@
 
 .secondaryAction:hover {
   border-color: transparent;
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ifm-color-emphasis-900);
 }
 

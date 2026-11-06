@@ -97,7 +97,7 @@
 }
 
 .secondary:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: var(--ds-text);
   text-decoration: none;
 }

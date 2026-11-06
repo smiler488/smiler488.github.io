@@ -20,12 +20,9 @@
 }
 
 .speechButton:hover {
-  background-color: rgba(108, 108, 112, 0.15);
+  background-image: var(--ds-hover-layer);
 }
 
-html[data-theme='dark'] .speechButton:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
 
 .speechButton:active {
   filter: brightness(var(--ds-press-brightness));

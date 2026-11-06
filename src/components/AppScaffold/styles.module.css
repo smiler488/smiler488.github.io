@@ -98,7 +98,7 @@
   margin: 0 0 0.5rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   line-height: 20px;
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
@@ -389,7 +389,7 @@
 }
 
 .workspace :global(input[type="file"]::file-selector-button:hover) {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 /* Checkboxes, radios, sliders */
@@ -423,10 +423,13 @@
 .workspace :global(.button--outline) {
   --ifm-button-background-color: var(--ds-raised);
   --ifm-button-border-color: var(--ds-raised);
-  --ifm-button-hover-background-color: var(--ds-surface-warm);
-  --ifm-button-hover-border-color: var(--ds-surface-warm);
 
   color: var(--ds-text);
+}
+
+.workspace :global(.button--secondary:not(:disabled):hover),
+.workspace :global(.button--outline:not(:disabled):hover) {
+  background-image: var(--ds-hover-layer);
 }
 
 .workspace :global(button:disabled),

@@ -31,7 +31,7 @@
   margin: 0 0 1rem;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
 }
@@ -187,7 +187,7 @@
 
 .searchBox button:hover {
   color: var(--lab-ink);
-  background: var(--ifm-color-emphasis-100);
+  background-image: var(--ds-hover-layer);
 }
 
 .filterRow {
@@ -275,7 +275,7 @@
 }
 
 .appCard:hover {
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   color: inherit;
   text-decoration: none;
 }

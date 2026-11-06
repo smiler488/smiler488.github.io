@@ -59,7 +59,7 @@
 @media (hover: hover) and (pointer: fine) {
   .tagCard:hover {
     border-color: var(--ifm-color-emphasis-300);
-    background: var(--ifm-background-surface-color);
+    background-image: var(--ds-hover-layer);
     color: inherit;
   }
 }

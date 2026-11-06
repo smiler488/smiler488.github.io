@@ -46,8 +46,8 @@
   margin-bottom: 0.8rem;
   color: var(--ds-primary);
   font-size: 0.8125rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: var(--ds-weight-eyebrow);
+  letter-spacing: 0;
   line-height: 18px;
   text-transform: none;
 }
@@ -90,7 +90,7 @@
 
 .profileLink:hover {
   color: var(--ds-text) !important;
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
   text-decoration: none;
 }
 
@@ -246,7 +246,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
 }
 
 .socialIcon:hover {
-  background: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
   border-color: var(--ifm-color-emphasis-300);
   text-decoration: none;
 }
@@ -305,8 +305,8 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   margin-bottom: 0.7rem;
   color: var(--ds-primary);
   font-size: 0.8125rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: var(--ds-weight-eyebrow);
+  letter-spacing: 0;
   text-transform: none;
 }
 
@@ -356,7 +356,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
 .globePrivacyLink:hover {
   color: var(--ifm-color-emphasis-900);
   text-decoration: none;
-  background: var(--ds-bg);
+  background-image: var(--ds-hover-layer);
 }
 
 .globeStage {

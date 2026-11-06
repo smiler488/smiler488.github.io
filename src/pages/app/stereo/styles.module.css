@@ -88,7 +88,7 @@
   margin-bottom: 0.25rem !important;
   color: var(--ds-primary);
   font-size: 0.8125rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
 }

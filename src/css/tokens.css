@@ -50,6 +50,13 @@
   /* Interaction states: a translucent hover wash, a brightness press, 2px focus */
   --ds-wash-hover: #00000013;
   --ds-wash-active: #0000001a;
+  /* The wash as a layer over the element's own fill (background-image), so one
+     rule works on page, panel, card and tinted rows alike. */
+  --ds-hover-layer: linear-gradient(var(--ds-wash-hover) 0 0);
+  --ds-active-layer: linear-gradient(var(--ds-wash-active) 0 0);
+  /* Infima's own hover fills (menus, clean buttons) follow the same wash. */
+  --ifm-menu-color-background-hover: var(--ds-wash-hover);
+  --ifm-hover-overlay: var(--ds-wash-hover);
   --ds-press-brightness: 0.95;
   --ds-focus-width: 2px;
   --ds-focus-offset: 2px;
@@ -106,6 +113,9 @@
   --ds-text-foot-lh: 18px;
   --ds-weight-heading: 500;
   --ds-weight-strong: 600;
+  /* Eyebrows: Muse measures 400; the author sets them semibold so the
+     small blue caps hold their own above a 500 heading (D-031). */
+  --ds-weight-eyebrow: 600;
   --ds-tracking-caps: 0.06em;
   --ds-tracking-title: -0.015em;  /* 40px and up */
   --ds-tracking-display: -0.01em; /* landing display */

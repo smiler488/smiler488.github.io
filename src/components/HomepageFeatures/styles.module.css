@@ -66,7 +66,7 @@
   margin: 0;
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-weight-eyebrow);
   line-height: 20px;
   text-transform: uppercase;
   letter-spacing: var(--ds-tracking-caps);
@@ -331,7 +331,7 @@
 .labCard:hover {
   color: var(--ds-text);
   text-decoration: none;
-  background: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
 }
 
 .labCard:focus-visible,
@@ -426,7 +426,7 @@
 
 .portalLink:hover {
   color: var(--ds-text);
-  background: var(--ds-card);
+  background-image: var(--ds-hover-layer);
 }
 
 /* ── Collaboration: one soft panel with a single blue action ────────── */
@@ -499,7 +499,7 @@
 .commercialAction:hover,
 .botAction:hover {
   color: var(--ds-text);
-  background: var(--ds-bg);
+  background-image: var(--ds-hover-layer);
 }
 
 .academicAction:active,

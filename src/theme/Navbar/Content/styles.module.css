@@ -223,7 +223,9 @@
 }
 
 .searchSlot :global(.navbar__search-input):hover {
-  background-color: var(--ds-surface);
+  /* The magnifier is Infima's background-image, so the wash goes on the
+     (transparent) colour layer here instead of --ds-hover-layer. */
+  background-color: var(--ds-wash-hover);
 }
 
 /* Collapsed to an icon: keep the placeholder and key hint from peeking out */
@@ -241,7 +243,7 @@
   cursor: text;
   background-color: var(--ds-card);
   border-color: var(--ds-primary);
-  box-shadow: 0 0 0 3px var(--ds-primary-soft);
+  box-shadow: none;
   outline: 0;
 }
 

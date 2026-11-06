@@ -172,7 +172,7 @@
 
 .secondary:hover {
   border-color: transparent;
-  background: var(--ds-surface-warm);
+  background-image: var(--ds-hover-layer);
 }
 
 .details summary {
@@ -210,7 +210,7 @@
 
 .nextList a:hover {
   border-color: var(--ifm-color-emphasis-300);
-  background: var(--ds-surface);
+  background-image: var(--ds-hover-layer);
   text-decoration: none;
 }
 
