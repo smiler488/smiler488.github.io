@@ -85,10 +85,12 @@
   color: var(--ds-on-primary);
 }
 
-.primary:hover {
-  background: var(--ds-primary-hover);
-  color: var(--ds-on-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .primary:hover {
+    background: var(--ds-primary-hover);
+    color: var(--ds-on-primary);
+    text-decoration: none;
+  }
 }
 
 .secondary {
@@ -96,10 +98,12 @@
   color: var(--ds-text);
 }
 
-.secondary:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .secondary:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 .badge {

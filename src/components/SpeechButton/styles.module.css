@@ -19,8 +19,10 @@
   top: -1px;
 }
 
-.speechButton:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .speechButton:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 

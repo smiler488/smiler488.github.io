@@ -304,9 +304,11 @@
   transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.pathAction:hover {
-  background-image: var(--ds-hover-layer);
-  border-color: var(--ifm-color-emphasis-400);
+@media (hover: hover) {
+  .pathAction:hover {
+    background-image: var(--ds-hover-layer);
+    border-color: var(--ifm-color-emphasis-400);
+  }
 }
 
 .filterPanel {
@@ -410,9 +412,11 @@
   transition: color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 
-.railButton:hover {
-  color: var(--resource-text);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .railButton:hover {
+    color: var(--resource-text);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .railButtonActive {
@@ -472,8 +476,10 @@
   text-decoration: none;
 }
 
-.railCrossLink a:hover {
-  color: var(--resource-text);
+@media (hover: hover) {
+  .railCrossLink a:hover {
+    color: var(--resource-text);
+  }
 }
 
 .sectionList {
@@ -850,11 +856,13 @@
   transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.resourceAction:hover {
-  color: var(--ifm-color-emphasis-900);
-  background-image: var(--ds-hover-layer);
-  border-color: var(--ifm-color-emphasis-400);
-  text-decoration: none;
+@media (hover: hover) {
+  .resourceAction:hover {
+    color: var(--ifm-color-emphasis-900);
+    background-image: var(--ds-hover-layer);
+    border-color: var(--ifm-color-emphasis-400);
+    text-decoration: none;
+  }
 }
 
 .emptyState {
@@ -1162,9 +1170,11 @@
     transition: none;
   }
 
-  .pathCard:hover,
-  .resourceCard:hover {
-    transform: none;
+  @media (hover: hover) {
+    .pathCard:hover,
+    .resourceCard:hover {
+      transform: none;
+    }
   }
 }
 

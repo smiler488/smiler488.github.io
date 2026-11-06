@@ -82,10 +82,16 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.item:hover,
 .item:focus-visible {
   background: var(--ds-surface);
   outline: 0;
+}
+
+@media (hover: hover) {
+  .item:hover {
+    background: var(--ds-surface);
+    outline: 0;
+  }
 }
 
 .item:focus-visible {

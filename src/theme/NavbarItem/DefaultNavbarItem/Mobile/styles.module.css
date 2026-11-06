@@ -50,11 +50,17 @@
   flex: 1;
 }
 
-.mobileNavbarLink:hover,
 .mobileNavbarLink:active,
 .mobileNavbarLink:global(.menu__link--active) {
   color: var(--ds-text) !important;
   background: var(--ds-surface);
+}
+
+@media (hover: hover) {
+  .mobileNavbarLink:hover {
+    color: var(--ds-text) !important;
+    background: var(--ds-surface);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

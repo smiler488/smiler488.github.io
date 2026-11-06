@@ -85,8 +85,10 @@
   text-underline-offset: 3px;
 }
 
-.summaryItem a:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  .summaryItem a:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .contentGrid {
@@ -219,12 +221,14 @@
   transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.providerLinks a:hover,
-.backLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  background-image: var(--ds-hover-layer);
-  border-color: var(--ifm-color-emphasis-400);
-  text-decoration: none;
+@media (hover: hover) {
+  .providerLinks a:hover,
+  .backLink:hover {
+    color: var(--ifm-color-emphasis-900);
+    background-image: var(--ds-hover-layer);
+    border-color: var(--ifm-color-emphasis-400);
+    text-decoration: none;
+  }
 }
 
 .backLink {

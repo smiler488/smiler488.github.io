@@ -49,12 +49,14 @@
   align-items: center;
   color: var(--ifm-color-emphasis-600);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
 }
 
-.tutorialBackLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+@media (hover: hover) {
+  .tutorialBackLink:hover {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
 }
 
 .tutorialRuntime {
@@ -177,15 +179,22 @@
   transition: transform var(--ds-dur-fast) var(--ds-ease);
 }
 
-.openAppButton:hover .openAppArrow,
 .openAppButton:focus-visible .openAppArrow {
   transform: translateX(3px) rotate(45deg);
 }
 
-.openAppButton:hover {
-  background: var(--ds-primary-hover);
-  color: var(--ds-on-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .openAppButton:hover .openAppArrow {
+    transform: translateX(3px) rotate(45deg);
+  }
+}
+
+@media (hover: hover) {
+  .openAppButton:hover {
+    background: var(--ds-primary-hover);
+    color: var(--ds-on-primary);
+    text-decoration: none;
+  }
 }
 
 .openAppButton:focus-visible,

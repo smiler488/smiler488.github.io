@@ -206,6 +206,7 @@
   font: inherit;
   font-size: 0.875rem;
   cursor: pointer;
+  font-weight: var(--ds-weight-action);
 }
 
 .ai {

@@ -86,9 +86,11 @@
   text-decoration: none;
 }
 
-.year li:hover a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .year li:hover a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .year a::after {

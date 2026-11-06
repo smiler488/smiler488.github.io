@@ -69,10 +69,12 @@
   text-decoration: none;
 }
 
-.itemTitle a:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .itemTitle a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 
 .authors {
@@ -117,10 +119,12 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.projectLink:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .projectLink:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 @media (max-width: 700px) {

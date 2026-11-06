@@ -81,9 +81,11 @@
   transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
-.paginator :global(.pagination-nav__link:hover) {
-  border-color: var(--ifm-color-emphasis-300);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .paginator :global(.pagination-nav__link:hover) {
+    border-color: var(--ifm-color-emphasis-300);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 @media (max-width: 900px) {

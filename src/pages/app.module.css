@@ -185,9 +185,11 @@
   cursor: pointer;
 }
 
-.searchBox button:hover {
-  color: var(--lab-ink);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .searchBox button:hover {
+    color: var(--lab-ink);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .filterRow {
@@ -234,8 +236,10 @@
   transition: color var(--ds-dur-menu) var(--ds-ease);
 }
 
-.filters button:hover {
-  color: var(--ifm-color-primary);
+@media (hover: hover) {
+  .filters button:hover {
+    color: var(--ifm-color-primary);
+  }
 }
 
 .filters .filterActive {
@@ -274,10 +278,12 @@
   transition: border-color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.appCard:hover {
-  background-image: var(--ds-hover-layer);
-  color: inherit;
-  text-decoration: none;
+@media (hover: hover) {
+  .appCard:hover {
+    background-image: var(--ds-hover-layer);
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .appCard:focus-visible {
@@ -351,8 +357,10 @@
   transition: transform var(--ds-dur-menu) var(--ds-ease);
 }
 
-.appCard:hover .cardArrow {
-  transform: translateX(4px);
+@media (hover: hover) {
+  .appCard:hover .cardArrow {
+    transform: translateX(4px);
+  }
 }
 
 .emptyState {
@@ -536,8 +544,10 @@
 }
 
 @media (hover: none) {
-  .appCard:hover {
-    transform: none;
+  @media (hover: hover) {
+    .appCard:hover {
+      transform: none;
+    }
   }
 }
 

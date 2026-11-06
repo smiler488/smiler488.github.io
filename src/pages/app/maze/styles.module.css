@@ -158,8 +158,10 @@
   cursor: pointer;
 }
 
-.dpad button:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .dpad button:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .dpad button:active {

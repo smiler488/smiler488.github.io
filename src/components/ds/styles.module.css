@@ -201,17 +201,25 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.chip:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .chip:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 /* Selected: the light primary tint, primary text */
-.chipActive,
-.chipActive:hover {
+.chipActive {
   background: var(--ds-primary);
   color: var(--ds-on-primary);
+}
+
+@media (hover: hover) {
+  .chipActive:hover {
+    background: var(--ds-primary);
+    color: var(--ds-on-primary);
+  }
 }
 
 /* ---------- Notice ---------- */
@@ -270,16 +278,18 @@
   background: var(--ds-surface);
   color: var(--ds-text);
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   line-height: 18px;
   text-decoration: none;
   white-space: nowrap;
 }
 
-a.layerBadge:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  a.layerBadge:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 .layerIndex {
@@ -325,10 +335,12 @@ a.layerBadge:hover {
   color: var(--ds-on-primary);
 }
 
-.evidencePrimary:hover {
-  background: var(--ds-primary-hover);
-  color: var(--ds-on-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .evidencePrimary:hover {
+    background: var(--ds-primary-hover);
+    color: var(--ds-on-primary);
+    text-decoration: none;
+  }
 }
 
 .evidenceLink {
@@ -336,10 +348,12 @@ a.layerBadge:hover {
   color: var(--ds-text);
 }
 
-.evidenceLink:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .evidenceLink:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 .evidencePrimary:active,
@@ -398,9 +412,11 @@ a.layerBadge:hover {
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.toolboxList a:hover {
-  background-image: var(--ds-hover-layer);
-  text-decoration: none;
+@media (hover: hover) {
+  .toolboxList a:hover {
+    background-image: var(--ds-hover-layer);
+    text-decoration: none;
+  }
 }
 
 .toolboxList strong {

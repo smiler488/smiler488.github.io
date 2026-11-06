@@ -52,10 +52,12 @@
   white-space: nowrap;
 }
 
-.doi:hover {
-  border-color: var(--ifm-color-emphasis-400);
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+@media (hover: hover) {
+  .doi:hover {
+    border-color: var(--ifm-color-emphasis-400);
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
 }
 
 .doiLabel {
@@ -110,9 +112,11 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.copyButton:hover {
-  border-color: transparent;
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .copyButton:hover {
+    border-color: transparent;
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .copyButton:focus-visible {

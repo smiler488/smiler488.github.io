@@ -77,8 +77,10 @@
   --card-glow: var(--ds-accent);
 }
 
-.card:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .card:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .cardInner {
@@ -104,13 +106,9 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: color-mix(
-    in srgb,
-    var(--card-glow) 10%,
-    var(--ifm-background-surface-color)
-  );
-  color: var(--card-glow);
-  border: 1px solid color-mix(in srgb, var(--card-glow) 15%, transparent);
+  background: var(--ds-fill-capsule);
+  color: var(--ds-text);
+  border: 1px solid transparent;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -157,13 +155,9 @@
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 16px;
-  background: color-mix(in srgb, var(--card-glow) 6%, transparent);
-  border: 1px solid color-mix(in srgb, var(--card-glow) 12%, transparent);
-  color: color-mix(
-    in srgb,
-    var(--card-glow) 90%,
-    var(--ifm-color-emphasis-800)
-  );
+  background: var(--ds-fill-capsule);
+  border: 1px solid transparent;
+  color: var(--ds-text);
   border-radius: 999px;
 }
 
@@ -184,8 +178,10 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.cardLink:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .cardLink:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 @media (max-width: 768px) {
@@ -228,10 +224,11 @@
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
-.qrButton:hover {
-  background: color-mix(in srgb, var(--card-glow) 8%, var(--ds-card));
-  border-color: color-mix(in srgb, var(--card-glow) 25%, var(--ds-line));
-  color: var(--card-glow);
+@media (hover: hover) {
+  .qrButton:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+  }
 }
 
 .qrTooltip {
@@ -265,11 +262,18 @@
   content: "";
 }
 
-.qrContainer:hover .qrTooltip,
 .qrContainer:focus-within .qrTooltip {
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0);
+}
+
+@media (hover: hover) {
+  .qrContainer:hover .qrTooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .qrTooltip img {

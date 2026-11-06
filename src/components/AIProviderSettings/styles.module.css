@@ -112,9 +112,11 @@
   cursor: not-allowed;
 }
 
-.clearButton:not(:disabled):hover {
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-color-primary);
+@media (hover: hover) {
+  .clearButton:not(:disabled):hover {
+    border-color: var(--ifm-color-primary);
+    color: var(--ifm-color-primary);
+  }
 }
 
 .fullWidth {

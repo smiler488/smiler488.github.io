@@ -32,8 +32,10 @@
   cursor: pointer;
 }
 
-.loadButton:hover {
-  background: var(--ds-primary-hover);
+@media (hover: hover) {
+  .loadButton:hover {
+    background: var(--ds-primary-hover);
+  }
 }
 
 .loadButton:disabled {
@@ -95,6 +97,8 @@
   text-underline-offset: 3px;
 }
 
-.source a:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  .source a:hover {
+    text-decoration-color: currentColor;
+  }
 }

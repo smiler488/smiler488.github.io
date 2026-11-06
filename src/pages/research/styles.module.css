@@ -35,8 +35,10 @@
   transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease), opacity var(--ds-dur-fast) var(--ds-ease-fade);
 }
 
-.layerCard:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .layerCard:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* Selected layer: the soft blue fill, like a selected chip */
@@ -107,8 +109,10 @@
   cursor: pointer;
 }
 
-.filterReset:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  .filterReset:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 /* ---------- Projects ---------- */
@@ -126,9 +130,11 @@
   text-decoration: none;
 }
 
-.projectCard:hover {
-  color: inherit;
-  text-decoration: none;
+@media (hover: hover) {
+  .projectCard:hover {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .projectCover {
@@ -217,9 +223,11 @@
   text-decoration: none;
 }
 
-.noteList a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .noteList a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .noteList p {
@@ -250,15 +258,17 @@
 .moreLink {
   color: var(--ifm-color-emphasis-900);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: underline;
   text-decoration-color: var(--ifm-color-emphasis-300);
   text-underline-offset: 3px;
 }
 
-.moreLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  .moreLink:hover {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration-color: currentColor;
+  }
 }
 
 .empty {

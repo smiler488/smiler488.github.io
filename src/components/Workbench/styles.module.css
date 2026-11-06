@@ -159,9 +159,11 @@
   color: var(--ds-on-primary);
 }
 
-.primary:hover {
-  border-color: var(--ds-primary-hover);
-  background: var(--ds-primary-hover);
+@media (hover: hover) {
+  .primary:hover {
+    border-color: var(--ds-primary-hover);
+    background: var(--ds-primary-hover);
+  }
 }
 
 .secondary {
@@ -170,9 +172,11 @@
   color: var(--ifm-color-emphasis-900);
 }
 
-.secondary:hover {
-  border-color: transparent;
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .secondary:hover {
+    border-color: transparent;
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .details summary {
@@ -208,10 +212,12 @@
   text-decoration: none;
 }
 
-.nextList a:hover {
-  border-color: var(--ifm-color-emphasis-300);
-  background-image: var(--ds-hover-layer);
-  text-decoration: none;
+@media (hover: hover) {
+  .nextList a:hover {
+    border-color: var(--ifm-color-emphasis-300);
+    background-image: var(--ds-hover-layer);
+    text-decoration: none;
+  }
 }
 
 .nextList strong {
@@ -274,8 +280,10 @@
   cursor: pointer;
 }
 
-.textButton:hover {
-  color: var(--ifm-color-emphasis-900);
+@media (hover: hover) {
+  .textButton:hover {
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 .primary:focus-visible,

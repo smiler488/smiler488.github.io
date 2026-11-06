@@ -275,17 +275,23 @@
   cursor: not-allowed;
 }
 
-.root-button.primary:not(:disabled):hover {
-  background: var(--ds-primary-hover);
+@media (hover: hover) {
+  .root-button.primary:not(:disabled):hover {
+    background: var(--ds-primary-hover);
+  }
 }
 
-.root-button.secondary:not(:disabled):hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .root-button.secondary:not(:disabled):hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
-.root-button.ghost:not(:disabled):hover {
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-color-primary);
+@media (hover: hover) {
+  .root-button.ghost:not(:disabled):hover {
+    border-color: var(--ifm-color-primary);
+    color: var(--ifm-color-primary);
+  }
 }
 
 .root-manual-controls {

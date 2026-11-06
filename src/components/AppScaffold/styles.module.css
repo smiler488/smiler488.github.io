@@ -55,9 +55,11 @@
   transform: rotate(45deg);
 }
 
-.backLink:hover {
-  color: var(--ds-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .backLink:hover {
+    color: var(--ds-primary);
+    text-decoration: none;
+  }
 }
 
 .contextMeta {
@@ -169,11 +171,18 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
-.guideLink:hover,
 .guideLink:focus-visible {
   color: var(--ds-on-primary);
   background: var(--ds-primary-hover);
   text-decoration: none;
+}
+
+@media (hover: hover) {
+  .guideLink:hover {
+    color: var(--ds-on-primary);
+    background: var(--ds-primary-hover);
+    text-decoration: none;
+  }
 }
 
 .guideLink:active {
@@ -197,14 +206,24 @@
   opacity: 0;
 }
 
-.guideLink:hover .guideClosed,
 .guideLink:focus-visible .guideClosed {
   opacity: 0;
 }
 
-.guideLink:hover .guideOpen,
+@media (hover: hover) {
+  .guideLink:hover .guideClosed {
+    opacity: 0;
+  }
+}
+
 .guideLink:focus-visible .guideOpen {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .guideLink:hover .guideOpen {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -341,10 +360,12 @@
   color: var(--ifm-color-emphasis-400);
 }
 
-.workspace :global(input:hover:not(:focus):not(:disabled)),
-.workspace :global(select:hover:not(:focus):not(:disabled)),
-.workspace :global(textarea:hover:not(:focus):not(:disabled)) {
-  border-color: var(--ifm-color-emphasis-700) !important;
+@media (hover: hover) {
+  .workspace :global(input:hover:not(:focus):not(:disabled)),
+  .workspace :global(select:hover:not(:focus):not(:disabled)),
+  .workspace :global(textarea:hover:not(:focus):not(:disabled)) {
+    border-color: var(--ifm-color-emphasis-700) !important;
+  }
 }
 
 .workspace :global(input:focus),
@@ -369,8 +390,10 @@
   cursor: pointer;
 }
 
-.workspace :global(input[type="file"]:hover) {
-  border-color: var(--ifm-color-emphasis-400);
+@media (hover: hover) {
+  .workspace :global(input[type="file"]:hover) {
+    border-color: var(--ifm-color-emphasis-400);
+  }
 }
 
 .workspace :global(input[type="file"]::file-selector-button) {
@@ -388,8 +411,10 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.workspace :global(input[type="file"]::file-selector-button:hover) {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .workspace :global(input[type="file"]::file-selector-button:hover) {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* Checkboxes, radios, sliders */
@@ -427,9 +452,11 @@
   color: var(--ds-text);
 }
 
-.workspace :global(.button--secondary:not(:disabled):hover),
-.workspace :global(.button--outline:not(:disabled):hover) {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .workspace :global(.button--secondary:not(:disabled):hover),
+  .workspace :global(.button--outline:not(:disabled):hover) {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .workspace :global(button:disabled),

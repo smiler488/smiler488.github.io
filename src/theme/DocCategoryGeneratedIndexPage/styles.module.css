@@ -123,11 +123,13 @@
   color: var(--ds-on-primary);
 }
 
-.primaryAction:hover {
-  background: var(--ds-primary-hover);
-  color: var(--ds-on-primary);
-  text-decoration: none;
-  transform: none;
+@media (hover: hover) {
+  .primaryAction:hover {
+    background: var(--ds-primary-hover);
+    color: var(--ds-on-primary);
+    text-decoration: none;
+    transform: none;
+  }
 }
 
 .secondaryAction {
@@ -136,11 +138,13 @@
   color: var(--ifm-color-emphasis-800);
 }
 
-.secondaryAction:hover {
-  border-color: transparent;
-  background-image: var(--ds-hover-layer);
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+@media (hover: hover) {
+  .secondaryAction:hover {
+    border-color: transparent;
+    background-image: var(--ds-hover-layer);
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
 }
 
 .heroStats {
@@ -249,8 +253,10 @@
   transition: border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.tutorialCard:hover {
-  border-color: var(--ifm-color-emphasis-300);
+@media (hover: hover) {
+  .tutorialCard:hover {
+    border-color: var(--ifm-color-emphasis-300);
+  }
 }
 
 .cardTopline {
@@ -297,9 +303,11 @@
   color: var(--ifm-color-emphasis-900);
 }
 
-.cardCopy h3 a:hover {
-  color: var(--ifm-color-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .cardCopy h3 a:hover {
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+  }
 }
 
 .cardCopy p {
@@ -363,9 +371,11 @@
   color: var(--ifm-color-primary);
 }
 
-.launchLink:hover,
-.guideLink:hover {
-  text-decoration: none;
+@media (hover: hover) {
+  .launchLink:hover,
+  .guideLink:hover {
+    text-decoration: none;
+  }
 }
 
 .collectionNote {
@@ -497,10 +507,12 @@
     transition: none;
   }
 
-  .primaryAction:hover,
-  .secondaryAction:hover,
-  .tutorialCard:hover {
-    transform: none;
+  @media (hover: hover) {
+    .primaryAction:hover,
+    .secondaryAction:hover,
+    .tutorialCard:hover {
+      transform: none;
+    }
   }
 }
 

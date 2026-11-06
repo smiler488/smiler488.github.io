@@ -184,8 +184,10 @@
   background: var(--ds-primary);
 }
 
-.btnPrimary:not(:disabled):hover {
-  background: var(--ds-primary-hover);
+@media (hover: hover) {
+  .btnPrimary:not(:disabled):hover {
+    background: var(--ds-primary-hover);
+  }
 }
 
 .btnSecondary {
@@ -194,9 +196,11 @@
   background: var(--ifm-background-color);
 }
 
-.btnSecondary:not(:disabled):hover,
-.btnGhost:not(:disabled):hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .btnSecondary:not(:disabled):hover,
+  .btnGhost:not(:disabled):hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .btnGhost {

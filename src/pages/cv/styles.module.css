@@ -183,9 +183,11 @@
   cursor: pointer;
 }
 
-.heroAction:hover {
-  color: var(--ds-primary-hover);
-  text-decoration: none;
+@media (hover: hover) {
+  .heroAction:hover {
+    color: var(--ds-primary-hover);
+    text-decoration: none;
+  }
 }
 
 .actionArrow {
@@ -202,8 +204,10 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.heroAction:hover .actionArrow {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .heroAction:hover .actionArrow {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* The one blue capsule of the group */
@@ -221,9 +225,11 @@
   line-height: var(--ds-text-status-lh);
 }
 
-.heroActionPrimary:hover {
-  color: var(--ds-on-primary);
-  background: var(--ds-primary-hover);
+@media (hover: hover) {
+  .heroActionPrimary:hover {
+    color: var(--ds-on-primary);
+    background: var(--ds-primary-hover);
+  }
 }
 
 .heroActionPrimary .actionArrow {
@@ -351,10 +357,12 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-a.contactCard:hover {
-  color: var(--cv-text);
-  background-image: var(--ds-hover-layer);
-  text-decoration: none;
+@media (hover: hover) {
+  a.contactCard:hover {
+    color: var(--cv-text);
+    background-image: var(--ds-hover-layer);
+    text-decoration: none;
+  }
 }
 
 a.contactCard:focus-visible {
@@ -367,8 +375,10 @@ a.contactCard:focus-visible {
   background: var(--ds-surface);
 }
 
-a.contactCardFeatured:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  a.contactCardFeatured:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .contactMark {
@@ -412,8 +422,10 @@ a.contactCardFeatured:hover {
   font-size: 0.9375rem;
 }
 
-a.contactCard:hover .contactArrow {
-  color: var(--ds-primary);
+@media (hover: hover) {
+  a.contactCard:hover .contactArrow {
+    color: var(--ds-primary);
+  }
 }
 
 /* ── Section nav: quiet text tabs with a blue underline ─────────── */
@@ -461,9 +473,11 @@ a.contactCard:hover .contactArrow {
   font-variant-numeric: tabular-nums;
 }
 
-.sectionNav a:hover {
-  color: var(--cv-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .sectionNav a:hover {
+    color: var(--cv-text);
+    text-decoration: none;
+  }
 }
 
 .sectionNav a.navLinkActive {

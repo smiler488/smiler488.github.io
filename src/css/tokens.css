@@ -62,6 +62,9 @@
   /* Infima's own hover fills (menus, clean buttons) follow the same wash. */
   --ifm-menu-color-background-hover: var(--ds-wash-hover);
   --ifm-hover-overlay: var(--ds-wash-hover);
+  /* Current breadcrumb: grey selected capsule with body text, not accent on a wash. */
+  --ifm-breadcrumb-item-background-active: var(--ds-fill-selected);
+  --ifm-breadcrumb-color-active: var(--ds-text);
   --ds-press-brightness: 0.95;
   --ds-focus-width: 2px;
   --ds-focus-offset: 2px;

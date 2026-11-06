@@ -76,8 +76,10 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   transition: background-color var(--ds-dur-panel) var(--ds-ease), border-color var(--ds-dur-panel) var(--ds-ease), color var(--ds-dur-panel) var(--ds-ease), box-shadow var(--ds-dur-panel) var(--ds-ease), opacity var(--ds-dur-panel) var(--ds-ease-fade);
 }
 
-.navbar__title:hover {
-  color: var(--ifm-navbar-link-hover-color);
+@media (hover: hover) {
+  .navbar__title:hover {
+    color: var(--ifm-navbar-link-hover-color);
+  }
 }
 
 .navbar__link,
@@ -85,9 +87,14 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   border-radius: var(--radius-sm);
 }
 
-.navbar__link:hover,
 .navbar__link--active {
   background: var(--ds-surface);
+}
+
+@media (hover: hover) {
+  .navbar__link:hover {
+    background: var(--ds-surface);
+  }
 }
 
 /* Menus: a floating panel near their trigger */
@@ -115,12 +122,18 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   box-shadow: none;
 }
 
-.dropdown__menu > a:hover,
 .dropdown__menu > a[class*="dropdown__link--active"],
-.dropdown__link:hover,
 .dropdown__link--active {
   color: var(--ds-text);
   background: var(--ds-surface);
+}
+
+@media (hover: hover) {
+  .dropdown__menu > a:hover,
+  .dropdown__link:hover {
+    color: var(--ds-text);
+    background: var(--ds-surface);
+  }
 }
 
 /* Hide external link icon for GitHub navbar item */
@@ -142,10 +155,12 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   margin: 0 !important;
 }
 
-.DocSearch-Button:hover {
-  background-image: var(--ds-hover-layer) !important;
-  box-shadow: none !important;
-  border-color: var(--ds-line) !important;
+@media (hover: hover) {
+  .DocSearch-Button:hover {
+    background-image: var(--ds-hover-layer) !important;
+    box-shadow: none !important;
+    border-color: var(--ds-line) !important;
+  }
 }
 
 .DocSearch-Search-Icon {
@@ -238,8 +253,10 @@ html[data-theme='dark'] .DocSearch-Button {
   box-shadow: none;
 }
 
-.card:hover {
-  border-color: var(--ifm-color-emphasis-300);
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--ifm-color-emphasis-300);
+  }
 }
 
 /* Buttons: pill shape, instant press feedback */
@@ -424,9 +441,11 @@ code {
   transition: color var(--ds-dur-menu) var(--ds-ease);
 }
 
-.footer__link-item:hover {
-  color: var(--ifm-color-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .footer__link-item:hover {
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+  }
 }
 
 .footer__title {
@@ -437,8 +456,10 @@ code {
   color: var(--ifm-footer-link-color);
 }
 
-.footer__link-item:hover {
-  color: var(--ifm-footer-link-hover-color);
+@media (hover: hover) {
+  .footer__link-item:hover {
+    color: var(--ifm-footer-link-hover-color);
+  }
 }
 
 /* Typography improvements */
@@ -476,8 +497,10 @@ a {
   font-weight: 500;
 }
 
-a:hover {
-  color: var(--ds-primary-hover);
+@media (hover: hover) {
+  a:hover {
+    color: var(--ds-primary-hover);
+  }
 }
 
 /* Responsive improvements */
@@ -700,12 +723,14 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   border-radius: 0;
 }
 
-.theme-doc-sidebar-menu
+@media (hover: hover) {
+  .theme-doc-sidebar-menu
   > .menu__list-item
   > .menu__list-item-collapsible:hover
   > .menu__link--sublist {
-  color: var(--ifm-color-primary);
-  background: none;
+    color: var(--ifm-color-primary);
+    background: none;
+  }
 }
 
 .theme-doc-sidebar-menu > .menu__list-item:first-child
@@ -726,10 +751,12 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   transition: color var(--ds-dur-menu) var(--ds-ease), background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 
-.theme-doc-sidebar-menu .menu__list .menu__link:hover {
-  color: var(--ifm-color-emphasis-900);
-  border-color: transparent;
-  box-shadow: none;
+@media (hover: hover) {
+  .theme-doc-sidebar-menu .menu__list .menu__link:hover {
+    color: var(--ifm-color-emphasis-900);
+    border-color: transparent;
+    box-shadow: none;
+  }
 }
 
 /* Current page: the soft blue capsule, no outline or rail */
@@ -759,14 +786,21 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   opacity: 0.65;
 }
 
-.theme-doc-sidebar-menu .menu__caret:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .theme-doc-sidebar-menu .menu__caret:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
-.theme-doc-sidebar-menu .menu__link:hover .menu__caret,
-.theme-doc-sidebar-menu .menu__list-item--collapsed .menu__caret,
-.navbar-sidebar .menu__link:hover .menu__caret {
+.theme-doc-sidebar-menu .menu__list-item--collapsed .menu__caret {
   color: var(--ifm-color-primary);
+}
+
+@media (hover: hover) {
+  .theme-doc-sidebar-menu .menu__link:hover .menu__caret,
+  .navbar-sidebar .menu__link:hover .menu__caret {
+    color: var(--ifm-color-primary);
+  }
 }
 
 /* 底部"收起侧栏"按钮 — 现代极简药丸式设计 */
@@ -789,10 +823,12 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
-button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
-  color: var(--ds-text);
-  background-image: var(--ds-hover-layer);
-  border-color: transparent;
+@media (hover: hover) {
+  button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
+    color: var(--ds-text);
+    background-image: var(--ds-hover-layer);
+    border-color: transparent;
+  }
 }
 
 /* 确保收起按钮内部的图标不会被误伤 */
@@ -821,8 +857,10 @@ button[class*="collapseSidebarButton"][class*="expandButton"] {
 }
 
 /* 展开侧栏按钮悬停时，整个窄栏有微弱的高亮 */
-button[class*="collapseSidebarButton"][class*="expandButton"]:hover {
-  background-image: var(--ds-hover-layer) !important;
+@media (hover: hover) {
+  button[class*="collapseSidebarButton"][class*="expandButton"]:hover {
+    background-image: var(--ds-hover-layer) !important;
+  }
 }
 
 /* 展开按钮内真正的圆形浮动毛玻璃图标 */
@@ -838,11 +876,13 @@ button[class*="collapseSidebarButton"][class*="expandButton"] svg {
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade) !important;
 }
 
-button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
-  color: var(--ifm-color-primary) !important;
-  border-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent) !important;
-  background-image: var(--ds-hover-layer) !important;
-  transform: scale(1.15) !important;
+@media (hover: hover) {
+  button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
+    color: var(--ifm-color-primary) !important;
+    border-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent) !important;
+    background-image: var(--ds-hover-layer) !important;
+    transform: scale(1.15) !important;
+  }
 }
 
 /* 隐藏面包屑导航中的首页图标 — 与顶栏 logo 重复 */
@@ -881,8 +921,10 @@ html {
   background-clip: padding-box;
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+@media (hover: hover) {
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
 }
 
 .docsearch-input {
@@ -907,9 +949,11 @@ article a:not(.button):not(.card):not([class*="Link"]) {
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
-article a:not(.button):not(.card):not([class*="Link"]):hover {
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  article a:not(.button):not(.card):not([class*="Link"]):hover {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
 }
 
 /* 图片：内容保持静止 */
@@ -933,8 +977,10 @@ table tbody tr {
   transition: background-color var(--ds-dur-menu) var(--ds-ease);
 }
 
-table tbody tr:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  table tbody tr:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* 代码块增强 */
@@ -959,8 +1005,10 @@ code {
   transition: background var(--ds-dur-menu) var(--ds-ease);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+@media (hover: hover) {
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
 }
 
 /* 输入框焦点效果 */
@@ -990,6 +1038,10 @@ select:focus {
   transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
+.breadcrumbs__item--active .breadcrumbs__link {
+  font-weight: var(--ds-weight-action);
+}
+
 /* ===== 统一 TOC (Table of Contents) 样式 ===== */
 
 /* TOC 容器样式 */
@@ -1012,9 +1064,11 @@ select:focus {
   position: relative;
 }
 
-.table-of-contents__link:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+@media (hover: hover) {
+  .table-of-contents__link:hover {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
 }
 
 .table-of-contents__link--active {
@@ -1040,8 +1094,10 @@ select:focus {
   z-index: 100;
 }
 
-.clean-btn.theme-back-to-top-button:hover {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .clean-btn.theme-back-to-top-button:hover {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* 移动端优化 */
@@ -1307,9 +1363,11 @@ select:focus {
   padding: 1rem 1.1rem;
 }
 
-.pagination-nav__link:hover {
-  border-color: var(--ifm-color-emphasis-300) !important;
-  background-image: var(--ds-hover-layer) !important;
+@media (hover: hover) {
+  .pagination-nav__link:hover {
+    border-color: var(--ifm-color-emphasis-300) !important;
+    background-image: var(--ds-hover-layer) !important;
+  }
 }
 
 .pagination-nav__sublabel {
@@ -1390,9 +1448,11 @@ select:focus {
   text-decoration: none !important;
 }
 
-.wechat-float-btn:hover {
-  color: var(--ds-text);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .wechat-float-btn:hover {
+    color: var(--ds-text);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .wechat-float-btn:active {
@@ -1425,11 +1485,18 @@ select:focus {
   transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), transform var(--ds-dur-menu) var(--ds-ease);
 }
 
-.wechat-float-container:hover .wechat-float-qr,
 .wechat-float-container:focus-within .wechat-float-qr {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .wechat-float-container:hover .wechat-float-qr {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 }
 
 .wechat-float-qr::after {
@@ -1471,8 +1538,10 @@ select:focus {
   text-decoration: none !important;
 }
 
-.wechat-float-qr-link:hover {
-  color: var(--ifm-color-primary-dark);
+@media (hover: hover) {
+  .wechat-float-qr-link:hover {
+    color: var(--ifm-color-primary-dark);
+  }
 }
 
 @media (hover: none) {
@@ -1605,8 +1674,11 @@ select:focus {
 
   color: var(--ds-on-primary);
 }
-.button--primary:hover {
-  color: var(--ds-on-primary);
+
+@media (hover: hover) {
+  .button--primary:hover {
+    color: var(--ds-on-primary);
+  }
 }
 
 /* Secondary button: soft grey fill, no outline. */
@@ -1619,8 +1691,11 @@ select:focus {
 
   color: var(--ds-text);
 }
-.button--secondary:hover {
-  color: var(--ds-text);
+
+@media (hover: hover) {
+  .button--secondary:hover {
+    color: var(--ds-text);
+  }
 }
 
 /* Docusaurus hides the skip link at left: 100%, which adds a few pixels of

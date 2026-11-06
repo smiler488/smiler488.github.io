@@ -36,9 +36,11 @@
   text-decoration: none;
 }
 
-.backLink:hover {
-  color: var(--ds-primary-hover);
-  text-decoration: underline;
+@media (hover: hover) {
+  .backLink:hover {
+    color: var(--ds-primary-hover);
+    text-decoration: underline;
+  }
 }
 
 .metaRow {
@@ -209,10 +211,12 @@
   text-decoration: none;
 }
 
-.noteLink:hover {
-  color: var(--ds-primary-hover);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .noteLink:hover {
+    color: var(--ds-primary-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .relatedRow {
@@ -242,10 +246,12 @@
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.relatedLink:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ds-text);
-  text-decoration: none;
+@media (hover: hover) {
+  .relatedLink:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ds-text);
+    text-decoration: none;
+  }
 }
 
 /* ---------- Reading layout body spacing ---------- */

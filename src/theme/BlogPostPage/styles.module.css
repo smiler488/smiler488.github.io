@@ -63,8 +63,10 @@
 
 
 
-.tocSurface :global(.table-of-contents__link:hover) {
-  color: var(--ifm-color-emphasis-900);
+@media (hover: hover) {
+  .tocSurface :global(.table-of-contents__link:hover) {
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 .tocSurface :global(.table-of-contents__link--active) {
@@ -91,9 +93,11 @@
   transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
-.paginatorSurface :global(.pagination-nav__link:hover) {
-  border-color: var(--ifm-color-emphasis-300);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .paginatorSurface :global(.pagination-nav__link:hover) {
+    border-color: var(--ifm-color-emphasis-300);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .paginatorSurface :global(.pagination-nav__sublabel) {
@@ -263,8 +267,10 @@
   background: var(--ds-surface);
 }
 
-.paginatorSurface :global(.pagination-nav__link:hover) {
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .paginatorSurface :global(.pagination-nav__link:hover) {
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .paginatorSurface :global(.pagination-nav__label) {

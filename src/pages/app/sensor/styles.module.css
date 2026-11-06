@@ -104,9 +104,11 @@
   border: 1px solid var(--ds-primary);
 }
 
-.buttonPrimary:hover:not(:disabled) {
-  background-color: var(--ds-primary-hover);
-  border-color: var(--ds-primary-hover);
+@media (hover: hover) {
+  .buttonPrimary:hover:not(:disabled) {
+    background-color: var(--ds-primary-hover);
+    border-color: var(--ds-primary-hover);
+  }
 }
 
 .buttonPrimary:disabled {

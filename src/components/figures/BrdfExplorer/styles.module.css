@@ -220,13 +220,15 @@
   color: var(--ifm-color-emphasis-900);
   font: inherit;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
 }
 
-.reset:hover {
-  border-color: var(--ifm-color-emphasis-400);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .reset:hover {
+    border-color: var(--ifm-color-emphasis-400);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .reset:focus-visible,

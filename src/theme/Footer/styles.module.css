@@ -88,10 +88,12 @@
   transition: transform var(--ds-dur-press) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.profileLink:hover {
-  color: var(--ds-text) !important;
-  background-image: var(--ds-hover-layer);
-  text-decoration: none;
+@media (hover: hover) {
+  .profileLink:hover {
+    color: var(--ds-text) !important;
+    background-image: var(--ds-hover-layer);
+    text-decoration: none;
+  }
 }
 
 .profileLink:active {
@@ -129,9 +131,11 @@
   transition: color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-fast) var(--ds-ease);
 }
 
-.linkList a:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
+@media (hover: hover) {
+  .linkList a:hover {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
 }
 
 .contactList {
@@ -160,10 +164,12 @@
   font-weight: 500;
 }
 
-.contactList a:hover strong {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .contactList a:hover strong {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .socialGroups {
@@ -245,10 +251,12 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   filter: invert(1);
 }
 
-.socialIcon:hover {
-  background-image: var(--ds-hover-layer);
-  border-color: var(--ifm-color-emphasis-300);
-  text-decoration: none;
+@media (hover: hover) {
+  .socialIcon:hover {
+    background-image: var(--ds-hover-layer);
+    border-color: var(--ifm-color-emphasis-300);
+    text-decoration: none;
+  }
 }
 
 .profileLink:focus-visible,
@@ -353,10 +361,12 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.globePrivacyLink:hover {
-  color: var(--ifm-color-emphasis-900);
-  text-decoration: none;
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .globePrivacyLink:hover {
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 .globeStage {
@@ -451,9 +461,11 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   text-decoration: none;
 }
 
-.privacyDisclosure a:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+@media (hover: hover) {
+  .privacyDisclosure a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 }
 
 @keyframes footerGlobeSpin {
@@ -577,11 +589,13 @@ html[data-theme="dark"] .footer {
 }
 
 @media (hover: none) {
-  .profileLink:hover,
-  .linkList a:hover,
-  .globePrivacyLink:hover,
-  .socialIcon:hover {
-    transform: none;
+  @media (hover: hover) {
+    .profileLink:hover,
+    .linkList a:hover,
+    .globePrivacyLink:hover,
+    .socialIcon:hover {
+      transform: none;
+    }
   }
 }
 
@@ -616,11 +630,13 @@ html[data-theme="dark"] .footer {
     transition: none;
   }
 
-  .profileLink:hover,
-  .linkList a:hover,
-  .globePrivacyLink:hover,
-  .socialIcon:hover {
-    transform: none;
+  @media (hover: hover) {
+    .profileLink:hover,
+    .linkList a:hover,
+    .globePrivacyLink:hover,
+    .socialIcon:hover {
+      transform: none;
+    }
   }
 
   .globeLoading > span {

@@ -119,10 +119,12 @@
   transition: background var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
-.cardTags a:hover,
-.heroTags a:hover {
-  background-image: var(--ds-hover-layer);
-  color: var(--ifm-color-emphasis-900);
+@media (hover: hover) {
+  .cardTags a:hover,
+  .heroTags a:hover {
+    background-image: var(--ds-hover-layer);
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -139,8 +141,10 @@
     transition: none;
   }
 
-  .card:hover .visual img {
-    transform: none;
+  @media (hover: hover) {
+    .card:hover .visual img {
+      transform: none;
+    }
   }
 }
 
@@ -164,8 +168,10 @@
   text-decoration: none;
 }
 
-.backLink:hover {
-  color: var(--ifm-color-emphasis-900);
+@media (hover: hover) {
+  .backLink:hover {
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 .postLabels {
@@ -399,9 +405,11 @@
   transform: rotate(45deg);
 }
 
-.backLink:hover {
-  color: var(--ds-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .backLink:hover {
+    color: var(--ds-primary);
+    text-decoration: none;
+  }
 }
 
 .postLabels {
@@ -444,9 +452,11 @@
   background: var(--ds-surface);
 }
 
-.heroTags a:hover {
-  color: var(--ds-text);
-  background-image: var(--ds-hover-layer);
+@media (hover: hover) {
+  .heroTags a:hover {
+    color: var(--ds-text);
+    background-image: var(--ds-hover-layer);
+  }
 }
 
 /* Long-form reading: the 16/26 "response" role, the only loose leading */

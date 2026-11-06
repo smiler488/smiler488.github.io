@@ -74,10 +74,12 @@
   color: var(--ds-on-primary);
 }
 
-.primaryAction:hover {
-  border-color: var(--ds-primary-hover);
-  background: var(--ds-primary-hover);
-  color: var(--ds-on-primary);
+@media (hover: hover) {
+  .primaryAction:hover {
+    border-color: var(--ds-primary-hover);
+    background: var(--ds-primary-hover);
+    color: var(--ds-on-primary);
+  }
 }
 
 .secondaryAction {
@@ -86,10 +88,12 @@
   color: var(--ifm-color-emphasis-900);
 }
 
-.secondaryAction:hover {
-  border-color: transparent;
-  background-image: var(--ds-hover-layer);
-  color: var(--ifm-color-emphasis-900);
+@media (hover: hover) {
+  .secondaryAction:hover {
+    border-color: transparent;
+    background-image: var(--ds-hover-layer);
+    color: var(--ifm-color-emphasis-900);
+  }
 }
 
 .stats {
