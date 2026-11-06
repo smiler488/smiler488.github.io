@@ -468,6 +468,11 @@ p {
   margin-bottom: 1.5rem;
 }
 
+/* Long-form paragraphs use the measured 16/26 reading pair (D-029). */
+.markdown p {
+  line-height: var(--ds-text-reading-lh);
+}
+
 a {
   transition: color var(--ds-dur-menu) var(--ds-ease);
   text-decoration: none;
