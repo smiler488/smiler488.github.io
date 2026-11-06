@@ -3,7 +3,7 @@
 ## Liangchao Deng (邓良超)
 **Postdoctoral Researcher**
 Shenzhen Institute of China Agricultural University, Shenzhen, China
-Appointment: 1 August 2026 – 31 July 2029
+Appointment: 1 August 2026 – 31 July 2028
 Ph.D. in Crop Science, Shihezi University (awarded 2026)
 
 - Academic Email: googalphdlc@gmail.com
@@ -26,7 +26,7 @@ Ph.D. in Crop Science, Shihezi University (awarded 2026)
 
 ## Professional Appointment
 
-### Postdoctoral Researcher, 1 August 2026 – 31 July 2029
+### Postdoctoral Researcher, 1 August 2026 – 31 July 2028
 **Shenzhen Institute of China Agricultural University, Shenzhen, China**
 
 - Postdoctoral research at the Shenzhen Institute of China Agricultural University.
