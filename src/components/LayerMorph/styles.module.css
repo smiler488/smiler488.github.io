@@ -66,7 +66,7 @@
 
 .stepButton:focus-visible {
   outline: 2px solid var(--ifm-color-primary);
-  outline-offset: 4px;
+  outline-offset: var(--ds-focus-offset);
   border-radius: 8px;
 }
 
@@ -76,7 +76,7 @@
   width: 1.7rem;
   height: 1.7rem;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   background: var(--ifm-background-color);
@@ -99,7 +99,7 @@
 
 .stepLabel {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   text-align: center;
   transition: color 400ms var(--morph-ease);
@@ -122,7 +122,7 @@
   width: fit-content;
   margin: 1.1rem auto 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: underline;
   text-decoration-color: var(--ifm-color-emphasis-300);

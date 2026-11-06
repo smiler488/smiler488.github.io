@@ -66,19 +66,19 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 20px;
   color: var(--ds-primary);
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .eyebrow,
 .sectionEyebrow {
   color: var(--ds-primary);
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .updatedPill {
@@ -97,8 +97,8 @@
   color: var(--resource-text);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
   text-wrap: balance;
 }
 
@@ -106,8 +106,8 @@
   max-width: 46rem;
   margin: clamp(1.5rem, 3vw, 2.4rem) 0 0;
   color: var(--resource-muted);
-  font-size: clamp(1rem, 1.6vw, 1.24rem);
-  line-height: 1.7;
+  font-size: var(--ds-text-lead);
+  line-height: var(--ds-text-lead-lh);
   text-wrap: pretty;
 }
 
@@ -128,26 +128,26 @@
 
 .heroStats dt {
   color: var(--resource-subtle);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 18px;
 }
 
 .heroStats dd {
   margin: 0;
   color: var(--resource-text);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: var(--ds-title-section);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
   font-variant-numeric: tabular-nums;
 }
 
 .heroStats dd.textStat {
   max-width: 10ch;
-  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-size: var(--ds-title-card);
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .pathsSection,
@@ -170,8 +170,8 @@
   color: var(--resource-text);
   font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
   text-wrap: balance;
 }
 
@@ -180,7 +180,7 @@
   margin: 0;
   color: var(--resource-muted);
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 22px;
 }
 
 .pathGrid {
@@ -231,26 +231,26 @@
 
 .pathEyebrow {
   color: var(--ds-primary);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .pathTitle {
   margin: 1.25rem 0 0.7rem;
   color: var(--resource-text);
-  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.08;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .pathDescription {
   margin: 0;
   color: var(--resource-muted);
-  font-size: 0.94rem;
-  line-height: 1.65;
+  font-size: 0.9375rem;
+  line-height: 20px;
 }
 
 .pathSteps {
@@ -267,7 +267,7 @@
   gap: 0.65rem;
   align-items: center;
   color: var(--resource-text);
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
   counter-increment: path-step;
 }
@@ -282,7 +282,7 @@
   background: var(--ifm-color-emphasis-100);
   border-radius: 999px;
   content: counter(path-step);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
@@ -298,7 +298,7 @@
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 999px;
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 160ms ease, border-color 160ms ease;
@@ -354,14 +354,14 @@
 
 .railHeading strong {
   color: var(--resource-text);
-  font-size: 0.84rem;
-  letter-spacing: -0.015em;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
 }
 
 .railHeading span {
   color: var(--resource-subtle);
-  font-size: 0.66rem;
-  line-height: 1.35;
+  font-size: 0.6875rem;
+  line-height: 13px;
 }
 
 .categoryList {
@@ -381,7 +381,7 @@
 
 .railGroupLabel strong {
   color: var(--resource-muted);
-  font-size: 0.62rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -389,7 +389,7 @@
 
 .railGroupLabel small {
   color: var(--resource-subtle);
-  font-size: 0.6rem;
+  font-size: 0.6875rem;
   line-height: 1.35;
 }
 
@@ -434,10 +434,10 @@
 .railText strong {
   overflow: hidden;
   color: currentColor;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: -0.014em;
-  line-height: 1.25;
+  line-height: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -451,7 +451,7 @@
   color: var(--resource-subtle);
   background: color-mix(in srgb, var(--resource-text) 6%, transparent);
   border-radius: 999px;
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
@@ -468,7 +468,7 @@
 
 .railCrossLink a {
   color: var(--resource-subtle);
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   text-decoration: none;
 }
@@ -500,17 +500,17 @@
   max-width: 46rem;
   margin: 0.35rem 0 0;
   color: var(--resource-muted);
-  font-size: 0.88rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .topicTitle {
   margin: 0;
   color: var(--resource-text);
-  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .topicCount {
@@ -522,7 +522,7 @@
   color: var(--ifm-color-emphasis-700);
   background: var(--ifm-color-emphasis-100);
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -537,7 +537,7 @@
   align-items: center;
   margin: 0 0 0.75rem;
   color: var(--resource-muted);
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -577,8 +577,8 @@
 
 .searchGlyph {
   color: var(--resource-subtle);
-  font-size: 1.45rem;
-  line-height: 1;
+  font-size: 1.375rem;
+  line-height: 28px;
 }
 
 .searchField input {
@@ -590,7 +590,7 @@
   border: 0;
   outline: 0;
   font: inherit;
-  font-size: 0.96rem;
+  font-size: 0.9375rem;
 }
 
 .searchField input::placeholder {
@@ -610,7 +610,7 @@
   border: 1px solid var(--resource-line);
   border-radius: 1rem;
   box-shadow: inset 0 1px 0 var(--resource-highlight);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -628,7 +628,7 @@
   border-radius: 0.72rem;
   outline: 0;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   cursor: pointer;
 }
 
@@ -647,8 +647,8 @@
   min-height: 2.75rem;
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
   padding: 0.55rem 0.9rem;
@@ -671,7 +671,7 @@
   align-items: center;
   margin: 1.4rem 0 1rem;
   color: var(--resource-muted);
-  font-size: 0.83rem;
+  font-size: 0.8125rem;
 }
 
 .resultsBar strong {
@@ -714,7 +714,7 @@
   background: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 1rem;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   overflow: hidden;
@@ -746,9 +746,9 @@
 .organization {
   overflow: hidden;
   color: var(--resource-muted);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -757,7 +757,7 @@
 .updatedBadge {
   width: fit-content;
   color: var(--resource-subtle);
-  font-size: 0.64rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: none;
@@ -779,18 +779,18 @@
 .resourceTitle {
   margin: 1.4rem 0 0.7rem;
   color: var(--resource-text);
-  font-size: 1.35rem;
+  font-size: 1.375rem;
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.12;
+  letter-spacing: 0;
+  line-height: 28px;
   text-wrap: balance;
 }
 
 .resourceDescription {
   margin: 0;
   color: var(--resource-muted);
-  font-size: 0.88rem;
-  line-height: 1.62;
+  font-size: 0.875rem;
+  line-height: 20px;
   text-wrap: pretty;
 }
 
@@ -812,9 +812,9 @@
   min-height: 1.65rem;
   padding: 0.28rem 0.5rem;
   border-radius: 0.55rem;
-  font-size: 0.66rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 13px;
 }
 
 .metadata span {
@@ -846,7 +846,7 @@
   background: var(--ifm-background-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 999px;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   transition: background 160ms ease, border-color 160ms ease;
@@ -879,7 +879,7 @@
 .emptyState h3 {
   margin: 0.8rem 0 0;
   color: var(--resource-text);
-  font-size: 1.4rem;
+  font-size: 1.375rem;
 }
 
 .emptyState p {
@@ -896,7 +896,7 @@
   border: 0;
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -913,10 +913,10 @@
   max-width: 20ch;
   margin: 1rem 0 0.9rem;
   color: var(--resource-text);
-  font-size: clamp(1.7rem, 3.2vw, 2.65rem);
+  font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.05;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
 }
 
 .methodology p {
@@ -942,8 +942,8 @@
   background: var(--ds-surface);
   border: 0;
   border-radius: var(--ds-radius-lg);
-  font-size: 0.86rem;
-  line-height: 1.45;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .methodology li::before {
@@ -958,7 +958,7 @@
   background: var(--ifm-color-emphasis-200);
   border-radius: 999px;
   content: "✓";
-  font-size: 0.67rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
@@ -1038,7 +1038,9 @@
   .heroTitle {
     max-width: 14ch;
     font-size: var(--ds-title-page);
-  }
+  line-height: var(--ds-title-page-lh);
+  letter-spacing: var(--ds-title-page-tracking);
+}
 
   .heroStats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1065,7 +1067,9 @@
 
   .sectionTitle {
     font-size: var(--ds-title-page);
-  }
+  line-height: var(--ds-title-page-lh);
+  letter-spacing: var(--ds-title-page-tracking);
+}
 
   .pathGrid {
     grid-template-columns: 1fr;
@@ -1211,14 +1215,14 @@
   max-width: var(--ds-measure);
   margin-top: 1rem;
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
 }
 
 .heroStats dd {
   font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
   letter-spacing: 0;
-  line-height: 1.2;
+  line-height: var(--ds-title-card-lh);
 }
 
 .pathsSection,

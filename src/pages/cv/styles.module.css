@@ -81,9 +81,9 @@
   color: var(--ds-primary);
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.43;
+  line-height: 20px;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 :global(html[lang="zh-Hans"]) .heroEyebrow,
@@ -96,8 +96,8 @@
   color: var(--cv-text);
   font-size: var(--ds-title-hero);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.12;
+  letter-spacing: var(--ds-tracking-display);
+  line-height: var(--ds-title-hero-lh);
 }
 
 .heroTitle span {
@@ -107,29 +107,29 @@
   font-size: 1.125rem;
   font-weight: 400;
   letter-spacing: 0.08em;
-  line-height: 1.4;
+  line-height: 26px;
 }
 
 .heroRole {
   margin: 1.25rem 0 0;
   color: var(--cv-text);
   font-size: var(--ds-title-item);
-  font-weight: 300;
-  line-height: 1.25;
+  font-weight: 400;
+  line-height: var(--ds-title-item-lh);
 }
 
 .heroInstitution {
   margin: 0.375rem 0 0;
   color: var(--cv-muted);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 22px;
 }
 
 .heroSummary {
   margin: 1.5rem 0 0;
   color: var(--cv-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.55;
+  line-height: var(--ds-text-lead-lh);
   text-wrap: pretty;
 }
 
@@ -147,7 +147,7 @@
   background: var(--ds-surface);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 18px;
 }
 
 /* The utility column dissolves into the hero grid: actions on the right,
@@ -176,7 +176,7 @@
   color: var(--ds-primary);
   font: inherit;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   background: none;
   border: 0;
@@ -198,7 +198,7 @@
   border-radius: 50%;
   color: var(--ds-primary);
   font-size: 0.8125rem;
-  line-height: 1;
+  line-height: 18px;
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
@@ -216,7 +216,9 @@
   border-radius: var(--ds-radius-pill);
   color: var(--ds-on-primary);
   background: var(--ds-primary);
-  font-weight: 700;
+  font-weight: 500;
+  font-size: var(--ds-text-status);
+  line-height: var(--ds-text-status-lh);
 }
 
 .heroActionPrimary:hover {
@@ -230,7 +232,7 @@
 
 .heroAction:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
   border-radius: var(--ds-radius-pill);
 }
 
@@ -261,7 +263,7 @@
   color: var(--cv-text);
   font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  line-height: 1.2;
+  line-height: var(--ds-title-card-lh);
   font-variant-numeric: tabular-nums;
 }
 
@@ -295,7 +297,7 @@
   font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
   letter-spacing: 0;
-  line-height: 1.28;
+  line-height: var(--ds-title-section-lh);
 }
 
 .sectionDescription {
@@ -303,7 +305,7 @@
   margin: 0.25rem 0 0;
   color: var(--cv-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
 }
 
 /* ── Contact ─────────────────────────────────────────────────────── */
@@ -319,7 +321,7 @@
   margin: 0;
   color: var(--cv-muted);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 22px;
 }
 
 .contactHeading > div > .contactStart {
@@ -357,7 +359,7 @@ a.contactCard:hover {
 
 a.contactCard:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
 }
 
 .contactCardFeatured {
@@ -394,7 +396,7 @@ a.contactCardFeatured:hover {
 .contactHint {
   color: var(--cv-muted);
   font-size: 0.875rem;
-  line-height: 1.4;
+  line-height: 20px;
 }
 
 .contactCopy strong {
@@ -402,7 +404,7 @@ a.contactCardFeatured:hover {
   color: var(--cv-text);
   font-size: 1.0625rem;
   font-weight: var(--ds-weight-heading);
-  line-height: 1.35;
+  line-height: 22px;
 }
 
 .contactArrow {
@@ -524,16 +526,16 @@ a.contactCard:hover .contactArrow {
 .researchCard h3 {
   margin: 0;
   color: var(--cv-text);
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: var(--ds-weight-heading);
-  line-height: 1.3;
+  line-height: 28px;
 }
 
 .researchCard p {
   margin: 0;
   color: var(--cv-muted);
   font-size: 0.9375rem;
-  line-height: 1.6;
+  line-height: 20px;
 }
 
 /* Appointment, education, experience: rows on hairlines, not boxes */
@@ -568,7 +570,7 @@ a.contactCard:hover .contactArrow {
   color: var(--cv-muted);
   font-size: 0.9375rem;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 20px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -577,8 +579,8 @@ a.contactCard:hover .contactArrow {
   margin: 0;
   color: var(--cv-text);
   font-size: var(--ds-title-item);
-  font-weight: 300;
-  line-height: 1.3;
+  font-weight: 400;
+  line-height: var(--ds-title-item-lh);
 }
 
 .cardSubtitle {
@@ -586,14 +588,14 @@ a.contactCard:hover .contactArrow {
   color: var(--ds-primary);
   font-size: 0.9375rem;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 20px;
 }
 
 .cardDescription {
   margin: 0.5rem 0 0;
   color: var(--cv-muted);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 22px;
 }
 
 .detailList {
@@ -618,7 +620,7 @@ a.contactCard:hover .contactArrow {
   margin: 0;
   color: var(--cv-muted);
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 20px;
 }
 
 .projectList {
@@ -628,7 +630,7 @@ a.contactCard:hover .contactArrow {
   padding-left: 1.1rem;
   color: var(--cv-muted);
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 20px;
 }
 
 /* Skills: one soft panel, groups separated by hairlines */
@@ -645,6 +647,7 @@ a.contactCard:hover .contactArrow {
 
 .skillsPanel .sectionTitle {
   font-size: var(--ds-title-card);
+  line-height: var(--ds-title-card-lh);
 }
 
 .skillsPanel .sectionDescription {
@@ -707,7 +710,7 @@ a.contactCard:hover .contactArrow {
   color: var(--cv-text);
   background: var(--ds-bg);
   font-size: 0.8125rem;
-  line-height: 1.4;
+  line-height: 18px;
 }
 
 /* ── Outputs ─────────────────────────────────────────────────────── */
@@ -740,7 +743,7 @@ a.contactCard:hover .contactArrow {
   color: var(--ds-primary);
   font-size: 0.875rem;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .outputTopline strong {
@@ -761,9 +764,9 @@ a.contactCard:hover .contactArrow {
 .outputCard h3 {
   margin: 0;
   color: var(--cv-text);
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: var(--ds-weight-heading);
-  line-height: 1.35;
+  line-height: 28px;
 }
 
 .outputVenue {
@@ -778,7 +781,7 @@ a.contactCard:hover .contactArrow {
   margin: 0;
   color: var(--cv-muted);
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 20px;
 }
 
 .outputFooter {

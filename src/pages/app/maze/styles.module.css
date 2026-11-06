@@ -35,7 +35,7 @@
 .boardHeading span,
 .leaderboardHeading span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -60,13 +60,13 @@
 
 .steps span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
 }
 
 .steps strong {
   color: var(--ifm-color-primary);
-  font-size: 1.35rem;
-  line-height: 1.2;
+  font-size: 1.375rem;
+  line-height: 28px;
 }
 
 .newGameButton {
@@ -77,7 +77,7 @@
   background: var(--ds-primary);
   color: var(--ds-on-primary);
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -93,7 +93,7 @@
 .boardHeading h2,
 .leaderboardHeading h2 {
   margin: 2px 0 0;
-  font-size: 1.15rem;
+  font-size: 1.125rem;
 }
 
 .keyboardHint {
@@ -125,11 +125,12 @@
   place-items: center;
   padding: 18px;
   color: white;
-  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-size: var(--ds-title-card);
   font-weight: 600;
   text-align: center;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   pointer-events: none;
+  line-height: var(--ds-title-card-lh);
 }
 
 .message:empty {
@@ -219,7 +220,7 @@
   border-radius: 9px;
   background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
   color: var(--ifm-color-primary);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -232,8 +233,8 @@
 
 .leaderboard > p {
   margin: 14px 0 0;
-  font-size: 0.78rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 16px;
 }
 
 @media (max-width: 860px) {

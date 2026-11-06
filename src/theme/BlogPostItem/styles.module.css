@@ -41,10 +41,10 @@
 .typeCover span {
   max-width: 85%;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-size: var(--ds-title-section);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 :global(html[data-theme="dark"]) .typeCover {
@@ -66,7 +66,7 @@
   align-items: center;
   gap: 0.4rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
@@ -74,10 +74,10 @@
   margin: 0.45rem 0 0;
   padding: 0;
   border: 0;
-  font-size: clamp(1.15rem, 1.8vw, 1.32rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .card h2 a {
@@ -90,8 +90,8 @@
   overflow: hidden;
   margin: 0.5rem 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: 0.9375rem;
+  line-height: 20px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
@@ -113,7 +113,7 @@
   border-radius: 999px;
   background: var(--ifm-color-emphasis-100);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 500;
   text-decoration: none;
   transition: background 160ms ease, color 160ms ease;
@@ -162,7 +162,7 @@
   min-height: 32px;
   align-items: center;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -177,7 +177,7 @@
   gap: 0.45rem;
   margin-top: clamp(1.25rem, 3vw, 2rem);
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -194,16 +194,16 @@
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
 }
 
 .postDescription {
   max-width: 680px;
   margin: 1.1rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: clamp(1.02rem, 1.7vw, 1.18rem);
-  line-height: 1.6;
+  font-size: var(--ds-text-lead);
+  line-height: var(--ds-text-lead-lh);
 }
 
 .heroMeta {
@@ -238,14 +238,14 @@
 }
 
 .author strong {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
 .author small {
   overflow: hidden;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 400;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -275,17 +275,19 @@
   padding: 0;
   border: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+  font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 .content :global(h3) {
   margin-top: 2rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .content :global(p),
@@ -360,8 +362,9 @@
 
 @media (max-width: 600px) {
   .postHero h1 {
-    font-size: clamp(1.95rem, 9.5vw, 2.6rem);
-  }
+    font-size: var(--ds-title-page);
+  line-height: var(--ds-title-page-lh);
+}
 
   .heroMeta {
     align-items: flex-start;
@@ -410,7 +413,7 @@
   font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .postLabels span + span::before {
@@ -420,7 +423,7 @@
 .postHero h1 {
   margin-top: 0.5rem;
   color: var(--ds-text);
-  line-height: 1.17;
+  line-height: var(--ds-title-page-lh);
   text-wrap: balance;
 }
 
@@ -429,7 +432,7 @@
   margin-top: 1rem;
   color: var(--ds-text-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.5;
+  line-height: var(--ds-text-lead-lh);
 }
 
 .author strong {
@@ -449,11 +452,12 @@
   background: var(--ds-surface-warm);
 }
 
+/* Long-form reading: the 16/26 "response" role, the only loose leading */
 .content {
   max-width: none;
   color: var(--ds-text);
-  font-size: 1.0625rem;
-  line-height: 1.75;
+  font-size: var(--ds-text-body);
+  line-height: var(--ds-text-reading-lh);
 }
 
 .content :global(p),
@@ -463,16 +467,16 @@
 
 .content :global(h2) {
   margin: 3.5rem 0 1rem;
-  font-size: var(--ds-title-card);
-  line-height: 1.25;
+  font-size: var(--ds-title-section);
+  line-height: var(--ds-title-section-lh);
   letter-spacing: 0;
   scroll-margin-top: calc(var(--ifm-navbar-height) + 1.5rem);
 }
 
 .content :global(h3) {
   margin: 2.25rem 0 0.75rem;
-  font-size: 1.25rem;
-  line-height: 1.35;
+  font-size: var(--ds-title-card);
+  line-height: var(--ds-title-card-lh);
   letter-spacing: 0;
   scroll-margin-top: calc(var(--ifm-navbar-height) + 1.5rem);
 }

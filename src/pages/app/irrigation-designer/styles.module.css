@@ -23,8 +23,8 @@
   border-radius: 0 10px 10px 0;
   background: color-mix(in srgb, #c98a12 7%, transparent);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .preliminaryNotice strong {
@@ -56,7 +56,7 @@
 .sectionTitle {
   margin: 0 0 8px;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
 }
 
 .fieldControl,

@@ -7,7 +7,7 @@
   align-items: center;
   margin-top: 0.85rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -50,7 +50,7 @@
 
 .validation summary:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
   border-radius: var(--ds-radius-xs);
 }
 
@@ -58,7 +58,7 @@
   margin: 0.5rem 0 0;
   color: var(--ds-text-muted);
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 20px;
 }
 
 .maturity {
@@ -68,9 +68,9 @@
   padding: 0.1rem 0.6rem;
   border: 1px solid transparent;
   border-radius: var(--ds-radius-pill);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 16px;
 }
 
 .maturity_stable {
@@ -108,7 +108,7 @@
   color: var(--ifm-color-emphasis-900);
   font-size: 1rem;
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .panelHead p,
@@ -116,8 +116,8 @@
   max-width: 70ch;
   margin: 0.3rem 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
-  line-height: 1.5;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .muted {
@@ -132,7 +132,7 @@
 .recordSummary {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   font-weight: 500;
 }
 
@@ -148,7 +148,7 @@
   padding: 0.4rem 1rem;
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
 }
@@ -177,7 +177,7 @@
 
 .details summary {
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 
@@ -185,7 +185,7 @@
   max-height: 320px;
   margin: 0.6rem 0 0;
   overflow: auto;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .nextList {
@@ -216,13 +216,13 @@
 
 .nextList strong {
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   font-weight: 600;
 }
 
 .nextList span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
 }
 
 .workspaceList {
@@ -250,7 +250,7 @@
 .workspaceList strong {
   overflow: hidden;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -258,7 +258,7 @@
 
 .workspaceList span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
 }
 
 .textButton {
@@ -268,7 +268,7 @@
   background: none;
   color: var(--ifm-color-emphasis-700);
   font: inherit;
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -283,7 +283,7 @@
 .textButton:focus-visible,
 .nextList a:focus-visible {
   outline: 2px solid var(--ifm-color-emphasis-900);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
 }
 
 /* ---------- FAIR export (MIAPPE) ---------- */
@@ -322,8 +322,8 @@
   color: var(--ds-text);
   font: inherit;
   font-size: 0.9375rem;
-  background: var(--ds-card);
-  border: 1px solid var(--ds-line);
+  background: var(--ds-raised);
+  border: 1px solid var(--ds-control-border);
   border-radius: var(--ds-radius-sm);
 }
 

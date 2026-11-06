@@ -28,13 +28,14 @@
 .actionPanel h2,
 .glassPanel > h2 {
   margin: 2px 0 0;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  letter-spacing: -0.01em;
+  font-size: var(--ds-title-card);
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .step {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -42,15 +43,15 @@
 .hint,
 .disclaimer {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.82rem;
-  line-height: 1.55;
+  font-size: 0.8125rem;
+  line-height: 18px;
 }
 
 .label {
   display: block;
   margin-bottom: 6px;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -106,8 +107,8 @@
   max-width: 70ch;
   margin: 0 0 14px;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .metricChips {
@@ -125,9 +126,9 @@
   border-radius: 999px;
   color: var(--ifm-color-emphasis-800);
   background: var(--ifm-background-surface-color);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 18px;
 }
 
 .metricCount,
@@ -138,7 +139,7 @@
   border-radius: 999px;
   background: var(--ifm-background-color);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -160,8 +161,8 @@
 .metricDetails p {
   margin: 8px 0 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.88rem;
-  line-height: 1.7;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .actionPanel {
@@ -192,7 +193,7 @@
   padding: 10px 16px;
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -254,13 +255,13 @@
 
 .resultCardHeader h3 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
 }
 
 .resultCardHeader p {
   margin: 4px 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .quickFacts,
@@ -286,14 +287,14 @@
 .quickFacts dt,
 .resultDetails dt {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
 }
 
 .quickFacts dd,
 .resultDetails dd {
   margin: 4px 0 0;
   overflow-wrap: anywhere;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -310,7 +311,7 @@
   margin: 0;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
 }
 
 .resultsTable th,
@@ -404,7 +405,7 @@
 .verifyLinks {
   margin: 0.35rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
 }
 
 .verifyLinks a {
@@ -421,8 +422,8 @@
 .modelNote {
   margin: 10px 4px 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.82rem;
-  line-height: 1.55;
+  font-size: 0.8125rem;
+  line-height: 18px;
 }
 
 .textInput {
@@ -450,7 +451,7 @@
   border-left: 2px solid var(--ds-warn);
   border-radius: 0 8px 8px 0;
   background: color-mix(in srgb, var(--ds-warn) 7%, transparent);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .sourceGroups {
@@ -462,7 +463,7 @@
 .sourceTitle {
   margin: 0 0 8px;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   font-weight: var(--ds-weight-heading);
 }
 
@@ -478,7 +479,7 @@
   border: 1px solid var(--ds-line);
   border-radius: 999px;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
 }
 
 .tagRank {
@@ -510,7 +511,7 @@
 .fitText {
   margin: 6px 0 0;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
@@ -521,8 +522,8 @@
 .topics {
   margin: 10px 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
-  line-height: 1.5;
+  font-size: 0.8125rem;
+  line-height: 18px;
 }
 
 .aiNote,
@@ -533,8 +534,8 @@
   padding: 10px 12px;
   border-radius: 10px;
   background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
-  font-size: 0.85rem;
-  line-height: 1.55;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .aiNote p,
@@ -549,8 +550,8 @@
 .articleList {
   margin: 8px 0 0;
   padding-left: 1.2rem;
-  font-size: 0.84rem;
-  line-height: 1.5;
+  font-size: 0.8125rem;
+  line-height: 18px;
 }
 
 .articleList li + li {
@@ -579,13 +580,13 @@
 
 .tier span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .tier ul {
   margin: 6px 0 0;
   padding-left: 1.1rem;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
 }
 
 .subHeading {
@@ -596,8 +597,8 @@
 .checklist {
   margin: 0 0 10px;
   padding-left: 1.2rem;
-  font-size: 0.88rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .sortControl {
@@ -605,7 +606,7 @@
   align-items: center;
   gap: 8px;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .sortControl select {
@@ -622,6 +623,6 @@
   display: block;
   margin-top: 2px;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   font-weight: 500;
 }

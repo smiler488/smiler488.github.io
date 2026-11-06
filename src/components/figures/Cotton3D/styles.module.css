@@ -28,7 +28,7 @@
   background: transparent;
   color: var(--ifm-color-emphasis-700);
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
 }
@@ -44,7 +44,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
 }
 
 .toggles label {
@@ -67,7 +67,7 @@
   background: var(--ds-bg);
   color: var(--ifm-color-emphasis-900);
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
 }
@@ -105,7 +105,7 @@
   margin: 0;
   padding: 1rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-align: center;
 }
 
@@ -125,7 +125,7 @@
   padding: 0;
   list-style: none;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
 }
 
 .legend li {
@@ -142,7 +142,7 @@
 
 .meta {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .segment:focus-visible,

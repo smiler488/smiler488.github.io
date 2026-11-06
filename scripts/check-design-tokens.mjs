@@ -2,8 +2,9 @@
 /**
  * Contrast check for the colour pairs the design system relies on, in light
  * and dark mode (src/css/tokens.css). Adapted from the muse-design skill's
- * check_tokens.py to the site's --ds-* names. Solid colours only: it does not
- * replace looking at real pages.
+ * check_tokens.py (v1.6) to the site's --ds-* names. Translucent colours
+ * (#rrggbbaa, e.g. the secondary text #00040996) are composited over the
+ * background first, as they render. It does not replace looking at pages.
  */
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -33,7 +34,7 @@ function resolve(tokens, name, seen = new Set()) {
   if (!value || seen.has(name)) return null;
   const ref = value.match(/^var\(--([\w-]+)\)$/);
   if (ref) return resolve(tokens, ref[1], new Set([...seen, name]));
-  return /^#[0-9a-f]{6}$/i.test(value) ? value : null;
+  return /^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(value) ? value : null;
 }
 
 const linear = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -41,7 +42,21 @@ function luminance(hex) {
   const [r, g, b] = [1, 3, 5].map((i) => linear(parseInt(hex.slice(i, i + 2), 16) / 255));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
-function contrast(a, b) {
+// Composite a translucent foreground over an opaque background.
+function over(fg, bg) {
+  if (fg.length === 7) return fg;
+  const a = parseInt(fg.slice(7, 9), 16) / 255;
+  const ch = (i) =>
+    Math.round(parseInt(fg.slice(i, i + 2), 16) * a + parseInt(bg.slice(i, i + 2), 16) * (1 - a))
+      .toString(16)
+      .padStart(2, "0");
+  return `#${ch(1)}${ch(3)}${ch(5)}`;
+}
+
+function contrast(fgRaw, bg) {
+  if (bg.length !== 7) throw new Error(`background must be opaque: ${bg}`);
+  const a = over(fgRaw, bg);
+  const b = bg;
   const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }

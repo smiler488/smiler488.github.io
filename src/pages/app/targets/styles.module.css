@@ -16,7 +16,7 @@
 
 .appTitle {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2.125rem;
 }
 
 .lead {
@@ -26,8 +26,8 @@
   border-radius: 0 10px 10px 0;
   background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .layoutGrid {
@@ -106,7 +106,7 @@
 .printNotice h2 {
   margin-top: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
   font-weight: var(--ds-weight-heading);
 }
 

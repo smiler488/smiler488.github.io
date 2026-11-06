@@ -44,7 +44,7 @@
 .commentSurface > div > p {
   margin: 0 0 0.75rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
@@ -52,7 +52,7 @@
   padding: 0;
   border: 0;
   border-left: 1px solid var(--ifm-color-emphasis-200);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .tocSurface :global(.thin-scrollbar) {
@@ -98,7 +98,7 @@
 
 .paginatorSurface :global(.pagination-nav__sublabel) {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
@@ -123,9 +123,10 @@
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 .commentSurface > div + div {
@@ -147,7 +148,7 @@
   padding: 0.8rem 1rem;
   color: var(--ifm-color-emphasis-800);
   cursor: pointer;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 600;
   list-style: none;
 }
@@ -238,7 +239,7 @@
   font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .tocSurface :global(.table-of-contents) {

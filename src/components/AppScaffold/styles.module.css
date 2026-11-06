@@ -11,7 +11,7 @@
   --app-border: var(--ds-line);
   /* Panels are soft and borderless; fields inside them stay white */
   --app-surface: var(--ds-surface);
-  --app-field: var(--ds-card);
+  --app-field: var(--ds-raised);
   --app-subtle: var(--ds-surface);
 
   min-height: calc(100vh - var(--ifm-navbar-height));
@@ -99,9 +99,9 @@
   color: var(--ds-primary);
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.43;
+  line-height: 20px;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .title {
@@ -110,8 +110,8 @@
   color: var(--ds-text);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.17;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
   text-wrap: balance;
 }
 
@@ -120,7 +120,7 @@
   margin: 1rem 0 0;
   color: var(--ds-text-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
   text-wrap: pretty;
 }
 
@@ -140,7 +140,7 @@
   background: var(--ds-surface);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 18px;
 }
 
 .heroActions {
@@ -164,7 +164,7 @@
   color: var(--ds-primary);
   background: var(--ds-primary-soft);
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   transition: background-color var(--ds-dur-fast) var(--ds-ease),
     color var(--ds-dur-fast) var(--ds-ease),
@@ -179,7 +179,7 @@
 }
 
 .guideLink:active {
-  transform: scale(0.98);
+  filter: brightness(var(--ds-press-brightness));
 }
 
 .guideIcon {
@@ -239,6 +239,7 @@
   font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
   letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 /* Panels */
@@ -289,7 +290,7 @@
 /* Labels */
 :where(.workspace) :global(:where(label)) {
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
@@ -303,13 +304,13 @@
     )
   ) {
   min-height: 2.75rem;
-  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border: 1px solid var(--ds-control-border) !important;
   border-radius: var(--app-control-radius) !important;
   color: var(--ifm-font-color-base);
   background: var(--app-field) !important;
   box-shadow: none !important;
   font-family: inherit;
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
@@ -338,7 +339,7 @@
 .workspace :global(input:hover:not(:focus):not(:disabled)),
 .workspace :global(select:hover:not(:focus):not(:disabled)),
 .workspace :global(textarea:hover:not(:focus):not(:disabled)) {
-  border-color: var(--ifm-color-emphasis-400) !important;
+  border-color: var(--ifm-color-emphasis-700) !important;
 }
 
 .workspace :global(input:focus),
@@ -359,7 +360,7 @@
   color: var(--ifm-color-emphasis-500);
   background: var(--app-field);
   font-family: inherit;
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   cursor: pointer;
 }
 
@@ -376,8 +377,8 @@
   color: var(--ifm-color-emphasis-900);
   background: var(--ds-surface);
   font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 150ms ease;
 }
@@ -404,7 +405,7 @@
   min-height: 2.75rem;
   border-radius: var(--app-button-radius);
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
   touch-action: manipulation;
 }
 
@@ -415,8 +416,8 @@
 /* Secondary buttons sit on soft panels, so they turn white to stay visible */
 .workspace :global(.button--secondary),
 .workspace :global(.button--outline) {
-  --ifm-button-background-color: var(--ds-card);
-  --ifm-button-border-color: var(--ds-card);
+  --ifm-button-background-color: var(--ds-raised);
+  --ifm-button-border-color: var(--ds-raised);
   --ifm-button-hover-background-color: var(--ds-surface-warm);
   --ifm-button-hover-border-color: var(--ds-surface-warm);
 
@@ -442,7 +443,7 @@
   border: 0;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -460,7 +461,7 @@
   color: var(--ds-text-muted);
   background: transparent !important;
   border-bottom-color: var(--ifm-color-emphasis-300) !important;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -476,7 +477,7 @@
   border: 0;
   border-radius: var(--ds-radius-md);
   background: var(--app-field);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
 }
 
 /* ── Responsive ────────────────────────────────────────────────── */
@@ -490,7 +491,7 @@
   }
 
   .contextMeta {
-    font-size: 0.74rem;
+    font-size: 0.75rem;
   }
 
   .hero {

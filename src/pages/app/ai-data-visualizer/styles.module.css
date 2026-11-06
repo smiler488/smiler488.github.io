@@ -58,7 +58,7 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   color: var(--ifm-color-emphasis-900);
 }
 
@@ -71,7 +71,7 @@
   border-radius: 999px;
   background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -94,7 +94,7 @@
   );
   color: var(--ifm-color-emphasis-700);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
 }
 
 .textArea {
@@ -103,7 +103,7 @@
   border-radius: 12px;
   border: 1px solid var(--ds-line);
   padding: 12px;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   background: color-mix(
     in srgb,
     var(--ifm-background-surface-color) 84%,
@@ -130,7 +130,7 @@
     transparent
   );
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
 }
 
 .fieldGroup {
@@ -141,12 +141,12 @@
 }
 
 .fieldLabel {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--ifm-color-emphasis-800);
   display: block;
   margin-top: 12px;
-  line-height: 1.45;
+  line-height: 20px;
 }
 
 .fieldLabel > :is(input, select, textarea) {
@@ -157,13 +157,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   margin-top: 1rem;
   color: var(--ifm-color-emphasis-700);
 }
 
 .metaText {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: var(--ifm-color-emphasis-600);
   margin-top: 8px;
 }
@@ -172,7 +172,7 @@
   margin-top: 12px;
   border-radius: 10px;
   padding: 10px 14px;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -210,7 +210,7 @@
 .previewTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .previewTable th,
@@ -267,14 +267,14 @@
   padding: 1.5rem;
   color: var(--ifm-color-emphasis-500);
   background: var(--ifm-background-surface-color);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   text-align: center;
   pointer-events: none;
 }
 
 .chartEmptyTitle {
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: var(--ds-weight-heading);
 }
 
@@ -286,7 +286,7 @@
 .codeBlock {
   max-height: 320px;
   overflow: auto;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   padding: 16px;
   border-radius: 12px;
   border: 1px solid var(--ifm-border-color);

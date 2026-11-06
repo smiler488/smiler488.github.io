@@ -79,7 +79,7 @@
   color: var(--ds-text);
   font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -108,7 +108,7 @@
   color: var(--ds-text);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 18px;
   white-space: nowrap;
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
@@ -321,7 +321,7 @@
 
   .brand :global(.navbar__title) {
     max-width: clamp(5.5rem, 30vw, 8.5rem);
-    font-size: 0.82rem;
+    font-size: 0.8125rem;
   }
 
   .primaryNav,

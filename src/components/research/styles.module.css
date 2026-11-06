@@ -56,17 +56,17 @@
   font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .projectTitle {
   max-width: 24ch;
   margin: 0;
   color: var(--ds-text);
-  font-size: clamp(2rem, 4.4vw, 2.75rem);
+  font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
@@ -80,8 +80,8 @@
   max-width: 62ch;
   margin: 0 0 0.5rem;
   color: var(--ds-text-muted);
-  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
-  line-height: 1.6;
+  font-size: var(--ds-text-lead);
+  line-height: var(--ds-text-lead-lh);
   text-wrap: pretty;
 }
 
@@ -104,7 +104,7 @@
   margin-top: 0.75rem;
   color: var(--ds-text-muted);
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 20px;
 }
 
 .cover figcaption strong {
@@ -125,16 +125,16 @@
   min-width: 0;
   color: var(--ds-text);
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: var(--ds-text-reading-lh);
 }
 
 .body h2 {
   margin: 2.75rem 0 1rem;
   color: var(--ds-text);
-  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 .body h2:first-child {
@@ -144,10 +144,10 @@
 .body h3 {
   margin: 2rem 0 0.75rem;
   color: var(--ds-text);
-  font-size: 1.1875rem;
+  font-size: 1.125rem;
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.4;
+  letter-spacing: 0;
+  line-height: 26px;
 }
 
 .body strong {
@@ -172,12 +172,12 @@
 .toc > p {
   margin: 0 0 0.75rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
 .toc :global(.table-of-contents) {
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .toc :global(.thin-scrollbar) {
@@ -198,7 +198,7 @@
 .relatedTitle {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   font-weight: var(--ds-weight-heading);
 }
 
@@ -225,7 +225,7 @@
 .relatedLabel {
   margin-right: 0.35rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
 }
 
 .relatedLink {

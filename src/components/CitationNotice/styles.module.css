@@ -23,17 +23,17 @@
   padding: 0;
   border: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .intro {
   max-width: 60ch;
   margin: 0.35rem 0 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .doi {
@@ -45,7 +45,7 @@
   border-radius: 999px;
   color: var(--ifm-color-emphasis-700);
   background: var(--ifm-background-surface-color);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   text-decoration: none;
@@ -63,7 +63,7 @@
   border-radius: 999px;
   color: var(--ifm-color-emphasis-0);
   background: var(--ifm-color-emphasis-900);
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
@@ -92,7 +92,7 @@
 
 .label {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
@@ -104,8 +104,8 @@
   color: var(--ifm-color-emphasis-900);
   background: var(--ds-surface);
   font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
@@ -123,8 +123,8 @@
 .apa {
   margin: 0;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.88rem;
-  line-height: 1.65;
+  font-size: 0.875rem;
+  line-height: 20px;
   overflow-wrap: anywhere;
 }
 
@@ -136,15 +136,15 @@
   border-radius: 10px;
   color: var(--ifm-color-emphasis-800);
   background: var(--ifm-background-color);
-  font-size: 0.76rem;
-  line-height: 1.6;
+  font-size: 0.75rem;
+  line-height: 16px;
 }
 
 .hint {
   margin: 0.6rem 0 0;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.78rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 16px;
 }
 
 @media (max-width: 860px) {

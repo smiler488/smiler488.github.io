@@ -48,7 +48,7 @@
   display: inline-flex;
   align-items: center;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -62,7 +62,7 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   text-align: right;
 }
@@ -99,10 +99,10 @@
   display: block;
   margin: 0.1rem 0 0.55rem;
   color: var(--ds-primary);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 .tutorialHeroCopy {
@@ -114,8 +114,8 @@
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: var(--ds-title-page-lh);
+  letter-spacing: var(--ds-title-page-tracking);
 }
 
 .tutorialHeroCopy p {
@@ -123,7 +123,7 @@
   margin: 1rem 0 0;
   color: var(--ds-text-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
 }
 
 .tutorialHeroFooter {
@@ -148,7 +148,7 @@
   color: var(--ds-text);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 18px;
 }
 
 .openAppButton {
@@ -163,7 +163,7 @@
   background: var(--ds-primary);
   color: var(--ds-on-primary);
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
@@ -191,7 +191,7 @@
 .openAppButton:focus-visible,
 .tutorialBackLink:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
 }
 
 .tutorialArticle article,
@@ -202,8 +202,8 @@
 .tutorialArticle :global(.theme-doc-markdown) {
   max-width: 72ch;
   color: var(--ifm-color-emphasis-800);
-  font-size: 1.02rem;
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: var(--ds-text-reading-lh);
 }
 
 .tutorialArticle :global(.theme-doc-markdown > header:first-child) {
@@ -215,10 +215,10 @@
   padding-top: 0;
   border-top: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.4rem, 2.4vw, 1.7rem);
+  font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  line-height: var(--ds-title-section-lh);
+  letter-spacing: 0;
 }
 
 .tutorialArticle :global(.theme-doc-markdown > h2:first-child) {
@@ -228,9 +228,9 @@
 .tutorialArticle :global(.theme-doc-markdown h3) {
   margin-top: 2rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.14rem;
+  font-size: 1.125rem;
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.012em;
+  letter-spacing: 0;
 }
 
 .tutorialArticle :global(.theme-doc-markdown strong) {
@@ -244,7 +244,7 @@
 .tutorialArticle :global(.theme-doc-markdown table) {
   display: table;
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .tutorialToc > div {
@@ -296,16 +296,17 @@
   }
 
   .tutorialHeroCopy h1 {
-    font-size: clamp(1.95rem, 10vw, 2.6rem);
-  }
+    font-size: var(--ds-title-page);
+  line-height: var(--ds-title-page-lh);
+}
 
   .openAppButton {
     width: 100%;
   }
 
   .tutorialArticle :global(.theme-doc-markdown) {
-    font-size: 0.98rem;
-    line-height: 1.68;
+    font-size: 1rem;
+    line-height: var(--ds-text-reading-lh);
   }
 
   .tutorialArticle :global(.theme-doc-markdown > h2) {

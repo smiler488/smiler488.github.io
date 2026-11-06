@@ -73,7 +73,7 @@
 .sectionLabel {
   display: block;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.82rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
@@ -84,16 +84,16 @@
   margin: 0.8rem 0 0;
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: var(--ds-title-page-lh);
+  letter-spacing: var(--ds-title-page-tracking);
 }
 
 .heroCopy > p {
   max-width: 49rem;
   margin: 1.4rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: clamp(1rem, 1.8vw, 1.16rem);
-  line-height: 1.65;
+  font-size: var(--ds-text-lead);
+  line-height: var(--ds-text-lead-lh);
 }
 
 .heroActions {
@@ -112,8 +112,8 @@
   min-height: 2.9rem;
   padding: 0.72rem 1.05rem;
   border-radius: 999px;
-  font-size: 0.84rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 500;
   transition: transform 180ms var(--ease-smooth),
     box-shadow 180ms var(--ease-smooth), background 180ms var(--ease-smooth);
 }
@@ -164,16 +164,16 @@
 
 .heroStats dt {
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.6rem;
+  font-size: 1.375rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 28px;
   letter-spacing: -0.04em;
 }
 
 .heroStats dd {
   margin: 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -195,8 +195,8 @@
   margin: 0.55rem 0 0;
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-section);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: var(--ds-title-section-lh);
+  letter-spacing: 0;
 }
 
 .directoryIntro p,
@@ -223,13 +223,14 @@
 .groupHeading h2 {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
-  letter-spacing: -0.01em;
+  font-size: var(--ds-title-section);
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 .groupHeading span {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: var(--ds-weight-heading);
 }
 
@@ -269,14 +270,14 @@
   border-radius: 1.05rem;
   background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
   color: var(--ifm-color-primary);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .cardCategory {
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -288,9 +289,9 @@
 
 .cardCopy h3 {
   margin: 1.2rem 0 0;
-  font-size: 1.22rem;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-size: 1.125rem;
+  line-height: 26px;
+  letter-spacing: 0;
 }
 
 .cardCopy h3 a {
@@ -305,8 +306,8 @@
 .cardCopy p {
   margin: 0.75rem 0 0;
   color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
-  font-size: 0.88rem;
-  line-height: 1.58;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .cardBadges {
@@ -324,9 +325,9 @@
   border-radius: 999px;
   background: rgb(255 255 255 / 28%);
   color: var(--ifm-color-emphasis-650, var(--ifm-color-emphasis-600));
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 13px;
 }
 
 .cardFooter {
@@ -337,7 +338,7 @@
   display: block;
   min-height: 1.1rem;
   color: var(--ifm-color-emphasis-500);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
@@ -351,8 +352,8 @@
 
 .launchLink,
 .guideLink {
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .launchLink {
@@ -379,7 +380,8 @@
 }
 
 .collectionNote h2 {
-  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  font-size: var(--ds-title-section);
+  line-height: var(--ds-title-section-lh);
 }
 
 :global(html[data-theme="dark"]) .heroStats > div,
@@ -453,7 +455,9 @@
 
   .heroCopy h1 {
     font-size: var(--ds-title-page);
-  }
+  line-height: var(--ds-title-page-lh);
+  letter-spacing: var(--ds-title-page-tracking);
+}
 
   .heroStats,
   .directoryIntro,

@@ -50,19 +50,18 @@ export default {
     "declaration-property-value-allowed-list": [
       {
         "font-weight": [
-          "300",
           "400",
           "500",
           "600",
-          "700",
           "normal",
           "inherit",
           "var(--ds-weight-heading)",
+          "var(--ds-weight-strong)",
         ],
       },
       {
         message:
-          "Font weights: headings var(--ds-weight-heading) (500), disclosure titles 300, body 400, UI 500/600, primary capsule 700 (DESIGN_SPEC §5.2, D-023).",
+          "Font weights 400 / 500 / 600 only — headings var(--ds-weight-heading), inline emphasis var(--ds-weight-strong); no 300, no 700 (muse-design v1.6, DESIGN_SPEC D-028).",
       },
     ],
   },

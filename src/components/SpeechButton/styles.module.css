@@ -29,7 +29,7 @@ html[data-theme='dark'] .speechButton:hover {
 }
 
 .speechButton:active {
-  transform: scale(0.95);
+  filter: brightness(var(--ds-press-brightness));
 }
 
 .speechButton:disabled {

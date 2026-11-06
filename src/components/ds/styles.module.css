@@ -5,9 +5,9 @@
   color: var(--ds-primary);
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.43;
+  line-height: 20px;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 :global(html[lang="zh-Hans"]) .eyebrow {
@@ -30,13 +30,13 @@
   color: var(--ds-text);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.17;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
   text-wrap: balance;
 }
 
 :global(html[lang="zh-Hans"]) .pageTitle {
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   line-height: 1.25;
 }
 
@@ -45,7 +45,7 @@
   margin: 1rem 0 0;
   color: var(--ds-text-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
   text-wrap: pretty;
 }
 
@@ -67,7 +67,7 @@
   font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
   letter-spacing: 0;
-  line-height: 1.28;
+  line-height: var(--ds-title-section-lh);
 }
 
 .sectionDescription {
@@ -75,7 +75,7 @@
   margin: 0;
   color: var(--ds-text-muted);
   font-size: var(--ds-text-lead);
-  line-height: 1.45;
+  line-height: var(--ds-text-lead-lh);
 }
 
 /* ---------- Stats ---------- */
@@ -95,7 +95,7 @@
   color: var(--ds-text);
   font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  line-height: 1.2;
+  line-height: var(--ds-title-card-lh);
   font-variant-numeric: tabular-nums;
 }
 
@@ -124,8 +124,8 @@
   color: var(--ds-text);
   font: inherit;
   font-size: var(--ds-title-item);
-  font-weight: 300;
-  line-height: 1.25;
+  font-weight: 400;
+  line-height: var(--ds-title-item-lh);
   text-align: left;
   background: none;
   border: 0;
@@ -159,14 +159,14 @@
   color: var(--ds-text-muted);
   font-size: 0.9375rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 20px;
 }
 
 .accordionPanel {
   padding: 0 0 1.75rem;
   color: var(--ds-text-muted);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 22px;
 }
 
 .accordionPanel > :first-child {
@@ -223,13 +223,13 @@
   border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.94rem;
-  line-height: 1.6;
+  font-size: 0.9375rem;
+  line-height: 20px;
 }
 
 .noticeTitle {
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: var(--ds-weight-heading);
 }
 
@@ -272,7 +272,7 @@
   color: var(--ds-text);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1;
+  line-height: 18px;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -315,7 +315,7 @@ a.layerBadge:hover {
   border-radius: var(--ds-radius-pill);
   font: inherit;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--ds-dur-fast) var(--ds-ease),
@@ -346,7 +346,7 @@ a.layerBadge:hover {
 
 .evidencePrimary:active,
 .evidenceLink:active {
-  transform: scale(0.98);
+  filter: brightness(var(--ds-press-brightness));
 }
 
 .evidencePrimary:focus-visible,
@@ -354,7 +354,7 @@ a.layerBadge:hover {
 .chip:focus-visible,
 .layerBadge:focus-visible {
   outline: 2px solid var(--ds-primary);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -375,7 +375,7 @@ a.layerBadge:hover {
 .toolboxLabel {
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -407,14 +407,14 @@ a.layerBadge:hover {
 
 .toolboxList strong {
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.94rem;
+  font-size: 0.9375rem;
   font-weight: 600;
 }
 
 .toolboxList span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.84rem;
-  line-height: 1.45;
+  font-size: 0.8125rem;
+  line-height: 18px;
 }
 
 @media (max-width: 760px) {

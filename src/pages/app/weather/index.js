@@ -310,7 +310,7 @@ const WeatherPage = () => {
                   id="searchBtn"
                   style={{
                     padding: "10px 16px",
-                    backgroundColor: "var(--ds-card)",
+                    backgroundColor: "var(--ds-raised)",
                     color: "var(--ds-text)",
                     border: "1px solid transparent",
                     borderRadius: "999px",
@@ -350,7 +350,7 @@ const WeatherPage = () => {
                 id="getLocationBtn"
                 style={{
                   padding: "12px 24px",
-                  backgroundColor: "var(--ds-card)",
+                  backgroundColor: "var(--ds-raised)",
                   color: "var(--ds-text)",
                   border: "1px solid transparent",
                   borderRadius: "999px",

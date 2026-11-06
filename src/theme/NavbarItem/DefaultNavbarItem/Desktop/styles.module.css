@@ -78,7 +78,7 @@
 }
 
 .iconOnly:active {
-  transform: scale(0.96);
+  filter: brightness(var(--ds-press-brightness));
 }
 
 /* The label, shown as a tooltip. It stays in the accessibility tree, so it
@@ -92,7 +92,7 @@
   color: var(--ds-text);
   font-size: 0.8125rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 18px;
   white-space: nowrap;
   background: var(--ds-card);
   border: 1px solid var(--ds-line);

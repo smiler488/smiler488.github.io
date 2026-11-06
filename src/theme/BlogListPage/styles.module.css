@@ -22,26 +22,26 @@
   padding: 0;
   border: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-size: var(--ds-title-section);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.08;
+  letter-spacing: 0;
+  line-height: var(--ds-title-section-lh);
 }
 
 .collectionHeader > p {
   margin: 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 0.9375rem;
+  line-height: 20px;
 }
 
 .kicker {
   margin: 0 0 0.65rem;
   color: var(--ds-primary);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ds-tracking-caps);
 }
 
 /* Research notes / guides: a filter over every page, not just this one */

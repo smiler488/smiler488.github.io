@@ -16,8 +16,8 @@
   border-radius: 0 10px 10px 0;
   background: color-mix(in srgb, #c98a12 7%, transparent);
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .safetyNotice strong {
@@ -80,8 +80,8 @@
 .hint {
   margin-top: 10px;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: 0.75rem;
+  line-height: 16px;
 }
 
 .actionRow {
@@ -98,14 +98,14 @@
   border-radius: 10px;
   color: var(--ifm-color-emphasis-700);
   background: var(--ifm-background-surface-color);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
 }
 
 .downloads {
   display: grid;
   gap: 7px;
   padding: 14px;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
 }
 
 .previewPanel {
@@ -118,7 +118,7 @@
 .previewTitle {
   margin: 0 0 12px;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
 }
 
 .canvasFrame {

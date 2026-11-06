@@ -45,10 +45,10 @@
   display: inline-flex;
   margin-bottom: 0.8rem;
   color: var(--ds-primary);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1.35;
+  line-height: 18px;
   text-transform: none;
 }
 
@@ -57,10 +57,10 @@
   margin: 0;
   padding: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.375rem, 2vw, 1.625rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
   border: 0;
 }
 
@@ -68,8 +68,8 @@
   max-width: 39rem;
   margin: 1rem 0 1.25rem;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.96rem;
-  line-height: 1.7;
+  font-size: 0.9375rem;
+  line-height: 20px;
 }
 
 .profileLink {
@@ -96,16 +96,16 @@
 }
 
 .profileLink:active {
-  transform: scale(0.98);
+  filter: brightness(var(--ds-press-brightness));
 }
 
 .columnTitle {
   margin: 0 0 0.75rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: var(--ds-weight-heading);
   letter-spacing: 0;
-  line-height: 1.4;
+  line-height: 20px;
   text-transform: none;
 }
 
@@ -124,9 +124,9 @@
   min-height: 32px;
   padding: 0.2rem 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 20px;
   transition: color 160ms ease, transform 160ms ease;
 }
 
@@ -151,13 +151,13 @@
 
 .contactList a span {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 400;
 }
 
 .contactList a strong {
   overflow-wrap: anywhere;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -182,7 +182,7 @@
 
 .socialGroupTitle {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
 }
 
 .socialRow {
@@ -263,7 +263,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
 .privacyDisclosure a:focus-visible {
   outline: 3px solid
     color-mix(in srgb, var(--ifm-color-primary) 44%, transparent);
-  outline-offset: 3px;
+  outline-offset: var(--ds-focus-offset);
 }
 
 .globeBand {
@@ -307,7 +307,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   align-items: center;
   margin-bottom: 0.7rem;
   color: var(--ds-primary);
-  font-size: 0.84rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   letter-spacing: -0.01em;
   text-transform: none;
@@ -326,18 +326,18 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   max-width: 19ch;
   margin: 0;
   color: var(--ifm-color-emphasis-900);
-  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  letter-spacing: 0;
+  line-height: var(--ds-title-card-lh);
 }
 
 .globeBandCopy p {
   max-width: 52ch;
   margin: 0.9rem 0 1.1rem;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 0.875rem;
+  line-height: 20px;
 }
 
 .globePrivacyLink {
@@ -347,7 +347,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   min-height: 42px;
   padding: 0.55rem 1rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   background: var(--ds-card);
@@ -408,7 +408,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
 .globeLoading {
   gap: 0.65rem;
   pointer-events: none;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -427,8 +427,8 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   gap: 0.8rem;
   padding: 1.5rem;
   text-align: center;
-  font-size: 0.78rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 16px;
 }
 
 .globeError button {
@@ -440,7 +440,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   border: 1px solid var(--ds-control-border);
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .privacyDisclosure {
@@ -473,8 +473,8 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   margin-top: clamp(1.75rem, 3vw, 2.75rem);
   padding-top: 1.2rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.76rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 16px;
   border-top: 1px solid var(--ds-line);
 }
 
@@ -520,7 +520,7 @@ html[data-theme="dark"] .footer {
 
   .description {
     margin-bottom: 1rem;
-    font-size: 0.92rem;
+    font-size: 0.9375rem;
   }
 
   /* Research + Lab side by side, Toolbox below; generous touch rows. */
@@ -559,8 +559,9 @@ html[data-theme="dark"] .footer {
 
   .globeBandCopy h3 {
     max-width: 18ch;
-    font-size: clamp(1.4rem, 7vw, 1.85rem);
-  }
+    font-size: var(--ds-title-section);
+  line-height: var(--ds-title-section-lh);
+}
 
   .globeStage {
     width: min(400px, 100%);

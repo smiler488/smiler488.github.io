@@ -7,7 +7,7 @@
 .code {
   margin: 0 0 1rem;
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -17,16 +17,16 @@
   color: var(--ifm-color-emphasis-900);
   font-size: var(--ds-title-page);
   font-weight: var(--ds-weight-heading);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  letter-spacing: var(--ds-title-page-tracking);
+  line-height: var(--ds-title-page-lh);
 }
 
 .text {
   max-width: 52ch;
   margin: 1.25rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  font-size: clamp(1rem, 1.6vw, 1.12rem);
-  line-height: 1.6;
+  font-size: var(--ds-text-lead);
+  line-height: var(--ds-text-lead-lh);
 }
 
 .links {
@@ -44,7 +44,7 @@
   justify-content: center;
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none;
   transition: background 160ms ease, border-color 160ms ease;

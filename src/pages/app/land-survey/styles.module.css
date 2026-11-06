@@ -16,7 +16,8 @@
 
 .introCard > h2 {
   margin: 0;
-  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-size: var(--ds-title-card);
+  line-height: var(--ds-title-card-lh);
 }
 
 .readinessCard {
@@ -43,7 +44,7 @@
 
 .panelTitle {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
 }
 
 .coordinateMeta {
@@ -102,7 +103,7 @@
   gap: 0.5rem;
   align-items: center;
   margin-top: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .importRow label {
