@@ -105,7 +105,7 @@
   background: var(--ds-surface);
   font-family: inherit;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
   transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }

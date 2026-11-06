@@ -248,7 +248,7 @@
   border: none;
   border-radius: var(--ds-radius-pill);
   padding: 10px 16px;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
   min-height: 44px;

@@ -36,7 +36,7 @@ function GuideIcon() {
   const line = {
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 1.75,
+    strokeWidth: 2,
     strokeLinecap: "round",
     strokeLinejoin: "round",
   };

@@ -32,7 +32,7 @@
 .backLink {
   color: var(--ds-primary);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
 }
 
@@ -205,7 +205,7 @@
 .noteLink {
   justify-self: start;
   color: var(--ds-primary);
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
 }
 
@@ -237,7 +237,7 @@
   background: var(--ds-surface);
   color: var(--ds-text);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }

@@ -176,7 +176,7 @@
   color: var(--ds-primary);
   font: inherit;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
   background: none;
   border: 0;
@@ -203,7 +203,7 @@
 }
 
 .heroAction:hover .actionArrow {
-  background: var(--ds-primary-soft);
+  background-image: var(--ds-hover-layer);
 }
 
 /* The one blue capsule of the group */
@@ -216,7 +216,7 @@
   border-radius: var(--ds-radius-pill);
   color: var(--ds-on-primary);
   background: var(--ds-primary);
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   font-size: var(--ds-text-status);
   line-height: var(--ds-text-status-lh);
 }
@@ -364,11 +364,11 @@ a.contactCard:focus-visible {
 
 .contactCardFeatured {
   color: var(--ds-text);
-  background: var(--ds-primary-soft);
+  background: var(--ds-surface);
 }
 
 a.contactCardFeatured:hover {
-  background: var(--ds-primary-soft);
+  background-image: var(--ds-hover-layer);
 }
 
 .contactMark {
@@ -677,7 +677,7 @@ a.contactCard:hover .contactArrow {
   height: 1.75rem;
   border-radius: 50%;
   color: var(--ds-primary);
-  background: var(--ds-primary-soft);
+  background: var(--ds-fill-capsule);
 }
 
 .skillHeader h3,

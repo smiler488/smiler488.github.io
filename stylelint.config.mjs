@@ -56,7 +56,7 @@ export default {
           "normal",
           "inherit",
           "var(--ds-weight-heading)",
-          "var(--ds-weight-strong)", "var(--ds-weight-eyebrow)",
+          "var(--ds-weight-strong)", "var(--ds-weight-eyebrow)", "var(--ds-weight-action)",
         ],
       },
       {

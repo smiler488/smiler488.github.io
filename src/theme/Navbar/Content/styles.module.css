@@ -194,13 +194,13 @@
   content: "";
   -webkit-mask: var(--toolbox-icon) center / contain no-repeat;
   mask: var(--toolbox-icon) center / contain no-repeat;
-  --toolbox-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2'/%3E%3Crect x='3' y='8' width='18' height='12' rx='2'/%3E%3Cpath d='M3 13h18M10 12v2.5h4V12'/%3E%3C/svg%3E");
+  --toolbox-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2'/%3E%3Crect x='3' y='8' width='18' height='12' rx='2'/%3E%3Cpath d='M3 13h18M10 12v2.5h4V12'/%3E%3C/svg%3E");
 }
 
 .rightItems > :global(.navbar__item.dropdown):hover > :global(.navbar-toolbox)::before,
 .rightItems > :global(.navbar__item.dropdown--show) > :global(.navbar-toolbox)::before,
 .rightItems :global(.navbar-toolbox):focus-visible::before {
-  --toolbox-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2'/%3E%3Cpath d='M5 8h14a2 2 0 0 1 2 2v3H3v-3a2 2 0 0 1 2-2ZM3 15.5h7v.5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.5h7V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' fill='black'/%3E%3C/svg%3E");
+  --toolbox-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2'/%3E%3Cpath d='M5 8h14a2 2 0 0 1 2 2v3H3v-3a2 2 0 0 1 2-2ZM3 15.5h7v.5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.5h7V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' fill='black'/%3E%3C/svg%3E");
 }
 
 /* ---------- Search: an icon that opens into a field ---------- */

@@ -228,7 +228,7 @@
   color: var(--lab-muted);
   background: transparent;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
   touch-action: manipulation;
   transition: color var(--ds-dur-menu) var(--ds-ease);
@@ -344,7 +344,7 @@
   margin-top: 1.05rem;
   color: var(--card-accent);
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
 }
 
 .cardArrow {

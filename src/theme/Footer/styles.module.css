@@ -437,7 +437,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   border: 1px solid var(--ds-control-border);
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
 }
 
 .privacyDisclosure {

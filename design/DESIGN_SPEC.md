@@ -808,6 +808,7 @@ flowchart LR
 | D-029 | 2026-11 | 动效、密度、教程页（muse-design v1.6）：所有 `transition` 按意图改写——透明度/可见性用线性 `--ds-ease-fade`，其余用用户发起位移曲线 `--ds-ease`，时长归入 100/150/200/280ms 四档，`transition: all` 改为显式属性；去掉卡片图片、logo、语音按钮的悬停放大与导航卡片的悬停抬起（悬停是 wash/底色变化，不是位移），保留箭头前移与图标换形。工具工作区（工作区 + Workbench 面板）设 `data-density="dense"`：圆角 ×0.5（12/8/6px）、间距 ×0.875，胶囊不变；工具 CSS 中 78 处写死圆角改为圆角变量。教程页改为与笔记页相同的 46rem 居中正文列 + 14rem 目录，h3 22/28，目录当前项蓝色 | 作者在弹窗中勾选；同时把 skill 分支 v1.6 快进合并进 muse-design-skill main |
 | D-030 | 2026-11 | 悬停统一为半透明 wash（muse-design v1.7）：52 处手挑灰色悬停改为 `background-image: var(--ds-hover-layer)`，wash 叠在元素原有底色上，深浅色共用同一条规则；蓝色主按钮保留真实深蓝，导航分类的强调色调不变。Infima 的 `--ifm-menu-color-background-hover` 和 `--ifm-hover-overlay` 映射到 wash，避免叠成两层。导航搜索框的放大镜本身是背景图，所以它的 wash 放在 `background-color` 上。去掉悬停阴影和行内 code 的悬停变色，工具页次级按钮补上悬停反馈。同时把阅读页规格、嵌套密度修复与 hover 图层写回 muse-design-skill v1.7 | 作者在弹窗中勾选“悬停反馈统一”和“skill 回写阅读规则” |
 | D-031 | 2026-11 | 眉标加粗：全站 20 处蓝色眉标（大写区块眉标、首页 AI4Plant、页脚标语、Global visitors、教程与博客眉标、侧栏分类）改用 `--ds-weight-eyebrow: 600`。Muse 实测是 400，14px 蓝色大写放在 48px 的 500 字重标题上方显得发虚。页脚两处小标签的 −0.01em 字距改为 0。muse-design-skill 同步新增 `--muse-weight-eyebrow`，默认 600 | 作者看了截图后要求“这些文字应该加粗才好看” |
+| D-032 | 2026-11 | 动作加粗，去掉浅主色状态：按钮、胶囊、筛选、“Learn more”式链接、当前项改用 `--ds-weight-action: 600`（44 处，含 Infima 按钮），标题保持 500，正文保持 400。状态填充只有三种：当前选中的高亮用实心主色（如筛选 chip、“Read the guide”），其余用灰色胶囊（`--ds-fill-capsule` / `--ds-fill-selected`，半透明），图片上方用玻璃胶囊；不再使用浅蓝底配蓝字（侧栏当前项、导航分类、研究层卡片、编号徽标、图标底块、工具结果框等约 25 处）。UI 图标描边统一为 2，圆圈箭头 2.4 | 作者对照 Muse 官网截图指出：除正文外几乎没有细字和细图标，选中态不用浅主色 |
 
 ---
 

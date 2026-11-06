@@ -195,7 +195,7 @@
   color: var(--ds-text);
   font: inherit;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
@@ -210,8 +210,8 @@
 /* Selected: the light primary tint, primary text */
 .chipActive,
 .chipActive:hover {
-  background: var(--ds-primary-soft);
-  color: var(--ds-primary);
+  background: var(--ds-primary);
+  color: var(--ds-on-primary);
 }
 
 /* ---------- Notice ---------- */
@@ -289,8 +289,8 @@ a.layerBadge:hover {
   padding: 0 0.3rem;
   place-items: center;
   border-radius: var(--ds-radius-pill);
-  background: var(--ds-primary-soft);
-  color: var(--ds-primary);
+  background: var(--ds-fill-capsule);
+  color: var(--ds-text);
   font-size: 0.6875rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -314,7 +314,7 @@ a.layerBadge:hover {
   border-radius: var(--ds-radius-pill);
   font: inherit;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);

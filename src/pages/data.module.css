@@ -103,8 +103,8 @@
 }
 
 .badge {
-  background: var(--ds-primary-soft);
-  color: var(--ds-primary);
+  background: var(--ds-fill-capsule);
+  color: var(--ds-text);
 }
 
 .primary:focus-visible,

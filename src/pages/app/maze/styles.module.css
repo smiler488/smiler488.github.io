@@ -77,7 +77,7 @@
   background: var(--ds-primary);
   color: var(--ds-on-primary);
   font: inherit;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
 }
 
@@ -218,8 +218,8 @@
   height: 28px;
   place-items: center;
   border-radius: var(--ds-radius-sm);
-  background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
-  color: var(--ifm-color-primary);
+  background: var(--ds-fill-selected);
+  color: var(--ds-text);
   font-size: 0.75rem;
   font-weight: 600;
 }

@@ -163,7 +163,7 @@
   background: var(--ds-primary);
   color: var(--ds-on-primary);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
@@ -350,5 +350,5 @@
 
 .tutorialToc :global(.table-of-contents__link--active) {
   color: var(--ds-primary);
-  font-weight: var(--ds-weight-heading);
+  font-weight: var(--ds-weight-action);
 }

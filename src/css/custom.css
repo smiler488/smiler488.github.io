@@ -246,7 +246,7 @@ html[data-theme='dark'] .DocSearch-Button {
 .button {
   min-height: 44px;
   border-radius: var(--ds-radius-pill);
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
   border: 1px solid transparent;
   letter-spacing: 0;
@@ -734,9 +734,9 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
 
 /* Current page: the soft blue capsule, no outline or rail */
 .theme-doc-sidebar-menu .menu__list .menu__link--active:not(.menu__link--sublist) {
-  color: var(--ds-primary);
-  font-weight: 500;
-  background: var(--ds-primary-soft);
+  color: var(--ds-text);
+  font-weight: var(--ds-weight-action);
+  background: var(--ds-fill-selected);
   box-shadow: none;
 }
 
@@ -760,7 +760,7 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
 }
 
 .theme-doc-sidebar-menu .menu__caret:hover {
-  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+  background-image: var(--ds-hover-layer);
 }
 
 .theme-doc-sidebar-menu .menu__link:hover .menu__caret,
@@ -780,10 +780,10 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
   padding: 0 0.85rem;
   color: var(--ifm-color-emphasis-500);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   letter-spacing: 0.02em;
-  background: color-mix(in srgb, var(--ifm-color-primary) 4%, transparent);
-  border: 1px solid var(--ds-line);
+  background: var(--ds-fill-capsule);
+  border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
@@ -822,7 +822,7 @@ button[class*="collapseSidebarButton"][class*="expandButton"] {
 
 /* 展开侧栏按钮悬停时，整个窄栏有微弱的高亮 */
 button[class*="collapseSidebarButton"][class*="expandButton"]:hover {
-  background: color-mix(in srgb, var(--ifm-color-primary) 2%, transparent) !important;
+  background-image: var(--ds-hover-layer) !important;
 }
 
 /* 展开按钮内真正的圆形浮动毛玻璃图标 */

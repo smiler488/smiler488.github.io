@@ -54,6 +54,11 @@
      rule works on page, panel, card and tinted rows alike. */
   --ds-hover-layer: linear-gradient(var(--ds-wash-hover) 0 0);
   --ds-active-layer: linear-gradient(var(--ds-wash-active) 0 0);
+  /* State fills (D-032). A control is either the solid primary (the one
+     highlighted choice), a grey capsule, or glass over imagery — never a pale
+     blue fill with blue text. Translucent, so they hold on page, panel and card. */
+  --ds-fill-capsule: var(--ds-wash-hover);
+  --ds-fill-selected: var(--ds-wash-active);
   /* Infima's own hover fills (menus, clean buttons) follow the same wash. */
   --ifm-menu-color-background-hover: var(--ds-wash-hover);
   --ifm-hover-overlay: var(--ds-wash-hover);
@@ -116,6 +121,10 @@
   /* Eyebrows: Muse measures 400; the author sets them semibold so the
      small blue caps hold their own above a 500 heading (D-031). */
   --ds-weight-eyebrow: 600;
+  /* Anything you press or follow — buttons, capsules, chips, "Learn more"
+     links, the current item — is semibold; headings stay 500, body 400 (D-032). */
+  --ds-weight-action: 600;
+  --ifm-button-font-weight: var(--ds-weight-action);
   --ds-tracking-caps: 0.06em;
   --ds-tracking-title: -0.015em;  /* 40px and up */
   --ds-tracking-display: -0.01em; /* landing display */

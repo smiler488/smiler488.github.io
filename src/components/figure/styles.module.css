@@ -28,7 +28,7 @@
   color: var(--ds-on-primary);
   font: inherit;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
 }
 
@@ -77,8 +77,8 @@
   margin: 0 0.15rem;
   padding: 0.05rem 0.5rem;
   border-radius: var(--ds-radius-pill);
-  background: color-mix(in srgb, var(--ds-accent) 12%, var(--ds-bg));
-  color: var(--ds-accent);
+  background: var(--ds-fill-capsule);
+  color: var(--ds-text);
   font-size: 0.75rem;
   font-weight: 600;
   vertical-align: 0.05em;

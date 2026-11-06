@@ -63,7 +63,7 @@
   padding: 0.6rem 1.1rem;
   border-radius: 999px;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   text-decoration: none;
   transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }

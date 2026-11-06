@@ -103,7 +103,7 @@
   background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
   color: var(--ifm-color-emphasis-800);
   font: inherit;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
 }
 

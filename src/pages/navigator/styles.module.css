@@ -67,8 +67,8 @@
 }
 
 .eyebrow {
-  color: var(--ds-primary);
-  background: color-mix(in srgb, var(--navigator-accent) 9%, transparent);
+  color: var(--ds-text);
+  background: var(--ds-fill-capsule);
   text-transform: none;
   letter-spacing: -0.01em;
 }
@@ -260,14 +260,14 @@
 .emptyState button {
   min-height: 2.75rem;
   padding: 0.55rem 0.8rem;
-  color: var(--navigator-accent);
-  background: color-mix(in srgb, var(--navigator-accent) 8%, transparent);
+  color: var(--ds-text);
+  background: var(--ds-fill-capsule);
   border: 1px solid
     color-mix(in srgb, var(--navigator-accent) 25%, var(--navigator-line));
   border-radius: var(--ds-radius-pill);
   cursor: pointer;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   white-space: nowrap;
 }
 
@@ -370,12 +370,13 @@
 
 .categoryButtonActive {
   color: var(--navigator-text);
-  background: color-mix(in srgb, var(--lane-accent) 9%, transparent);
+  background: var(--ds-fill-selected);
   border-color: color-mix(
     in srgb,
     var(--lane-accent) 24%,
     var(--navigator-line)
   );
+  font-weight: var(--ds-weight-action);
 }
 
 .categoryIcon,
@@ -385,7 +386,7 @@
   flex: 0 0 auto;
   place-items: center;
   color: var(--lane-accent);
-  background: color-mix(in srgb, var(--lane-accent) 9%, var(--navigator-solid));
+  background: var(--ds-fill-capsule);
   border: 1px solid
     color-mix(in srgb, var(--lane-accent) 18%, var(--navigator-line));
   box-shadow: inset 0 1px 0 var(--navigator-highlight);
@@ -550,7 +551,7 @@
   place-items: center;
   padding: 0 0.45rem;
   color: var(--lane-accent);
-  background: color-mix(in srgb, var(--lane-accent) 9%, transparent);
+  background: var(--ds-fill-capsule);
   border: 1px solid
     color-mix(in srgb, var(--lane-accent) 19%, var(--navigator-line));
   border-radius: 999px;
@@ -594,7 +595,7 @@
   height: 2.35rem;
   place-items: center;
   color: var(--lane-accent);
-  background: color-mix(in srgb, var(--lane-accent) 9%, var(--navigator-solid));
+  background: var(--ds-fill-capsule);
   border: 1px solid
     color-mix(in srgb, var(--lane-accent) 18%, var(--navigator-line));
   border-radius: 0.76rem;
@@ -610,7 +611,7 @@
   height: 2.35rem;
   place-items: center;
   color: var(--lane-accent);
-  background: color-mix(in srgb, var(--lane-accent) 9%, var(--navigator-solid));
+  background: var(--ds-fill-capsule);
   border: 1px solid
     color-mix(in srgb, var(--lane-accent) 18%, var(--navigator-line));
   border-radius: 0.76rem;
@@ -766,7 +767,7 @@
 @media (hover: hover) and (pointer: fine) {
   .categoryButton:hover {
     color: var(--navigator-text);
-    background: color-mix(in srgb, var(--lane-accent) 7%, transparent);
+    background-image: var(--ds-hover-layer);
     border-color: color-mix(
       in srgb,
       var(--lane-accent) 18%,
@@ -782,7 +783,7 @@
   .linkCard:hover {
     color: var(--navigator-text);
     text-decoration: none;
-    background: color-mix(in srgb, var(--lane-accent) 6%, transparent);
+    background-image: var(--ds-hover-layer);
     border-color: color-mix(
       in srgb,
       var(--lane-accent) 20%,
@@ -798,7 +799,7 @@
 
   .resultBar button:hover,
   .emptyState button:hover {
-    background: color-mix(in srgb, var(--navigator-accent) 13%, transparent);
+    background-image: var(--ds-hover-layer);
   }
 }
 
@@ -877,7 +878,7 @@
 
   .categoryText small {
     padding: 0.12rem 0.32rem;
-    background: color-mix(in srgb, var(--lane-accent) 8%, transparent);
+    background: var(--ds-fill-capsule);
     border-radius: 999px;
   }
 

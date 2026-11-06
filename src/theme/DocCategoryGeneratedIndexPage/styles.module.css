@@ -113,7 +113,7 @@
   padding: 0.72rem 1.05rem;
   border-radius: 999px;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   transition: transform var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
@@ -267,7 +267,7 @@
   height: 3.25rem;
   border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 20%, transparent);
   border-radius: 1.05rem;
-  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  background: var(--ds-fill-capsule);
   color: var(--ifm-color-primary);
   font-size: 0.75rem;
   font-weight: 600;
@@ -352,7 +352,7 @@
 .launchLink,
 .guideLink {
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
 }
 
 .launchLink {

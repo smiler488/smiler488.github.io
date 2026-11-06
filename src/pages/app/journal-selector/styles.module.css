@@ -193,7 +193,7 @@
   padding: 10px 16px;
   border-radius: var(--ds-radius-pill);
   font: inherit;
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
 }
 
@@ -533,7 +533,7 @@
   margin-top: 12px;
   padding: 10px 12px;
   border-radius: var(--ds-radius-sm);
-  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+  background: var(--ds-fill-capsule);
   font-size: 0.875rem;
   line-height: 20px;
 }

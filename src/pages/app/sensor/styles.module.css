@@ -90,7 +90,7 @@
 .button {
   padding: 10px 16px;
   border-radius: var(--ds-radius-pill);
-  font-weight: 500;
+  font-weight: var(--ds-weight-action);
   cursor: pointer;
   border: none;
   transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
