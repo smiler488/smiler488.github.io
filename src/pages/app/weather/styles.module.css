@@ -2,7 +2,7 @@
   margin-bottom: 1rem !important;
   padding: clamp(1rem, 2.5vw, 1.5rem) !important;
   border: 0;
-  border-radius: 16px !important;
+  border-radius: var(--ds-radius-md) !important;
   background: var(--ds-surface) !important;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -21,13 +21,13 @@
   height: clamp(20rem, 48vw, 31rem) !important;
   margin-bottom: 1rem;
   border-color: var(--ds-line) !important;
-  border-radius: 16px !important;
+  border-radius: var(--ds-radius-md) !important;
   overflow: hidden;
 }
 
 @media (max-width: 600px) {
   .panel {
-    border-radius: 16px !important;
+    border-radius: var(--ds-radius-md) !important;
   }
 
   .map {

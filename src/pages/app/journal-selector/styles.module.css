@@ -10,7 +10,7 @@
   min-width: 0;
   padding: clamp(18px, 3vw, 24px);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -224,7 +224,7 @@
 .summaryGrid > div {
   padding: 16px;
   border: 1px solid var(--ds-line);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: color-mix(in srgb, var(--ifm-background-color) 58%, transparent);
 }
 
@@ -243,7 +243,7 @@
 .resultCard {
   padding: 16px;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: color-mix(in srgb, var(--ifm-background-color) 68%, transparent);
 }
 
@@ -276,7 +276,7 @@
 .resultDetails dl > div {
   min-width: 0;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: color-mix(
     in srgb,
     var(--ifm-color-emphasis-100) 72%,
@@ -302,7 +302,7 @@
   max-width: 100%;
   overflow-x: auto;
   border: 1px solid var(--ds-line);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
 }
 
 .resultsTable {
@@ -364,7 +364,7 @@
   .resultsSection,
   .rawPanel {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--ds-radius-sm);
   }
 
   .fieldGrid,
@@ -432,7 +432,7 @@
   margin-bottom: 14px;
   padding: 10px 12px;
   border: 1px solid var(--ifm-border-color);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-color);
   color: var(--ifm-color-emphasis-900);
   font: inherit;
@@ -532,7 +532,7 @@
   gap: 6px;
   margin-top: 12px;
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
   font-size: 0.875rem;
   line-height: 20px;
@@ -575,7 +575,7 @@
   gap: 4px;
   padding: 12px 14px;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
 }
 
 .tier span {
@@ -613,7 +613,7 @@
   min-height: 36px;
   padding: 4px 8px;
   border: 1px solid var(--ifm-border-color);
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-color);
   color: inherit;
   font: inherit;

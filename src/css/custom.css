@@ -31,9 +31,7 @@ body {
   border-bottom: 1px solid var(--ds-line);
   background-color: color-mix(in srgb, var(--ifm-background-color) 45%, transparent) !important;
   box-shadow: none;
-  transition: backdrop-filter 0.3s var(--ease-smooth),
-              background-color 0.3s var(--ease-smooth),
-              box-shadow 0.3s var(--ease-smooth);
+  transition: backdrop-filter var(--ds-dur-panel) var(--ds-ease), background-color var(--ds-dur-panel) var(--ds-ease), box-shadow var(--ds-dur-panel) var(--ds-ease);
 }
 
 .navbar.navbar--scrolled {
@@ -69,16 +67,13 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
 
 /* Logo styling */
 .navbar__logo {
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color var(--ds-dur-panel) var(--ds-ease), border-color var(--ds-dur-panel) var(--ds-ease), color var(--ds-dur-panel) var(--ds-ease), box-shadow var(--ds-dur-panel) var(--ds-ease), opacity var(--ds-dur-panel) var(--ds-ease-fade);
 }
 
-.navbar__logo:hover {
-  transform: scale(1.05);
-}
 
 .navbar__title {
   font-weight: 600;
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color var(--ds-dur-panel) var(--ds-ease), border-color var(--ds-dur-panel) var(--ds-ease), color var(--ds-dur-panel) var(--ds-ease), box-shadow var(--ds-dur-panel) var(--ds-ease), opacity var(--ds-dur-panel) var(--ds-ease-fade);
 }
 
 .navbar__title:hover {
@@ -102,9 +97,7 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   border: 1px solid var(--ds-line);
   border-radius: var(--ds-radius-lg);
   box-shadow: var(--ds-shadow-panel);
-  transition: opacity var(--ds-dur-menu) var(--ds-ease),
-    transform var(--ds-dur-menu) var(--ds-ease),
-    visibility var(--ds-dur-menu) var(--ds-ease);
+  transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), transform var(--ds-dur-menu) var(--ds-ease), visibility var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
 /* The custom navbar item renders menu entries as plain links: stack them as rows */
@@ -142,8 +135,7 @@ html[data-theme='dark'] .navbar.navbar--scrolled {
   background: var(--ds-card) !important;
   border: 1px solid var(--ds-line) !important;
   border-radius: var(--ds-radius-pill) !important;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    border-color var(--ds-dur-fast) var(--ds-ease) !important;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease) !important;
   box-shadow: none !important;
   padding: 0 12px !important;
   height: 36px !important;
@@ -258,10 +250,7 @@ html[data-theme='dark'] .DocSearch-Button:hover {
   min-height: 44px;
   border-radius: var(--ds-radius-pill);
   font-weight: 500;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    border-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
   border: 1px solid transparent;
   letter-spacing: 0;
   position: relative;
@@ -435,7 +424,7 @@ code {
 
 .footer__link-item {
   margin-bottom: 0.5rem;
-  transition: color 0.2s ease;
+  transition: color var(--ds-dur-menu) var(--ds-ease);
 }
 
 .footer__link-item:hover {
@@ -480,7 +469,7 @@ p {
 }
 
 a {
-  transition: color 0.2s ease;
+  transition: color var(--ds-dur-menu) var(--ds-ease);
   text-decoration: none;
   font-weight: 500;
 }
@@ -525,7 +514,7 @@ backdrop-filter: blur(12px);
     z-index: 1095;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--ds-dur-panel) var(--ds-ease);
+    transition: opacity var(--ds-dur-panel) var(--ds-ease-fade);
     /* stylelint-disable declaration-property-value-disallowed-list -- floating layer keeps a light blur (DESIGN_SPEC §5.6) */
 backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -552,7 +541,7 @@ backdrop-filter: blur(12px);
     padding: 0;
     margin: 0;
     transform: translateX(0);
-    transition: transform 240ms ease;
+    transition: transform var(--ds-dur-menu) var(--ds-ease);
   }
 
   .navbar-sidebar__items--show-secondary {
@@ -593,8 +582,7 @@ backdrop-filter: blur(12px);
     border-radius: var(--ds-radius-sm);
     border: 1px solid transparent;
     margin-bottom: 4px;
-    transition: background-color var(--ds-dur-fast) var(--ds-ease),
-      color var(--ds-dur-fast) var(--ds-ease);
+    transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
     width: 100%;
     box-sizing: border-box;
     background: transparent; /* 确保背景透明，除非悬停 */
@@ -733,8 +721,7 @@ html[data-theme='dark'] .navbar-sidebar__backdrop {
   line-height: 20px;
   border-radius: var(--ds-radius-pill);
   border: 0;
-  transition: color 220ms ease, background-color 220ms ease,
-    border-color 220ms ease, box-shadow 220ms ease;
+  transition: color var(--ds-dur-menu) var(--ds-ease), background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 
 .theme-doc-sidebar-menu .menu__list .menu__link:hover {
@@ -798,7 +785,7 @@ button[class*="collapseSidebarButton"]:not([class*="expandButton"]) {
   border: 1px solid var(--ds-line);
   border-radius: 999px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
 button[class*="collapseSidebarButton"]:not([class*="expandButton"]):hover {
@@ -847,7 +834,7 @@ button[class*="collapseSidebarButton"][class*="expandButton"] svg {
   border: 1px solid var(--ds-line) !important;
   border-radius: 50% !important;
   box-shadow: var(--ds-shadow-xs) !important;
-  transition: all 0.22s var(--ease-smooth) !important;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade) !important;
 }
 
 button[class*="collapseSidebarButton"][class*="expandButton"]:hover svg {
@@ -910,14 +897,14 @@ html {
 
 /* 链接悬停效果 */
 a {
-  transition: color 0.2s var(--ease-smooth);
+  transition: color var(--ds-dur-menu) var(--ds-ease);
   position: relative;
 }
 
 article a:not(.button):not(.card):not([class*="Link"]) {
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
-  transition: all 0.2s var(--ease-smooth);
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
 article a:not(.button):not(.card):not([class*="Link"]):hover {
@@ -933,7 +920,7 @@ article img,
 
 /* 表格增强 */
 table {
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color var(--ds-dur-panel) var(--ds-ease), border-color var(--ds-dur-panel) var(--ds-ease), color var(--ds-dur-panel) var(--ds-ease), box-shadow var(--ds-dur-panel) var(--ds-ease), opacity var(--ds-dur-panel) var(--ds-ease-fade);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -943,7 +930,7 @@ table thead tr {
 }
 
 table tbody tr {
-  transition: background-color 0.2s var(--ease-smooth);
+  transition: background-color var(--ds-dur-menu) var(--ds-ease);
 }
 
 table tbody tr:hover {
@@ -952,7 +939,7 @@ table tbody tr:hover {
 
 /* 代码块增强 */
 code {
-  transition: all 0.2s var(--ease-smooth);
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
 code:hover {
@@ -973,7 +960,7 @@ code:hover {
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: background var(--ds-dur-menu) var(--ds-ease);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -984,8 +971,7 @@ code:hover {
 input:not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
-  transition: border-color var(--ds-dur-fast) var(--ds-ease),
-    box-shadow var(--ds-dur-fast) var(--ds-ease);
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-fast) var(--ds-ease);
   border-radius: var(--ds-radius-sm);
 }
 
@@ -999,15 +985,13 @@ select:focus {
 /* Badge和标签悬停 */
 .badge,
 .tag {
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* 分页按钮增强 */
 /* 面包屑 */
 .breadcrumbs__link {
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* ===== 统一 TOC (Table of Contents) 样式 ===== */
@@ -1027,8 +1011,7 @@ select:focus {
   line-height: 20px;
   color: var(--ifm-color-emphasis-600);
   border-left: 1px solid transparent;
-  transition: color var(--ds-dur-fast) var(--ds-ease),
-    border-color var(--ds-dur-fast) var(--ds-ease);
+  transition: color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
   margin-left: -1px; /* Overlap container border */
   position: relative;
 }
@@ -1055,8 +1038,7 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    opacity var(--ds-dur-fast) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), opacity var(--ds-dur-fast) var(--ds-ease-fade);
   bottom: 2rem;
   right: 2rem;
   z-index: 100;
@@ -1076,8 +1058,7 @@ select:focus {
 
 /* 侧边栏菜单项：只变底色 */
 .menu__link {
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
 /* No global smooth scrolling (muse-design v1.6, D-028): anchor jumps land
@@ -1326,8 +1307,7 @@ select:focus {
   border: 1px solid var(--ifm-color-emphasis-200) !important;
   background: var(--ifm-background-color) !important;
   box-shadow: none;
-  transition: border-color var(--ds-dur-fast) var(--ds-ease),
-    background var(--ds-dur-fast) var(--ds-ease);
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
   padding: 1rem 1.1rem;
 }
 
@@ -1410,8 +1390,7 @@ select:focus {
   border-radius: 50%;
   box-shadow: var(--ds-shadow-float);
   cursor: pointer;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
   text-decoration: none !important;
 }
 
@@ -1447,8 +1426,7 @@ select:focus {
   transform: translateY(6px);
   transform-origin: bottom right;
   pointer-events: none;
-  transition: opacity var(--ds-dur-menu) var(--ds-ease),
-    transform var(--ds-dur-menu) var(--ds-ease);
+  transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), transform var(--ds-dur-menu) var(--ds-ease);
 }
 
 .wechat-float-container:hover .wechat-float-qr,
@@ -1543,7 +1521,7 @@ select:focus {
   width: 8px;
   height: 8px;
   background: var(--ifm-color-primary);
-  transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), width var(--ds-dur-menu) var(--ds-ease), height var(--ds-dur-menu) var(--ds-ease), background var(--ds-dur-menu) var(--ds-ease);
 }
 
 /* stylelint-disable declaration-property-value-disallowed-list -- the custom cursor is a site feature; its ring keeps its glass look */
@@ -1555,7 +1533,7 @@ select:focus {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.08), inset 0 0 8px rgba(255, 255, 255, 0.04);
-  transition: opacity 0.25s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), width var(--ds-dur-menu) var(--ds-ease), height var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 /* stylelint-enable declaration-property-value-disallowed-list */
 

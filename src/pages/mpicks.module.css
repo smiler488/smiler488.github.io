@@ -66,8 +66,7 @@
   border: 0;
   border-radius: var(--ds-radius-lg);
   box-shadow: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform var(--ds-dur-menu) cubic-bezier(0.16 var(--ds-ease), 1 var(--ds-ease), 0.3 var(--ds-ease), 1) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 
 /* Unified accent: every card uses the primary colour. */
@@ -226,7 +225,7 @@
   border: 1px solid var(--ds-line);
   color: var(--ifm-color-emphasis-700);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
 }
 
 .qrButton:hover {
@@ -251,8 +250,7 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), var(--ds-shadow-xs);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--ds-dur-menu) cubic-bezier(0.16 var(--ds-ease-fade), 1 var(--ds-ease), 0.3 var(--ds-ease), 1) var(--ds-ease), transform var(--ds-dur-menu) cubic-bezier(0.16 var(--ds-ease), 1 var(--ds-ease), 0.3 var(--ds-ease), 1) var(--ds-ease);
   width: 154px;
 }
 

@@ -31,7 +31,7 @@
 
 .status {
   padding: 0.7rem 1rem;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
   color: var(--ifm-color-emphasis-900);
   font-weight: 500;
@@ -42,7 +42,7 @@
   min-width: 0;
   padding: clamp(18px, 3vw, 24px);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -96,7 +96,7 @@
   box-sizing: border-box;
   width: 100%;
   border: 1px solid var(--ds-line);
-  border-radius: 14px;
+  border-radius: var(--ds-radius-sm);
   color: var(--ifm-color-emphasis-900);
   background: color-mix(
     in srgb,
@@ -170,7 +170,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 150ms ease, border-color 150ms ease;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .btn:disabled {
@@ -222,7 +222,7 @@
 
 .noteDisplay {
   padding: clamp(18px, 3vw, 24px);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   color: var(--ifm-color-emphasis-900);
   background: var(--ifm-background-surface-color);
   line-height: 1.65;
@@ -243,7 +243,7 @@
 
   .card {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--ds-radius-sm);
   }
 
   .unlockRow {

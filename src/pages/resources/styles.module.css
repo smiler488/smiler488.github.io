@@ -216,7 +216,7 @@
   min-height: 26rem;
   padding: clamp(1.35rem, 3vw, 2rem);
   border-radius: var(--ds-radius-lg);
-  transition: background-color 160ms ease;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .pathHeader,
@@ -301,7 +301,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
+  transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .pathAction:hover {
@@ -407,8 +407,7 @@
   border: 1px solid transparent;
   border-radius: var(--ds-radius-sm);
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease,
-    border-color 180ms ease, box-shadow 220ms ease;
+  transition: color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease);
 }
 
 .railButton:hover {
@@ -567,7 +566,7 @@
   background: var(--resource-input);
   border: 1px solid var(--resource-line);
   border-radius: 999px;
-  transition: border-color 160ms ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .searchField:focus-within {
@@ -696,8 +695,7 @@
   min-height: 29rem;
   padding: 1.35rem;
   border-radius: var(--card-radius);
-  transition: border-color 220ms ease, box-shadow 220ms ease,
-    transform 220ms ease;
+  transition: border-color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), transform var(--ds-dur-menu) var(--ds-ease);
 }
 
 .cardTopline {
@@ -849,7 +847,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background 160ms ease, border-color 160ms ease;
+  transition: background var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .resourceAction:hover {

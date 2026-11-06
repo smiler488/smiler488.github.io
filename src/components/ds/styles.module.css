@@ -198,8 +198,7 @@
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .chip:hover {
@@ -318,8 +317,7 @@ a.layerBadge:hover {
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .evidencePrimary {

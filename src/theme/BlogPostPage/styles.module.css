@@ -88,7 +88,7 @@
   border-radius: 12px;
   background: var(--ifm-background-color);
   box-shadow: none;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
 .paginatorSurface :global(.pagination-nav__link:hover) {

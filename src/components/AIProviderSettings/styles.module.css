@@ -3,7 +3,7 @@
   max-width: 100%;
   min-width: 0;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   padding: clamp(0.9rem, 2vw, 1.15rem);
   background: var(--ifm-background-surface-color);
 }

@@ -214,13 +214,13 @@
   min-width: 0;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 420ms var(--ds-ease), visibility 0s linear 420ms;
+  transition: opacity 420ms var(--ds-ease-fade), visibility 0s var(--ds-ease-fade) 420ms;
 }
 
 .comicCurrent {
   visibility: visible;
   opacity: 1;
-  transition: opacity 420ms var(--ds-ease), visibility 0s;
+  transition: opacity 420ms var(--ds-ease-fade), visibility 0s var(--ds-ease-fade);
 }
 
 .comicImg {
@@ -232,9 +232,6 @@
   transition: transform var(--ds-dur-panel) var(--ds-ease);
 }
 
-.comicCard:hover .comicImg {
-  transform: scale(1.015);
-}
 
 .comicCard:focus-visible {
   outline: 2px solid var(--ds-primary);
@@ -474,8 +471,7 @@
   font-weight: 500;
   text-decoration: none;
   border-radius: var(--ds-radius-pill);
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .academicAction {

@@ -156,8 +156,12 @@ export default function AppScaffold({
             )}
           </header>
 
-          <div className={clsx(styles.workspace, className)}>{children}</div>
-          <WorkbenchPanels app={app} />
+          {/* The working area is a data interface: denser and squarer
+              (muse-design v1.6 density); the page header stays default */}
+          <div data-density="dense">
+            <div className={clsx(styles.workspace, className)}>{children}</div>
+            <WorkbenchPanels app={app} />
+          </div>
         </div>
       </main>
     </Layout>

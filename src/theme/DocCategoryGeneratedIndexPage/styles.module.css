@@ -114,8 +114,7 @@
   border-radius: 999px;
   font-size: 0.8125rem;
   font-weight: 500;
-  transition: transform 180ms var(--ease-smooth),
-    box-shadow 180ms var(--ease-smooth), background 180ms var(--ease-smooth);
+  transition: transform var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
 .primaryAction {

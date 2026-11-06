@@ -124,9 +124,7 @@
   font-weight: 500;
   line-height: 20px;
   text-decoration: none;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .primaryAction {

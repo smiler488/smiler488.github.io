@@ -22,7 +22,7 @@
   min-width: 0;
   padding: clamp(1.1rem, 2.4vw, 1.4rem);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -79,7 +79,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .segmentActive {
@@ -112,7 +112,7 @@
   max-height: 22rem;
   overflow: hidden;
   border: 1px dashed var(--ifm-color-emphasis-300);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
 }
 
@@ -198,7 +198,7 @@
   max-height: 28rem;
   overflow: auto;
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   color: var(--ifm-color-emphasis-900);
   background: var(--ifm-background-surface-color);
   font-size: 0.9375rem;
@@ -250,7 +250,7 @@
 .selfTest {
   padding: 0.8rem 0.9rem;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
 }
 
 .selfTest strong {
@@ -284,7 +284,7 @@
   margin-bottom: 0.9rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--ds-line);
-  border-radius: 14px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
   font-size: 0.9375rem;
   line-height: 20px;
@@ -343,7 +343,7 @@
 .quickAnswerWarn {
   margin: 0.8rem 0 0;
   padding: 0.55rem 0.8rem;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   font-size: 0.9375rem;
 }
 

@@ -166,9 +166,7 @@
   font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .guideLink:hover,
@@ -192,7 +190,7 @@
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
-  transition: opacity var(--ds-dur-fast) var(--ds-ease);
+  transition: opacity var(--ds-dur-fast) var(--ds-ease-fade);
 }
 
 .guideOpen {
@@ -218,6 +216,13 @@
   .guideLink:active {
     transform: none;
   }
+}
+
+/* Dense working area: re-declare the shell radii here so they pick up the
+   dense radius tokens (a var() resolves where it is declared) */
+.page :global([data-density="dense"]) {
+  --app-radius: var(--ds-radius-lg);
+  --app-control-radius: var(--ds-radius-sm);
 }
 
 /* ── Workspace control system ──────────────────────────────────── */
@@ -257,8 +262,8 @@
 
 .workspace :global(fieldset) {
   min-width: 0;
-  margin: 0 0 1rem;
-  padding: 1.5rem;
+  margin: 0 0 calc(1rem * var(--ds-density));
+  padding: calc(1.5rem * var(--ds-density));
 }
 
 /* Legend sits inside the panel as its title, not on the border line. */
@@ -311,7 +316,7 @@
   box-shadow: none !important;
   font-family: inherit;
   font-size: 0.9375rem;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-fast) var(--ds-ease);
 }
 
 :where(.workspace) :global(:where(textarea)) {
@@ -380,7 +385,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 150ms ease;
+  transition: background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .workspace :global(input[type="file"]::file-selector-button:hover) {

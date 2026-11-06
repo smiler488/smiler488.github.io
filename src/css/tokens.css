@@ -60,6 +60,7 @@
   --ds-radius-lg: 24px;
   --ds-radius-xl: 32px;
   --ds-radius-pill: 999px;
+  --ds-density: 1;
   --ds-white: #ffffff;
   --ds-black: #000000;
   --ds-scrim: rgba(17, 17, 18, 0.56);
@@ -263,6 +264,18 @@
     --ds-title-page: 48px;
     --ds-title-page-lh: 52px;
   }
+}
+
+/* Density (muse-design v1.6): data interfaces are denser and squarer.
+   Spacing x0.875, radii x0.5; capsules stay capsules. Redeclared here
+   because a var() inside calc() resolves where it is declared (:root),
+   not where the density attribute changes. */
+[data-density="dense"] {
+  --ds-density: 0.875;
+  --ds-radius-sm: 6px;
+  --ds-radius-md: 8px;
+  --ds-radius-lg: 12px;
+  --ds-radius-xl: 16px;
 }
 
 /* Chinese (muse-design v1.6 CJK rules): Han glyphs fill their em box, so

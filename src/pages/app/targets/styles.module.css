@@ -48,7 +48,7 @@
   min-width: 0;
   padding: clamp(1rem, 2.5vw, 1.4rem);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -98,7 +98,7 @@
   margin-top: 1rem;
   padding: clamp(1rem, 2.5vw, 1.4rem);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   color: var(--ifm-color-emphasis-700);
   background: var(--ds-card);
 }
@@ -119,7 +119,7 @@
 
   .controlCard,
   .previewCard {
-    border-radius: 14px;
+    border-radius: var(--ds-radius-sm);
   }
 }
 

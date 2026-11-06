@@ -24,7 +24,7 @@
   gap: 12px;
   align-items: center;
   padding: 14px 16px;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
 }
 
 .serviceBar strong,
@@ -91,7 +91,7 @@
   min-width: 0;
   min-height: 640px;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
 }
 
 .frame {
@@ -148,7 +148,7 @@
 
   .frameCard {
     min-height: 580px;
-    border-radius: 16px;
+    border-radius: var(--ds-radius-md);
   }
 
   .frame {

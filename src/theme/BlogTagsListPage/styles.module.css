@@ -22,7 +22,7 @@
   background: var(--ds-surface);
   color: inherit;
   text-decoration: none;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), background var(--ds-dur-fast) var(--ds-ease);
 }
 
 .tagCard > div {

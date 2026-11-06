@@ -34,7 +34,7 @@
   overflow: hidden;
   background: var(--ds-surface);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   padding: 20px;
   box-shadow: none;
 }
@@ -84,7 +84,7 @@
 .fileInput {
   width: 100%;
   padding: 0.75rem;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   min-height: 48px;
   border: 1px dashed rgba(var(--app-accent-rgb), 0.35);
   background: color-mix(
@@ -100,7 +100,7 @@
 .textArea {
   width: 100%;
   min-height: 160px;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   border: 1px solid var(--ds-line);
   padding: 12px;
   font-size: 0.9375rem;
@@ -121,7 +121,7 @@
 .textInput {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   min-height: 44px;
   border: 1px solid var(--ds-line);
   background: color-mix(
@@ -170,7 +170,7 @@
 
 .statusBadge {
   margin-top: 12px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   padding: 10px 14px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -204,7 +204,7 @@
 .tableScroll {
   overflow-x: auto;
   border: 1px solid var(--ds-line);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
 }
 
 .previewTable {
@@ -254,7 +254,7 @@
   min-height: 360px;
   overflow: hidden;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-color);
 }
 
@@ -288,7 +288,7 @@
   overflow: auto;
   font-size: 0.875rem;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   border: 1px solid var(--ifm-border-color);
   background: var(--ifm-background-surface-color);
   white-space: pre-wrap;
@@ -316,7 +316,7 @@
 
   .card {
     padding: 16px;
-    border-radius: 16px;
+    border-radius: var(--ds-radius-md);
   }
 
   .cardHeading {

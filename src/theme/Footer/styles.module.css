@@ -85,8 +85,7 @@
   background: var(--ds-surface);
   border: 0;
   border-radius: var(--ds-radius-pill);
-  transition: transform var(--ds-dur-press) var(--ds-ease),
-    background-color var(--ds-dur-fast) var(--ds-ease);
+  transition: transform var(--ds-dur-press) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .profileLink:hover {
@@ -127,7 +126,7 @@
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 20px;
-  transition: color 160ms ease, transform 160ms ease;
+  transition: color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-fast) var(--ds-ease);
 }
 
 .linkList a:hover {
@@ -232,9 +231,7 @@
   background: var(--ds-card);
   border: 1px solid var(--ds-line);
   border-radius: var(--ds-radius-md);
-  transition:
-    border-color var(--ds-dur-fast) ease,
-    background-color var(--ds-dur-fast) ease;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
 }
 
 .socialIcon img {
@@ -386,7 +383,7 @@ html[data-theme="dark"] .socialIcon[data-mono] img {
   border: 0;
   border-radius: 14px;
   opacity: 1;
-  transition: opacity 300ms ease;
+  transition: opacity var(--ds-dur-panel) var(--ds-ease-fade);
 }
 
 .globeStage[data-status="loading"] .globeFrame,

@@ -5,7 +5,7 @@
 .previewPanel,
 .downloads {
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -95,7 +95,7 @@
   flex: 1 1 100%;
   min-height: 44px;
   padding: 11px 13px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   color: var(--ifm-color-emphasis-700);
   background: var(--ifm-background-surface-color);
   font-size: 0.8125rem;
@@ -125,7 +125,7 @@
   width: 100%;
   overflow: hidden;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
 }
 
@@ -157,7 +157,7 @@
   .panel,
   .previewPanel {
     padding: 14px;
-    border-radius: 16px;
+    border-radius: var(--ds-radius-md);
   }
 
   .previewCanvas {

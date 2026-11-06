@@ -97,7 +97,7 @@
 .panel {
   display: grid;
   gap: 0.9rem;
-  padding: clamp(1.125rem, 2.5vw, 1.5rem);
+  padding: calc(clamp(1.125rem, 2.5vw, 1.5rem) * var(--ds-density));
   border: 0;
   border-radius: var(--ds-radius-lg);
   background: var(--ds-surface);

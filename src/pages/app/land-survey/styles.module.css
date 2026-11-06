@@ -6,7 +6,7 @@
 .glassPanel {
   min-width: 0;
   border: 0;
-  border-radius: 16px !important;
+  border-radius: var(--ds-radius-md) !important;
   background: var(--ds-surface) !important;
 }
 
@@ -23,7 +23,7 @@
 .readinessCard {
   margin: 0 0 18px;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
 }
 
@@ -57,7 +57,7 @@
   margin: 0;
   padding: 20px;
   border: 1px dashed var(--ds-line);
-  border-radius: 14px;
+  border-radius: var(--ds-radius-sm);
   background: color-mix(in srgb, var(--ifm-background-color) 60%, transparent);
   color: var(--ifm-color-emphasis-600);
   text-align: center;
@@ -70,7 +70,7 @@
 
   .introCard,
   .glassPanel {
-    border-radius: 16px !important;
+    border-radius: var(--ds-radius-md) !important;
   }
 
   .introCard form {

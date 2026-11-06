@@ -15,7 +15,7 @@
 .panel,
 .statusPanel {
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ds-surface);
 }
 
@@ -142,7 +142,7 @@
   width: 100%;
   height: auto;
   border: 1px solid var(--ds-line);
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   background: var(--ifm-background-surface-color);
 }
 

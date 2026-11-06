@@ -16,8 +16,7 @@
   background: transparent;
   border: 0;
   border-radius: var(--ds-radius-pill);
-  transition: background-color var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-press) var(--ds-ease);
+  transition: background-color var(--ds-dur-fast) var(--ds-ease), transform var(--ds-dur-press) var(--ds-ease);
 }
 
 .navbarNavLink:active,
@@ -45,8 +44,7 @@
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
-  transition: opacity var(--ds-dur-fast) var(--ds-ease),
-    transform var(--ds-dur-fast) var(--ds-ease);
+  transition: opacity var(--ds-dur-fast) var(--ds-ease-fade), transform var(--ds-dur-fast) var(--ds-ease);
 }
 
 .iconSolid {
@@ -101,8 +99,7 @@
   opacity: 0;
   transform: translate(-50%, -4px);
   pointer-events: none;
-  transition: opacity var(--ds-dur-menu) var(--ds-ease),
-    transform var(--ds-dur-menu) var(--ds-ease);
+  transition: opacity var(--ds-dur-menu) var(--ds-ease-fade), transform var(--ds-dur-menu) var(--ds-ease);
 }
 
 /* Mouse: on hover. Keyboard: on focus. Finger: while pressed, so a press

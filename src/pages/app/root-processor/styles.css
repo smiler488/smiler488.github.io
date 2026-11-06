@@ -73,7 +73,7 @@
   width: 300px;
   background: var(--ds-surface);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   padding: 20px;
   box-shadow: none;
   position: sticky;
@@ -120,11 +120,11 @@
   text-align: left;
   background: var(--ifm-background-surface-color);
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   padding: 12px;
   margin-bottom: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
   display: flex;
   justify-content: space-between;
   gap: 8px;
@@ -191,7 +191,7 @@
 .root-canvas {
   width: 100%;
   border: 1px solid var(--ifm-border-color);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   background: var(--ifm-background-surface-color);
   min-height: 260px;
   touch-action: none;
@@ -213,7 +213,7 @@
 
 .root-controls__group {
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   padding: 16px 20px;
   background: var(--ds-raised);
   box-shadow: none;
@@ -250,7 +250,7 @@
   padding: 10px 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
   min-height: 44px;
 }
 
@@ -347,6 +347,6 @@
   .root-sidebar,
   .root-controls__group {
     padding: 15px;
-    border-radius: 16px;
+    border-radius: var(--ds-radius-md);
   }
 }

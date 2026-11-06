@@ -200,7 +200,7 @@
 }
 
 .tutorialArticle :global(.theme-doc-markdown) {
-  max-width: 72ch;
+  max-width: none;
   color: var(--ifm-color-emphasis-800);
   font-size: 1rem;
   line-height: var(--ds-text-reading-lh);
@@ -228,8 +228,9 @@
 .tutorialArticle :global(.theme-doc-markdown h3) {
   margin-top: 2rem;
   color: var(--ifm-color-emphasis-900);
-  font-size: 1.125rem;
+  font-size: var(--ds-title-card);
   font-weight: var(--ds-weight-heading);
+  line-height: var(--ds-title-card-lh);
   letter-spacing: 0;
 }
 
@@ -312,4 +313,42 @@
   .tutorialArticle :global(.theme-doc-markdown > h2) {
     margin-top: 2.4rem;
   }
+}
+
+
+/* ── Reading layout (muse-design v1.6, D-029): the guide reads like a
+   note — a centred 46rem column with the contents rail beside it. */
+@media (min-width: 997px) {
+  .tutorialPage > :global(.row) {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: clamp(2rem, 4vw, 4rem);
+    margin-inline: 0;
+  }
+
+  .tutorialDocItemCol {
+    flex: 0 1 46rem !important;
+    max-width: 46rem !important;
+    padding-inline: 0;
+  }
+
+  .tutorialToc {
+    flex: 0 0 14rem !important;
+    max-width: 14rem !important;
+    padding-inline: 0;
+  }
+}
+
+.tutorialToc :global(.table-of-contents) {
+  font-size: 0.875rem;
+  border-left: 1px solid var(--ds-line);
+}
+
+.tutorialToc :global(.table-of-contents__link) {
+  color: var(--ds-text-muted);
+}
+
+.tutorialToc :global(.table-of-contents__link--active) {
+  color: var(--ds-primary);
+  font-weight: var(--ds-weight-heading);
 }

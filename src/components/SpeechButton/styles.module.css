@@ -7,7 +7,7 @@
   color: var(--ifm-color-primary);
   padding: 4px 8px;
   border-radius: var(--ds-radius-pill);
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +21,6 @@
 
 .speechButton:hover {
   background-color: rgba(108, 108, 112, 0.15);
-  transform: scale(1.05);
 }
 
 html[data-theme='dark'] .speechButton:hover {

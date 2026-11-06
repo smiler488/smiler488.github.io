@@ -28,7 +28,7 @@
   margin-bottom: 12px;
   padding: 16px;
   background: var(--ds-surface);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   border: 0;
   box-shadow: none;
 }
@@ -79,7 +79,7 @@
 .input {
   padding: 10px 12px;
   min-height: 44px;
-  border-radius: 13px;
+  border-radius: var(--ds-radius-sm);
   border: 1px solid var(--ds-line);
   background: color-mix(in srgb, var(--ifm-background-color) 72%, transparent);
   color: var(--ifm-font-color-base);
@@ -93,7 +93,7 @@
   font-weight: 500;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: background-color var(--ds-dur-menu) var(--ds-ease), border-color var(--ds-dur-menu) var(--ds-ease), color var(--ds-dur-menu) var(--ds-ease), box-shadow var(--ds-dur-menu) var(--ds-ease), opacity var(--ds-dur-menu) var(--ds-ease-fade);
   white-space: nowrap;
   min-height: 44px;
 }
@@ -131,7 +131,7 @@
 .card {
   padding: 16px;
   background: var(--ds-surface);
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   border: 0;
   box-shadow: none;
 }
@@ -151,7 +151,7 @@
 
 .tableWrapper {
   overflow-x: auto;
-  border-radius: 12px;
+  border-radius: var(--ds-radius-sm);
   border: 1px solid var(--ifm-border-color);
   margin-bottom: 24px;
 }
@@ -186,7 +186,7 @@
 .formulaBox {
   background: var(--ds-raised);
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--ds-radius-md);
   box-shadow: none;
   overflow: hidden;
   margin-top: 24px;
@@ -309,7 +309,7 @@
   .permissionCard,
   .card,
   .formulaBox {
-    border-radius: 16px;
+    border-radius: var(--ds-radius-md);
   }
 
   .input {
